@@ -1,0 +1,442 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>HaitiBiznis - Haiti's Business Ecosystem</title>
+<meta name="description" content="HaitiBiznis connects Haiti's marketplace, rideshare, talent, and business platforms into one powerful ecosystem.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --blue:#00209F;--red:#D21034;--dark:#0A0E1A;--cream:#FAF8F4;
+  --myplopplop:#D21034;--souwout:#0047CC;--talent:#0D7C3E;--hours:#E67E22;
+  --body:'Plus Jakarta Sans',system-ui,sans-serif;
+  --display:'DM Serif Display',Georgia,serif;
+}
+html{scroll-behavior:smooth}
+body{font-family:var(--body);background:var(--dark);color:#fff;overflow-x:hidden;-webkit-font-smoothing:antialiased}
+
+/* ═══ GRAIN OVERLAY ═══ */
+body::after{
+  content:'';position:fixed;inset:0;pointer-events:none;z-index:9999;
+  opacity:.03;
+  background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+/* ═══ NAVIGATION ═══ */
+nav{
+  position:fixed;top:0;left:0;right:0;z-index:100;
+  padding:20px 24px;
+  transition:all .4s cubic-bezier(.4,0,.2,1);
+}
+nav.scrolled{background:rgba(10,14,26,.92);backdrop-filter:blur(20px);padding:14px 24px;border-bottom:1px solid rgba(255,255,255,.06)}
+.nav-inner{max-width:1200px;margin:0 auto;display:flex;align-items:center;justify-content:space-between}
+.nav-logo{font-family:var(--display);font-size:1.6rem;letter-spacing:-.02em;text-decoration:none;color:#fff}
+.nav-logo em{color:var(--red);font-style:italic}
+.nav-links{display:flex;gap:8px}
+.nav-links a{
+  color:rgba(255,255,255,.7);text-decoration:none;font-size:.82rem;font-weight:600;
+  padding:8px 16px;border-radius:100px;transition:all .3s;letter-spacing:.02em;text-transform:uppercase;
+}
+.nav-links a:hover{color:#fff;background:rgba(255,255,255,.08)}
+.nav-cta{background:var(--red)!important;color:#fff!important;opacity:1!important}
+.nav-cta:hover{background:#b80d2c!important;transform:scale(1.04)}
+
+/* ═══ HERO ═══ */
+.hero{
+  min-height:100vh;display:flex;align-items:center;justify-content:center;
+  position:relative;overflow:hidden;padding:120px 24px 80px;
+}
+.hero-bg{
+  position:absolute;inset:0;
+  background:
+    radial-gradient(ellipse 80% 60% at 20% 80%, rgba(0,32,159,.35) 0%, transparent 60%),
+    radial-gradient(ellipse 60% 50% at 80% 20%, rgba(210,16,52,.25) 0%, transparent 55%),
+    radial-gradient(ellipse 40% 40% at 50% 50%, rgba(13,124,62,.12) 0%, transparent 50%);
+}
+.hero-grid{
+  position:absolute;inset:0;
+  background-image:
+    linear-gradient(rgba(255,255,255,.02) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255,255,255,.02) 1px, transparent 1px);
+  background-size:60px 60px;
+  mask-image:radial-gradient(ellipse 70% 60% at 50% 50%, black, transparent);
+}
+.hero-content{position:relative;text-align:center;max-width:800px}
+.hero-badge{
+  display:inline-flex;align-items:center;gap:8px;
+  background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);
+  padding:8px 20px;border-radius:100px;font-size:.78rem;font-weight:600;
+  letter-spacing:.08em;text-transform:uppercase;color:rgba(255,255,255,.7);
+  margin-bottom:32px;
+  animation:fadeUp .8s cubic-bezier(.4,0,.2,1) both;
+}
+.hero-badge .dot{width:6px;height:6px;border-radius:50%;background:var(--talent);animation:pulse 2s infinite}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.4}}
+.hero h1{
+  font-family:var(--display);font-size:clamp(2.8rem,7vw,5.5rem);
+  line-height:1.05;letter-spacing:-.03em;margin-bottom:24px;
+  animation:fadeUp .8s .1s cubic-bezier(.4,0,.2,1) both;
+}
+.hero h1 span{display:block}
+.hero h1 .accent{
+  background:linear-gradient(135deg, var(--red) 0%, #FF6B6B 50%, var(--hours) 100%);
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+}
+.hero-sub{
+  font-size:clamp(1rem,2vw,1.25rem);line-height:1.65;color:rgba(255,255,255,.55);
+  max-width:560px;margin:0 auto 40px;font-weight:400;
+  animation:fadeUp .8s .2s cubic-bezier(.4,0,.2,1) both;
+}
+.hero-actions{
+  display:flex;gap:12px;justify-content:center;flex-wrap:wrap;
+  animation:fadeUp .8s .3s cubic-bezier(.4,0,.2,1) both;
+}
+.btn-hero{
+  display:inline-flex;align-items:center;gap:8px;
+  padding:16px 32px;border-radius:100px;font-size:.9rem;font-weight:700;
+  text-decoration:none;transition:all .35s cubic-bezier(.4,0,.2,1);
+  letter-spacing:.01em;border:none;cursor:pointer;
+}
+.btn-primary{background:var(--red);color:#fff}
+.btn-primary:hover{background:#b80d2c;transform:translateY(-2px);box-shadow:0 12px 40px rgba(210,16,52,.35)}
+.btn-ghost{background:rgba(255,255,255,.06);color:#fff;border:1px solid rgba(255,255,255,.12)}
+.btn-ghost:hover{background:rgba(255,255,255,.1);transform:translateY(-2px)}
+.hero-stats{
+  display:flex;justify-content:center;gap:48px;margin-top:64px;
+  animation:fadeUp .8s .4s cubic-bezier(.4,0,.2,1) both;
+}
+.stat{text-align:center}
+.stat-num{font-family:var(--display);font-size:clamp(1.8rem,3.5vw,2.6rem);letter-spacing:-.02em}
+.stat-label{font-size:.75rem;color:rgba(255,255,255,.4);font-weight:600;letter-spacing:.06em;text-transform:uppercase;margin-top:4px}
+
+@keyframes fadeUp{from{opacity:0;transform:translateY(24px)}to{opacity:1;transform:translateY(0)}}
+
+/* ═══ PLATFORMS SECTION ═══ */
+.platforms{padding:100px 24px 120px;position:relative}
+.platforms::before{
+  content:'';position:absolute;top:0;left:50%;transform:translateX(-50%);
+  width:1px;height:80px;background:linear-gradient(to bottom,transparent,rgba(255,255,255,.12));
+}
+.section-label{
+  text-align:center;font-size:.72rem;font-weight:700;letter-spacing:.15em;
+  text-transform:uppercase;color:rgba(255,255,255,.35);margin-bottom:16px;
+}
+.section-title{
+  text-align:center;font-family:var(--display);
+  font-size:clamp(2rem,4.5vw,3.2rem);letter-spacing:-.02em;margin-bottom:16px;
+}
+.section-desc{text-align:center;color:rgba(255,255,255,.45);max-width:520px;margin:0 auto 64px;line-height:1.6;font-size:.95rem}
+
+.platform-grid{
+  display:grid;grid-template-columns:repeat(2,1fr);gap:20px;
+  max-width:1000px;margin:0 auto;
+}
+.platform-card{
+  position:relative;border-radius:20px;padding:36px 28px;
+  overflow:hidden;transition:all .45s cubic-bezier(.4,0,.2,1);
+  cursor:pointer;text-decoration:none;color:#fff;display:block;
+  border:1px solid rgba(255,255,255,.06);
+}
+.platform-card::before{
+  content:'';position:absolute;inset:0;opacity:0;
+  transition:opacity .45s;z-index:0;
+}
+.platform-card:hover{transform:translateY(-6px);border-color:rgba(255,255,255,.12)}
+.platform-card:hover::before{opacity:1}
+.platform-card>*{position:relative;z-index:1}
+
+.card-myplopplop{background:linear-gradient(160deg, rgba(210,16,52,.12) 0%, rgba(10,14,26,.6) 100%)}
+.card-myplopplop::before{background:linear-gradient(160deg, rgba(210,16,52,.22) 0%, rgba(10,14,26,.6) 100%)}
+.card-myplopplop .card-icon{background:rgba(210,16,52,.18);color:var(--myplopplop)}
+.card-myplopplop .card-tag{color:var(--myplopplop);border-color:rgba(210,16,52,.25)}
+.card-myplopplop .card-cta{background:var(--myplopplop)}
+.card-myplopplop .card-glow{background:radial-gradient(circle at 30% 80%, rgba(210,16,52,.15), transparent 60%)}
+
+.card-souwout{background:linear-gradient(160deg, rgba(0,71,204,.12) 0%, rgba(10,14,26,.6) 100%)}
+.card-souwout::before{background:linear-gradient(160deg, rgba(0,71,204,.22) 0%, rgba(10,14,26,.6) 100%)}
+.card-souwout .card-icon{background:rgba(0,71,204,.18);color:var(--souwout)}
+.card-souwout .card-tag{color:var(--souwout);border-color:rgba(0,71,204,.25)}
+.card-souwout .card-cta{background:var(--souwout)}
+.card-souwout .card-glow{background:radial-gradient(circle at 70% 80%, rgba(0,71,204,.15), transparent 60%)}
+
+.card-talent{background:linear-gradient(160deg, rgba(13,124,62,.12) 0%, rgba(10,14,26,.6) 100%)}
+.card-talent::before{background:linear-gradient(160deg, rgba(13,124,62,.22) 0%, rgba(10,14,26,.6) 100%)}
+.card-talent .card-icon{background:rgba(13,124,62,.18);color:var(--talent)}
+.card-talent .card-tag{color:var(--talent);border-color:rgba(13,124,62,.25)}
+.card-talent .card-cta{background:var(--talent)}
+.card-talent .card-sub{font-size:.72rem;color:rgba(255,255,255,.35);margin-top:4px}
+.card-talent .card-glow{background:radial-gradient(circle at 30% 80%, rgba(13,124,62,.15), transparent 60%)}
+
+.card-48hours{background:linear-gradient(160deg, rgba(230,126,34,.12) 0%, rgba(10,14,26,.6) 100%)}
+.card-48hours::before{background:linear-gradient(160deg, rgba(230,126,34,.22) 0%, rgba(10,14,26,.6) 100%)}
+.card-48hours .card-icon{background:rgba(230,126,34,.18);color:var(--hours)}
+.card-48hours .card-tag{color:var(--hours);border-color:rgba(230,126,34,.25)}
+.card-48hours .card-cta{background:var(--hours)}
+.card-48hours .card-glow{background:radial-gradient(circle at 70% 80%, rgba(230,126,34,.15), transparent 60%)}
+
+.card-glow{position:absolute;inset:0;z-index:0;opacity:0;transition:opacity .45s}
+.platform-card:hover .card-glow{opacity:1}
+
+.card-icon{
+  width:52px;height:52px;border-radius:14px;display:flex;align-items:center;justify-content:center;
+  font-size:1.5rem;margin-bottom:20px;
+}
+.card-tag{
+  display:inline-block;font-size:.65rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;
+  padding:4px 10px;border-radius:100px;border:1px solid;margin-bottom:16px;
+}
+.card-name{font-family:var(--display);font-size:1.55rem;letter-spacing:-.01em;margin-bottom:8px}
+.card-desc{font-size:.88rem;line-height:1.6;color:rgba(255,255,255,.5);margin-bottom:24px}
+.card-cta{
+  display:inline-flex;align-items:center;gap:6px;
+  padding:10px 22px;border-radius:100px;font-size:.8rem;font-weight:700;
+  color:#fff;text-decoration:none;transition:all .3s;letter-spacing:.01em;
+}
+.card-cta:hover{transform:scale(1.04);filter:brightness(1.15)}
+.card-cta svg{width:14px;height:14px;transition:transform .3s}
+.card-cta:hover svg{transform:translateX(3px)}
+
+/* ═══ ECOSYSTEM SECTION ═══ */
+.ecosystem{padding:80px 24px 120px;position:relative;overflow:hidden}
+.eco-grid{
+  max-width:900px;margin:0 auto;
+  display:grid;grid-template-columns:repeat(3,1fr);gap:32px;
+}
+.eco-item{text-align:center;padding:32px 20px;border-radius:16px;background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.05);transition:all .3s}
+.eco-item:hover{background:rgba(255,255,255,.05);transform:translateY(-4px)}
+.eco-icon{font-size:2.2rem;margin-bottom:16px}
+.eco-title{font-family:var(--display);font-size:1.15rem;margin-bottom:8px}
+.eco-desc{font-size:.82rem;line-height:1.55;color:rgba(255,255,255,.4)}
+
+/* ═══ CTA BAND ═══ */
+.cta-band{
+  padding:80px 24px;text-align:center;
+  background:linear-gradient(135deg, var(--blue) 0%, #001566 50%, var(--red) 100%);
+  position:relative;overflow:hidden;
+}
+.cta-band::before{
+  content:'';position:absolute;inset:0;
+  background-image:
+    linear-gradient(rgba(255,255,255,.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255,255,255,.03) 1px, transparent 1px);
+  background-size:40px 40px;
+}
+.cta-band>*{position:relative}
+.cta-band h2{font-family:var(--display);font-size:clamp(1.8rem,4vw,2.8rem);letter-spacing:-.02em;margin-bottom:12px}
+.cta-band p{color:rgba(255,255,255,.7);margin-bottom:32px;font-size:1rem}
+.cta-band .btn-hero{background:#fff;color:var(--dark)}
+.cta-band .btn-hero:hover{box-shadow:0 12px 40px rgba(255,255,255,.2)}
+
+/* ═══ FOOTER ═══ */
+footer{padding:48px 24px 32px;border-top:1px solid rgba(255,255,255,.06)}
+.footer-inner{max-width:1000px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:16px}
+.footer-brand{font-family:var(--display);font-size:1.2rem}
+.footer-brand em{color:var(--red);font-style:italic}
+.footer-links{display:flex;gap:24px}
+.footer-links a{color:rgba(255,255,255,.35);text-decoration:none;font-size:.8rem;font-weight:500;transition:color .3s}
+.footer-links a:hover{color:#fff}
+.footer-copy{width:100%;text-align:center;margin-top:24px;padding-top:24px;border-top:1px solid rgba(255,255,255,.04);color:rgba(255,255,255,.2);font-size:.72rem}
+
+/* ═══ RESPONSIVE ═══ */
+@media(max-width:768px){
+  .nav-links a:not(.nav-cta){display:none}
+  .hero-stats{gap:24px}
+  .platform-grid{grid-template-columns:1fr}
+  .eco-grid{grid-template-columns:1fr;gap:16px}
+  .footer-inner{flex-direction:column;text-align:center}
+  .footer-links{justify-content:center}
+  .platform-card{padding:28px 22px}
+}
+@media(max-width:480px){
+  .hero-stats{flex-direction:column;gap:20px}
+}
+
+/* ═══ SCROLL REVEAL ═══ */
+.reveal{opacity:0;transform:translateY(30px);transition:all .7s cubic-bezier(.4,0,.2,1)}
+.reveal.visible{opacity:1;transform:translateY(0)}
+.reveal-delay-1{transition-delay:.1s}
+.reveal-delay-2{transition-delay:.2s}
+.reveal-delay-3{transition-delay:.25s}
+</style>
+</head>
+<body>
+
+<!-- NAVIGATION -->
+<nav id="mainNav">
+  <div class="nav-inner">
+    <a href="/" class="nav-logo">Haiti<em>Biznis</em></a>
+    <div class="nav-links">
+      <a href="#platforms">Platforms</a>
+      <a href="#ecosystem">Ecosystem</a>
+      <a href="https://myplopplop.com" class="nav-cta">Get Started</a>
+    </div>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-grid"></div>
+  <div class="hero-content">
+    <div class="hero-badge"><span class="dot"></span> Haiti's Digital Ecosystem</div>
+    <h1>
+      <span>One Vision.</span>
+      <span class="accent">Four Platforms.</span>
+      <span>Tout Haiti.</span>
+    </h1>
+    <p class="hero-sub">HaitiBiznis connects marketplace, mobility, talent, and business tools into one unified ecosystem powering Haiti's entrepreneurs and communities.</p>
+    <div class="hero-actions">
+      <a href="#platforms" class="btn-hero btn-primary">Explore Platforms <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M7 17L17 7M17 7H7M17 7v10"/></svg></a>
+      <a href="https://myplopplop.com" class="btn-hero btn-ghost">Start Shopping</a>
+    </div>
+    <div class="hero-stats">
+      <div class="stat">
+        <div class="stat-num">4</div>
+        <div class="stat-label">Platforms</div>
+      </div>
+      <div class="stat">
+        <div class="stat-num">1</div>
+        <div class="stat-label">Ecosystem</div>
+      </div>
+      <div class="stat">
+        <div class="stat-num">&infin;</div>
+        <div class="stat-label">Possibilities</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PLATFORMS -->
+<section class="platforms" id="platforms">
+  <div class="section-label reveal">Our Platforms</div>
+  <h2 class="section-title reveal">Everything Haiti Needs</h2>
+  <p class="section-desc reveal">Four specialized platforms working together to build, move, employ, and grow Haiti's economy.</p>
+
+  <div class="platform-grid">
+
+    <!-- MyPlopPlop -->
+    <a href="https://myplopplop.com" target="_blank" class="platform-card card-myplopplop reveal">
+      <div class="card-glow"></div>
+      <div class="card-icon">
+        <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>
+      </div>
+      <span class="card-tag">Marketplace</span>
+      <h3 class="card-name">MyPlopPlop</h3>
+      <p class="card-desc">Haiti's delivery marketplace. Order from restaurants, supermarkets, pharmacies and more. Diaspora can buy for family back home.</p>
+      <span class="card-cta">Shop Now <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M7 17L17 7M17 7H7M17 7v10"/></svg></span>
+    </a>
+
+    <!-- SouWout -->
+    <a href="#" class="platform-card card-souwout reveal reveal-delay-1">
+      <div class="card-glow"></div>
+      <div class="card-icon">
+        <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M19 17h2c.6 0 1-.4 1-1v-3c0-.9-.7-1.7-1.5-1.9C18.7 10.6 16 10 16 10s-1.3-2-2.2-3.3C13 5.6 12 5 11 5H6c-1 0-2 .5-2.8 1.2A32 32 0 0 0 1 9.6c-.3.6-.3 1.3 0 1.8L2 13c.2.3.5.5.8.5H4"/><circle cx="7" cy="17" r="2"/><circle cx="17" cy="17" r="2"/><path d="M14 17H9"/></svg>
+      </div>
+      <span class="card-tag">Mobility</span>
+      <h3 class="card-name">SouWout</h3>
+      <p class="card-desc">Rideshare and transport across Haiti. Car, moto, SUV, pool rides. Safe, affordable, and tracked in real time.</p>
+      <span class="card-cta">Book a Ride <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M7 17L17 7M17 7H7M17 7v10"/></svg></span>
+    </a>
+
+    <!-- Talent4Peace -->
+    <a href="#" class="platform-card card-talent reveal reveal-delay-2">
+      <div class="card-glow"></div>
+      <div class="card-icon">
+        <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2z"/></svg>
+      </div>
+      <span class="card-tag">Culture &amp; Talent</span>
+      <h3 class="card-name">Talent4Peace</h3>
+      <p class="card-sub">Powered by BoxeToBoxe</p>
+      <p class="card-desc">Opportunities, events, sports, culture, and community impact. Empowering Haiti's youth and talent through action.</p>
+      <span class="card-cta">Discover <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M7 17L17 7M17 7H7M17 7v10"/></svg></span>
+    </a>
+
+    <!-- 48HoursReady -->
+    <a href="#" class="platform-card card-48hours reveal reveal-delay-3">
+      <div class="card-glow"></div>
+      <div class="card-icon">
+        <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 20V10"/><path d="M18 20V4"/><path d="M6 20v-4"/></svg>
+      </div>
+      <span class="card-tag">Business Growth</span>
+      <h3 class="card-name">48HoursReady</h3>
+      <p class="card-desc">Get your business structured and market-ready in 48 hours. Branding, web presence, digital tools, and growth strategy.</p>
+      <span class="card-cta">Get Started <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M7 17L17 7M17 7H7M17 7v10"/></svg></span>
+    </a>
+
+  </div>
+</section>
+
+<!-- ECOSYSTEM -->
+<section class="ecosystem" id="ecosystem">
+  <div class="section-label reveal">How It Connects</div>
+  <h2 class="section-title reveal">One Ecosystem, Infinite Impact</h2>
+  <p class="section-desc reveal">Each platform strengthens the others. Businesses built by 48HoursReady sell on MyPlopPlop, delivered by SouWout drivers, promoted at Talent4Peace events.</p>
+
+  <div class="eco-grid">
+    <div class="eco-item reveal">
+      <div class="eco-icon">&#9881;</div>
+      <h4 class="eco-title">Build</h4>
+      <p class="eco-desc">48HoursReady structures your business with branding, web tools, and digital presence so you're market-ready fast.</p>
+    </div>
+    <div class="eco-item reveal reveal-delay-1">
+      <div class="eco-icon">&#9733;</div>
+      <h4 class="eco-title">Sell &amp; Deliver</h4>
+      <p class="eco-desc">MyPlopPlop lists your products. SouWout handles the logistics. Customers order, drivers deliver, everyone earns.</p>
+    </div>
+    <div class="eco-item reveal reveal-delay-2">
+      <div class="eco-icon">&#9889;</div>
+      <h4 class="eco-title">Grow &amp; Impact</h4>
+      <p class="eco-desc">Talent4Peace promotes through events and community programs. BoxeToBoxe drives visibility and youth engagement.</p>
+    </div>
+  </div>
+</section>
+
+<!-- CTA BAND -->
+<section class="cta-band">
+  <h2>Ready to Join Haiti's<br>Business Revolution?</h2>
+  <p>Whether you're a customer, driver, merchant, or entrepreneur &mdash; there's a place for you.</p>
+  <a href="https://myplopplop.com" class="btn-hero">Start with MyPlopPlop <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M7 17L17 7M17 7H7M17 7v10"/></svg></a>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-inner">
+    <div class="footer-brand">Haiti<em>Biznis</em></div>
+    <div class="footer-links">
+      <a href="https://myplopplop.com" target="_blank">MyPlopPlop</a>
+      <a href="#">SouWout</a>
+      <a href="#">Talent4Peace</a>
+      <a href="#">48HoursReady</a>
+    </div>
+    <div class="footer-copy">&copy; 2026 HaitiBiznis. Tout Haiti, yon ekosist&egrave;m.</div>
+  </div>
+</footer>
+
+<script>
+// Nav scroll effect
+const nav = document.getElementById('mainNav');
+window.addEventListener('scroll', () => {
+  nav.classList.toggle('scrolled', window.scrollY > 60);
+});
+
+// Scroll reveal
+const reveals = document.querySelectorAll('.reveal');
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); observer.unobserve(e.target); }});
+}, { threshold: 0.15, rootMargin: '0px 0px -40px 0px' });
+reveals.forEach(el => observer.observe(el));
+
+// Smooth scroll for anchor links
+document.querySelectorAll('a[href^="#"]').forEach(a => {
+  a.addEventListener('click', e => {
+    const target = document.querySelector(a.getAttribute('href'));
+    if (target) { e.preventDefault(); target.scrollIntoView({ behavior: 'smooth', block: 'start' }); }
+  });
+});
+</script>
+</body>
+</html>
