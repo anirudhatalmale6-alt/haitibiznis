@@ -54,6 +54,14 @@ nav{
 .nav-links a:hover{color:var(--blue);background:rgba(0,32,159,.05)}
 .nav-cta{background:var(--red)!important;color:var(--white)!important;padding:10px 22px!important;border-radius:100px!important}
 .nav-cta:hover{background:var(--red-dark)!important}
+.lang-switcher{display:flex;gap:2px;margin-right:8px}
+.lang-btn{
+  background:var(--off-white);border:1px solid var(--light-gray);
+  padding:5px 10px;border-radius:6px;font-size:.7rem;font-weight:700;
+  cursor:pointer;color:var(--text-light);transition:all .2s;letter-spacing:.03em;
+}
+.lang-btn.active{background:var(--blue);color:#fff;border-color:var(--blue)}
+.lang-btn:hover:not(.active){background:var(--light-gray)}
 .mobile-menu{display:none;background:none;border:none;color:var(--dark);font-size:1.5rem;cursor:pointer;padding:8px}
 .nav-mobile{
   position:fixed;top:0;left:0;right:0;bottom:0;z-index:200;
@@ -271,6 +279,8 @@ footer{padding:48px 20px 28px;background:var(--dark);color:var(--white)}
   .benefit-grid{grid-template-columns:1fr}
   .block-arrow{display:none}
   .block-deco{display:none}
+  .contact-grid{grid-template-columns:1fr}
+  .lang-switcher-mobile{display:flex;gap:4px;justify-content:center;margin-bottom:16px}
 }
 @media(max-width:480px){
   .action-grid{grid-template-columns:repeat(2,1fr)}
@@ -282,6 +292,52 @@ footer{padding:48px 20px 28px;background:var(--dark);color:var(--white)}
   .block-logo{width:54px;height:54px;border-radius:14px}
   .block-name{font-size:1.3rem}
 }
+
+/* ═══ CONTACT ═══ */
+.contact{padding:60px 20px;background:var(--off-white)}
+.contact-grid{display:grid;grid-template-columns:1fr 1fr;gap:32px;max-width:900px;margin:0 auto}
+.contact-info{display:flex;flex-direction:column;gap:16px}
+.contact-card{
+  padding:18px 20px;border-radius:14px;background:var(--white);
+  border:1px solid var(--light-gray);display:flex;align-items:center;gap:14px;
+  transition:all .3s;
+}
+.contact-card:hover{transform:translateY(-2px);box-shadow:0 6px 20px rgba(0,32,159,.06)}
+.contact-card-icon{
+  width:44px;height:44px;border-radius:12px;display:flex;align-items:center;justify-content:center;
+  font-size:1.1rem;flex-shrink:0;
+}
+.contact-card-icon.red{background:rgba(210,16,52,.1);color:var(--red)}
+.contact-card-icon.blue{background:rgba(0,32,159,.1);color:var(--blue)}
+.contact-card-title{font-weight:700;font-size:.82rem;color:var(--dark)}
+.contact-card-email{font-size:.75rem;color:var(--text-light)}
+.contact-form{
+  background:var(--white);border-radius:18px;padding:32px;
+  border:1px solid var(--light-gray);box-shadow:0 4px 20px rgba(0,0,0,.04);
+}
+.contact-form h3{font-family:var(--display);font-size:1.3rem;color:var(--dark);margin-bottom:6px}
+.contact-form .form-sub{font-size:.82rem;color:var(--text-light);margin-bottom:20px}
+.form-group{margin-bottom:14px}
+.form-group label{display:block;font-size:.75rem;font-weight:700;color:var(--text);margin-bottom:5px;letter-spacing:.03em}
+.form-group input,.form-group select,.form-group textarea{
+  width:100%;padding:11px 14px;border:1px solid var(--light-gray);border-radius:10px;
+  font-family:var(--body);font-size:.85rem;color:var(--text);background:var(--off-white);
+  transition:border-color .2s;outline:none;
+}
+.form-group input:focus,.form-group select:focus,.form-group textarea:focus{border-color:var(--blue)}
+.form-group textarea{resize:vertical;min-height:90px}
+.form-submit{
+  width:100%;padding:13px;border:none;border-radius:100px;
+  background:var(--red);color:#fff;font-family:var(--body);
+  font-size:.88rem;font-weight:700;cursor:pointer;transition:all .3s;
+}
+.form-submit:hover{background:var(--red-dark);transform:translateY(-1px)}
+.form-success{
+  display:none;text-align:center;padding:40px 20px;
+}
+.form-success .check{font-size:2.5rem;margin-bottom:10px}
+.form-success h4{font-family:var(--display);font-size:1.2rem;color:var(--dark);margin-bottom:6px}
+.form-success p{font-size:.85rem;color:var(--text-light)}
 
 /* ═══ REVEAL ═══ */
 .reveal{opacity:0;transform:translateY(20px);transition:all .5s cubic-bezier(.4,0,.2,1)}
@@ -306,25 +362,35 @@ footer{padding:48px 20px 28px;background:var(--dark);color:var(--white)}
       <a href="#actions">Opportunities</a>
       <a href="#about">About</a>
       <a href="#contact">Contact</a>
-      <a href="#platforms" class="nav-cta">Explore the Ecosystem</a>
+      <a href="#platforms" class="nav-cta" data-i18n="nav_explore">Explore the Ecosystem</a>
+    </div>
+    <div class="lang-switcher">
+      <button class="lang-btn active" onclick="setLang('en')">EN</button>
+      <button class="lang-btn" onclick="setLang('fr')">FR</button>
+      <button class="lang-btn" onclick="setLang('ht')">KR</button>
     </div>
     <button class="mobile-menu" onclick="document.querySelector('.nav-mobile').classList.add('open')" aria-label="Menu">&#9776;</button>
   </div>
 </nav>
 <div class="nav-mobile" id="mobileNav">
   <button class="close-menu" onclick="this.parentElement.classList.remove('open')">&times;</button>
-  <a href="/" onclick="closeMobile()">Home</a>
-  <a href="#platforms" onclick="closeMobile()">Platforms</a>
-  <a href="#actions" onclick="closeMobile()">Opportunities</a>
-  <a href="#about" onclick="closeMobile()">About</a>
-  <a href="#contact" onclick="closeMobile()">Contact</a>
+  <div class="lang-switcher-mobile">
+    <button class="lang-btn active" onclick="setLang('en')">EN</button>
+    <button class="lang-btn" onclick="setLang('fr')">FR</button>
+    <button class="lang-btn" onclick="setLang('ht')">KR</button>
+  </div>
+  <a href="/" onclick="closeMobile()" data-i18n="nav_home">Home</a>
+  <a href="#platforms" onclick="closeMobile()" data-i18n="nav_platforms">Platforms</a>
+  <a href="#actions" onclick="closeMobile()" data-i18n="nav_opportunities">Opportunities</a>
+  <a href="#about" onclick="closeMobile()" data-i18n="nav_about">About</a>
+  <a href="#contact" onclick="closeMobile()" data-i18n="nav_contact">Contact</a>
 </div>
 
 <!-- HERO -->
 <section class="hero">
   <img src="assets/haitibiznis-logo.jpg" alt="HaitiBiznis" class="hero-logo">
-  <h1>One platform. Four powerful<br>engines for <span class="red">Haiti's growth.</span></h1>
-  <p class="hero-sub">Buy, move, grow, and shine through the HaitiBiznis ecosystem.</p>
+  <h1 data-i18n="hero_title">One platform. Four powerful<br>engines for <span class="red">Haiti's growth.</span></h1>
+  <p class="hero-sub" data-i18n="hero_sub">Buy, move, grow, and shine through the HaitiBiznis ecosystem.</p>
   <div class="hero-actions">
     <a href="#platforms" class="btn btn-red">Explore Platforms</a>
     <a href="https://myplopplop.com" class="btn btn-outline">Get Started</a>
@@ -342,8 +408,8 @@ footer{padding:48px 20px 28px;background:var(--dark);color:var(--white)}
     <div class="block-info">
       <span class="block-tag">Marketplace</span>
       <h3 class="block-name">MyPlopPlop</h3>
-      <p class="block-desc">Shop, order, and get delivery from local businesses. Diaspora can also buy for family in Haiti.</p>
-      <span class="block-btn">Explore Marketplace &rarr;</span>
+      <p class="block-desc" data-i18n="plop_desc">Shop, order, and get delivery from local businesses. Diaspora can also buy for family in Haiti.</p>
+      <span class="block-btn" data-i18n="plop_btn">Explore Marketplace &rarr;</span>
     </div>
     <div class="block-deco">
       <svg viewBox="0 0 100 100" fill="none" stroke="#fff" stroke-width="1"><path d="M20 80 L50 20 L80 80 Z"/><circle cx="50" cy="45" r="20"/><path d="M10 60 Q50 10 90 60"/></svg>
@@ -359,8 +425,8 @@ footer{padding:48px 20px 28px;background:var(--dark);color:var(--white)}
     <div class="block-info">
       <span class="block-tag">Mobility</span>
       <h3 class="block-name">MsouWout</h3>
-      <p class="block-desc">Safe and affordable ridesharing and transport solutions for everyday movement.</p>
-      <span class="block-btn">Explore Mobility &rarr;</span>
+      <p class="block-desc" data-i18n="sou_desc">Safe and affordable ridesharing and transport solutions for everyday movement.</p>
+      <span class="block-btn" data-i18n="sou_btn">Explore Mobility &rarr;</span>
     </div>
     <div class="block-deco">
       <svg viewBox="0 0 100 100" fill="none" stroke="#fff" stroke-width="1"><circle cx="30" cy="50" r="6"/><circle cx="70" cy="30" r="6"/><path d="M36 50 Q50 35 64 30" stroke-dasharray="4 3"/><circle cx="70" cy="70" r="4"/><path d="M70 36 L70 64" stroke-dasharray="4 3"/></svg>
@@ -376,8 +442,8 @@ footer{padding:48px 20px 28px;background:var(--dark);color:var(--white)}
     <div class="block-info">
       <span class="block-tag">Talent &amp; Culture</span>
       <h3 class="block-name">Talent4Peace</h3>
-      <p class="block-desc">Connecting youth, culture, sports, events, and community opportunities across Haiti.</p>
-      <span class="block-btn">Explore Talent &rarr;</span>
+      <p class="block-desc" data-i18n="talent_desc">Connecting youth, culture, sports, events, and community opportunities across Haiti.</p>
+      <span class="block-btn" data-i18n="talent_btn">Explore Talent &rarr;</span>
     </div>
     <div class="block-deco">
       <svg viewBox="0 0 100 100" fill="none" stroke="#fff" stroke-width="1"><path d="M50 15 L55 35 L75 35 L60 48 L65 68 L50 55 L35 68 L40 48 L25 35 L45 35 Z"/></svg>
@@ -393,8 +459,8 @@ footer{padding:48px 20px 28px;background:var(--dark);color:var(--white)}
     <div class="block-info">
       <span class="block-tag">Business Growth</span>
       <h3 class="block-name">48HoursReady</h3>
-      <p class="block-desc">Helping entrepreneurs structure, launch, and grow their businesses faster.</p>
-      <span class="block-btn">Explore Business &rarr;</span>
+      <p class="block-desc" data-i18n="biz_desc">Helping entrepreneurs structure, launch, and grow their businesses faster.</p>
+      <span class="block-btn" data-i18n="biz_btn">Explore Business &rarr;</span>
     </div>
     <div class="block-deco">
       <svg viewBox="0 0 100 100" fill="none" stroke="#fff" stroke-width="1"><rect x="15" y="60" width="12" height="25" rx="2"/><rect x="35" y="45" width="12" height="40" rx="2"/><rect x="55" y="30" width="12" height="55" rx="2"/><rect x="75" y="15" width="12" height="70" rx="2"/><path d="M20 55 L40 40 L60 25 L80 10" stroke-width="2"/></svg>
@@ -415,16 +481,16 @@ footer{padding:48px 20px 28px;background:var(--dark);color:var(--white)}
 <!-- WHAT IS -->
 <section class="what" id="about">
   <div class="reveal">
-    <h2>A digital front door for a<br>connected Haitian ecosystem</h2>
-    <p>HaitiBiznis is the digital hub connecting <strong>commerce</strong>, <strong>mobility</strong>, <strong>talent</strong>, and <strong>business growth</strong> in Haiti. One brand, multiple pathways, serving Haiti and the diaspora.</p>
+    <h2 data-i18n="what_title">A digital front door for a<br>connected Haitian ecosystem</h2>
+    <p data-i18n="what_desc">HaitiBiznis is the digital hub connecting <strong>commerce</strong>, <strong>mobility</strong>, <strong>talent</strong>, and <strong>business growth</strong> in Haiti. One brand, multiple pathways, serving Haiti and the diaspora.</p>
   </div>
 </section>
 
 <!-- ACTIONS -->
 <section class="actions" id="actions">
-  <div class="section-label reveal">Get Started</div>
-  <h2 class="section-title reveal">What do you want to do today?</h2>
-  <p class="section-desc reveal">Jump straight into action. Every platform is one tap away.</p>
+  <div class="section-label reveal" data-i18n="actions_label">Get Started</div>
+  <h2 class="section-title reveal" data-i18n="actions_title">What do you want to do today?</h2>
+  <p class="section-desc reveal" data-i18n="actions_desc">Jump straight into action. Every platform is one tap away.</p>
   <div class="action-grid">
     <a href="https://myplopplop.com" target="_blank" class="action-card reveal">
       <div class="action-icon">&#128666;</div>
@@ -488,13 +554,84 @@ footer{padding:48px 20px 28px;background:var(--dark);color:var(--white)}
   </div>
 </section>
 
+<!-- CONTACT -->
+<section class="contact" id="contact">
+  <div class="section-label reveal" data-i18n="contact_label">Get In Touch</div>
+  <h2 class="section-title reveal" data-i18n="contact_title">Contact the HaitiBiznis Team</h2>
+  <p class="section-desc reveal" data-i18n="contact_desc">Reach the right team directly. We'll get back to you within 12 hours.</p>
+  <div class="contact-grid">
+    <div class="contact-info reveal">
+      <div class="contact-card">
+        <div class="contact-card-icon red">&#128722;</div>
+        <div><div class="contact-card-title">MyPlopPlop</div><div class="contact-card-email">marketplace@haitibiznis.com</div></div>
+      </div>
+      <div class="contact-card">
+        <div class="contact-card-icon blue">&#128663;</div>
+        <div><div class="contact-card-title">MsouWout</div><div class="contact-card-email">mobility@haitibiznis.com</div></div>
+      </div>
+      <div class="contact-card">
+        <div class="contact-card-icon blue">&#11088;</div>
+        <div><div class="contact-card-title">Talent4Peace</div><div class="contact-card-email">talent@haitibiznis.com</div></div>
+      </div>
+      <div class="contact-card">
+        <div class="contact-card-icon red">&#128640;</div>
+        <div><div class="contact-card-title">48HoursReady</div><div class="contact-card-email">business@haitibiznis.com</div></div>
+      </div>
+      <div class="contact-card">
+        <div class="contact-card-icon blue">&#129309;</div>
+        <div><div class="contact-card-title" data-i18n="contact_partners">Partnerships &amp; Media</div><div class="contact-card-email">partners@haitibiznis.com</div></div>
+      </div>
+      <div class="contact-card">
+        <div class="contact-card-icon red">&#128172;</div>
+        <div><div class="contact-card-title" data-i18n="contact_general">General Inquiries</div><div class="contact-card-email">hello@haitibiznis.com</div></div>
+      </div>
+    </div>
+    <div class="contact-form reveal" id="contactForm">
+      <h3 data-i18n="form_title">Send Us a Message</h3>
+      <p class="form-sub" data-i18n="form_sub">Choose your department and we'll route your message to the right team.</p>
+      <form id="hbForm" onsubmit="return submitForm(event)">
+        <div class="form-group">
+          <label data-i18n="form_name">Your Name</label>
+          <input type="text" name="name" required placeholder="Full name">
+        </div>
+        <div class="form-group">
+          <label data-i18n="form_email">Your Email</label>
+          <input type="email" name="email" required placeholder="you@example.com">
+        </div>
+        <div class="form-group">
+          <label data-i18n="form_dept">Department</label>
+          <select name="department" id="deptSelect">
+            <option value="hello@haitibiznis.com" data-i18n="dept_general">General Inquiry</option>
+            <option value="marketplace@haitibiznis.com">MyPlopPlop - Marketplace</option>
+            <option value="mobility@haitibiznis.com">MsouWout - Mobility</option>
+            <option value="talent@haitibiznis.com">Talent4Peace - Talent</option>
+            <option value="business@haitibiznis.com">48HoursReady - Business</option>
+            <option value="partners@haitibiznis.com" data-i18n="dept_partners">Partnerships &amp; Media</option>
+            <option value="support@haitibiznis.com" data-i18n="dept_support">Support</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label data-i18n="form_message">Message</label>
+          <textarea name="message" required placeholder="How can we help?"></textarea>
+        </div>
+        <button type="submit" class="form-submit" data-i18n="form_send">Send Message</button>
+      </form>
+      <div class="form-success" id="formSuccess">
+        <div class="check">&#10003;</div>
+        <h4 data-i18n="form_thanks">Message Sent!</h4>
+        <p data-i18n="form_confirm">Thank you for reaching out. Our team will respond within 12 hours.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
 <!-- CTA -->
-<section class="final-cta" id="contact">
-  <h2>Enter the HaitiBiznis<br>Ecosystem Today</h2>
-  <p>Whether you're a customer, driver, merchant, or entrepreneur - there's a place for you.</p>
+<section class="final-cta">
+  <h2 data-i18n="cta_title">Enter the HaitiBiznis<br>Ecosystem Today</h2>
+  <p data-i18n="cta_desc">Whether you're a customer, driver, merchant, or entrepreneur - there's a place for you.</p>
   <div class="cta-btns">
-    <a href="#platforms" class="btn btn-white">Explore Platforms</a>
-    <a href="https://myplopplop.com" class="btn btn-ghost">Contact Us</a>
+    <a href="#platforms" class="btn btn-white" data-i18n="cta_explore">Explore Platforms</a>
+    <a href="#contact" class="btn btn-ghost" data-i18n="cta_contact">Contact Us</a>
   </div>
 </section>
 
@@ -519,8 +656,119 @@ function closeMobile(){document.getElementById('mobileNav').classList.remove('op
 const obs=new IntersectionObserver(e=>{e.forEach(el=>{if(el.isIntersecting){el.target.classList.add('visible');obs.unobserve(el.target)}})},{threshold:.1,rootMargin:'0px 0px -30px 0px'});
 document.querySelectorAll('.reveal').forEach(el=>obs.observe(el));
 document.querySelectorAll('a[href^="#"]').forEach(a=>{a.addEventListener('click',e=>{const t=document.querySelector(a.getAttribute('href'));if(t){e.preventDefault();t.scrollIntoView({behavior:'smooth',block:'start'})}})});
-// PWA install
 if('serviceWorker' in navigator){navigator.serviceWorker.register('sw.js').catch(()=>{})}
+
+/* ═══ TRANSLATION ENGINE ═══ */
+const translations={
+  en:{
+    hero_title:'One platform. Four powerful<br>engines for <span class="red">Haiti\'s growth.</span>',
+    hero_sub:'Buy, move, grow, and shine through the HaitiBiznis ecosystem.',
+    nav_home:'Home',nav_platforms:'Platforms',nav_opportunities:'Opportunities',nav_about:'About',nav_contact:'Contact',
+    nav_explore:'Explore the Ecosystem',
+    plop_desc:'Shop, order, and get delivery from local businesses. Diaspora can also buy for family in Haiti.',
+    plop_btn:'Explore Marketplace &rarr;',
+    sou_desc:'Safe and affordable ridesharing and transport solutions for everyday movement.',
+    sou_btn:'Explore Mobility &rarr;',
+    talent_desc:'Connecting youth, culture, sports, events, and community opportunities across Haiti.',
+    talent_btn:'Explore Talent &rarr;',
+    biz_desc:'Helping entrepreneurs structure, launch, and grow their businesses faster.',
+    biz_btn:'Explore Business &rarr;',
+    what_title:'A digital front door for a<br>connected Haitian ecosystem',
+    what_desc:'HaitiBiznis is the digital hub connecting <strong>commerce</strong>, <strong>mobility</strong>, <strong>talent</strong>, and <strong>business growth</strong> in Haiti. One brand, multiple pathways, serving Haiti and the diaspora.',
+    actions_label:'Get Started',actions_title:'What do you want to do today?',actions_desc:'Jump straight into action. Every platform is one tap away.',
+    contact_label:'Get In Touch',contact_title:'Contact the HaitiBiznis Team',contact_desc:'Reach the right team directly. We\'ll get back to you within 12 hours.',
+    contact_partners:'Partnerships &amp; Media',contact_general:'General Inquiries',
+    form_title:'Send Us a Message',form_sub:'Choose your department and we\'ll route your message to the right team.',
+    form_name:'Your Name',form_email:'Your Email',form_dept:'Department',form_message:'Message',form_send:'Send Message',
+    form_thanks:'Message Sent!',form_confirm:'Thank you for reaching out. Our team will respond within 12 hours.',
+    dept_general:'General Inquiry',dept_partners:'Partnerships &amp; Media',dept_support:'Support',
+    cta_title:'Enter the HaitiBiznis<br>Ecosystem Today',cta_desc:'Whether you\'re a customer, driver, merchant, or entrepreneur - there\'s a place for you.',
+    cta_explore:'Explore Platforms',cta_contact:'Contact Us'
+  },
+  fr:{
+    hero_title:'Une plateforme. Quatre moteurs<br>puissants pour <span class="red">la croissance d\'Ha\u00efti.</span>',
+    hero_sub:'Achetez, d\u00e9placez-vous, grandissez et brillez avec l\'\u00e9cosyst\u00e8me HaitiBiznis.',
+    nav_home:'Accueil',nav_platforms:'Plateformes',nav_opportunities:'Opportunit\u00e9s',nav_about:'\u00c0 propos',nav_contact:'Contact',
+    nav_explore:'Explorer l\'\u00c9cosyst\u00e8me',
+    plop_desc:'Achetez, commandez et recevez des livraisons de commerces locaux. La diaspora peut aussi acheter pour la famille en Ha\u00efti.',
+    plop_btn:'Explorer le March\u00e9 &rarr;',
+    sou_desc:'Solutions de transport et covoiturage s\u00fbres et abordables pour vos d\u00e9placements quotidiens.',
+    sou_btn:'Explorer la Mobilit\u00e9 &rarr;',
+    talent_desc:'Connecter la jeunesse, la culture, le sport, les \u00e9v\u00e9nements et les opportunit\u00e9s communautaires \u00e0 travers Ha\u00efti.',
+    talent_btn:'Explorer les Talents &rarr;',
+    biz_desc:'Aider les entrepreneurs \u00e0 structurer, lancer et d\u00e9velopper leurs entreprises plus rapidement.',
+    biz_btn:'Explorer Business &rarr;',
+    what_title:'Une porte d\'entr\u00e9e num\u00e9rique pour<br>un \u00e9cosyst\u00e8me ha\u00eftien connect\u00e9',
+    what_desc:'HaitiBiznis est le hub num\u00e9rique connectant le <strong>commerce</strong>, la <strong>mobilit\u00e9</strong>, les <strong>talents</strong> et la <strong>croissance des entreprises</strong> en Ha\u00efti. Une marque, plusieurs voies, au service d\'Ha\u00efti et de la diaspora.',
+    actions_label:'Commencer',actions_title:'Que voulez-vous faire aujourd\'hui ?',actions_desc:'Passez directement \u00e0 l\'action. Chaque plateforme est \u00e0 un clic.',
+    contact_label:'Nous Contacter',contact_title:'Contactez l\'\u00e9quipe HaitiBiznis',contact_desc:'Joignez la bonne \u00e9quipe directement. Nous r\u00e9pondons sous 12 heures.',
+    contact_partners:'Partenariats &amp; M\u00e9dias',contact_general:'Demandes g\u00e9n\u00e9rales',
+    form_title:'Envoyez-nous un message',form_sub:'Choisissez votre d\u00e9partement et nous transmettrons votre message \u00e0 la bonne \u00e9quipe.',
+    form_name:'Votre Nom',form_email:'Votre Email',form_dept:'D\u00e9partement',form_message:'Message',form_send:'Envoyer',
+    form_thanks:'Message envoy\u00e9 !',form_confirm:'Merci de nous avoir contact\u00e9s. Notre \u00e9quipe r\u00e9pondra sous 12 heures.',
+    dept_general:'Demande g\u00e9n\u00e9rale',dept_partners:'Partenariats &amp; M\u00e9dias',dept_support:'Support',
+    cta_title:'Rejoignez l\'\u00e9cosyst\u00e8me<br>HaitiBiznis aujourd\'hui',cta_desc:'Que vous soyez client, chauffeur, commer\u00e7ant ou entrepreneur - il y a une place pour vous.',
+    cta_explore:'Explorer les Plateformes',cta_contact:'Nous Contacter'
+  },
+  ht:{
+    hero_title:'Yon platf\u00f2m. Kat mot\u00e8<br>pwisan pou <span class="red">kwasans Ayiti.</span>',
+    hero_sub:'Achte, deplase, grandi epi briye ak ekosist\u00e8m HaitiBiznis la.',
+    nav_home:'Akèy',nav_platforms:'Platfòm',nav_opportunities:'Opòtinite',nav_about:'Sou Nou',nav_contact:'Kontak',
+    nav_explore:'Eksplore Ekosist\u00e8m nan',
+    plop_desc:'Achte, k\u00f2mande epi resevwa livrezon nan men biznis lokal yo. Dyaspora kapab achte pou fanmi an Ayiti tou.',
+    plop_btn:'Eksplore Mache a &rarr;',
+    sou_desc:'Solisyon transp\u00f2 ak ridesharing ki s\u00e8ten epi abordab pou deplase chak jou.',
+    sou_btn:'Eksplore Mobilite &rarr;',
+    talent_desc:'Konekte jen\u00e8s, kilti, sp\u00f2, evennman ak opòtinite kominote nan tout Ayiti.',
+    talent_btn:'Eksplore Talan &rarr;',
+    biz_desc:'Ede antrepren\u00e8 estrikti, lanse epi grandi biznis yo pi vit.',
+    biz_btn:'Eksplore Biznis &rarr;',
+    what_title:'Yon p\u00f2t dijital pou<br>yon ekosist\u00e8m ayisyen konekte',
+    what_desc:'HaitiBiznis se hub dijital ki konekte <strong>kom\u00e8s</strong>, <strong>mobilite</strong>, <strong>talan</strong> ak <strong>kwasans biznis</strong> an Ayiti. Yon mak, plizy\u00e8 chemen, ki s\u00e8vi Ayiti ak dyaspora.',
+    actions_label:'Kòmanse',actions_title:'Kisa ou vle f\u00e8 jodi a?',actions_desc:'Ale dirèkteman nan aksyon. Chak platfòm yon sèl klik.',
+    contact_label:'Kontakte Nou',contact_title:'Kontakte Ekip HaitiBiznis la',contact_desc:'Jwenn bon ekip la dirèkteman. Nou reponn nan 12 \u00e8dtan.',
+    contact_partners:'Patenariat &amp; Medya',contact_general:'Kesyon Jeneral',
+    form_title:'Voye yon Mesaj',form_sub:'Chwazi depatman ou epi n ap voye mesaj ou bay bon ekip la.',
+    form_name:'Non Ou',form_email:'Imel Ou',form_dept:'Depatman',form_message:'Mesaj',form_send:'Voye Mesaj',
+    form_thanks:'Mesaj Voye!',form_confirm:'M\u00e8si paske ou kontakte nou. Ekip nou ap reponn nan 12 \u00e8dtan.',
+    dept_general:'Kesyon Jeneral',dept_partners:'Patenariat &amp; Medya',dept_support:'Sip\u00f2',
+    cta_title:'Antre nan Ekosist\u00e8m<br>HaitiBiznis Jodi a',cta_desc:'Kit ou se kliyan, chofer, machan oswa antreprenè - gen yon plas pou ou.',
+    cta_explore:'Eksplore Platfòm yo',cta_contact:'Kontakte Nou'
+  }
+};
+
+let currentLang='en';
+function setLang(lang){
+  currentLang=lang;
+  localStorage.setItem('hb_lang',lang);
+  document.documentElement.lang=lang==='ht'?'ht':'fr'==='fr'&&lang==='fr'?'fr':'en';
+  document.documentElement.lang=lang==='ht'?'ht':lang==='fr'?'fr':'en';
+  document.querySelectorAll('.lang-btn').forEach(b=>{b.classList.toggle('active',b.textContent===(lang==='en'?'EN':lang==='fr'?'FR':'KR'))});
+  const t=translations[lang]||translations.en;
+  document.querySelectorAll('[data-i18n]').forEach(el=>{
+    const key=el.getAttribute('data-i18n');
+    if(t[key])el.innerHTML=t[key];
+  });
+}
+// Restore saved language
+const savedLang=localStorage.getItem('hb_lang');
+if(savedLang&&savedLang!=='en')setLang(savedLang);
+
+/* ═══ CONTACT FORM ═══ */
+function submitForm(e){
+  e.preventDefault();
+  const form=document.getElementById('hbForm');
+  const dept=document.getElementById('deptSelect').value;
+  const name=form.name.value;
+  const email=form.email.value;
+  const msg=form.message.value;
+  const subject=encodeURIComponent('HaitiBiznis Contact: '+name);
+  const body=encodeURIComponent('Name: '+name+'\nEmail: '+email+'\n\n'+msg);
+  window.location.href='mailto:'+dept+'?subject='+subject+'&body='+body;
+  form.style.display='none';
+  document.getElementById('formSuccess').style.display='block';
+  return false;
+}
 </script>
 </body>
 </html>
