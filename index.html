@@ -602,13 +602,13 @@ footer{padding:48px 20px 28px;background:var(--dark);color:var(--white)}
         <div class="form-group">
           <label data-i18n="form_dept">Department</label>
           <select name="department" id="deptSelect">
-            <option value="hello@haitibiznis.com" data-i18n="dept_general">General Inquiry</option>
-            <option value="marketplace@haitibiznis.com">MyPlopPlop - Marketplace</option>
-            <option value="mobility@haitibiznis.com">MsouWout - Mobility</option>
-            <option value="talent@haitibiznis.com">Talent4Peace - Talent</option>
-            <option value="business@haitibiznis.com">48HoursReady - Business</option>
-            <option value="partners@haitibiznis.com" data-i18n="dept_partners">Partnerships &amp; Media</option>
-            <option value="support@haitibiznis.com" data-i18n="dept_support">Support</option>
+            <option value="General Inquiry" data-i18n="dept_general">General Inquiry</option>
+            <option value="MyPlopPlop - Marketplace">MyPlopPlop - Marketplace</option>
+            <option value="MsouWout - Mobility">MsouWout - Mobility</option>
+            <option value="Talent4Peace - Talent">Talent4Peace - Talent</option>
+            <option value="48HoursReady - Business">48HoursReady - Business</option>
+            <option value="Partnerships &amp; Media" data-i18n="dept_partners">Partnerships &amp; Media</option>
+            <option value="Support" data-i18n="dept_support">Support</option>
           </select>
         </div>
         <div class="form-group">
@@ -760,12 +760,12 @@ function submitForm(e){
   e.preventDefault();
   const form=document.getElementById('hbForm');
   const dept=document.getElementById('deptSelect').value;
-  const name=form.name.value;
-  const email=form.email.value;
-  const msg=form.message.value;
-  const subject=encodeURIComponent('HaitiBiznis Contact: '+name);
-  const body=encodeURIComponent('Name: '+name+'\nEmail: '+email+'\n\n'+msg);
-  window.location.href='mailto:'+dept+'?subject='+subject+'&body='+body;
+  const name=form.querySelector('[name="name"]').value;
+  const email=form.querySelector('[name="email"]').value;
+  const msg=form.querySelector('[name="message"]').value;
+  const subject=encodeURIComponent('HaitiBiznis Contact ['+dept+']: '+name);
+  const body=encodeURIComponent('Name: '+name+'\nEmail: '+email+'\nDepartment: '+dept+'\n\n'+msg);
+  window.open('mailto:hello@haitibiznis.com?subject='+subject+'&body='+body,'_self');
   form.style.display='none';
   document.getElementById('formSuccess').style.display='block';
   return false;
