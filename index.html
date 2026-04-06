@@ -347,6 +347,24 @@ footer{padding:48px 20px 28px;background:var(--dark);color:var(--white)}
 .form-success h4{font-family:var(--display);font-size:1.2rem;color:var(--dark);margin-bottom:6px}
 .form-success p{font-size:.85rem;color:var(--text-light)}
 
+/* ═══ INSTALL BANNER ═══ */
+.install-banner{
+  display:none;position:fixed;bottom:0;left:0;right:0;z-index:999;
+  background:linear-gradient(135deg, var(--blue) 0%, var(--red) 100%);
+  color:#fff;padding:14px 20px;
+  box-shadow:0 -4px 20px rgba(0,0,0,.15);
+  align-items:center;gap:12px;
+}
+.install-banner.show{display:flex}
+.install-banner-text{flex:1;font-size:.82rem;font-weight:600}
+.install-banner-text small{display:block;font-size:.7rem;font-weight:400;opacity:.8;margin-top:2px}
+.install-banner-btn{
+  background:#fff;color:var(--blue);border:none;padding:10px 22px;
+  border-radius:100px;font-weight:700;font-size:.82rem;cursor:pointer;
+  font-family:var(--body);white-space:nowrap;
+}
+.install-banner-close{background:none;border:none;color:rgba(255,255,255,.7);font-size:1.2rem;cursor:pointer;padding:4px}
+
 /* ═══ REVEAL ═══ */
 .reveal{opacity:0;transform:translateY(20px);transition:all .5s cubic-bezier(.4,0,.2,1)}
 .reveal.visible{opacity:1;transform:translateY(0)}
@@ -360,6 +378,7 @@ footer{padding:48px 20px 28px;background:var(--dark);color:var(--white)}
   <a onclick="setLang('fr')" class="active">&#127467;&#127479; Fran&ccedil;ais</a>
   <a onclick="setLang('en')">&#127468;&#127463; English</a>
   <a onclick="setLang('ht')">&#127469;&#127481; Krey&ograve;l</a>
+  <a onclick="setLang('es')">&#127466;&#127480; Espa&ntilde;ol</a>
 </div>
 
 <div class="flag-stripe" style="margin-top:32px"></div>
@@ -640,6 +659,13 @@ footer{padding:48px 20px 28px;background:var(--dark);color:var(--white)}
   </div>
 </section>
 
+<!-- INSTALL BANNER -->
+<div class="install-banner" id="installBanner">
+  <div class="install-banner-text" data-i18n="install_text">Install HaitiBiznis<small>Add to your home screen for quick access</small></div>
+  <button class="install-banner-btn" id="installBtn" data-i18n="install_btn">Install</button>
+  <button class="install-banner-close" id="installClose">&times;</button>
+</div>
+
 <!-- FOOTER -->
 <footer>
   <div class="footer-top">
@@ -688,7 +714,8 @@ const translations={
     form_thanks:'Message Sent!',form_confirm:'Thank you for reaching out. Our team will respond within 12 hours.',
     dept_general:'General Inquiry',dept_partners:'Partnerships &amp; Media',dept_support:'Support',
     cta_title:'Enter the HaitiBiznis<br>Ecosystem Today',cta_desc:'Whether you\'re a customer, driver, merchant, or entrepreneur - there\'s a place for you.',
-    cta_explore:'Explore Platforms',cta_contact:'Contact Us'
+    cta_explore:'Explore Platforms',cta_contact:'Contact Us',
+    install_text:'Install HaitiBiznis<small>Add to your home screen for quick access</small>',install_btn:'Install'
   },
   fr:{
     hero_title:'Une plateforme. Quatre moteurs<br>puissants pour <span class="red">la croissance d\'Ha\u00efti.</span>',
@@ -713,7 +740,8 @@ const translations={
     form_thanks:'Message envoy\u00e9 !',form_confirm:'Merci de nous avoir contact\u00e9s. Notre \u00e9quipe r\u00e9pondra sous 12 heures.',
     dept_general:'Demande g\u00e9n\u00e9rale',dept_partners:'Partenariats &amp; M\u00e9dias',dept_support:'Support',
     cta_title:'Rejoignez l\'\u00e9cosyst\u00e8me<br>HaitiBiznis aujourd\'hui',cta_desc:'Que vous soyez client, chauffeur, commer\u00e7ant ou entrepreneur - il y a une place pour vous.',
-    cta_explore:'Explorer les Plateformes',cta_contact:'Nous Contacter'
+    cta_explore:'Explorer les Plateformes',cta_contact:'Nous Contacter',
+    install_text:'Installer HaitiBiznis<small>Ajoutez \u00e0 votre \u00e9cran d\'accueil pour un acc\u00e8s rapide</small>',install_btn:'Installer'
   },
   ht:{
     hero_title:'Yon platf\u00f2m. Kat mot\u00e8<br>pwisan pou <span class="red">kwasans Ayiti.</span>',
@@ -738,7 +766,34 @@ const translations={
     form_thanks:'Mesaj Voye!',form_confirm:'M\u00e8si paske ou kontakte nou. Ekip nou ap reponn nan 12 \u00e8dtan.',
     dept_general:'Kesyon Jeneral',dept_partners:'Patenariat &amp; Medya',dept_support:'Sip\u00f2',
     cta_title:'Antre nan Ekosist\u00e8m<br>HaitiBiznis Jodi a',cta_desc:'Kit ou se kliyan, chofer, machan oswa antreprenè - gen yon plas pou ou.',
-    cta_explore:'Eksplore Platfòm yo',cta_contact:'Kontakte Nou'
+    cta_explore:'Eksplore Platfòm yo',cta_contact:'Kontakte Nou',
+    install_text:'Enstale HaitiBiznis<small>Mete sou ekran lakay ou pou aks\u00e8 rapid</small>',install_btn:'Enstale'
+  },
+  es:{
+    hero_title:'Una plataforma. Cuatro motores<br>poderosos para <span class="red">el crecimiento de Hait\u00ed.</span>',
+    hero_sub:'Compra, mu\u00e9vete, crece y brilla con el ecosistema HaitiBiznis.',
+    nav_home:'Inicio',nav_platforms:'Plataformas',nav_opportunities:'Oportunidades',nav_about:'Acerca de',nav_contact:'Contacto',
+    nav_explore:'Explorar el Ecosistema',
+    plop_desc:'Compra, ordena y recibe entregas de negocios locales. La di\u00e1spora tambi\u00e9n puede comprar para su familia en Hait\u00ed.',
+    plop_btn:'Explorar Mercado &rarr;',
+    sou_desc:'Soluciones de transporte y viajes compartidos seguros y asequibles para el d\u00eda a d\u00eda.',
+    sou_btn:'Explorar Movilidad &rarr;',
+    talent_desc:'Conectando juventud, cultura, deportes, eventos y oportunidades comunitarias en todo Hait\u00ed.',
+    talent_btn:'Explorar Talento &rarr;',
+    biz_desc:'Ayudando a emprendedores a estructurar, lanzar y hacer crecer sus negocios m\u00e1s r\u00e1pido.',
+    biz_btn:'Explorar Negocios &rarr;',
+    what_title:'Una puerta digital para<br>un ecosistema haitiano conectado',
+    what_desc:'HaitiBiznis es el hub digital que conecta <strong>comercio</strong>, <strong>movilidad</strong>, <strong>talento</strong> y <strong>crecimiento empresarial</strong> en Hait\u00ed. Una marca, m\u00faltiples caminos, sirviendo a Hait\u00ed y la di\u00e1spora.',
+    actions_label:'Comenzar',actions_title:'\u00bfQu\u00e9 quieres hacer hoy?',actions_desc:'Pasa directamente a la acci\u00f3n. Cada plataforma est\u00e1 a un clic.',
+    contact_label:'Cont\u00e1ctanos',contact_title:'Contacta al equipo HaitiBiznis',contact_desc:'Llega al equipo correcto directamente. Respondemos en 12 horas.',
+    contact_partners:'Alianzas &amp; Medios',contact_general:'Consultas Generales',
+    form_title:'Env\u00edanos un Mensaje',form_sub:'Elige tu departamento y enviaremos tu mensaje al equipo correcto.',
+    form_name:'Tu Nombre',form_email:'Tu Email',form_dept:'Departamento',form_message:'Mensaje',form_send:'Enviar Mensaje',
+    form_thanks:'\u00a1Mensaje Enviado!',form_confirm:'Gracias por contactarnos. Nuestro equipo responder\u00e1 en 12 horas.',
+    dept_general:'Consulta General',dept_partners:'Alianzas &amp; Medios',dept_support:'Soporte',
+    cta_title:'Entra al Ecosistema<br>HaitiBiznis Hoy',cta_desc:'Ya seas cliente, conductor, comerciante o emprendedor - hay un lugar para ti.',
+    cta_explore:'Explorar Plataformas',cta_contact:'Cont\u00e1ctanos',
+    install_text:'Instalar HaitiBiznis<small>A\u00f1ade a tu pantalla de inicio para acceso r\u00e1pido</small>',install_btn:'Instalar'
   }
 };
 
@@ -746,8 +801,7 @@ let currentLang='en';
 function setLang(lang){
   currentLang=lang;
   localStorage.setItem('hb_lang',lang);
-  document.documentElement.lang=lang==='ht'?'ht':'fr'==='fr'&&lang==='fr'?'fr':'en';
-  document.documentElement.lang=lang==='ht'?'ht':lang==='fr'?'fr':'en';
+  document.documentElement.lang=lang;
   document.querySelectorAll('.top-lang-bar a').forEach(a=>{
     const l=a.getAttribute('onclick');
     a.classList.toggle('active',l&&l.indexOf("'"+lang+"'")>-1);
@@ -777,6 +831,55 @@ function submitForm(e){
   document.getElementById('formSuccess').style.display='block';
   return false;
 }
+
+/* ═══ PWA INSTALL ═══ */
+let deferredPrompt;
+const iBanner=document.getElementById('installBanner');
+const iBtn=document.getElementById('installBtn');
+const iClose=document.getElementById('installClose');
+
+window.addEventListener('beforeinstallprompt',e=>{
+  e.preventDefault();
+  deferredPrompt=e;
+  iBanner.classList.add('show');
+});
+
+iBtn.addEventListener('click',()=>{
+  if(deferredPrompt){
+    deferredPrompt.prompt();
+    deferredPrompt.userChoice.then(r=>{iBanner.classList.remove('show');deferredPrompt=null});
+  }
+});
+
+iClose.addEventListener('click',()=>{
+  iBanner.classList.remove('show');
+  sessionStorage.setItem('hb_install_dismissed','1');
+});
+
+// Show install hint after 3 seconds if not dismissed and no native prompt
+setTimeout(()=>{
+  if(!deferredPrompt && !sessionStorage.getItem('hb_install_dismissed') && !window.matchMedia('(display-mode: standalone)').matches){
+    iBanner.classList.add('show');
+    iBtn.addEventListener('click',()=>{
+      // For iOS/Safari - show instructions
+      const isIOS=/iPad|iPhone|iPod/.test(navigator.userAgent);
+      if(isIOS){
+        alert(currentLang==='fr'?'Appuyez sur le bouton Partager, puis "Sur l\u2019\u00e9cran d\u2019accueil"':
+              currentLang==='ht'?'Peze bouton Pataje a, epi "Sou Ekran Lakay"':
+              currentLang==='es'?'Pulsa el bot\u00f3n Compartir, luego "A\u00f1adir a pantalla de inicio"':
+              'Tap the Share button, then "Add to Home Screen"');
+      }else{
+        alert(currentLang==='fr'?'Appuyez sur le menu (\u22ee), puis "Installer l\'application"':
+              currentLang==='ht'?'Peze meni (\u22ee), epi "Enstale aplikasyon an"':
+              currentLang==='es'?'Pulsa el men\u00fa (\u22ee), luego "Instalar aplicaci\u00f3n"':
+              'Tap the menu (\u22ee), then "Install app"');
+      }
+      iBanner.classList.remove('show');
+    },{ once:true });
+  }
+},3000);
+
+window.addEventListener('appinstalled',()=>{iBanner.classList.remove('show')});
 </script>
 </body>
 </html>
