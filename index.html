@@ -1,12 +1,12 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ht">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>HaitiBiznis - One Hub for Haiti's Opportunities</title>
-<meta name="description" content="HaitiBiznis connects commerce, mobility, business growth, and community opportunity in one digital ecosystem for Haiti.">
-<meta property="og:title" content="HaitiBiznis - One Hub for Haiti's Opportunities">
-<meta property="og:description" content="Commerce, mobility, business growth, and community opportunity - all connected.">
+<title>HaitiBiznis - Fe Lajan ak Telefon Ou Jodi a</title>
+<meta name="description" content="Chofe, biznis, pwofesyonel - jwenn kliyan, fe kous, vann pwodwi. Komanse fe lajan ak HaitiBiznis jodi a.">
+<meta property="og:title" content="HaitiBiznis - Fe Lajan ak Telefon Ou Jodi a">
+<meta property="og:description" content="Chofe, biznis, pwofesyonel - jwenn kliyan, fe kous, vann pwodwi.">
 <meta property="og:image" content="https://haitibiznis.com/assets/icon-512.png">
 <meta property="og:image:width" content="512">
 <meta property="og:image:height" content="512">
@@ -23,7 +23,7 @@
 <link rel="apple-touch-icon" sizes="180x180" href="assets/apple-touch-icon.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
 <style>
 *,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
 :root{
@@ -31,7 +31,7 @@
   --red:#D21034;--red-light:#E8274A;--red-dark:#B00D2C;
   --white:#FFFFFF;--off-white:#F5F7FA;--light-gray:#E8ECF2;
   --dark:#0C1B3A;--text:#1A2A4A;--text-light:#5A6B8A;
-  --gold:#D4A017;
+  --gold:#D4A017;--green:#1B8C3D;
   --body:'Plus Jakarta Sans',system-ui,sans-serif;
   --display:'DM Serif Display',Georgia,serif;
 }
@@ -39,10 +39,22 @@ html{scroll-behavior:smooth}
 body{font-family:var(--body);background:var(--off-white);color:var(--text);overflow-x:hidden;-webkit-font-smoothing:antialiased}
 a{text-decoration:none}
 
-/* ═══ FLAG STRIPE ═══ */
 .flag-stripe{height:4px;background:linear-gradient(90deg, var(--blue) 50%, var(--red) 50%)}
 
-/* ═══ HEADER ═══ */
+/* LANG BAR */
+.top-lang-bar{
+  background:var(--blue);color:#fff;font-size:.7rem;
+  padding:5px 20px;display:flex;align-items:center;justify-content:center;gap:4px;
+  position:fixed;top:0;left:0;right:0;z-index:1001;height:32px;
+}
+.top-lang-bar a{
+  color:#fff;background:rgba(255,255,255,.15);padding:3px 10px;border-radius:100px;
+  font-size:.68rem;font-weight:600;cursor:pointer;transition:all .15s;white-space:nowrap;
+}
+.top-lang-bar a:hover{background:rgba(255,255,255,.3)}
+.top-lang-bar a.active{background:#fff;color:var(--blue)}
+
+/* HEADER */
 nav{
   position:sticky;top:32px;z-index:100;
   padding:12px 20px;background:var(--white);
@@ -59,18 +71,6 @@ nav{
 .nav-links a:hover{color:var(--blue);background:rgba(0,32,159,.05)}
 .nav-cta{background:var(--red)!important;color:var(--white)!important;padding:10px 22px!important;border-radius:100px!important}
 .nav-cta:hover{background:var(--red-dark)!important}
-/* ═══ TOP LANG BAR ═══ */
-.top-lang-bar{
-  background:var(--blue);color:#fff;font-size:.7rem;
-  padding:5px 20px;display:flex;align-items:center;justify-content:center;gap:4px;
-  position:fixed;top:0;left:0;right:0;z-index:1001;height:32px;
-}
-.top-lang-bar a{
-  color:#fff;background:rgba(255,255,255,.15);padding:3px 10px;border-radius:100px;
-  font-size:.68rem;font-weight:600;cursor:pointer;transition:all .15s;white-space:nowrap;
-}
-.top-lang-bar a:hover{background:rgba(255,255,255,.3)}
-.top-lang-bar a.active{background:#fff;color:var(--blue)}
 .mobile-menu{display:none;background:none;border:none;color:var(--dark);font-size:1.5rem;cursor:pointer;padding:8px}
 .nav-mobile{
   position:fixed;top:0;left:0;right:0;bottom:0;z-index:200;
@@ -81,201 +81,198 @@ nav{
 .nav-mobile a{color:var(--dark);font-size:1.2rem;font-weight:600;padding:12px 24px;border-radius:12px}
 .nav-mobile .close-menu{position:absolute;top:20px;right:24px;background:none;border:none;color:var(--dark);font-size:2rem;cursor:pointer}
 
-/* ═══ HERO ═══ */
+/* HERO */
 .hero{
-  padding:60px 20px 40px;text-align:center;background:var(--white);
+  padding:70px 20px 50px;text-align:center;
+  background:linear-gradient(135deg,var(--dark) 0%,#0a1a3a 40%,var(--blue-dark) 100%);
+  color:var(--white);position:relative;overflow:hidden;
 }
+.hero::before{
+  content:'';position:absolute;inset:0;
+  background:radial-gradient(circle at 30% 20%,rgba(210,16,52,.15) 0%,transparent 50%),
+             radial-gradient(circle at 70% 80%,rgba(0,32,159,.2) 0%,transparent 50%);
+}
+.hero>*{position:relative;z-index:1}
 .hero-logo{
-  width:180px;height:180px;border-radius:28px;object-fit:cover;
-  margin-bottom:24px;box-shadow:0 12px 40px rgba(0,32,159,.18);
-  border:3px solid var(--light-gray);
+  width:100px;height:100px;border-radius:22px;object-fit:cover;
+  margin-bottom:20px;box-shadow:0 12px 40px rgba(0,0,0,.3);
+  border:2px solid rgba(255,255,255,.15);
 }
 .hero h1{
-  font-family:var(--display);font-size:clamp(1.8rem,5vw,3.2rem);
-  line-height:1.15;letter-spacing:-.02em;margin-bottom:16px;color:var(--dark);
+  font-family:var(--display);font-size:clamp(2rem,6vw,3.5rem);
+  line-height:1.1;letter-spacing:-.02em;margin-bottom:14px;
 }
-.hero h1 .red{color:var(--red)}
 .hero-sub{
-  font-size:clamp(.9rem,1.8vw,1.05rem);color:var(--text-light);
-  max-width:480px;margin:0 auto 28px;line-height:1.6;
+  font-size:clamp(.95rem,2vw,1.15rem);color:rgba(255,255,255,.7);
+  max-width:420px;margin:0 auto 32px;line-height:1.5;
 }
+.hero-sub strong{color:var(--white);font-weight:700}
 .hero-actions{display:flex;gap:12px;justify-content:center;flex-wrap:wrap}
 .btn{
   display:inline-flex;align-items:center;gap:8px;
-  padding:14px 28px;border-radius:100px;font-size:.88rem;font-weight:700;
+  padding:16px 32px;border-radius:100px;font-size:.95rem;font-weight:800;
   transition:all .3s;border:2px solid transparent;cursor:pointer;
+  letter-spacing:.01em;
 }
 .btn-red{background:var(--red);color:var(--white);border-color:var(--red)}
-.btn-red:hover{background:var(--red-dark);border-color:var(--red-dark);transform:translateY(-2px);box-shadow:0 8px 24px rgba(210,16,52,.2)}
-.btn-outline{background:transparent;color:var(--blue);border-color:var(--blue)}
-.btn-outline:hover{background:var(--blue);color:var(--white);transform:translateY(-2px)}
+.btn-red:hover{background:var(--red-dark);border-color:var(--red-dark);transform:translateY(-2px);box-shadow:0 8px 24px rgba(210,16,52,.3)}
+.btn-white{background:var(--white);color:var(--dark);border-color:var(--white)}
+.btn-white:hover{transform:translateY(-2px);box-shadow:0 8px 24px rgba(255,255,255,.2)}
+.btn-ghost{background:transparent;color:#fff;border-color:rgba(255,255,255,.4)}
+.btn-ghost:hover{background:rgba(255,255,255,.1)}
+.btn-outline{background:transparent;color:var(--white);border-color:rgba(255,255,255,.35)}
+.btn-outline:hover{background:rgba(255,255,255,.1);transform:translateY(-2px)}
 
-/* ═══ 4 PLATFORM BLOCKS ═══ */
-.blocks{padding:0 20px 60px;max-width:700px;margin:0 auto}
-.blocks-title{
+/* ENTRY CARDS */
+.entry-section{padding:48px 20px 20px;max-width:1000px;margin:0 auto}
+.entry-section-title{
   text-align:center;font-family:var(--display);
-  font-size:clamp(1.5rem,4vw,2.4rem);color:var(--dark);
-  margin-bottom:8px;letter-spacing:-.02em;
+  font-size:clamp(1.4rem,3.5vw,2.2rem);color:var(--dark);margin-bottom:8px;
 }
-.blocks-sub{text-align:center;color:var(--text-light);font-size:.92rem;margin-bottom:32px}
+.entry-section-sub{text-align:center;color:var(--text-light);font-size:.9rem;margin-bottom:32px}
+.entry-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
 
-.block-card{
-  display:flex;align-items:center;border-radius:20px;
-  padding:28px 24px;margin-bottom:16px;position:relative;
-  overflow:hidden;color:var(--white);transition:transform .3s,box-shadow .3s;
-  min-height:160px;
+.entry-card{
+  border-radius:24px;padding:32px 24px;position:relative;overflow:hidden;
+  color:var(--white);transition:transform .3s,box-shadow .3s;
 }
-.block-card:hover{transform:translateY(-4px) scale(1.03);box-shadow:0 16px 48px rgba(0,0,0,.15),0 0 30px rgba(255,255,255,.12)}
+.entry-card:hover{transform:translateY(-6px);box-shadow:0 20px 50px rgba(0,0,0,.2)}
 
-.block-card.red-card{background:linear-gradient(135deg, #E8274A 0%, #B00D2C 60%, #8B0A1E 100%)}
-.block-card.blue-card{background:linear-gradient(135deg, #1A4FD4 0%, #00209F 60%, #001566 100%)}
+.entry-card.card-blue{background:linear-gradient(160deg,#1A4FD4 0%,var(--blue) 50%,var(--blue-dark) 100%)}
+.entry-card.card-red{background:linear-gradient(160deg,var(--red-light) 0%,var(--red) 50%,var(--red-dark) 100%)}
+.entry-card.card-gold{background:linear-gradient(160deg,#E8B830 0%,var(--gold) 50%,#A07510 100%)}
 
-/* Decorative dots pattern */
-.block-card::after{
-  content:'';position:absolute;right:-20px;top:0;bottom:0;width:50%;
-  opacity:.08;
-  background-image:radial-gradient(circle, #fff 1.5px, transparent 1.5px);
-  background-size:12px 12px;
-}
-
-.block-logo{
-  width:78px;height:78px;border-radius:18px;
-  background:#fff;
-  display:flex;align-items:center;justify-content:center;
-  flex-shrink:0;margin-right:16px;
-  border:2px solid rgba(255,255,255,.5);
-  overflow:hidden;box-shadow:0 4px 16px rgba(0,0,0,.2);
-}
-.block-logo img{width:100%;height:100%;object-fit:contain;padding:4px}
-
-.block-info{flex:1;min-width:0;position:relative;z-index:1}
-.block-tag{
-  display:inline-block;font-size:.6rem;font-weight:800;letter-spacing:.12em;
-  text-transform:uppercase;padding:4px 12px;border-radius:100px;
-  background:rgba(255,255,255,.2);color:rgba(255,255,255,.95);
-  margin-bottom:8px;
-}
-.block-name{font-family:var(--display);font-size:1.5rem;margin-bottom:6px;letter-spacing:-.01em}
-.block-desc{font-size:.82rem;line-height:1.5;color:rgba(255,255,255,.8);margin-bottom:14px}
-.block-btn{
+.entry-badge{
   display:inline-flex;align-items:center;gap:6px;
-  padding:11px 26px;border-radius:100px;font-size:.84rem;font-weight:800;
-  background:rgba(255,255,255,.95);color:var(--red);
-  border:none;transition:all .3s;
-  box-shadow:0 4px 16px rgba(0,0,0,.2);letter-spacing:.02em;
+  font-size:.65rem;font-weight:800;letter-spacing:.1em;text-transform:uppercase;
+  padding:5px 14px;border-radius:100px;
+  background:rgba(255,255,255,.2);color:#fff;
+  margin-bottom:14px;
 }
-.block-card.blue-card .block-btn{color:var(--blue)}
-.block-btn:hover{background:#fff;transform:scale(1.05);box-shadow:0 6px 24px rgba(0,0,0,.25)}
+.entry-logo{
+  width:56px;height:56px;border-radius:14px;background:#fff;
+  display:flex;align-items:center;justify-content:center;
+  margin-bottom:16px;overflow:hidden;
+  box-shadow:0 4px 16px rgba(0,0,0,.15);
+}
+.entry-logo img{width:100%;height:100%;object-fit:contain;padding:3px}
+.entry-card h3{
+  font-family:var(--display);font-size:1.35rem;margin-bottom:8px;
+  line-height:1.2;
+}
+.entry-hook{font-size:.85rem;color:rgba(255,255,255,.85);margin-bottom:18px;line-height:1.4}
+.entry-cta{
+  display:inline-flex;align-items:center;gap:8px;
+  padding:14px 28px;border-radius:100px;font-size:.9rem;font-weight:800;
+  background:#fff;border:none;cursor:pointer;transition:all .3s;
+  box-shadow:0 4px 16px rgba(0,0,0,.2);letter-spacing:.01em;
+  margin-bottom:16px;
+}
+.entry-card.card-blue .entry-cta{color:var(--blue)}
+.entry-card.card-red .entry-cta{color:var(--red)}
+.entry-card.card-gold .entry-cta{color:#8B6914}
+.entry-cta:hover{transform:scale(1.05);box-shadow:0 8px 24px rgba(0,0,0,.25)}
 
-.block-trust{
-  display:flex;gap:12px;margin-top:10px;flex-wrap:wrap;
+.entry-bullets{list-style:none;margin-bottom:16px}
+.entry-bullets li{
+  font-size:.78rem;font-weight:600;color:rgba(255,255,255,.9);
+  padding:3px 0;display:flex;align-items:center;gap:6px;
 }
-.block-trust span{
-  font-size:.68rem;font-weight:600;color:rgba(255,255,255,.9);
-  display:flex;align-items:center;gap:4px;
+.entry-bullets li::before{content:'\2714';font-size:.65rem;color:rgba(255,255,255,.7)}
+.entry-social{
+  display:flex;align-items:center;gap:8px;
+  padding-top:12px;border-top:1px solid rgba(255,255,255,.15);
 }
-.block-trust span::before{content:'\2714';font-size:.6rem;color:rgba(255,255,255,.7)}
-
-/* Social proof line */
-.block-social{
-  display:flex;align-items:center;gap:8px;margin-top:12px;
-}
-.block-avatars{display:flex}
-.block-avatars span{
-  width:24px;height:24px;border-radius:50%;
-  border:2px solid rgba(255,255,255,.4);
-  margin-left:-6px;display:inline-block;
+.entry-avatars{display:flex}
+.entry-avatars span{
+  width:22px;height:22px;border-radius:50%;
+  border:2px solid rgba(255,255,255,.3);margin-left:-5px;
   background:linear-gradient(135deg,rgba(255,255,255,.3),rgba(255,255,255,.15));
-  font-size:.55rem;line-height:24px;text-align:center;color:#fff;font-weight:700;
+  font-size:.5rem;line-height:22px;text-align:center;color:#fff;font-weight:700;
 }
-.block-avatars span:first-child{margin-left:0}
-.block-social-text{font-size:.68rem;color:rgba(255,255,255,.75);font-weight:600}
+.entry-avatars span:first-child{margin-left:0}
+.entry-social-text{font-size:.68rem;color:rgba(255,255,255,.7);font-weight:600}
 
-/* ═══ STATS BAR ═══ */
-.stats-bar{
-  display:flex;justify-content:center;gap:32px;flex-wrap:wrap;
+/* QUICK ACTIONS */
+.actions-section{padding:48px 20px;background:var(--dark);text-align:center}
+.actions-section h2{
+  font-family:var(--display);font-size:clamp(1.4rem,3.5vw,2.2rem);
+  color:var(--white);margin-bottom:28px;
+}
+.action-buttons{
+  display:flex;gap:12px;justify-content:center;flex-wrap:wrap;
+  max-width:600px;margin:0 auto;
+}
+.action-btn{
+  display:flex;align-items:center;gap:8px;
+  padding:14px 28px;border-radius:100px;font-size:.9rem;font-weight:800;
+  border:none;cursor:pointer;transition:all .3s;color:#fff;
+}
+.action-btn:hover{transform:translateY(-3px);box-shadow:0 8px 20px rgba(0,0,0,.3)}
+.action-btn.ab-red{background:var(--red)}
+.action-btn.ab-blue{background:var(--blue)}
+.action-btn.ab-gold{background:var(--gold)}
+.action-btn.ab-green{background:var(--green)}
+
+/* TRUST BAR */
+.trust-section{
   padding:32px 20px;background:var(--white);
   border-top:1px solid var(--light-gray);border-bottom:1px solid var(--light-gray);
-  max-width:800px;margin:0 auto 0;
 }
-.stat-item{text-align:center}
-.stat-icon{font-size:1.1rem;margin-bottom:4px}
-.stat-item.si-red .stat-icon{color:var(--red)}
-.stat-item.si-blue .stat-icon{color:var(--blue)}
-.stat-item.si-green .stat-icon{color:#1B8C3D}
-.stat-number{font-family:var(--display);font-size:1.5rem;color:var(--dark);line-height:1.2}
-.stat-label{font-size:.7rem;color:var(--text-light);font-weight:600}
+.trust-row{
+  display:flex;justify-content:center;gap:32px;flex-wrap:wrap;
+  max-width:800px;margin:0 auto;
+}
+.trust-item{display:flex;align-items:center;gap:8px;font-size:.85rem;font-weight:700;color:var(--text)}
+.trust-icon{font-size:1.2rem}
+.trust-item.t-blue .trust-icon{color:var(--blue)}
+.trust-item.t-red .trust-icon{color:var(--red)}
+.trust-item.t-green .trust-icon{color:var(--green)}
 
-/* ═══ QUICK ACTION STRIP ═══ */
-.quick-strip{
-  display:flex;gap:10px;justify-content:center;flex-wrap:wrap;
-  padding:16px 20px 8px;max-width:700px;margin:0 auto;
+/* HOW IT WORKS */
+.how-section{padding:60px 20px;background:var(--off-white);text-align:center}
+.section-label{font-size:.7rem;font-weight:800;letter-spacing:.15em;text-transform:uppercase;color:var(--blue);margin-bottom:10px}
+.section-title{font-family:var(--display);font-size:clamp(1.4rem,3.5vw,2.2rem);color:var(--dark);margin-bottom:12px}
+.section-desc{color:var(--text-light);max-width:440px;margin:0 auto 40px;font-size:.9rem;line-height:1.6}
+.steps-row{
+  display:flex;gap:24px;justify-content:center;flex-wrap:wrap;
+  max-width:800px;margin:0 auto;
 }
-.quick-strip-btn{
-  display:flex;align-items:center;gap:6px;
-  padding:10px 20px;border-radius:100px;font-size:.8rem;font-weight:700;
-  border:2px solid transparent;cursor:pointer;transition:all .3s;
-  text-decoration:none;
+.step-card{
+  flex:1;min-width:200px;max-width:260px;
+  padding:28px 20px;border-radius:20px;
+  background:var(--white);border:1px solid var(--light-gray);
+  text-align:center;position:relative;transition:all .3s;
 }
-.quick-strip-btn.qs-red{background:var(--red);color:#fff;border-color:var(--red)}
-.quick-strip-btn.qs-red:hover{background:var(--red-dark);transform:translateY(-2px);box-shadow:0 6px 16px rgba(210,16,52,.25)}
-.quick-strip-btn.qs-blue{background:var(--blue);color:#fff;border-color:var(--blue)}
-.quick-strip-btn.qs-blue:hover{background:var(--blue-dark);transform:translateY(-2px);box-shadow:0 6px 16px rgba(0,32,159,.25)}
-.quick-strip-btn.qs-gold{background:var(--gold);color:#fff;border-color:var(--gold)}
-.quick-strip-btn.qs-gold:hover{background:#b8880e;transform:translateY(-2px);box-shadow:0 6px 16px rgba(212,160,23,.25)}
-.quick-strip-btn.qs-green{background:#1B8C3D;color:#fff;border-color:#1B8C3D}
-.quick-strip-btn.qs-green:hover{background:#15712f;transform:translateY(-2px);box-shadow:0 6px 16px rgba(27,140,61,.25)}
-
-.block-arrow{
-  position:absolute;right:20px;top:50%;transform:translateY(-50%);
+.step-card:hover{transform:translateY(-4px);box-shadow:0 8px 24px rgba(0,32,159,.08)}
+.step-num{
   width:44px;height:44px;border-radius:50%;
-  background:rgba(255,255,255,.15);display:flex;align-items:center;justify-content:center;
-  z-index:1;transition:all .3s;
+  background:var(--blue);color:#fff;
+  font-family:var(--display);font-size:1.2rem;
+  display:flex;align-items:center;justify-content:center;
+  margin:0 auto 14px;
 }
-.block-card:hover .block-arrow{background:rgba(255,255,255,.25)}
-.block-arrow svg{width:18px;height:18px;stroke:#fff;fill:none;stroke-width:2.5}
+.step-card h4{font-weight:800;font-size:.95rem;margin-bottom:6px;color:var(--dark)}
+.step-card p{font-size:.8rem;color:var(--text-light);line-height:1.5}
 
-/* Decorative graphics on cards */
-.block-deco{
-  position:absolute;right:60px;top:50%;transform:translateY(-50%);
-  opacity:.12;z-index:0;
+/* DIASPORA */
+.diaspora-section{
+  padding:60px 20px;text-align:center;
+  background:linear-gradient(135deg,var(--blue) 0%,var(--blue-dark) 60%,#0a1230 100%);
+  color:var(--white);position:relative;overflow:hidden;
 }
-.block-deco svg{width:100px;height:100px}
-
-/* ═══ TRUST BAR ═══ */
-.trust-bar{
-  display:flex;justify-content:center;gap:24px;flex-wrap:wrap;
-  padding:24px 20px;background:var(--white);border-top:1px solid var(--light-gray);
+.diaspora-section::before{
+  content:'';position:absolute;inset:0;
+  background-image:linear-gradient(rgba(255,255,255,.02) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.02) 1px,transparent 1px);
+  background-size:40px 40px;
 }
-.trust-item{display:flex;align-items:center;gap:6px;font-size:.78rem;font-weight:600;color:var(--text-light)}
-.trust-icon{font-size:1rem}
-.trust-item.red .trust-icon{color:var(--red)}
-.trust-item.blue .trust-icon{color:var(--blue)}
+.diaspora-section>*{position:relative}
+.diaspora-section h2{font-family:var(--display);font-size:clamp(1.5rem,4vw,2.4rem);margin-bottom:12px}
+.diaspora-section p{color:rgba(255,255,255,.75);max-width:420px;margin:0 auto 28px;font-size:.95rem;line-height:1.6}
 
-/* ═══ WHAT IS SECTION ═══ */
-.what{padding:60px 20px;text-align:center;background:var(--off-white)}
-.what h2{font-family:var(--display);font-size:clamp(1.4rem,3.5vw,2.2rem);margin-bottom:16px;color:var(--dark)}
-.what p{color:var(--text-light);max-width:560px;margin:0 auto;line-height:1.7;font-size:.95rem}
-
-/* ═══ ACTIONS ═══ */
-.actions{padding:60px 20px;background:var(--white)}
-.section-label{text-align:center;font-size:.7rem;font-weight:700;letter-spacing:.15em;text-transform:uppercase;color:var(--blue);margin-bottom:10px}
-.section-title{text-align:center;font-family:var(--display);font-size:clamp(1.5rem,3.5vw,2.2rem);color:var(--dark);margin-bottom:12px}
-.section-desc{text-align:center;color:var(--text-light);max-width:480px;margin:0 auto 40px;font-size:.9rem;line-height:1.6}
-.action-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:12px;max-width:900px;margin:0 auto}
-.action-card{
-  text-align:center;padding:24px 10px;border-radius:16px;
-  background:var(--off-white);border:1px solid var(--light-gray);
-  transition:all .3s;cursor:pointer;display:block;color:var(--text);
-}
-.action-card:hover{background:var(--white);transform:translateY(-3px);box-shadow:0 8px 24px rgba(0,32,159,.08);border-color:var(--blue)}
-.action-icon{font-size:1.6rem;margin-bottom:10px}
-.action-label{font-size:.8rem;font-weight:700;color:var(--dark);margin-bottom:2px}
-.action-sub{font-size:.68rem;color:var(--text-light)}
-
-/* ═══ ECOSYSTEM ═══ */
-.ecosystem{padding:60px 20px;background:var(--off-white)}
-.eco-hub{text-align:center;margin-bottom:40px}
+/* ECOSYSTEM */
+.ecosystem{padding:60px 20px;background:var(--white)}
+.eco-hub{text-align:center;margin-bottom:32px}
 .eco-hub-badge{
   display:inline-flex;align-items:center;gap:10px;
   background:linear-gradient(135deg, var(--blue), var(--red));
@@ -286,7 +283,7 @@ nav{
 .eco-branches{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;max-width:700px;margin:0 auto}
 .eco-branch{
   text-align:center;padding:20px 10px;border-radius:14px;
-  background:var(--white);border:1px solid var(--light-gray);
+  background:var(--off-white);border:1px solid var(--light-gray);
   position:relative;transition:all .3s;
 }
 .eco-branch:hover{transform:translateY(-3px);box-shadow:0 6px 20px rgba(0,0,0,.05)}
@@ -296,128 +293,112 @@ nav{
 .eco-branch-role{font-size:.68rem;color:var(--text-light)}
 .eco-branch.b-plop .eco-branch-name{color:var(--red)}
 .eco-branch.b-sou .eco-branch-name{color:var(--blue)}
-.eco-branch.b-talent .eco-branch-name{color:var(--blue-dark)}
-.eco-branch.b-48 .eco-branch-name{color:var(--red-dark)}
-.eco-boxe{text-align:center;margin-top:12px;font-size:.72rem;color:var(--text-light);font-weight:600}
+.eco-branch.b-talent .eco-branch-name{color:var(--gold)}
+.eco-branch.b-48 .eco-branch-name{color:var(--green)}
 
-/* ═══ BENEFITS ═══ */
-.benefits{padding:60px 20px;background:var(--white)}
-.benefit-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;max-width:900px;margin:0 auto}
-.benefit-item{padding:24px 20px;border-radius:16px;background:var(--off-white);border:1px solid var(--light-gray);transition:all .3s}
-.benefit-item:hover{transform:translateY(-3px);box-shadow:0 6px 20px rgba(0,32,159,.06)}
-.benefit-icon{font-size:1.4rem;margin-bottom:10px}
-.benefit-title{font-weight:700;font-size:.9rem;margin-bottom:6px;color:var(--dark)}
-.benefit-desc{font-size:.78rem;line-height:1.55;color:var(--text-light)}
-
-/* ═══ FINAL CTA ═══ */
-.final-cta{
-  padding:80px 20px;text-align:center;
-  background:linear-gradient(135deg, var(--blue) 0%, var(--blue-dark) 40%, var(--red) 100%);
-  color:var(--white);position:relative;overflow:hidden;
-}
-.final-cta::before{content:'';position:absolute;inset:0;background-image:linear-gradient(rgba(255,255,255,.03) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.03) 1px,transparent 1px);background-size:40px 40px}
-.final-cta>*{position:relative}
-.final-cta h2{font-family:var(--display);font-size:clamp(1.8rem,4vw,2.8rem);margin-bottom:14px}
-.final-cta p{color:rgba(255,255,255,.8);margin-bottom:32px;font-size:1rem;max-width:440px;margin-left:auto;margin-right:auto;line-height:1.6}
-.final-cta .cta-btns{display:flex;gap:12px;justify-content:center;flex-wrap:wrap}
-.btn-white{background:var(--white);color:var(--dark);border-color:var(--white)}
-.btn-white:hover{transform:translateY(-2px);box-shadow:0 8px 24px rgba(255,255,255,.2)}
-.btn-ghost{background:transparent;color:#fff;border-color:rgba(255,255,255,.4)}
-.btn-ghost:hover{background:rgba(255,255,255,.1)}
-
-/* ═══ FOOTER ═══ */
-footer{padding:48px 20px 28px;background:var(--dark);color:var(--white)}
-.footer-top{
-  max-width:1000px;margin:0 auto;
-  display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:32px;
-  padding-bottom:32px;border-bottom:1px solid rgba(255,255,255,.08);margin-bottom:20px;
-}
-.footer-brand-col .footer-logo{display:flex;align-items:center;gap:8px;margin-bottom:10px}
-.footer-brand-col .footer-logo img{height:32px;border-radius:5px}
-.footer-brand-col .footer-logo span{font-family:var(--display);font-size:1.1rem}
-.footer-brand-col .footer-logo span em{color:var(--red);font-style:italic}
-.footer-brand-col p{font-size:.78rem;color:rgba(255,255,255,.35);line-height:1.6;max-width:260px}
-.footer-col h4{font-size:.68rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:rgba(255,255,255,.3);margin-bottom:14px}
-.footer-col a{display:block;color:rgba(255,255,255,.5);font-size:.82rem;margin-bottom:8px;transition:color .3s}
-.footer-col a:hover{color:#fff}
-.footer-bottom{text-align:center;color:rgba(255,255,255,.2);font-size:.7rem;max-width:1000px;margin:0 auto}
-
-/* ═══ RESPONSIVE ═══ */
-@media(max-width:900px){.action-grid{grid-template-columns:repeat(3,1fr)}.eco-branches{grid-template-columns:repeat(2,1fr)}.footer-top{grid-template-columns:1fr 1fr}}
-@media(max-width:768px){
-  .nav-links{display:none}.mobile-menu{display:block}
-  .benefit-grid{grid-template-columns:1fr}
-  .block-arrow{display:none}
-  .block-deco{display:none}
-  .contact-grid{grid-template-columns:1fr!important}
-  .lang-switcher-mobile{display:flex;gap:4px;justify-content:center;margin-bottom:16px}
-  .contact-form{margin-top:8px}
-}
-@media(max-width:480px){
-  .action-grid{grid-template-columns:repeat(2,1fr)}
-  .eco-branches{grid-template-columns:1fr}
-  .footer-top{grid-template-columns:1fr;text-align:center}
-  .stats-bar{gap:20px;padding:24px 16px}
-  .stat-number{font-size:1.2rem}
-  .stat-label{font-size:.62rem}
-  .footer-brand-col p{margin:0 auto}
-  .footer-brand-col .footer-logo{justify-content:center}
-  .block-card{padding:24px 20px;min-height:auto}
-  .block-logo{width:60px;height:60px;border-radius:14px}
-  .quick-strip{gap:8px}
-  .quick-strip-btn{padding:9px 16px;font-size:.75rem}
-  .block-trust{gap:8px}
-  .block-trust span{font-size:.62rem}
-  .block-name{font-size:1.3rem}
-}
-
-/* ═══ CONTACT ═══ */
+/* CONTACT */
 .contact{padding:60px 20px;background:var(--off-white)}
 .contact-grid{display:grid;grid-template-columns:1fr 1fr;gap:32px;max-width:900px;margin:0 auto}
-.contact-info{display:flex;flex-direction:column;gap:16px}
+.contact-info{display:flex;flex-direction:column;gap:12px}
 .contact-card{
-  padding:18px 20px;border-radius:14px;background:var(--white);
-  border:1px solid var(--light-gray);display:flex;align-items:center;gap:14px;
-  transition:all .3s;
+  padding:16px 18px;border-radius:14px;background:var(--white);
+  border:1px solid var(--light-gray);display:flex;align-items:center;gap:12px;transition:all .3s;
 }
 .contact-card:hover{transform:translateY(-2px);box-shadow:0 6px 20px rgba(0,32,159,.06)}
 .contact-card-icon{
-  width:44px;height:44px;border-radius:12px;display:flex;align-items:center;justify-content:center;
-  font-size:1.1rem;flex-shrink:0;
+  width:40px;height:40px;border-radius:10px;display:flex;align-items:center;justify-content:center;
+  font-size:1rem;flex-shrink:0;
 }
 .contact-card-icon.red{background:rgba(210,16,52,.1);color:var(--red)}
 .contact-card-icon.blue{background:rgba(0,32,159,.1);color:var(--blue)}
 .contact-card-title{font-weight:700;font-size:.82rem;color:var(--dark)}
-.contact-card-email{font-size:.75rem;color:var(--text-light)}
+.contact-card-email{font-size:.72rem;color:var(--text-light)}
 .contact-form{
-  background:var(--white);border-radius:18px;padding:32px;
+  background:var(--white);border-radius:18px;padding:28px;
   border:1px solid var(--light-gray);box-shadow:0 4px 20px rgba(0,0,0,.04);
 }
-.contact-form h3{font-family:var(--display);font-size:1.3rem;color:var(--dark);margin-bottom:6px}
-.contact-form .form-sub{font-size:.82rem;color:var(--text-light);margin-bottom:20px}
-.form-group{margin-bottom:14px}
-.form-group label{display:block;font-size:.75rem;font-weight:700;color:var(--text);margin-bottom:5px;letter-spacing:.03em}
+.contact-form h3{font-family:var(--display);font-size:1.2rem;color:var(--dark);margin-bottom:6px}
+.contact-form .form-sub{font-size:.82rem;color:var(--text-light);margin-bottom:18px}
+.form-group{margin-bottom:12px}
+.form-group label{display:block;font-size:.75rem;font-weight:700;color:var(--text);margin-bottom:4px}
 .form-group input,.form-group select,.form-group textarea{
-  width:100%;padding:11px 14px;border:1px solid var(--light-gray);border-radius:10px;
+  width:100%;padding:10px 14px;border:1px solid var(--light-gray);border-radius:10px;
   font-family:var(--body);font-size:.85rem;color:var(--text);background:var(--off-white);
   transition:border-color .2s;outline:none;
 }
 .form-group input:focus,.form-group select:focus,.form-group textarea:focus{border-color:var(--blue)}
-.form-group textarea{resize:vertical;min-height:90px}
+.form-group textarea{resize:vertical;min-height:80px}
 .form-submit{
-  width:100%;padding:13px;border:none;border-radius:100px;
+  width:100%;padding:12px;border:none;border-radius:100px;
   background:var(--red);color:#fff;font-family:var(--body);
   font-size:.88rem;font-weight:700;cursor:pointer;transition:all .3s;
 }
 .form-submit:hover{background:var(--red-dark);transform:translateY(-1px)}
-.form-success{
-  display:none;text-align:center;padding:40px 20px;
-}
+.form-success{display:none;text-align:center;padding:40px 20px}
 .form-success .check{font-size:2.5rem;margin-bottom:10px}
 .form-success h4{font-family:var(--display);font-size:1.2rem;color:var(--dark);margin-bottom:6px}
 .form-success p{font-size:.85rem;color:var(--text-light)}
 
-/* ═══ INSTALL BANNER ═══ */
+/* FINAL CTA */
+.final-cta{
+  padding:70px 20px;text-align:center;
+  background:linear-gradient(135deg, var(--red) 0%, var(--red-dark) 40%, var(--blue) 100%);
+  color:var(--white);position:relative;overflow:hidden;
+}
+.final-cta::before{content:'';position:absolute;inset:0;background-image:linear-gradient(rgba(255,255,255,.03) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.03) 1px,transparent 1px);background-size:40px 40px}
+.final-cta>*{position:relative}
+.final-cta h2{font-family:var(--display);font-size:clamp(1.8rem,4vw,2.8rem);margin-bottom:12px}
+.final-cta p{color:rgba(255,255,255,.8);margin-bottom:28px;font-size:1rem;max-width:420px;margin-left:auto;margin-right:auto;line-height:1.6}
+.final-cta .cta-btns{display:flex;gap:12px;justify-content:center;flex-wrap:wrap}
+
+/* FOOTER */
+footer{padding:40px 20px 24px;background:var(--dark);color:var(--white)}
+.footer-top{
+  max-width:1000px;margin:0 auto;
+  display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:32px;
+  padding-bottom:28px;border-bottom:1px solid rgba(255,255,255,.08);margin-bottom:16px;
+}
+.footer-brand-col .footer-logo{display:flex;align-items:center;gap:8px;margin-bottom:8px}
+.footer-brand-col .footer-logo img{height:32px;border-radius:5px}
+.footer-brand-col .footer-logo span{font-family:var(--display);font-size:1.1rem}
+.footer-brand-col .footer-logo span em{color:var(--red);font-style:italic}
+.footer-brand-col p{font-size:.75rem;color:rgba(255,255,255,.35);line-height:1.6;max-width:260px}
+.footer-col h4{font-size:.65rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:rgba(255,255,255,.3);margin-bottom:12px}
+.footer-col a{display:block;color:rgba(255,255,255,.5);font-size:.8rem;margin-bottom:7px;transition:color .3s}
+.footer-col a:hover{color:#fff}
+.footer-bottom{text-align:center;color:rgba(255,255,255,.2);font-size:.68rem;max-width:1000px;margin:0 auto}
+
+/* WHATSAPP FLOAT */
+.wa-float{
+  position:fixed;bottom:80px;right:20px;z-index:900;
+  width:56px;height:56px;border-radius:50%;
+  background:#25D366;color:#fff;font-size:1.6rem;
+  display:flex;align-items:center;justify-content:center;
+  box-shadow:0 4px 16px rgba(37,211,102,.4);
+  transition:all .3s;cursor:pointer;
+}
+.wa-float:hover{transform:scale(1.1);box-shadow:0 6px 24px rgba(37,211,102,.5)}
+.wa-tooltip{
+  position:absolute;right:64px;top:50%;transform:translateY(-50%);
+  background:var(--dark);color:#fff;padding:8px 14px;border-radius:10px;
+  font-size:.72rem;font-weight:600;white-space:nowrap;
+  opacity:0;pointer-events:none;transition:opacity .3s;
+}
+.wa-float:hover .wa-tooltip{opacity:1}
+
+/* STICKY MOBILE FOOTER */
+.sticky-footer{
+  display:none;position:fixed;bottom:0;left:0;right:0;z-index:800;
+  background:linear-gradient(135deg,var(--red),var(--red-dark));
+  padding:12px 20px;text-align:center;
+  box-shadow:0 -4px 20px rgba(0,0,0,.15);
+}
+.sticky-footer a{
+  display:block;color:#fff;font-weight:800;font-size:1rem;
+  letter-spacing:.02em;
+}
+
+/* INSTALL BANNER */
 .install-banner{
   display:none;position:fixed;bottom:0;left:0;right:0;z-index:999;
   background:linear-gradient(135deg, var(--blue) 0%, var(--red) 100%);
@@ -435,19 +416,42 @@ footer{padding:48px 20px 28px;background:var(--dark);color:var(--white)}
 }
 .install-banner-close{background:none;border:none;color:rgba(255,255,255,.7);font-size:1.2rem;cursor:pointer;padding:4px}
 
-/* ═══ REVEAL ═══ */
+/* REVEAL */
 .reveal{opacity:0;transform:translateY(20px);transition:all .5s cubic-bezier(.4,0,.2,1)}
 .reveal.visible{opacity:1;transform:translateY(0)}
-.reveal-d1{transition-delay:.08s}.reveal-d2{transition-delay:.16s}.reveal-d3{transition-delay:.24s}.reveal-d4{transition-delay:.3s}
+.reveal-d1{transition-delay:.1s}.reveal-d2{transition-delay:.2s}.reveal-d3{transition-delay:.3s}
+
+/* RESPONSIVE */
+@media(max-width:900px){
+  .entry-grid{grid-template-columns:1fr}
+  .eco-branches{grid-template-columns:repeat(2,1fr)}
+  .footer-top{grid-template-columns:1fr 1fr}
+}
+@media(max-width:768px){
+  .nav-links{display:none}.mobile-menu{display:block}
+  .contact-grid{grid-template-columns:1fr}
+  .sticky-footer{display:block}
+  .wa-float{bottom:70px}
+}
+@media(max-width:480px){
+  .eco-branches{grid-template-columns:1fr}
+  .footer-top{grid-template-columns:1fr;text-align:center}
+  .footer-brand-col p{margin:0 auto}
+  .footer-brand-col .footer-logo{justify-content:center}
+  .action-buttons{flex-direction:column;align-items:center}
+  .action-btn{width:100%;max-width:280px;justify-content:center}
+  .trust-row{gap:16px}
+  .steps-row{flex-direction:column;align-items:center}
+}
 </style>
 </head>
 <body>
 
 <!-- LANGUAGE BAR -->
 <div class="top-lang-bar">
-  <a onclick="setLang('fr')" class="active">&#127467;&#127479; Fran&ccedil;ais</a>
+  <a onclick="setLang('fr')">&#127467;&#127479; Fran&ccedil;ais</a>
   <a onclick="setLang('en')">&#127468;&#127463; English</a>
-  <a onclick="setLang('ht')">&#127469;&#127481; Krey&ograve;l</a>
+  <a onclick="setLang('ht')" class="active">&#127469;&#127481; Krey&ograve;l</a>
   <a onclick="setLang('es')">&#127466;&#127480; Espa&ntilde;ol</a>
 </div>
 
@@ -461,287 +465,190 @@ footer{padding:48px 20px 28px;background:var(--dark);color:var(--white)}
       <span>Haiti<em>Biznis</em></span>
     </a>
     <div class="nav-links">
-      <a href="/">Home</a>
-      <a href="#platforms">Platforms</a>
-      <a href="#actions">Opportunities</a>
-      <a href="#about">About</a>
-      <a href="#contact">Contact</a>
-      <a href="#platforms" class="nav-cta" data-i18n="nav_explore">Explore the Ecosystem</a>
+      <a href="/" data-i18n="nav_home">Ak&egrave;y</a>
+      <a href="#entry" data-i18n="nav_join">Rejwenn Nou</a>
+      <a href="#how" data-i18n="nav_how">Kijan Li Mache</a>
+      <a href="#contact" data-i18n="nav_contact">Kontak</a>
+      <a href="#entry" class="nav-cta" data-i18n="nav_cta">Komanse F&egrave; Lajan</a>
     </div>
     <button class="mobile-menu" onclick="document.querySelector('.nav-mobile').classList.add('open')" aria-label="Menu">&#9776;</button>
   </div>
 </nav>
 <div class="nav-mobile" id="mobileNav">
   <button class="close-menu" onclick="this.parentElement.classList.remove('open')">&times;</button>
-  <a href="/" onclick="closeMobile()" data-i18n="nav_home">Home</a>
-  <a href="#platforms" onclick="closeMobile()" data-i18n="nav_platforms">Platforms</a>
-  <a href="#actions" onclick="closeMobile()" data-i18n="nav_opportunities">Opportunities</a>
-  <a href="#about" onclick="closeMobile()" data-i18n="nav_about">About</a>
-  <a href="#contact" onclick="closeMobile()" data-i18n="nav_contact">Contact</a>
+  <a href="/" onclick="closeMobile()" data-i18n="nav_home">Ak&egrave;y</a>
+  <a href="#entry" onclick="closeMobile()" data-i18n="nav_join">Rejwenn Nou</a>
+  <a href="#how" onclick="closeMobile()" data-i18n="nav_how">Kijan Li Mache</a>
+  <a href="#contact" onclick="closeMobile()" data-i18n="nav_contact">Kontak</a>
 </div>
 
 <!-- HERO -->
 <section class="hero">
   <img src="assets/haitibiznis-icon.png" alt="HaitiBiznis" class="hero-logo">
-  <h1 data-i18n="hero_title">One platform. Five powerful<br>engines for <span class="red">Haiti's growth.</span></h1>
-  <p class="hero-sub" data-i18n="hero_sub">Buy, move, grow, and shine through the HaitiBiznis ecosystem.</p>
+  <h1 data-i18n="hero_title">F&egrave; Lajan ak Telef&ograve;n Ou<br>Jodi a</h1>
+  <p class="hero-sub" data-i18n="hero_sub"><strong>Chof&egrave;</strong> &bull; <strong>Biznis</strong> &bull; <strong>Pwofesyon&egrave;l</strong><br>Jwenn kliyan. F&egrave; kous. Vann pwodwi.</p>
   <div class="hero-actions">
-    <a href="#platforms" class="btn btn-red" data-i18n="hero_explore">Explore Platforms</a>
-    <a href="https://myplopplop.com" class="btn btn-outline" data-i18n="hero_start">Get Started</a>
+    <a href="#entry" class="btn btn-red" data-i18n="hero_cta">Komanse Kounye a</a>
+    <a href="#how" class="btn btn-outline" data-i18n="hero_how">Gade Kijan Li Fonksyone</a>
   </div>
 </section>
 
-<!-- QUICK ACTION STRIP -->
-<section class="blocks" id="platforms" style="padding-bottom:0">
-  <div class="blocks-title reveal" data-i18n="quick_title">Kisa ou vle f&egrave; jodi a?</div>
-  <div class="quick-strip reveal">
-    <a href="https://myplopplop.com" target="_blank" class="quick-strip-btn qs-red" data-i18n="qs_order">K&ograve;mande</a>
-    <a href="https://msouwout.com" target="_blank" class="quick-strip-btn qs-blue" data-i18n="qs_ride">Mande Kous</a>
-    <a href="https://anirudhatalmale6-alt.github.io/prolakay/" target="_blank" class="quick-strip-btn qs-gold" data-i18n="qs_talent">Ch&egrave;che Talan</a>
-    <a href="https://48hoursready.com" target="_blank" class="quick-strip-btn qs-green" data-i18n="qs_launch">Lanse Biznis</a>
+<!-- 3 ENTRY BLOCKS -->
+<section class="entry-section" id="entry">
+  <div class="entry-grid">
+
+    <!-- DRIVER CARD -->
+    <div class="entry-card card-blue reveal">
+      <div class="entry-badge">&#128184; F&egrave; Lajan Chak Jou</div>
+      <div class="entry-logo"><img src="assets/msouwout-logo.jpg" alt="MsouWout"></div>
+      <h3 data-i18n="drv_title">Ou Gen Moto oswa Machin?</h3>
+      <p class="entry-hook" data-i18n="drv_hook">F&egrave; kous. F&egrave; livrezon. F&egrave; lajan chak jou.</p>
+      <a href="https://msouwout.com" target="_blank" class="entry-cta" data-i18n="drv_cta">Enskri k&ograve;m Chof&egrave; &#8594;</a>
+      <ul class="entry-bullets">
+        <li data-i18n="drv_b1">Travay sou pw&ograve;p or&egrave; ou</li>
+        <li data-i18n="drv_b2">Peman rapid</li>
+        <li data-i18n="drv_b3">Kliyan garanti</li>
+      </ul>
+      <div class="entry-social">
+        <div class="entry-avatars"><span>P</span><span>D</span><span>L</span><span>S</span></div>
+        <span class="entry-social-text" data-i18n="drv_social">+2,500 chof&egrave; deja ap f&egrave; lajan</span>
+      </div>
+    </div>
+
+    <!-- BUSINESS CARD -->
+    <div class="entry-card card-red reveal reveal-d1">
+      <div class="entry-badge">&#128176; Vann &amp; F&egrave; Lajan</div>
+      <div class="entry-logo"><img src="assets/myplopplop-logo.jpg" alt="MyPlopPlop"></div>
+      <h3 data-i18n="biz_title">Ou Gen Biznis?</h3>
+      <p class="entry-hook" data-i18n="biz_hook">Vann pwodwi ou. Resevwa k&ograve;mann fasil.</p>
+      <a href="https://myplopplop.com" target="_blank" class="entry-cta" data-i18n="biz_cta">Vann sou Platf&ograve;m nan &#8594;</a>
+      <ul class="entry-bullets">
+        <li data-i18n="biz_b1">Vann 24/7</li>
+        <li data-i18n="biz_b2">Resevwa k&ograve;mann otomatik</li>
+        <li data-i18n="biz_b3">Diaspora achte pou Ayiti</li>
+      </ul>
+      <div class="entry-social">
+        <div class="entry-avatars"><span>J</span><span>M</span><span>K</span><span>R</span></div>
+        <span class="entry-social-text" data-i18n="biz_social">+5,000 kliyan deja ap achte</span>
+      </div>
+    </div>
+
+    <!-- PROFESSIONAL CARD -->
+    <div class="entry-card card-gold reveal reveal-d2">
+      <div class="entry-badge">&#128188; F&egrave; Lajan ak Talan Ou</div>
+      <div class="entry-logo"><img src="assets/prolakay-logo.png" alt="ProLakay"></div>
+      <h3 data-i18n="pro_title">Ou Gen Talan oswa Metye?</h3>
+      <p class="entry-hook" data-i18n="pro_hook">Jwenn kliyan. Travay sou pw&ograve;p or&egrave; ou.</p>
+      <a href="https://prolakay.haitibiznis.com" target="_blank" class="entry-cta" data-i18n="pro_cta">Jwenn Kliyan &#8594;</a>
+      <ul class="entry-bullets">
+        <li data-i18n="pro_b1">Jwenn kliyan fasil</li>
+        <li data-i18n="pro_b2">Rez&egrave;vasyon otomatik</li>
+        <li data-i18n="pro_b3">Profil verifye</li>
+      </ul>
+      <div class="entry-social">
+        <div class="entry-avatars"><span>A</span><span>N</span><span>F</span><span>G</span></div>
+        <span class="entry-social-text" data-i18n="pro_social">+1,800 pwofesyon&egrave;l deja ap touche</span>
+      </div>
+    </div>
+
   </div>
 </section>
 
-<!-- 5 PLATFORM BLOCKS -->
-<section class="blocks" style="padding-top:24px">
-
-  <!-- MyPlopPlop - RED -->
-  <a href="https://myplopplop.com" target="_blank" class="block-card red-card reveal">
-    <div class="block-logo">
-      <img src="assets/myplopplop-logo.jpg" alt="MyPlopPlop">
+<!-- 48HOURSREADY STANDALONE -->
+<section style="padding:0 20px 40px;max-width:1000px;margin:0 auto">
+  <div class="entry-card card-green reveal" style="background:linear-gradient(160deg,#2CA855 0%,var(--green) 50%,#126B2A 100%);max-width:100%">
+    <div class="entry-badge">&#128640; Lanse &amp; F&egrave; Lajan Rapid</div>
+    <div class="entry-logo"><img src="assets/48hoursready-logo.jpg" alt="48HoursReady"></div>
+    <h3 data-i18n="launch_title">K&ograve;manse Biznis Ou Jodi a</h3>
+    <p class="entry-hook" data-i18n="launch_hook">Nou mete ou pare pou f&egrave; lajan nan 48 &egrave;dtan.</p>
+    <a href="https://48hoursready.com" target="_blank" class="entry-cta" style="color:var(--green)" data-i18n="launch_cta">K&ograve;manse Gratis &#8594;</a>
+    <ul class="entry-bullets" style="display:flex;gap:24px;flex-wrap:wrap">
+      <li data-i18n="launch_b1">Logo + Site + Pitch</li>
+      <li data-i18n="launch_b2">Pare pou vann rapid</li>
+      <li data-i18n="launch_b3">Sip&ograve; biznis</li>
+    </ul>
+    <div class="entry-social">
+      <div class="entry-avatars"><span>T</span><span>E</span><span>W</span><span>B</span></div>
+      <span class="entry-social-text" data-i18n="launch_social">+600 biznis deja ap f&egrave; lajan</span>
     </div>
-    <div class="block-info">
-      <span class="block-tag">Marketplace</span>
-      <h3 class="block-name">MyPlopPlop</h3>
-      <p class="block-desc" data-i18n="plop_desc">Buy, sell, deliver &mdash; all secure. Order in 1 click. Fast delivery. Pay with MonCash, NatCash, or card.</p>
-      <span class="block-btn" data-i18n="plop_btn">K&ograve;mande Kounye a &rarr;</span>
-      <div class="block-trust">
-        <span data-i18n="plop_t1">Fast delivery</span>
-        <span data-i18n="plop_t2">Secure payment</span>
-        <span data-i18n="plop_t3">Local business</span>
-      </div>
-      <div class="block-social">
-        <div class="block-avatars"><span>J</span><span>M</span><span>K</span><span>R</span></div>
-        <span class="block-social-text" data-i18n="plop_social">+5,000 users already shopping</span>
-      </div>
-    </div>
-    <div class="block-deco">
-      <svg viewBox="0 0 100 100" fill="none" stroke="#fff" stroke-width="1"><path d="M20 80 L50 20 L80 80 Z"/><circle cx="50" cy="45" r="20"/><path d="M10 60 Q50 10 90 60"/></svg>
-    </div>
-    <div class="block-arrow"><svg viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg></div>
-  </a>
-
-  <!-- MsouWout - BLUE -->
-  <a href="https://msouwout.com" target="_blank" class="block-card blue-card reveal reveal-d1">
-    <div class="block-logo">
-      <img src="assets/msouwout-logo.jpg" alt="MsouWout">
-    </div>
-    <div class="block-info">
-      <span class="block-tag">Mobility</span>
-      <h3 class="block-name">MsouWout</h3>
-      <p class="block-desc" data-i18n="sou_desc">Move safely, every day. Verified drivers. Real-time GPS. Moto, car, delivery.</p>
-      <span class="block-btn" data-i18n="sou_btn">Mande Yon Kous &rarr;</span>
-      <div class="block-trust">
-        <span data-i18n="sou_t1">Verified drivers</span>
-        <span data-i18n="sou_t2">GPS tracking</span>
-        <span data-i18n="sou_t3">Safety first</span>
-      </div>
-      <div class="block-social">
-        <div class="block-avatars"><span>P</span><span>D</span><span>L</span><span>S</span></div>
-        <span class="block-social-text" data-i18n="sou_social">+2,500 trips completed monthly</span>
-      </div>
-    </div>
-    <div class="block-deco">
-      <svg viewBox="0 0 100 100" fill="none" stroke="#fff" stroke-width="1"><circle cx="30" cy="50" r="6"/><circle cx="70" cy="30" r="6"/><path d="M36 50 Q50 35 64 30" stroke-dasharray="4 3"/><circle cx="70" cy="70" r="4"/><path d="M70 36 L70 64" stroke-dasharray="4 3"/></svg>
-    </div>
-    <div class="block-arrow"><svg viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg></div>
-  </a>
-
-  <!-- ProLakay - BLUE -->
-  <a href="https://anirudhatalmale6-alt.github.io/prolakay/" target="_blank" class="block-card blue-card reveal reveal-d2">
-    <div class="block-logo">
-      <img src="assets/prolakay-logo.png" alt="ProLakay">
-    </div>
-    <div class="block-info">
-      <span class="block-tag">Talent &amp; Directory</span>
-      <h3 class="block-name">ProLakay</h3>
-      <p class="block-desc" data-i18n="talent_desc">Find talent you can trust. DJs, models, professionals, technicians &mdash; hire easily in Haiti.</p>
-      <span class="block-btn" data-i18n="talent_btn">Ch&egrave;che Talan &rarr;</span>
-      <div class="block-trust">
-        <span data-i18n="talent_t1">Verified pros</span>
-        <span data-i18n="talent_t2">Easy booking</span>
-        <span data-i18n="talent_t3">Trusted network</span>
-      </div>
-      <div class="block-social">
-        <div class="block-avatars"><span>A</span><span>N</span><span>F</span><span>G</span></div>
-        <span class="block-social-text" data-i18n="talent_social">+1,800 professionals available</span>
-      </div>
-    </div>
-    <div class="block-deco">
-      <svg viewBox="0 0 100 100" fill="none" stroke="#fff" stroke-width="1"><path d="M50 15 L55 35 L75 35 L60 48 L65 68 L50 55 L35 68 L40 48 L25 35 L45 35 Z"/></svg>
-    </div>
-    <div class="block-arrow"><svg viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg></div>
-  </a>
-
-  <!-- 48HoursReady - RED -->
-  <a href="https://48hoursready.com" target="_blank" class="block-card red-card reveal reveal-d3">
-    <div class="block-logo">
-      <img src="assets/48hoursready-logo.jpg" alt="48HoursReady">
-    </div>
-    <div class="block-info">
-      <span class="block-tag">Business Growth</span>
-      <h3 class="block-name">48HoursReady</h3>
-      <p class="block-desc" data-i18n="biz_desc">Start your business in 48 hours. Logo, website, pitch deck &mdash; ready to launch fast.</p>
-      <span class="block-btn" data-i18n="biz_btn">Lanse Biznis Mwen &rarr;</span>
-      <div class="block-trust">
-        <span data-i18n="biz_t1">48-hour launch</span>
-        <span data-i18n="biz_t2">Full package</span>
-        <span data-i18n="biz_t3">Business confidence</span>
-      </div>
-      <div class="block-social">
-        <div class="block-avatars"><span>T</span><span>E</span><span>W</span><span>B</span></div>
-        <span class="block-social-text" data-i18n="biz_social">+600 businesses launched with us</span>
-      </div>
-    </div>
-    <div class="block-deco">
-      <svg viewBox="0 0 100 100" fill="none" stroke="#fff" stroke-width="1"><rect x="15" y="60" width="12" height="25" rx="2"/><rect x="35" y="45" width="12" height="40" rx="2"/><rect x="55" y="30" width="12" height="55" rx="2"/><rect x="75" y="15" width="12" height="70" rx="2"/><path d="M20 55 L40 40 L60 25 L80 10" stroke-width="2"/></svg>
-    </div>
-    <div class="block-arrow"><svg viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg></div>
-  </a>
-
-  <!-- BoxeToBoxe - DARK BLUE -->
-  <a href="https://boxetoboxe.com" target="_blank" class="block-card blue-card reveal reveal-d4">
-    <div class="block-logo">
-      <img src="assets/boxetoboxe-logo.jpg" alt="BoxeToBoxe">
-    </div>
-    <div class="block-info">
-      <span class="block-tag">Sports &amp; Events</span>
-      <h3 class="block-name">BoxeToBoxe</h3>
-      <p class="block-desc" data-i18n="boxe_desc">Boxing, sports events, and cultural competitions uniting Haiti and the Caribbean.</p>
-      <span class="block-btn" data-i18n="boxe_btn">Gade Evennman &rarr;</span>
-      <div class="block-trust">
-        <span data-i18n="boxe_t1">Live events</span>
-        <span data-i18n="boxe_t2">Haiti &amp; Caribbean</span>
-        <span data-i18n="boxe_t3">Community spirit</span>
-      </div>
-      <div class="block-social">
-        <div class="block-avatars"><span>C</span><span>H</span><span>V</span><span>Z</span></div>
-        <span class="block-social-text" data-i18n="boxe_social">+300 events hosted</span>
-      </div>
-    </div>
-    <div class="block-deco">
-      <svg viewBox="0 0 100 100" fill="none" stroke="#fff" stroke-width="1.5"><circle cx="35" cy="50" r="20"/><circle cx="65" cy="50" r="20"/><path d="M30 35 L25 25 M40 35 L45 25 M55 35 L50 25 M70 35 L75 25" stroke-width="1"/></svg>
-    </div>
-    <div class="block-arrow"><svg viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg></div>
-  </a>
-
-</section>
-
-<!-- STATS BAR -->
-<div class="stats-bar reveal">
-  <div class="stat-item si-red">
-    <div class="stat-icon">&#128101;</div>
-    <div class="stat-number" data-i18n="stat1_num">10,000+</div>
-    <div class="stat-label" data-i18n="stat1_label">Active users</div>
-  </div>
-  <div class="stat-item si-blue">
-    <div class="stat-icon">&#10004;</div>
-    <div class="stat-number" data-i18n="stat2_num">5,000+</div>
-    <div class="stat-label" data-i18n="stat2_label">Local businesses supported</div>
-  </div>
-  <div class="stat-item si-blue">
-    <div class="stat-icon">&#128663;</div>
-    <div class="stat-number" data-i18n="stat3_num">2,500+</div>
-    <div class="stat-label" data-i18n="stat3_label">Trips monthly</div>
-  </div>
-  <div class="stat-item si-green">
-    <div class="stat-icon">&#10084;</div>
-    <div class="stat-number">99%</div>
-    <div class="stat-label" data-i18n="stat4_label">Customer satisfaction</div>
-  </div>
-</div>
-
-<!-- WHAT IS -->
-<section class="what" id="about">
-  <div class="reveal">
-    <h2 data-i18n="what_title">A digital front door for a<br>connected Haitian ecosystem</h2>
-    <p data-i18n="what_desc">HaitiBiznis is the digital hub connecting <strong>commerce</strong>, <strong>mobility</strong>, <strong>talent</strong>, and <strong>business growth</strong> in Haiti. One brand, multiple pathways, serving Haiti and the diaspora.</p>
   </div>
 </section>
 
-<!-- ACTIONS -->
-<section class="actions" id="actions">
-  <div class="section-label reveal" data-i18n="actions_label">Get Started</div>
-  <h2 class="section-title reveal" data-i18n="actions_title">What do you want to do today?</h2>
-  <p class="section-desc reveal" data-i18n="actions_desc">Jump straight into action. Every platform is one tap away.</p>
-  <div class="action-grid">
-    <a href="https://myplopplop.com" target="_blank" class="action-card reveal">
-      <div class="action-icon">&#128666;</div>
-      <div class="action-label" data-i18n="act_delivery">Order Delivery</div>
-      <div class="action-sub" data-i18n="act_delivery_sub">Food, groceries, pharmacy</div>
-    </a>
-    <a href="https://msouwout.com" target="_blank" class="action-card reveal reveal-d1">
-      <div class="action-icon">&#128663;</div>
-      <div class="action-label" data-i18n="act_transport">Request Transport</div>
-      <div class="action-sub" data-i18n="act_transport_sub">Car, moto, SUV</div>
-    </a>
-    <a href="https://48hoursready.com" target="_blank" class="action-card reveal reveal-d2">
-      <div class="action-icon">&#128640;</div>
-      <div class="action-label" data-i18n="act_business">Grow Business</div>
-      <div class="action-sub">48HoursReady</div>
-    </a>
-    <a href="https://anirudhatalmale6-alt.github.io/prolakay/" target="_blank" class="action-card reveal reveal-d3">
-      <div class="action-icon">&#127912;</div>
-      <div class="action-label" data-i18n="act_talent">Find Talent</div>
-      <div class="action-sub" data-i18n="act_talent_sub">Book professionals</div>
-    </a>
-    <a href="https://myplopplop.com" target="_blank" class="action-card reveal reveal-d4">
-      <div class="action-icon">&#129309;</div>
-      <div class="action-label" data-i18n="act_join">Join Ecosystem</div>
-      <div class="action-sub" data-i18n="act_join_sub">Driver or merchant</div>
-    </a>
+<!-- WHAT CAN YOU DO TODAY -->
+<section class="actions-section" id="actions">
+  <h2 data-i18n="act_title">Kisa Ou Vle F&egrave; Jodi a?</h2>
+  <div class="action-buttons">
+    <a href="#entry" class="action-btn ab-red" data-i18n="act_money">&#128176; F&egrave; Lajan</a>
+    <a href="https://msouwout.com" target="_blank" class="action-btn ab-blue" data-i18n="act_ride">&#128663; Mande Kous</a>
+    <a href="https://prolakay.haitibiznis.com/search.html" target="_blank" class="action-btn ab-gold" data-i18n="act_find">&#11088; Ch&egrave;che Pwofesyon&egrave;l</a>
+    <a href="https://48hoursready.com" target="_blank" class="action-btn ab-green" data-i18n="act_launch">&#128640; Lanse Biznis</a>
   </div>
+</section>
+
+<!-- TRUST BAR -->
+<section class="trust-section reveal">
+  <div class="trust-row">
+    <div class="trust-item t-blue"><span class="trust-icon">&#9989;</span><span data-i18n="tr1">Chof&egrave; Verifye</span></div>
+    <div class="trust-item t-red"><span class="trust-icon">&#128274;</span><span data-i18n="tr2">Tranzaksyon Sekirize</span></div>
+    <div class="trust-item t-green"><span class="trust-icon">&#128172;</span><span data-i18n="tr3">Sip&ograve; WhatsApp</span></div>
+    <div class="trust-item t-blue"><span class="trust-icon">&#127463;&#127481;</span><span data-i18n="tr4">Platf&ograve;m Ayisyen</span></div>
+  </div>
+</section>
+
+<!-- HOW IT WORKS -->
+<section class="how-section" id="how">
+  <div class="section-label reveal" data-i18n="how_label">Kijan Li Mache</div>
+  <h2 class="section-title reveal" data-i18n="how_title">3 Etap Senp</h2>
+  <p class="section-desc reveal" data-i18n="how_desc">Kounye a jis 3 etap pou komanse fe lajan oswa jwenn sevis.</p>
+  <div class="steps-row">
+    <div class="step-card reveal">
+      <div class="step-num">1</div>
+      <h4 data-i18n="step1">Kreye kont gratis</h4>
+      <p data-i18n="step1_sub">Enskri sou platf&ograve;m ou chwazi a</p>
+    </div>
+    <div class="step-card reveal reveal-d1">
+      <div class="step-num">2</div>
+      <h4 data-i18n="step2">Chwazi s&egrave;vis ou</h4>
+      <p data-i18n="step2_sub">Kous, biznis, oswa travay pwofesyon&egrave;l</p>
+    </div>
+    <div class="step-card reveal reveal-d2">
+      <div class="step-num">3</div>
+      <h4 data-i18n="step3">Komanse f&egrave; lajan</h4>
+      <p data-i18n="step3_sub">Oswa jwenn s&egrave;vis ou bezwen an</p>
+    </div>
+  </div>
+</section>
+
+<!-- DIASPORA -->
+<section class="diaspora-section reveal">
+  <h2 data-i18n="dia_title">Sip&ograve;te Fanmi w an Ayiti</h2>
+  <p data-i18n="dia_desc">Achte, voye s&egrave;vis, oswa peye pou fanmi ou fasil.</p>
+  <a href="https://myplopplop.com" target="_blank" class="btn btn-white" data-i18n="dia_cta">Komanse Kounye a &#8594;</a>
 </section>
 
 <!-- ECOSYSTEM -->
 <section class="ecosystem" id="ecosystem">
-  <div class="section-label reveal" data-i18n="eco_label">How It Connects</div>
-  <h2 class="section-title reveal" data-i18n="eco_title">One ecosystem. Multiple pathways.</h2>
-  <p class="section-desc reveal" data-i18n="eco_desc">HaitiBiznis is the umbrella hub. Each platform plays a role in one connected system.</p>
+  <div class="section-label reveal" data-i18n="eco_label">Ekosist&egrave;m Nan</div>
+  <h2 class="section-title reveal" data-i18n="eco_title">Yon ekosist&egrave;m. Plizye chemen.</h2>
+  <p class="section-desc reveal" data-i18n="eco_desc">HaitiBiznis se hub prensipal la. Chak platf&ograve;m jwe yon w&ograve;l.</p>
   <div class="reveal">
     <div class="eco-hub">
       <div class="eco-hub-badge"><img src="assets/haitibiznis-icon.png" alt="">HaitiBiznis</div>
     </div>
     <div class="eco-branches">
-      <div class="eco-branch b-plop"><div class="eco-branch-icon">&#128722;</div><div class="eco-branch-name">MyPlopPlop</div><div class="eco-branch-role" data-i18n="eco_plop">Commerce &amp; Delivery</div></div>
-      <div class="eco-branch b-sou"><div class="eco-branch-icon">&#128663;</div><div class="eco-branch-name">MsouWout</div><div class="eco-branch-role" data-i18n="eco_sou">Mobility &amp; Transport</div></div>
-      <div class="eco-branch b-talent"><div class="eco-branch-icon">&#11088;</div><div class="eco-branch-name">ProLakay</div><div class="eco-branch-role" data-i18n="eco_talent">Talent &amp; Directory</div></div>
-      <div class="eco-branch b-48"><div class="eco-branch-icon">&#128640;</div><div class="eco-branch-name">48HoursReady</div><div class="eco-branch-role" data-i18n="eco_48">Business Growth</div></div>
+      <div class="eco-branch b-plop"><div class="eco-branch-icon">&#128722;</div><div class="eco-branch-name">MyPlopPlop</div><div class="eco-branch-role" data-i18n="eco_plop">Kom&egrave;s &amp; Livrezon</div></div>
+      <div class="eco-branch b-sou"><div class="eco-branch-icon">&#128663;</div><div class="eco-branch-name">MsouWout</div><div class="eco-branch-role" data-i18n="eco_sou">Mobilite &amp; Transp&ograve;</div></div>
+      <div class="eco-branch b-talent"><div class="eco-branch-icon">&#11088;</div><div class="eco-branch-name">ProLakay</div><div class="eco-branch-role" data-i18n="eco_talent">Talan &amp; S&egrave;vis</div></div>
+      <div class="eco-branch b-48"><div class="eco-branch-icon">&#128640;</div><div class="eco-branch-name">48HoursReady</div><div class="eco-branch-role" data-i18n="eco_48">Kwasans Biznis</div></div>
     </div>
-    <div class="eco-boxe">BoxeToBoxe &bull; ProLakay</div>
-  </div>
-</section>
-
-<!-- BENEFITS -->
-<section class="benefits">
-  <div class="section-label reveal" data-i18n="why_label">Why HaitiBiznis</div>
-  <h2 class="section-title reveal" data-i18n="why_title">Why It Matters</h2>
-  <p class="section-desc reveal" data-i18n="why_desc">A unified ecosystem creates more value than separate platforms ever could.</p>
-  <div class="benefit-grid">
-    <div class="benefit-item reveal"><div class="benefit-icon">&#128269;</div><div class="benefit-title" data-i18n="b1_title">Easier Navigation</div><div class="benefit-desc" data-i18n="b1_desc">One front door to discover all services.</div></div>
-    <div class="benefit-item reveal reveal-d1"><div class="benefit-icon">&#128170;</div><div class="benefit-title" data-i18n="b2_title">Stronger Trust</div><div class="benefit-desc" data-i18n="b2_desc">One unified brand builds credibility.</div></div>
-    <div class="benefit-item reveal reveal-d2"><div class="benefit-icon">&#128279;</div><div class="benefit-title" data-i18n="b3_title">Connected Brand</div><div class="benefit-desc" data-i18n="b3_desc">Consistent experience across every platform.</div></div>
-    <div class="benefit-item reveal reveal-d3"><div class="benefit-icon">&#128227;</div><div class="benefit-title" data-i18n="b4_title">Cross-Promotion</div><div class="benefit-desc" data-i18n="b4_desc">Every platform promotes the others.</div></div>
-    <div class="benefit-item reveal reveal-d4"><div class="benefit-icon">&#127757;</div><div class="benefit-title" data-i18n="b5_title">More Visibility</div><div class="benefit-desc" data-i18n="b5_desc">Combined reach of the entire ecosystem.</div></div>
-    <div class="benefit-item reveal"><div class="benefit-icon">&#127463;&#127481;</div><div class="benefit-title" data-i18n="b6_title">Haiti &amp; Diaspora</div><div class="benefit-desc" data-i18n="b6_desc">Built for Haitians at home and abroad.</div></div>
   </div>
 </section>
 
 <!-- CONTACT -->
 <section class="contact" id="contact">
-  <div class="section-label reveal" data-i18n="contact_label">Get In Touch</div>
-  <h2 class="section-title reveal" data-i18n="contact_title">Contact the HaitiBiznis Team</h2>
-  <p class="section-desc reveal" data-i18n="contact_desc">Reach the right team directly. We'll get back to you within 12 hours.</p>
+  <div class="section-label reveal" data-i18n="contact_label">Kontakte Nou</div>
+  <h2 class="section-title reveal" data-i18n="contact_title">Kontakte Ekip HaitiBiznis la</h2>
+  <p class="section-desc reveal" data-i18n="contact_desc">Jwenn bon ekip la dir&egrave;kteman. Nou reponn nan 12 &egrave;dtan.</p>
   <div class="contact-grid">
     <div class="contact-info reveal">
       <div class="contact-card">
@@ -762,66 +669,72 @@ footer{padding:48px 20px 28px;background:var(--dark);color:var(--white)}
       </div>
       <div class="contact-card">
         <div class="contact-card-icon blue">&#129309;</div>
-        <div><div class="contact-card-title" data-i18n="contact_partners">Partnerships &amp; Media</div><div class="contact-card-email">partners@haitibiznis.com</div></div>
-      </div>
-      <div class="contact-card">
-        <div class="contact-card-icon red">&#128172;</div>
-        <div><div class="contact-card-title" data-i18n="contact_general">General Inquiries</div><div class="contact-card-email">hello@haitibiznis.com</div></div>
+        <div><div class="contact-card-title" data-i18n="contact_partners">Patenariat &amp; Medya</div><div class="contact-card-email">partners@haitibiznis.com</div></div>
       </div>
     </div>
     <div class="contact-form reveal" id="contactForm">
-      <h3 data-i18n="form_title">Send Us a Message</h3>
-      <p class="form-sub" data-i18n="form_sub">Choose your department and we'll route your message to the right team.</p>
+      <h3 data-i18n="form_title">Voye yon Mesaj</h3>
+      <p class="form-sub" data-i18n="form_sub">Chwazi depatman ou epi n ap voye mesaj ou bay bon ekip la.</p>
       <form id="hbForm" onsubmit="return submitForm(event)">
         <div class="form-group">
-          <label data-i18n="form_name">Your Name</label>
-          <input type="text" name="name" required placeholder="Full name">
+          <label data-i18n="form_name">Non Ou</label>
+          <input type="text" name="name" required placeholder="Non konpl&egrave;">
         </div>
         <div class="form-group">
-          <label data-i18n="form_email">Your Email</label>
-          <input type="email" name="email" required placeholder="you@example.com">
+          <label data-i18n="form_email">Imel Ou</label>
+          <input type="email" name="email" required placeholder="ou@egzamp.com">
         </div>
         <div class="form-group">
-          <label data-i18n="form_dept">Department</label>
+          <label data-i18n="form_dept">Depatman</label>
           <select name="department" id="deptSelect">
-            <option value="General Inquiry" data-i18n="dept_general">General Inquiry</option>
+            <option value="General" data-i18n="dept_general">Kesyon Jeneral</option>
             <option value="MyPlopPlop - Marketplace">MyPlopPlop - Marketplace</option>
-            <option value="MsouWout - Mobility">MsouWout - Mobility</option>
-            <option value="ProLakay - Talent">ProLakay - Talent</option>
-            <option value="48HoursReady - Business">48HoursReady - Business</option>
-            <option value="Partnerships &amp; Media" data-i18n="dept_partners">Partnerships &amp; Media</option>
-            <option value="Support" data-i18n="dept_support">Support</option>
+            <option value="MsouWout - Mobility">MsouWout - Mobilite</option>
+            <option value="ProLakay - Talent">ProLakay - Talan</option>
+            <option value="48HoursReady - Business">48HoursReady - Biznis</option>
+            <option value="Partnerships" data-i18n="dept_partners">Patenariat &amp; Medya</option>
           </select>
         </div>
         <div class="form-group">
-          <label data-i18n="form_message">Message</label>
-          <textarea name="message" required placeholder="How can we help?"></textarea>
+          <label data-i18n="form_message">Mesaj</label>
+          <textarea name="message" required placeholder="Kijan nou ka ede w?"></textarea>
         </div>
-        <button type="submit" class="form-submit" data-i18n="form_send">Send Message</button>
+        <button type="submit" class="form-submit" data-i18n="form_send">Voye Mesaj</button>
       </form>
       <div class="form-success" id="formSuccess">
         <div class="check">&#10003;</div>
-        <h4 data-i18n="form_thanks">Message Sent!</h4>
-        <p data-i18n="form_confirm">Thank you for reaching out. Our team will respond within 12 hours.</p>
+        <h4 data-i18n="form_thanks">Mesaj Voye!</h4>
+        <p data-i18n="form_confirm">M&egrave;si paske ou kontakte nou. Ekip nou ap reponn nan 12 &egrave;dtan.</p>
       </div>
     </div>
   </div>
 </section>
 
-<!-- CTA -->
+<!-- FINAL CTA -->
 <section class="final-cta">
-  <h2 data-i18n="cta_title">Enter the HaitiBiznis<br>Ecosystem Today</h2>
-  <p data-i18n="cta_desc">Whether you're a customer, driver, merchant, or entrepreneur - there's a place for you.</p>
+  <h2 data-i18n="cta_title">Komanse F&egrave; Lajan<br>ak HaitiBiznis Jodi a</h2>
+  <p data-i18n="cta_desc">Kit ou se chof&egrave;, machann, pwofesyon&egrave;l oswa antrepen&egrave; - gen yon plas pou ou.</p>
   <div class="cta-btns">
-    <a href="#platforms" class="btn btn-white" data-i18n="cta_explore">Explore Platforms</a>
-    <a href="#contact" class="btn btn-ghost" data-i18n="cta_contact">Contact Us</a>
+    <a href="#entry" class="btn btn-white" data-i18n="cta_start">Komanse Kounye a</a>
+    <a href="#contact" class="btn btn-ghost" data-i18n="cta_contact">Kontakte Nou</a>
   </div>
 </section>
 
+<!-- WHATSAPP FLOAT -->
+<a href="https://wa.me/50946859702" target="_blank" class="wa-float" aria-label="WhatsApp">
+  <span class="wa-tooltip" data-i18n="wa_tip">Bezwen &Egrave;d? Chat ak nou</span>
+  &#128172;
+</a>
+
+<!-- STICKY MOBILE FOOTER -->
+<div class="sticky-footer">
+  <a href="#entry" data-i18n="sticky_cta">&#128176; Komanse F&egrave; Lajan</a>
+</div>
+
 <!-- INSTALL BANNER -->
 <div class="install-banner" id="installBanner">
-  <div class="install-banner-text" data-i18n="install_text">Install HaitiBiznis<small>Add to your home screen for quick access</small></div>
-  <button class="install-banner-btn" id="installBtn" data-i18n="install_btn">Install</button>
+  <div class="install-banner-text" data-i18n="install_text">Enstale HaitiBiznis<small>Mete sou ekran lakay ou pou aks&egrave; rapid</small></div>
+  <button class="install-banner-btn" id="installBtn" data-i18n="install_btn">Enstale</button>
   <button class="install-banner-close" id="installClose">&times;</button>
 </div>
 
@@ -830,288 +743,194 @@ footer{padding:48px 20px 28px;background:var(--dark);color:var(--white)}
   <div class="footer-top">
     <div class="footer-brand-col">
       <div class="footer-logo"><img src="assets/haitibiznis-icon.png" alt=""><span>Haiti<em>Biznis</em></span></div>
-      <p>One hub connecting Haiti's commerce, mobility, talent, and business growth. Pouvwa Biznis. Opòtinité Pou Tout.</p>
+      <p>Yon hub ki konekte kom&egrave;s, mobilite, talan, ak kwasans biznis an Ayiti. Pouvwa Biznis. Op&ograve;tinite Pou Tout.</p>
     </div>
-    <div class="footer-col"><h4>Quick Links</h4><a href="/">Home</a><a href="#platforms">Platforms</a><a href="#actions">Opportunities</a><a href="#about">About</a><a href="#contact">Contact</a></div>
-    <div class="footer-col"><h4>Platforms</h4><a href="https://myplopplop.com" target="_blank">MyPlopPlop</a><a href="https://msouwout.com" target="_blank">MsouWout</a><a href="https://anirudhatalmale6-alt.github.io/prolakay/" target="_blank">ProLakay</a><a href="https://48hoursready.com" target="_blank">48HoursReady</a></div>
-    <div class="footer-col"><h4>More</h4><a href="https://boxetoboxe.com" target="_blank">BoxeToBoxe</a><a href="#">Privacy Policy</a><a href="#">Terms of Service</a></div>
+    <div class="footer-col"><h4>Lyen Rapid</h4><a href="/">Ak&egrave;y</a><a href="#entry">Rejwenn Nou</a><a href="#how">Kijan Li Mache</a><a href="#contact">Kontak</a></div>
+    <div class="footer-col"><h4>Platf&ograve;m</h4><a href="https://myplopplop.com" target="_blank">MyPlopPlop</a><a href="https://msouwout.com" target="_blank">MsouWout</a><a href="https://prolakay.haitibiznis.com" target="_blank">ProLakay</a><a href="https://48hoursready.com" target="_blank">48HoursReady</a></div>
+    <div class="footer-col"><h4>Plis</h4><a href="https://boxetoboxe.com" target="_blank">BoxeToBoxe</a><a href="#">Privacy Policy</a><a href="#">Terms of Service</a></div>
   </div>
   <div class="footer-bottom">&copy; 2026 HaitiBiznis. Tout Haiti, yon ekosist&egrave;m. All rights reserved.</div>
 </footer>
 <div class="flag-stripe"></div>
 
 <script>
-const nav=document.querySelector('nav');
 function closeMobile(){document.getElementById('mobileNav').classList.remove('open')}
 const obs=new IntersectionObserver(e=>{e.forEach(el=>{if(el.isIntersecting){el.target.classList.add('visible');obs.unobserve(el.target)}})},{threshold:.1,rootMargin:'0px 0px -30px 0px'});
 document.querySelectorAll('.reveal').forEach(el=>obs.observe(el));
 document.querySelectorAll('a[href^="#"]').forEach(a=>{a.addEventListener('click',e=>{const t=document.querySelector(a.getAttribute('href'));if(t){e.preventDefault();t.scrollIntoView({behavior:'smooth',block:'start'})}})});
 if('serviceWorker' in navigator){navigator.serviceWorker.register('sw.js').catch(()=>{})}
 
-/* ═══ TRANSLATION ENGINE ═══ */
+/* TRANSLATIONS */
 const translations={
-  en:{
-    hero_title:'One platform. Five powerful<br>engines for <span class="red">Haiti\'s growth.</span>',
-    hero_sub:'Buy, move, grow, and shine through the HaitiBiznis ecosystem.',
-    hero_explore:'Explore Platforms',hero_start:'Get Started',
-    nav_home:'Home',nav_platforms:'Platforms',nav_opportunities:'Opportunities',nav_about:'About',nav_contact:'Contact',
-    nav_explore:'Explore the Ecosystem',
-    quick_title:'What do you want to do today?',
-    qs_order:'Order Now',qs_ride:'Request Ride',qs_talent:'Find Talent',qs_launch:'Launch Business',
-    plop_desc:'Buy, sell, deliver &mdash; all secure. Order in 1 click. Fast delivery. Pay with MonCash, NatCash, or card.',
-    plop_btn:'Order Now &rarr;',
-    plop_t1:'Fast delivery',plop_t2:'Secure payment',plop_t3:'Local business',
-    sou_desc:'Move safely, every day. Verified drivers. Real-time GPS. Moto, car, delivery.',
-    sou_btn:'Request a Ride &rarr;',
-    sou_t1:'Verified drivers',sou_t2:'GPS tracking',sou_t3:'Safety first',
-    talent_desc:'Find talent you can trust. DJs, models, professionals, technicians &mdash; hire easily in Haiti.',
-    talent_btn:'Find Talent &rarr;',
-    talent_t1:'Verified pros',talent_t2:'Easy booking',talent_t3:'Trusted network',
-    biz_desc:'Start your business in 48 hours. Logo, website, pitch deck &mdash; ready to launch fast.',
-    biz_btn:'Launch My Business &rarr;',
-    biz_t1:'48-hour launch',biz_t2:'Full package',biz_t3:'Business confidence',
-    boxe_desc:'Boxing, sports events, and cultural competitions uniting Haiti and the Caribbean.',
-    boxe_btn:'View Events &rarr;',
-    boxe_t1:'Live events',boxe_t2:'Haiti &amp; Caribbean',boxe_t3:'Community spirit',
-    plop_social:'+5,000 users already shopping',
-    sou_social:'+2,500 trips completed monthly',
-    talent_social:'+1,800 professionals available',
-    biz_social:'+600 businesses launched with us',
-    boxe_social:'+300 events hosted',
-    stat1_num:'10,000+',stat1_label:'Active users',
-    stat2_num:'5,000+',stat2_label:'Local businesses supported',
-    stat3_num:'2,500+',stat3_label:'Trips monthly',
-    stat4_label:'Customer satisfaction',
-    what_title:'A digital front door for a<br>connected Haitian ecosystem',
-    what_desc:'HaitiBiznis is the digital hub connecting <strong>commerce</strong>, <strong>mobility</strong>, <strong>talent</strong>, and <strong>business growth</strong> in Haiti. One brand, multiple pathways, serving Haiti and the diaspora.',
-    actions_label:'Get Started',actions_title:'What do you want to do today?',actions_desc:'Jump straight into action. Every platform is one tap away.',
-    contact_label:'Get In Touch',contact_title:'Contact the HaitiBiznis Team',contact_desc:'Reach the right team directly. We\'ll get back to you within 12 hours.',
-    contact_partners:'Partnerships &amp; Media',contact_general:'General Inquiries',
-    form_title:'Send Us a Message',form_sub:'Choose your department and we\'ll route your message to the right team.',
-    form_name:'Your Name',form_email:'Your Email',form_dept:'Department',form_message:'Message',form_send:'Send Message',
-    form_thanks:'Message Sent!',form_confirm:'Thank you for reaching out. Our team will respond within 12 hours.',
-    dept_general:'General Inquiry',dept_partners:'Partnerships &amp; Media',dept_support:'Support',
-    cta_title:'Enter the HaitiBiznis<br>Ecosystem Today',cta_desc:'Whether you\'re a customer, driver, merchant, or entrepreneur - there\'s a place for you.',
-    cta_explore:'Explore Platforms',cta_contact:'Contact Us',
-    install_text:'Install HaitiBiznis<small>Add to your home screen for quick access</small>',install_btn:'Install',
-    act_delivery:'Order Delivery',act_delivery_sub:'Food, groceries, pharmacy',
-    act_transport:'Request Transport',act_transport_sub:'Car, moto, SUV',
-    act_business:'Grow Business',act_talent:'Find Talent',act_talent_sub:'Book professionals',
-    act_join:'Join Ecosystem',act_join_sub:'Driver or merchant',
-    eco_label:'How It Connects',eco_title:'One ecosystem. Multiple pathways.',
-    eco_desc:'HaitiBiznis is the umbrella hub. Each platform plays a role in one connected system.',
-    eco_plop:'Commerce &amp; Delivery',eco_sou:'Mobility &amp; Transport',eco_talent:'Talent &amp; Culture',eco_48:'Business Growth',
-    why_label:'Why HaitiBiznis',why_title:'Why It Matters',
-    why_desc:'A unified ecosystem creates more value than separate platforms ever could.',
-    b1_title:'Easier Navigation',b1_desc:'One front door to discover all services.',
-    b2_title:'Stronger Trust',b2_desc:'One unified brand builds credibility.',
-    b3_title:'Connected Brand',b3_desc:'Consistent experience across every platform.',
-    b4_title:'Cross-Promotion',b4_desc:'Every platform promotes the others.',
-    b5_title:'More Visibility',b5_desc:'Combined reach of the entire ecosystem.',
-    b6_title:'Haiti &amp; Diaspora',b6_desc:'Built for Haitians at home and abroad.'
-  },
-  fr:{
-    hero_title:'Une plateforme. Cinq moteurs<br>puissants pour <span class="red">la croissance d\'Ha\u00efti.</span>',
-    hero_sub:'Achetez, d\u00e9placez-vous, grandissez et brillez avec l\'\u00e9cosyst\u00e8me HaitiBiznis.',
-    hero_explore:'Explorer les Plateformes',hero_start:'Commencer',
-    nav_home:'Accueil',nav_platforms:'Plateformes',nav_opportunities:'Opportunit\u00e9s',nav_about:'\u00c0 propos',nav_contact:'Contact',
-    nav_explore:'Explorer l\'\u00c9cosyst\u00e8me',
-    quick_title:'Que voulez-vous faire aujourd\'hui ?',
-    qs_order:'Commander',qs_ride:'Demander Course',qs_talent:'Trouver Talent',qs_launch:'Lancer Business',
-    plop_desc:'Achetez, vendez, livrez &mdash; tout s\u00e9curis\u00e9. Commandez en 1 clic. Livraison rapide. Payez par MonCash, NatCash ou carte.',
-    plop_btn:'Commander Maintenant &rarr;',
-    plop_t1:'Livraison rapide',plop_t2:'Paiement s\u00e9curis\u00e9',plop_t3:'Commerce local',
-    sou_desc:'D\u00e9placez-vous en s\u00e9curit\u00e9, chaque jour. Chauffeurs v\u00e9rifi\u00e9s. GPS en temps r\u00e9el. Moto, voiture, livraison.',
-    sou_btn:'Demander une Course &rarr;',
-    sou_t1:'Chauffeurs v\u00e9rifi\u00e9s',sou_t2:'Suivi GPS',sou_t3:'S\u00e9curit\u00e9 d\'abord',
-    talent_desc:'Trouvez des talents de confiance. DJ, mod\u00e8les, professionnels, techniciens &mdash; embauchez facilement en Ha\u00efti.',
-    talent_btn:'Chercher Talent &rarr;',
-    talent_t1:'Pros v\u00e9rifi\u00e9s',talent_t2:'R\u00e9servation facile',talent_t3:'R\u00e9seau de confiance',
-    biz_desc:'Lancez votre business en 48 heures. Logo, site web, pitch deck &mdash; pr\u00eat \u00e0 lancer.',
-    biz_btn:'Lancer Mon Business &rarr;',
-    biz_t1:'Lancement 48h',biz_t2:'Forfait complet',biz_t3:'Confiance business',
-    boxe_desc:'Boxe, \u00e9v\u00e9nements sportifs et comp\u00e9titions culturelles unissant Ha\u00efti et les Cara\u00efbes.',
-    boxe_btn:'Voir \u00c9v\u00e9nements &rarr;',
-    boxe_t1:'\u00c9v\u00e9nements live',boxe_t2:'Ha\u00efti &amp; Cara\u00efbes',boxe_t3:'Esprit communautaire',
-    plop_social:'+5 000 utilisateurs font d\u00e9j\u00e0 leurs achats',
-    sou_social:'+2 500 trajets r\u00e9alis\u00e9s par mois',
-    talent_social:'+1 800 professionnels disponibles',
-    biz_social:'+600 entreprises lanc\u00e9es avec nous',
-    boxe_social:'+300 \u00e9v\u00e9nements organis\u00e9s',
-    stat1_num:'10 000+',stat1_label:'Utilisateurs actifs',
-    stat2_num:'5 000+',stat2_label:'Commerces locaux soutenus',
-    stat3_num:'2 500+',stat3_label:'Trajets par mois',
-    stat4_label:'Satisfaction client',
-    what_title:'Une porte d\'entr\u00e9e num\u00e9rique pour<br>un \u00e9cosyst\u00e8me ha\u00eftien connect\u00e9',
-    what_desc:'HaitiBiznis est le hub num\u00e9rique connectant le <strong>commerce</strong>, la <strong>mobilit\u00e9</strong>, les <strong>talents</strong> et la <strong>croissance des entreprises</strong> en Ha\u00efti. Une marque, plusieurs voies, au service d\'Ha\u00efti et de la diaspora.',
-    actions_label:'Commencer',actions_title:'Que voulez-vous faire aujourd\'hui ?',actions_desc:'Passez directement \u00e0 l\'action. Chaque plateforme est \u00e0 un clic.',
-    contact_label:'Nous Contacter',contact_title:'Contactez l\'\u00e9quipe HaitiBiznis',contact_desc:'Joignez la bonne \u00e9quipe directement. Nous r\u00e9pondons sous 12 heures.',
-    contact_partners:'Partenariats &amp; M\u00e9dias',contact_general:'Demandes g\u00e9n\u00e9rales',
-    form_title:'Envoyez-nous un message',form_sub:'Choisissez votre d\u00e9partement et nous transmettrons votre message \u00e0 la bonne \u00e9quipe.',
-    form_name:'Votre Nom',form_email:'Votre Email',form_dept:'D\u00e9partement',form_message:'Message',form_send:'Envoyer',
-    form_thanks:'Message envoy\u00e9 !',form_confirm:'Merci de nous avoir contact\u00e9s. Notre \u00e9quipe r\u00e9pondra sous 12 heures.',
-    dept_general:'Demande g\u00e9n\u00e9rale',dept_partners:'Partenariats &amp; M\u00e9dias',dept_support:'Support',
-    cta_title:'Rejoignez l\'\u00e9cosyst\u00e8me<br>HaitiBiznis aujourd\'hui',cta_desc:'Que vous soyez client, chauffeur, commer\u00e7ant ou entrepreneur - il y a une place pour vous.',
-    cta_explore:'Explorer les Plateformes',cta_contact:'Nous Contacter',
-    install_text:'Installer HaitiBiznis<small>Ajoutez \u00e0 votre \u00e9cran d\'accueil pour un acc\u00e8s rapide</small>',install_btn:'Installer',
-    act_delivery:'Commander Livraison',act_delivery_sub:'Nourriture, courses, pharmacie',
-    act_transport:'Demander Transport',act_transport_sub:'Voiture, moto, SUV',
-    act_business:'Developper Business',act_talent:'Trouver un Talent',act_talent_sub:'Reserver des professionnels',
-    act_join:'Rejoindre l\'Ecosysteme',act_join_sub:'Chauffeur ou commercant',
-    eco_label:'Comment Ca Se Connecte',eco_title:'Un ecosysteme. Plusieurs voies.',
-    eco_desc:'HaitiBiznis est le hub principal. Chaque plateforme joue un role dans un systeme connecte.',
-    eco_plop:'Commerce &amp; Livraison',eco_sou:'Mobilite &amp; Transport',eco_talent:'Talent &amp; Culture',eco_48:'Croissance Business',
-    why_label:'Pourquoi HaitiBiznis',why_title:'Pourquoi C\'est Important',
-    why_desc:'Un ecosysteme unifie cree plus de valeur que des plateformes separees.',
-    b1_title:'Navigation Facile',b1_desc:'Une seule porte pour decouvrir tous les services.',
-    b2_title:'Confiance Renforcee',b2_desc:'Une marque unifiee renforce la credibilite.',
-    b3_title:'Marque Connectee',b3_desc:'Experience coherente sur chaque plateforme.',
-    b4_title:'Promotion Croisee',b4_desc:'Chaque plateforme promeut les autres.',
-    b5_title:'Plus de Visibilite',b5_desc:'Portee combinee de tout l\'ecosysteme.',
-    b6_title:'Haiti &amp; Diaspora',b6_desc:'Construit pour les Haitiens ici et a l\'etranger.'
-  },
   ht:{
-    hero_title:'Yon platf\u00f2m. Senk mot\u00e8<br>pwisan pou <span class="red">kwasans Ayiti.</span>',
-    hero_sub:'Achte, deplase, grandi epi briye ak ekosist\u00e8m HaitiBiznis la.',
-    hero_explore:'Eksplore Platfòm yo',hero_start:'Komanse',
-    nav_home:'Akèy',nav_platforms:'Platfòm',nav_opportunities:'Opòtinite',nav_about:'Sou Nou',nav_contact:'Kontak',
-    nav_explore:'Eksplore Ekosist\u00e8m nan',
-    quick_title:'Kisa ou vle fè jodi a?',
-    qs_order:'Kòmande',qs_ride:'Mande Kous',qs_talent:'Chèche Talan',qs_launch:'Lanse Biznis',
-    plop_desc:'Achte, Vann, Livrezon &mdash; Tout An Sekirite. Kòmande nan 1 klik. Livrezon rapid. Peye ak MonCash, NatCash oswa Kat.',
-    plop_btn:'Kòmande Kounye a &rarr;',
-    plop_t1:'Livrezon rapid',plop_t2:'Peman sekirize',plop_t3:'Sipòte biznis lokal',
-    sou_desc:'Deplase An Sekirite, Chak Jou. Chofè verifye. GPS an tan reyèl. Moto, machin, livrezon.',
-    sou_btn:'Mande Yon Kous &rarr;',
-    sou_t1:'Chofè verifye',sou_t2:'Swivi GPS',sou_t3:'Sekirite an premye',
-    talent_desc:'Jwenn Talan Ou Ka Fè Konfyans. DJ, modèl, pwofesyonèl, teknisyen &mdash; anboche fasil an Ayiti.',
-    talent_btn:'Chèche Talan &rarr;',
-    talent_t1:'Pwofesyonèl verifye',talent_t2:'Rezèvasyon fasil',talent_t3:'Rezo konfyans',
-    biz_desc:'Kòmanse Biznis Ou Nan 48 Èdtan. Logo, sit entènèt, pitch deck &mdash; pare pou lanse rapid.',
-    biz_btn:'Lanse Biznis Mwen &rarr;',
-    biz_t1:'Lanse nan 48 èdtan',biz_t2:'Pakè konplè',biz_t3:'Konfyans biznis',
-    boxe_desc:'Bòks, evennman spò ak konpetisyon kiltirel ki ini Ayiti ak Karayib la.',
-    boxe_btn:'Gade Evennman &rarr;',
-    boxe_t1:'Evennman an dirèk',boxe_t2:'Ayiti &amp; Karayib',boxe_t3:'Espri kominote',
-    plop_social:'+5,000 itilizatè deja fè acha',
-    sou_social:'+2,500 vwayaj reyisi chak mwa',
-    talent_social:'+1,800 pwofesyonèl disponib',
-    biz_social:'+600 biznis deja lanse avèk nou',
-    boxe_social:'+300 evennman òganize',
-    stat1_num:'10,000+',stat1_label:'Itilizatè aktif',
-    stat2_num:'5,000+',stat2_label:'Biznis lokal sipòte',
-    stat3_num:'2,500+',stat3_label:'Vwayaj chak mwa',
-    stat4_label:'Kliyan satisfè',
-    what_title:'Yon p\u00f2t dijital pou<br>yon ekosist\u00e8m ayisyen konekte',
-    what_desc:'HaitiBiznis se hub dijital ki konekte <strong>kom\u00e8s</strong>, <strong>mobilite</strong>, <strong>talan</strong> ak <strong>kwasans biznis</strong> an Ayiti. Yon mak, plizy\u00e8 chemen, ki s\u00e8vi Ayiti ak dyaspora.',
-    actions_label:'Kòmanse',actions_title:'Kisa ou vle f\u00e8 jodi a?',actions_desc:'Ale dirèkteman nan aksyon. Chak platfòm yon sèl klik.',
-    contact_label:'Kontakte Nou',contact_title:'Kontakte Ekip HaitiBiznis la',contact_desc:'Jwenn bon ekip la dirèkteman. Nou reponn nan 12 \u00e8dtan.',
-    contact_partners:'Patenariat &amp; Medya',contact_general:'Kesyon Jeneral',
+    hero_title:'Fè Lajan ak Telefòn Ou<br>Jodi a',
+    hero_sub:'<strong>Chofè</strong> • <strong>Biznis</strong> • <strong>Pwofesyonèl</strong><br>Jwenn kliyan. Fè kous. Vann pwodwi.',
+    hero_cta:'Komanse Kounye a',hero_how:'Gade Kijan Li Fonksyone',
+    nav_home:'Akèy',nav_join:'Rejwenn Nou',nav_how:'Kijan Li Mache',nav_contact:'Kontak',nav_cta:'Komanse Fè Lajan',
+    drv_title:'Ou Gen Moto oswa Machin?',drv_hook:'Fè kous. Fè livrezon. Fè lajan chak jou.',
+    drv_cta:'Enskri kòm Chofè →',drv_b1:'Travay sou pwòp orè ou',drv_b2:'Peman rapid',drv_b3:'Kliyan garanti',
+    drv_social:'+2,500 chofè deja ap fè lajan',
+    biz_title:'Ou Gen Biznis?',biz_hook:'Vann pwodwi ou. Resevwa kòmann fasil.',
+    biz_cta:'Vann sou Platfòm nan →',biz_b1:'Vann 24/7',biz_b2:'Resevwa kòmann otomatik',biz_b3:'Diaspora achte pou Ayiti',
+    biz_social:'+5,000 kliyan deja ap achte',
+    pro_title:'Ou Gen Talan oswa Metye?',pro_hook:'Jwenn kliyan. Travay sou pwòp orè ou.',
+    pro_cta:'Jwenn Kliyan →',pro_b1:'Jwenn kliyan fasil',pro_b2:'Rezèvasyon otomatik',pro_b3:'Profil verifye',
+    pro_social:'+1,800 pwofesyonèl deja ap touche',
+    launch_title:'Kòmanse Biznis Ou Jodi a',launch_hook:'Nou mete ou pare pou fè lajan nan 48 èdtan.',
+    launch_cta:'Kòmanse Gratis →',launch_b1:'Logo + Site + Pitch',launch_b2:'Pare pou vann rapid',launch_b3:'Sipò biznis',
+    launch_social:'+600 biznis deja ap fè lajan',
+    act_title:'Kisa Ou Vle Fè Jodi a?',act_money:'💰 Fè Lajan',act_ride:'🚗 Mande Kous',act_find:'⭐ Chèche Pwofesyonèl',act_launch:'🚀 Lanse Biznis',
+    tr1:'Chofè Verifye',tr2:'Tranzaksyon Sekirize',tr3:'Sipò WhatsApp',tr4:'Platfòm Ayisyen',
+    how_label:'Kijan Li Mache',how_title:'3 Etap Senp',how_desc:'Kounye a jis 3 etap pou komanse fe lajan oswa jwenn sevis.',
+    step1:'Kreye kont gratis',step1_sub:'Enskri sou platfòm ou chwazi a',
+    step2:'Chwazi sèvis ou',step2_sub:'Kous, biznis, oswa travay pwofesyonèl',
+    step3:'Komanse fè lajan',step3_sub:'Oswa jwenn sèvis ou bezwen an',
+    dia_title:'Sipòte Fanmi w an Ayiti',dia_desc:'Achte, voye sèvis, oswa peye pou fanmi ou fasil.',dia_cta:'Komanse Kounye a →',
+    eco_label:'Ekosistèm Nan',eco_title:'Yon ekosistèm. Plizye chemen.',eco_desc:'HaitiBiznis se hub prensipal la. Chak platfòm jwe yon wòl.',
+    eco_plop:'Komès & Livrezon',eco_sou:'Mobilite & Transpò',eco_talent:'Talan & Sèvis',eco_48:'Kwasans Biznis',
+    contact_label:'Kontakte Nou',contact_title:'Kontakte Ekip HaitiBiznis la',contact_desc:'Jwenn bon ekip la dirèkteman. Nou reponn nan 12 èdtan.',
+    contact_partners:'Patenariat & Medya',
     form_title:'Voye yon Mesaj',form_sub:'Chwazi depatman ou epi n ap voye mesaj ou bay bon ekip la.',
     form_name:'Non Ou',form_email:'Imel Ou',form_dept:'Depatman',form_message:'Mesaj',form_send:'Voye Mesaj',
-    form_thanks:'Mesaj Voye!',form_confirm:'M\u00e8si paske ou kontakte nou. Ekip nou ap reponn nan 12 \u00e8dtan.',
-    dept_general:'Kesyon Jeneral',dept_partners:'Patenariat &amp; Medya',dept_support:'Sip\u00f2',
-    cta_title:'Antre nan Ekosist\u00e8m<br>HaitiBiznis Jodi a',cta_desc:'Kit ou se kliyan, chofer, machan oswa antreprenè - gen yon plas pou ou.',
-    cta_explore:'Eksplore Platfòm yo',cta_contact:'Kontakte Nou',
-    install_text:'Enstale HaitiBiznis<small>Mete sou ekran lakay ou pou aks\u00e8 rapid</small>',install_btn:'Enstale',
-    act_delivery:'Komande Livrezon',act_delivery_sub:'Manje, pwovizyon, famasi',
-    act_transport:'Mande Transpò',act_transport_sub:'Machin, moto, SUV',
-    act_business:'Grandi Biznis',act_talent:'Jwenn Talan',act_talent_sub:'Rezève pwofesyonèl',
-    act_join:'Rejwenn Ekosistèm',act_join_sub:'Chofè oswa machann',
-    eco_label:'Koman Li Konekte',eco_title:'Yon ekosistèm. Plizyè chemen.',
-    eco_desc:'HaitiBiznis se hub prensipal la. Chak platfòm jwe yon wòl nan yon sistèm konekte.',
-    eco_plop:'Komès &amp; Livrezon',eco_sou:'Mobilite &amp; Transpò',eco_talent:'Talan &amp; Kilti',eco_48:'Kwasans Biznis',
-    why_label:'Poukisa HaitiBiznis',why_title:'Poukisa Li Enpòtan',
-    why_desc:'Yon ekosistèm inifye kreye plis valè pase platfòm separe.',
-    b1_title:'Navigasyon Fasil',b1_desc:'Yon sèl pòt pou dekouvri tout sèvis yo.',
-    b2_title:'Konfyans Pi Fò',b2_desc:'Yon mak inifye bati kredibilite.',
-    b3_title:'Mak Konekte',b3_desc:'Eksperyans konsistan sou chak platfòm.',
-    b4_title:'Pwomosyon Kwaze',b4_desc:'Chak platfòm pwomote lòt yo.',
-    b5_title:'Plis Vizibilite',b5_desc:'Portee konbine tout ekosistèm nan.',
-    b6_title:'Ayiti &amp; Dyaspora',b6_desc:'Bati pou Ayisyen lakay ak aletranje.'
+    form_thanks:'Mesaj Voye!',form_confirm:'Mèsi paske ou kontakte nou. Ekip nou ap reponn nan 12 èdtan.',
+    dept_general:'Kesyon Jeneral',dept_partners:'Patenariat & Medya',
+    cta_title:'Komanse Fè Lajan<br>ak HaitiBiznis Jodi a',cta_desc:'Kit ou se chofè, machann, pwofesyonèl oswa antrepenè - gen yon plas pou ou.',
+    cta_start:'Komanse Kounye a',cta_contact:'Kontakte Nou',
+    wa_tip:'Bezwen Èd? Chat ak nou',sticky_cta:'💰 Komanse Fè Lajan',
+    install_text:'Enstale HaitiBiznis<small>Mete sou ekran lakay ou pou aksè rapid</small>',install_btn:'Enstale'
+  },
+  en:{
+    hero_title:'Make Money With<br>Your Phone Today',
+    hero_sub:'<strong>Drivers</strong> • <strong>Businesses</strong> • <strong>Professionals</strong><br>Get clients. Drive. Sell products.',
+    hero_cta:'Get Started Now',hero_how:'See How It Works',
+    nav_home:'Home',nav_join:'Join Us',nav_how:'How It Works',nav_contact:'Contact',nav_cta:'Start Earning',
+    drv_title:'Got a Car or Motorcycle?',drv_hook:'Drive rides. Make deliveries. Earn every day.',
+    drv_cta:'Sign Up as Driver →',drv_b1:'Work on your own schedule',drv_b2:'Fast payments',drv_b3:'Guaranteed clients',
+    drv_social:'+2,500 drivers already earning',
+    biz_title:'Got a Business?',biz_hook:'Sell your products. Receive orders easily.',
+    biz_cta:'Sell on the Platform →',biz_b1:'Sell 24/7',biz_b2:'Automatic order notifications',biz_b3:'Diaspora buys for Haiti',
+    biz_social:'+5,000 customers already buying',
+    pro_title:'Got Talent or a Skill?',pro_hook:'Get clients. Work on your own schedule.',
+    pro_cta:'Get Clients →',pro_b1:'Find clients easily',pro_b2:'Automatic bookings',pro_b3:'Verified profile',
+    pro_social:'+1,800 professionals already earning',
+    launch_title:'Start Your Business Today',launch_hook:'We get you ready to earn in 48 hours.',
+    launch_cta:'Start Free →',launch_b1:'Logo + Website + Pitch',launch_b2:'Ready to sell fast',launch_b3:'Business support',
+    launch_social:'+600 businesses already earning',
+    act_title:'What Do You Want to Do Today?',act_money:'💰 Make Money',act_ride:'🚗 Request Ride',act_find:'⭐ Find Professional',act_launch:'🚀 Launch Business',
+    tr1:'Verified Drivers',tr2:'Secure Transactions',tr3:'WhatsApp Support',tr4:'Haitian Platform',
+    how_label:'How It Works',how_title:'3 Simple Steps',how_desc:'Just 3 steps to start earning or find a service.',
+    step1:'Create a free account',step1_sub:'Sign up on the platform of your choice',
+    step2:'Choose your service',step2_sub:'Driving, business, or professional work',
+    step3:'Start earning money',step3_sub:'Or get the service you need',
+    dia_title:'Support Your Family in Haiti',dia_desc:'Buy, send services, or pay for your family easily.',dia_cta:'Get Started →',
+    eco_label:'The Ecosystem',eco_title:'One ecosystem. Multiple pathways.',eco_desc:'HaitiBiznis is the main hub. Each platform plays a role.',
+    eco_plop:'Commerce & Delivery',eco_sou:'Mobility & Transport',eco_talent:'Talent & Services',eco_48:'Business Growth',
+    contact_label:'Contact Us',contact_title:'Contact the HaitiBiznis Team',contact_desc:'Reach the right team directly. We respond within 12 hours.',
+    contact_partners:'Partnerships & Media',
+    form_title:'Send a Message',form_sub:'Choose your department and we\'ll route your message.',
+    form_name:'Your Name',form_email:'Your Email',form_dept:'Department',form_message:'Message',form_send:'Send Message',
+    form_thanks:'Message Sent!',form_confirm:'Thank you! Our team will respond within 12 hours.',
+    dept_general:'General Inquiry',dept_partners:'Partnerships & Media',
+    cta_title:'Start Earning Money<br>with HaitiBiznis Today',cta_desc:'Whether you\'re a driver, seller, professional, or entrepreneur — there\'s a place for you.',
+    cta_start:'Get Started Now',cta_contact:'Contact Us',
+    wa_tip:'Need Help? Chat with us',sticky_cta:'💰 Start Earning Money',
+    install_text:'Install HaitiBiznis<small>Add to your home screen for quick access</small>',install_btn:'Install'
+  },
+  fr:{
+    hero_title:'Gagnez de l\'Argent avec<br>Votre Téléphone Aujourd\'hui',
+    hero_sub:'<strong>Chauffeurs</strong> • <strong>Commerces</strong> • <strong>Professionnels</strong><br>Trouvez des clients. Conduisez. Vendez.',
+    hero_cta:'Commencer Maintenant',hero_how:'Voir Comment Ça Marche',
+    nav_home:'Accueil',nav_join:'Nous Rejoindre',nav_how:'Comment Ça Marche',nav_contact:'Contact',nav_cta:'Commencer à Gagner',
+    drv_title:'Vous avez une voiture ou moto ?',drv_hook:'Faites des courses. Livrez. Gagnez chaque jour.',
+    drv_cta:'S\'inscrire comme Chauffeur →',drv_b1:'Travaillez à votre rythme',drv_b2:'Paiements rapides',drv_b3:'Clients garantis',
+    drv_social:'+2 500 chauffeurs gagnent déjà',
+    biz_title:'Vous avez un commerce ?',biz_hook:'Vendez vos produits. Recevez des commandes facilement.',
+    biz_cta:'Vendre sur la Plateforme →',biz_b1:'Vendez 24/7',biz_b2:'Commandes automatiques',biz_b3:'La diaspora achète pour Haïti',
+    biz_social:'+5 000 clients achètent déjà',
+    pro_title:'Vous avez un talent ou métier ?',pro_hook:'Trouvez des clients. Travaillez à votre rythme.',
+    pro_cta:'Trouver des Clients →',pro_b1:'Trouvez des clients facilement',pro_b2:'Réservations automatiques',pro_b3:'Profil vérifié',
+    pro_social:'+1 800 professionnels gagnent déjà',
+    launch_title:'Lancez Votre Business Aujourd\'hui',launch_hook:'On vous prépare à gagner en 48 heures.',
+    launch_cta:'Commencer Gratuitement →',launch_b1:'Logo + Site + Pitch',launch_b2:'Prêt à vendre rapidement',launch_b3:'Support business',
+    launch_social:'+600 business gagnent déjà',
+    act_title:'Que voulez-vous faire aujourd\'hui ?',act_money:'💰 Gagner de l\'Argent',act_ride:'🚗 Demander une Course',act_find:'⭐ Chercher un Pro',act_launch:'🚀 Lancer Business',
+    tr1:'Chauffeurs Vérifiés',tr2:'Transactions Sécurisées',tr3:'Support WhatsApp',tr4:'Plateforme Haïtienne',
+    how_label:'Comment Ça Marche',how_title:'3 Étapes Simples',how_desc:'Seulement 3 étapes pour commencer à gagner ou trouver un service.',
+    step1:'Créez un compte gratuit',step1_sub:'Inscrivez-vous sur la plateforme choisie',
+    step2:'Choisissez votre service',step2_sub:'Courses, commerce, ou travail professionnel',
+    step3:'Commencez à gagner',step3_sub:'Ou trouvez le service dont vous avez besoin',
+    dia_title:'Soutenez Votre Famille en Haïti',dia_desc:'Achetez, envoyez des services, ou payez pour votre famille facilement.',dia_cta:'Commencer →',
+    eco_label:'L\'Écosystème',eco_title:'Un écosystème. Plusieurs voies.',eco_desc:'HaitiBiznis est le hub principal. Chaque plateforme joue un rôle.',
+    eco_plop:'Commerce & Livraison',eco_sou:'Mobilité & Transport',eco_talent:'Talent & Services',eco_48:'Croissance Business',
+    contact_label:'Nous Contacter',contact_title:'Contactez l\'équipe HaitiBiznis',contact_desc:'Joignez la bonne équipe. Nous répondons sous 12 heures.',
+    contact_partners:'Partenariats & Médias',
+    form_title:'Envoyez un Message',form_sub:'Choisissez votre département et nous transmettrons votre message.',
+    form_name:'Votre Nom',form_email:'Votre Email',form_dept:'Département',form_message:'Message',form_send:'Envoyer',
+    form_thanks:'Message Envoyé !',form_confirm:'Merci ! Notre équipe répondra sous 12 heures.',
+    dept_general:'Demande Générale',dept_partners:'Partenariats & Médias',
+    cta_title:'Commencez à Gagner<br>avec HaitiBiznis Aujourd\'hui',cta_desc:'Que vous soyez chauffeur, vendeur, professionnel ou entrepreneur — il y a une place pour vous.',
+    cta_start:'Commencer Maintenant',cta_contact:'Nous Contacter',
+    wa_tip:'Besoin d\'aide ? Chattez avec nous',sticky_cta:'💰 Commencer à Gagner',
+    install_text:'Installer HaitiBiznis<small>Ajoutez à votre écran d\'accueil</small>',install_btn:'Installer'
   },
   es:{
-    hero_title:'Una plataforma. Cinco motores<br>poderosos para <span class="red">el crecimiento de Hait\u00ed.</span>',
-    hero_sub:'Compra, mu\u00e9vete, crece y brilla con el ecosistema HaitiBiznis.',
-    hero_explore:'Explorar Plataformas',hero_start:'Comenzar',
-    nav_home:'Inicio',nav_platforms:'Plataformas',nav_opportunities:'Oportunidades',nav_about:'Acerca de',nav_contact:'Contacto',
-    nav_explore:'Explorar el Ecosistema',
-    quick_title:'¿Qué quieres hacer hoy?',
-    qs_order:'Pedir Ahora',qs_ride:'Solicitar Viaje',qs_talent:'Buscar Talento',qs_launch:'Lanzar Negocio',
-    plop_desc:'Compra, vende, entrega &mdash; todo seguro. Ordena en 1 clic. Entrega rápida. Paga con MonCash, NatCash o tarjeta.',
-    plop_btn:'Pedir Ahora &rarr;',
-    plop_t1:'Entrega rápida',plop_t2:'Pago seguro',plop_t3:'Negocio local',
-    sou_desc:'Muévete seguro, cada día. Conductores verificados. GPS en tiempo real. Moto, auto, entrega.',
-    sou_btn:'Solicitar un Viaje &rarr;',
-    sou_t1:'Conductores verificados',sou_t2:'Rastreo GPS',sou_t3:'Seguridad primero',
-    talent_desc:'Encuentra talento de confianza. DJs, modelos, profesionales, técnicos &mdash; contrata fácil en Haití.',
-    talent_btn:'Buscar Talento &rarr;',
-    talent_t1:'Profesionales verificados',talent_t2:'Reserva fácil',talent_t3:'Red de confianza',
-    biz_desc:'Lanza tu negocio en 48 horas. Logo, sitio web, pitch deck &mdash; listo para arrancar.',
-    biz_btn:'Lanzar Mi Negocio &rarr;',
-    biz_t1:'Lanzamiento 48h',biz_t2:'Paquete completo',biz_t3:'Confianza empresarial',
-    boxe_desc:'Boxeo, eventos deportivos y competiciones culturales uniendo Haití y el Caribe.',
-    boxe_btn:'Ver Eventos &rarr;',
-    boxe_t1:'Eventos en vivo',boxe_t2:'Haití &amp; Caribe',boxe_t3:'Espíritu comunitario',
-    plop_social:'+5,000 usuarios ya comprando',
-    sou_social:'+2,500 viajes realizados mensualmente',
-    talent_social:'+1,800 profesionales disponibles',
-    biz_social:'+600 negocios lanzados con nosotros',
-    boxe_social:'+300 eventos organizados',
-    stat1_num:'10,000+',stat1_label:'Usuarios activos',
-    stat2_num:'5,000+',stat2_label:'Negocios locales apoyados',
-    stat3_num:'2,500+',stat3_label:'Viajes mensuales',
-    stat4_label:'Satisfacción del cliente',
-    what_title:'Una puerta digital para<br>un ecosistema haitiano conectado',
-    what_desc:'HaitiBiznis es el hub digital que conecta <strong>comercio</strong>, <strong>movilidad</strong>, <strong>talento</strong> y <strong>crecimiento empresarial</strong> en Hait\u00ed. Una marca, m\u00faltiples caminos, sirviendo a Hait\u00ed y la di\u00e1spora.',
-    actions_label:'Comenzar',actions_title:'\u00bfQu\u00e9 quieres hacer hoy?',actions_desc:'Pasa directamente a la acci\u00f3n. Cada plataforma est\u00e1 a un clic.',
-    contact_label:'Cont\u00e1ctanos',contact_title:'Contacta al equipo HaitiBiznis',contact_desc:'Llega al equipo correcto directamente. Respondemos en 12 horas.',
-    contact_partners:'Alianzas &amp; Medios',contact_general:'Consultas Generales',
-    form_title:'Env\u00edanos un Mensaje',form_sub:'Elige tu departamento y enviaremos tu mensaje al equipo correcto.',
-    form_name:'Tu Nombre',form_email:'Tu Email',form_dept:'Departamento',form_message:'Mensaje',form_send:'Enviar Mensaje',
-    form_thanks:'\u00a1Mensaje Enviado!',form_confirm:'Gracias por contactarnos. Nuestro equipo responder\u00e1 en 12 horas.',
-    dept_general:'Consulta General',dept_partners:'Alianzas &amp; Medios',dept_support:'Soporte',
-    cta_title:'Entra al Ecosistema<br>HaitiBiznis Hoy',cta_desc:'Ya seas cliente, conductor, comerciante o emprendedor - hay un lugar para ti.',
-    cta_explore:'Explorar Plataformas',cta_contact:'Cont\u00e1ctanos',
-    install_text:'Instalar HaitiBiznis<small>A\u00f1ade a tu pantalla de inicio para acceso r\u00e1pido</small>',install_btn:'Instalar',
-    act_delivery:'Pedir Entrega',act_delivery_sub:'Comida, compras, farmacia',
-    act_transport:'Solicitar Transporte',act_transport_sub:'Auto, moto, SUV',
-    act_business:'Crecer Negocio',act_talent:'Encontrar Talento',act_talent_sub:'Reservar profesionales',
-    act_join:'Unirse al Ecosistema',act_join_sub:'Conductor o comerciante',
-    eco_label:'Como Se Conecta',eco_title:'Un ecosistema. Multiples caminos.',
-    eco_desc:'HaitiBiznis es el hub principal. Cada plataforma tiene un rol en un sistema conectado.',
-    eco_plop:'Comercio &amp; Entrega',eco_sou:'Movilidad &amp; Transporte',eco_talent:'Talento &amp; Cultura',eco_48:'Crecimiento Empresarial',
-    why_label:'Por Que HaitiBiznis',why_title:'Por Que Importa',
-    why_desc:'Un ecosistema unificado crea mas valor que plataformas separadas.',
-    b1_title:'Navegacion Facil',b1_desc:'Una sola puerta para descubrir todos los servicios.',
-    b2_title:'Mayor Confianza',b2_desc:'Una marca unificada construye credibilidad.',
-    b3_title:'Marca Conectada',b3_desc:'Experiencia consistente en cada plataforma.',
-    b4_title:'Promocion Cruzada',b4_desc:'Cada plataforma promueve las demas.',
-    b5_title:'Mas Visibilidad',b5_desc:'Alcance combinado de todo el ecosistema.',
-    b6_title:'Haiti &amp; Diaspora',b6_desc:'Hecho para haitianos en casa y en el exterior.'
+    hero_title:'Gana Dinero con<br>Tu Teléfono Hoy',
+    hero_sub:'<strong>Conductores</strong> • <strong>Negocios</strong> • <strong>Profesionales</strong><br>Consigue clientes. Conduce. Vende productos.',
+    hero_cta:'Comenzar Ahora',hero_how:'Ver Cómo Funciona',
+    nav_home:'Inicio',nav_join:'Únete',nav_how:'Cómo Funciona',nav_contact:'Contacto',nav_cta:'Empieza a Ganar',
+    drv_title:'¿Tienes auto o moto?',drv_hook:'Haz viajes. Haz entregas. Gana cada día.',
+    drv_cta:'Regístrate como Conductor →',drv_b1:'Trabaja a tu ritmo',drv_b2:'Pagos rápidos',drv_b3:'Clientes garantizados',
+    drv_social:'+2,500 conductores ya ganando',
+    biz_title:'¿Tienes un negocio?',biz_hook:'Vende tus productos. Recibe pedidos fácilmente.',
+    biz_cta:'Vender en la Plataforma →',biz_b1:'Vende 24/7',biz_b2:'Pedidos automáticos',biz_b3:'La diáspora compra para Haití',
+    biz_social:'+5,000 clientes ya comprando',
+    pro_title:'¿Tienes talento o oficio?',pro_hook:'Consigue clientes. Trabaja a tu ritmo.',
+    pro_cta:'Conseguir Clientes →',pro_b1:'Encuentra clientes fácil',pro_b2:'Reservas automáticas',pro_b3:'Perfil verificado',
+    pro_social:'+1,800 profesionales ya ganando',
+    launch_title:'Lanza Tu Negocio Hoy',launch_hook:'Te preparamos para ganar en 48 horas.',
+    launch_cta:'Comenzar Gratis →',launch_b1:'Logo + Sitio + Pitch',launch_b2:'Listo para vender rápido',launch_b3:'Soporte de negocio',
+    launch_social:'+600 negocios ya ganando',
+    act_title:'¿Qué quieres hacer hoy?',act_money:'💰 Ganar Dinero',act_ride:'🚗 Pedir Viaje',act_find:'⭐ Buscar Profesional',act_launch:'🚀 Lanzar Negocio',
+    tr1:'Conductores Verificados',tr2:'Transacciones Seguras',tr3:'Soporte WhatsApp',tr4:'Plataforma Haitiana',
+    how_label:'Cómo Funciona',how_title:'3 Pasos Simples',how_desc:'Solo 3 pasos para empezar a ganar o encontrar un servicio.',
+    step1:'Crea una cuenta gratis',step1_sub:'Regístrate en la plataforma elegida',
+    step2:'Elige tu servicio',step2_sub:'Viajes, comercio, o trabajo profesional',
+    step3:'Empieza a ganar',step3_sub:'O encuentra el servicio que necesitas',
+    dia_title:'Apoya a Tu Familia en Haití',dia_desc:'Compra, envía servicios, o paga para tu familia fácilmente.',dia_cta:'Comenzar →',
+    eco_label:'El Ecosistema',eco_title:'Un ecosistema. Múltiples caminos.',eco_desc:'HaitiBiznis es el hub principal. Cada plataforma tiene un rol.',
+    eco_plop:'Comercio & Entrega',eco_sou:'Movilidad & Transporte',eco_talent:'Talento & Servicios',eco_48:'Crecimiento Empresarial',
+    contact_label:'Contáctanos',contact_title:'Contacta al equipo HaitiBiznis',contact_desc:'Llega al equipo correcto. Respondemos en 12 horas.',
+    contact_partners:'Alianzas & Medios',
+    form_title:'Envía un Mensaje',form_sub:'Elige tu departamento y enviaremos tu mensaje.',
+    form_name:'Tu Nombre',form_email:'Tu Email',form_dept:'Departamento',form_message:'Mensaje',form_send:'Enviar',
+    form_thanks:'¡Mensaje Enviado!',form_confirm:'¡Gracias! Nuestro equipo responderá en 12 horas.',
+    dept_general:'Consulta General',dept_partners:'Alianzas & Medios',
+    cta_title:'Empieza a Ganar Dinero<br>con HaitiBiznis Hoy',cta_desc:'Ya seas conductor, vendedor, profesional o emprendedor — hay un lugar para ti.',
+    cta_start:'Comenzar Ahora',cta_contact:'Contáctanos',
+    wa_tip:'¿Necesitas ayuda? Chatea con nosotros',sticky_cta:'💰 Empieza a Ganar',
+    install_text:'Instalar HaitiBiznis<small>Añade a tu pantalla de inicio</small>',install_btn:'Instalar'
   }
 };
 
-let currentLang='en';
+let currentLang='ht';
 function setLang(lang){
   currentLang=lang;
   localStorage.setItem('hb_lang',lang);
-  document.documentElement.lang=lang;
+  document.documentElement.lang=lang==='ht'?'ht':lang;
   document.querySelectorAll('.top-lang-bar a').forEach(a=>{
     const l=a.getAttribute('onclick');
     a.classList.toggle('active',l&&l.indexOf("'"+lang+"'")>-1);
   });
-  const t=translations[lang]||translations.en;
+  const t=translations[lang]||translations.ht;
   document.querySelectorAll('[data-i18n]').forEach(el=>{
     const key=el.getAttribute('data-i18n');
     if(t[key])el.innerHTML=t[key];
   });
 }
-// Restore saved language
 const savedLang=localStorage.getItem('hb_lang');
-if(savedLang)setLang(savedLang); else setLang('fr');
+if(savedLang)setLang(savedLang); else setLang('ht');
 
-/* ═══ CONTACT FORM ═══ */
+/* CONTACT FORM */
 function submitForm(e){
   e.preventDefault();
   const form=document.getElementById('hbForm');
@@ -1127,53 +946,25 @@ function submitForm(e){
   return false;
 }
 
-/* ═══ PWA INSTALL ═══ */
+/* PWA INSTALL */
 let deferredPrompt;
 const iBanner=document.getElementById('installBanner');
 const iBtn=document.getElementById('installBtn');
 const iClose=document.getElementById('installClose');
-
-window.addEventListener('beforeinstallprompt',e=>{
-  e.preventDefault();
-  deferredPrompt=e;
-  iBanner.classList.add('show');
-});
-
-iBtn.addEventListener('click',()=>{
-  if(deferredPrompt){
-    deferredPrompt.prompt();
-    deferredPrompt.userChoice.then(r=>{iBanner.classList.remove('show');deferredPrompt=null});
-  }
-});
-
-iClose.addEventListener('click',()=>{
-  iBanner.classList.remove('show');
-  sessionStorage.setItem('hb_install_dismissed','1');
-});
-
-// Show install hint after 3 seconds if not dismissed and no native prompt
+window.addEventListener('beforeinstallprompt',e=>{e.preventDefault();deferredPrompt=e;iBanner.classList.add('show')});
+iBtn.addEventListener('click',()=>{if(deferredPrompt){deferredPrompt.prompt();deferredPrompt.userChoice.then(()=>{iBanner.classList.remove('show');deferredPrompt=null})}});
+iClose.addEventListener('click',()=>{iBanner.classList.remove('show');sessionStorage.setItem('hb_install_dismissed','1')});
 setTimeout(()=>{
-  if(!deferredPrompt && !sessionStorage.getItem('hb_install_dismissed') && !window.matchMedia('(display-mode: standalone)').matches){
+  if(!deferredPrompt&&!sessionStorage.getItem('hb_install_dismissed')&&!window.matchMedia('(display-mode: standalone)').matches){
     iBanner.classList.add('show');
     iBtn.addEventListener('click',()=>{
-      // For iOS/Safari - show instructions
       const isIOS=/iPad|iPhone|iPod/.test(navigator.userAgent);
-      if(isIOS){
-        alert(currentLang==='fr'?'Appuyez sur le bouton Partager, puis "Sur l\u2019\u00e9cran d\u2019accueil"':
-              currentLang==='ht'?'Peze bouton Pataje a, epi "Sou Ekran Lakay"':
-              currentLang==='es'?'Pulsa el bot\u00f3n Compartir, luego "A\u00f1adir a pantalla de inicio"':
-              'Tap the Share button, then "Add to Home Screen"');
-      }else{
-        alert(currentLang==='fr'?'Appuyez sur le menu (\u22ee), puis "Installer l\'application"':
-              currentLang==='ht'?'Peze meni (\u22ee), epi "Enstale aplikasyon an"':
-              currentLang==='es'?'Pulsa el men\u00fa (\u22ee), luego "Instalar aplicaci\u00f3n"':
-              'Tap the menu (\u22ee), then "Install app"');
-      }
+      if(isIOS){alert(currentLang==='fr'?'Appuyez sur Partager, puis "Sur l’écran d’accueil"':currentLang==='es'?'Pulsa Compartir, luego "Añadir a pantalla de inicio"':currentLang==='en'?'Tap Share, then "Add to Home Screen"':'Peze Pataje a, epi "Sou Ekran Lakay"')}
+      else{alert(currentLang==='fr'?'Menu (⋮), puis "Installer l\'application"':currentLang==='es'?'Menú (⋮), luego "Instalar aplicación"':currentLang==='en'?'Menu (⋮), then "Install app"':'Meni (⋮), epi "Enstale aplikasyon an"')}
       iBanner.classList.remove('show');
-    },{ once:true });
+    },{once:true});
   }
 },3000);
-
 window.addEventListener('appinstalled',()=>{iBanner.classList.remove('show')});
 </script>
 </body>
