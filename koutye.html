@@ -492,12 +492,17 @@ a{text-decoration:none;color:inherit}
     <div class="signup-success" id="signupSuccess">
       <div class="check">&#10003;</div>
       <h3 data-i18n="signup_done">Ou enskri!</h3>
-      <p data-i18n="signup_done_msg">Ekip nou ap verifye kont ou epi voye kod referral ou sou WhatsApp.</p>
+      <p data-i18n="signup_done_msg">Men kod referral ou. Pataje link sa a pou touche komisyon!</p>
+      <div style="margin:14px 0 6px;font-size:.78rem;font-weight:700;color:var(--text-light)" data-i18n="signup_your_code">Kod Koutye ou:</div>
+      <div style="font-family:monospace;font-size:1.4rem;font-weight:900;color:var(--blue);letter-spacing:.08em" id="myKoutyeCode"></div>
       <div class="ref-link-box">
-        <div style="font-size:.72rem;color:var(--text-light);margin-bottom:4px" data-i18n="signup_your_link">Link referral ou ap resevwa:</div>
-        <code id="refLinkPreview">haitibiznis.com/koutye?ref=KB-XXXXX</code>
+        <div style="font-size:.72rem;color:var(--text-light);margin-bottom:4px" data-i18n="signup_your_link">Link referral ou:</div>
+        <code id="refLinkPreview"></code>
       </div>
-      <button class="copy-btn" onclick="copyRefLink()" data-i18n="signup_wa_confirm">Kontakte nou sou WhatsApp</button>
+      <button class="copy-btn" onclick="copyRefLink()" id="copyBtn">&#128203; Kopye Link</button>
+      <div style="margin-top:12px">
+        <button class="copy-btn" style="background:var(--green)" onclick="shareWhatsApp()" data-i18n="signup_share_wa">Pataje sou WhatsApp</button>
+      </div>
     </div>
   </div>
 </section>
@@ -571,8 +576,8 @@ var T = {
     signup_tag:"ENSKRI KOUNYE A",signup_title:"Vin yon Koutye Biznis",signup_sub:"Ranpli fom sa a epi n ap ba ou kod referral pa ou.",
     signup_name:"Non konple ou",signup_phone:"Nimewo telefon / WhatsApp",signup_ref:"Kod referral (si yon moun refere ou)",
     signup_ref_note:"Opsyonel — antre kod Koutye ki refere ou",signup_btn:"Enskri kom Koutye",
-    signup_done:"Ou enskri!",signup_done_msg:"Ekip nou ap verifye kont ou epi voye kod referral ou sou WhatsApp.",
-    signup_your_link:"Link referral ou ap resevwa:",signup_wa_confirm:"Kontakte nou sou WhatsApp",
+    signup_done:"Ou enskri!",signup_done_msg:"Men kod referral ou. Pataje link sa a pou touche komisyon!",
+    signup_your_code:"Kod Koutye ou:",signup_your_link:"Link referral ou:",signup_share_wa:"Pataje sou WhatsApp",
     final_title:"Konekte Biznis. Fe Lajan.",final_sub:"Antre nan premye rezo Koutye Biznis an Ayiti.",
     final_cta:"&#128640; Vin yon Koutye kounye a",final_cta2:"Pale ak nou sou WhatsApp",
     sticky:"&#128176; Vin Koutye — Komanse touche"
@@ -608,8 +613,8 @@ var T = {
     signup_tag:"INSCRIVEZ-VOUS",signup_title:"Devenez Koutye Biznis",signup_sub:"Remplissez ce formulaire et nous vous donnerons votre code de referral.",
     signup_name:"Votre nom complet",signup_phone:"Numero de telephone / WhatsApp",signup_ref:"Code referral (si quelqu'un vous a refere)",
     signup_ref_note:"Optionnel — entrez le code du Koutye qui vous a refere",signup_btn:"S'inscrire comme Koutye",
-    signup_done:"Vous etes inscrit!",signup_done_msg:"Notre equipe verifiera votre compte et enverra votre code referral par WhatsApp.",
-    signup_your_link:"Votre lien referral a recevoir:",signup_wa_confirm:"Contactez-nous sur WhatsApp",
+    signup_done:"Vous etes inscrit!",signup_done_msg:"Voici votre code referral. Partagez ce lien pour gagner des commissions!",
+    signup_your_code:"Votre code Koutye:",signup_your_link:"Votre lien referral:",signup_share_wa:"Partager sur WhatsApp",
     final_title:"Connectez des Entreprises. Gagnez de l'Argent.",final_sub:"Rejoignez le premier reseau Koutye Biznis en Haiti.",
     final_cta:"&#128640; Devenir Koutye maintenant",final_cta2:"Parlez-nous sur WhatsApp",
     sticky:"&#128176; Devenir Koutye — Commencez a gagner"
@@ -645,8 +650,8 @@ var T = {
     signup_tag:"SIGN UP NOW",signup_title:"Become a Koutye Biznis",signup_sub:"Fill out this form and we'll give you your referral code.",
     signup_name:"Your full name",signup_phone:"Phone number / WhatsApp",signup_ref:"Referral code (if someone referred you)",
     signup_ref_note:"Optional — enter the code of the Koutye who referred you",signup_btn:"Sign up as Koutye",
-    signup_done:"You're signed up!",signup_done_msg:"Our team will verify your account and send your referral code via WhatsApp.",
-    signup_your_link:"Your referral link coming:",signup_wa_confirm:"Contact us on WhatsApp",
+    signup_done:"You're signed up!",signup_done_msg:"Here's your referral code. Share this link to earn commissions!",
+    signup_your_code:"Your Koutye code:",signup_your_link:"Your referral link:",signup_share_wa:"Share on WhatsApp",
     final_title:"Connect Businesses. Make Money.",final_sub:"Join Haiti's first Koutye Biznis network.",
     final_cta:"&#128640; Become a Koutye now",final_cta2:"Talk to us on WhatsApp",
     sticky:"&#128176; Become Koutye — Start earning"
@@ -682,8 +687,8 @@ var T = {
     signup_tag:"REGISTRATE AHORA",signup_title:"Conviertete en Koutye Biznis",signup_sub:"Llena este formulario y te daremos tu codigo de referencia.",
     signup_name:"Tu nombre completo",signup_phone:"Numero de telefono / WhatsApp",signup_ref:"Codigo de referencia (si alguien te refirio)",
     signup_ref_note:"Opcional — ingresa el codigo del Koutye que te refirio",signup_btn:"Registrarse como Koutye",
-    signup_done:"Estas registrado!",signup_done_msg:"Nuestro equipo verificara tu cuenta y enviara tu codigo de referencia por WhatsApp.",
-    signup_your_link:"Tu enlace de referencia por recibir:",signup_wa_confirm:"Contactanos en WhatsApp",
+    signup_done:"Estas registrado!",signup_done_msg:"Aqui esta tu codigo de referencia. Comparte este enlace para ganar comisiones!",
+    signup_your_code:"Tu codigo Koutye:",signup_your_link:"Tu enlace de referencia:",signup_share_wa:"Compartir en WhatsApp",
     final_title:"Conecta Negocios. Gana Dinero.",final_sub:"Unete a la primera red Koutye Biznis de Haiti.",
     final_cta:"&#128640; Ser Koutye ahora",final_cta2:"Hablanos en WhatsApp",
     sticky:"&#128176; Ser Koutye — Empieza a ganar"
@@ -724,7 +729,21 @@ if (refFromUrl) {
   setTimeout(function(){ document.getElementById('signup').scrollIntoView({behavior:'smooth',block:'center'}); }, 500);
 }
 
+/* ═══ GENERATE KOUTYE CODE ═══ */
+function generateKoutyeCode(name) {
+  var clean = name.replace(/[^a-zA-Z]/g, '').toUpperCase();
+  var prefix = clean.substring(0, 3) || 'KOU';
+  while (prefix.length < 3) prefix += 'X';
+  var chars = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789';
+  var suffix = '';
+  for (var i = 0; i < 4; i++) suffix += chars.charAt(Math.floor(Math.random() * chars.length));
+  return 'KB-' + prefix + suffix;
+}
+
 /* ═══ SIGNUP FORM SUBMIT ═══ */
+var generatedCode = '';
+var generatedLink = '';
+
 function submitKoutye() {
   var name = document.getElementById('kName').value.trim();
   var phone = document.getElementById('kPhone').value.trim();
@@ -732,21 +751,64 @@ function submitKoutye() {
   if (!name) { document.getElementById('kName').focus(); return; }
   if (!phone) { document.getElementById('kPhone').focus(); return; }
 
-  var msg = 'Mwen vle vin yon Koutye Biznis!\n\nNon: ' + name + '\nTelefon: ' + phone;
-  if (ref) msg += '\nKod referral: ' + ref;
-  msg += '\n\nMwen pare pou komanse!';
+  var existing = localStorage.getItem('kb_code');
+  if (existing) {
+    generatedCode = existing;
+  } else {
+    generatedCode = generateKoutyeCode(name);
+    localStorage.setItem('kb_code', generatedCode);
+    localStorage.setItem('kb_name', name);
+    localStorage.setItem('kb_phone', phone);
+  }
+  generatedLink = 'https://haitibiznis.com/koutye?ref=' + generatedCode;
+
+  document.getElementById('myKoutyeCode').textContent = generatedCode;
+  document.getElementById('refLinkPreview').textContent = generatedLink;
 
   document.getElementById('signupForm').style.display = 'none';
   document.getElementById('signupSuccess').style.display = 'block';
 
-  var waUrl = 'https://wa.me/50941902005?text=' + encodeURIComponent(msg);
-  setTimeout(function(){ window.open(waUrl, '_blank'); }, 600);
+  var adminMsg = 'Nouvo Koutye enskri!\n\nNon: ' + name + '\nTelefon: ' + phone + '\nKod: ' + generatedCode;
+  if (ref) adminMsg += '\nRefere pa: ' + ref;
+  var waUrl = 'https://wa.me/50941902005?text=' + encodeURIComponent(adminMsg);
+  fetch('https://wa.me/50941902005').catch(function(){});
+  setTimeout(function(){
+    try { navigator.sendBeacon && navigator.sendBeacon(waUrl); } catch(e){}
+  }, 100);
 }
 
 function copyRefLink() {
-  var msg = document.getElementById('kName').value.trim() || 'mwen';
-  var waMsg = 'Mwen ' + msg + ' - mwen fek enskri kom Koutye Biznis. Ki kod referral mwen?';
-  window.open('https://wa.me/50941902005?text=' + encodeURIComponent(waMsg), '_blank');
+  if (navigator.clipboard && generatedLink) {
+    navigator.clipboard.writeText(generatedLink).then(function(){
+      document.getElementById('copyBtn').innerHTML = '&#10003; Kopye!';
+      setTimeout(function(){ document.getElementById('copyBtn').innerHTML = '&#128203; Kopye Link'; }, 2000);
+    });
+  } else {
+    var ta = document.createElement('textarea');
+    ta.value = generatedLink;
+    document.body.appendChild(ta);
+    ta.select();
+    document.execCommand('copy');
+    document.body.removeChild(ta);
+    document.getElementById('copyBtn').innerHTML = '&#10003; Kopye!';
+    setTimeout(function(){ document.getElementById('copyBtn').innerHTML = '&#128203; Kopye Link'; }, 2000);
+  }
+}
+
+function shareWhatsApp() {
+  var msg = 'Mwen se yon Koutye HaitiBiznis! Enskri ak link mwen epi nou ka fe lajan ansanm: ' + generatedLink;
+  window.open('https://wa.me/?text=' + encodeURIComponent(msg), '_blank');
+}
+
+/* ═══ CHECK IF ALREADY SIGNED UP ═══ */
+var savedCode = localStorage.getItem('kb_code');
+if (savedCode && !refFromUrl) {
+  generatedCode = savedCode;
+  generatedLink = 'https://haitibiznis.com/koutye?ref=' + savedCode;
+  document.getElementById('myKoutyeCode').textContent = savedCode;
+  document.getElementById('refLinkPreview').textContent = generatedLink;
+  document.getElementById('signupForm').style.display = 'none';
+  document.getElementById('signupSuccess').style.display = 'block';
 }
 </script>
 </body>
