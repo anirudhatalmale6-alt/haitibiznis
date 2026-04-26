@@ -1,0 +1,869 @@
+<!DOCTYPE html>
+<html lang="ht">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Koutye Biznis - Peman & Revni Dashboard</title>
+<meta name="description" content="Dashboard peman Koutye Biznis. Swiv balans ou, mande peman, we komisyon ou — tout nan yon sel kote.">
+<meta property="og:title" content="Koutye Biznis - Peman & Revni">
+<meta property="og:description" content="Dashboard peman Koutye Biznis. Swiv balans ou, mande peman, we komisyon ou.">
+<meta property="og:image" content="https://haitibiznis.com/assets/og-haitibiznis.jpg">
+<meta property="og:type" content="website">
+<link rel="icon" type="image/png" sizes="32x32" href="assets/favicon-32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="assets/favicon-16.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --blue:#00209F;--blue-light:#0033CC;--blue-dark:#001566;
+  --red:#D21034;--red-light:#E8274A;--red-dark:#B00D2C;
+  --white:#FFFFFF;--off-white:#F5F7FA;
+  --dark:#0A0E1A;--text:#1A1A2E;--text-light:#6B6B80;
+  --green:#1B8C3D;--green-light:#E8F5EC;
+  --orange:#E68A00;--orange-light:#FFF4E0;
+  --body:'Plus Jakarta Sans',system-ui,sans-serif;
+  --display:'DM Serif Display',Georgia,serif;
+}
+html{scroll-behavior:smooth}
+body{font-family:var(--body);background:var(--off-white);color:var(--text);overflow-x:hidden;-webkit-font-smoothing:antialiased;padding-bottom:64px}
+a{text-decoration:none;color:inherit}
+
+/* ═══ FLAG STRIPE ═══ */
+.flag-stripe{height:4px;background:linear-gradient(90deg,var(--blue) 50%,var(--red) 50%)}
+
+/* ═══ LANGUAGE BAR ═══ */
+.top-lang-bar{
+  background:var(--dark);color:#fff;font-size:.7rem;
+  padding:5px 20px;display:flex;align-items:center;justify-content:center;gap:4px;
+  position:fixed;top:0;left:0;right:0;z-index:1001;height:32px;
+}
+.top-lang-bar a{
+  color:#fff;background:rgba(255,255,255,.12);padding:3px 10px;border-radius:100px;
+  font-size:.68rem;font-weight:600;cursor:pointer;transition:all .15s;white-space:nowrap;
+}
+.top-lang-bar a:hover{background:rgba(255,255,255,.25)}
+.top-lang-bar a.active{background:var(--red);color:#fff}
+
+/* ═══ LAYOUT ═══ */
+.inner{max-width:1000px;margin:0 auto;padding:0 20px}
+.section{padding:60px 20px}
+.section-white{background:var(--white)}
+.section-off{background:var(--off-white)}
+.section-dark{background:linear-gradient(160deg,var(--blue-dark),var(--blue));color:#fff}
+.s-center{text-align:center}
+.s-tag{
+  display:inline-block;font-size:.68rem;font-weight:800;letter-spacing:.14em;text-transform:uppercase;
+  padding:5px 16px;border-radius:100px;margin-bottom:12px;
+}
+.s-tag-blue{background:rgba(0,32,159,.08);color:var(--blue);border:1px solid rgba(0,32,159,.12)}
+.s-tag-red{background:rgba(210,16,52,.08);color:var(--red);border:1px solid rgba(210,16,52,.12)}
+.s-tag-white{background:rgba(255,255,255,.15);color:#fff;border:1px solid rgba(255,255,255,.2)}
+.s-tag-green{background:rgba(27,140,61,.08);color:var(--green);border:1px solid rgba(27,140,61,.12)}
+.s-title{font-family:var(--display);font-size:clamp(1.5rem,3.5vw,2.2rem);margin-bottom:8px;line-height:1.2}
+.s-sub{font-size:.9rem;color:var(--text-light);max-width:520px;margin:0 auto 28px;line-height:1.6}
+
+/* ═══ BUTTONS ═══ */
+.btn{
+  display:inline-flex;align-items:center;justify-content:center;gap:8px;
+  padding:13px 28px;border-radius:12px;font-family:var(--body);font-size:.9rem;
+  font-weight:700;border:2px solid transparent;cursor:pointer;transition:all .25s;
+}
+.btn-red{background:var(--red);color:#fff;border-color:var(--red)}
+.btn-red:hover{transform:translateY(-2px);box-shadow:0 6px 24px rgba(210,16,52,.3)}
+.btn-blue{background:var(--blue);color:#fff;border-color:var(--blue)}
+.btn-blue:hover{transform:translateY(-2px);box-shadow:0 6px 24px rgba(0,32,159,.3)}
+.btn-out{background:transparent;color:var(--blue);border:2px solid var(--blue)}
+.btn-out:hover{background:rgba(0,32,159,.05)}
+
+/* ═══ BACK LINK ═══ */
+.back-bar{
+  background:var(--white);padding:44px 20px 12px;border-bottom:1px solid rgba(0,0,0,.06);
+}
+.back-link{
+  display:inline-flex;align-items:center;gap:6px;
+  font-size:.82rem;font-weight:700;color:var(--blue);transition:all .2s;
+}
+.back-link:hover{color:var(--blue-light);gap:8px}
+.back-link svg{width:16px;height:16px;fill:currentColor;flex-shrink:0}
+
+/* ═══ DASHBOARD HEADER ═══ */
+.dash-header{
+  background:var(--white);padding:28px 20px 36px;text-align:center;
+  position:relative;overflow:hidden;
+}
+.dash-header::after{content:'';position:absolute;bottom:0;left:0;right:0;height:60px;background:linear-gradient(to top,var(--off-white),transparent);pointer-events:none}
+.dash-header-inner{position:relative;z-index:2;max-width:640px;margin:0 auto;display:flex;flex-direction:column;align-items:center}
+.dash-logo{width:80px;height:80px;border-radius:18px;object-fit:cover;margin-bottom:14px;box-shadow:0 4px 20px rgba(0,32,159,.1);border:2px solid rgba(0,32,159,.1)}
+
+/* ═══ STATS CARDS ═══ */
+.stats-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;max-width:700px;margin:0 auto}
+.stat-card{
+  background:var(--white);border-radius:16px;padding:22px 18px;
+  border:1px solid rgba(0,0,0,.06);box-shadow:0 2px 12px rgba(0,0,0,.03);
+  transition:transform .3s;position:relative;overflow:hidden;
+}
+.stat-card:hover{transform:translateY(-3px)}
+.stat-card::before{
+  content:'';position:absolute;top:0;left:0;right:0;height:3px;
+}
+.stat-card:nth-child(1)::before{background:var(--green)}
+.stat-card:nth-child(2)::before{background:var(--orange)}
+.stat-card:nth-child(3)::before{background:var(--blue)}
+.stat-card:nth-child(4)::before{background:var(--dark)}
+.stat-label{font-size:.76rem;font-weight:700;color:var(--text-light);text-transform:uppercase;letter-spacing:.06em;margin-bottom:6px}
+.stat-amount{font-family:var(--display);font-size:clamp(1.4rem,3vw,1.8rem);line-height:1.2}
+.stat-amount.green{color:var(--green)}
+.stat-amount.orange{color:var(--orange)}
+.stat-amount.blue{color:var(--blue)}
+.stat-amount.dark{color:var(--dark)}
+.stat-unit{font-size:.72rem;font-weight:600;color:var(--text-light);margin-top:2px}
+@media(max-width:420px){.stats-grid{gap:10px}.stat-card{padding:16px 14px}}
+
+/* ═══ WITHDRAW SECTION ═══ */
+.withdraw-card{
+  max-width:560px;margin:0 auto;background:var(--white);border-radius:20px;
+  padding:32px 28px;border:1px solid rgba(0,0,0,.06);
+  box-shadow:0 4px 24px rgba(0,0,0,.05);
+}
+.withdraw-card h3{font-family:var(--display);font-size:1.3rem;margin-bottom:18px;text-align:center}
+.form-group{margin-bottom:16px}
+.form-group label{display:block;font-size:.8rem;font-weight:700;color:var(--text);margin-bottom:6px;text-transform:uppercase;letter-spacing:.04em}
+.form-group select,
+.form-group input,
+.form-group textarea{
+  width:100%;padding:12px 14px;border:2px solid rgba(0,0,0,.1);border-radius:10px;
+  font-family:var(--body);font-size:.88rem;color:var(--text);background:var(--white);
+  transition:border-color .2s;outline:none;
+}
+.form-group select:focus,
+.form-group input:focus,
+.form-group textarea:focus{border-color:var(--blue)}
+.form-group textarea{resize:vertical;min-height:70px}
+.form-group select{appearance:none;-webkit-appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%236B6B80' d='M6 8L1 3h10z'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 14px center;padding-right:36px}
+.form-rules{
+  margin-top:18px;padding:14px 16px;background:rgba(0,32,159,.03);border-radius:10px;
+  border:1px solid rgba(0,32,159,.08);list-style:none;
+}
+.form-rules li{font-size:.78rem;color:var(--text-light);padding:4px 0;display:flex;align-items:center;gap:8px;line-height:1.5}
+.form-rules li::before{content:'\2139';font-weight:900;color:var(--blue);font-size:.7rem;flex-shrink:0;width:18px;height:18px;border-radius:50%;background:rgba(0,32,159,.08);display:flex;align-items:center;justify-content:center}
+.form-submit{
+  margin-top:20px;width:100%;padding:14px;border-radius:12px;background:var(--red);
+  color:#fff;font-weight:800;font-size:.92rem;border:none;cursor:pointer;
+  font-family:var(--body);transition:all .25s;display:flex;align-items:center;justify-content:center;gap:8px;
+}
+.form-submit:hover{background:var(--red-dark);transform:translateY(-1px);box-shadow:0 6px 24px rgba(210,16,52,.3)}
+@media(max-width:480px){.withdraw-card{padding:24px 18px}}
+
+/* ═══ PAYOUT TABLE ═══ */
+.table-wrap{max-width:960px;margin:0 auto;overflow-x:auto;-webkit-overflow-scrolling:touch;border-radius:16px;border:1px solid rgba(0,0,0,.06);box-shadow:0 2px 16px rgba(0,0,0,.04)}
+.payout-table{width:100%;border-collapse:collapse;background:var(--white);min-width:720px}
+.payout-table thead th{
+  background:var(--blue);color:#fff;font-size:.72rem;font-weight:700;
+  padding:14px 14px;text-align:left;letter-spacing:.06em;text-transform:uppercase;
+  white-space:nowrap;
+}
+.payout-table tbody td{
+  padding:13px 14px;font-size:.82rem;border-bottom:1px solid rgba(0,0,0,.06);
+  vertical-align:middle;white-space:nowrap;
+}
+.payout-table tbody tr:last-child td{border-bottom:none}
+.payout-table tbody tr:hover{background:rgba(0,32,159,.02)}
+.payout-table .amount-cell{font-weight:800;font-family:var(--body)}
+.payout-table .method-cell{display:flex;align-items:center;gap:6px}
+.payout-table .method-icon{font-size:1rem}
+
+/* Status badges */
+.status-badge{
+  display:inline-flex;align-items:center;gap:4px;
+  padding:4px 12px;border-radius:100px;font-size:.72rem;font-weight:700;
+  text-transform:uppercase;letter-spacing:.04em;
+}
+.status-pending{background:#FFF4E0;color:#CC7A00}
+.status-approved{background:rgba(0,32,159,.08);color:var(--blue)}
+.status-paid{background:var(--green-light);color:var(--green)}
+.status-rejected{background:rgba(210,16,52,.08);color:var(--red)}
+.status-failed{background:rgba(0,0,0,.08);color:#555}
+.status-dot{width:6px;height:6px;border-radius:50%;flex-shrink:0}
+.status-pending .status-dot{background:#CC7A00}
+.status-approved .status-dot{background:var(--blue)}
+.status-paid .status-dot{background:var(--green)}
+.status-rejected .status-dot{background:var(--red)}
+.status-failed .status-dot{background:#555}
+
+/* Action links */
+.action-link{
+  font-size:.74rem;font-weight:700;color:var(--blue);cursor:pointer;
+  padding:3px 8px;border-radius:6px;transition:all .15s;border:1px solid transparent;
+}
+.action-link:hover{background:rgba(0,32,159,.06);border-color:rgba(0,32,159,.12)}
+.action-link.retry{color:var(--orange)}
+.action-link.retry:hover{background:var(--orange-light)}
+.action-link.support{color:var(--red)}
+.action-link.support:hover{background:rgba(210,16,52,.06)}
+
+.table-scroll-hint{
+  display:none;font-size:.72rem;color:var(--text-light);text-align:center;
+  margin-top:8px;font-style:italic;
+}
+@media(max-width:760px){.table-scroll-hint{display:block}}
+
+/* ═══ INFO CARD (Commission Rules) ═══ */
+.info-card{
+  max-width:700px;margin:0 auto;background:rgba(0,32,159,.03);border-radius:18px;
+  padding:28px 28px;border:1.5px solid rgba(0,32,159,.1);position:relative;overflow:hidden;
+}
+.info-card::before{
+  content:'';position:absolute;top:0;left:0;bottom:0;width:4px;background:var(--blue);border-radius:4px 0 0 4px;
+}
+.info-card-header{display:flex;align-items:center;gap:12px;margin-bottom:16px}
+.info-card-icon{
+  width:42px;height:42px;border-radius:12px;background:rgba(0,32,159,.08);
+  display:flex;align-items:center;justify-content:center;flex-shrink:0;
+}
+.info-card-icon svg{width:22px;height:22px;fill:var(--blue)}
+.info-card h3{font-family:var(--display);font-size:1.15rem;color:var(--dark)}
+.info-card-list{list-style:none;display:flex;flex-direction:column;gap:10px}
+.info-card-list li{
+  font-size:.84rem;color:var(--text);line-height:1.6;
+  display:flex;align-items:flex-start;gap:10px;padding-left:4px;
+}
+.info-card-list li::before{
+  content:'';flex-shrink:0;width:20px;height:20px;margin-top:1px;
+  background:rgba(0,32,159,.08);border-radius:50%;
+  display:flex;align-items:center;justify-content:center;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%2300209F' d='M5 9L2 6l1-1 2 2 4-4 1 1z'/%3E%3C/svg%3E");
+  background-repeat:no-repeat;background-position:center;background-size:12px;
+}
+@media(max-width:480px){.info-card{padding:22px 18px}}
+
+/* ═══ COMMISSION BREAKDOWN ═══ */
+.calc-grid{display:flex;flex-direction:column;gap:20px;max-width:700px;margin:0 auto}
+.calc-example{
+  background:var(--white);border-radius:16px;padding:22px 24px;
+  border:1px solid rgba(0,0,0,.06);box-shadow:0 2px 12px rgba(0,0,0,.03);
+}
+.calc-title{font-size:.88rem;font-weight:800;color:var(--dark);margin-bottom:14px;display:flex;align-items:center;gap:8px}
+.calc-title-icon{font-size:1.1rem}
+.calc-flow{display:flex;align-items:center;gap:0;flex-wrap:wrap;justify-content:center}
+.calc-step{
+  text-align:center;padding:10px 14px;flex-shrink:0;
+}
+.calc-step-label{font-size:.68rem;color:var(--text-light);font-weight:600;text-transform:uppercase;letter-spacing:.04em;margin-bottom:3px}
+.calc-step-value{font-size:1rem;font-weight:800;color:var(--dark)}
+.calc-step-value.highlight{color:var(--red);font-size:1.1rem}
+.calc-arrow{
+  flex-shrink:0;width:28px;height:28px;display:flex;align-items:center;justify-content:center;
+  color:var(--blue);font-size:.8rem;font-weight:900;
+}
+.calc-arrow svg{width:18px;height:18px;fill:var(--blue)}
+@media(max-width:520px){
+  .calc-flow{flex-direction:column;gap:0}
+  .calc-arrow{transform:rotate(90deg)}
+  .calc-step{padding:6px 14px}
+}
+
+/* ═══ FOOTER ═══ */
+.eco-footer{background:var(--dark);padding:28px 20px;text-align:center}
+.eco-logo{display:flex;align-items:center;justify-content:center;gap:8px;margin-bottom:12px}
+.eco-logo img{width:32px;height:32px;border-radius:8px}
+.eco-logo span{color:#fff;font-family:var(--display);font-size:1rem}
+.eco-links{display:flex;flex-wrap:wrap;gap:6px;justify-content:center;margin-bottom:12px}
+.eco-links a{color:rgba(255,255,255,.45);font-size:.72rem;font-weight:600;padding:3px 12px;border-radius:100px;border:1px solid rgba(255,255,255,.08);transition:all .2s}
+.eco-links a:hover{color:#fff;border-color:rgba(255,255,255,.25)}
+.eco-copy{font-size:.68rem;color:rgba(255,255,255,.25)}
+
+/* ═══ STICKY BAR ═══ */
+.sticky-bar{
+  position:fixed;bottom:0;left:0;right:0;z-index:1000;
+  background:var(--red);padding:12px 20px;text-align:center;
+  box-shadow:0 -4px 20px rgba(0,0,0,.2);
+}
+.sticky-bar a{
+  color:#fff;font-weight:800;font-size:.92rem;display:flex;align-items:center;justify-content:center;gap:8px;
+}
+
+/* ═══ WHATSAPP FLOAT ═══ */
+.wa-float{
+  position:fixed;bottom:72px;right:16px;z-index:999;width:52px;height:52px;border-radius:50%;
+  background:#25D366;display:flex;align-items:center;justify-content:center;
+  box-shadow:0 4px 16px rgba(0,0,0,.25);transition:transform .3s;
+}
+.wa-float:hover{transform:scale(1.1)}
+.wa-float svg{width:28px;height:28px;fill:#fff}
+
+/* ═══ ANIMATIONS ═══ */
+@keyframes fadeUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
+.fade-up{animation:fadeUp .5s ease-out both}
+.d1{animation-delay:.1s}.d2{animation-delay:.2s}.d3{animation-delay:.3s}.d4{animation-delay:.4s}
+
+/* ═══ ALERT MODAL ═══ */
+.alert-overlay{
+  position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:2000;
+  display:none;align-items:center;justify-content:center;padding:20px;
+}
+.alert-overlay.show{display:flex}
+.alert-box{
+  background:var(--white);border-radius:20px;padding:32px 28px;max-width:400px;width:100%;
+  text-align:center;box-shadow:0 20px 60px rgba(0,0,0,.2);
+  animation:fadeUp .3s ease-out;
+}
+.alert-icon{font-size:2.4rem;margin-bottom:12px;display:block}
+.alert-box h3{font-family:var(--display);font-size:1.2rem;margin-bottom:8px}
+.alert-box p{font-size:.86rem;color:var(--text-light);line-height:1.6;margin-bottom:20px}
+.alert-close{
+  padding:10px 28px;border-radius:10px;background:var(--blue);color:#fff;
+  font-weight:700;font-size:.86rem;border:none;cursor:pointer;font-family:var(--body);
+  transition:all .2s;
+}
+.alert-close:hover{background:var(--blue-dark)}
+
+@media(max-width:600px){
+  .back-bar{padding:40px 16px 10px}
+  .dash-header{padding:20px 16px 30px}
+  .section{padding:48px 16px}
+}
+</style>
+</head>
+<body>
+
+<div class="flag-stripe"></div>
+<div class="top-lang-bar">
+  <a onclick="setLang('ht')" class="active" id="lang-ht">&#127469;&#127481; Kreyol</a>
+  <a onclick="setLang('fr')" id="lang-fr">&#127467;&#127479; Francais</a>
+  <a onclick="setLang('en')" id="lang-en">&#127468;&#127463; English</a>
+  <a onclick="setLang('es')" id="lang-es">&#127466;&#127480; Espanol</a>
+</div>
+
+<!-- ═══ BACK LINK ═══ -->
+<div class="back-bar">
+  <a href="koutye.html" class="back-link">
+    <svg viewBox="0 0 16 16"><path d="M10.5 13L5.5 8l5-5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    <span data-i18n="back_link">Retounen nan Koutye Biznis</span>
+  </a>
+</div>
+
+<!-- ═══ DASHBOARD HEADER ═══ -->
+<section class="dash-header">
+  <div class="dash-header-inner">
+    <img src="assets/koutye-biznis-logo.jpg" alt="Koutye Biznis" class="dash-logo fade-up">
+    <span class="s-tag s-tag-green fade-up" data-i18n="dash_tag">&#128176; PEMAN DASHBOARD</span>
+    <h1 class="s-title fade-up d1" data-i18n="dash_title">Peman &amp; Revni</h1>
+    <p class="s-sub fade-up d2" data-i18n="dash_sub">Swiv balans ou, mande retrè, epi jere peman Koutye ou nan yon sèl kote.</p>
+  </div>
+</section>
+
+<!-- ═══ TOP STATS CARDS ═══ -->
+<section class="section section-off">
+  <div class="inner">
+    <div class="stats-grid">
+      <div class="stat-card fade-up">
+        <div class="stat-label" data-i18n="stat_balance">Balans Disponib</div>
+        <div class="stat-amount green">3,250 <span style="font-size:.6em">HTG</span></div>
+        <div class="stat-unit" data-i18n="stat_balance_note">disponib pou retire</div>
+      </div>
+      <div class="stat-card fade-up d1">
+        <div class="stat-label" data-i18n="stat_pending">Komisyon an Atant</div>
+        <div class="stat-amount orange">875 <span style="font-size:.6em">HTG</span></div>
+        <div class="stat-unit" data-i18n="stat_pending_note">ap tann validasyon</div>
+      </div>
+      <div class="stat-card fade-up d2">
+        <div class="stat-label" data-i18n="stat_month">Peye Mwa Sa</div>
+        <div class="stat-amount blue">1,500 <span style="font-size:.6em">HTG</span></div>
+        <div class="stat-unit" data-i18n="stat_month_note">avril 2026</div>
+      </div>
+      <div class="stat-card fade-up d3">
+        <div class="stat-label" data-i18n="stat_lifetime">Revni Total</div>
+        <div class="stat-amount dark">12,450 <span style="font-size:.6em">HTG</span></div>
+        <div class="stat-unit" data-i18n="stat_lifetime_note">depi ou enskri</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ WITHDRAW SECTION ═══ -->
+<section class="section section-white" id="withdraw">
+  <div class="inner s-center">
+    <span class="s-tag s-tag-red" data-i18n="withdraw_tag">&#128181; RETRÈ</span>
+    <h2 class="s-title" data-i18n="withdraw_title">Mande Peman</h2>
+    <p class="s-sub" data-i18n="withdraw_sub">Chwazi metod peman ou epi mande yon retrè.</p>
+    <div class="withdraw-card">
+      <form id="payout-form">
+        <div class="form-group">
+          <label for="payout-method" data-i18n="form_method_label">Metod Peman</label>
+          <select id="payout-method" required>
+            <option value="" data-i18n="form_method_placeholder">-- Chwazi metod --</option>
+            <option value="moncash">MonCash</option>
+            <option value="natcash">NatCash</option>
+            <option value="bank" data-i18n="form_method_bank">Transfere Labank</option>
+            <option value="manual" data-i18n="form_method_manual">Peman manyèl</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="payout-account" data-i18n="form_account_label">Nimewo Telefon / Kont</label>
+          <input type="text" id="payout-account" placeholder="+509 3700 0001" required>
+        </div>
+        <div class="form-group">
+          <label for="payout-amount" data-i18n="form_amount_label">Montan pou Retire (HTG)</label>
+          <input type="number" id="payout-amount" placeholder="500" min="500" required>
+        </div>
+        <div class="form-group">
+          <label for="payout-notes" data-i18n="form_notes_label">Nòt (opsyonèl)</label>
+          <textarea id="payout-notes" placeholder="" data-i18n-placeholder="form_notes_placeholder"></textarea>
+        </div>
+        <ul class="form-rules">
+          <li data-i18n="rule_min">Minimum peman: 500 HTG</li>
+          <li data-i18n="rule_time">Pwosesis: 24-48 èdtan</li>
+          <li data-i18n="rule_valid">Komisyon dwe valide anvan ou ka retire</li>
+        </ul>
+        <button type="submit" class="form-submit" data-i18n="form_submit">&#128176; Mande Peman</button>
+      </form>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ PAYOUT STATUS TABLE ═══ -->
+<section class="section section-off">
+  <div class="inner s-center">
+    <span class="s-tag s-tag-blue" data-i18n="table_tag">&#128203; ISTWA PEMAN</span>
+    <h2 class="s-title" data-i18n="table_title">Estati Peman yo</h2>
+    <p class="s-sub" data-i18n="table_sub">Tout demand peman ou ak estati yo.</p>
+    <div class="table-wrap">
+      <table class="payout-table">
+        <thead>
+          <tr>
+            <th data-i18n="th_date">Dat</th>
+            <th data-i18n="th_id">ID Peman</th>
+            <th data-i18n="th_method">Metod</th>
+            <th data-i18n="th_amount">Montan</th>
+            <th data-i18n="th_status">Estati</th>
+            <th data-i18n="th_ref">Referans</th>
+            <th data-i18n="th_action">Aksyon</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>24 Avr 2026</td>
+            <td style="font-family:monospace;font-size:.78rem">#KB-4821</td>
+            <td><span class="method-cell"><span class="method-icon">&#128179;</span> MonCash</span></td>
+            <td class="amount-cell">1,200 HTG</td>
+            <td><span class="status-badge status-paid"><span class="status-dot"></span> <span data-i18n="status_paid">Peye</span></span></td>
+            <td style="font-family:monospace;font-size:.76rem">TXN-98234</td>
+            <td><a class="action-link" data-i18n="action_receipt">Resi</a></td>
+          </tr>
+          <tr>
+            <td>20 Avr 2026</td>
+            <td style="font-family:monospace;font-size:.78rem">#KB-4798</td>
+            <td><span class="method-cell"><span class="method-icon">&#128181;</span> NatCash</span></td>
+            <td class="amount-cell">800 HTG</td>
+            <td><span class="status-badge status-approved"><span class="status-dot"></span> <span data-i18n="status_approved">Apwouve</span></span></td>
+            <td style="font-family:monospace;font-size:.76rem">TXN-97801</td>
+            <td><a class="action-link" data-i18n="action_receipt">Resi</a></td>
+          </tr>
+          <tr>
+            <td>15 Avr 2026</td>
+            <td style="font-family:monospace;font-size:.78rem">#KB-4756</td>
+            <td><span class="method-cell"><span class="method-icon">&#128179;</span> MonCash</span></td>
+            <td class="amount-cell">500 HTG</td>
+            <td><span class="status-badge status-pending"><span class="status-dot"></span> <span data-i18n="status_pending">An atant</span></span></td>
+            <td style="font-size:.76rem;color:var(--text-light)">--</td>
+            <td><a class="action-link support" data-i18n="action_support">Sipò</a></td>
+          </tr>
+          <tr>
+            <td>08 Avr 2026</td>
+            <td style="font-family:monospace;font-size:.78rem">#KB-4701</td>
+            <td><span class="method-cell"><span class="method-icon">&#127974;</span> <span data-i18n="method_bank">Labank</span></span></td>
+            <td class="amount-cell">2,500 HTG</td>
+            <td><span class="status-badge status-rejected"><span class="status-dot"></span> <span data-i18n="status_rejected">Rejte</span></span></td>
+            <td style="font-size:.76rem;color:var(--text-light)">--</td>
+            <td><a class="action-link support" data-i18n="action_support">Sipò</a></td>
+          </tr>
+          <tr>
+            <td>01 Avr 2026</td>
+            <td style="font-family:monospace;font-size:.78rem">#KB-4655</td>
+            <td><span class="method-cell"><span class="method-icon">&#128181;</span> NatCash</span></td>
+            <td class="amount-cell">600 HTG</td>
+            <td><span class="status-badge status-failed"><span class="status-dot"></span> <span data-i18n="status_failed">Echwe</span></span></td>
+            <td style="font-size:.76rem;color:var(--text-light)">--</td>
+            <td><a class="action-link retry" data-i18n="action_retry">Reseye</a></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="table-scroll-hint" data-i18n="table_scroll">&#8592; Glise pou wè plis &#8594;</p>
+  </div>
+</section>
+
+<!-- ═══ COMMISSION VALIDATION RULES ═══ -->
+<section class="section section-white">
+  <div class="inner s-center">
+    <span class="s-tag s-tag-blue" data-i18n="rules_tag">&#128274; REG VALIDASYON</span>
+    <h2 class="s-title" data-i18n="rules_title">Kijan Peman yo Apwouve</h2>
+    <p class="s-sub" data-i18n="rules_sub">Règ ki pwoteje sistèm nan epi asire peman jis pou tout Koutye.</p>
+    <div class="info-card" style="text-align:left">
+      <div class="info-card-header">
+        <div class="info-card-icon">
+          <svg viewBox="0 0 24 24"><path d="M12 2L3 7v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V7l-9-5zm0 10.99h7c-.53 4.12-3.28 7.79-7 8.94V13H5V8.26l7-3.89V12.99z"/></svg>
+        </div>
+        <h3 data-i18n="rules_card_title">Règ Apwovasyon Peman</h3>
+      </div>
+      <ul class="info-card-list">
+        <li data-i18n="rules_1">Komisyon sou pake biznis yo valide apre peman kliyan an konfime.</li>
+        <li data-i18n="rules_2">Komisyon Marketplace, rides, livrezon, utility, ak Sol valab pou 12 mwa depi dat enskrisyon referral la.</li>
+        <li data-i18n="rules_3">Komisyon yo baze sou FRÈ PLATFOM nan, pa sou montan total tranzaksyon an.</li>
+        <li data-i18n="rules_4">Aktivite sispèk ka mete peman an sou poz.</li>
+        <li data-i18n="rules_5">Admin ka apwouve, rejte, oswa kenbe peman yo.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ COMMISSION BREAKDOWN ═══ -->
+<section class="section section-off">
+  <div class="inner s-center">
+    <span class="s-tag s-tag-red" data-i18n="calc_tag">&#128200; KALKIL</span>
+    <h2 class="s-title" data-i18n="calc_title">Kalkil Komisyon</h2>
+    <p class="s-sub" data-i18n="calc_sub">Men kijan komisyon ou kalkile - baze sou frè platfom, pa sou montan total.</p>
+    <div class="calc-grid">
+
+      <!-- Example 1: MsouWout -->
+      <div class="calc-example">
+        <div class="calc-title"><span class="calc-title-icon">&#128757;</span> MsouWout (<span data-i18n="calc_ride">Kous</span>)</div>
+        <div class="calc-flow">
+          <div class="calc-step">
+            <div class="calc-step-label" data-i18n="calc_total_ride">Kous Total</div>
+            <div class="calc-step-value">1,000 HTG</div>
+          </div>
+          <div class="calc-arrow"><svg viewBox="0 0 16 16"><path d="M3 8h10M9 4l4 4-4 4" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+          <div class="calc-step">
+            <div class="calc-step-label" data-i18n="calc_platform_fee">Frè Platfom 25%</div>
+            <div class="calc-step-value">250 HTG</div>
+          </div>
+          <div class="calc-arrow"><svg viewBox="0 0 16 16"><path d="M3 8h10M9 4l4 4-4 4" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+          <div class="calc-step">
+            <div class="calc-step-label" data-i18n="calc_koutye_10">Koutye 10%</div>
+            <div class="calc-step-value highlight">25 HTG</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Example 2: MyPlopPlop -->
+      <div class="calc-example">
+        <div class="calc-title"><span class="calc-title-icon">&#128722;</span> MyPlopPlop (<span data-i18n="calc_order">Kòmand</span>)</div>
+        <div class="calc-flow">
+          <div class="calc-step">
+            <div class="calc-step-label" data-i18n="calc_total_order">Kòmand Total</div>
+            <div class="calc-step-value">2,000 HTG</div>
+          </div>
+          <div class="calc-arrow"><svg viewBox="0 0 16 16"><path d="M3 8h10M9 4l4 4-4 4" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+          <div class="calc-step">
+            <div class="calc-step-label" data-i18n="calc_platform_fee_10">Frè Platfom 10%</div>
+            <div class="calc-step-value">200 HTG</div>
+          </div>
+          <div class="calc-arrow"><svg viewBox="0 0 16 16"><path d="M3 8h10M9 4l4 4-4 4" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+          <div class="calc-step">
+            <div class="calc-step-label" data-i18n="calc_koutye_10">Koutye 10%</div>
+            <div class="calc-step-value highlight">20 HTG</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Example 3: 48HoursReady -->
+      <div class="calc-example">
+        <div class="calc-title"><span class="calc-title-icon">&#128188;</span> 48HoursReady (<span data-i18n="calc_package">Pake</span>)</div>
+        <div class="calc-flow">
+          <div class="calc-step">
+            <div class="calc-step-label" data-i18n="calc_package_price">Pri Pake</div>
+            <div class="calc-step-value">$99</div>
+          </div>
+          <div class="calc-arrow"><svg viewBox="0 0 16 16"><path d="M3 8h10M9 4l4 4-4 4" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+          <div class="calc-step">
+            <div class="calc-step-label" data-i18n="calc_direct_10">Koutye 10% Dirèk</div>
+            <div class="calc-step-value highlight">$9.90</div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ═══ FOOTER ═══ -->
+<footer class="eco-footer">
+  <div class="eco-logo"><img src="assets/haitibiznis-icon.png" alt="HaitiBiznis"><span>HaitiBiznis</span></div>
+  <div class="eco-links">
+    <a href="index.html">HaitiBiznis</a>
+    <a href="koutye.html">Koutye Biznis</a>
+    <a href="https://myplopplop.com">MyPlopPlop</a>
+    <a href="https://msouwout.com">MsouWout</a>
+    <a href="https://48hoursready.com">48HoursReady</a>
+    <a href="https://prolakay.haitibiznis.com">ProLakay</a>
+  </div>
+  <div class="eco-copy">&copy; 2026 HaitiBiznis Ecosystem</div>
+</footer>
+
+<!-- ═══ STICKY BAR ═══ -->
+<div class="sticky-bar">
+  <a href="#withdraw" data-i18n="sticky">&#128176; Retire Lajan — Mande Peman</a>
+</div>
+
+<!-- ═══ WHATSAPP FLOAT ═══ -->
+<a href="https://wa.me/50937000001" target="_blank" class="wa-float">
+  <svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+</a>
+
+<!-- ═══ ALERT MODAL ═══ -->
+<div class="alert-overlay" id="alert-overlay">
+  <div class="alert-box">
+    <span class="alert-icon">&#9989;</span>
+    <h3 data-i18n="alert_title">Demann Soumèt!</h3>
+    <p data-i18n="alert_msg">Demann peman ou an soumèt ak siksè. N ap trete li nan 24-48 èdtan.</p>
+    <button class="alert-close" onclick="closeAlert()" data-i18n="alert_close">Dakò</button>
+  </div>
+</div>
+
+<script>
+/* ═══ TRANSLATIONS ═══ */
+var T = {
+  ht: {
+    back_link:"Retounen nan Koutye Biznis",
+    dash_tag:"&#128176; PEMAN DASHBOARD",dash_title:"Peman &amp; Revni",
+    dash_sub:"Swiv balans ou, mande retrè, epi jere peman Koutye ou nan yon sèl kote.",
+    stat_balance:"Balans Disponib",stat_balance_note:"disponib pou retire",
+    stat_pending:"Komisyon an Atant",stat_pending_note:"ap tann validasyon",
+    stat_month:"Peye Mwa Sa",stat_month_note:"avril 2026",
+    stat_lifetime:"Revni Total",stat_lifetime_note:"depi ou enskri",
+    withdraw_tag:"&#128181; RETRÈ",withdraw_title:"Mande Peman",
+    withdraw_sub:"Chwazi metod peman ou epi mande yon retrè.",
+    form_method_label:"Metod Peman",form_method_placeholder:"-- Chwazi metod --",
+    form_method_bank:"Transfere Labank",form_method_manual:"Peman manyèl",
+    form_account_label:"Nimewo Telefon / Kont",
+    form_amount_label:"Montan pou Retire (HTG)",
+    form_notes_label:"Nòt (opsyonèl)",form_notes_placeholder:"Ekri yon nòt si ou vle...",
+    rule_min:"Minimum peman: 500 HTG",rule_time:"Pwosesis: 24-48 èdtan",
+    rule_valid:"Komisyon dwe valide anvan ou ka retire",
+    form_submit:"&#128176; Mande Peman",
+    table_tag:"&#128203; ISTWA PEMAN",table_title:"Estati Peman yo",
+    table_sub:"Tout demand peman ou ak estati yo.",
+    th_date:"Dat",th_id:"ID Peman",th_method:"Metod",th_amount:"Montan",
+    th_status:"Estati",th_ref:"Referans",th_action:"Aksyon",
+    status_paid:"Peye",status_approved:"Apwouve",status_pending:"An atant",
+    status_rejected:"Rejte",status_failed:"Echwe",
+    method_bank:"Labank",
+    action_receipt:"Resi",action_support:"Sipò",action_retry:"Reseye",
+    table_scroll:"&#8592; Glise pou wè plis &#8594;",
+    rules_tag:"&#128274; REG VALIDASYON",rules_title:"Kijan Peman yo Apwouve",
+    rules_sub:"Règ ki pwoteje sistèm nan epi asire peman jis pou tout Koutye.",
+    rules_card_title:"Règ Apwovasyon Peman",
+    rules_1:"Komisyon sou pake biznis yo valide apre peman kliyan an konfime.",
+    rules_2:"Komisyon Marketplace, rides, livrezon, utility, ak Sol valab pou 12 mwa depi dat enskrisyon referral la.",
+    rules_3:"Komisyon yo baze sou FRÈ PLATFOM nan, pa sou montan total tranzaksyon an.",
+    rules_4:"Aktivite sispèk ka mete peman an sou poz.",
+    rules_5:"Admin ka apwouve, rejte, oswa kenbe peman yo.",
+    calc_tag:"&#128200; KALKIL",calc_title:"Kalkil Komisyon",
+    calc_sub:"Men kijan komisyon ou kalkile — baze sou frè platfom, pa sou montan total.",
+    calc_ride:"Kous",calc_order:"Kòmand",calc_package:"Pake",
+    calc_total_ride:"Kous Total",calc_platform_fee:"Frè Platfom 25%",
+    calc_koutye_10:"Koutye 10%",calc_total_order:"Kòmand Total",
+    calc_platform_fee_10:"Frè Platfom 10%",
+    calc_package_price:"Pri Pake",calc_direct_10:"Koutye 10% Dirèk",
+    sticky:"&#128176; Retire Lajan — Mande Peman",
+    alert_title:"Demann Soumèt!",alert_msg:"Demann peman ou an soumèt ak siksè. N ap trete li nan 24-48 èdtan.",
+    alert_close:"Dakò"
+  },
+  fr: {
+    back_link:"Retour a Koutye Biznis",
+    dash_tag:"&#128176; TABLEAU DE PAIEMENT",dash_title:"Paiements &amp; Revenus",
+    dash_sub:"Suivez votre solde, demandez un retrait et gerez vos paiements Koutye en un seul endroit.",
+    stat_balance:"Solde Disponible",stat_balance_note:"disponible pour retrait",
+    stat_pending:"Commissions en Attente",stat_pending_note:"en attente de validation",
+    stat_month:"Paye ce Mois",stat_month_note:"avril 2026",
+    stat_lifetime:"Revenus Totaux",stat_lifetime_note:"depuis l'inscription",
+    withdraw_tag:"&#128181; RETRAIT",withdraw_title:"Demander un Paiement",
+    withdraw_sub:"Choisissez votre methode de paiement et demandez un retrait.",
+    form_method_label:"Methode de Paiement",form_method_placeholder:"-- Choisir methode --",
+    form_method_bank:"Virement Bancaire",form_method_manual:"Paiement manuel",
+    form_account_label:"Numero de Telephone / Compte",
+    form_amount_label:"Montant a Retirer (HTG)",
+    form_notes_label:"Notes (optionnel)",form_notes_placeholder:"Ecrivez une note si necessaire...",
+    rule_min:"Paiement minimum: 500 HTG",rule_time:"Traitement: 24-48 heures",
+    rule_valid:"Les commissions doivent etre validees avant le retrait",
+    form_submit:"&#128176; Demander le Paiement",
+    table_tag:"&#128203; HISTORIQUE",table_title:"Statut des Paiements",
+    table_sub:"Toutes vos demandes de paiement et leurs statuts.",
+    th_date:"Date",th_id:"ID Paiement",th_method:"Methode",th_amount:"Montant",
+    th_status:"Statut",th_ref:"Reference",th_action:"Action",
+    status_paid:"Paye",status_approved:"Approuve",status_pending:"En attente",
+    status_rejected:"Rejete",status_failed:"Echoue",
+    method_bank:"Banque",
+    action_receipt:"Recu",action_support:"Support",action_retry:"Reessayer",
+    table_scroll:"&#8592; Glissez pour voir plus &#8594;",
+    rules_tag:"&#128274; REGLES DE VALIDATION",rules_title:"Comment les Paiements sont Approuves",
+    rules_sub:"Regles qui protegent le systeme et assurent des paiements justes pour tous les Koutye.",
+    rules_card_title:"Regles d'Approbation des Paiements",
+    rules_1:"Les commissions sur les packages business sont validees apres confirmation du paiement client.",
+    rules_2:"Les commissions Marketplace, courses, livraisons, utilites et Sol sont valables 12 mois a partir de la date d'inscription du referral.",
+    rules_3:"Les commissions sont basees sur les FRAIS DE PLATEFORME, pas sur le montant total de la transaction.",
+    rules_4:"Les activites suspectes peuvent mettre le paiement en pause.",
+    rules_5:"L'administrateur peut approuver, rejeter ou suspendre les paiements.",
+    calc_tag:"&#128200; CALCUL",calc_title:"Calcul des Commissions",
+    calc_sub:"Voici comment vos commissions sont calculees — basees sur les frais de plateforme, pas le montant total.",
+    calc_ride:"Course",calc_order:"Commande",calc_package:"Package",
+    calc_total_ride:"Course Totale",calc_platform_fee:"Frais Plateforme 25%",
+    calc_koutye_10:"Koutye 10%",calc_total_order:"Commande Totale",
+    calc_platform_fee_10:"Frais Plateforme 10%",
+    calc_package_price:"Prix du Package",calc_direct_10:"Koutye 10% Direct",
+    sticky:"&#128176; Retirer Fonds — Demander Paiement",
+    alert_title:"Demande Soumise!",alert_msg:"Votre demande de paiement a ete soumise avec succes. Nous la traiterons dans 24-48 heures.",
+    alert_close:"D'accord"
+  },
+  en: {
+    back_link:"Back to Koutye Biznis",
+    dash_tag:"&#128176; PAYOUT DASHBOARD",dash_title:"Payouts &amp; Earnings",
+    dash_sub:"Track your balance, request withdrawals, and manage your Koutye payouts in one place.",
+    stat_balance:"Available Balance",stat_balance_note:"available to withdraw",
+    stat_pending:"Pending Commission",stat_pending_note:"awaiting validation",
+    stat_month:"Paid This Month",stat_month_note:"April 2026",
+    stat_lifetime:"Lifetime Earnings",stat_lifetime_note:"since you signed up",
+    withdraw_tag:"&#128181; WITHDRAW",withdraw_title:"Request Payout",
+    withdraw_sub:"Choose your payout method and request a withdrawal.",
+    form_method_label:"Payout Method",form_method_placeholder:"-- Select method --",
+    form_method_bank:"Bank Transfer",form_method_manual:"Manual payout",
+    form_account_label:"Phone Number / Account",
+    form_amount_label:"Amount to Withdraw (HTG)",
+    form_notes_label:"Notes (optional)",form_notes_placeholder:"Write a note if needed...",
+    rule_min:"Minimum payout: 500 HTG",rule_time:"Processing time: 24-48 hours",
+    rule_valid:"Commissions must be validated before withdrawal",
+    form_submit:"&#128176; Request Payout",
+    table_tag:"&#128203; PAYOUT HISTORY",table_title:"Payout Status",
+    table_sub:"All your payout requests and their statuses.",
+    th_date:"Date",th_id:"Payout ID",th_method:"Method",th_amount:"Amount",
+    th_status:"Status",th_ref:"Reference",th_action:"Action",
+    status_paid:"Paid",status_approved:"Approved",status_pending:"Pending",
+    status_rejected:"Rejected",status_failed:"Failed",
+    method_bank:"Bank",
+    action_receipt:"Receipt",action_support:"Support",action_retry:"Retry",
+    table_scroll:"&#8592; Swipe to see more &#8594;",
+    rules_tag:"&#128274; VALIDATION RULES",rules_title:"How Payouts are Approved",
+    rules_sub:"Rules that protect the system and ensure fair payouts for all Koutye.",
+    rules_card_title:"Payout Approval Rules",
+    rules_1:"Package commissions are validated after payment is confirmed.",
+    rules_2:"Marketplace, rides, delivery, utility, and Sol commissions are valid for 12 months from referral signup date.",
+    rules_3:"Commissions are based on PLATFORM FEES, not full transaction amount.",
+    rules_4:"Suspicious activity can pause payout approval.",
+    rules_5:"Admin can approve, reject, or hold payouts.",
+    calc_tag:"&#128200; CALCULATION",calc_title:"Commission Calculation",
+    calc_sub:"Here's how your commissions are calculated — based on platform fees, not the total amount.",
+    calc_ride:"Ride",calc_order:"Order",calc_package:"Package",
+    calc_total_ride:"Ride Total",calc_platform_fee:"Platform Fee 25%",
+    calc_koutye_10:"Koutye 10%",calc_total_order:"Order Total",
+    calc_platform_fee_10:"Platform Fee 10%",
+    calc_package_price:"Package Price",calc_direct_10:"Koutye 10% Direct",
+    sticky:"&#128176; Withdraw Earnings — Request Payout",
+    alert_title:"Request Submitted!",alert_msg:"Your payout request has been submitted successfully. We'll process it within 24-48 hours.",
+    alert_close:"OK"
+  },
+  es: {
+    back_link:"Volver a Koutye Biznis",
+    dash_tag:"&#128176; PANEL DE PAGOS",dash_title:"Pagos &amp; Ingresos",
+    dash_sub:"Sigue tu saldo, solicita retiros y gestiona tus pagos Koutye en un solo lugar.",
+    stat_balance:"Saldo Disponible",stat_balance_note:"disponible para retirar",
+    stat_pending:"Comision Pendiente",stat_pending_note:"esperando validacion",
+    stat_month:"Pagado Este Mes",stat_month_note:"abril 2026",
+    stat_lifetime:"Ingresos Totales",stat_lifetime_note:"desde tu registro",
+    withdraw_tag:"&#128181; RETIRO",withdraw_title:"Solicitar Pago",
+    withdraw_sub:"Elige tu metodo de pago y solicita un retiro.",
+    form_method_label:"Metodo de Pago",form_method_placeholder:"-- Seleccionar metodo --",
+    form_method_bank:"Transferencia Bancaria",form_method_manual:"Pago manual",
+    form_account_label:"Numero de Telefono / Cuenta",
+    form_amount_label:"Monto a Retirar (HTG)",
+    form_notes_label:"Notas (opcional)",form_notes_placeholder:"Escribe una nota si deseas...",
+    rule_min:"Pago minimo: 500 HTG",rule_time:"Procesamiento: 24-48 horas",
+    rule_valid:"Las comisiones deben ser validadas antes del retiro",
+    form_submit:"&#128176; Solicitar Pago",
+    table_tag:"&#128203; HISTORIAL DE PAGOS",table_title:"Estado de Pagos",
+    table_sub:"Todas tus solicitudes de pago y sus estados.",
+    th_date:"Fecha",th_id:"ID de Pago",th_method:"Metodo",th_amount:"Monto",
+    th_status:"Estado",th_ref:"Referencia",th_action:"Accion",
+    status_paid:"Pagado",status_approved:"Aprobado",status_pending:"Pendiente",
+    status_rejected:"Rechazado",status_failed:"Fallido",
+    method_bank:"Banco",
+    action_receipt:"Recibo",action_support:"Soporte",action_retry:"Reintentar",
+    table_scroll:"&#8592; Desliza para ver mas &#8594;",
+    rules_tag:"&#128274; REGLAS DE VALIDACION",rules_title:"Como se Aprueban los Pagos",
+    rules_sub:"Reglas que protegen el sistema y aseguran pagos justos para todos los Koutye.",
+    rules_card_title:"Reglas de Aprobacion de Pagos",
+    rules_1:"Las comisiones de paquetes se validan despues de confirmar el pago del cliente.",
+    rules_2:"Las comisiones de Marketplace, viajes, entregas, servicios publicos y Sol son validas por 12 meses desde la fecha de registro del referido.",
+    rules_3:"Las comisiones se basan en las TARIFAS DE PLATAFORMA, no en el monto total de la transaccion.",
+    rules_4:"La actividad sospechosa puede pausar la aprobacion del pago.",
+    rules_5:"El administrador puede aprobar, rechazar o retener pagos.",
+    calc_tag:"&#128200; CALCULO",calc_title:"Calculo de Comisiones",
+    calc_sub:"Asi se calculan tus comisiones — basadas en tarifas de plataforma, no en el monto total.",
+    calc_ride:"Viaje",calc_order:"Pedido",calc_package:"Paquete",
+    calc_total_ride:"Viaje Total",calc_platform_fee:"Tarifa Plataforma 25%",
+    calc_koutye_10:"Koutye 10%",calc_total_order:"Pedido Total",
+    calc_platform_fee_10:"Tarifa Plataforma 10%",
+    calc_package_price:"Precio del Paquete",calc_direct_10:"Koutye 10% Directo",
+    sticky:"&#128176; Retirar Fondos — Solicitar Pago",
+    alert_title:"Solicitud Enviada!",alert_msg:"Tu solicitud de pago ha sido enviada exitosamente. La procesaremos en 24-48 horas.",
+    alert_close:"Aceptar"
+  }
+};
+
+/* ═══ LANGUAGE SWITCHER ═══ */
+var currentLang='ht';
+function setLang(l){
+  currentLang=l;
+  document.querySelectorAll('.top-lang-bar a').forEach(function(a){a.classList.remove('active')});
+  document.getElementById('lang-'+l).classList.add('active');
+  var t=T[l]||T.ht;
+  document.querySelectorAll('[data-i18n]').forEach(function(el){
+    var k=el.getAttribute('data-i18n');
+    if(t[k])el.innerHTML=t[k];
+  });
+  /* Handle placeholder translations */
+  document.querySelectorAll('[data-i18n-placeholder]').forEach(function(el){
+    var k=el.getAttribute('data-i18n-placeholder');
+    if(t[k])el.placeholder=t[k];
+  });
+  localStorage.setItem('kb_lang',l);
+}
+var s=localStorage.getItem('kb_lang');
+if(s&&T[s])setLang(s);
+
+/* ═══ FORM HANDLER ═══ */
+document.getElementById('payout-form').addEventListener('submit',function(e){
+  e.preventDefault();
+  var amount=parseInt(document.getElementById('payout-amount').value,10);
+  if(amount<500){
+    document.getElementById('payout-amount').focus();
+    return;
+  }
+  document.getElementById('alert-overlay').classList.add('show');
+});
+
+function closeAlert(){
+  document.getElementById('alert-overlay').classList.remove('show');
+  document.getElementById('payout-form').reset();
+}
+
+/* Close on overlay click */
+document.getElementById('alert-overlay').addEventListener('click',function(e){
+  if(e.target===this)closeAlert();
+});
+
+/* ═══ SCROLL ANIMATIONS ═══ */
+var obs=new IntersectionObserver(function(entries){
+  entries.forEach(function(x){
+    if(x.isIntersecting){x.target.style.opacity='1';x.target.style.transform='translateY(0)'}
+  });
+},{threshold:.1});
+document.querySelectorAll('.stat-card,.calc-example,.info-card').forEach(function(el){
+  el.style.opacity='0';el.style.transform='translateY(16px)';el.style.transition='opacity .4s ease,transform .4s ease';
+  obs.observe(el);
+});
+</script>
+</body>
+</html>
