@@ -526,6 +526,70 @@ footer{padding:40px 20px 24px;background:var(--dark);color:var(--white)}
   .earn-grid{grid-template-columns:1fr}
 }
 
+/* CHOOSE SECTION - 6 cards */
+.choose-section{padding:48px 20px;max-width:1000px;margin:0 auto}
+.choose-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:16px}
+.choose-card{
+  border-radius:18px;padding:24px 20px;color:#fff;cursor:pointer;
+  position:relative;overflow:hidden;transition:transform .3s,box-shadow .3s;
+}
+.choose-card:hover{transform:translateY(-4px);box-shadow:0 12px 32px rgba(0,0,0,.2)}
+.choose-card h4{font-family:var(--display);font-size:1.05rem;margin-bottom:6px}
+.choose-card p{font-size:.8rem;color:rgba(255,255,255,.85);line-height:1.4}
+.choose-card.cc-flag{background:linear-gradient(160deg,var(--blue) 0%,#001A80 50%,var(--red-dark) 100%);border:1px solid rgba(210,16,52,.3)}
+.choose-card.cc-blue{background:linear-gradient(160deg,#1A4FD4 0%,var(--blue) 60%,var(--blue-dark) 100%)}
+.choose-card.cc-green{background:linear-gradient(160deg,#2CA855 0%,var(--green) 60%,#126B2A 100%)}
+.choose-card.cc-gold{background:linear-gradient(160deg,#E8B830 0%,var(--gold) 60%,#A07510 100%)}
+.choose-card.cc-red{background:linear-gradient(160deg,var(--red-light) 0%,var(--red) 60%,var(--red-dark) 100%)}
+.choose-card.cc-dark{background:linear-gradient(160deg,#1E293B 0%,#111827 60%,#0C1222 100%);border:1px solid rgba(255,255,255,.08)}
+@media(max-width:480px){.choose-grid{grid-template-columns:1fr}}
+
+/* COMMISSION TABLE */
+.commission-section{padding:48px 20px;background:var(--white)}
+.commission-table{max-width:600px;margin:0 auto;border-radius:16px;overflow:hidden;border:1px solid var(--light-gray)}
+.commission-table table{width:100%;border-collapse:collapse}
+.commission-table th{background:var(--dark);color:#fff;text-align:left;padding:14px 18px;font-size:.82rem;font-weight:700}
+.commission-table td{padding:12px 18px;font-size:.85rem;border-bottom:1px solid var(--light-gray)}
+.commission-table tr:last-child td{border-bottom:none}
+.commission-table td:last-child{font-weight:700;color:var(--blue);text-align:right}
+.commission-table tr:nth-child(even){background:var(--off-white)}
+
+/* DASHBOARD PREVIEW */
+.dash-section{padding:48px 20px;background:var(--off-white)}
+.dash-card{
+  max-width:400px;margin:0 auto;border-radius:20px;
+  background:var(--white);border:1px solid var(--light-gray);
+  box-shadow:0 8px 32px rgba(0,32,159,.06);overflow:hidden;
+}
+.dash-header{background:var(--dark);color:#fff;padding:18px 22px;display:flex;align-items:center;justify-content:space-between}
+.dash-header h4{font-family:var(--display);font-size:1.1rem}
+.dash-header span{font-size:.7rem;color:rgba(255,255,255,.5)}
+.dash-stats{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--light-gray)}
+.dash-stat{background:var(--white);padding:18px 16px;text-align:center}
+.dash-stat .val{font-family:var(--display);font-size:1.4rem;color:var(--dark);margin-bottom:2px}
+.dash-stat .label{font-size:.7rem;color:var(--text-light);font-weight:600;text-transform:uppercase;letter-spacing:.05em}
+.dash-link{padding:16px 22px;background:var(--off-white);font-size:.8rem;color:var(--text-light)}
+.dash-link code{
+  display:block;padding:8px 12px;margin-top:6px;border-radius:8px;
+  background:var(--white);border:1px solid var(--light-gray);
+  font-size:.75rem;color:var(--blue);font-weight:700;word-break:break-all;
+}
+.dash-actions{padding:16px 22px;display:flex;gap:10px}
+.dash-btn{
+  flex:1;padding:12px;border:none;border-radius:100px;
+  font-family:var(--body);font-size:.82rem;font-weight:700;cursor:pointer;
+  text-align:center;transition:all .3s;
+}
+.dash-btn.primary{background:var(--red);color:#fff}
+.dash-btn.primary:hover{background:var(--red-dark)}
+.dash-btn.secondary{background:var(--off-white);color:var(--text);border:1px solid var(--light-gray)}
+.dash-payout{padding:0 22px 18px;display:flex;gap:8px;justify-content:center}
+.dash-payout span{
+  font-size:.7rem;font-weight:700;color:var(--text-light);
+  padding:6px 14px;border-radius:100px;background:var(--off-white);
+  border:1px solid var(--light-gray);
+}
+
 /* REVEAL */
 .reveal{opacity:0;transform:translateY(20px);transition:all .5s cubic-bezier(.4,0,.2,1)}
 .reveal.visible{opacity:1;transform:translateY(0)}
@@ -607,26 +671,6 @@ footer{padding:40px 20px 24px;background:var(--dark);color:var(--white)}
   <p class="hero-trust" data-i18n="hero_trust">+100 moun deja ap f&egrave; lajan sou HaitiBiznis</p>
 </section>
 
-<!-- KOUTYE BIZNIS SECTION -->
-<section class="koutye-section" id="entry">
-  <div class="koutye-card reveal">
-    <h3 data-i18n="koutye_card_title">Konekte Biznis. F&egrave; Lajan.</h3>
-    <p data-i18n="koutye_card_desc">Touche komisyon sou chak tranzaksyon nan ekosist&egrave;m HaitiBiznis la. Kous, livrezon, pake biznis, marketplace.</p>
-    <a href="koutye.html" class="entry-cta" data-i18n="koutye_card_cta">Vin yon Koutye &#8594;</a>
-  </div>
-</section>
-
-<!-- WHAT CAN YOU DO TODAY -->
-<section class="actions-section" id="actions">
-  <h2 data-i18n="act_title">Kisa Ou Vle F&egrave; Jodi a?</h2>
-  <div class="action-buttons">
-    <a href="koutye.html" class="action-btn ab-red" data-i18n="act_koutye">&#128176; Vin yon Koutye</a>
-    <a href="https://msouwout.com" target="_blank" class="action-btn ab-blue" data-i18n="act_ride">&#128663; Mande Kous</a>
-    <a href="https://prolakay.haitibiznis.com/search.html" target="_blank" class="action-btn ab-gold" data-i18n="act_find">&#11088; Ch&egrave;che Pwofesyon&egrave;l</a>
-    <a href="https://48hoursready.com" target="_blank" class="action-btn ab-green" data-i18n="act_launch">&#128640; Lanse Biznis</a>
-  </div>
-</section>
-
 <!-- TRUST BAR -->
 <section class="trust-section reveal">
   <div class="trust-row">
@@ -666,166 +710,91 @@ footer{padding:40px 20px 24px;background:var(--dark);color:var(--white)}
   </div>
 </section>
 
-<!-- ENTRY BLOCKS -->
-<section class="entry-section" id="join">
-  <div class="entry-section-title reveal" data-i18n="join_title">Rejwenn Ekosist&egrave;m nan</div>
-  <p class="entry-section-sub reveal" data-i18n="join_sub">Chwazi kijan ou vle f&egrave; lajan oswa jwenn s&egrave;vis</p>
-  <div class="entry-grid">
-
-    <!-- DRIVER CARD -->
-    <div class="entry-card card-blue reveal">
-      <div class="entry-badge">&#128184; F&egrave; Lajan Chak Jou</div>
-      <div class="entry-logo"><img src="assets/msouwout-logo-new.png" alt="MsouWout"></div>
-      <h3 data-i18n="drv_title">Ou Gen Moto oswa Machin?</h3>
-      <p class="entry-hook" data-i18n="drv_hook">F&egrave; kous. F&egrave; livrezon. F&egrave; lajan chak jou.</p>
-      <a href="https://msouwout.com" target="_blank" class="entry-cta" data-i18n="drv_cta">Enskri k&ograve;m Chof&egrave; &#8594;</a>
-      <ul class="entry-bullets">
-        <li data-i18n="drv_b1">Travay sou pw&ograve;p or&egrave; ou</li>
-        <li data-i18n="drv_b2">Peman rapid</li>
-        <li data-i18n="drv_b3">Kliyan garanti</li>
-      </ul>
+<!-- 4. CHOOSE HOW TO EARN -->
+<section class="choose-section" id="entry">
+  <div class="entry-section-title reveal" data-i18n="choose_title">Chwazi kijan ou vle f&egrave; lajan</div>
+  <p class="entry-section-sub reveal" data-i18n="choose_sub">6 fason pou touche nan ekosist&egrave;m HaitiBiznis</p>
+  <div class="choose-grid">
+    <a href="koutye.html" class="choose-card cc-flag reveal">
+      <h4>Koutye Biznis</h4>
+      <p data-i18n="cc_koutye">Konekte biznis. Touche komisyon.</p>
+    </a>
+    <a href="https://msouwout.com" target="_blank" class="choose-card cc-blue reveal reveal-d1">
+      <h4>MsouWout</h4>
+      <p data-i18n="cc_msou">Ou gen moto oswa machin? F&egrave; kous ak livrezon.</p>
+    </a>
+    <a href="https://48hoursready.com" target="_blank" class="choose-card cc-green reveal reveal-d2">
+      <h4>48HoursReady</h4>
+      <p data-i18n="cc_48hr">Ref&egrave;re biznis. Touche 10% sou chak pake.</p>
+    </a>
+    <a href="https://prolakay.haitibiznis.com" target="_blank" class="choose-card cc-gold reveal reveal-d3">
+      <h4>ProLakay</h4>
+      <p data-i18n="cc_pro">Ou gen talan oswa metye? Jwenn kliyan.</p>
+    </a>
+    <a href="https://myplopplop.com" target="_blank" class="choose-card cc-red reveal">
+      <h4>MyPlopPlop Marketplace</h4>
+      <p data-i18n="cc_plop">Vann pwodwi. Jwenn plis kliyan.</p>
+    </a>
+    <div class="choose-card cc-dark reveal reveal-d1" style="opacity:.7">
+      <h4>Utility Payment Hub</h4>
+      <p data-i18n="cc_utility">Ref&egrave;re peman EDH/DINEPA. Touche sou tranzaksyon.</p>
+      <span style="font-size:.65rem;color:rgba(255,255,255,.4);margin-top:6px;display:block">Byento</span>
     </div>
-
-    <!-- BUSINESS CARD -->
-    <div class="entry-card card-red reveal reveal-d1">
-      <div class="entry-badge">&#128176; Vann &amp; F&egrave; Lajan</div>
-      <div class="entry-logo"><img src="assets/myplopplop-logo-new.png" alt="MyPlopPlop"></div>
-      <h3 data-i18n="biz_title">Ou Gen Biznis?</h3>
-      <p class="entry-hook" data-i18n="biz_hook">Vann pwodwi ou. Resevwa k&ograve;mann fasil.</p>
-      <a href="https://myplopplop.com" target="_blank" class="entry-cta" data-i18n="biz_cta">Vann sou Platf&ograve;m nan &#8594;</a>
-      <ul class="entry-bullets">
-        <li data-i18n="biz_b1">Vann 24/7</li>
-        <li data-i18n="biz_b2">Resevwa k&ograve;mann otomatik</li>
-        <li data-i18n="biz_b3">Diaspora achte pou Ayiti</li>
-      </ul>
-    </div>
-
-    <!-- PROFESSIONAL CARD -->
-    <div class="entry-card card-gold reveal reveal-d2">
-      <div class="entry-badge">&#128188; F&egrave; Lajan ak Talan Ou</div>
-      <div class="entry-logo"><img src="assets/prolakay-logo-new.png" alt="ProLakay"></div>
-      <h3 data-i18n="pro_title">Ou Gen Talan oswa Metye?</h3>
-      <p class="entry-hook" data-i18n="pro_hook">Jwenn kliyan. Travay sou pw&ograve;p or&egrave; ou.</p>
-      <a href="https://prolakay.haitibiznis.com" target="_blank" class="entry-cta" data-i18n="pro_cta">Jwenn Kliyan &#8594;</a>
-      <ul class="entry-bullets">
-        <li data-i18n="pro_b1">Jwenn kliyan fasil</li>
-        <li data-i18n="pro_b2">Rez&egrave;vasyon otomatik</li>
-        <li data-i18n="pro_b3">Profil verifye</li>
-      </ul>
-    </div>
-
   </div>
 </section>
 
-<!-- 48HOURSREADY -->
-<section style="padding:0 20px 40px;max-width:1000px;margin:0 auto">
-  <div class="entry-card card-green reveal" style="background:linear-gradient(160deg,#2CA855 0%,var(--green) 50%,#126B2A 100%);max-width:100%">
-    <div class="entry-badge">&#128640; Lanse &amp; F&egrave; Lajan Rapid</div>
-    <div class="entry-logo"><img src="assets/48hoursready-logo.jpg" alt="48HoursReady"></div>
-    <h3 data-i18n="launch_title">K&ograve;manse Biznis Ou Jodi a</h3>
-    <p class="entry-hook" data-i18n="launch_hook">Nou mete ou pare pou f&egrave; lajan nan 48 &egrave;dtan.</p>
-    <a href="https://48hoursready.com" target="_blank" class="entry-cta" style="color:var(--green)" data-i18n="launch_cta">K&ograve;manse Gratis &#8594;</a>
-    <ul class="entry-bullets" style="display:flex;gap:24px;flex-wrap:wrap">
-      <li data-i18n="launch_b1">Logo + Site + Pitch</li>
-      <li data-i18n="launch_b2">Pare pou vann rapid</li>
-      <li data-i18n="launch_b3">Sip&ograve; biznis</li>
-    </ul>
+<!-- 5. COMMISSION TABLE -->
+<section class="commission-section" id="commissions">
+  <div class="section-label reveal" style="text-align:center" data-i18n="com_label">Komisyon</div>
+  <h2 class="section-title reveal" style="text-align:center" data-i18n="com_title">Kijan ou touche?</h2>
+  <p class="section-desc reveal" style="text-align:center" data-i18n="com_desc">Chak tranzaksyon = komisyon pou ou</p>
+  <div class="commission-table reveal">
+    <table>
+      <tr><th data-i18n="com_th_service">S&egrave;vis</th><th style="text-align:right" data-i18n="com_th_rate">Komisyon</th></tr>
+      <tr><td>Pake biznis (48HR)</td><td>10%</td></tr>
+      <tr><td>MsouWout (kous/livrezon)</td><td data-i18n="com_12mo">jiska 12 mwa</td></tr>
+      <tr><td>Marketplace (MyPlopPlop)</td><td data-i18n="com_12mo">jiska 12 mwa</td></tr>
+      <tr><td>Utility payments</td><td data-i18n="com_per_tx">pa tranzaksyon</td></tr>
+      <tr><td>S&ograve;l groups</td><td data-i18n="com_per_act">pa aktivite</td></tr>
+    </table>
   </div>
 </section>
 
-<!-- DIASPORA -->
-<section class="diaspora-section reveal">
-  <h2 data-i18n="dia_title">Sip&ograve;te Fanmi w an Ayiti</h2>
-  <p data-i18n="dia_desc">Achte, voye s&egrave;vis, oswa peye pou fanmi ou fasil.</p>
-  <a href="https://myplopplop.com" target="_blank" class="btn btn-white" data-i18n="dia_cta">Komanse Kounye a &#8594;</a>
+<!-- 6. DASHBOARD PREVIEW -->
+<section class="dash-section">
+  <div class="section-label reveal" style="text-align:center" data-i18n="dash_label">Dashboard</div>
+  <h2 class="section-title reveal" style="text-align:center" data-i18n="dash_title">Tablo Koutye Ou</h2>
+  <p class="section-desc reveal" style="text-align:center" data-i18n="dash_desc">Suiv lajan ou an tan reyèl</p>
+  <div class="dash-card reveal">
+    <div class="dash-header">
+      <h4>Koutye Dashboard</h4>
+      <span>KB-28391</span>
+    </div>
+    <div class="dash-stats">
+      <div class="dash-stat">
+        <div class="val">12,450 G</div>
+        <div class="label" data-i18n="dash_total">Total Earnings</div>
+      </div>
+      <div class="dash-stat">
+        <div class="val">3,200 G</div>
+        <div class="label" data-i18n="dash_pending">Pending</div>
+      </div>
+    </div>
+    <div class="dash-link">
+      <span data-i18n="dash_ref_label">Referral link:</span>
+      <code>haitibiznis.com/r/KB-28391</code>
+    </div>
+    <div class="dash-actions">
+      <button class="dash-btn primary" data-i18n="dash_withdraw">Retire Lajan</button>
+      <button class="dash-btn secondary" data-i18n="dash_share">Pataje Link</button>
+    </div>
+    <div class="dash-payout">
+      <span>MonCash</span>
+      <span>NatCash</span>
+    </div>
+  </div>
 </section>
 
-<!-- ABOUT HAITIBIZNIS -->
-<section id="about-haitibiznis">
-
-  <div class="about-header reveal">
-    <div class="section-label" style="color:var(--gold)" data-i18n="about_label">Ekosist&egrave;m</div>
-    <h2 data-i18n="about_title">Yon Ekosist&egrave;m Pou Ekonomi Ayiti</h2>
-  </div>
-
-  <div class="about-intro reveal">
-    <p data-i18n="about_intro">HaitiBiznis se yon sist&egrave;m dijital ki f&egrave;t pou ede Ayiti travay, vann, deplase ak grandi.</p>
-    <p class="highlight" data-i18n="about_highlight">Nou pa s&egrave;lman yon platf&ograve;m &mdash; nou se enfrastrikti pou op&ograve;tinite.</p>
-  </div>
-
-  <div class="about-intro reveal" style="margin-bottom:16px">
-    <p style="font-size:.78rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--gold)" data-i18n="about_cards_label">Konekte moun, biznis ak op&ograve;tinite</p>
-  </div>
-
-  <!-- TOP 3 CARDS -->
-  <div class="eco-cards reveal">
-    <div class="eco-card ec-red">
-      <div class="eco-card-tag">Marketplace</div>
-      <h3>MyPlopPlop</h3>
-      <p data-i18n="about_plop">Achte, vann epi livrezon nan tout Ayiti.</p>
-      <a href="https://myplopplop.com" target="_blank" class="eco-card-link" data-i18n="about_explore">Eksplore &#8594;</a>
-    </div>
-    <div class="eco-card ec-blue">
-      <div class="eco-card-tag" data-i18n="about_tag_mobility">Mobilite &amp; Sekirite</div>
-      <h3>MsouWout</h3>
-      <p data-i18n="about_msou">Transp&ograve; ak livrezon an sekirite ak chof&egrave; verifye.</p>
-      <a href="https://msouwout.com" target="_blank" class="eco-card-link" data-i18n="about_explore">Eksplore &#8594;</a>
-    </div>
-    <div class="eco-card ec-dark">
-      <div class="eco-card-tag" data-i18n="about_tag_talent">Travay &amp; Talan</div>
-      <h3>ProLakay</h3>
-      <p data-i18n="about_prolakay">Jwenn pwofesyon&egrave;l ou ka f&egrave; konfyans.</p>
-      <a href="https://prolakay.haitibiznis.com" target="_blank" class="eco-card-link" data-i18n="about_explore">Eksplore &#8594;</a>
-    </div>
-  </div>
-
-  <!-- BOTTOM 2 CARDS -->
-  <div class="eco-cards-bottom reveal">
-    <div class="eco-card ec-green">
-      <div class="eco-card-tag">Business Builder</div>
-      <h3>48HoursReady</h3>
-      <p data-i18n="about_48hr">Kreye ak lanse biznis ou rapid.</p>
-      <a href="https://48hoursready.com" target="_blank" class="eco-card-link" data-i18n="about_explore">Eksplore &#8594;</a>
-    </div>
-    <div class="eco-card ec-gold">
-      <div class="eco-card-tag" data-i18n="about_tag_finance">Finans Kominote</div>
-      <h3>S&ograve;l</h3>
-      <p data-i18n="about_sol">Sist&egrave;m ekonomi kominote pou sove ak grandi ansanm.</p>
-      <a href="https://myplopplop.com/sol.html" target="_blank" class="eco-card-link" data-i18n="about_explore">Eksplore &#8594;</a>
-    </div>
-    <div class="eco-card ec-flag">
-      <div class="eco-card-tag" data-i18n="about_tag_koutye">Rezo Anbasad&egrave;</div>
-      <h3>Koutye Biznis</h3>
-      <p data-i18n="about_koutye">Ref&egrave;re biznis, chof&egrave;, kliyan &mdash; touche komisyon.</p>
-      <a href="koutye.html" class="eco-card-link" data-i18n="about_explore">Eksplore &#8594;</a>
-    </div>
-  </div>
-
-  <!-- IMPACT STRIP -->
-  <div class="impact-strip reveal">
-    <div class="impact-item"><span class="impact-icon">&#128640;</span><span data-i18n="impact_1">Op&ograve;tinite Ekonomik</span></div>
-    <div class="impact-item"><span class="impact-icon">&#128274;</span><span data-i18n="impact_2">Sekirite &amp; Konfyans</span></div>
-    <div class="impact-item"><span class="impact-icon">&#128188;</span><span data-i18n="impact_3">Travay &amp; Revni</span></div>
-    <div class="impact-item"><span class="impact-icon">&#127758;</span><span data-i18n="impact_4">Diaspora Konekte</span></div>
-  </div>
-
-  <!-- WHY IT MATTERS -->
-  <div class="about-why reveal">
-    <h3 data-i18n="about_why_title">Poukisa HaitiBiznis?</h3>
-    <p data-i18n="about_why_text">Nou ede rez&ograve;d pwoblem ekonomi enf&ograve;m&egrave;l la, mank konfyans ak aks&egrave; limite ak s&egrave;vis &mdash; atrav&egrave; yon sist&egrave;m konekte ki bay plis op&ograve;tinite pou tout moun.</p>
-  </div>
-
-  <!-- CTA -->
-  <div class="about-cta reveal">
-    <h3 data-i18n="about_cta_title">K&ograve;manse Jodi a</h3>
-    <p data-i18n="about_cta_desc">Antre nan ekosist&egrave;m ki ap chanje ekonomi Ayiti.</p>
-    <div class="about-cta-btns">
-      <a href="#entry" class="btn btn-red" data-i18n="about_cta_signup">Kreye Kont</a>
-      <a href="#how" class="btn btn-outline" data-i18n="about_cta_explore">Eksplore Platf&ograve;m yo</a>
-    </div>
-  </div>
-
-</section>
 
 <!-- CONTACT -->
 <section class="contact" id="contact">
@@ -896,12 +865,10 @@ footer{padding:40px 20px 24px;background:var(--dark);color:var(--white)}
 
 <!-- FINAL CTA -->
 <section class="final-cta">
-  <h2 data-i18n="cta_title">F&egrave; Lajan Chak Jou<br>ak HaitiBiznis</h2>
+  <h2 data-i18n="cta_title">Konekte Biznis. F&egrave; Lajan.</h2>
   <p data-i18n="cta_desc">Vin yon Koutye. Ref&egrave;re moun. Touche komisyon. Senp kon sa.</p>
   <div class="cta-btns">
-    <a href="koutye.html" class="btn btn-white" data-i18n="cta_start">Vin yon Koutye</a>
-    <a href="#about-haitibiznis" class="btn btn-ghost" data-i18n="cta_explore">Eksplore Ekosist&egrave;m nan</a>
-    <a href="#contact" class="btn btn-ghost" data-i18n="cta_contact">Kontakte Nou</a>
+    <a href="koutye.html" class="btn btn-white" data-i18n="cta_start">&#128176; Vin yon Koutye kounye a</a>
   </div>
 </section>
 
@@ -1006,12 +973,21 @@ const translations={
     form_name:'Non Ou',form_email:'Imel Ou',form_dept:'Depatman',form_message:'Mesaj',form_send:'Voye Mesaj',
     form_thanks:'Mesaj Voye!',form_confirm:'Mèsi paske ou kontakte nou. Ekip nou ap reponn nan 12 èdtan.',
     dept_general:'Kesyon Jeneral',dept_partners:'Patenariat & Medya',
-    cta_title:'Fè Lajan Chak Jou<br>ak HaitiBiznis',cta_desc:'Vin yon Koutye. Refère moun. Touche komisyon. Senp kon sa.',
-    cta_start:'Vin yon Koutye',cta_explore:'Eksplore Ekosistèm nan',cta_contact:'Kontakte Nou',
+    cta_title:'Konekte Biznis. Fè Lajan.',cta_desc:'Vin yon Koutye. Refère moun. Touche komisyon. Senp kon sa.',
+    cta_start:'💰 Vin yon Koutye kounye a',
     wa_tip:'Bezwen Èd? Chat ak nou',sticky_cta:'💰 Komanse Fè Lajan',
     install_text:'Enstale HaitiBiznis<small>Mete sou ekran lakay ou pou aksè rapid</small>',install_btn:'Enstale',
     sticky_koutye:'💰 Vin yon Koutye — Fè Lajan',
-    nav_koutye:'Koutye Biznis'
+    nav_koutye:'Koutye Biznis',
+    choose_title:'Chwazi kijan ou vle fè lajan',choose_sub:'6 fason pou touche nan ekosistèm HaitiBiznis',
+    cc_koutye:'Konekte biznis. Touche komisyon.',cc_msou:'Ou gen moto oswa machin? Fè kous ak livrezon.',
+    cc_48hr:'Refère biznis. Touche 10% sou chak pake.',cc_pro:'Ou gen talan oswa metye? Jwenn kliyan.',
+    cc_plop:'Vann pwodwi. Jwenn plis kliyan.',cc_utility:'Refère peman EDH/DINEPA. Touche sou tranzaksyon.',
+    com_label:'Komisyon',com_title:'Kijan ou touche?',com_desc:'Chak tranzaksyon = komisyon pou ou',
+    com_th_service:'Sèvis',com_th_rate:'Komisyon',com_12mo:'jiska 12 mwa',com_per_tx:'pa tranzaksyon',com_per_act:'pa aktivite',
+    dash_label:'Dashboard',dash_title:'Tablo Koutye Ou',dash_desc:'Suiv lajan ou an tan reyèl',
+    dash_total:'Total Touche',dash_pending:'An Atant',dash_ref_label:'Link referral:',
+    dash_withdraw:'Retire Lajan',dash_share:'Pataje Link'
   },
   en:{
     hero_badge:'💰 KOUTYE BIZNIS',
@@ -1068,12 +1044,21 @@ const translations={
     form_name:'Your Name',form_email:'Your Email',form_dept:'Department',form_message:'Message',form_send:'Send Message',
     form_thanks:'Message Sent!',form_confirm:'Thank you! Our team will respond within 12 hours.',
     dept_general:'General Inquiry',dept_partners:'Partnerships & Media',
-    cta_title:'Earn Money Every Day<br>with HaitiBiznis',cta_desc:'Become a Koutye. Refer people. Earn commissions. Simple as that.',
-    cta_start:'Become a Koutye',cta_explore:'Explore the Ecosystem',cta_contact:'Contact Us',
+    cta_title:'Connect Businesses. Earn Money.',cta_desc:'Become a Koutye. Refer people. Earn commissions. Simple as that.',
+    cta_start:'💰 Become a Koutye Now',
     wa_tip:'Need Help? Chat with us',sticky_cta:'💰 Start Earning Money',
     install_text:'Install HaitiBiznis<small>Add to your home screen for quick access</small>',install_btn:'Install',
     sticky_koutye:'💰 Become a Koutye — Earn Money',
-    nav_koutye:'Koutye Biznis'
+    nav_koutye:'Koutye Biznis',
+    choose_title:'Choose how you want to earn',choose_sub:'6 ways to earn in the HaitiBiznis ecosystem',
+    cc_koutye:'Connect businesses. Earn commissions.',cc_msou:'Got a car or motorcycle? Do rides and deliveries.',
+    cc_48hr:'Refer businesses. Earn 10% on each package.',cc_pro:'Got a skill or trade? Find clients.',
+    cc_plop:'Sell products. Reach more customers.',cc_utility:'Refer EDH/DINEPA payments. Earn per transaction.',
+    com_label:'Commissions',com_title:'How do you earn?',com_desc:'Every transaction = commission for you',
+    com_th_service:'Service',com_th_rate:'Commission',com_12mo:'up to 12 months',com_per_tx:'per transaction',com_per_act:'per activity',
+    dash_label:'Dashboard',dash_title:'Your Koutye Dashboard',dash_desc:'Track your earnings in real time',
+    dash_total:'Total Earnings',dash_pending:'Pending',dash_ref_label:'Referral link:',
+    dash_withdraw:'Withdraw Funds',dash_share:'Share Link'
   },
   fr:{
     hero_badge:'💰 KOUTYE BIZNIS',
@@ -1130,12 +1115,21 @@ const translations={
     form_name:'Votre Nom',form_email:'Votre Email',form_dept:'Département',form_message:'Message',form_send:'Envoyer',
     form_thanks:'Message Envoyé !',form_confirm:'Merci ! Notre équipe répondra sous 12 heures.',
     dept_general:'Demande Générale',dept_partners:'Partenariats & Médias',
-    cta_title:'Gagnez Chaque Jour<br>avec HaitiBiznis',cta_desc:'Devenez Koutye. Référez des gens. Gagnez des commissions. Simple.',
-    cta_start:'Devenir Koutye',cta_explore:'Explorer l\'Écosystème',cta_contact:'Nous Contacter',
+    cta_title:'Connectez des Entreprises. Gagnez.',cta_desc:'Devenez Koutye. Référez des gens. Gagnez des commissions. Simple.',
+    cta_start:'💰 Devenir Koutye maintenant',
     wa_tip:'Besoin d\'aide ? Chattez avec nous',sticky_cta:'💰 Commencer à Gagner',
     install_text:'Installer HaitiBiznis<small>Ajoutez à votre écran d\'accueil</small>',install_btn:'Installer',
     sticky_koutye:'💰 Devenir Koutye — Gagnez',
-    nav_koutye:'Koutye Biznis'
+    nav_koutye:'Koutye Biznis',
+    choose_title:'Choisissez comment gagner',choose_sub:'6 façons de gagner dans l\'écosystème HaitiBiznis',
+    cc_koutye:'Connectez des entreprises. Gagnez des commissions.',cc_msou:'Vous avez une voiture ou moto ? Faites des courses et livraisons.',
+    cc_48hr:'Référez des entreprises. Gagnez 10% sur chaque paquet.',cc_pro:'Vous avez un talent ou métier ? Trouvez des clients.',
+    cc_plop:'Vendez des produits. Touchez plus de clients.',cc_utility:'Référez des paiements EDH/DINEPA. Gagnez par transaction.',
+    com_label:'Commissions',com_title:'Comment gagnez-vous ?',com_desc:'Chaque transaction = commission pour vous',
+    com_th_service:'Service',com_th_rate:'Commission',com_12mo:'jusqu\'à 12 mois',com_per_tx:'par transaction',com_per_act:'par activité',
+    dash_label:'Tableau de bord',dash_title:'Votre Tableau Koutye',dash_desc:'Suivez vos gains en temps réel',
+    dash_total:'Total Gagné',dash_pending:'En Attente',dash_ref_label:'Lien de parrainage :',
+    dash_withdraw:'Retirer les Fonds',dash_share:'Partager le Lien'
   },
   es:{
     hero_badge:'💰 KOUTYE BIZNIS',
@@ -1192,12 +1186,21 @@ const translations={
     form_name:'Tu Nombre',form_email:'Tu Email',form_dept:'Departamento',form_message:'Mensaje',form_send:'Enviar',
     form_thanks:'¡Mensaje Enviado!',form_confirm:'¡Gracias! Nuestro equipo responderá en 12 horas.',
     dept_general:'Consulta General',dept_partners:'Alianzas & Medios',
-    cta_title:'Gana Dinero Cada Día<br>con HaitiBiznis',cta_desc:'Sé un Koutye. Refiere personas. Gana comisiones. Así de simple.',
-    cta_start:'Ser Koutye',cta_explore:'Explorar el Ecosistema',cta_contact:'Contáctanos',
+    cta_title:'Conecta Negocios. Gana Dinero.',cta_desc:'Sé un Koutye. Refiere personas. Gana comisiones. Así de simple.',
+    cta_start:'💰 Ser Koutye ahora',
     wa_tip:'¿Necesitas ayuda? Chatea con nosotros',sticky_cta:'💰 Empieza a Ganar',
     install_text:'Instalar HaitiBiznis<small>Añade a tu pantalla de inicio</small>',install_btn:'Instalar',
     sticky_koutye:'💰 Ser Koutye — Gana Dinero',
-    nav_koutye:'Koutye Biznis'
+    nav_koutye:'Koutye Biznis',
+    choose_title:'Elige cómo quieres ganar',choose_sub:'6 formas de ganar en el ecosistema HaitiBiznis',
+    cc_koutye:'Conecta negocios. Gana comisiones.',cc_msou:'¿Tienes auto o moto? Haz viajes y entregas.',
+    cc_48hr:'Refiere negocios. Gana 10% en cada paquete.',cc_pro:'¿Tienes talento u oficio? Encuentra clientes.',
+    cc_plop:'Vende productos. Alcanza más clientes.',cc_utility:'Refiere pagos EDH/DINEPA. Gana por transacción.',
+    com_label:'Comisiones',com_title:'¿Cómo ganas?',com_desc:'Cada transacción = comisión para ti',
+    com_th_service:'Servicio',com_th_rate:'Comisión',com_12mo:'hasta 12 meses',com_per_tx:'por transacción',com_per_act:'por actividad',
+    dash_label:'Panel',dash_title:'Tu Panel Koutye',dash_desc:'Sigue tus ganancias en tiempo real',
+    dash_total:'Total Ganado',dash_pending:'Pendiente',dash_ref_label:'Enlace de referido:',
+    dash_withdraw:'Retirar Fondos',dash_share:'Compartir Enlace'
   }
 };
 
