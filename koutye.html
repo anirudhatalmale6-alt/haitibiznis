@@ -1,0 +1,802 @@
+<!DOCTYPE html>
+<html lang="ht">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Koutye Biznis - Fe Lajan ak HaitiBiznis Ecosystem</title>
+<meta name="description" content="Vin yon Koutye HaitiBiznis. Refere kliyan, enskri chofe, onboard machann — touche komisyon sou chak tranzaksyon.">
+<meta property="og:title" content="Koutye Biznis - Fe Lajan ak HaitiBiznis">
+<meta property="og:description" content="Touche komisyon sou chak tranzaksyon nan ekosistem HaitiBiznis la. Enskri gratis jodi a.">
+<meta property="og:image" content="https://haitibiznis.com/assets/og-haitibiznis.jpg">
+<meta property="og:type" content="website">
+<link rel="icon" type="image/png" sizes="32x32" href="assets/favicon-32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="assets/favicon-16.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --blue:#00209F;--blue-light:#0033CC;--blue-dark:#001566;--blue-deeper:#000D3A;
+  --red:#D21034;--red-light:#E8274A;--red-dark:#B00D2C;
+  --gold:#D4A017;--gold-light:#E8C84A;--gold-dark:#A67C0F;--gold-glow:rgba(212,160,23,.15);
+  --white:#FFFFFF;--off-white:#F8F6F0;--cream:#FFF9EC;
+  --dark:#0A0E1A;--text:#1A1A2E;--text-light:#6B6B80;
+  --green:#1B8C3D;--green-light:#22B84A;
+  --body:'Plus Jakarta Sans',system-ui,sans-serif;
+  --display:'DM Serif Display',Georgia,serif;
+}
+html{scroll-behavior:smooth}
+body{font-family:var(--body);background:var(--off-white);color:var(--text);overflow-x:hidden;-webkit-font-smoothing:antialiased}
+a{text-decoration:none;color:inherit}
+
+.flag-stripe{height:4px;background:linear-gradient(90deg,var(--blue) 50%,var(--red) 50%)}
+
+.top-lang-bar{
+  background:var(--dark);color:#fff;font-size:.7rem;
+  padding:5px 20px;display:flex;align-items:center;justify-content:center;gap:4px;
+  position:fixed;top:0;left:0;right:0;z-index:1001;height:32px;
+}
+.top-lang-bar a{
+  color:#fff;background:rgba(255,255,255,.12);padding:3px 10px;border-radius:100px;
+  font-size:.68rem;font-weight:600;cursor:pointer;transition:all .15s;white-space:nowrap;
+}
+.top-lang-bar a:hover{background:rgba(255,255,255,.25)}
+.top-lang-bar a.active{background:var(--gold);color:var(--dark)}
+
+.inner{max-width:1100px;margin:0 auto;padding:0 20px}
+
+/* ═══ HERO ═══ */
+.hero{
+  background:linear-gradient(160deg,var(--dark) 0%,var(--blue-dark) 40%,var(--blue) 100%);
+  padding:100px 20px 70px;text-align:center;color:#fff;position:relative;overflow:hidden;
+  min-height:90vh;display:flex;align-items:center;justify-content:center;
+}
+.hero::before{
+  content:'';position:absolute;top:-30%;right:-20%;width:80%;height:160%;
+  background:radial-gradient(ellipse,rgba(212,160,23,.08) 0%,transparent 60%);pointer-events:none;
+}
+.hero::after{
+  content:'';position:absolute;bottom:0;left:0;right:0;height:120px;
+  background:linear-gradient(to top,var(--off-white),transparent);pointer-events:none;
+}
+.hero-inner{position:relative;z-index:2;max-width:700px;margin:0 auto}
+.hero-badge{
+  display:inline-flex;align-items:center;gap:6px;
+  background:linear-gradient(135deg,var(--gold),var(--gold-dark));color:var(--dark);
+  font-size:.72rem;font-weight:800;letter-spacing:.1em;text-transform:uppercase;
+  padding:6px 20px;border-radius:100px;margin-bottom:20px;
+  box-shadow:0 4px 20px rgba(212,160,23,.3);
+}
+.hero h1{
+  font-family:var(--display);font-size:clamp(2rem,5vw,3.2rem);line-height:1.15;margin-bottom:12px;
+}
+.hero h1 .gold{color:var(--gold-light)}
+.hero-sub{font-size:clamp(.9rem,2vw,1.1rem);opacity:.8;line-height:1.6;max-width:540px;margin:0 auto 28px}
+.hero-earnings{
+  display:inline-block;
+  background:linear-gradient(135deg,rgba(212,160,23,.2),rgba(212,160,23,.05));
+  border:2px solid rgba(212,160,23,.4);border-radius:20px;
+  padding:18px 36px;margin-bottom:28px;
+}
+.hero-earnings .amount{
+  font-family:var(--display);font-size:clamp(2.4rem,5vw,3.6rem);
+  color:var(--gold-light);display:block;line-height:1;
+  text-shadow:0 0 40px rgba(212,160,23,.4);
+}
+.hero-earnings .label{font-size:.82rem;opacity:.7;margin-top:4px;display:block}
+
+.btn{
+  display:inline-flex;align-items:center;justify-content:center;gap:8px;
+  padding:14px 32px;border-radius:14px;font-family:var(--body);font-size:.92rem;
+  font-weight:700;border:2px solid transparent;cursor:pointer;transition:all .25s;
+}
+.btn-gold{
+  background:linear-gradient(135deg,var(--gold),var(--gold-dark));color:var(--dark);
+  border-color:var(--gold);font-weight:800;font-size:1rem;
+  box-shadow:0 4px 24px rgba(212,160,23,.35);
+}
+.btn-gold:hover{transform:translateY(-3px);box-shadow:0 8px 36px rgba(212,160,23,.5)}
+.btn-white{background:#fff;color:var(--blue);border-color:#fff;font-weight:700}
+.btn-white:hover{transform:translateY(-2px);box-shadow:0 8px 30px rgba(255,255,255,.25)}
+.btn-red{background:var(--red);color:#fff;border-color:var(--red);font-weight:800;font-size:1rem;box-shadow:0 4px 24px rgba(210,16,52,.3)}
+.btn-red:hover{transform:translateY(-3px);box-shadow:0 8px 36px rgba(210,16,52,.45)}
+.btn-outline{background:transparent;color:#fff;border:2px solid rgba(255,255,255,.35);font-weight:600}
+.btn-outline:hover{background:rgba(255,255,255,.1);border-color:rgba(255,255,255,.6)}
+.hero-ctas{display:flex;gap:12px;justify-content:center;flex-wrap:wrap}
+
+.section-tag{
+  display:inline-block;font-size:.7rem;font-weight:800;letter-spacing:.15em;text-transform:uppercase;
+  padding:5px 16px;border-radius:100px;margin-bottom:14px;
+}
+.tag-gold{background:var(--gold-glow);color:var(--gold-dark);border:1px solid rgba(212,160,23,.25)}
+.tag-blue{background:rgba(0,32,159,.08);color:var(--blue);border:1px solid rgba(0,32,159,.15)}
+.tag-red{background:rgba(210,16,52,.08);color:var(--red);border:1px solid rgba(210,16,52,.15)}
+.section-title{font-family:var(--display);font-size:clamp(1.5rem,3.5vw,2.4rem);margin-bottom:10px;line-height:1.2}
+.section-sub{font-size:.92rem;color:var(--text-light);max-width:550px;margin:0 auto 30px;line-height:1.6}
+
+/* ═══ HOW IT WORKS ═══ */
+.how-section{padding:70px 20px;text-align:center}
+.steps-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:24px;max-width:900px;margin:0 auto}
+.step-card{
+  background:var(--white);border-radius:20px;padding:32px 20px;position:relative;
+  border:1px solid rgba(0,0,0,.06);box-shadow:0 2px 16px rgba(0,0,0,.04);
+  transition:transform .3s;
+}
+.step-card:hover{transform:translateY(-4px)}
+.step-num{
+  width:48px;height:48px;border-radius:50%;
+  display:flex;align-items:center;justify-content:center;
+  font-size:1.2rem;font-weight:900;margin:0 auto 14px;
+  color:#fff;
+}
+.step-1 .step-num{background:var(--blue)}
+.step-2 .step-num{background:var(--red)}
+.step-3 .step-num{background:linear-gradient(135deg,var(--gold),var(--gold-dark));color:var(--dark)}
+.step-card h3{font-size:1rem;font-weight:800;margin-bottom:6px}
+.step-card p{font-size:.84rem;color:var(--text-light);line-height:1.55}
+.step-code{
+  display:inline-block;background:var(--dark);color:var(--gold-light);font-family:monospace;
+  font-size:.78rem;font-weight:700;padding:4px 14px;border-radius:8px;margin-top:8px;
+}
+.step-connector{display:none}
+@media(min-width:768px){
+  .step-card{padding:36px 24px}
+}
+@media(max-width:767px){
+  .steps-grid{grid-template-columns:1fr;max-width:400px}
+}
+
+/* ═══ EARNINGS BREAKDOWN ═══ */
+.earnings-section{
+  background:linear-gradient(160deg,var(--dark) 0%,var(--blue-dark) 50%,#0A1940 100%);
+  padding:70px 20px;text-align:center;color:#fff;position:relative;overflow:hidden;
+}
+.earnings-section::before{
+  content:'';position:absolute;inset:0;
+  background:radial-gradient(ellipse at 20% 80%,rgba(212,160,23,.06),transparent 50%),
+             radial-gradient(ellipse at 80% 20%,rgba(210,16,52,.04),transparent 50%);
+  pointer-events:none;
+}
+.earnings-section .section-tag{background:rgba(212,160,23,.15);color:var(--gold-light);border-color:rgba(212,160,23,.3)}
+.earnings-section .section-title{color:#fff}
+.earnings-section .section-sub{color:rgba(255,255,255,.6)}
+.earn-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:16px;max-width:960px;margin:0 auto;position:relative;z-index:2}
+.earn-card{
+  background:linear-gradient(145deg,rgba(255,255,255,.08),rgba(255,255,255,.02));
+  border:1px solid rgba(255,255,255,.12);border-radius:18px;padding:24px 18px;
+  text-align:left;backdrop-filter:blur(4px);transition:all .3s;position:relative;overflow:hidden;
+}
+.earn-card:hover{transform:translateY(-4px);border-color:rgba(212,160,23,.4);box-shadow:0 8px 32px rgba(212,160,23,.15)}
+.earn-card::after{
+  content:'';position:absolute;top:0;right:0;width:80px;height:80px;
+  background:radial-gradient(circle,rgba(212,160,23,.08),transparent 70%);pointer-events:none;
+}
+.earn-icon{font-size:1.6rem;margin-bottom:10px;display:block}
+.earn-card h3{font-size:.92rem;font-weight:800;color:#fff;margin-bottom:4px}
+.earn-card .earn-platform{font-size:.7rem;font-weight:600;color:var(--gold-light);text-transform:uppercase;letter-spacing:.08em;margin-bottom:10px}
+.earn-rate{
+  font-family:var(--display);font-size:1.6rem;color:var(--gold-light);
+  margin-bottom:4px;line-height:1.1;
+}
+.earn-desc{font-size:.78rem;color:rgba(255,255,255,.55);line-height:1.5}
+.earn-example{
+  margin-top:10px;padding-top:10px;border-top:1px solid rgba(255,255,255,.08);
+  font-size:.76rem;color:rgba(255,255,255,.45);
+}
+.earn-example strong{color:var(--gold-light)}
+
+/* ═══ CALCULATOR ═══ */
+.calc-section{padding:70px 20px;text-align:center;background:var(--cream)}
+.calc-box{
+  max-width:600px;margin:0 auto;
+  background:var(--white);border-radius:24px;padding:36px 28px;
+  border:2px solid rgba(212,160,23,.2);box-shadow:0 8px 40px rgba(212,160,23,.08);
+}
+.calc-row{
+  display:flex;align-items:center;justify-content:space-between;
+  padding:14px 0;border-bottom:1px solid rgba(0,0,0,.06);
+}
+.calc-row:last-child{border-bottom:none}
+.calc-row .calc-label{font-size:.88rem;font-weight:600;text-align:left;flex:1}
+.calc-row .calc-label small{display:block;font-size:.74rem;font-weight:400;color:var(--text-light);margin-top:2px}
+.calc-row .calc-value{
+  font-family:var(--display);font-size:1.3rem;color:var(--green);font-weight:700;text-align:right;min-width:80px;
+}
+.calc-total{
+  margin-top:20px;padding:20px;border-radius:16px;
+  background:linear-gradient(135deg,var(--dark),var(--blue-dark));color:#fff;text-align:center;
+}
+.calc-total .total-label{font-size:.82rem;opacity:.7;margin-bottom:4px}
+.calc-total .total-amount{
+  font-family:var(--display);font-size:clamp(2rem,5vw,2.8rem);color:var(--gold-light);
+  text-shadow:0 0 30px rgba(212,160,23,.3);
+}
+.calc-total .total-note{font-size:.76rem;opacity:.5;margin-top:4px}
+
+/* ═══ TIERS ═══ */
+.tiers-section{padding:70px 20px;text-align:center}
+.tiers-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;max-width:900px;margin:0 auto}
+.tier-card{
+  border-radius:20px;padding:32px 20px;text-align:center;position:relative;overflow:hidden;
+  border:2px solid;transition:transform .3s;
+}
+.tier-card:hover{transform:translateY(-4px)}
+.tier-bronze{background:linear-gradient(145deg,#F5E6D0,#FFF8EE);border-color:#CD7F32}
+.tier-bronze .tier-medal{color:#CD7F32}
+.tier-silver{background:linear-gradient(145deg,#E8E8EE,#F8F8FF);border-color:#A0A0B0}
+.tier-silver .tier-medal{color:#A0A0B0}
+.tier-gold{
+  background:linear-gradient(145deg,#FFF3D0,#FFFBEE);border-color:var(--gold);
+  box-shadow:0 4px 24px rgba(212,160,23,.15);
+}
+.tier-gold .tier-medal{color:var(--gold)}
+.tier-medal{font-size:2.4rem;margin-bottom:8px;display:block}
+.tier-card h3{font-size:1.1rem;font-weight:800;margin-bottom:2px}
+.tier-range{font-size:.78rem;color:var(--text-light);font-weight:600;margin-bottom:14px}
+.tier-perks{list-style:none;text-align:left}
+.tier-perks li{font-size:.82rem;padding:6px 0;display:flex;align-items:flex-start;gap:8px;line-height:1.4}
+.tier-perks li::before{content:'\2713';color:var(--green);font-weight:800;flex-shrink:0}
+@media(max-width:767px){
+  .tiers-grid{grid-template-columns:1fr;max-width:360px}
+}
+
+/* ═══ WHO CAN JOIN ═══ */
+.who-section{
+  background:linear-gradient(135deg,var(--blue) 0%,var(--blue-dark) 100%);
+  padding:70px 20px;text-align:center;color:#fff;
+}
+.who-section .section-tag{background:rgba(255,255,255,.15);color:#fff;border-color:rgba(255,255,255,.2)}
+.who-section .section-title{color:#fff}
+.who-section .section-sub{color:rgba(255,255,255,.65)}
+.who-grid{display:flex;flex-wrap:wrap;gap:14px;justify-content:center;max-width:800px;margin:0 auto}
+.who-chip{
+  display:flex;align-items:center;gap:8px;
+  background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.2);
+  border-radius:100px;padding:10px 22px;font-size:.88rem;font-weight:600;
+  transition:all .3s;cursor:default;
+}
+.who-chip:hover{background:rgba(255,255,255,.2);border-color:rgba(255,255,255,.4);transform:scale(1.05)}
+.who-chip .who-icon{font-size:1.2rem}
+
+/* ═══ TRUST ═══ */
+.trust-section{padding:60px 20px;text-align:center;background:var(--white)}
+.trust-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:16px;max-width:900px;margin:0 auto}
+.trust-item{
+  padding:24px 16px;border-radius:16px;
+  background:var(--off-white);border:1px solid rgba(0,0,0,.05);
+}
+.trust-item .trust-icon{font-size:1.5rem;margin-bottom:8px;display:block}
+.trust-item h4{font-size:.9rem;font-weight:700;margin-bottom:4px}
+.trust-item p{font-size:.8rem;color:var(--text-light);line-height:1.5}
+
+/* ═══ FINAL CTA ═══ */
+.final-cta{
+  background:linear-gradient(160deg,var(--dark) 0%,var(--blue-dark) 40%,var(--blue) 100%);
+  padding:80px 20px;text-align:center;color:#fff;position:relative;overflow:hidden;
+}
+.final-cta::before{
+  content:'';position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);
+  width:600px;height:600px;border-radius:50%;
+  background:radial-gradient(circle,rgba(212,160,23,.1),transparent 60%);pointer-events:none;
+}
+.final-inner{position:relative;z-index:2;max-width:600px;margin:0 auto}
+.final-cta h2{font-family:var(--display);font-size:clamp(1.8rem,4vw,2.8rem);margin-bottom:12px}
+.final-cta h2 .gold{color:var(--gold-light)}
+.final-cta p{font-size:1rem;opacity:.8;margin-bottom:10px;line-height:1.6}
+.ref-preview{
+  display:inline-block;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.15);
+  border-radius:14px;padding:14px 24px;margin:16px 0 28px;font-family:monospace;
+}
+.ref-preview .ref-label{font-size:.72rem;opacity:.5;display:block;margin-bottom:4px}
+.ref-preview .ref-link{font-size:.9rem;color:var(--gold-light);font-weight:700}
+.final-ctas{display:flex;gap:12px;justify-content:center;flex-wrap:wrap}
+.wa-note{margin-top:16px;font-size:.78rem;opacity:.5}
+
+/* ═══ FOOTER ═══ */
+.eco-footer{background:var(--dark);padding:30px 20px;text-align:center}
+.eco-logo{display:flex;align-items:center;justify-content:center;gap:10px;margin-bottom:16px}
+.eco-logo img{width:36px;height:36px;border-radius:8px}
+.eco-logo span{color:#fff;font-family:var(--display);font-size:1.1rem}
+.eco-links{display:flex;flex-wrap:wrap;gap:6px;justify-content:center;margin-bottom:16px}
+.eco-links a{
+  color:rgba(255,255,255,.5);font-size:.75rem;font-weight:600;
+  padding:4px 14px;border-radius:100px;border:1px solid rgba(255,255,255,.1);
+  transition:all .2s;
+}
+.eco-links a:hover{color:#fff;border-color:rgba(255,255,255,.3);background:rgba(255,255,255,.05)}
+.eco-copy{font-size:.7rem;color:rgba(255,255,255,.3)}
+
+/* ═══ WHATSAPP FLOAT ═══ */
+.wa-float{
+  position:fixed;bottom:20px;right:20px;z-index:999;width:56px;height:56px;border-radius:50%;
+  background:#25D366;display:flex;align-items:center;justify-content:center;
+  box-shadow:0 4px 16px rgba(0,0,0,.25);transition:transform .3s;
+}
+.wa-float:hover{transform:scale(1.1)}
+.wa-float svg{width:30px;height:30px;fill:#fff}
+
+/* ═══ ANIMATIONS ═══ */
+@keyframes fadeUp{from{opacity:0;transform:translateY(24px)}to{opacity:1;transform:translateY(0)}}
+@keyframes countUp{from{opacity:0;transform:scale(.8)}to{opacity:1;transform:scale(1)}}
+@keyframes shimmer{0%{background-position:-200% 0}100%{background-position:200% 0}}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.6}}
+
+.fade-up{animation:fadeUp .6s ease-out both}
+.delay-1{animation-delay:.1s}
+.delay-2{animation-delay:.2s}
+.delay-3{animation-delay:.3s}
+.delay-4{animation-delay:.4s}
+
+.hero-earnings .amount{
+  background:linear-gradient(90deg,var(--gold-light),#FFE082,var(--gold-light));
+  background-size:200% 100%;-webkit-background-clip:text;-webkit-text-fill-color:transparent;
+  background-clip:text;animation:shimmer 3s ease-in-out infinite;
+}
+
+/* ═══ RESPONSIVE ═══ */
+@media(max-width:600px){
+  .hero{padding:90px 16px 60px;min-height:auto}
+  .hero h1{font-size:1.8rem}
+  .hero-earnings{padding:14px 24px}
+  .hero-earnings .amount{font-size:2.2rem}
+  .btn{padding:12px 24px;font-size:.85rem}
+  .earn-grid{grid-template-columns:1fr 1fr;gap:12px}
+  .calc-box{padding:24px 18px}
+  .calc-row .calc-value{font-size:1.1rem}
+}
+@media(max-width:400px){
+  .earn-grid{grid-template-columns:1fr}
+}
+</style>
+</head>
+<body>
+
+<div class="flag-stripe"></div>
+<div class="top-lang-bar">
+  <a onclick="setLang('ht')" class="active" id="lang-ht">&#127469;&#127481; Kreyol</a>
+  <a onclick="setLang('fr')" id="lang-fr">&#127467;&#127479; Francais</a>
+  <a onclick="setLang('en')" id="lang-en">&#127468;&#127463; English</a>
+  <a onclick="setLang('es')" id="lang-es">&#127466;&#127480; Espanol</a>
+</div>
+
+<!-- ═══ HERO ═══ -->
+<section class="hero">
+  <div class="hero-inner">
+    <div class="hero-badge fade-up">&#128176; KOUTYE BIZNIS</div>
+    <h1 class="fade-up delay-1" data-i18n="hero_title">Fe <span class="gold">Lajan</span> ak HaitiBiznis Ecosystem</h1>
+    <p class="hero-sub fade-up delay-2" data-i18n="hero_sub">Vin yon Koutye. Refere kliyan, enskri chofe, onboard machann — epi touche komisyon sou chak tranzaksyon nan ekosistem lan.</p>
+    <div class="hero-earnings fade-up delay-3">
+      <span class="amount" data-i18n="hero_amount">Jiska $500+/mwa</span>
+      <span class="label" data-i18n="hero_amount_label">potansyel revni mansyel</span>
+    </div>
+    <div class="hero-ctas fade-up delay-4">
+      <a href="https://wa.me/50941902005?text=Mwen%20vle%20vin%20yon%20Koutye%20Biznis" target="_blank" class="btn btn-gold" data-i18n="hero_cta">&#128640; Vin yon Koutye</a>
+      <a href="#earnings" class="btn btn-outline" data-i18n="hero_cta2">We Komisyon yo</a>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ HOW IT WORKS ═══ -->
+<section class="how-section">
+  <div class="inner">
+    <span class="section-tag tag-blue" data-i18n="how_tag">KOMAN SA MACHE</span>
+    <h2 class="section-title" data-i18n="how_title">3 Etap. Se Sa.</h2>
+    <p class="section-sub" data-i18n="how_sub">Pa gen fom konplike. Pa gen frè. Jis enskri epi komanse touche.</p>
+    <div class="steps-grid">
+      <div class="step-card step-1">
+        <div class="step-num">1</div>
+        <h3 data-i18n="step1_title">Enskri Gratis</h3>
+        <p data-i18n="step1_desc">Kreye kont ou epi resevwa kod referans inik ou.</p>
+        <div class="step-code">KB-12345</div>
+      </div>
+      <div class="step-card step-2">
+        <div class="step-num">2</div>
+        <h3 data-i18n="step2_title">Pataje Lyen Ou</h3>
+        <p data-i18n="step2_desc">Voye lyen ou bay tout moun — zanmi, fanmi, sou rezo sosyal.</p>
+        <div class="step-code">haitibiznis.com?ref=KB-12345</div>
+      </div>
+      <div class="step-card step-3">
+        <div class="step-num">&#128176;</div>
+        <h3 data-i18n="step3_title">Touche Komisyon</h3>
+        <p data-i18n="step3_desc">Chak fwa yon moun fe yon tranzaksyon, ou touche otomatikman.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ EARNINGS BREAKDOWN ═══ -->
+<section class="earnings-section" id="earnings">
+  <div class="inner">
+    <span class="section-tag" data-i18n="earn_tag">&#128176; KOMISYON YO</span>
+    <h2 class="section-title" data-i18n="earn_title">Touche sou CHAK Platfom</h2>
+    <p class="section-sub" data-i18n="earn_sub">Yon sèl kont Koutye. Senk sous revni.</p>
+    <div class="earn-grid">
+
+      <div class="earn-card">
+        <span class="earn-icon">&#128188;</span>
+        <div class="earn-platform">48HoursReady</div>
+        <h3 data-i18n="earn1_title">Vann Pake Biznis</h3>
+        <div class="earn-rate">15%</div>
+        <p class="earn-desc" data-i18n="earn1_desc">Komisyon sou chak pake ou vann</p>
+        <div class="earn-example" data-i18n="earn1_ex">Pake $99 = <strong>$15 pou ou</strong></div>
+      </div>
+
+      <div class="earn-card">
+        <span class="earn-icon">&#128757;</span>
+        <div class="earn-platform">MsouWout</div>
+        <h3 data-i18n="earn2_title">Enskri Chofe</h3>
+        <div class="earn-rate">$2–$5</div>
+        <p class="earn-desc" data-i18n="earn2_desc">Bonus pa chofe + 2-5% sou chak kous</p>
+        <div class="earn-example" data-i18n="earn2_ex">20 chofe = <strong>$40–$100</strong></div>
+      </div>
+
+      <div class="earn-card">
+        <span class="earn-icon">&#128722;</span>
+        <div class="earn-platform">MyPlopPlop</div>
+        <h3 data-i18n="earn3_title">Onboard Machann</h3>
+        <div class="earn-rate">5–10%</div>
+        <p class="earn-desc" data-i18n="earn3_desc">Bonus pa machann + komisyon sou lavant</p>
+        <div class="earn-example" data-i18n="earn3_ex">5 machann = <strong>$50+ bonus</strong></div>
+      </div>
+
+      <div class="earn-card">
+        <span class="earn-icon">&#9889;</span>
+        <div class="earn-platform" data-i18n="earn4_platform">EDH PEMAN</div>
+        <h3 data-i18n="earn4_title">Peman Kouran</h3>
+        <div class="earn-rate">1–2%</div>
+        <p class="earn-desc" data-i18n="earn4_desc">Ti komisyon — gwo volim = gwo lajan</p>
+        <div class="earn-example" data-i18n="earn4_ex">100 peman/mwa = <strong>gwo komisyon</strong></div>
+      </div>
+
+      <div class="earn-card">
+        <span class="earn-icon">&#127984;</span>
+        <div class="earn-platform">Sol</div>
+        <h3 data-i18n="earn5_title">Gwoup Epay</h3>
+        <div class="earn-rate" data-i18n="earn5_rate">Bonus + %</div>
+        <p class="earn-desc" data-i18n="earn5_desc">Frè fiks pa gwoup + % sou kontribisyon</p>
+        <div class="earn-example" data-i18n="earn5_ex">Kreye gwoup = <strong>revni pasyf</strong></div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ═══ CALCULATOR ═══ -->
+<section class="calc-section">
+  <div class="inner">
+    <span class="section-tag tag-gold" data-i18n="calc_tag">&#129518; KALKILATRIS</span>
+    <h2 class="section-title" data-i18n="calc_title">Konbyen Ou Ka Touche?</h2>
+    <p class="section-sub" data-i18n="calc_sub">Ekzanp reyalis pou yon mwa travay.</p>
+    <div class="calc-box">
+      <div class="calc-row">
+        <div class="calc-label" data-i18n="calc1_label">10 kliyan 48HoursReady<small data-i18n="calc1_detail">$15 komisyon chak</small></div>
+        <div class="calc-value">$150</div>
+      </div>
+      <div class="calc-row">
+        <div class="calc-label" data-i18n="calc2_label">20 chofe MsouWout<small data-i18n="calc2_detail">$5 bonus chak</small></div>
+        <div class="calc-value">$100</div>
+      </div>
+      <div class="calc-row">
+        <div class="calc-label" data-i18n="calc3_label">5 machann MyPlopPlop<small data-i18n="calc3_detail">$10 bonus + komisyon lavant</small></div>
+        <div class="calc-value">$75</div>
+      </div>
+      <div class="calc-row">
+        <div class="calc-label" data-i18n="calc4_label">Kous + peman EDH<small data-i18n="calc4_detail">Komisyon otomatik sou tranzaksyon</small></div>
+        <div class="calc-value">$50</div>
+      </div>
+      <div class="calc-total">
+        <div class="total-label" data-i18n="calc_total_label">Total Potansyel pa Mwa</div>
+        <div class="total-amount" id="totalAmount">$375+</div>
+        <div class="total-note" data-i18n="calc_total_note">Rezilta reyel depann de aktivite ou</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ TIER SYSTEM ═══ -->
+<section class="tiers-section">
+  <div class="inner">
+    <span class="section-tag tag-gold" data-i18n="tier_tag">&#127942; NIVO</span>
+    <h2 class="section-title" data-i18n="tier_title">Pi Ou Grandi, Pi Ou Touche</h2>
+    <p class="section-sub" data-i18n="tier_sub">3 nivo — chak nivo debouche sou pi gwo komisyon ak avantaj.</p>
+    <div class="tiers-grid">
+
+      <div class="tier-card tier-bronze">
+        <span class="tier-medal">&#129353;</span>
+        <h3>Bronze</h3>
+        <div class="tier-range" data-i18n="tier1_range">0 – 50 itilizate</div>
+        <ul class="tier-perks">
+          <li data-i18n="tier1_p1">Komisyon estanda sou tout platfom</li>
+          <li data-i18n="tier1_p2">Dashboard pou swiv aktivite</li>
+          <li data-i18n="tier1_p3">Lyen referans inik</li>
+        </ul>
+      </div>
+
+      <div class="tier-card tier-silver">
+        <span class="tier-medal">&#129352;</span>
+        <h3>Silver</h3>
+        <div class="tier-range" data-i18n="tier2_range">50 – 200 itilizate</div>
+        <ul class="tier-perks">
+          <li data-i18n="tier2_p1">Komisyon pi wo (+2%)</li>
+          <li data-i18n="tier2_p2">Sipò priorite</li>
+          <li data-i18n="tier2_p3">Badge verifye sou pwofil</li>
+        </ul>
+      </div>
+
+      <div class="tier-card tier-gold">
+        <span class="tier-medal">&#127942;</span>
+        <h3>Gold</h3>
+        <div class="tier-range" data-i18n="tier3_range">200+ itilizate</div>
+        <ul class="tier-perks">
+          <li data-i18n="tier3_p1">Komisyon VIP maksimom</li>
+          <li data-i18n="tier3_p2">Avantaj eksklizif + promo</li>
+          <li data-i18n="tier3_p3">Rekonesans Top Koutye Ayiti</li>
+        </ul>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ═══ WHO CAN JOIN ═══ -->
+<section class="who-section">
+  <div class="inner">
+    <span class="section-tag" data-i18n="who_tag">POU TOUT MOUN</span>
+    <h2 class="section-title" data-i18n="who_title">Kiyès Ki Ka Vin Koutye?</h2>
+    <p class="section-sub" data-i18n="who_sub">Pa gen limit. Tout moun ka patisipe epi touche.</p>
+    <div class="who-grid">
+      <div class="who-chip"><span class="who-icon">&#127891;</span> <span data-i18n="who1">Etidyan</span></div>
+      <div class="who-chip"><span class="who-icon">&#128694;</span> <span data-i18n="who2">Ajan nan lari</span></div>
+      <div class="who-chip"><span class="who-icon">&#128757;</span> <span data-i18n="who3">Chofe</span></div>
+      <div class="who-chip"><span class="who-icon">&#128717;</span> <span data-i18n="who4">Machann</span></div>
+      <div class="who-chip"><span class="who-icon">&#127757;</span> <span data-i18n="who5">Dyaspora</span></div>
+      <div class="who-chip"><span class="who-icon">&#128241;</span> <span data-i18n="who6">Enfliyanse</span></div>
+      <div class="who-chip"><span class="who-icon">&#127963;</span> <span data-i18n="who7">Lidè kominote</span></div>
+      <div class="who-chip"><span class="who-icon">&#128187;</span> <span data-i18n="who8">Freelancer</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ TRUST ═══ -->
+<section class="trust-section">
+  <div class="inner">
+    <span class="section-tag tag-blue" data-i18n="trust_tag">&#128274; SEKIRITE</span>
+    <h2 class="section-title" data-i18n="trust_title">Sistèm Ou Ka Fye</h2>
+    <p class="section-sub" data-i18n="trust_sub">Tout bagay transparan, verifye, epi pwoteje.</p>
+    <div class="trust-grid">
+      <div class="trust-item">
+        <span class="trust-icon">&#128241;</span>
+        <h4 data-i18n="trust1_title">Verifikasyon Telefon</h4>
+        <p data-i18n="trust1_desc">Chak kont verifye ak nimewo telefon reyel.</p>
+      </div>
+      <div class="trust-item">
+        <span class="trust-icon">&#9202;</span>
+        <h4 data-i18n="trust2_title">Peman An Sekirite</h4>
+        <p data-i18n="trust2_desc">Delè 24-72h sou peman pou pwoteksyon kont fwod.</p>
+      </div>
+      <div class="trust-item">
+        <span class="trust-icon">&#128200;</span>
+        <h4 data-i18n="trust3_title">Dashboard An Tan Reyel</h4>
+        <p data-i18n="trust3_desc">Swiv tout referans, tranzaksyon, ak komisyon an direk.</p>
+      </div>
+      <div class="trust-item">
+        <span class="trust-icon">&#127942;</span>
+        <h4 data-i18n="trust4_title">Klasman Chak Semenn</h4>
+        <p data-i18n="trust4_desc">Top Koutye yo parèt sou klasman piblik la.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ FINAL CTA ═══ -->
+<section class="final-cta">
+  <div class="final-inner">
+    <h2 data-i18n="final_title">Komanse Fe <span class="gold">Lajan</span> Jodi a</h2>
+    <p data-i18n="final_sub">Enskri gratis. Resevwa kod ou. Komanse touche sou chak tranzaksyon nan ekosistem HaitiBiznis la.</p>
+    <div class="ref-preview">
+      <span class="ref-label" data-i18n="final_ref_label">Lyen referans ou</span>
+      <span class="ref-link">haitibiznis.com?ref=<strong>KB-XXXXX</strong></span>
+    </div>
+    <div class="final-ctas">
+      <a href="https://wa.me/50941902005?text=Mwen%20vle%20vin%20yon%20Koutye%20Biznis%20%F0%9F%9A%80" target="_blank" class="btn btn-gold" data-i18n="final_cta">&#128640; Enskri sou WhatsApp</a>
+      <a href="index.html" class="btn btn-outline" data-i18n="final_cta2">Vizite HaitiBiznis</a>
+    </div>
+    <p class="wa-note" data-i18n="final_wa">+509 4190 2005 &bull; Repons an mwens ke 24h</p>
+  </div>
+</section>
+
+<!-- ═══ FOOTER ═══ -->
+<footer class="eco-footer">
+  <div class="eco-logo">
+    <img src="assets/haitibiznis-icon.png" alt="HaitiBiznis">
+    <span>HaitiBiznis</span>
+  </div>
+  <div class="eco-links">
+    <a href="index.html">HaitiBiznis</a>
+    <a href="https://myplopplop.com">MyPlopPlop</a>
+    <a href="https://msouwout.com">MsouWout</a>
+    <a href="https://48hoursready.com">48HoursReady</a>
+    <a href="https://prolakay.haitibiznis.com">ProLakay</a>
+    <a href="https://boxetoboxe.com">BoxeToBoxe</a>
+  </div>
+  <div class="eco-copy">&copy; 2026 HaitiBiznis Ecosystem. Tout dwa rezeve.</div>
+</footer>
+
+<!-- WHATSAPP FLOAT -->
+<a href="https://wa.me/50941902005" target="_blank" class="wa-float">
+  <svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+</a>
+
+<script>
+var T = {
+  ht: {
+    hero_title:"Fe <span class='gold'>Lajan</span> ak HaitiBiznis Ecosystem",
+    hero_sub:"Vin yon Koutye. Refere kliyan, enskri chofe, onboard machann — epi touche komisyon sou chak tranzaksyon nan ekosistem lan.",
+    hero_amount:"Jiska $500+/mwa",hero_amount_label:"potansyel revni mansyel",
+    hero_cta:"&#128640; Vin yon Koutye",hero_cta2:"We Komisyon yo",
+    how_tag:"KOMAN SA MACHE",how_title:"3 Etap. Se Sa.",how_sub:"Pa gen fom konplike. Pa gen fre. Jis enskri epi komanse touche.",
+    step1_title:"Enskri Gratis",step1_desc:"Kreye kont ou epi resevwa kod referans inik ou.",
+    step2_title:"Pataje Lyen Ou",step2_desc:"Voye lyen ou bay tout moun — zanmi, fanmi, sou rezo sosyal.",
+    step3_title:"Touche Komisyon",step3_desc:"Chak fwa yon moun fe yon tranzaksyon, ou touche otomatikman.",
+    earn_tag:"&#128176; KOMISYON YO",earn_title:"Touche sou CHAK Platfom",earn_sub:"Yon sel kont Koutye. Senk sous revni.",
+    earn1_title:"Vann Pake Biznis",earn1_desc:"Komisyon sou chak pake ou vann",earn1_ex:"Pake $99 = <strong>$15 pou ou</strong>",
+    earn2_title:"Enskri Chofe",earn2_desc:"Bonus pa chofe + 2-5% sou chak kous",earn2_ex:"20 chofe = <strong>$40–$100</strong>",
+    earn3_title:"Onboard Machann",earn3_desc:"Bonus pa machann + komisyon sou lavant",earn3_ex:"5 machann = <strong>$50+ bonus</strong>",
+    earn4_platform:"EDH PEMAN",earn4_title:"Peman Kouran",earn4_desc:"Ti komisyon — gwo volim = gwo lajan",earn4_ex:"100 peman/mwa = <strong>gwo komisyon</strong>",
+    earn5_title:"Gwoup Epay",earn5_rate:"Bonus + %",earn5_desc:"Fre fiks pa gwoup + % sou kontribisyon",earn5_ex:"Kreye gwoup = <strong>revni pasyf</strong>",
+    calc_tag:"&#129518; KALKILATRIS",calc_title:"Konbyen Ou Ka Touche?",calc_sub:"Ekzanp reyalis pou yon mwa travay.",
+    calc1_label:"10 kliyan 48HoursReady",calc1_detail:"$15 komisyon chak",
+    calc2_label:"20 chofe MsouWout",calc2_detail:"$5 bonus chak",
+    calc3_label:"5 machann MyPlopPlop",calc3_detail:"$10 bonus + komisyon lavant",
+    calc4_label:"Kous + peman EDH",calc4_detail:"Komisyon otomatik sou tranzaksyon",
+    calc_total_label:"Total Potansyel pa Mwa",calc_total_note:"Rezilta reyel depann de aktivite ou",
+    tier_tag:"&#127942; NIVO",tier_title:"Pi Ou Grandi, Pi Ou Touche",tier_sub:"3 nivo — chak nivo debouche sou pi gwo komisyon ak avantaj.",
+    tier1_range:"0 – 50 itilizate",tier1_p1:"Komisyon estanda sou tout platfom",tier1_p2:"Dashboard pou swiv aktivite",tier1_p3:"Lyen referans inik",
+    tier2_range:"50 – 200 itilizate",tier2_p1:"Komisyon pi wo (+2%)",tier2_p2:"Sipo priorite",tier2_p3:"Badge verifye sou pwofil",
+    tier3_range:"200+ itilizate",tier3_p1:"Komisyon VIP maksimom",tier3_p2:"Avantaj eksklizif + promo",tier3_p3:"Rekonesans Top Koutye Ayiti",
+    who_tag:"POU TOUT MOUN",who_title:"Kiyes Ki Ka Vin Koutye?",who_sub:"Pa gen limit. Tout moun ka patisipe epi touche.",
+    who1:"Etidyan",who2:"Ajan nan lari",who3:"Chofe",who4:"Machann",who5:"Dyaspora",who6:"Enfliyanse",who7:"Lide kominote",who8:"Freelancer",
+    trust_tag:"&#128274; SEKIRITE",trust_title:"Sistem Ou Ka Fye",trust_sub:"Tout bagay transparan, verifye, epi pwoteje.",
+    trust1_title:"Verifikasyon Telefon",trust1_desc:"Chak kont verifye ak nimero telefon reyel.",
+    trust2_title:"Peman An Sekirite",trust2_desc:"Dele 24-72h sou peman pou pwoteksyon kont fwod.",
+    trust3_title:"Dashboard An Tan Reyel",trust3_desc:"Swiv tout referans, tranzaksyon, ak komisyon an direk.",
+    trust4_title:"Klasman Chak Semenn",trust4_desc:"Top Koutye yo paret sou klasman piblik la.",
+    final_title:"Komanse Fe <span class='gold'>Lajan</span> Jodi a",final_sub:"Enskri gratis. Resevwa kod ou. Komanse touche sou chak tranzaksyon nan ekosistem HaitiBiznis la.",
+    final_ref_label:"Lyen referans ou",final_cta:"&#128640; Enskri sou WhatsApp",final_cta2:"Vizite HaitiBiznis",final_wa:"+509 4190 2005 &bull; Repons an mwens ke 24h"
+  },
+  fr: {
+    hero_title:"Gagnez de <span class='gold'>l'Argent</span> avec HaitiBiznis Ecosystem",
+    hero_sub:"Devenez Koutye. Referez des clients, inscrivez des chauffeurs, integrez des commercants — et touchez une commission sur chaque transaction.",
+    hero_amount:"Jusqu'a $500+/mois",hero_amount_label:"potentiel de revenu mensuel",
+    hero_cta:"&#128640; Devenir Koutye",hero_cta2:"Voir les Commissions",
+    how_tag:"COMMENT CA MARCHE",how_title:"3 Etapes. C'est Tout.",how_sub:"Pas de formulaire complique. Pas de frais. Inscrivez-vous et commencez a gagner.",
+    step1_title:"Inscription Gratuite",step1_desc:"Creez votre compte et recevez votre code referent unique.",
+    step2_title:"Partagez Votre Lien",step2_desc:"Envoyez votre lien a tout le monde — amis, famille, reseaux sociaux.",
+    step3_title:"Touchez des Commissions",step3_desc:"A chaque transaction generee, vous gagnez automatiquement.",
+    earn_tag:"&#128176; COMMISSIONS",earn_title:"Gagnez sur CHAQUE Plateforme",earn_sub:"Un seul compte Koutye. Cinq sources de revenus.",
+    earn1_title:"Vendre des Packs",earn1_desc:"Commission sur chaque pack vendu",earn1_ex:"Pack $99 = <strong>$15 pour vous</strong>",
+    earn2_title:"Inscrire des Chauffeurs",earn2_desc:"Bonus par chauffeur + 2-5% par course",earn2_ex:"20 chauffeurs = <strong>$40–$100</strong>",
+    earn3_title:"Integrer des Commercants",earn3_desc:"Bonus par commercant + commission sur ventes",earn3_ex:"5 commercants = <strong>$50+ bonus</strong>",
+    earn4_platform:"PAIEMENT EDH",earn4_title:"Paiements Electricite",earn4_desc:"Petite commission — gros volume = gros gains",earn4_ex:"100 paiements/mois = <strong>grosses commissions</strong>",
+    earn5_title:"Groupes d'Epargne",earn5_rate:"Bonus + %",earn5_desc:"Frais fixe par groupe + % sur contributions",earn5_ex:"Creer un groupe = <strong>revenu passif</strong>",
+    calc_tag:"&#129518; CALCULATRICE",calc_title:"Combien Pouvez-Vous Gagner?",calc_sub:"Exemple realiste pour un mois d'activite.",
+    calc1_label:"10 clients 48HoursReady",calc1_detail:"$15 de commission chacun",
+    calc2_label:"20 chauffeurs MsouWout",calc2_detail:"$5 de bonus chacun",
+    calc3_label:"5 commercants MyPlopPlop",calc3_detail:"$10 bonus + commission ventes",
+    calc4_label:"Courses + paiements EDH",calc4_detail:"Commission automatique sur transactions",
+    calc_total_label:"Total Potentiel par Mois",calc_total_note:"Les resultats dependent de votre activite",
+    tier_tag:"&#127942; NIVEAUX",tier_title:"Plus Vous Grandissez, Plus Vous Gagnez",tier_sub:"3 niveaux — chaque niveau donne acces a de meilleures commissions.",
+    tier1_range:"0 – 50 utilisateurs",tier1_p1:"Commissions standard sur toutes les plateformes",tier1_p2:"Dashboard de suivi d'activite",tier1_p3:"Lien de referencement unique",
+    tier2_range:"50 – 200 utilisateurs",tier2_p1:"Commissions plus elevees (+2%)",tier2_p2:"Support prioritaire",tier2_p3:"Badge verifie sur profil",
+    tier3_range:"200+ utilisateurs",tier3_p1:"Commissions VIP maximum",tier3_p2:"Avantages exclusifs + promos",tier3_p3:"Reconnaissance Top Koutye Haiti",
+    who_tag:"POUR TOUS",who_title:"Qui Peut Devenir Koutye?",who_sub:"Aucune limite. Tout le monde peut participer et gagner.",
+    who1:"Etudiants",who2:"Agents de terrain",who3:"Chauffeurs",who4:"Commercants",who5:"Diaspora",who6:"Influenceurs",who7:"Leaders communautaires",who8:"Freelancers",
+    trust_tag:"&#128274; SECURITE",trust_title:"Un Systeme Fiable",trust_sub:"Tout est transparent, verifie et protege.",
+    trust1_title:"Verification Telephone",trust1_desc:"Chaque compte verifie avec un numero reel.",
+    trust2_title:"Paiements Securises",trust2_desc:"Delai de 24-72h sur les paiements pour protection anti-fraude.",
+    trust3_title:"Dashboard en Temps Reel",trust3_desc:"Suivez vos referrals, transactions et commissions en direct.",
+    trust4_title:"Classement Hebdomadaire",trust4_desc:"Les meilleurs Koutye apparaissent au classement public.",
+    final_title:"Commencez a Gagner de <span class='gold'>l'Argent</span> Aujourd'hui",final_sub:"Inscrivez-vous gratuitement. Recevez votre code. Commencez a gagner sur chaque transaction dans l'ecosysteme HaitiBiznis.",
+    final_ref_label:"Votre lien de referral",final_cta:"&#128640; S'inscrire sur WhatsApp",final_cta2:"Visiter HaitiBiznis",final_wa:"+509 4190 2005 &bull; Reponse en moins de 24h"
+  },
+  en: {
+    hero_title:"Make <span class='gold'>Money</span> with HaitiBiznis Ecosystem",
+    hero_sub:"Become a Koutye. Refer clients, sign up drivers, onboard vendors — and earn commission on every transaction across the ecosystem.",
+    hero_amount:"Up to $500+/mo",hero_amount_label:"monthly earning potential",
+    hero_cta:"&#128640; Become a Koutye",hero_cta2:"See Commissions",
+    how_tag:"HOW IT WORKS",how_title:"3 Steps. That's It.",how_sub:"No complicated forms. No fees. Just sign up and start earning.",
+    step1_title:"Sign Up Free",step1_desc:"Create your account and get your unique referral code.",
+    step2_title:"Share Your Link",step2_desc:"Send your link to everyone — friends, family, social media.",
+    step3_title:"Earn Commissions",step3_desc:"Every time someone makes a transaction, you earn automatically.",
+    earn_tag:"&#128176; COMMISSIONS",earn_title:"Earn on EVERY Platform",earn_sub:"One Koutye account. Five income streams.",
+    earn1_title:"Sell Business Packs",earn1_desc:"Commission on every pack you sell",earn1_ex:"$99 pack = <strong>$15 for you</strong>",
+    earn2_title:"Sign Up Drivers",earn2_desc:"Bonus per driver + 2-5% per ride",earn2_ex:"20 drivers = <strong>$40–$100</strong>",
+    earn3_title:"Onboard Vendors",earn3_desc:"Bonus per vendor + commission on sales",earn3_ex:"5 vendors = <strong>$50+ bonus</strong>",
+    earn4_platform:"EDH PAYMENTS",earn4_title:"Utility Payments",earn4_desc:"Small commission — high volume = big earnings",earn4_ex:"100 payments/mo = <strong>big commissions</strong>",
+    earn5_title:"Savings Groups",earn5_rate:"Bonus + %",earn5_desc:"Fixed fee per group + % on contributions",earn5_ex:"Create group = <strong>passive income</strong>",
+    calc_tag:"&#129518; CALCULATOR",calc_title:"How Much Can You Earn?",calc_sub:"Realistic example for one month of work.",
+    calc1_label:"10 clients on 48HoursReady",calc1_detail:"$15 commission each",
+    calc2_label:"20 MsouWout drivers",calc2_detail:"$5 bonus each",
+    calc3_label:"5 MyPlopPlop vendors",calc3_detail:"$10 bonus + sales commission",
+    calc4_label:"Rides + EDH payments",calc4_detail:"Auto commission on transactions",
+    calc_total_label:"Total Monthly Potential",calc_total_note:"Actual results depend on your activity",
+    tier_tag:"&#127942; TIERS",tier_title:"The More You Grow, The More You Earn",tier_sub:"3 tiers — each level unlocks higher commissions and perks.",
+    tier1_range:"0 – 50 users",tier1_p1:"Standard commissions on all platforms",tier1_p2:"Activity tracking dashboard",tier1_p3:"Unique referral link",
+    tier2_range:"50 – 200 users",tier2_p1:"Higher commissions (+2%)",tier2_p2:"Priority support",tier2_p3:"Verified badge on profile",
+    tier3_range:"200+ users",tier3_p1:"Maximum VIP commissions",tier3_p2:"Exclusive perks + promos",tier3_p3:"Top Koutye Haiti recognition",
+    who_tag:"FOR EVERYONE",who_title:"Who Can Become a Koutye?",who_sub:"No limits. Anyone can join and earn.",
+    who1:"Students",who2:"Street agents",who3:"Drivers",who4:"Vendors",who5:"Diaspora",who6:"Influencers",who7:"Community leaders",who8:"Freelancers",
+    trust_tag:"&#128274; SECURITY",trust_title:"A System You Can Trust",trust_sub:"Everything is transparent, verified, and protected.",
+    trust1_title:"Phone Verification",trust1_desc:"Every account verified with a real phone number.",
+    trust2_title:"Secure Payments",trust2_desc:"24-72h payout delay for fraud protection.",
+    trust3_title:"Real-Time Dashboard",trust3_desc:"Track all referrals, transactions, and commissions live.",
+    trust4_title:"Weekly Leaderboard",trust4_desc:"Top Koutye appear on the public leaderboard.",
+    final_title:"Start Making <span class='gold'>Money</span> Today",final_sub:"Sign up free. Get your code. Start earning on every transaction in the HaitiBiznis ecosystem.",
+    final_ref_label:"Your referral link",final_cta:"&#128640; Sign Up on WhatsApp",final_cta2:"Visit HaitiBiznis",final_wa:"+509 4190 2005 &bull; Response within 24h"
+  },
+  es: {
+    hero_title:"Gana <span class='gold'>Dinero</span> con HaitiBiznis Ecosystem",
+    hero_sub:"Conviertete en Koutye. Refiere clientes, inscribe conductores, integra comerciantes — y gana comision en cada transaccion del ecosistema.",
+    hero_amount:"Hasta $500+/mes",hero_amount_label:"potencial de ingreso mensual",
+    hero_cta:"&#128640; Ser un Koutye",hero_cta2:"Ver Comisiones",
+    how_tag:"COMO FUNCIONA",how_title:"3 Pasos. Es Todo.",how_sub:"Sin formularios complicados. Sin cargos. Solo registrate y empieza a ganar.",
+    step1_title:"Registro Gratuito",step1_desc:"Crea tu cuenta y recibe tu codigo de referencia unico.",
+    step2_title:"Comparte Tu Enlace",step2_desc:"Envia tu enlace a todos — amigos, familia, redes sociales.",
+    step3_title:"Gana Comisiones",step3_desc:"Cada vez que alguien hace una transaccion, ganas automaticamente.",
+    earn_tag:"&#128176; COMISIONES",earn_title:"Gana en CADA Plataforma",earn_sub:"Una sola cuenta Koutye. Cinco fuentes de ingreso.",
+    earn1_title:"Vender Paquetes",earn1_desc:"Comision por cada paquete vendido",earn1_ex:"Paquete $99 = <strong>$15 para ti</strong>",
+    earn2_title:"Inscribir Conductores",earn2_desc:"Bono por conductor + 2-5% por viaje",earn2_ex:"20 conductores = <strong>$40–$100</strong>",
+    earn3_title:"Integrar Comerciantes",earn3_desc:"Bono por comerciante + comision en ventas",earn3_ex:"5 comerciantes = <strong>$50+ bono</strong>",
+    earn4_platform:"PAGOS EDH",earn4_title:"Pagos de Electricidad",earn4_desc:"Pequena comision — gran volumen = grandes ganancias",earn4_ex:"100 pagos/mes = <strong>grandes comisiones</strong>",
+    earn5_title:"Grupos de Ahorro",earn5_rate:"Bono + %",earn5_desc:"Tarifa fija por grupo + % en contribuciones",earn5_ex:"Crear grupo = <strong>ingreso pasivo</strong>",
+    calc_tag:"&#129518; CALCULADORA",calc_title:"Cuanto Puedes Ganar?",calc_sub:"Ejemplo realista para un mes de trabajo.",
+    calc1_label:"10 clientes 48HoursReady",calc1_detail:"$15 de comision cada uno",
+    calc2_label:"20 conductores MsouWout",calc2_detail:"$5 de bono cada uno",
+    calc3_label:"5 comerciantes MyPlopPlop",calc3_detail:"$10 bono + comision ventas",
+    calc4_label:"Viajes + pagos EDH",calc4_detail:"Comision automatica en transacciones",
+    calc_total_label:"Total Potencial por Mes",calc_total_note:"Los resultados dependen de tu actividad",
+    tier_tag:"&#127942; NIVELES",tier_title:"Mientras Mas Creces, Mas Ganas",tier_sub:"3 niveles — cada nivel desbloquea mejores comisiones y beneficios.",
+    tier1_range:"0 – 50 usuarios",tier1_p1:"Comisiones estandar en todas las plataformas",tier1_p2:"Dashboard de seguimiento",tier1_p3:"Enlace de referencia unico",
+    tier2_range:"50 – 200 usuarios",tier2_p1:"Comisiones mas altas (+2%)",tier2_p2:"Soporte prioritario",tier2_p3:"Insignia verificada en perfil",
+    tier3_range:"200+ usuarios",tier3_p1:"Comisiones VIP maximas",tier3_p2:"Beneficios exclusivos + promos",tier3_p3:"Reconocimiento Top Koutye Haiti",
+    who_tag:"PARA TODOS",who_title:"Quien Puede Ser Koutye?",who_sub:"Sin limites. Cualquiera puede participar y ganar.",
+    who1:"Estudiantes",who2:"Agentes de calle",who3:"Conductores",who4:"Comerciantes",who5:"Diaspora",who6:"Influencers",who7:"Lideres comunitarios",who8:"Freelancers",
+    trust_tag:"&#128274; SEGURIDAD",trust_title:"Un Sistema Confiable",trust_sub:"Todo es transparente, verificado y protegido.",
+    trust1_title:"Verificacion Telefonica",trust1_desc:"Cada cuenta verificada con numero real.",
+    trust2_title:"Pagos Seguros",trust2_desc:"Retraso de 24-72h en pagos para proteccion contra fraude.",
+    trust3_title:"Dashboard en Tiempo Real",trust3_desc:"Rastrea todas las referencias, transacciones y comisiones en vivo.",
+    trust4_title:"Ranking Semanal",trust4_desc:"Los mejores Koutye aparecen en el ranking publico.",
+    final_title:"Empieza a Ganar <span class='gold'>Dinero</span> Hoy",final_sub:"Registrate gratis. Recibe tu codigo. Empieza a ganar en cada transaccion del ecosistema HaitiBiznis.",
+    final_ref_label:"Tu enlace de referencia",final_cta:"&#128640; Registrarse en WhatsApp",final_cta2:"Visitar HaitiBiznis",final_wa:"+509 4190 2005 &bull; Respuesta en menos de 24h"
+  }
+};
+
+var currentLang = 'ht';
+function setLang(lang) {
+  currentLang = lang;
+  document.querySelectorAll('.top-lang-bar a').forEach(function(a){a.classList.remove('active')});
+  document.getElementById('lang-'+lang).classList.add('active');
+  var t = T[lang] || T.ht;
+  document.querySelectorAll('[data-i18n]').forEach(function(el){
+    var key = el.getAttribute('data-i18n');
+    if(t[key]) el.innerHTML = t[key];
+  });
+  localStorage.setItem('kb_lang', lang);
+}
+var saved = localStorage.getItem('kb_lang');
+if(saved && T[saved]) setLang(saved);
+
+// Scroll-triggered animations
+var observer = new IntersectionObserver(function(entries){
+  entries.forEach(function(e){
+    if(e.isIntersecting){e.target.style.opacity='1';e.target.style.transform='translateY(0)'}
+  });
+},{threshold:0.1});
+document.querySelectorAll('.step-card,.earn-card,.tier-card,.trust-item,.who-chip').forEach(function(el){
+  el.style.opacity='0';el.style.transform='translateY(20px)';el.style.transition='opacity .5s ease,transform .5s ease';
+  observer.observe(el);
+});
+</script>
+</body>
+</html>
