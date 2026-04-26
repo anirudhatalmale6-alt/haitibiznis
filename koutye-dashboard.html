@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html lang="ht">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Koutye Dashboard - HaitiBiznis</title>
+<meta name="description" content="Dashboard Koutye Biznis - suiv komisyon ou, referral ou, ak lajan ou.">
+<link rel="icon" type="image/png" sizes="32x32" href="assets/favicon-32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="assets/favicon-16.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --blue:#00209F;--blue-light:#0033CC;--blue-dark:#001566;
+  --red:#D21034;--red-light:#E8274A;--red-dark:#B00D2C;
+  --white:#FFFFFF;--off-white:#F5F7FA;--light-gray:#E8ECF2;
+  --dark:#0A0E1A;--text:#1A1A2E;--text-light:#6B6B80;
+  --green:#1B8C3D;--gold:#D4A017;
+  --body:'Plus Jakarta Sans',system-ui,sans-serif;
+  --display:'DM Serif Display',Georgia,serif;
+}
+html{scroll-behavior:smooth}
+body{font-family:var(--body);background:var(--off-white);color:var(--text);-webkit-font-smoothing:antialiased;min-height:100vh}
+
+.top-bar{
+  background:var(--dark);padding:12px 20px;display:flex;align-items:center;justify-content:space-between;
+  position:sticky;top:0;z-index:100;
+}
+.top-bar-left{display:flex;align-items:center;gap:10px}
+.top-bar-left img{height:28px;border-radius:6px}
+.top-bar-left span{color:#fff;font-family:var(--display);font-size:1rem}
+.top-bar-left span em{color:var(--red);font-style:italic}
+.top-bar-right{display:flex;gap:8px}
+.top-bar-right a{color:rgba(255,255,255,.6);font-size:.75rem;font-weight:600;padding:5px 12px;border-radius:100px;border:1px solid rgba(255,255,255,.15);transition:all .2s}
+.top-bar-right a:hover{color:#fff;border-color:rgba(255,255,255,.4);text-decoration:none}
+
+.dash-header{
+  background:linear-gradient(160deg,var(--blue-dark),var(--blue));
+  padding:28px 20px 24px;color:#fff;
+}
+.dash-header-inner{max-width:700px;margin:0 auto}
+.dash-greeting{font-size:.82rem;color:rgba(255,255,255,.6);margin-bottom:2px}
+.dash-name{font-family:var(--display);font-size:1.5rem;margin-bottom:4px}
+.dash-code-row{display:flex;align-items:center;gap:8px;margin-top:8px}
+.dash-code{background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.2);padding:6px 14px;border-radius:8px;font-family:monospace;font-size:.9rem;font-weight:800;letter-spacing:.06em;color:#fff}
+.dash-tier{font-size:.65rem;font-weight:800;text-transform:uppercase;letter-spacing:.12em;padding:4px 10px;border-radius:100px;background:rgba(212,160,23,.2);color:var(--gold);border:1px solid rgba(212,160,23,.3)}
+
+.dash-content{max-width:700px;margin:0 auto;padding:20px}
+
+.stat-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:20px}
+.stat-card{background:var(--white);border-radius:14px;padding:18px 16px;border:1px solid var(--light-gray)}
+.stat-card .val{font-family:var(--display);font-size:1.6rem;color:var(--dark);line-height:1}
+.stat-card .val.green{color:var(--green)}
+.stat-card .val.pending{color:var(--gold)}
+.stat-card .label{font-size:.72rem;color:var(--text-light);margin-top:4px;font-weight:600;text-transform:uppercase;letter-spacing:.04em}
+
+.card{background:var(--white);border-radius:14px;padding:20px;border:1px solid var(--light-gray);margin-bottom:16px}
+.card-title{font-size:.72rem;font-weight:800;text-transform:uppercase;letter-spacing:.1em;color:var(--text-light);margin-bottom:12px}
+
+.ref-link-display{
+  background:var(--off-white);border:2px solid var(--blue);border-radius:10px;
+  padding:12px 14px;font-family:monospace;font-size:.82rem;color:var(--blue);
+  word-break:break-all;font-weight:600;margin-bottom:12px;
+}
+.ref-btns{display:flex;gap:8px;flex-wrap:wrap}
+.ref-btn{
+  flex:1;min-width:120px;padding:11px 16px;border:none;border-radius:10px;
+  font-family:var(--body);font-size:.82rem;font-weight:700;cursor:pointer;
+  display:flex;align-items:center;justify-content:center;gap:6px;transition:all .2s;
+}
+.ref-btn-blue{background:var(--blue);color:#fff}
+.ref-btn-blue:hover{background:var(--blue-light)}
+.ref-btn-green{background:var(--green);color:#fff}
+.ref-btn-green:hover{opacity:.9}
+.ref-btn-outline{background:transparent;color:var(--text);border:2px solid var(--light-gray)}
+.ref-btn-outline:hover{border-color:var(--blue);color:var(--blue)}
+
+.earn-list{list-style:none}
+.earn-item{
+  display:flex;align-items:center;justify-content:space-between;
+  padding:12px 0;border-bottom:1px solid var(--light-gray);
+}
+.earn-item:last-child{border-bottom:none}
+.earn-item .name{font-size:.85rem;font-weight:600}
+.earn-item .rate{font-size:.82rem;font-weight:700;color:var(--blue)}
+
+.activity-empty{text-align:center;padding:24px 0;color:var(--text-light);font-size:.85rem}
+.activity-empty span{font-size:2rem;display:block;margin-bottom:8px}
+
+.payout-row{display:flex;gap:8px;margin-top:14px}
+.payout-tag{
+  display:flex;align-items:center;gap:6px;
+  background:var(--off-white);border:1px solid var(--light-gray);
+  padding:8px 14px;border-radius:10px;font-size:.78rem;font-weight:600;color:var(--text);
+  flex:1;justify-content:center;
+}
+.payout-tag .dot{width:8px;height:8px;border-radius:50%}
+.payout-tag .dot.mc{background:#FF6600}
+.payout-tag .dot.nc{background:var(--green)}
+
+.tip-box{
+  background:rgba(0,32,159,.04);border:1px solid rgba(0,32,159,.1);
+  border-radius:12px;padding:16px;margin-bottom:16px;
+}
+.tip-box .tip-title{font-size:.78rem;font-weight:800;color:var(--blue);margin-bottom:4px}
+.tip-box p{font-size:.82rem;color:var(--text-light);line-height:1.5}
+
+.not-signed-up{
+  min-height:80vh;display:flex;flex-direction:column;align-items:center;justify-content:center;
+  text-align:center;padding:40px 20px;
+}
+.not-signed-up h2{font-family:var(--display);font-size:1.6rem;margin-bottom:8px}
+.not-signed-up p{color:var(--text-light);margin-bottom:20px;font-size:.9rem}
+.not-signed-up a{
+  display:inline-flex;align-items:center;gap:8px;
+  padding:14px 28px;background:var(--red);color:#fff;border-radius:12px;
+  font-weight:700;font-size:.95rem;transition:all .2s;
+}
+.not-signed-up a:hover{background:var(--red-dark);transform:translateY(-2px)}
+
+.footer{background:var(--dark);padding:20px;text-align:center}
+.footer a{color:rgba(255,255,255,.4);font-size:.72rem;font-weight:600;padding:3px 12px;border-radius:100px;border:1px solid rgba(255,255,255,.08);margin:0 3px;transition:all .2s;text-decoration:none}
+.footer a:hover{color:#fff;border-color:rgba(255,255,255,.25)}
+.footer .copy{font-size:.65rem;color:rgba(255,255,255,.2);margin-top:10px}
+
+@media(max-width:400px){
+  .stat-card .val{font-size:1.3rem}
+  .ref-btns{flex-direction:column}
+}
+</style>
+</head>
+<body>
+
+<div class="top-bar">
+  <div class="top-bar-left">
+    <img src="assets/haitibiznis-icon.png" alt="HaitiBiznis">
+    <span>Haiti<em>Biznis</em></span>
+  </div>
+  <div class="top-bar-right">
+    <a href="koutye.html">Koutye</a>
+    <a href="index.html">Akèy</a>
+  </div>
+</div>
+
+<!-- NOT SIGNED UP STATE -->
+<div class="not-signed-up" id="notSignedUp" style="display:none">
+  <span style="font-size:3rem;margin-bottom:16px">&#128274;</span>
+  <h2 id="nsu_title">Ou poko enskri</h2>
+  <p id="nsu_desc">Enskri kom Koutye Biznis pou jwenn dashboard ou.</p>
+  <a href="koutye.html#signup" id="nsu_btn">&#128640; Vin yon Koutye</a>
+</div>
+
+<!-- DASHBOARD -->
+<div id="dashboardContent" style="display:none">
+
+<div class="dash-header">
+  <div class="dash-header-inner">
+    <div class="dash-greeting" id="greeting">Bonjou</div>
+    <div class="dash-name" id="dashName"></div>
+    <div class="dash-code-row">
+      <span class="dash-code" id="dashCode"></span>
+      <span class="dash-tier" id="dashTier">BRONZE</span>
+    </div>
+  </div>
+</div>
+
+<div class="dash-content">
+
+  <!-- STATS -->
+  <div class="stat-grid">
+    <div class="stat-card">
+      <div class="val green" id="statEarnings">0 G</div>
+      <div class="label" id="lbl_earnings">Total Touche</div>
+    </div>
+    <div class="stat-card">
+      <div class="val pending" id="statPending">0 G</div>
+      <div class="label" id="lbl_pending">An Atant</div>
+    </div>
+    <div class="stat-card">
+      <div class="val" id="statReferrals">0</div>
+      <div class="label" id="lbl_referrals">Referral</div>
+    </div>
+    <div class="stat-card">
+      <div class="val" id="statPaid">0 G</div>
+      <div class="label" id="lbl_paid">Peye</div>
+    </div>
+  </div>
+
+  <!-- TIP -->
+  <div class="tip-box" id="tipBox">
+    <div class="tip-title" id="tip_title">Konsèy</div>
+    <p id="tip_text">Pataje link referral ou ak zanmi ou, fanmi ou, ak biznis ou konnen. Plis moun ou refere, plis lajan ou touche!</p>
+  </div>
+
+  <!-- REFERRAL LINK -->
+  <div class="card">
+    <div class="card-title" id="lbl_ref_link">Link Referral Ou</div>
+    <div class="ref-link-display" id="refLinkDisplay"></div>
+    <div class="ref-btns">
+      <button class="ref-btn ref-btn-blue" onclick="copyLink()" id="copyLinkBtn">&#128203; Kopye</button>
+      <button class="ref-btn ref-btn-green" onclick="shareWA()">&#128172; WhatsApp</button>
+      <button class="ref-btn ref-btn-outline" onclick="shareSMS()">&#128172; SMS</button>
+    </div>
+  </div>
+
+  <!-- COMMISSIONS -->
+  <div class="card">
+    <div class="card-title" id="lbl_commissions">Komisyon Pa Sevis</div>
+    <ul class="earn-list">
+      <li class="earn-item"><span class="name">48HoursReady</span><span class="rate">10%</span></li>
+      <li class="earn-item"><span class="name">MsouWout</span><span class="rate" id="rate_12mo">jiska 12 mwa</span></li>
+      <li class="earn-item"><span class="name">MyPlopPlop</span><span class="rate" id="rate_12mo2">jiska 12 mwa</span></li>
+      <li class="earn-item"><span class="name">ProLakay</span><span class="rate">10%</span></li>
+      <li class="earn-item"><span class="name">Utility Hub</span><span class="rate" id="rate_tx">pa tranzaksyon</span></li>
+      <li class="earn-item"><span class="name">Sol Groups</span><span class="rate" id="rate_act">pa aktivite</span></li>
+    </ul>
+  </div>
+
+  <!-- RECENT ACTIVITY -->
+  <div class="card">
+    <div class="card-title" id="lbl_activity">Aktivite Resan</div>
+    <div class="activity-empty" id="activityEmpty">
+      <span>&#128203;</span>
+      <span id="activity_none">Pa gen aktivite ankò. Pataje link ou pou komanse!</span>
+    </div>
+  </div>
+
+  <!-- PAYOUT -->
+  <div class="card">
+    <div class="card-title" id="lbl_payout">Metòd Peman</div>
+    <div class="payout-row">
+      <div class="payout-tag"><span class="dot mc"></span> MonCash</div>
+      <div class="payout-tag"><span class="dot nc"></span> NatCash</div>
+    </div>
+    <p style="font-size:.75rem;color:var(--text-light);margin-top:10px;text-align:center" id="payout_note">Minimum payout: 500 HTG | Processing: 24-48h</p>
+    <div style="text-align:center;margin-top:12px">
+      <button class="ref-btn ref-btn-blue" style="width:100%" onclick="requestPayout()" id="payoutBtn">&#128176; Mande Peman</button>
+    </div>
+  </div>
+
+  <!-- NEED HELP -->
+  <div class="card" style="text-align:center">
+    <div class="card-title" id="lbl_help">Bezwen Ed?</div>
+    <a href="https://wa.me/50941902005" target="_blank" class="ref-btn ref-btn-green" style="display:inline-flex;margin-top:4px">&#128172; WhatsApp Support</a>
+  </div>
+
+</div>
+</div>
+
+<div class="footer">
+  <div>
+    <a href="index.html">HaitiBiznis</a>
+    <a href="koutye.html">Koutye</a>
+    <a href="https://myplopplop.com">MyPlopPlop</a>
+    <a href="https://msouwout.com">MsouWout</a>
+  </div>
+  <div class="copy">&copy; 2026 HaitiBiznis Ecosystem</div>
+</div>
+
+<script>
+var code = localStorage.getItem('kb_code');
+var name = localStorage.getItem('kb_name');
+var phone = localStorage.getItem('kb_phone');
+
+if (!code) {
+  document.getElementById('notSignedUp').style.display = 'flex';
+} else {
+  document.getElementById('dashboardContent').style.display = 'block';
+
+  var link = 'https://haitibiznis.com/koutye?ref=' + code;
+  document.getElementById('dashName').textContent = name || 'Koutye';
+  document.getElementById('dashCode').textContent = code;
+  document.getElementById('refLinkDisplay').textContent = link;
+
+  var hour = new Date().getHours();
+  var greetText = hour < 12 ? 'Bonjou' : hour < 18 ? 'Bonswa' : 'Bonswa';
+  document.getElementById('greeting').textContent = greetText + ',';
+}
+
+function copyLink() {
+  var link = 'https://haitibiznis.com/koutye?ref=' + code;
+  if (navigator.clipboard) {
+    navigator.clipboard.writeText(link).then(function(){
+      document.getElementById('copyLinkBtn').innerHTML = '&#10003; Kopye!';
+      setTimeout(function(){ document.getElementById('copyLinkBtn').innerHTML = '&#128203; Kopye'; }, 2000);
+    });
+  } else {
+    var ta = document.createElement('textarea');
+    ta.value = link;
+    document.body.appendChild(ta);
+    ta.select();
+    document.execCommand('copy');
+    document.body.removeChild(ta);
+    document.getElementById('copyLinkBtn').innerHTML = '&#10003; Kopye!';
+    setTimeout(function(){ document.getElementById('copyLinkBtn').innerHTML = '&#128203; Kopye'; }, 2000);
+  }
+}
+
+function shareWA() {
+  var link = 'https://haitibiznis.com/koutye?ref=' + code;
+  var msg = 'Antre nan HaitiBiznis ak mwen! Enskri ak link sa a epi komanse fe lajan: ' + link;
+  window.open('https://wa.me/?text=' + encodeURIComponent(msg), '_blank');
+}
+
+function shareSMS() {
+  var link = 'https://haitibiznis.com/koutye?ref=' + code;
+  var msg = 'Enskri sou HaitiBiznis ak link mwen: ' + link;
+  window.open('sms:?body=' + encodeURIComponent(msg));
+}
+
+function requestPayout() {
+  var msg = 'Mwen vle mande yon peman.\n\nKod: ' + code + '\nNon: ' + (name||'') + '\nTelefon: ' + (phone||'');
+  window.open('https://wa.me/50941902005?text=' + encodeURIComponent(msg), '_blank');
+}
+</script>
+</body>
+</html>
