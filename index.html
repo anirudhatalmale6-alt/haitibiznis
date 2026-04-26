@@ -305,6 +305,7 @@ nav{
 .eco-card.ec-dark{background:linear-gradient(160deg,#1E293B 0%,#111827 60%,#0C1222 100%);border:1px solid rgba(255,255,255,.08)}
 .eco-card.ec-green{background:linear-gradient(160deg,#2CA855 0%,var(--green) 60%,#126B2A 100%)}
 .eco-card.ec-gold{background:linear-gradient(160deg,#E8B830 0%,var(--gold) 60%,#A07510 100%)}
+.eco-card.ec-flag{background:linear-gradient(160deg,var(--blue) 0%,#001A80 50%,var(--red-dark) 100%);border:1px solid rgba(210,16,52,.3)}
 
 .eco-card h3{font-family:var(--display);font-size:1.25rem;margin-bottom:6px;color:#fff}
 .eco-card p{font-size:.85rem;color:rgba(255,255,255,.85);line-height:1.5;margin-bottom:12px}
@@ -321,7 +322,7 @@ nav{
 }
 .eco-card-link:hover{background:rgba(255,255,255,.25)}
 
-.eco-cards-bottom{display:grid;grid-template-columns:repeat(2,1fr);gap:18px;max-width:640px;margin:0 auto 48px}
+.eco-cards-bottom{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;max-width:960px;margin:0 auto 48px}
 
 .impact-strip{
   display:flex;justify-content:center;gap:32px;flex-wrap:wrap;
@@ -709,6 +710,12 @@ footer{padding:40px 20px 24px;background:var(--dark);color:var(--white)}
       <p data-i18n="about_sol">Sist&egrave;m ekonomi kominote pou sove ak grandi ansanm.</p>
       <a href="https://myplopplop.com/sol.html" target="_blank" class="eco-card-link" data-i18n="about_explore">Eksplore &#8594;</a>
     </div>
+    <div class="eco-card ec-flag">
+      <div class="eco-card-tag" data-i18n="about_tag_koutye">Rezo Anbasad&egrave;</div>
+      <h3>Koutye Biznis</h3>
+      <p data-i18n="about_koutye">Ref&egrave;re biznis, chof&egrave;, kliyan &mdash; touche komisyon.</p>
+      <a href="koutye.html" class="eco-card-link" data-i18n="about_explore">Eksplore &#8594;</a>
+    </div>
   </div>
 
   <!-- IMPACT STRIP -->
@@ -784,6 +791,7 @@ footer{padding:40px 20px 24px;background:var(--dark);color:var(--white)}
             <option value="MyPlopPlop - Marketplace">MyPlopPlop - Marketplace</option>
             <option value="MsouWout - Mobility">MsouWout - Mobilite</option>
             <option value="ProLakay - Talent">ProLakay - Talan</option>
+            <option value="Koutye Biznis - Ambassador">Koutye Biznis - Anbasadè</option>
             <option value="48HoursReady - Business">48HoursReady - Biznis</option>
             <option value="Partnerships" data-i18n="dept_partners">Patenariat &amp; Medya</option>
           </select>
@@ -839,7 +847,7 @@ footer{padding:40px 20px 24px;background:var(--dark);color:var(--white)}
       <p>Yon hub ki konekte kom&egrave;s, mobilite, talan, ak kwasans biznis an Ayiti. Pouvwa Biznis. Op&ograve;tinite Pou Tout.</p>
     </div>
     <div class="footer-col"><h4>Lyen Rapid</h4><a href="/">Ak&egrave;y</a><a href="#entry">Rejwenn Nou</a><a href="#how">Kijan Li Mache</a><a href="#contact">Kontak</a></div>
-    <div class="footer-col"><h4>Platf&ograve;m</h4><a href="https://myplopplop.com" target="_blank">MyPlopPlop</a><a href="https://msouwout.com" target="_blank">MsouWout</a><a href="https://prolakay.haitibiznis.com" target="_blank">ProLakay</a><a href="https://48hoursready.com" target="_blank">48HoursReady</a></div>
+    <div class="footer-col"><h4>Platf&ograve;m</h4><a href="https://myplopplop.com" target="_blank">MyPlopPlop</a><a href="https://msouwout.com" target="_blank">MsouWout</a><a href="https://prolakay.haitibiznis.com" target="_blank">ProLakay</a><a href="https://48hoursready.com" target="_blank">48HoursReady</a><a href="koutye.html">Koutye Biznis</a></div>
     <div class="footer-col"><h4>Plis</h4><a href="https://boxetoboxe.com" target="_blank">BoxeToBoxe</a><a href="#">Privacy Policy</a><a href="#">Terms of Service</a></div>
   </div>
   <div class="footer-bottom">&copy; 2026 HaitiBiznis. Tout Haiti, yon ekosist&egrave;m. All rights reserved.</div>
@@ -888,7 +896,8 @@ const translations={
     about_prolakay:'Jwenn pwofesyonèl ou ka fè konfyans.',
     about_48hr:'Kreye ak lanse biznis ou rapid.',
     about_sol:'Sistèm ekonomi kominote pou sove ak grandi ansanm.',
-    about_tag_mobility:'Mobilite & Sekirite',about_tag_talent:'Travay & Talan',about_tag_finance:'Finans Kominote',
+    about_tag_mobility:'Mobilite & Sekirite',about_tag_talent:'Travay & Talan',about_tag_finance:'Finans Kominote',about_tag_koutye:'Rezo Anbasadè',
+    about_koutye:'Refère biznis, chofè, kliyan — touche komisyon.',
     about_explore:'Eksplore →',
     impact_1:'Opòtinite Ekonomik',impact_2:'Sekirite & Konfyans',impact_3:'Travay & Revni',impact_4:'Diaspora Konekte',
     about_why_title:'Poukisa HaitiBiznis?',
@@ -939,7 +948,8 @@ const translations={
     about_prolakay:'Find professionals you can trust.',
     about_48hr:'Create and launch your business fast.',
     about_sol:'Community savings system to save and grow together.',
-    about_tag_mobility:'Mobility & Security',about_tag_talent:'Work & Talent',about_tag_finance:'Community Finance',
+    about_tag_mobility:'Mobility & Security',about_tag_talent:'Work & Talent',about_tag_finance:'Community Finance',about_tag_koutye:'Ambassador Network',
+    about_koutye:'Refer businesses, drivers, clients — earn commissions.',
     about_explore:'Explore →',
     impact_1:'Economic Opportunity',impact_2:'Security & Trust',impact_3:'Work & Income',impact_4:'Diaspora Connected',
     about_why_title:'Why HaitiBiznis?',
@@ -990,7 +1000,8 @@ const translations={
     about_prolakay:'Trouvez des professionnels de confiance.',
     about_48hr:'Créez et lancez votre business rapidement.',
     about_sol:'Système d\'épargne communautaire pour économiser et grandir ensemble.',
-    about_tag_mobility:'Mobilité & Sécurité',about_tag_talent:'Travail & Talent',about_tag_finance:'Finance Communautaire',
+    about_tag_mobility:'Mobilité & Sécurité',about_tag_talent:'Travail & Talent',about_tag_finance:'Finance Communautaire',about_tag_koutye:'Réseau Ambassadeur',
+    about_koutye:'Référez entreprises, chauffeurs, clients — gagnez des commissions.',
     about_explore:'Explorer →',
     impact_1:'Opportunité Économique',impact_2:'Sécurité & Confiance',impact_3:'Travail & Revenus',impact_4:'Diaspora Connectée',
     about_why_title:'Pourquoi HaitiBiznis ?',
@@ -1041,7 +1052,8 @@ const translations={
     about_prolakay:'Encuentra profesionales de confianza.',
     about_48hr:'Crea y lanza tu negocio rápido.',
     about_sol:'Sistema de ahorro comunitario para ahorrar y crecer juntos.',
-    about_tag_mobility:'Movilidad & Seguridad',about_tag_talent:'Trabajo & Talento',about_tag_finance:'Finanzas Comunitarias',
+    about_tag_mobility:'Movilidad & Seguridad',about_tag_talent:'Trabajo & Talento',about_tag_finance:'Finanzas Comunitarias',about_tag_koutye:'Red de Embajadores',
+    about_koutye:'Refiere negocios, conductores, clientes — gana comisiones.',
     about_explore:'Explorar →',
     impact_1:'Oportunidad Económica',impact_2:'Seguridad & Confianza',impact_3:'Trabajo & Ingresos',impact_4:'Diáspora Conectada',
     about_why_title:'¿Por Qué HaitiBiznis?',
