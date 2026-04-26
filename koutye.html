@@ -332,17 +332,17 @@ a{text-decoration:none;color:inherit}
       <div class="earn-card">
         <span class="earn-icon">&#128188;</span>
         <h3>48HoursReady</h3>
-        <p data-i18n="earn1_d">Touche 10% sou chak pake biznis ou vann.</p>
+        <p data-i18n="earn1_d">10% sou chak pake biznis (yon fwa).</p>
       </div>
       <div class="earn-card">
         <span class="earn-icon">&#128757;</span>
         <h3>MsouWout</h3>
-        <p data-i18n="earn2_d">Touche sou chofe ou enskri ak kous/livrezon yo.</p>
+        <p data-i18n="earn2_d">10% (3 mwa) &rarr; 5% (9 mwa) sou kous ak livrezon.</p>
       </div>
       <div class="earn-card">
         <span class="earn-icon">&#128722;</span>
         <h3>MyPlopPlop</h3>
-        <p data-i18n="earn3_d">Touche sou machann, pwodwi, ak marketplace.</p>
+        <p data-i18n="earn3_d">8% (3 mwa) &rarr; 4% (9 mwa) sou marketplace.</p>
       </div>
       <div class="earn-card">
         <span class="earn-icon">&#9889;</span>
@@ -357,7 +357,7 @@ a{text-decoration:none;color:inherit}
       <div class="earn-card">
         <span class="earn-icon">&#128119;</span>
         <h3 data-i18n="earn6_t">ProLakay / Talent</h3>
-        <p data-i18n="earn6_d">Touche sou pwofesyonel ou refere.</p>
+        <p data-i18n="earn6_d">12% (3 mwa) &rarr; 6% (9 mwa) sou rezèvasyon.</p>
       </div>
     </div>
   </div>
@@ -370,18 +370,18 @@ a{text-decoration:none;color:inherit}
     <h2 class="s-title" data-i18n="comm_title">Komisyon Koutye yo</h2>
     <div class="comm-table">
       <table>
-        <thead><tr><th data-i18n="comm_th1">Sevis</th><th data-i18n="comm_th2">Komisyon</th></tr></thead>
+        <thead><tr><th data-i18n="comm_th1">S&egrave;vis</th><th data-i18n="comm_th2">Komisyon</th><th data-i18n="comm_th3">Dir&egrave;</th></tr></thead>
         <tbody>
-          <tr><td data-i18n="comm_r1">Pake biznis $99</td><td class="comm-val">10%</td></tr>
-          <tr><td data-i18n="comm_r2">Pake 2 lang $129</td><td class="comm-val">10%</td></tr>
-          <tr><td data-i18n="comm_r3">Marketplace</td><td class="comm-val" data-i18n="comm_v3">jiska 12 mwa</td></tr>
-          <tr><td>MsouWout</td><td class="comm-val" data-i18n="comm_v4">jiska 12 mwa</td></tr>
-          <tr><td data-i18n="comm_r5">Utility payments</td><td class="comm-val" data-i18n="comm_v5">pa tranzaksyon</td></tr>
-          <tr><td data-i18n="comm_r6">Sol groups</td><td class="comm-val" data-i18n="comm_v6">pa gwoup / aktivite</td></tr>
+          <tr><td>48HoursReady</td><td class="comm-val">10%</td><td data-i18n="comm_once">yon fwa</td></tr>
+          <tr><td>MsouWout</td><td class="comm-val">10% &rarr; 5%</td><td data-i18n="comm_msou_dur">3 mwa &rarr; 9 mwa</td></tr>
+          <tr><td>MyPlopPlop</td><td class="comm-val">8% &rarr; 4%</td><td data-i18n="comm_plop_dur">3 mwa &rarr; 9 mwa</td></tr>
+          <tr><td>ProLakay</td><td class="comm-val">12% &rarr; 6%</td><td data-i18n="comm_pro_dur">3 mwa &rarr; 9 mwa</td></tr>
+          <tr><td data-i18n="comm_r5">Utility payments</td><td class="comm-val" data-i18n="comm_v5">pa tranzaksyon</td><td>-</td></tr>
+          <tr><td data-i18n="comm_r6">Sol groups</td><td class="comm-val" data-i18n="comm_v6">pa aktivite</td><td>-</td></tr>
         </tbody>
       </table>
     </div>
-    <p class="comm-note" data-i18n="comm_note">Komisyon recurring yo valab pou 12 mwa depi kliyan an enskri.</p>
+    <p class="comm-note" data-i18n="comm_note">Komisyon recurring yo valab pou 12 mwa total. Bonus: +2% sou s&egrave;vis ki depase $100.</p>
   </div>
 </section>
 
@@ -559,13 +559,14 @@ var T = {
     how3_t:"Pataje Sevis yo",how3_d:"Refere biznis, chofe, kliyan, pwofesyonel.",
     how4_t:"Touche Komisyon",how4_d:"Ou touche sou chak kliyan oswa tranzaksyon ki kalifye.",
     earn_tag:"KOMISYON YO",earn_title:"Touche Atrave Tout Ekosistem Nan",
-    earn1_d:"Touche 10% sou chak pake biznis ou vann.",earn2_d:"Touche sou chofe ou enskri ak kous/livrezon yo.",
-    earn3_d:"Touche sou machann, pwodwi, ak marketplace.",earn4_t:"Utility Payment Hub",earn4_d:"Touche sou peman EDH, DINEPA, entenet.",
-    earn5_t:"Sol by MyPlopPlop",earn5_d:"Touche sou gwoup Sol ou ede lanse.",earn6_t:"ProLakay / Talent",earn6_d:"Touche sou pwofesyonel ou refere.",
-    comm_tag:"KOMISYON",comm_title:"Komisyon Koutye yo",comm_th1:"Sevis",comm_th2:"Komisyon",
-    comm_r1:"Pake biznis $99",comm_r2:"Pake 2 lang $129",comm_r3:"Marketplace",comm_r5:"Utility payments",comm_r6:"Sol groups",
-    comm_v3:"jiska 12 mwa",comm_v4:"jiska 12 mwa",comm_v5:"pa tranzaksyon",comm_v6:"pa gwoup / aktivite",
-    comm_note:"Komisyon recurring yo valab pou 12 mwa depi kliyan an enskri.",
+    earn1_d:"10% sou chak pake biznis (yon fwa).",earn2_d:"10% (3 mwa) &rarr; 5% (9 mwa) sou kous ak livrezon.",
+    earn3_d:"8% (3 mwa) &rarr; 4% (9 mwa) sou marketplace.",earn4_t:"Utility Payment Hub",earn4_d:"Touche sou peman EDH, DINEPA, entenet.",
+    earn5_t:"Sol by MyPlopPlop",earn5_d:"Touche sou gwoup Sol ou ede lanse.",earn6_t:"ProLakay / Talent",earn6_d:"12% (3 mwa) &rarr; 6% (9 mwa) sou rez&egrave;vasyon.",
+    comm_tag:"KOMISYON",comm_title:"Komisyon Koutye yo",comm_th1:"S&egrave;vis",comm_th2:"Komisyon",comm_th3:"Dir&egrave;",
+    comm_once:"yon fwa",comm_msou_dur:"3 mwa &rarr; 9 mwa",comm_plop_dur:"3 mwa &rarr; 9 mwa",comm_pro_dur:"3 mwa &rarr; 9 mwa",
+    comm_r5:"Utility payments",comm_r6:"Sol groups",
+    comm_v5:"pa tranzaksyon",comm_v6:"pa aktivite",
+    comm_note:"Komisyon recurring yo valab pou 12 mwa total. Bonus: +2% sou s&egrave;vis ki depase $100.",
     dash_tag:"DASHBOARD",dash_title:"Dashboard Pou Swiv Lajan Ou",dash_sub:"Tout komisyon ou, referral ou, ak peman ou nan yon sel kote.",
     dash_total:"Total Earnings",dash_pending:"Pending Commissions",dash_paid:"Paid Commissions",dash_refs:"Total Referrals",
     dash_copy:"&#128203; Kopye link referral mwen",dash_withdraw:"&#128176; Retire lajan",
@@ -596,13 +597,14 @@ var T = {
     how3_t:"Partagez les Services",how3_d:"Referez des entreprises, chauffeurs, clients, professionnels.",
     how4_t:"Touchez des Commissions",how4_d:"Vous gagnez sur chaque client ou transaction qualifiee.",
     earn_tag:"COMMISSIONS",earn_title:"Gagnez a Travers Tout l'Ecosysteme",
-    earn1_d:"Touchez 10% sur chaque pack business vendu.",earn2_d:"Gagnez sur les chauffeurs inscrits et les courses/livraisons.",
-    earn3_d:"Gagnez sur les commercants, produits et marketplace.",earn4_t:"Hub de Paiements",earn4_d:"Gagnez sur les paiements EDH, DINEPA, internet.",
-    earn5_t:"Sol par MyPlopPlop",earn5_d:"Gagnez sur les groupes Sol que vous aidez a lancer.",earn6_t:"ProLakay / Talent",earn6_d:"Gagnez sur les professionnels que vous referez.",
-    comm_tag:"COMMISSIONS",comm_title:"Commissions Koutye",comm_th1:"Service",comm_th2:"Commission",
-    comm_r1:"Pack business $99",comm_r2:"Pack 2 langues $129",comm_r3:"Marketplace",comm_r5:"Paiements utilitaires",comm_r6:"Groupes Sol",
-    comm_v3:"jusqu'a 12 mois",comm_v4:"jusqu'a 12 mois",comm_v5:"par transaction",comm_v6:"par groupe / activite",
-    comm_note:"Les commissions recurrentes sont valables 12 mois apres l'inscription du client.",
+    earn1_d:"10% sur chaque pack business (une fois).",earn2_d:"10% (3 mois) &rarr; 5% (9 mois) sur courses et livraisons.",
+    earn3_d:"8% (3 mois) &rarr; 4% (9 mois) sur marketplace.",earn4_t:"Hub de Paiements",earn4_d:"Gagnez sur les paiements EDH, DINEPA, internet.",
+    earn5_t:"Sol par MyPlopPlop",earn5_d:"Gagnez sur les groupes Sol que vous aidez a lancer.",earn6_t:"ProLakay / Talent",earn6_d:"12% (3 mois) &rarr; 6% (9 mois) sur reservations.",
+    comm_tag:"COMMISSIONS",comm_title:"Commissions Koutye",comm_th1:"Service",comm_th2:"Commission",comm_th3:"Dur&eacute;e",
+    comm_once:"une fois",comm_msou_dur:"3 mois &rarr; 9 mois",comm_plop_dur:"3 mois &rarr; 9 mois",comm_pro_dur:"3 mois &rarr; 9 mois",
+    comm_r5:"Paiements utilitaires",comm_r6:"Groupes Sol",
+    comm_v5:"par transaction",comm_v6:"par activite",
+    comm_note:"Les commissions recurrentes sont valables 12 mois au total. Bonus: +2% sur services depassant $100.",
     dash_tag:"TABLEAU DE BORD",dash_title:"Tableau de Bord Pour Suivre Vos Gains",dash_sub:"Toutes vos commissions, referrals et paiements en un seul endroit.",
     dash_total:"Gains Totaux",dash_pending:"Commissions en Attente",dash_paid:"Commissions Payees",dash_refs:"Total Referrals",
     dash_copy:"&#128203; Copier mon lien de referral",dash_withdraw:"&#128176; Retirer l'argent",
@@ -633,13 +635,14 @@ var T = {
     how3_t:"Share Services",how3_d:"Refer businesses, drivers, clients, professionals.",
     how4_t:"Earn Commissions",how4_d:"You earn on every qualifying client or transaction.",
     earn_tag:"COMMISSIONS",earn_title:"Earn Across the Entire Ecosystem",
-    earn1_d:"Earn 10% on every business package you sell.",earn2_d:"Earn on drivers you sign up and rides/deliveries.",
-    earn3_d:"Earn on vendors, products, and marketplace.",earn4_t:"Utility Payment Hub",earn4_d:"Earn on EDH, DINEPA, internet payments.",
-    earn5_t:"Sol by MyPlopPlop",earn5_d:"Earn on Sol groups you help launch.",earn6_t:"ProLakay / Talent",earn6_d:"Earn on professionals you refer.",
-    comm_tag:"COMMISSIONS",comm_title:"Koutye Commissions",comm_th1:"Service",comm_th2:"Commission",
-    comm_r1:"Business package $99",comm_r2:"2-language package $129",comm_r3:"Marketplace",comm_r5:"Utility payments",comm_r6:"Sol groups",
-    comm_v3:"up to 12 months",comm_v4:"up to 12 months",comm_v5:"per transaction",comm_v6:"per group / activity",
-    comm_note:"Recurring commissions are valid for 12 months from client signup date.",
+    earn1_d:"10% on every business package (one-time).",earn2_d:"10% (3 mo) &rarr; 5% (9 mo) on rides and deliveries.",
+    earn3_d:"8% (3 mo) &rarr; 4% (9 mo) on marketplace.",earn4_t:"Utility Payment Hub",earn4_d:"Earn on EDH, DINEPA, internet payments.",
+    earn5_t:"Sol by MyPlopPlop",earn5_d:"Earn on Sol groups you help launch.",earn6_t:"ProLakay / Talent",earn6_d:"12% (3 mo) &rarr; 6% (9 mo) on bookings.",
+    comm_tag:"COMMISSIONS",comm_title:"Koutye Commissions",comm_th1:"Service",comm_th2:"Commission",comm_th3:"Duration",
+    comm_once:"one-time",comm_msou_dur:"3 mo &rarr; 9 mo",comm_plop_dur:"3 mo &rarr; 9 mo",comm_pro_dur:"3 mo &rarr; 9 mo",
+    comm_r5:"Utility payments",comm_r6:"Sol groups",
+    comm_v5:"per transaction",comm_v6:"per activity",
+    comm_note:"Recurring commissions valid for 12 months total. Bonus: +2% on services above $100.",
     dash_tag:"DASHBOARD",dash_title:"Dashboard to Track Your Earnings",dash_sub:"All your commissions, referrals, and payments in one place.",
     dash_total:"Total Earnings",dash_pending:"Pending Commissions",dash_paid:"Paid Commissions",dash_refs:"Total Referrals",
     dash_copy:"&#128203; Copy my referral link",dash_withdraw:"&#128176; Withdraw funds",
@@ -670,13 +673,14 @@ var T = {
     how3_t:"Comparte Servicios",how3_d:"Refiere negocios, conductores, clientes, profesionales.",
     how4_t:"Gana Comisiones",how4_d:"Ganas por cada cliente o transaccion que califique.",
     earn_tag:"COMISIONES",earn_title:"Gana en Todo el Ecosistema",
-    earn1_d:"Gana 10% por cada paquete de negocio vendido.",earn2_d:"Gana por conductores inscritos y viajes/entregas.",
-    earn3_d:"Gana por comerciantes, productos y marketplace.",earn4_t:"Hub de Pagos",earn4_d:"Gana en pagos de EDH, DINEPA, internet.",
-    earn5_t:"Sol por MyPlopPlop",earn5_d:"Gana por grupos Sol que ayudes a lanzar.",earn6_t:"ProLakay / Talent",earn6_d:"Gana por profesionales que refieras.",
-    comm_tag:"COMISIONES",comm_title:"Comisiones Koutye",comm_th1:"Servicio",comm_th2:"Comision",
-    comm_r1:"Paquete negocio $99",comm_r2:"Paquete 2 idiomas $129",comm_r3:"Marketplace",comm_r5:"Pagos de servicios",comm_r6:"Grupos Sol",
-    comm_v3:"hasta 12 meses",comm_v4:"hasta 12 meses",comm_v5:"por transaccion",comm_v6:"por grupo / actividad",
-    comm_note:"Las comisiones recurrentes son validas por 12 meses desde la fecha de registro del cliente.",
+    earn1_d:"10% por cada paquete de negocio (una vez).",earn2_d:"10% (3 meses) &rarr; 5% (9 meses) en viajes y entregas.",
+    earn3_d:"8% (3 meses) &rarr; 4% (9 meses) en marketplace.",earn4_t:"Hub de Pagos",earn4_d:"Gana en pagos de EDH, DINEPA, internet.",
+    earn5_t:"Sol por MyPlopPlop",earn5_d:"Gana por grupos Sol que ayudes a lanzar.",earn6_t:"ProLakay / Talent",earn6_d:"12% (3 meses) &rarr; 6% (9 meses) en reservas.",
+    comm_tag:"COMISIONES",comm_title:"Comisiones Koutye",comm_th1:"Servicio",comm_th2:"Comision",comm_th3:"Duracion",
+    comm_once:"una vez",comm_msou_dur:"3 meses &rarr; 9 meses",comm_plop_dur:"3 meses &rarr; 9 meses",comm_pro_dur:"3 meses &rarr; 9 meses",
+    comm_r5:"Pagos de servicios",comm_r6:"Grupos Sol",
+    comm_v5:"por transaccion",comm_v6:"por actividad",
+    comm_note:"Las comisiones recurrentes son validas por 12 meses en total. Bonus: +2% en servicios sobre $100.",
     dash_tag:"PANEL",dash_title:"Panel Para Rastrear Tus Ganancias",dash_sub:"Todas tus comisiones, referencias y pagos en un solo lugar.",
     dash_total:"Ganancias Totales",dash_pending:"Comisiones Pendientes",dash_paid:"Comisiones Pagadas",dash_refs:"Total Referidos",
     dash_copy:"&#128203; Copiar mi enlace de referencia",dash_withdraw:"&#128176; Retirar fondos",
