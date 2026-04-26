@@ -432,17 +432,7 @@ footer{padding:40px 20px 24px;background:var(--dark);color:var(--white)}
 }
 .wa-float:hover .wa-tooltip{opacity:1}
 
-/* STICKY MOBILE FOOTER */
-.sticky-footer{
-  display:none;position:fixed;bottom:48px;left:0;right:0;z-index:800;
-  background:linear-gradient(135deg,var(--red),var(--red-dark));
-  padding:12px 20px;text-align:center;
-  box-shadow:0 -4px 20px rgba(0,0,0,.15);
-}
-.sticky-footer a{
-  display:block;color:#fff;font-weight:800;font-size:1rem;
-  letter-spacing:.02em;
-}
+/* STICKY MOBILE FOOTER (replaced by koutye bar) */
 
 /* INSTALL BANNER */
 .install-banner{
@@ -486,17 +476,55 @@ footer{padding:40px 20px 24px;background:var(--dark);color:var(--white)}
 }
 @keyframes koutyePulse{0%,100%{box-shadow:0 2px 8px rgba(210,16,52,.25)}50%{box-shadow:0 2px 16px rgba(210,16,52,.45)}}
 
-/* HERO KOUTYE CTA */
-.hero-koutye-row{margin-top:18px;text-align:center}
-.btn-koutye{
+/* KOUTYE HERO BADGE */
+.hero-badge{
   display:inline-flex;align-items:center;gap:8px;
-  background:var(--red);color:#fff;
-  padding:14px 28px;border-radius:100px;font-size:.9rem;font-weight:800;
-  border:2px solid rgba(255,255,255,.3);
-  transition:all .3s;letter-spacing:.01em;
+  background:rgba(212,160,23,.2);border:1px solid rgba(212,160,23,.4);
+  color:var(--gold);font-size:.75rem;font-weight:800;letter-spacing:.12em;text-transform:uppercase;
+  padding:8px 20px;border-radius:100px;margin-bottom:20px;
 }
-.btn-koutye:hover{background:var(--red-dark);transform:translateY(-2px);box-shadow:0 8px 24px rgba(210,16,52,.3)}
-.hero-koutye-sub{font-size:.8rem;color:rgba(255,255,255,.6);margin-top:6px}
+.hero-trust{font-size:.82rem;color:rgba(255,255,255,.55);margin-top:20px;font-weight:600}
+
+/* KOUTYE SECTION */
+.koutye-section{padding:48px 20px;max-width:900px;margin:0 auto}
+.koutye-card{
+  border-radius:24px;padding:36px 28px;text-align:center;
+  background:linear-gradient(160deg,var(--blue) 0%,#001A80 50%,var(--red-dark) 100%);
+  color:#fff;border:1px solid rgba(210,16,52,.3);
+  position:relative;overflow:hidden;
+}
+.koutye-card::before{
+  content:'';position:absolute;inset:0;
+  background:radial-gradient(circle at 30% 20%,rgba(212,160,23,.15) 0%,transparent 50%);
+}
+.koutye-card>*{position:relative}
+.koutye-card h3{font-family:var(--display);font-size:1.5rem;margin-bottom:8px}
+.koutye-card p{font-size:.9rem;color:rgba(255,255,255,.85);margin-bottom:20px;line-height:1.5}
+.koutye-card .entry-cta{color:var(--red);font-size:.95rem}
+
+/* WAYS TO EARN */
+.earn-section{padding:20px 20px 48px;max-width:1000px;margin:0 auto}
+.earn-section h2{
+  text-align:center;font-family:var(--display);
+  font-size:clamp(1.4rem,3.5vw,2.2rem);color:var(--dark);margin-bottom:8px;
+}
+.earn-section .section-desc{text-align:center;margin-bottom:32px}
+.earn-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:16px}
+.earn-card{
+  border-radius:18px;padding:24px 20px;color:#fff;
+  position:relative;overflow:hidden;transition:transform .3s,box-shadow .3s;
+}
+.earn-card:hover{transform:translateY(-4px);box-shadow:0 12px 32px rgba(0,0,0,.2)}
+.earn-card.ec-blue{background:linear-gradient(160deg,#1A4FD4 0%,var(--blue) 60%,var(--blue-dark) 100%)}
+.earn-card.ec-green{background:linear-gradient(160deg,#2CA855 0%,var(--green) 60%,#126B2A 100%)}
+.earn-card.ec-red{background:linear-gradient(160deg,var(--red-light) 0%,var(--red) 60%,var(--red-dark) 100%)}
+.earn-card.ec-gold{background:linear-gradient(160deg,#E8B830 0%,var(--gold) 60%,#A07510 100%)}
+.earn-card h4{font-family:var(--display);font-size:1.1rem;margin-bottom:6px}
+.earn-card p{font-size:.82rem;color:rgba(255,255,255,.85);line-height:1.4}
+
+@media(max-width:600px){
+  .earn-grid{grid-template-columns:1fr}
+}
 
 /* REVEAL */
 .reveal{opacity:0;transform:translateY(20px);transition:all .5s cubic-bezier(.4,0,.2,1)}
@@ -513,8 +541,7 @@ footer{padding:40px 20px 24px;background:var(--dark);color:var(--white)}
 @media(max-width:768px){
   .nav-links{display:none}.mobile-menu{display:block}
   .contact-grid{grid-template-columns:1fr}
-  .sticky-footer{display:block}
-  .wa-float{bottom:118px}
+  .wa-float{bottom:80px}
 }
 @media(max-width:480px){
   .impact-strip{gap:16px;flex-direction:column;align-items:center}
@@ -569,81 +596,47 @@ footer{padding:40px 20px 24px;background:var(--dark);color:var(--white)}
 
 <!-- HERO -->
 <section class="hero">
-  <img src="assets/haitibiznis-logo-new.png" alt="HaitiBiznis" class="hero-logo">
-  <h1 data-i18n="hero_title">F&egrave; Lajan ak Telef&ograve;n Ou<br>Jodi a</h1>
-  <p class="hero-sub" data-i18n="hero_sub"><strong>Chof&egrave;</strong> &bull; <strong>Biznis</strong> &bull; <strong>Pwofesyon&egrave;l</strong><br>Jwenn kliyan. F&egrave; kous. Vann pwodwi.</p>
+  <img src="assets/haitibiznis-logo-new.png" alt="HaitiBiznis" class="hero-logo" style="max-width:220px;width:180px;padding:10px">
+  <div class="hero-badge" data-i18n="hero_badge">&#128176; KOUTYE BIZNIS</div>
+  <h1 data-i18n="hero_title">F&egrave; Lajan Chak Jou<br>ak Telef&ograve;n Ou</h1>
+  <p class="hero-sub" data-i18n="hero_sub">Ref&egrave;re moun. Konekte biznis. Touche komisyon sou chak tranzaksyon.</p>
   <div class="hero-actions">
-    <a href="#entry" class="btn btn-red" data-i18n="hero_cta">Komanse Kounye a</a>
-    <a href="#how" class="btn btn-outline" data-i18n="hero_how">Gade Kijan Li Fonksyone</a>
+    <a href="koutye.html" class="btn btn-red" data-i18n="hero_cta">&#128176; Vin yon Koutye &mdash; F&egrave; Lajan</a>
+    <a href="#how" class="btn btn-outline" data-i18n="hero_how">Gade kijan li mache</a>
   </div>
-  <div class="hero-koutye-row">
-    <a href="koutye.html" class="btn-koutye" data-i18n="hero_koutye_cta">&#129309; Vin yon Koutye</a>
-    <p class="hero-koutye-sub" data-i18n="hero_koutye_sub">Touche komisyon sou chak tranzaksyon</p>
+  <p class="hero-trust" data-i18n="hero_trust">+100 moun deja ap f&egrave; lajan sou HaitiBiznis</p>
+</section>
+
+<!-- KOUTYE BIZNIS SECTION -->
+<section class="koutye-section" id="entry">
+  <div class="koutye-card reveal">
+    <h3 data-i18n="koutye_card_title">Konekte Biznis. F&egrave; Lajan.</h3>
+    <p data-i18n="koutye_card_desc">Touche komisyon sou chak tranzaksyon nan ekosist&egrave;m HaitiBiznis la. Kous, livrezon, pake biznis, marketplace.</p>
+    <a href="koutye.html" class="entry-cta" data-i18n="koutye_card_cta">Vin yon Koutye &#8594;</a>
   </div>
 </section>
 
-<!-- 3 ENTRY BLOCKS -->
-<section class="entry-section" id="entry">
-  <div class="entry-grid">
-
-    <!-- DRIVER CARD -->
-    <div class="entry-card card-blue reveal">
-      <div class="entry-badge">&#128184; F&egrave; Lajan Chak Jou</div>
-      <div class="entry-logo"><img src="assets/msouwout-logo-new.png" alt="MsouWout"></div>
-      <h3 data-i18n="drv_title">Ou Gen Moto oswa Machin?</h3>
-      <p class="entry-hook" data-i18n="drv_hook">F&egrave; kous. F&egrave; livrezon. F&egrave; lajan chak jou.</p>
-      <a href="https://msouwout.com" target="_blank" class="entry-cta" data-i18n="drv_cta">Enskri k&ograve;m Chof&egrave; &#8594;</a>
-      <ul class="entry-bullets">
-        <li data-i18n="drv_b1">Travay sou pw&ograve;p or&egrave; ou</li>
-        <li data-i18n="drv_b2">Peman rapid</li>
-        <li data-i18n="drv_b3">Kliyan garanti</li>
-      </ul>
+<!-- WAYS TO EARN -->
+<section class="earn-section" id="earn">
+  <h2 class="reveal" data-i18n="earn_title">Kijan Ou Ka Touche</h2>
+  <p class="section-desc reveal" data-i18n="earn_desc">4 fason pou f&egrave; lajan atravè ekosist&egrave;m nan</p>
+  <div class="earn-grid">
+    <div class="earn-card ec-blue reveal">
+      <h4>MsouWout</h4>
+      <p data-i18n="earn_msou">Enskri chof&egrave;, touche sou kous ak livrezon.</p>
     </div>
-
-    <!-- BUSINESS CARD -->
-    <div class="entry-card card-red reveal reveal-d1">
-      <div class="entry-badge">&#128176; Vann &amp; F&egrave; Lajan</div>
-      <div class="entry-logo"><img src="assets/myplopplop-logo-new.png" alt="MyPlopPlop"></div>
-      <h3 data-i18n="biz_title">Ou Gen Biznis?</h3>
-      <p class="entry-hook" data-i18n="biz_hook">Vann pwodwi ou. Resevwa k&ograve;mann fasil.</p>
-      <a href="https://myplopplop.com" target="_blank" class="entry-cta" data-i18n="biz_cta">Vann sou Platf&ograve;m nan &#8594;</a>
-      <ul class="entry-bullets">
-        <li data-i18n="biz_b1">Vann 24/7</li>
-        <li data-i18n="biz_b2">Resevwa k&ograve;mann otomatik</li>
-        <li data-i18n="biz_b3">Diaspora achte pou Ayiti</li>
-      </ul>
+    <div class="earn-card ec-green reveal reveal-d1">
+      <h4>48HoursReady</h4>
+      <p data-i18n="earn_48hr">Touche 10% sou chak pake biznis ou vann.</p>
     </div>
-
-    <!-- PROFESSIONAL CARD -->
-    <div class="entry-card card-gold reveal reveal-d2">
-      <div class="entry-badge">&#128188; F&egrave; Lajan ak Talan Ou</div>
-      <div class="entry-logo"><img src="assets/prolakay-logo-new.png" alt="ProLakay"></div>
-      <h3 data-i18n="pro_title">Ou Gen Talan oswa Metye?</h3>
-      <p class="entry-hook" data-i18n="pro_hook">Jwenn kliyan. Travay sou pw&ograve;p or&egrave; ou.</p>
-      <a href="https://prolakay.haitibiznis.com" target="_blank" class="entry-cta" data-i18n="pro_cta">Jwenn Kliyan &#8594;</a>
-      <ul class="entry-bullets">
-        <li data-i18n="pro_b1">Jwenn kliyan fasil</li>
-        <li data-i18n="pro_b2">Rez&egrave;vasyon otomatik</li>
-        <li data-i18n="pro_b3">Profil verifye</li>
-      </ul>
+    <div class="earn-card ec-red reveal reveal-d2">
+      <h4>MyPlopPlop</h4>
+      <p data-i18n="earn_plop">Ref&egrave;re machann, touche sou tranzaksyon marketplace.</p>
     </div>
-
-  </div>
-</section>
-
-<!-- 48HOURSREADY STANDALONE -->
-<section style="padding:0 20px 40px;max-width:1000px;margin:0 auto">
-  <div class="entry-card card-green reveal" style="background:linear-gradient(160deg,#2CA855 0%,var(--green) 50%,#126B2A 100%);max-width:100%">
-    <div class="entry-badge">&#128640; Lanse &amp; F&egrave; Lajan Rapid</div>
-    <div class="entry-logo"><img src="assets/48hoursready-logo.jpg" alt="48HoursReady"></div>
-    <h3 data-i18n="launch_title">K&ograve;manse Biznis Ou Jodi a</h3>
-    <p class="entry-hook" data-i18n="launch_hook">Nou mete ou pare pou f&egrave; lajan nan 48 &egrave;dtan.</p>
-    <a href="https://48hoursready.com" target="_blank" class="entry-cta" style="color:var(--green)" data-i18n="launch_cta">K&ograve;manse Gratis &#8594;</a>
-    <ul class="entry-bullets" style="display:flex;gap:24px;flex-wrap:wrap">
-      <li data-i18n="launch_b1">Logo + Site + Pitch</li>
-      <li data-i18n="launch_b2">Pare pou vann rapid</li>
-      <li data-i18n="launch_b3">Sip&ograve; biznis</li>
-    </ul>
+    <div class="earn-card ec-gold reveal reveal-d3">
+      <h4>Utility Hub</h4>
+      <p data-i18n="earn_utility">Ref&egrave;re peman EDH/DINEPA, touche sou tranzaksyon.</p>
+    </div>
   </div>
 </section>
 
@@ -651,7 +644,7 @@ footer{padding:40px 20px 24px;background:var(--dark);color:var(--white)}
 <section class="actions-section" id="actions">
   <h2 data-i18n="act_title">Kisa Ou Vle F&egrave; Jodi a?</h2>
   <div class="action-buttons">
-    <a href="#entry" class="action-btn ab-red" data-i18n="act_money">&#128176; F&egrave; Lajan</a>
+    <a href="koutye.html" class="action-btn ab-red" data-i18n="act_koutye">&#128176; Vin yon Koutye</a>
     <a href="https://msouwout.com" target="_blank" class="action-btn ab-blue" data-i18n="act_ride">&#128663; Mande Kous</a>
     <a href="https://prolakay.haitibiznis.com/search.html" target="_blank" class="action-btn ab-gold" data-i18n="act_find">&#11088; Ch&egrave;che Pwofesyon&egrave;l</a>
     <a href="https://48hoursready.com" target="_blank" class="action-btn ab-green" data-i18n="act_launch">&#128640; Lanse Biznis</a>
@@ -671,23 +664,28 @@ footer{padding:40px 20px 24px;background:var(--dark);color:var(--white)}
 <!-- HOW IT WORKS -->
 <section class="how-section" id="how">
   <div class="section-label reveal" data-i18n="how_label">Kijan Li Mache</div>
-  <h2 class="section-title reveal" data-i18n="how_title">3 Etap Senp</h2>
-  <p class="section-desc reveal" data-i18n="how_desc">Kounye a jis 3 etap pou komanse fe lajan oswa jwenn sevis.</p>
+  <h2 class="section-title reveal" data-i18n="how_title">4 Etap Senp</h2>
+  <p class="section-desc reveal" data-i18n="how_desc">Enskri gratis epi komanse touche komisyon jodi a.</p>
   <div class="steps-row">
     <div class="step-card reveal">
       <div class="step-num">1</div>
-      <h4 data-i18n="step1">Kreye kont gratis</h4>
-      <p data-i18n="step1_sub">Enskri sou platf&ograve;m ou chwazi a</p>
+      <h4 data-i18n="step1">Enskri gratis</h4>
+      <p data-i18n="step1_sub">Kreye kont Koutye ou an 2 minit</p>
     </div>
     <div class="step-card reveal reveal-d1">
       <div class="step-num">2</div>
-      <h4 data-i18n="step2">Chwazi s&egrave;vis ou</h4>
-      <p data-i18n="step2_sub">Kous, biznis, oswa travay pwofesyon&egrave;l</p>
+      <h4 data-i18n="step2">Jwenn link referral ou</h4>
+      <p data-i18n="step2_sub">Chak Koutye gen yon k&ograve;d inik</p>
     </div>
     <div class="step-card reveal reveal-d2">
       <div class="step-num">3</div>
-      <h4 data-i18n="step3">Komanse f&egrave; lajan</h4>
-      <p data-i18n="step3_sub">Oswa jwenn s&egrave;vis ou bezwen an</p>
+      <h4 data-i18n="step3">Pataje s&egrave;vis yo</h4>
+      <p data-i18n="step3_sub">Voye link ou bay zanmi, fanmi, biznis</p>
+    </div>
+    <div class="step-card reveal reveal-d3">
+      <div class="step-num">4</div>
+      <h4 data-i18n="step4">Touche komisyon</h4>
+      <p data-i18n="step4_sub">Chak tranzaksyon = lajan nan poch ou</p>
     </div>
   </div>
 </section>
@@ -855,10 +853,11 @@ footer{padding:40px 20px 24px;background:var(--dark);color:var(--white)}
 
 <!-- FINAL CTA -->
 <section class="final-cta">
-  <h2 data-i18n="cta_title">Komanse F&egrave; Lajan<br>ak HaitiBiznis Jodi a</h2>
-  <p data-i18n="cta_desc">Kit ou se chof&egrave;, machann, pwofesyon&egrave;l oswa antrepen&egrave; - gen yon plas pou ou.</p>
+  <h2 data-i18n="cta_title">F&egrave; Lajan Chak Jou<br>ak HaitiBiznis</h2>
+  <p data-i18n="cta_desc">Vin yon Koutye. Ref&egrave;re moun. Touche komisyon. Senp kon sa.</p>
   <div class="cta-btns">
-    <a href="#entry" class="btn btn-white" data-i18n="cta_start">Komanse Kounye a</a>
+    <a href="koutye.html" class="btn btn-white" data-i18n="cta_start">Vin yon Koutye</a>
+    <a href="#about-haitibiznis" class="btn btn-ghost" data-i18n="cta_explore">Eksplore Ekosist&egrave;m nan</a>
     <a href="#contact" class="btn btn-ghost" data-i18n="cta_contact">Kontakte Nou</a>
   </div>
 </section>
@@ -869,10 +868,7 @@ footer{padding:40px 20px 24px;background:var(--dark);color:var(--white)}
   &#128172;
 </a>
 
-<!-- STICKY MOBILE FOOTER -->
-<div class="sticky-footer">
-  <a href="#entry" data-i18n="sticky_cta">&#128176; Komanse F&egrave; Lajan</a>
-</div>
+<!-- STICKY MOBILE FOOTER (replaced by Koutye bar) -->
 
 <!-- INSTALL BANNER -->
 <div class="install-banner" id="installBanner">
@@ -899,7 +895,7 @@ footer{padding:40px 20px 24px;background:var(--dark);color:var(--white)}
 <!-- KOUTYE STICKY BAR -->
 <div class="koutye-sticky-bar">
   <a href="koutye.html">
-    <span data-i18n="sticky_koutye">&#128176; Vin yon Koutye &mdash; Fe Lajan</span>
+    <span data-i18n="sticky_koutye">&#128176; Vin yon Koutye &mdash; F&egrave; Lajan</span>
   </a>
 </div>
 
@@ -913,28 +909,27 @@ if('serviceWorker' in navigator){navigator.serviceWorker.register('sw.js').catch
 /* TRANSLATIONS */
 const translations={
   ht:{
-    hero_title:'Fè Lajan ak Telefòn Ou<br>Jodi a',
-    hero_sub:'<strong>Chofè</strong> • <strong>Biznis</strong> • <strong>Pwofesyonèl</strong><br>Jwenn kliyan. Fè kous. Vann pwodwi.',
-    hero_cta:'Komanse Kounye a',hero_how:'Gade Kijan Li Fonksyone',
+    hero_badge:'💰 KOUTYE BIZNIS',
+    hero_title:'Fè Lajan Chak Jou<br>ak Telefòn Ou',
+    hero_sub:'Refère moun. Konekte biznis. Touche komisyon sou chak tranzaksyon.',
+    hero_cta:'💰 Vin yon Koutye — Fè Lajan',hero_how:'Gade kijan li mache',
+    hero_trust:'+100 moun deja ap fè lajan sou HaitiBiznis',
     nav_home:'Akèy',nav_join:'Rejwenn Nou',nav_how:'Kijan Li Mache',nav_contact:'Kontak',nav_cta:'Komanse Fè Lajan',
-    drv_title:'Ou Gen Moto oswa Machin?',drv_hook:'Fè kous. Fè livrezon. Fè lajan chak jou.',
-    drv_cta:'Enskri kòm Chofè →',drv_b1:'Travay sou pwòp orè ou',drv_b2:'Peman rapid',drv_b3:'Kliyan garanti',
-    drv_social:'+2,500 chofè deja ap fè lajan',
-    biz_title:'Ou Gen Biznis?',biz_hook:'Vann pwodwi ou. Resevwa kòmann fasil.',
-    biz_cta:'Vann sou Platfòm nan →',biz_b1:'Vann 24/7',biz_b2:'Resevwa kòmann otomatik',biz_b3:'Diaspora achte pou Ayiti',
-    biz_social:'+5,000 kliyan deja ap achte',
-    pro_title:'Ou Gen Talan oswa Metye?',pro_hook:'Jwenn kliyan. Travay sou pwòp orè ou.',
-    pro_cta:'Jwenn Kliyan →',pro_b1:'Jwenn kliyan fasil',pro_b2:'Rezèvasyon otomatik',pro_b3:'Profil verifye',
-    pro_social:'+1,800 pwofesyonèl deja ap touche',
-    launch_title:'Kòmanse Biznis Ou Jodi a',launch_hook:'Nou mete ou pare pou fè lajan nan 48 èdtan.',
-    launch_cta:'Kòmanse Gratis →',launch_b1:'Logo + Site + Pitch',launch_b2:'Pare pou vann rapid',launch_b3:'Sipò biznis',
-    launch_social:'+600 biznis deja ap fè lajan',
-    act_title:'Kisa Ou Vle Fè Jodi a?',act_money:'💰 Fè Lajan',act_ride:'🚗 Mande Kous',act_find:'⭐ Chèche Pwofesyonèl',act_launch:'🚀 Lanse Biznis',
+    koutye_card_title:'Konekte Biznis. Fè Lajan.',
+    koutye_card_desc:'Touche komisyon sou chak tranzaksyon nan ekosistèm HaitiBiznis la. Kous, livrezon, pake biznis, marketplace.',
+    koutye_card_cta:'Vin yon Koutye →',
+    earn_title:'Kijan Ou Ka Touche',earn_desc:'4 fason pou fè lajan atravè ekosistèm nan',
+    earn_msou:'Enskri chofè, touche sou kous ak livrezon.',
+    earn_48hr:'Touche 10% sou chak pake biznis ou vann.',
+    earn_plop:'Refère machann, touche sou tranzaksyon marketplace.',
+    earn_utility:'Refère peman EDH/DINEPA, touche sou tranzaksyon.',
+    act_title:'Kisa Ou Vle Fè Jodi a?',act_koutye:'💰 Vin yon Koutye',act_ride:'🚗 Mande Kous',act_find:'⭐ Chèche Pwofesyonèl',act_launch:'🚀 Lanse Biznis',
     tr1:'Chofè Verifye',tr2:'Tranzaksyon Sekirize',tr3:'Sipò WhatsApp',tr4:'Platfòm Ayisyen',
-    how_label:'Kijan Li Mache',how_title:'3 Etap Senp',how_desc:'Kounye a jis 3 etap pou komanse fe lajan oswa jwenn sevis.',
-    step1:'Kreye kont gratis',step1_sub:'Enskri sou platfòm ou chwazi a',
-    step2:'Chwazi sèvis ou',step2_sub:'Kous, biznis, oswa travay pwofesyonèl',
-    step3:'Komanse fè lajan',step3_sub:'Oswa jwenn sèvis ou bezwen an',
+    how_label:'Kijan Li Mache',how_title:'4 Etap Senp',how_desc:'Enskri gratis epi komanse touche komisyon jodi a.',
+    step1:'Enskri gratis',step1_sub:'Kreye kont Koutye ou an 2 minit',
+    step2:'Jwenn link referral ou',step2_sub:'Chak Koutye gen yon kòd inik',
+    step3:'Pataje sèvis yo',step3_sub:'Voye link ou bay zanmi, fanmi, biznis',
+    step4:'Touche komisyon',step4_sub:'Chak tranzaksyon = lajan nan poch ou',
     dia_title:'Sipòte Fanmi w an Ayiti',dia_desc:'Achte, voye sèvis, oswa peye pou fanmi ou fasil.',dia_cta:'Komanse Kounye a →',
     about_label:'Ekosistèm',about_title:'Yon Ekosistèm Pou Ekonomi Ayiti',
     about_intro:'HaitiBiznis se yon sistèm dijital ki fèt pou ede Ayiti travay, vann, deplase ak grandi.',
@@ -959,38 +954,35 @@ const translations={
     form_name:'Non Ou',form_email:'Imel Ou',form_dept:'Depatman',form_message:'Mesaj',form_send:'Voye Mesaj',
     form_thanks:'Mesaj Voye!',form_confirm:'Mèsi paske ou kontakte nou. Ekip nou ap reponn nan 12 èdtan.',
     dept_general:'Kesyon Jeneral',dept_partners:'Patenariat & Medya',
-    cta_title:'Komanse Fè Lajan<br>ak HaitiBiznis Jodi a',cta_desc:'Kit ou se chofè, machann, pwofesyonèl oswa antrepenè - gen yon plas pou ou.',
-    cta_start:'Komanse Kounye a',cta_contact:'Kontakte Nou',
+    cta_title:'Fè Lajan Chak Jou<br>ak HaitiBiznis',cta_desc:'Vin yon Koutye. Refère moun. Touche komisyon. Senp kon sa.',
+    cta_start:'Vin yon Koutye',cta_explore:'Eksplore Ekosistèm nan',cta_contact:'Kontakte Nou',
     wa_tip:'Bezwen Èd? Chat ak nou',sticky_cta:'💰 Komanse Fè Lajan',
     install_text:'Enstale HaitiBiznis<small>Mete sou ekran lakay ou pou aksè rapid</small>',install_btn:'Enstale',
-    sticky_koutye:'💰 Vin yon Koutye — Fe Lajan',
-    nav_koutye:'Koutye Biznis',
-    hero_koutye_cta:'🤝 Vin yon Koutye',
-    hero_koutye_sub:'Touche komisyon sou chak tranzaksyon'
+    sticky_koutye:'💰 Vin yon Koutye — Fè Lajan',
+    nav_koutye:'Koutye Biznis'
   },
   en:{
-    hero_title:'Make Money With<br>Your Phone Today',
-    hero_sub:'<strong>Drivers</strong> • <strong>Businesses</strong> • <strong>Professionals</strong><br>Get clients. Drive. Sell products.',
-    hero_cta:'Get Started Now',hero_how:'See How It Works',
+    hero_badge:'💰 KOUTYE BIZNIS',
+    hero_title:'Earn Money Every Day<br>With Your Phone',
+    hero_sub:'Refer people. Connect businesses. Earn commission on every transaction.',
+    hero_cta:'💰 Become a Koutye — Earn Money',hero_how:'See how it works',
+    hero_trust:'+100 people already earning on HaitiBiznis',
     nav_home:'Home',nav_join:'Join Us',nav_how:'How It Works',nav_contact:'Contact',nav_cta:'Start Earning',
-    drv_title:'Got a Car or Motorcycle?',drv_hook:'Drive rides. Make deliveries. Earn every day.',
-    drv_cta:'Sign Up as Driver →',drv_b1:'Work on your own schedule',drv_b2:'Fast payments',drv_b3:'Guaranteed clients',
-    drv_social:'+2,500 drivers already earning',
-    biz_title:'Got a Business?',biz_hook:'Sell your products. Receive orders easily.',
-    biz_cta:'Sell on the Platform →',biz_b1:'Sell 24/7',biz_b2:'Automatic order notifications',biz_b3:'Diaspora buys for Haiti',
-    biz_social:'+5,000 customers already buying',
-    pro_title:'Got Talent or a Skill?',pro_hook:'Get clients. Work on your own schedule.',
-    pro_cta:'Get Clients →',pro_b1:'Find clients easily',pro_b2:'Automatic bookings',pro_b3:'Verified profile',
-    pro_social:'+1,800 professionals already earning',
-    launch_title:'Start Your Business Today',launch_hook:'We get you ready to earn in 48 hours.',
-    launch_cta:'Start Free →',launch_b1:'Logo + Website + Pitch',launch_b2:'Ready to sell fast',launch_b3:'Business support',
-    launch_social:'+600 businesses already earning',
-    act_title:'What Do You Want to Do Today?',act_money:'💰 Make Money',act_ride:'🚗 Request Ride',act_find:'⭐ Find Professional',act_launch:'🚀 Launch Business',
+    koutye_card_title:'Connect Businesses. Earn Money.',
+    koutye_card_desc:'Earn commission on every transaction in the HaitiBiznis ecosystem. Rides, deliveries, business packages, marketplace.',
+    koutye_card_cta:'Become a Koutye →',
+    earn_title:'How You Can Earn',earn_desc:'4 ways to make money across the ecosystem',
+    earn_msou:'Refer drivers, earn on rides and deliveries.',
+    earn_48hr:'Earn 10% on every business package you sell.',
+    earn_plop:'Refer sellers, earn on marketplace transactions.',
+    earn_utility:'Refer utility payments, earn on transactions.',
+    act_title:'What Do You Want to Do Today?',act_koutye:'💰 Become a Koutye',act_ride:'🚗 Request Ride',act_find:'⭐ Find Professional',act_launch:'🚀 Launch Business',
     tr1:'Verified Drivers',tr2:'Secure Transactions',tr3:'WhatsApp Support',tr4:'Haitian Platform',
-    how_label:'How It Works',how_title:'3 Simple Steps',how_desc:'Just 3 steps to start earning or find a service.',
-    step1:'Create a free account',step1_sub:'Sign up on the platform of your choice',
-    step2:'Choose your service',step2_sub:'Driving, business, or professional work',
-    step3:'Start earning money',step3_sub:'Or get the service you need',
+    how_label:'How It Works',how_title:'4 Simple Steps',how_desc:'Sign up free and start earning commissions today.',
+    step1:'Sign up free',step1_sub:'Create your Koutye account in 2 minutes',
+    step2:'Get your referral link',step2_sub:'Every Koutye gets a unique code',
+    step3:'Share the services',step3_sub:'Send your link to friends, family, businesses',
+    step4:'Earn commissions',step4_sub:'Every transaction = money in your pocket',
     dia_title:'Support Your Family in Haiti',dia_desc:'Buy, send services, or pay for your family easily.',dia_cta:'Get Started →',
     about_label:'Ecosystem',about_title:'An Ecosystem for Haiti\'s Economy',
     about_intro:'HaitiBiznis is a digital system built to help Haiti work, sell, move, and grow.',
@@ -1015,38 +1007,35 @@ const translations={
     form_name:'Your Name',form_email:'Your Email',form_dept:'Department',form_message:'Message',form_send:'Send Message',
     form_thanks:'Message Sent!',form_confirm:'Thank you! Our team will respond within 12 hours.',
     dept_general:'General Inquiry',dept_partners:'Partnerships & Media',
-    cta_title:'Start Earning Money<br>with HaitiBiznis Today',cta_desc:'Whether you\'re a driver, seller, professional, or entrepreneur — there\'s a place for you.',
-    cta_start:'Get Started Now',cta_contact:'Contact Us',
+    cta_title:'Earn Money Every Day<br>with HaitiBiznis',cta_desc:'Become a Koutye. Refer people. Earn commissions. Simple as that.',
+    cta_start:'Become a Koutye',cta_explore:'Explore the Ecosystem',cta_contact:'Contact Us',
     wa_tip:'Need Help? Chat with us',sticky_cta:'💰 Start Earning Money',
     install_text:'Install HaitiBiznis<small>Add to your home screen for quick access</small>',install_btn:'Install',
-    sticky_koutye:'💰 Become an Ambassador — Earn Money',
-    nav_koutye:'Koutye Biznis',
-    hero_koutye_cta:'🤝 Become Ambassador',
-    hero_koutye_sub:'Earn commission on every transaction'
+    sticky_koutye:'💰 Become a Koutye — Earn Money',
+    nav_koutye:'Koutye Biznis'
   },
   fr:{
-    hero_title:'Gagnez de l\'Argent avec<br>Votre Téléphone Aujourd\'hui',
-    hero_sub:'<strong>Chauffeurs</strong> • <strong>Commerces</strong> • <strong>Professionnels</strong><br>Trouvez des clients. Conduisez. Vendez.',
-    hero_cta:'Commencer Maintenant',hero_how:'Voir Comment Ça Marche',
+    hero_badge:'💰 KOUTYE BIZNIS',
+    hero_title:'Gagnez de l\'Argent Chaque Jour<br>avec Votre Téléphone',
+    hero_sub:'Référez des gens. Connectez des entreprises. Gagnez une commission sur chaque transaction.',
+    hero_cta:'💰 Devenir Koutye — Gagnez',hero_how:'Voir comment ça marche',
+    hero_trust:'+100 personnes gagnent déjà sur HaitiBiznis',
     nav_home:'Accueil',nav_join:'Nous Rejoindre',nav_how:'Comment Ça Marche',nav_contact:'Contact',nav_cta:'Commencer à Gagner',
-    drv_title:'Vous avez une voiture ou moto ?',drv_hook:'Faites des courses. Livrez. Gagnez chaque jour.',
-    drv_cta:'S\'inscrire comme Chauffeur →',drv_b1:'Travaillez à votre rythme',drv_b2:'Paiements rapides',drv_b3:'Clients garantis',
-    drv_social:'+2 500 chauffeurs gagnent déjà',
-    biz_title:'Vous avez un commerce ?',biz_hook:'Vendez vos produits. Recevez des commandes facilement.',
-    biz_cta:'Vendre sur la Plateforme →',biz_b1:'Vendez 24/7',biz_b2:'Commandes automatiques',biz_b3:'La diaspora achète pour Haïti',
-    biz_social:'+5 000 clients achètent déjà',
-    pro_title:'Vous avez un talent ou métier ?',pro_hook:'Trouvez des clients. Travaillez à votre rythme.',
-    pro_cta:'Trouver des Clients →',pro_b1:'Trouvez des clients facilement',pro_b2:'Réservations automatiques',pro_b3:'Profil vérifié',
-    pro_social:'+1 800 professionnels gagnent déjà',
-    launch_title:'Lancez Votre Business Aujourd\'hui',launch_hook:'On vous prépare à gagner en 48 heures.',
-    launch_cta:'Commencer Gratuitement →',launch_b1:'Logo + Site + Pitch',launch_b2:'Prêt à vendre rapidement',launch_b3:'Support business',
-    launch_social:'+600 business gagnent déjà',
-    act_title:'Que voulez-vous faire aujourd\'hui ?',act_money:'💰 Gagner de l\'Argent',act_ride:'🚗 Demander une Course',act_find:'⭐ Chercher un Pro',act_launch:'🚀 Lancer Business',
+    koutye_card_title:'Connectez des Entreprises. Gagnez.',
+    koutye_card_desc:'Gagnez une commission sur chaque transaction de l\'écosystème HaitiBiznis. Courses, livraisons, paquets business, marketplace.',
+    koutye_card_cta:'Devenir Koutye →',
+    earn_title:'Comment Gagner',earn_desc:'4 façons de gagner à travers l\'écosystème',
+    earn_msou:'Inscrivez des chauffeurs, gagnez sur les courses et livraisons.',
+    earn_48hr:'Gagnez 10% sur chaque paquet business vendu.',
+    earn_plop:'Référez des vendeurs, gagnez sur les transactions marketplace.',
+    earn_utility:'Référez des paiements de services, gagnez sur les transactions.',
+    act_title:'Que voulez-vous faire aujourd\'hui ?',act_koutye:'💰 Devenir Koutye',act_ride:'🚗 Demander une Course',act_find:'⭐ Chercher un Pro',act_launch:'🚀 Lancer Business',
     tr1:'Chauffeurs Vérifiés',tr2:'Transactions Sécurisées',tr3:'Support WhatsApp',tr4:'Plateforme Haïtienne',
-    how_label:'Comment Ça Marche',how_title:'3 Étapes Simples',how_desc:'Seulement 3 étapes pour commencer à gagner ou trouver un service.',
-    step1:'Créez un compte gratuit',step1_sub:'Inscrivez-vous sur la plateforme choisie',
-    step2:'Choisissez votre service',step2_sub:'Courses, commerce, ou travail professionnel',
-    step3:'Commencez à gagner',step3_sub:'Ou trouvez le service dont vous avez besoin',
+    how_label:'Comment Ça Marche',how_title:'4 Étapes Simples',how_desc:'Inscrivez-vous gratuitement et commencez à gagner des commissions.',
+    step1:'Inscrivez-vous gratuitement',step1_sub:'Créez votre compte Koutye en 2 minutes',
+    step2:'Obtenez votre lien de parrainage',step2_sub:'Chaque Koutye a un code unique',
+    step3:'Partagez les services',step3_sub:'Envoyez votre lien à vos amis, famille, entreprises',
+    step4:'Gagnez des commissions',step4_sub:'Chaque transaction = argent dans votre poche',
     dia_title:'Soutenez Votre Famille en Haïti',dia_desc:'Achetez, envoyez des services, ou payez pour votre famille facilement.',dia_cta:'Commencer →',
     about_label:'Écosystème',about_title:'Un Écosystème pour l\'Économie d\'Haïti',
     about_intro:'HaitiBiznis est un système numérique conçu pour aider Haïti à travailler, vendre, se déplacer et grandir.',
@@ -1071,38 +1060,35 @@ const translations={
     form_name:'Votre Nom',form_email:'Votre Email',form_dept:'Département',form_message:'Message',form_send:'Envoyer',
     form_thanks:'Message Envoyé !',form_confirm:'Merci ! Notre équipe répondra sous 12 heures.',
     dept_general:'Demande Générale',dept_partners:'Partenariats & Médias',
-    cta_title:'Commencez à Gagner<br>avec HaitiBiznis Aujourd\'hui',cta_desc:'Que vous soyez chauffeur, vendeur, professionnel ou entrepreneur — il y a une place pour vous.',
-    cta_start:'Commencer Maintenant',cta_contact:'Nous Contacter',
+    cta_title:'Gagnez Chaque Jour<br>avec HaitiBiznis',cta_desc:'Devenez Koutye. Référez des gens. Gagnez des commissions. Simple.',
+    cta_start:'Devenir Koutye',cta_explore:'Explorer l\'Écosystème',cta_contact:'Nous Contacter',
     wa_tip:'Besoin d\'aide ? Chattez avec nous',sticky_cta:'💰 Commencer à Gagner',
     install_text:'Installer HaitiBiznis<small>Ajoutez à votre écran d\'accueil</small>',install_btn:'Installer',
-    sticky_koutye:'💰 Devenir Ambassadeur — Gagnez',
-    nav_koutye:'Koutye Biznis',
-    hero_koutye_cta:'🤝 Devenir Ambassadeur',
-    hero_koutye_sub:'Gagnez une commission sur chaque transaction'
+    sticky_koutye:'💰 Devenir Koutye — Gagnez',
+    nav_koutye:'Koutye Biznis'
   },
   es:{
-    hero_title:'Gana Dinero con<br>Tu Teléfono Hoy',
-    hero_sub:'<strong>Conductores</strong> • <strong>Negocios</strong> • <strong>Profesionales</strong><br>Consigue clientes. Conduce. Vende productos.',
-    hero_cta:'Comenzar Ahora',hero_how:'Ver Cómo Funciona',
+    hero_badge:'💰 KOUTYE BIZNIS',
+    hero_title:'Gana Dinero Cada Día<br>con Tu Teléfono',
+    hero_sub:'Refiere personas. Conecta negocios. Gana comisión en cada transacción.',
+    hero_cta:'💰 Ser Koutye — Gana Dinero',hero_how:'Ver cómo funciona',
+    hero_trust:'+100 personas ya ganando en HaitiBiznis',
     nav_home:'Inicio',nav_join:'Únete',nav_how:'Cómo Funciona',nav_contact:'Contacto',nav_cta:'Empieza a Ganar',
-    drv_title:'¿Tienes auto o moto?',drv_hook:'Haz viajes. Haz entregas. Gana cada día.',
-    drv_cta:'Regístrate como Conductor →',drv_b1:'Trabaja a tu ritmo',drv_b2:'Pagos rápidos',drv_b3:'Clientes garantizados',
-    drv_social:'+2,500 conductores ya ganando',
-    biz_title:'¿Tienes un negocio?',biz_hook:'Vende tus productos. Recibe pedidos fácilmente.',
-    biz_cta:'Vender en la Plataforma →',biz_b1:'Vende 24/7',biz_b2:'Pedidos automáticos',biz_b3:'La diáspora compra para Haití',
-    biz_social:'+5,000 clientes ya comprando',
-    pro_title:'¿Tienes talento o oficio?',pro_hook:'Consigue clientes. Trabaja a tu ritmo.',
-    pro_cta:'Conseguir Clientes →',pro_b1:'Encuentra clientes fácil',pro_b2:'Reservas automáticas',pro_b3:'Perfil verificado',
-    pro_social:'+1,800 profesionales ya ganando',
-    launch_title:'Lanza Tu Negocio Hoy',launch_hook:'Te preparamos para ganar en 48 horas.',
-    launch_cta:'Comenzar Gratis →',launch_b1:'Logo + Sitio + Pitch',launch_b2:'Listo para vender rápido',launch_b3:'Soporte de negocio',
-    launch_social:'+600 negocios ya ganando',
-    act_title:'¿Qué quieres hacer hoy?',act_money:'💰 Ganar Dinero',act_ride:'🚗 Pedir Viaje',act_find:'⭐ Buscar Profesional',act_launch:'🚀 Lanzar Negocio',
+    koutye_card_title:'Conecta Negocios. Gana Dinero.',
+    koutye_card_desc:'Gana comisión en cada transacción del ecosistema HaitiBiznis. Viajes, entregas, paquetes de negocio, marketplace.',
+    koutye_card_cta:'Ser Koutye →',
+    earn_title:'Cómo Puedes Ganar',earn_desc:'4 formas de ganar dinero en el ecosistema',
+    earn_msou:'Inscribe conductores, gana en viajes y entregas.',
+    earn_48hr:'Gana 10% en cada paquete de negocio que vendas.',
+    earn_plop:'Refiere vendedores, gana en transacciones del marketplace.',
+    earn_utility:'Refiere pagos de servicios, gana en transacciones.',
+    act_title:'¿Qué quieres hacer hoy?',act_koutye:'💰 Ser Koutye',act_ride:'🚗 Pedir Viaje',act_find:'⭐ Buscar Profesional',act_launch:'🚀 Lanzar Negocio',
     tr1:'Conductores Verificados',tr2:'Transacciones Seguras',tr3:'Soporte WhatsApp',tr4:'Plataforma Haitiana',
-    how_label:'Cómo Funciona',how_title:'3 Pasos Simples',how_desc:'Solo 3 pasos para empezar a ganar o encontrar un servicio.',
-    step1:'Crea una cuenta gratis',step1_sub:'Regístrate en la plataforma elegida',
-    step2:'Elige tu servicio',step2_sub:'Viajes, comercio, o trabajo profesional',
-    step3:'Empieza a ganar',step3_sub:'O encuentra el servicio que necesitas',
+    how_label:'C��mo Funciona',how_title:'4 Pasos Simples',how_desc:'Regístrate gratis y empieza a ganar comisiones hoy.',
+    step1:'Regístrate gratis',step1_sub:'Crea tu cuenta Koutye en 2 minutos',
+    step2:'Obtén tu enlace de referido',step2_sub:'Cada Koutye tiene un código único',
+    step3:'Comparte los servicios',step3_sub:'Envía tu enlace a amigos, familia, negocios',
+    step4:'Gana comisiones',step4_sub:'Cada transacción = dinero en tu bolsillo',
     dia_title:'Apoya a Tu Familia en Haití',dia_desc:'Compra, envía servicios, o paga para tu familia fácilmente.',dia_cta:'Comenzar →',
     about_label:'Ecosistema',about_title:'Un Ecosistema para la Economía de Haití',
     about_intro:'HaitiBiznis es un sistema digital creado para ayudar a Haití a trabajar, vender, moverse y crecer.',
@@ -1127,14 +1113,12 @@ const translations={
     form_name:'Tu Nombre',form_email:'Tu Email',form_dept:'Departamento',form_message:'Mensaje',form_send:'Enviar',
     form_thanks:'¡Mensaje Enviado!',form_confirm:'¡Gracias! Nuestro equipo responderá en 12 horas.',
     dept_general:'Consulta General',dept_partners:'Alianzas & Medios',
-    cta_title:'Empieza a Ganar Dinero<br>con HaitiBiznis Hoy',cta_desc:'Ya seas conductor, vendedor, profesional o emprendedor — hay un lugar para ti.',
-    cta_start:'Comenzar Ahora',cta_contact:'Contáctanos',
+    cta_title:'Gana Dinero Cada Día<br>con HaitiBiznis',cta_desc:'Sé un Koutye. Refiere personas. Gana comisiones. Así de simple.',
+    cta_start:'Ser Koutye',cta_explore:'Explorar el Ecosistema',cta_contact:'Contáctanos',
     wa_tip:'¿Necesitas ayuda? Chatea con nosotros',sticky_cta:'💰 Empieza a Ganar',
     install_text:'Instalar HaitiBiznis<small>Añade a tu pantalla de inicio</small>',install_btn:'Instalar',
-    sticky_koutye:'💰 Ser Embajador — Gana Dinero',
-    nav_koutye:'Koutye Biznis',
-    hero_koutye_cta:'🤝 Ser Embajador',
-    hero_koutye_sub:'Gana comisión en cada transacción'
+    sticky_koutye:'💰 Ser Koutye — Gana Dinero',
+    nav_koutye:'Koutye Biznis'
   }
 };
 
