@@ -45,7 +45,7 @@
   --display:'DM Serif Display',Georgia,serif;
 }
 html{scroll-behavior:smooth}
-body{font-family:var(--body);background:var(--off-white);color:var(--text);overflow-x:hidden;-webkit-font-smoothing:antialiased}
+body{font-family:var(--body);background:var(--off-white);color:var(--text);overflow-x:hidden;-webkit-font-smoothing:antialiased;padding-bottom:52px}
 a{text-decoration:none}
 
 .flag-stripe{height:4px;background:linear-gradient(90deg, var(--blue) 50%, var(--red) 50%)}
@@ -434,7 +434,7 @@ footer{padding:40px 20px 24px;background:var(--dark);color:var(--white)}
 
 /* STICKY MOBILE FOOTER */
 .sticky-footer{
-  display:none;position:fixed;bottom:0;left:0;right:0;z-index:800;
+  display:none;position:fixed;bottom:48px;left:0;right:0;z-index:800;
   background:linear-gradient(135deg,var(--red),var(--red-dark));
   padding:12px 20px;text-align:center;
   box-shadow:0 -4px 20px rgba(0,0,0,.15);
@@ -462,6 +462,42 @@ footer{padding:40px 20px 24px;background:var(--dark);color:var(--white)}
 }
 .install-banner-close{background:none;border:none;color:rgba(255,255,255,.7);font-size:1.2rem;cursor:pointer;padding:4px}
 
+/* KOUTYE STICKY BAR */
+.koutye-sticky-bar{
+  position:fixed;bottom:0;left:0;right:0;z-index:999;
+  background:#D21034;text-align:center;padding:14px;
+}
+.koutye-sticky-bar a{
+  display:block;color:#fff;font-weight:800;font-size:.95rem;
+  letter-spacing:.02em;
+}
+
+/* KOUTYE NAV HIGHLIGHT */
+.nav-koutye-link{
+  background:linear-gradient(135deg,var(--red),var(--gold))!important;
+  color:#fff!important;padding:8px 16px!important;border-radius:100px!important;
+  font-weight:800!important;font-size:.82rem!important;
+  box-shadow:0 2px 8px rgba(210,16,52,.25);
+  animation:koutyePulse 2s ease-in-out infinite;
+}
+.nav-koutye-link:hover{
+  transform:translateY(-1px);box-shadow:0 4px 16px rgba(210,16,52,.35)!important;
+  background:linear-gradient(135deg,var(--red-dark),#b8880f)!important;
+}
+@keyframes koutyePulse{0%,100%{box-shadow:0 2px 8px rgba(210,16,52,.25)}50%{box-shadow:0 2px 16px rgba(210,16,52,.45)}}
+
+/* HERO KOUTYE CTA */
+.hero-koutye-row{margin-top:18px;text-align:center}
+.btn-koutye{
+  display:inline-flex;align-items:center;gap:8px;
+  background:var(--red);color:#fff;
+  padding:14px 28px;border-radius:100px;font-size:.9rem;font-weight:800;
+  border:2px solid rgba(255,255,255,.3);
+  transition:all .3s;letter-spacing:.01em;
+}
+.btn-koutye:hover{background:var(--red-dark);transform:translateY(-2px);box-shadow:0 8px 24px rgba(210,16,52,.3)}
+.hero-koutye-sub{font-size:.8rem;color:rgba(255,255,255,.6);margin-top:6px}
+
 /* REVEAL */
 .reveal{opacity:0;transform:translateY(20px);transition:all .5s cubic-bezier(.4,0,.2,1)}
 .reveal.visible{opacity:1;transform:translateY(0)}
@@ -478,7 +514,7 @@ footer{padding:40px 20px 24px;background:var(--dark);color:var(--white)}
   .nav-links{display:none}.mobile-menu{display:block}
   .contact-grid{grid-template-columns:1fr}
   .sticky-footer{display:block}
-  .wa-float{bottom:70px}
+  .wa-float{bottom:118px}
 }
 @media(max-width:480px){
   .impact-strip{gap:16px;flex-direction:column;align-items:center}
@@ -516,6 +552,7 @@ footer{padding:40px 20px 24px;background:var(--dark);color:var(--white)}
       <a href="#entry" data-i18n="nav_join">Rejwenn Nou</a>
       <a href="#how" data-i18n="nav_how">Kijan Li Mache</a>
       <a href="#contact" data-i18n="nav_contact">Kontak</a>
+      <a href="koutye.html" class="nav-koutye-link" data-i18n="nav_koutye">Koutye Biznis</a>
       <a href="#entry" class="nav-cta" data-i18n="nav_cta">Komanse F&egrave; Lajan</a>
     </div>
     <button class="mobile-menu" onclick="document.querySelector('.nav-mobile').classList.add('open')" aria-label="Menu">&#9776;</button>
@@ -527,6 +564,7 @@ footer{padding:40px 20px 24px;background:var(--dark);color:var(--white)}
   <a href="#entry" onclick="closeMobile()" data-i18n="nav_join">Rejwenn Nou</a>
   <a href="#how" onclick="closeMobile()" data-i18n="nav_how">Kijan Li Mache</a>
   <a href="#contact" onclick="closeMobile()" data-i18n="nav_contact">Kontak</a>
+  <a href="koutye.html" onclick="closeMobile()" class="nav-koutye-link" data-i18n="nav_koutye">Koutye Biznis</a>
 </div>
 
 <!-- HERO -->
@@ -537,6 +575,10 @@ footer{padding:40px 20px 24px;background:var(--dark);color:var(--white)}
   <div class="hero-actions">
     <a href="#entry" class="btn btn-red" data-i18n="hero_cta">Komanse Kounye a</a>
     <a href="#how" class="btn btn-outline" data-i18n="hero_how">Gade Kijan Li Fonksyone</a>
+  </div>
+  <div class="hero-koutye-row">
+    <a href="koutye.html" class="btn-koutye" data-i18n="hero_koutye_cta">&#129309; Vin yon Koutye</a>
+    <p class="hero-koutye-sub" data-i18n="hero_koutye_sub">Touche komisyon sou chak tranzaksyon</p>
   </div>
 </section>
 
@@ -854,6 +896,13 @@ footer{padding:40px 20px 24px;background:var(--dark);color:var(--white)}
 </footer>
 <div class="flag-stripe"></div>
 
+<!-- KOUTYE STICKY BAR -->
+<div class="koutye-sticky-bar">
+  <a href="koutye.html">
+    <span data-i18n="sticky_koutye">&#128176; Vin yon Koutye &mdash; Fe Lajan</span>
+  </a>
+</div>
+
 <script>
 function closeMobile(){document.getElementById('mobileNav').classList.remove('open')}
 const obs=new IntersectionObserver(e=>{e.forEach(el=>{if(el.isIntersecting){el.target.classList.add('visible');obs.unobserve(el.target)}})},{threshold:.1,rootMargin:'0px 0px -30px 0px'});
@@ -913,7 +962,11 @@ const translations={
     cta_title:'Komanse Fè Lajan<br>ak HaitiBiznis Jodi a',cta_desc:'Kit ou se chofè, machann, pwofesyonèl oswa antrepenè - gen yon plas pou ou.',
     cta_start:'Komanse Kounye a',cta_contact:'Kontakte Nou',
     wa_tip:'Bezwen Èd? Chat ak nou',sticky_cta:'💰 Komanse Fè Lajan',
-    install_text:'Enstale HaitiBiznis<small>Mete sou ekran lakay ou pou aksè rapid</small>',install_btn:'Enstale'
+    install_text:'Enstale HaitiBiznis<small>Mete sou ekran lakay ou pou aksè rapid</small>',install_btn:'Enstale',
+    sticky_koutye:'💰 Vin yon Koutye — Fe Lajan',
+    nav_koutye:'Koutye Biznis',
+    hero_koutye_cta:'🤝 Vin yon Koutye',
+    hero_koutye_sub:'Touche komisyon sou chak tranzaksyon'
   },
   en:{
     hero_title:'Make Money With<br>Your Phone Today',
@@ -965,7 +1018,11 @@ const translations={
     cta_title:'Start Earning Money<br>with HaitiBiznis Today',cta_desc:'Whether you\'re a driver, seller, professional, or entrepreneur — there\'s a place for you.',
     cta_start:'Get Started Now',cta_contact:'Contact Us',
     wa_tip:'Need Help? Chat with us',sticky_cta:'💰 Start Earning Money',
-    install_text:'Install HaitiBiznis<small>Add to your home screen for quick access</small>',install_btn:'Install'
+    install_text:'Install HaitiBiznis<small>Add to your home screen for quick access</small>',install_btn:'Install',
+    sticky_koutye:'💰 Become an Ambassador — Earn Money',
+    nav_koutye:'Koutye Biznis',
+    hero_koutye_cta:'🤝 Become Ambassador',
+    hero_koutye_sub:'Earn commission on every transaction'
   },
   fr:{
     hero_title:'Gagnez de l\'Argent avec<br>Votre Téléphone Aujourd\'hui',
@@ -1017,7 +1074,11 @@ const translations={
     cta_title:'Commencez à Gagner<br>avec HaitiBiznis Aujourd\'hui',cta_desc:'Que vous soyez chauffeur, vendeur, professionnel ou entrepreneur — il y a une place pour vous.',
     cta_start:'Commencer Maintenant',cta_contact:'Nous Contacter',
     wa_tip:'Besoin d\'aide ? Chattez avec nous',sticky_cta:'💰 Commencer à Gagner',
-    install_text:'Installer HaitiBiznis<small>Ajoutez à votre écran d\'accueil</small>',install_btn:'Installer'
+    install_text:'Installer HaitiBiznis<small>Ajoutez à votre écran d\'accueil</small>',install_btn:'Installer',
+    sticky_koutye:'💰 Devenir Ambassadeur — Gagnez',
+    nav_koutye:'Koutye Biznis',
+    hero_koutye_cta:'🤝 Devenir Ambassadeur',
+    hero_koutye_sub:'Gagnez une commission sur chaque transaction'
   },
   es:{
     hero_title:'Gana Dinero con<br>Tu Teléfono Hoy',
@@ -1069,7 +1130,11 @@ const translations={
     cta_title:'Empieza a Ganar Dinero<br>con HaitiBiznis Hoy',cta_desc:'Ya seas conductor, vendedor, profesional o emprendedor — hay un lugar para ti.',
     cta_start:'Comenzar Ahora',cta_contact:'Contáctanos',
     wa_tip:'¿Necesitas ayuda? Chatea con nosotros',sticky_cta:'💰 Empieza a Ganar',
-    install_text:'Instalar HaitiBiznis<small>Añade a tu pantalla de inicio</small>',install_btn:'Instalar'
+    install_text:'Instalar HaitiBiznis<small>Añade a tu pantalla de inicio</small>',install_btn:'Instalar',
+    sticky_koutye:'💰 Ser Embajador — Gana Dinero',
+    nav_koutye:'Koutye Biznis',
+    hero_koutye_cta:'🤝 Ser Embajador',
+    hero_koutye_sub:'Gana comisión en cada transacción'
   }
 };
 
