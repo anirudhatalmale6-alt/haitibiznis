@@ -1,0 +1,1646 @@
+<!DOCTYPE html>
+<html lang="ht">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Peye Sèvis Ou Fasil - HaitiBiznis Utility Hub</title>
+<meta name="description" content="Peye EDH ak DINEPA sou HaitiBiznis avèk MonCash, NatCash oswa kat kredi. Rapid, senp, sekirize.">
+<meta property="og:title" content="HaitiBiznis - Peye EDH & DINEPA Fasil">
+<meta property="og:description" content="Peye kouran EDH ak dlo DINEPA sou HaitiBiznis. MonCash, NatCash, oswa kat kredi.">
+<meta property="og:image" content="https://haitibiznis.com/assets/og-haitibiznis.jpg">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://haitibiznis.com/utility-hub.html">
+<meta name="theme-color" content="#00209F">
+<link rel="icon" type="image/png" sizes="32x32" href="assets/favicon-32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="assets/favicon-16.png">
+<link rel="icon" type="image/x-icon" href="favicon.ico">
+<link rel="manifest" href="manifest.json">
+<link rel="apple-touch-icon" sizes="180x180" href="assets/apple-touch-icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --blue:#00209F;--blue-light:#0033CC;--blue-dark:#001566;
+  --red:#D21034;--red-light:#E8274A;--red-dark:#B00D2C;
+  --white:#FFFFFF;--off-white:#F5F7FA;--light-gray:#E8ECF2;
+  --dark:#0C1B3A;--text:#1A2A4A;--text-light:#5A6B8A;
+  --gold:#D4A017;--green:#1B8C3D;--green-light:#22A94A;
+  --orange:#E67E22;
+  --body:'Plus Jakarta Sans',system-ui,sans-serif;
+  --display:'DM Serif Display',Georgia,serif;
+}
+html{scroll-behavior:smooth}
+body{font-family:var(--body);background:var(--off-white);color:var(--text);overflow-x:hidden;-webkit-font-smoothing:antialiased}
+
+.flag-stripe{height:4px;background:linear-gradient(90deg, var(--blue) 50%, var(--red) 50%)}
+
+/* LANG BAR */
+.top-lang-bar{
+  background:var(--blue);color:#fff;font-size:.7rem;
+  padding:5px 20px;display:flex;align-items:center;justify-content:center;gap:4px;
+  position:fixed;top:0;left:0;right:0;z-index:1001;height:32px;
+}
+.top-lang-bar a{
+  color:#fff;background:rgba(255,255,255,.15);padding:3px 10px;border-radius:100px;
+  font-size:.68rem;font-weight:600;cursor:pointer;transition:all .15s;white-space:nowrap;
+}
+.top-lang-bar a:hover{background:rgba(255,255,255,.3)}
+.top-lang-bar a.active{background:#fff;color:var(--blue)}
+
+/* NAV */
+nav{
+  position:sticky;top:32px;z-index:100;
+  padding:12px 20px;background:var(--white);
+  border-bottom:1px solid var(--light-gray);
+  box-shadow:0 1px 8px rgba(0,0,0,.04);
+}
+.nav-inner{max-width:1200px;margin:0 auto;display:flex;align-items:center;justify-content:space-between}
+.nav-logo{display:flex;align-items:center;gap:10px;text-decoration:none}
+.nav-logo img{height:38px;border-radius:6px}
+.nav-logo span{font-family:var(--display);font-size:1.3rem;color:var(--dark)}
+.nav-logo span em{color:var(--red);font-style:italic}
+.nav-links{display:flex;align-items:center;gap:4px}
+.nav-links a{color:var(--text-light);font-size:.82rem;font-weight:600;padding:8px 14px;border-radius:8px;transition:all .3s;text-decoration:none}
+.nav-links a:hover{color:var(--blue);background:rgba(0,32,159,.05)}
+.nav-cta{background:var(--red)!important;color:var(--white)!important;padding:10px 22px!important;border-radius:100px!important}
+.nav-cta:hover{background:var(--red-dark)!important}
+.mobile-menu{display:none;background:none;border:none;color:var(--dark);font-size:1.5rem;cursor:pointer;padding:8px}
+.nav-mobile{
+  position:fixed;top:0;left:0;right:0;bottom:0;z-index:200;
+  background:var(--white);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:16px;
+  opacity:0;pointer-events:none;transition:opacity .3s;
+}
+.nav-mobile.open{opacity:1;pointer-events:auto}
+.nav-mobile a{color:var(--dark);font-size:1.2rem;font-weight:600;padding:12px 24px;border-radius:12px;text-decoration:none}
+.nav-mobile .close-menu{position:absolute;top:20px;right:24px;background:none;border:none;color:var(--dark);font-size:2rem;cursor:pointer}
+
+/* HERO */
+.hero{
+  padding:80px 20px 60px;text-align:center;
+  background:linear-gradient(150deg,var(--dark) 0%,#0a1a3a 35%,var(--blue-dark) 70%,var(--blue) 100%);
+  color:var(--white);position:relative;overflow:hidden;
+}
+.hero::before{
+  content:'';position:absolute;inset:0;
+  background:radial-gradient(circle at 20% 80%,rgba(210,16,52,.12) 0%,transparent 50%),
+             radial-gradient(circle at 80% 20%,rgba(0,51,204,.15) 0%,transparent 50%);
+}
+.hero-inner{max-width:800px;margin:0 auto;position:relative;z-index:1}
+.hero-badge{
+  display:inline-flex;align-items:center;gap:6px;
+  background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.15);
+  padding:6px 16px;border-radius:100px;font-size:.72rem;font-weight:700;
+  text-transform:uppercase;letter-spacing:.1em;color:rgba(255,255,255,.7);margin-bottom:20px;
+}
+.hero-badge span{color:var(--gold)}
+.hero h1{
+  font-family:var(--display);font-size:2.4rem;line-height:1.15;
+  margin-bottom:14px;
+}
+.hero h1 em{color:var(--gold);font-style:italic}
+.hero p{
+  font-size:1.05rem;color:rgba(255,255,255,.7);max-width:560px;margin:0 auto 30px;
+  line-height:1.6;
+}
+.hero-icons{
+  display:flex;align-items:center;justify-content:center;gap:24px;margin-bottom:30px;
+}
+.hero-icon-item{
+  display:flex;flex-direction:column;align-items:center;gap:8px;
+}
+.hero-icon-circle{
+  width:64px;height:64px;border-radius:50%;display:flex;align-items:center;justify-content:center;
+  font-size:1.8rem;
+}
+.hero-icon-circle.edh{background:rgba(212,160,23,.15);border:2px solid rgba(212,160,23,.3)}
+.hero-icon-circle.dinepa{background:rgba(0,51,204,.15);border:2px solid rgba(0,51,204,.3)}
+.hero-icon-label{font-size:.78rem;font-weight:700;color:rgba(255,255,255,.6);text-transform:uppercase;letter-spacing:.06em}
+.hero-plus{font-size:1.5rem;color:rgba(255,255,255,.3);font-weight:300;margin-top:-8px}
+.hero-methods{
+  display:flex;align-items:center;justify-content:center;gap:12px;flex-wrap:wrap;
+}
+.hero-method{
+  display:flex;align-items:center;gap:6px;
+  background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);
+  padding:8px 16px;border-radius:100px;font-size:.78rem;font-weight:600;color:rgba(255,255,255,.7);
+}
+.hero-method .dot{width:8px;height:8px;border-radius:50%}
+.dot-moncash{background:#FF6600}
+.dot-natcash{background:#00B4D8}
+.dot-card{background:var(--gold)}
+
+/* SERVICES HUB */
+.hub-section{padding:50px 20px;max-width:900px;margin:0 auto}
+.hub-section-title{
+  font-family:var(--display);font-size:1.6rem;color:var(--dark);text-align:center;margin-bottom:6px;
+}
+.hub-section-sub{
+  font-size:.9rem;color:var(--text-light);text-align:center;margin-bottom:32px;
+}
+
+.service-cards{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+.service-card{
+  background:var(--white);border-radius:20px;padding:32px 24px;
+  border:2px solid var(--light-gray);
+  transition:all .3s;cursor:pointer;position:relative;overflow:hidden;
+}
+.service-card:hover{border-color:var(--blue);box-shadow:0 8px 32px rgba(0,32,159,.1);transform:translateY(-2px)}
+.service-card.active{border-color:var(--blue);box-shadow:0 8px 32px rgba(0,32,159,.12)}
+.service-card-icon{
+  width:56px;height:56px;border-radius:16px;display:flex;align-items:center;justify-content:center;
+  font-size:1.6rem;margin-bottom:16px;
+}
+.service-card-icon.edh{background:linear-gradient(135deg,#FFF3CD,#FFE082);color:#E67E22}
+.service-card-icon.dinepa{background:linear-gradient(135deg,#D1ECF1,#81D4FA);color:#0277BD}
+.service-card h3{font-family:var(--display);font-size:1.25rem;color:var(--dark);margin-bottom:6px}
+.service-card p{font-size:.85rem;color:var(--text-light);line-height:1.5;margin-bottom:18px}
+.service-card-btn{
+  display:inline-flex;align-items:center;gap:8px;
+  background:var(--blue);color:#fff;padding:12px 24px;border-radius:12px;
+  font-family:var(--body);font-size:.85rem;font-weight:700;border:none;cursor:pointer;
+  transition:all .2s;width:100%;justify-content:center;
+}
+.service-card-btn:hover{background:var(--blue-light)}
+.service-card-status{
+  position:absolute;top:16px;right:16px;
+  font-size:.6rem;font-weight:800;text-transform:uppercase;letter-spacing:.12em;
+  padding:4px 10px;border-radius:100px;
+  background:rgba(27,140,61,.1);color:var(--green);border:1px solid rgba(27,140,61,.2);
+}
+
+/* HOW IT WORKS */
+.how-section{
+  padding:50px 20px;
+  background:var(--white);border-top:1px solid var(--light-gray);border-bottom:1px solid var(--light-gray);
+}
+.how-inner{max-width:900px;margin:0 auto}
+.how-title{
+  font-family:var(--display);font-size:1.5rem;color:var(--dark);text-align:center;margin-bottom:32px;
+}
+.how-steps{
+  display:flex;align-items:flex-start;justify-content:center;gap:8px;flex-wrap:wrap;
+}
+.how-step{
+  display:flex;flex-direction:column;align-items:center;text-align:center;
+  flex:0 0 auto;width:110px;
+}
+.how-step-num{
+  width:40px;height:40px;border-radius:50%;background:var(--blue);color:#fff;
+  display:flex;align-items:center;justify-content:center;font-size:.85rem;font-weight:800;
+  margin-bottom:8px;
+}
+.how-step-text{font-size:.72rem;font-weight:600;color:var(--text);line-height:1.3}
+.how-arrow{
+  color:var(--blue);font-size:1.2rem;margin-top:8px;flex-shrink:0;opacity:.4;
+}
+
+/* PAYMENT FLOW OVERLAY */
+.flow-overlay{
+  position:fixed;inset:0;z-index:500;
+  background:rgba(12,27,58,.5);backdrop-filter:blur(4px);
+  display:none;align-items:flex-end;justify-content:center;
+  opacity:0;transition:opacity .3s;
+}
+.flow-overlay.open{display:flex;opacity:1}
+.flow-panel{
+  background:var(--white);border-radius:24px 24px 0 0;
+  width:100%;max-width:540px;max-height:92vh;overflow-y:auto;
+  padding:0;position:relative;
+  transform:translateY(20px);transition:transform .3s;
+}
+.flow-overlay.open .flow-panel{transform:translateY(0)}
+.flow-header{
+  padding:20px 24px 16px;border-bottom:1px solid var(--light-gray);
+  display:flex;align-items:center;justify-content:space-between;
+  position:sticky;top:0;background:var(--white);z-index:2;border-radius:24px 24px 0 0;
+}
+.flow-header-left{display:flex;align-items:center;gap:10px}
+.flow-header-icon{
+  width:40px;height:40px;border-radius:12px;display:flex;align-items:center;justify-content:center;
+  font-size:1.2rem;
+}
+.flow-header-icon.edh{background:linear-gradient(135deg,#FFF3CD,#FFE082)}
+.flow-header-icon.dinepa{background:linear-gradient(135deg,#D1ECF1,#81D4FA)}
+.flow-header h3{font-family:var(--display);font-size:1.15rem;color:var(--dark)}
+.flow-close{
+  background:none;border:none;width:36px;height:36px;border-radius:50%;
+  display:flex;align-items:center;justify-content:center;
+  font-size:1.3rem;color:var(--text-light);cursor:pointer;
+  transition:all .2s;
+}
+.flow-close:hover{background:var(--off-white);color:var(--dark)}
+
+/* STEP INDICATOR */
+.step-indicator{
+  display:flex;align-items:center;justify-content:center;gap:6px;
+  padding:16px 24px 0;
+}
+.step-dot{
+  width:8px;height:8px;border-radius:50%;background:var(--light-gray);transition:all .3s;
+}
+.step-dot.active{background:var(--blue);width:24px;border-radius:4px}
+.step-dot.done{background:var(--green)}
+.step-label{
+  font-size:.68rem;font-weight:700;color:var(--text-light);text-align:center;
+  padding:8px 24px 0;text-transform:uppercase;letter-spacing:.08em;
+}
+
+/* FLOW BODY */
+.flow-body{padding:20px 24px 32px}
+.flow-step{display:none}
+.flow-step.active{display:block}
+
+/* FORM FIELDS */
+.field{margin-bottom:16px}
+.field label{
+  display:block;font-size:.75rem;font-weight:700;color:var(--text);
+  margin-bottom:6px;text-transform:uppercase;letter-spacing:.04em;
+}
+.field label .optional{color:var(--text-light);font-weight:500;text-transform:none;letter-spacing:0;font-size:.72rem}
+.field input, .field select{
+  width:100%;padding:14px 16px;border:2px solid var(--light-gray);border-radius:12px;
+  font-family:var(--body);font-size:.92rem;color:var(--text);background:var(--white);
+  transition:all .2s;outline:none;
+}
+.field input:focus, .field select:focus{border-color:var(--blue);box-shadow:0 0 0 3px rgba(0,32,159,.08)}
+.field input.error{border-color:var(--red)}
+.field .field-error{font-size:.72rem;color:var(--red);margin-top:4px;display:none}
+.field input.error + .field-error{display:block}
+
+/* AMOUNT BUTTONS */
+.amount-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:16px}
+.amount-btn{
+  padding:16px;border:2px solid var(--light-gray);border-radius:14px;
+  background:var(--white);font-family:var(--body);font-size:1rem;font-weight:700;
+  color:var(--text);cursor:pointer;transition:all .2s;text-align:center;
+}
+.amount-btn:hover{border-color:var(--blue);background:rgba(0,32,159,.02)}
+.amount-btn.selected{border-color:var(--blue);background:rgba(0,32,159,.06);color:var(--blue)}
+.amount-btn .sub{font-size:.7rem;font-weight:500;color:var(--text-light);margin-top:2px}
+.amount-custom{grid-column:1/-1}
+.amount-custom input{
+  width:100%;padding:14px 16px;border:2px solid var(--light-gray);border-radius:12px;
+  font-family:var(--body);font-size:1rem;font-weight:700;color:var(--text);
+  text-align:center;outline:none;transition:all .2s;
+}
+.amount-custom input:focus{border-color:var(--blue);box-shadow:0 0 0 3px rgba(0,32,159,.08)}
+.amount-custom input::placeholder{font-weight:500;color:var(--text-light)}
+
+/* SUMMARY BOX */
+.summary-box{
+  background:var(--off-white);border-radius:14px;padding:18px;margin-top:20px;
+  border:1px solid var(--light-gray);
+}
+.summary-row{
+  display:flex;justify-content:space-between;align-items:center;
+  padding:8px 0;font-size:.85rem;
+}
+.summary-row:not(:last-child){border-bottom:1px solid var(--light-gray)}
+.summary-row .label{color:var(--text-light);font-weight:500}
+.summary-row .value{font-weight:700;color:var(--text)}
+.summary-row.total .label{font-weight:700;color:var(--dark);font-size:.92rem}
+.summary-row.total .value{color:var(--blue);font-size:1.05rem;font-weight:800}
+
+/* PAYMENT METHOD CARDS */
+.pay-methods{display:flex;flex-direction:column;gap:12px}
+.pay-method{
+  display:flex;align-items:center;gap:14px;
+  padding:18px;border:2px solid var(--light-gray);border-radius:16px;
+  cursor:pointer;transition:all .2s;background:var(--white);
+}
+.pay-method:hover{border-color:var(--blue);background:rgba(0,32,159,.01)}
+.pay-method.selected{border-color:var(--blue);background:rgba(0,32,159,.04)}
+.pay-method-icon{
+  width:48px;height:48px;border-radius:12px;display:flex;align-items:center;justify-content:center;
+  font-size:1.3rem;flex-shrink:0;
+}
+.pay-method-icon.moncash{background:linear-gradient(135deg,#FFF0E0,#FFDAB9);color:#FF6600}
+.pay-method-icon.natcash{background:linear-gradient(135deg,#E0F4F4,#B2EBF2);color:#00838F}
+.pay-method-icon.card{background:linear-gradient(135deg,#FFF8E1,#FFE082);color:var(--gold)}
+.pay-method-info h4{font-size:.92rem;color:var(--dark);margin-bottom:2px}
+.pay-method-info p{font-size:.75rem;color:var(--text-light)}
+.pay-method-check{
+  margin-left:auto;width:24px;height:24px;border-radius:50%;
+  border:2px solid var(--light-gray);display:flex;align-items:center;justify-content:center;
+  transition:all .2s;flex-shrink:0;
+}
+.pay-method.selected .pay-method-check{border-color:var(--blue);background:var(--blue);color:#fff}
+
+/* CONFIRMATION */
+.confirm-status{
+  text-align:center;padding:24px 0 16px;
+}
+.confirm-icon{
+  width:72px;height:72px;border-radius:50%;margin:0 auto 16px;
+  display:flex;align-items:center;justify-content:center;font-size:2rem;
+}
+.confirm-icon.pending{background:rgba(212,160,23,.1);color:var(--gold);border:3px solid rgba(212,160,23,.2)}
+.confirm-icon.success{background:rgba(27,140,61,.1);color:var(--green);border:3px solid rgba(27,140,61,.2)}
+.confirm-status h3{font-family:var(--display);font-size:1.3rem;color:var(--dark);margin-bottom:4px}
+.confirm-status p{font-size:.85rem;color:var(--text-light)}
+
+.token-box{
+  background:linear-gradient(135deg,#FFFDE7,#FFF8E1);border:2px solid rgba(212,160,23,.3);
+  border-radius:16px;padding:20px;margin:20px 0;text-align:center;
+}
+.token-label{font-size:.7rem;font-weight:800;text-transform:uppercase;letter-spacing:.12em;color:var(--gold);margin-bottom:8px}
+.token-value{
+  font-family:monospace;font-size:1.8rem;font-weight:900;color:var(--dark);
+  letter-spacing:.1em;word-break:break-all;
+}
+.token-note{font-size:.72rem;color:var(--text-light);margin-top:8px}
+
+.receipt-box{
+  background:var(--off-white);border:1px solid var(--light-gray);
+  border-radius:14px;padding:16px;margin:16px 0;
+}
+.receipt-row{
+  display:flex;justify-content:space-between;padding:7px 0;font-size:.82rem;
+}
+.receipt-row:not(:last-child){border-bottom:1px solid var(--light-gray)}
+.receipt-row .rl{color:var(--text-light)}
+.receipt-row .rv{font-weight:700;color:var(--text)}
+
+.confirm-actions{display:flex;flex-direction:column;gap:10px;margin-top:20px}
+.confirm-btn{
+  display:flex;align-items:center;justify-content:center;gap:8px;
+  padding:14px;border-radius:14px;font-family:var(--body);font-size:.88rem;font-weight:700;
+  border:none;cursor:pointer;transition:all .2s;width:100%;
+}
+.confirm-btn.primary{background:var(--blue);color:#fff}
+.confirm-btn.primary:hover{background:var(--blue-light)}
+.confirm-btn.green{background:var(--green);color:#fff}
+.confirm-btn.green:hover{background:var(--green-light)}
+.confirm-btn.outline{background:transparent;border:2px solid var(--light-gray);color:var(--text)}
+.confirm-btn.outline:hover{border-color:var(--blue);color:var(--blue)}
+
+/* FLOW FOOTER BUTTON */
+.flow-footer{
+  padding:16px 24px 24px;
+  position:sticky;bottom:0;background:var(--white);
+  border-top:1px solid var(--light-gray);
+}
+.flow-next-btn{
+  width:100%;padding:16px;border:none;border-radius:14px;
+  background:var(--blue);color:#fff;font-family:var(--body);
+  font-size:.95rem;font-weight:800;cursor:pointer;transition:all .2s;
+}
+.flow-next-btn:hover{background:var(--blue-light)}
+.flow-next-btn:disabled{background:var(--light-gray);color:var(--text-light);cursor:not-allowed}
+.flow-back{
+  display:block;text-align:center;margin-top:10px;
+  font-size:.82rem;color:var(--text-light);font-weight:600;
+  background:none;border:none;cursor:pointer;font-family:var(--body);width:100%;
+}
+.flow-back:hover{color:var(--blue)}
+
+/* TRUST */
+.trust-section{padding:40px 20px;max-width:900px;margin:0 auto}
+.trust-title{
+  font-family:var(--display);font-size:1.3rem;color:var(--dark);text-align:center;margin-bottom:24px;
+}
+.trust-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:16px}
+.trust-item{
+  text-align:center;padding:20px 12px;
+  background:var(--white);border-radius:16px;border:1px solid var(--light-gray);
+}
+.trust-item-icon{font-size:1.5rem;margin-bottom:8px}
+.trust-item h4{font-size:.82rem;font-weight:800;color:var(--dark);margin-bottom:4px}
+.trust-item p{font-size:.72rem;color:var(--text-light);line-height:1.4}
+
+/* FOOTER */
+.site-footer{
+  background:var(--dark);color:rgba(255,255,255,.5);padding:40px 20px;text-align:center;
+}
+.footer-inner{max-width:900px;margin:0 auto}
+.footer-logo{display:flex;align-items:center;justify-content:center;gap:8px;margin-bottom:16px}
+.footer-logo img{height:32px;border-radius:6px}
+.footer-logo span{font-family:var(--display);font-size:1.1rem;color:#fff}
+.footer-logo span em{color:var(--red);font-style:italic}
+.footer-links{display:flex;align-items:center;justify-content:center;gap:16px;flex-wrap:wrap;margin-bottom:20px}
+.footer-links a{color:rgba(255,255,255,.5);font-size:.78rem;font-weight:600;text-decoration:none;transition:color .2s}
+.footer-links a:hover{color:#fff}
+.footer-copy{font-size:.7rem;color:rgba(255,255,255,.3)}
+.footer-ecosystem{
+  display:flex;align-items:center;justify-content:center;gap:20px;flex-wrap:wrap;
+  margin-bottom:16px;padding-bottom:16px;border-bottom:1px solid rgba(255,255,255,.08);
+}
+.footer-eco-item{
+  display:flex;align-items:center;gap:6px;
+  font-size:.72rem;color:rgba(255,255,255,.4);font-weight:600;
+}
+.footer-eco-item img{height:22px;border-radius:4px;opacity:.6}
+
+/* LOADING SPINNER */
+.spinner{
+  width:24px;height:24px;border:3px solid rgba(255,255,255,.3);
+  border-top-color:#fff;border-radius:50%;
+  animation:spin .6s linear infinite;display:inline-block;vertical-align:middle;
+}
+@keyframes spin{to{transform:rotate(360deg)}}
+
+/* TOAST */
+.toast{
+  position:fixed;bottom:80px;left:50%;transform:translateX(-50%) translateY(20px);
+  background:var(--dark);color:#fff;padding:12px 24px;border-radius:12px;
+  font-size:.85rem;font-weight:600;opacity:0;transition:all .3s;z-index:600;
+  pointer-events:none;box-shadow:0 8px 24px rgba(0,0,0,.2);
+}
+.toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+
+/* RESPONSIVE */
+@media(max-width:700px){
+  .service-cards{grid-template-columns:1fr}
+  .trust-grid{grid-template-columns:1fr}
+  .how-steps{gap:4px}
+  .how-step{width:90px}
+  .how-arrow{display:none}
+  .hero h1{font-size:1.8rem}
+  .nav-links{display:none}
+  .mobile-menu{display:block}
+  .flow-panel{max-width:100%;border-radius:20px 20px 0 0}
+  .hero-icons{gap:16px}
+}
+@media(min-width:701px){
+  .flow-overlay{align-items:center}
+  .flow-panel{border-radius:24px;max-height:85vh;margin:20px}
+}
+</style>
+</head>
+<body>
+<div class="flag-stripe"></div>
+
+<!-- LANG BAR -->
+<div class="top-lang-bar">
+  <a class="active" onclick="setLang('ht')">Kreyol</a>
+  <a onclick="setLang('fr')">Francais</a>
+  <a onclick="setLang('en')">English</a>
+  <a onclick="setLang('es')">Espanol</a>
+</div>
+
+<!-- NAV -->
+<nav>
+<div class="nav-inner">
+  <a href="index.html" class="nav-logo">
+    <img src="assets/haitibiznis-logo.jpg" alt="HaitiBiznis">
+    <span>Haiti<em>Biznis</em></span>
+  </a>
+  <div class="nav-links">
+    <a href="index.html" data-i18n="nav_home">Akèy</a>
+    <a href="koutye.html" data-i18n="nav_koutye">Koutye</a>
+    <a href="#services" data-i18n="nav_services">Sèvis</a>
+    <a href="#" class="nav-cta" data-i18n="nav_pay">Peye Kounye a</a>
+  </div>
+  <button class="mobile-menu" onclick="document.querySelector('.nav-mobile').classList.add('open')">&#9776;</button>
+</div>
+</nav>
+<div class="nav-mobile">
+  <button class="close-menu" onclick="this.parentElement.classList.remove('open')">&times;</button>
+  <a href="index.html" data-i18n="nav_home">Akèy</a>
+  <a href="koutye.html" data-i18n="nav_koutye">Koutye</a>
+  <a href="#services" onclick="this.parentElement.classList.remove('open')" data-i18n="nav_services">Sèvis</a>
+  <a href="#" onclick="this.parentElement.classList.remove('open')" class="nav-cta" data-i18n="nav_pay">Peye Kounye a</a>
+</div>
+
+<!-- HERO -->
+<section class="hero">
+<div class="hero-inner">
+  <div class="hero-badge"><span>&#9889;</span> <span data-i18n="hero_badge">HaitiBiznis Utility Hub</span></div>
+  <h1 data-i18n="hero_title">Peye Sèvis Ou <em>Fasil</em></h1>
+  <p data-i18n="hero_sub">Peye EDH ak DINEPA sou HaitiBiznis avek MonCash, NatCash oswa kat kredi. Rapid, senp, sekirize.</p>
+  <div class="hero-icons">
+    <div class="hero-icon-item">
+      <div class="hero-icon-circle edh">&#9889;</div>
+      <span class="hero-icon-label">EDH</span>
+    </div>
+    <span class="hero-plus">+</span>
+    <div class="hero-icon-item">
+      <div class="hero-icon-circle dinepa">&#128167;</div>
+      <span class="hero-icon-label">DINEPA</span>
+    </div>
+  </div>
+  <div class="hero-methods">
+    <span class="hero-method"><span class="dot dot-moncash"></span> MonCash</span>
+    <span class="hero-method"><span class="dot dot-natcash"></span> NatCash</span>
+    <span class="hero-method"><span class="dot dot-card"></span> <span data-i18n="hero_card">Kat Kredi</span></span>
+  </div>
+</div>
+</section>
+
+<!-- SERVICE CARDS -->
+<section class="hub-section" id="services">
+  <h2 class="hub-section-title" data-i18n="hub_title">Chwazi Sèvis Ou</h2>
+  <p class="hub-section-sub" data-i18n="hub_sub">Seleksyone sèvis ou vle peye a epi swiv etap yo.</p>
+  <div class="service-cards">
+    <div class="service-card" onclick="openFlow('edh')">
+      <span class="service-card-status" data-i18n="status_active">Aktif</span>
+      <div class="service-card-icon edh">&#9889;</div>
+      <h3>EDH Prepaye</h3>
+      <p data-i18n="edh_desc">Peye kouran, resevwa token oswa resi. Rapid ak sekirize.</p>
+      <button class="service-card-btn" data-i18n="pay_now">Peye Kounye a &#8594;</button>
+    </div>
+    <div class="service-card" onclick="openFlow('dinepa')">
+      <span class="service-card-status" data-i18n="status_active">Aktif</span>
+      <div class="service-card-icon dinepa">&#128167;</div>
+      <h3>DINEPA</h3>
+      <p data-i18n="dinepa_desc">Peye dlo, resevwa konfimasyon. Pa bezwen fè liy.</p>
+      <button class="service-card-btn" data-i18n="pay_now">Peye Kounye a &#8594;</button>
+    </div>
+  </div>
+</section>
+
+<!-- HOW IT WORKS -->
+<section class="how-section">
+<div class="how-inner">
+  <h2 class="how-title" data-i18n="how_title">Kijan Li Mache?</h2>
+  <div class="how-steps">
+    <div class="how-step">
+      <div class="how-step-num">1</div>
+      <span class="how-step-text" data-i18n="how_s1">Chwazi sèvis (EDH / DINEPA)</span>
+    </div>
+    <span class="how-arrow">&#8594;</span>
+    <div class="how-step">
+      <div class="how-step-num">2</div>
+      <span class="how-step-text" data-i18n="how_s2">Antre enfomasyon kont ou</span>
+    </div>
+    <span class="how-arrow">&#8594;</span>
+    <div class="how-step">
+      <div class="how-step-num">3</div>
+      <span class="how-step-text" data-i18n="how_s3">Chwazi montan ak metod peman</span>
+    </div>
+    <span class="how-arrow">&#8594;</span>
+    <div class="how-step">
+      <div class="how-step-num">4</div>
+      <span class="how-step-text" data-i18n="how_s4">Peye ak resevwa konfimasyon</span>
+    </div>
+  </div>
+</div>
+</section>
+
+<!-- TRUST -->
+<section class="trust-section">
+  <h2 class="trust-title" data-i18n="trust_title">Poukisa Peye sou HaitiBiznis?</h2>
+  <div class="trust-grid">
+    <div class="trust-item">
+      <div class="trust-item-icon">&#128274;</div>
+      <h4 data-i18n="trust_1_h">Sekirize 100%</h4>
+      <p data-i18n="trust_1_p">Tout tranzaksyon pwoteje ak sistèm SolutionIP.</p>
+    </div>
+    <div class="trust-item">
+      <div class="trust-item-icon">&#9889;</div>
+      <h4 data-i18n="trust_2_h">Rapid</h4>
+      <p data-i18n="trust_2_p">Resevwa token oswa konfimasyon nan kèk minit.</p>
+    </div>
+    <div class="trust-item">
+      <div class="trust-item-icon">&#128241;</div>
+      <h4 data-i18n="trust_3_h">Sou Telefon Ou</h4>
+      <p data-i18n="trust_3_p">Pa bezwen deplase. Peye nenpot ki kote, nenpot ki le.</p>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer class="site-footer">
+<div class="footer-inner">
+  <div class="footer-ecosystem">
+    <div class="footer-eco-item"><img src="assets/haitibiznis-logo.jpg" alt="HB"> HaitiBiznis</div>
+    <div class="footer-eco-item"><img src="assets/myplopplop-logo.jpg" alt="PP"> MyPlopPlop</div>
+    <div class="footer-eco-item"><img src="assets/msouwout-logo.jpg" alt="MW"> MsouWout</div>
+    <div class="footer-eco-item"><img src="assets/48hoursready-logo.jpg" alt="48"> 48HoursReady</div>
+  </div>
+  <div class="footer-logo">
+    <img src="assets/haitibiznis-logo.jpg" alt="HaitiBiznis">
+    <span>Haiti<em>Biznis</em></span>
+  </div>
+  <div class="footer-links">
+    <a href="index.html" data-i18n="nav_home">Akèy</a>
+    <a href="koutye.html" data-i18n="nav_koutye">Koutye</a>
+    <a href="https://wa.me/50946859702" target="_blank">WhatsApp</a>
+  </div>
+  <div class="footer-copy">&copy; 2026 HaitiBiznis. Tout dwa rezève.</div>
+</div>
+</footer>
+
+<!-- EDH PAYMENT FLOW -->
+<div class="flow-overlay" id="edhFlow">
+<div class="flow-panel">
+  <div class="flow-header">
+    <div class="flow-header-left">
+      <div class="flow-header-icon edh">&#9889;</div>
+      <h3>EDH Prepaye</h3>
+    </div>
+    <button class="flow-close" onclick="closeFlow('edh')">&times;</button>
+  </div>
+  <div class="step-indicator" id="edhSteps">
+    <div class="step-dot active"></div>
+    <div class="step-dot"></div>
+    <div class="step-dot"></div>
+    <div class="step-dot"></div>
+  </div>
+  <div class="step-label" id="edhStepLabel" data-i18n="step_info">Etap 1: Enfomasyon Kliyan</div>
+
+  <!-- STEP 1: CUSTOMER INFO -->
+  <div class="flow-body">
+    <div class="flow-step active" id="edhStep1">
+      <div class="field">
+        <label data-i18n="edh_meter">Nimewo Compteur EDH</label>
+        <input type="text" id="edhMeter" placeholder="Ex: 12345678" maxlength="20">
+        <div class="field-error" data-i18n="field_required">Champ sa obligatwa</div>
+      </div>
+      <div class="field">
+        <label data-i18n="field_name">Non Kliyan</label>
+        <input type="text" id="edhName" placeholder="Non konplè ou">
+        <div class="field-error" data-i18n="field_required">Champ sa obligatwa</div>
+      </div>
+      <div class="field">
+        <label data-i18n="field_phone">Telefon</label>
+        <input type="tel" id="edhPhone" placeholder="+509 XXXX XXXX">
+        <div class="field-error" data-i18n="field_required">Champ sa obligatwa</div>
+      </div>
+      <div class="field">
+        <label data-i18n="field_email">Email <span class="optional" data-i18n="optional">(opsyonèl)</span></label>
+        <input type="email" id="edhEmail" placeholder="email@example.com">
+      </div>
+      <div class="field">
+        <label data-i18n="field_zone">Zòn / Komin</label>
+        <select id="edhZone">
+          <option value="">-- Chwazi zòn ou --</option>
+          <option>Port-au-Prince</option>
+          <option>Petion-Ville</option>
+          <option>Delmas</option>
+          <option>Carrefour</option>
+          <option>Tabarre</option>
+          <option>Croix-des-Bouquets</option>
+          <option>Cap-Haitien</option>
+          <option>Gonaives</option>
+          <option>Les Cayes</option>
+          <option>Jeremie</option>
+          <option>Jacmel</option>
+          <option>Hinche</option>
+          <option value="other">Lot (presize)</option>
+        </select>
+      </div>
+    </div>
+
+    <!-- STEP 2: AMOUNT -->
+    <div class="flow-step" id="edhStep2">
+      <div class="amount-grid">
+        <button class="amount-btn" onclick="selectAmount('edh',500,this)">500 HTG</button>
+        <button class="amount-btn" onclick="selectAmount('edh',1000,this)">1,000 HTG</button>
+        <button class="amount-btn" onclick="selectAmount('edh',2500,this)">2,500 HTG</button>
+        <button class="amount-btn" onclick="selectAmount('edh',5000,this)">5,000 HTG</button>
+      </div>
+      <div class="amount-custom">
+        <input type="number" id="edhCustomAmount" placeholder="Montant personnalize (HTG)" min="100" oninput="customAmount('edh',this)">
+      </div>
+      <div class="summary-box" id="edhSummary" style="display:none">
+        <div class="summary-row">
+          <span class="label" data-i18n="sum_meter">Compteur</span>
+          <span class="value" id="edhSumMeter">—</span>
+        </div>
+        <div class="summary-row">
+          <span class="label" data-i18n="sum_amount">Montan</span>
+          <span class="value" id="edhSumAmount">—</span>
+        </div>
+        <div class="summary-row">
+          <span class="label" data-i18n="sum_fee">Frais sèvis</span>
+          <span class="value" id="edhSumFee">—</span>
+        </div>
+        <div class="summary-row total">
+          <span class="label">Total</span>
+          <span class="value" id="edhSumTotal">—</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- STEP 3: PAYMENT METHOD -->
+    <div class="flow-step" id="edhStep3">
+      <div class="pay-methods">
+        <div class="pay-method" onclick="selectMethod('edh','moncash',this)">
+          <div class="pay-method-icon moncash">&#128241;</div>
+          <div class="pay-method-info">
+            <h4>MonCash</h4>
+            <p data-i18n="method_moncash">Peye ak MonCash ou</p>
+          </div>
+          <div class="pay-method-check"></div>
+        </div>
+        <div class="pay-method" onclick="selectMethod('edh','natcash',this)">
+          <div class="pay-method-icon natcash">&#128178;</div>
+          <div class="pay-method-info">
+            <h4>NatCash</h4>
+            <p data-i18n="method_natcash">Peye ak NatCash ou</p>
+          </div>
+          <div class="pay-method-check"></div>
+        </div>
+        <div class="pay-method" onclick="selectMethod('edh','card',this)">
+          <div class="pay-method-icon card">&#128179;</div>
+          <div class="pay-method-info">
+            <h4 data-i18n="method_card_h">Kat Kredi / Debi</h4>
+            <p data-i18n="method_card_p">Visa, Mastercard</p>
+          </div>
+          <div class="pay-method-check"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- STEP 4: CONFIRMATION -->
+    <div class="flow-step" id="edhStep4">
+      <div class="confirm-status" id="edhConfirmStatus">
+        <div class="confirm-icon pending" id="edhConfirmIcon">&#9203;</div>
+        <h3 id="edhConfirmTitle" data-i18n="confirm_pending_h">Peman an ap trete...</h3>
+        <p id="edhConfirmSub" data-i18n="confirm_pending_p">Nou ap verifye peman ou. Sa ka pran kèk minit.</p>
+      </div>
+      <div class="token-box" id="edhTokenBox" style="display:none">
+        <div class="token-label">TOKEN EDH</div>
+        <div class="token-value" id="edhTokenValue">—</div>
+        <div class="token-note" data-i18n="token_note">Antre token sa nan conteur ou pou aktive kouran.</div>
+      </div>
+      <div class="receipt-box" id="edhReceipt">
+        <div class="receipt-row">
+          <span class="rl" data-i18n="rcpt_ref">Referans</span>
+          <span class="rv" id="edhRcptRef">—</span>
+        </div>
+        <div class="receipt-row">
+          <span class="rl" data-i18n="rcpt_meter">Compteur</span>
+          <span class="rv" id="edhRcptMeter">—</span>
+        </div>
+        <div class="receipt-row">
+          <span class="rl" data-i18n="rcpt_amount">Montan</span>
+          <span class="rv" id="edhRcptAmount">—</span>
+        </div>
+        <div class="receipt-row">
+          <span class="rl" data-i18n="rcpt_fee">Frais</span>
+          <span class="rv" id="edhRcptFee">—</span>
+        </div>
+        <div class="receipt-row">
+          <span class="rl">Total</span>
+          <span class="rv" id="edhRcptTotal">—</span>
+        </div>
+        <div class="receipt-row">
+          <span class="rl" data-i18n="rcpt_method">Metod</span>
+          <span class="rv" id="edhRcptMethod">—</span>
+        </div>
+        <div class="receipt-row">
+          <span class="rl">Date</span>
+          <span class="rv" id="edhRcptDate">—</span>
+        </div>
+      </div>
+      <div class="confirm-actions" id="edhConfirmActions">
+        <button class="confirm-btn primary" onclick="copyToken('edh')" id="edhCopyTokenBtn" style="display:none">
+          &#128203; <span data-i18n="copy_token">Kopye Token</span>
+        </button>
+        <button class="confirm-btn green" onclick="sendWhatsApp('edh')">
+          &#128172; <span data-i18n="send_whatsapp">Voye sou WhatsApp</span>
+        </button>
+        <button class="confirm-btn outline" onclick="closeFlow('edh')">
+          <span data-i18n="done">Fini</span>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <div class="flow-footer" id="edhFlowFooter">
+    <button class="flow-next-btn" id="edhNextBtn" onclick="nextStep('edh')" data-i18n="btn_continue">Kontinye</button>
+    <button class="flow-back" id="edhBackBtn" onclick="prevStep('edh')" style="display:none" data-i18n="btn_back">&#8592; Retounen</button>
+  </div>
+</div>
+</div>
+
+<!-- DINEPA PAYMENT FLOW -->
+<div class="flow-overlay" id="dinepaFlow">
+<div class="flow-panel">
+  <div class="flow-header">
+    <div class="flow-header-left">
+      <div class="flow-header-icon dinepa">&#128167;</div>
+      <h3>DINEPA</h3>
+    </div>
+    <button class="flow-close" onclick="closeFlow('dinepa')">&times;</button>
+  </div>
+  <div class="step-indicator" id="dinepaSteps">
+    <div class="step-dot active"></div>
+    <div class="step-dot"></div>
+    <div class="step-dot"></div>
+    <div class="step-dot"></div>
+  </div>
+  <div class="step-label" id="dinepaStepLabel" data-i18n="step_info">Etap 1: Enfomasyon Kont</div>
+
+  <div class="flow-body">
+    <!-- STEP 1: ACCOUNT INFO -->
+    <div class="flow-step active" id="dinepaStep1">
+      <div class="field">
+        <label data-i18n="dinepa_account">Nimewo Kont DINEPA</label>
+        <input type="text" id="dinepaAccount" placeholder="Ex: DIN-123456" maxlength="20">
+        <div class="field-error" data-i18n="field_required">Champ sa obligatwa</div>
+      </div>
+      <div class="field">
+        <label data-i18n="field_name">Non Kliyan</label>
+        <input type="text" id="dinepaName" placeholder="Non konple ou">
+        <div class="field-error" data-i18n="field_required">Champ sa obligatwa</div>
+      </div>
+      <div class="field">
+        <label data-i18n="field_phone">Telefon</label>
+        <input type="tel" id="dinepaPhone" placeholder="+509 XXXX XXXX">
+        <div class="field-error" data-i18n="field_required">Champ sa obligatwa</div>
+      </div>
+      <div class="field">
+        <label data-i18n="field_email">Email <span class="optional" data-i18n="optional">(opsyonel)</span></label>
+        <input type="email" id="dinepaEmail" placeholder="email@example.com">
+      </div>
+      <div class="field">
+        <label data-i18n="field_zone">Zon / Komin</label>
+        <select id="dinepaZone">
+          <option value="">-- Chwazi zon ou --</option>
+          <option>Port-au-Prince</option>
+          <option>Petion-Ville</option>
+          <option>Delmas</option>
+          <option>Carrefour</option>
+          <option>Tabarre</option>
+          <option>Croix-des-Bouquets</option>
+          <option>Cap-Haitien</option>
+          <option>Gonaives</option>
+          <option>Les Cayes</option>
+          <option>Jeremie</option>
+          <option>Jacmel</option>
+          <option>Hinche</option>
+          <option value="other">Lot (presize)</option>
+        </select>
+      </div>
+    </div>
+
+    <!-- STEP 2: AMOUNT -->
+    <div class="flow-step" id="dinepaStep2">
+      <div class="amount-grid">
+        <button class="amount-btn" onclick="selectAmount('dinepa',500,this)">500 HTG</button>
+        <button class="amount-btn" onclick="selectAmount('dinepa',1000,this)">1,000 HTG</button>
+        <button class="amount-btn" onclick="selectAmount('dinepa',2500,this)">2,500 HTG</button>
+        <button class="amount-btn" onclick="selectAmount('dinepa',5000,this)">5,000 HTG</button>
+      </div>
+      <div class="amount-custom">
+        <input type="number" id="dinepaCustomAmount" placeholder="Montant personnalize (HTG)" min="100" oninput="customAmount('dinepa',this)">
+      </div>
+      <div class="summary-box" id="dinepaSummary" style="display:none">
+        <div class="summary-row">
+          <span class="label" data-i18n="sum_account">Kont DINEPA</span>
+          <span class="value" id="dinepaSumAccount">—</span>
+        </div>
+        <div class="summary-row">
+          <span class="label" data-i18n="sum_amount">Montan</span>
+          <span class="value" id="dinepaSumAmount">—</span>
+        </div>
+        <div class="summary-row">
+          <span class="label" data-i18n="sum_fee">Frais sevis</span>
+          <span class="value" id="dinepaSumFee">—</span>
+        </div>
+        <div class="summary-row total">
+          <span class="label">Total</span>
+          <span class="value" id="dinepaSumTotal">—</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- STEP 3: PAYMENT METHOD -->
+    <div class="flow-step" id="dinepaStep3">
+      <div class="pay-methods">
+        <div class="pay-method" onclick="selectMethod('dinepa','moncash',this)">
+          <div class="pay-method-icon moncash">&#128241;</div>
+          <div class="pay-method-info">
+            <h4>MonCash</h4>
+            <p data-i18n="method_moncash">Peye ak MonCash ou</p>
+          </div>
+          <div class="pay-method-check"></div>
+        </div>
+        <div class="pay-method" onclick="selectMethod('dinepa','natcash',this)">
+          <div class="pay-method-icon natcash">&#128178;</div>
+          <div class="pay-method-info">
+            <h4>NatCash</h4>
+            <p data-i18n="method_natcash">Peye ak NatCash ou</p>
+          </div>
+          <div class="pay-method-check"></div>
+        </div>
+        <div class="pay-method" onclick="selectMethod('dinepa','card',this)">
+          <div class="pay-method-icon card">&#128179;</div>
+          <div class="pay-method-info">
+            <h4 data-i18n="method_card_h">Kat Kredi / Debi</h4>
+            <p data-i18n="method_card_p">Visa, Mastercard</p>
+          </div>
+          <div class="pay-method-check"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- STEP 4: CONFIRMATION -->
+    <div class="flow-step" id="dinepaStep4">
+      <div class="confirm-status" id="dinepaConfirmStatus">
+        <div class="confirm-icon pending" id="dinepaConfirmIcon">&#9203;</div>
+        <h3 id="dinepaConfirmTitle" data-i18n="confirm_pending_h">Peman an ap trete...</h3>
+        <p id="dinepaConfirmSub" data-i18n="confirm_pending_p">Nou ap verifye peman ou. Sa ka pran kek minit.</p>
+      </div>
+      <div class="receipt-box" id="dinepaReceipt">
+        <div class="receipt-row">
+          <span class="rl" data-i18n="rcpt_ref">Referans</span>
+          <span class="rv" id="dinepaRcptRef">—</span>
+        </div>
+        <div class="receipt-row">
+          <span class="rl" data-i18n="rcpt_account">Kont DINEPA</span>
+          <span class="rv" id="dinepaRcptAccount">—</span>
+        </div>
+        <div class="receipt-row">
+          <span class="rl" data-i18n="rcpt_amount">Montan</span>
+          <span class="rv" id="dinepaRcptAmount">—</span>
+        </div>
+        <div class="receipt-row">
+          <span class="rl" data-i18n="rcpt_fee">Frais</span>
+          <span class="rv" id="dinepaRcptFee">—</span>
+        </div>
+        <div class="receipt-row">
+          <span class="rl">Total</span>
+          <span class="rv" id="dinepaRcptTotal">—</span>
+        </div>
+        <div class="receipt-row">
+          <span class="rl" data-i18n="rcpt_method">Metod</span>
+          <span class="rv" id="dinepaRcptMethod">—</span>
+        </div>
+        <div class="receipt-row">
+          <span class="rl">Date</span>
+          <span class="rv" id="dinepaRcptDate">—</span>
+        </div>
+      </div>
+      <div class="confirm-actions" id="dinepaConfirmActions">
+        <button class="confirm-btn green" onclick="sendWhatsApp('dinepa')">
+          &#128172; <span data-i18n="send_whatsapp">Voye sou WhatsApp</span>
+        </button>
+        <button class="confirm-btn outline" onclick="closeFlow('dinepa')">
+          <span data-i18n="done">Fini</span>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <div class="flow-footer" id="dinepaFlowFooter">
+    <button class="flow-next-btn" id="dinepaNextBtn" onclick="nextStep('dinepa')" data-i18n="btn_continue">Kontinye</button>
+    <button class="flow-back" id="dinepaBackBtn" onclick="prevStep('dinepa')" style="display:none" data-i18n="btn_back">&#8592; Retounen</button>
+  </div>
+</div>
+</div>
+
+<!-- TOAST -->
+<div class="toast" id="toast"></div>
+
+<script>
+var API_BASE = 'https://myplopplop.com/api';
+var SERVICE_FEE_RATE = 0.05;
+var currentLang = 'ht';
+
+var flowState = {
+  edh: { step: 1, amount: 0, method: '', ref: '' },
+  dinepa: { step: 1, amount: 0, method: '', ref: '' }
+};
+
+var stepLabels = {
+  ht: ['Etap 1: Enfomasyon Kliyan','Etap 2: Montan','Etap 3: Metod Peman','Etap 4: Konfimasyon'],
+  en: ['Step 1: Customer Info','Step 2: Amount','Step 3: Payment Method','Step 4: Confirmation'],
+  fr: ['Etape 1: Info Client','Etape 2: Montant','Etape 3: Mode de Paiement','Etape 4: Confirmation'],
+  es: ['Paso 1: Info del Cliente','Paso 2: Monto','Paso 3: Metodo de Pago','Paso 4: Confirmacion']
+};
+var stepLabelsDinepa = {
+  ht: ['Etap 1: Enfomasyon Kont','Etap 2: Montan','Etap 3: Metod Peman','Etap 4: Konfimasyon'],
+  en: ['Step 1: Account Info','Step 2: Amount','Step 3: Payment Method','Step 4: Confirmation'],
+  fr: ['Etape 1: Info Compte','Etape 2: Montant','Etape 3: Mode de Paiement','Etape 4: Confirmation'],
+  es: ['Paso 1: Info de Cuenta','Paso 2: Monto','Paso 3: Metodo de Pago','Paso 4: Confirmacion']
+};
+
+function openFlow(type) {
+  var overlay = document.getElementById(type + 'Flow');
+  overlay.classList.add('open');
+  document.body.style.overflow = 'hidden';
+  flowState[type].step = 1;
+  updateStepUI(type);
+}
+
+function closeFlow(type) {
+  var overlay = document.getElementById(type + 'Flow');
+  overlay.classList.remove('open');
+  document.body.style.overflow = '';
+  resetFlow(type);
+}
+
+function resetFlow(type) {
+  flowState[type] = { step: 1, amount: 0, method: '', ref: '' };
+  for (var i = 1; i <= 4; i++) {
+    var el = document.getElementById(type + 'Step' + i);
+    el.classList.remove('active');
+    if (i === 1) el.classList.add('active');
+  }
+  var inputs = document.querySelectorAll('#' + type + 'Flow input, #' + type + 'Flow select');
+  for (var j = 0; j < inputs.length; j++) {
+    inputs[j].value = '';
+    inputs[j].classList.remove('error');
+  }
+  var amtBtns = document.querySelectorAll('#' + type + 'Step2 .amount-btn');
+  for (var k = 0; k < amtBtns.length; k++) amtBtns[k].classList.remove('selected');
+  var payMethods = document.querySelectorAll('#' + type + 'Step3 .pay-method');
+  for (var m = 0; m < payMethods.length; m++) payMethods[m].classList.remove('selected');
+  var summaryBox = document.getElementById(type + 'Summary');
+  if (summaryBox) summaryBox.style.display = 'none';
+  updateStepUI(type);
+}
+
+function updateStepUI(type) {
+  var step = flowState[type].step;
+  var dots = document.querySelectorAll('#' + type + 'Steps .step-dot');
+  for (var i = 0; i < dots.length; i++) {
+    dots[i].classList.remove('active', 'done');
+    if (i < step - 1) dots[i].classList.add('done');
+    if (i === step - 1) dots[i].classList.add('active');
+  }
+  for (var j = 1; j <= 4; j++) {
+    var el = document.getElementById(type + 'Step' + j);
+    el.classList.toggle('active', j === step);
+  }
+  var labels = type === 'dinepa' ? stepLabelsDinepa : stepLabels;
+  document.getElementById(type + 'StepLabel').textContent = (labels[currentLang] || labels['ht'])[step - 1];
+
+  var footer = document.getElementById(type + 'FlowFooter');
+  var backBtn = document.getElementById(type + 'BackBtn');
+  var nextBtn = document.getElementById(type + 'NextBtn');
+  if (step === 4) {
+    footer.style.display = 'none';
+  } else {
+    footer.style.display = '';
+    backBtn.style.display = step > 1 ? '' : 'none';
+    if (step === 3) {
+      nextBtn.textContent = translations[currentLang] && translations[currentLang]['btn_pay'] ? translations[currentLang]['btn_pay'] : 'Konfime Peman';
+    } else {
+      nextBtn.textContent = translations[currentLang] && translations[currentLang]['btn_continue'] ? translations[currentLang]['btn_continue'] : 'Kontinye';
+    }
+  }
+}
+
+function selectAmount(type, amount, btn) {
+  flowState[type].amount = amount;
+  var btns = document.querySelectorAll('#' + type + 'Step2 .amount-btn');
+  for (var i = 0; i < btns.length; i++) btns[i].classList.remove('selected');
+  btn.classList.add('selected');
+  document.getElementById(type + 'CustomAmount').value = '';
+  updateSummary(type);
+}
+
+function customAmount(type, input) {
+  var val = parseInt(input.value) || 0;
+  flowState[type].amount = val;
+  var btns = document.querySelectorAll('#' + type + 'Step2 .amount-btn');
+  for (var i = 0; i < btns.length; i++) btns[i].classList.remove('selected');
+  updateSummary(type);
+}
+
+function updateSummary(type) {
+  var amount = flowState[type].amount;
+  if (amount < 100) {
+    document.getElementById(type + 'Summary').style.display = 'none';
+    return;
+  }
+  var fee = Math.round(amount * SERVICE_FEE_RATE);
+  var total = amount + fee;
+  document.getElementById(type + 'Summary').style.display = '';
+
+  if (type === 'edh') {
+    document.getElementById('edhSumMeter').textContent = document.getElementById('edhMeter').value || '—';
+    document.getElementById('edhSumAmount').textContent = formatHTG(amount);
+    document.getElementById('edhSumFee').textContent = formatHTG(fee);
+    document.getElementById('edhSumTotal').textContent = formatHTG(total);
+  } else {
+    document.getElementById('dinepaSumAccount').textContent = document.getElementById('dinepaAccount').value || '—';
+    document.getElementById('dinepaSumAmount').textContent = formatHTG(amount);
+    document.getElementById('dinepaSumFee').textContent = formatHTG(fee);
+    document.getElementById('dinepaSumTotal').textContent = formatHTG(total);
+  }
+}
+
+function selectMethod(type, method, el) {
+  flowState[type].method = method;
+  var all = document.querySelectorAll('#' + type + 'Step3 .pay-method');
+  for (var i = 0; i < all.length; i++) all[i].classList.remove('selected');
+  el.classList.add('selected');
+}
+
+function formatHTG(n) {
+  return n.toLocaleString('fr-HT') + ' HTG';
+}
+
+function nextStep(type) {
+  var step = flowState[type].step;
+  if (step === 1 && !validateStep1(type)) return;
+  if (step === 2 && !validateStep2(type)) return;
+  if (step === 3 && !validateStep3(type)) return;
+
+  if (step === 3) {
+    submitPayment(type);
+    return;
+  }
+
+  flowState[type].step++;
+  updateStepUI(type);
+}
+
+function prevStep(type) {
+  if (flowState[type].step > 1) {
+    flowState[type].step--;
+    updateStepUI(type);
+  }
+}
+
+function validateStep1(type) {
+  var valid = true;
+  if (type === 'edh') {
+    if (!val('edhMeter')) valid = false;
+    if (!val('edhName')) valid = false;
+    if (!val('edhPhone')) valid = false;
+  } else {
+    if (!val('dinepaAccount')) valid = false;
+    if (!val('dinepaName')) valid = false;
+    if (!val('dinepaPhone')) valid = false;
+  }
+  return valid;
+}
+
+function val(id) {
+  var el = document.getElementById(id);
+  if (!el.value.trim()) { el.classList.add('error'); return false; }
+  el.classList.remove('error');
+  return true;
+}
+
+function validateStep2(type) {
+  if (flowState[type].amount < 100) {
+    showToast(translations[currentLang] && translations[currentLang]['min_amount'] ? translations[currentLang]['min_amount'] : 'Minimum 100 HTG');
+    return false;
+  }
+  return true;
+}
+
+function validateStep3(type) {
+  if (!flowState[type].method) {
+    showToast(translations[currentLang] && translations[currentLang]['choose_method'] ? translations[currentLang]['choose_method'] : 'Chwazi yon metod peman');
+    return false;
+  }
+  return true;
+}
+
+function submitPayment(type) {
+  var btn = document.getElementById(type + 'NextBtn');
+  btn.disabled = true;
+  btn.innerHTML = '<span class="spinner"></span>';
+
+  var amount = flowState[type].amount;
+  var fee = Math.round(amount * SERVICE_FEE_RATE);
+  var total = amount + fee;
+  var method = flowState[type].method;
+
+  var body = {
+    utility_type: type,
+    amount: amount,
+    service_fee: fee,
+    total_amount: total,
+    payment_method: method
+  };
+
+  if (type === 'edh') {
+    body.meter_number = document.getElementById('edhMeter').value.trim();
+    body.customer_name = document.getElementById('edhName').value.trim();
+    body.phone = document.getElementById('edhPhone').value.trim();
+    body.email = document.getElementById('edhEmail').value.trim();
+    body.zone = document.getElementById('edhZone').value;
+  } else {
+    body.account_number = document.getElementById('dinepaAccount').value.trim();
+    body.customer_name = document.getElementById('dinepaName').value.trim();
+    body.phone = document.getElementById('dinepaPhone').value.trim();
+    body.email = document.getElementById('dinepaEmail').value.trim();
+    body.zone = document.getElementById('dinepaZone').value;
+  }
+
+  var koutyeCode = localStorage.getItem('kb_code');
+  if (koutyeCode) body.koutye_code = koutyeCode;
+
+  fetch(API_BASE + '/utility/create-transaction', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(body)
+  })
+  .then(function(r) { return r.json(); })
+  .then(function(data) {
+    if (data.success && data.payment_url) {
+      flowState[type].ref = data.reference_id;
+      window.open(data.payment_url, '_blank');
+      flowState[type].step = 4;
+      updateStepUI(type);
+      populateConfirmation(type, data);
+      pollStatus(type, data.reference_id);
+    } else if (data.success) {
+      flowState[type].ref = data.reference_id;
+      flowState[type].step = 4;
+      updateStepUI(type);
+      populateConfirmation(type, data);
+      pollStatus(type, data.reference_id);
+    } else {
+      showToast(data.message || 'Erè. Eseye ankò.');
+      btn.disabled = false;
+      btn.textContent = translations[currentLang] && translations[currentLang]['btn_pay'] ? translations[currentLang]['btn_pay'] : 'Konfime Peman';
+    }
+  })
+  .catch(function(err) {
+    console.error(err);
+    flowState[type].ref = 'UTL-' + Date.now().toString(36).toUpperCase();
+    flowState[type].step = 4;
+    updateStepUI(type);
+    populateConfirmationOffline(type);
+  });
+}
+
+function populateConfirmation(type, data) {
+  var amount = flowState[type].amount;
+  var fee = Math.round(amount * SERVICE_FEE_RATE);
+  var total = amount + fee;
+  var ref = data.reference_id || flowState[type].ref;
+  var method = flowState[type].method;
+  var now = new Date().toLocaleDateString('fr-HT', { day:'2-digit', month:'2-digit', year:'numeric', hour:'2-digit', minute:'2-digit' });
+
+  if (type === 'edh') {
+    document.getElementById('edhRcptRef').textContent = ref;
+    document.getElementById('edhRcptMeter').textContent = document.getElementById('edhMeter').value;
+    document.getElementById('edhRcptAmount').textContent = formatHTG(amount);
+    document.getElementById('edhRcptFee').textContent = formatHTG(fee);
+    document.getElementById('edhRcptTotal').textContent = formatHTG(total);
+    document.getElementById('edhRcptMethod').textContent = methodLabel(method);
+    document.getElementById('edhRcptDate').textContent = now;
+  } else {
+    document.getElementById('dinepaRcptRef').textContent = ref;
+    document.getElementById('dinepaRcptAccount').textContent = document.getElementById('dinepaAccount').value;
+    document.getElementById('dinepaRcptAmount').textContent = formatHTG(amount);
+    document.getElementById('dinepaRcptFee').textContent = formatHTG(fee);
+    document.getElementById('dinepaRcptTotal').textContent = formatHTG(total);
+    document.getElementById('dinepaRcptMethod').textContent = methodLabel(method);
+    document.getElementById('dinepaRcptDate').textContent = now;
+  }
+}
+
+function populateConfirmationOffline(type) {
+  var amount = flowState[type].amount;
+  var fee = Math.round(amount * SERVICE_FEE_RATE);
+  var total = amount + fee;
+  var ref = flowState[type].ref;
+  var method = flowState[type].method;
+  var now = new Date().toLocaleDateString('fr-HT', { day:'2-digit', month:'2-digit', year:'numeric', hour:'2-digit', minute:'2-digit' });
+
+  if (type === 'edh') {
+    document.getElementById('edhRcptRef').textContent = ref;
+    document.getElementById('edhRcptMeter').textContent = document.getElementById('edhMeter').value;
+    document.getElementById('edhRcptAmount').textContent = formatHTG(amount);
+    document.getElementById('edhRcptFee').textContent = formatHTG(fee);
+    document.getElementById('edhRcptTotal').textContent = formatHTG(total);
+    document.getElementById('edhRcptMethod').textContent = methodLabel(method);
+    document.getElementById('edhRcptDate').textContent = now;
+  } else {
+    document.getElementById('dinepaRcptRef').textContent = ref;
+    document.getElementById('dinepaRcptAccount').textContent = document.getElementById('dinepaAccount').value;
+    document.getElementById('dinepaRcptAmount').textContent = formatHTG(amount);
+    document.getElementById('dinepaRcptFee').textContent = formatHTG(fee);
+    document.getElementById('dinepaRcptTotal').textContent = formatHTG(total);
+    document.getElementById('dinepaRcptMethod').textContent = methodLabel(method);
+    document.getElementById('dinepaRcptDate').textContent = now;
+  }
+}
+
+function pollStatus(type, refId) {
+  var attempts = 0;
+  var maxAttempts = 30;
+  var interval = setInterval(function() {
+    attempts++;
+    if (attempts >= maxAttempts) { clearInterval(interval); return; }
+    fetch(API_BASE + '/utility/transaction/' + refId)
+      .then(function(r) { return r.json(); })
+      .then(function(data) {
+        if (data.success && data.transaction) {
+          var tx = data.transaction;
+          if (tx.payment_status === 'completed') {
+            clearInterval(interval);
+            showCompleted(type, tx);
+          } else if (tx.payment_status === 'failed') {
+            clearInterval(interval);
+            showFailed(type);
+          }
+        }
+      })
+      .catch(function() {});
+  }, 5000);
+}
+
+function showCompleted(type, tx) {
+  var icon = document.getElementById(type + 'ConfirmIcon');
+  var title = document.getElementById(type + 'ConfirmTitle');
+  var sub = document.getElementById(type + 'ConfirmSub');
+  icon.className = 'confirm-icon success';
+  icon.innerHTML = '&#10003;';
+  title.textContent = translations[currentLang] && translations[currentLang]['confirm_success_h'] ? translations[currentLang]['confirm_success_h'] : 'Peman Reyisi!';
+  sub.textContent = translations[currentLang] && translations[currentLang]['confirm_success_p'] ? translations[currentLang]['confirm_success_p'] : 'Tranzaksyon ou konplete.';
+
+  if (type === 'edh' && tx.token) {
+    document.getElementById('edhTokenBox').style.display = '';
+    document.getElementById('edhTokenValue').textContent = tx.token;
+    document.getElementById('edhCopyTokenBtn').style.display = '';
+  }
+}
+
+function showFailed(type) {
+  var icon = document.getElementById(type + 'ConfirmIcon');
+  var title = document.getElementById(type + 'ConfirmTitle');
+  var sub = document.getElementById(type + 'ConfirmSub');
+  icon.className = 'confirm-icon pending';
+  icon.innerHTML = '&#10007;';
+  icon.style.borderColor = 'rgba(210,16,52,.3)';
+  icon.style.color = 'var(--red)';
+  icon.style.background = 'rgba(210,16,52,.1)';
+  title.textContent = 'Peman Echwe';
+  sub.textContent = 'Peman an pa t reyisi. Eseye anko oswa kontakte sipò.';
+}
+
+function methodLabel(m) {
+  if (m === 'moncash') return 'MonCash';
+  if (m === 'natcash') return 'NatCash';
+  if (m === 'card') return 'Kat Kredi/Debi';
+  return m;
+}
+
+function copyToken(type) {
+  var tokenVal = document.getElementById(type + 'TokenValue').textContent;
+  if (navigator.clipboard) {
+    navigator.clipboard.writeText(tokenVal).then(function() {
+      showToast('Token kopye!');
+    });
+  } else {
+    var ta = document.createElement('textarea');
+    ta.value = tokenVal;
+    document.body.appendChild(ta);
+    ta.select();
+    document.execCommand('copy');
+    document.body.removeChild(ta);
+    showToast('Token kopye!');
+  }
+}
+
+function sendWhatsApp(type) {
+  var ref = flowState[type].ref || '—';
+  var amount = flowState[type].amount;
+  var fee = Math.round(amount * SERVICE_FEE_RATE);
+  var total = amount + fee;
+  var method = methodLabel(flowState[type].method);
+
+  var text = '';
+  if (type === 'edh') {
+    var meter = document.getElementById('edhMeter').value;
+    var name = document.getElementById('edhName').value;
+    text = 'EDH Prepaye - HaitiBiznis\n';
+    text += 'Ref: ' + ref + '\n';
+    text += 'Non: ' + name + '\n';
+    text += 'Compteur: ' + meter + '\n';
+    text += 'Montan: ' + formatHTG(amount) + '\n';
+    text += 'Frais: ' + formatHTG(fee) + '\n';
+    text += 'Total: ' + formatHTG(total) + '\n';
+    text += 'Metod: ' + method + '\n';
+    var token = document.getElementById('edhTokenValue').textContent;
+    if (token && token !== '—') text += 'TOKEN: ' + token + '\n';
+  } else {
+    var account = document.getElementById('dinepaAccount').value;
+    var dName = document.getElementById('dinepaName').value;
+    text = 'DINEPA Peman - HaitiBiznis\n';
+    text += 'Ref: ' + ref + '\n';
+    text += 'Non: ' + dName + '\n';
+    text += 'Kont: ' + account + '\n';
+    text += 'Montan: ' + formatHTG(amount) + '\n';
+    text += 'Frais: ' + formatHTG(fee) + '\n';
+    text += 'Total: ' + formatHTG(total) + '\n';
+    text += 'Metod: ' + method;
+  }
+  window.open('https://wa.me/?text=' + encodeURIComponent(text), '_blank');
+}
+
+function showToast(msg) {
+  var t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  setTimeout(function() { t.classList.remove('show'); }, 2500);
+}
+
+// i18n
+var translations = {
+  ht: {},
+  en: {
+    hero_badge: 'HaitiBiznis Utility Hub',
+    hero_title: 'Pay Your Bills <em>Easily</em>',
+    hero_sub: 'Pay EDH and DINEPA on HaitiBiznis with MonCash, NatCash or credit card. Fast, simple, secure.',
+    hero_card: 'Credit Card',
+    hub_title: 'Choose Your Service',
+    hub_sub: 'Select the service you want to pay and follow the steps.',
+    edh_desc: 'Pay electricity, receive token or receipt. Fast and secure.',
+    dinepa_desc: 'Pay water, receive confirmation. No need to wait in line.',
+    pay_now: 'Pay Now &#8594;',
+    status_active: 'Active',
+    how_title: 'How Does It Work?',
+    how_s1: 'Choose service (EDH / DINEPA)',
+    how_s2: 'Enter your account info',
+    how_s3: 'Choose amount and payment method',
+    how_s4: 'Pay and receive confirmation',
+    trust_title: 'Why Pay on HaitiBiznis?',
+    trust_1_h: '100% Secure',
+    trust_1_p: 'All transactions protected by SolutionIP system.',
+    trust_2_h: 'Fast',
+    trust_2_p: 'Receive token or confirmation in minutes.',
+    trust_3_h: 'On Your Phone',
+    trust_3_p: 'No need to travel. Pay anywhere, anytime.',
+    nav_home: 'Home',
+    nav_koutye: 'Koutye',
+    nav_services: 'Services',
+    nav_pay: 'Pay Now',
+    step_info: 'Step 1: Customer Info',
+    edh_meter: 'EDH Meter Number',
+    field_name: 'Customer Name',
+    field_phone: 'Phone',
+    field_email: 'Email',
+    optional: '(optional)',
+    field_zone: 'Zone / Municipality',
+    field_required: 'This field is required',
+    dinepa_account: 'DINEPA Account Number',
+    sum_meter: 'Meter',
+    sum_account: 'DINEPA Account',
+    sum_amount: 'Amount',
+    sum_fee: 'Service fee',
+    method_moncash: 'Pay with your MonCash',
+    method_natcash: 'Pay with your NatCash',
+    method_card_h: 'Credit / Debit Card',
+    method_card_p: 'Visa, Mastercard',
+    confirm_pending_h: 'Payment processing...',
+    confirm_pending_p: 'We are verifying your payment. This may take a few minutes.',
+    confirm_success_h: 'Payment Successful!',
+    confirm_success_p: 'Your transaction is complete.',
+    token_note: 'Enter this token in your meter to activate electricity.',
+    rcpt_ref: 'Reference',
+    rcpt_meter: 'Meter',
+    rcpt_account: 'DINEPA Account',
+    rcpt_amount: 'Amount',
+    rcpt_fee: 'Fee',
+    rcpt_method: 'Method',
+    copy_token: 'Copy Token',
+    send_whatsapp: 'Send via WhatsApp',
+    done: 'Done',
+    btn_continue: 'Continue',
+    btn_back: '&#8592; Go Back',
+    btn_pay: 'Confirm Payment',
+    min_amount: 'Minimum 100 HTG',
+    choose_method: 'Choose a payment method'
+  },
+  fr: {
+    hero_badge: 'HaitiBiznis Utility Hub',
+    hero_title: 'Payez Vos Factures <em>Facilement</em>',
+    hero_sub: 'Payez EDH et DINEPA sur HaitiBiznis avec MonCash, NatCash ou carte de credit. Rapide, simple, securise.',
+    hero_card: 'Carte de Credit',
+    hub_title: 'Choisissez Votre Service',
+    hub_sub: 'Selectionnez le service que vous souhaitez payer et suivez les etapes.',
+    edh_desc: 'Payez l\'electricite, recevez un token ou un recu. Rapide et securise.',
+    dinepa_desc: 'Payez l\'eau, recevez une confirmation. Pas besoin de faire la queue.',
+    pay_now: 'Payer Maintenant &#8594;',
+    status_active: 'Actif',
+    how_title: 'Comment Ca Marche?',
+    how_s1: 'Choisir le service (EDH / DINEPA)',
+    how_s2: 'Entrer vos informations de compte',
+    how_s3: 'Choisir le montant et le mode de paiement',
+    how_s4: 'Payer et recevoir la confirmation',
+    trust_title: 'Pourquoi Payer sur HaitiBiznis?',
+    trust_1_h: 'Securise a 100%',
+    trust_1_p: 'Toutes les transactions protegees par SolutionIP.',
+    trust_2_h: 'Rapide',
+    trust_2_p: 'Recevez token ou confirmation en quelques minutes.',
+    trust_3_h: 'Sur Votre Telephone',
+    trust_3_p: 'Pas besoin de vous deplacer. Payez de partout, a tout moment.',
+    nav_home: 'Accueil',
+    nav_koutye: 'Koutye',
+    nav_services: 'Services',
+    nav_pay: 'Payer Maintenant',
+    step_info: 'Etape 1: Info Client',
+    edh_meter: 'Numero Compteur EDH',
+    field_name: 'Nom du Client',
+    field_phone: 'Telephone',
+    field_email: 'Email',
+    optional: '(optionnel)',
+    field_zone: 'Zone / Commune',
+    field_required: 'Ce champ est obligatoire',
+    dinepa_account: 'Numero de Compte DINEPA',
+    sum_meter: 'Compteur',
+    sum_account: 'Compte DINEPA',
+    sum_amount: 'Montant',
+    sum_fee: 'Frais de service',
+    method_moncash: 'Payer avec MonCash',
+    method_natcash: 'Payer avec NatCash',
+    method_card_h: 'Carte de Credit / Debit',
+    method_card_p: 'Visa, Mastercard',
+    confirm_pending_h: 'Paiement en cours...',
+    confirm_pending_p: 'Nous verifions votre paiement. Cela peut prendre quelques minutes.',
+    confirm_success_h: 'Paiement Reussi!',
+    confirm_success_p: 'Votre transaction est complete.',
+    token_note: 'Entrez ce token dans votre compteur pour activer l\'electricite.',
+    rcpt_ref: 'Reference',
+    rcpt_meter: 'Compteur',
+    rcpt_account: 'Compte DINEPA',
+    rcpt_amount: 'Montant',
+    rcpt_fee: 'Frais',
+    rcpt_method: 'Methode',
+    copy_token: 'Copier le Token',
+    send_whatsapp: 'Envoyer par WhatsApp',
+    done: 'Termine',
+    btn_continue: 'Continuer',
+    btn_back: '&#8592; Retour',
+    btn_pay: 'Confirmer le Paiement',
+    min_amount: 'Minimum 100 HTG',
+    choose_method: 'Choisissez un mode de paiement'
+  },
+  es: {
+    hero_badge: 'HaitiBiznis Utility Hub',
+    hero_title: 'Paga Tus Servicios <em>Facilmente</em>',
+    hero_sub: 'Paga EDH y DINEPA en HaitiBiznis con MonCash, NatCash o tarjeta de credito. Rapido, simple, seguro.',
+    hero_card: 'Tarjeta de Credito',
+    hub_title: 'Elige Tu Servicio',
+    hub_sub: 'Selecciona el servicio que deseas pagar y sigue los pasos.',
+    edh_desc: 'Paga electricidad, recibe token o recibo. Rapido y seguro.',
+    dinepa_desc: 'Paga agua, recibe confirmacion. Sin hacer cola.',
+    pay_now: 'Pagar Ahora &#8594;',
+    status_active: 'Activo',
+    how_title: 'Como Funciona?',
+    how_s1: 'Elige servicio (EDH / DINEPA)',
+    how_s2: 'Ingresa info de tu cuenta',
+    how_s3: 'Elige monto y metodo de pago',
+    how_s4: 'Paga y recibe confirmacion',
+    trust_title: 'Por que Pagar en HaitiBiznis?',
+    trust_1_h: '100% Seguro',
+    trust_1_p: 'Todas las transacciones protegidas por SolutionIP.',
+    trust_2_h: 'Rapido',
+    trust_2_p: 'Recibe token o confirmacion en minutos.',
+    trust_3_h: 'En Tu Telefono',
+    trust_3_p: 'Sin necesidad de desplazarte. Paga desde cualquier lugar.',
+    nav_home: 'Inicio',
+    nav_koutye: 'Koutye',
+    nav_services: 'Servicios',
+    nav_pay: 'Pagar Ahora',
+    step_info: 'Paso 1: Info del Cliente',
+    edh_meter: 'Numero de Medidor EDH',
+    field_name: 'Nombre del Cliente',
+    field_phone: 'Telefono',
+    field_email: 'Email',
+    optional: '(opcional)',
+    field_zone: 'Zona / Municipio',
+    field_required: 'Este campo es obligatorio',
+    dinepa_account: 'Numero de Cuenta DINEPA',
+    sum_meter: 'Medidor',
+    sum_account: 'Cuenta DINEPA',
+    sum_amount: 'Monto',
+    sum_fee: 'Tarifa de servicio',
+    method_moncash: 'Pagar con MonCash',
+    method_natcash: 'Pagar con NatCash',
+    method_card_h: 'Tarjeta de Credito / Debito',
+    method_card_p: 'Visa, Mastercard',
+    confirm_pending_h: 'Procesando pago...',
+    confirm_pending_p: 'Estamos verificando tu pago. Puede tardar unos minutos.',
+    confirm_success_h: 'Pago Exitoso!',
+    confirm_success_p: 'Tu transaccion esta completa.',
+    token_note: 'Ingresa este token en tu medidor para activar la electricidad.',
+    rcpt_ref: 'Referencia',
+    rcpt_meter: 'Medidor',
+    rcpt_account: 'Cuenta DINEPA',
+    rcpt_amount: 'Monto',
+    rcpt_fee: 'Cargo',
+    rcpt_method: 'Metodo',
+    copy_token: 'Copiar Token',
+    send_whatsapp: 'Enviar por WhatsApp',
+    done: 'Listo',
+    btn_continue: 'Continuar',
+    btn_back: '&#8592; Volver',
+    btn_pay: 'Confirmar Pago',
+    min_amount: 'Minimo 100 HTG',
+    choose_method: 'Elige un metodo de pago'
+  }
+};
+
+function setLang(lang) {
+  currentLang = lang;
+  var links = document.querySelectorAll('.top-lang-bar a');
+  for (var i = 0; i < links.length; i++) links[i].classList.remove('active');
+  links[['ht','fr','en','es'].indexOf(lang)].classList.add('active');
+  var t = translations[lang] || {};
+  var els = document.querySelectorAll('[data-i18n]');
+  for (var j = 0; j < els.length; j++) {
+    var key = els[j].getAttribute('data-i18n');
+    if (t[key]) els[j].innerHTML = t[key];
+  }
+}
+</script>
+</body>
+</html>

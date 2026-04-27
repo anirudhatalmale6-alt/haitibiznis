@@ -1,0 +1,655 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Utility Admin - HaitiBiznis</title>
+<link rel="icon" type="image/png" sizes="32x32" href="assets/favicon-32.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --blue:#00209F;--blue-light:#0033CC;--blue-dark:#001566;
+  --red:#D21034;--red-light:#E8274A;
+  --white:#FFFFFF;--off-white:#F5F7FA;--light-gray:#E8ECF2;
+  --dark:#0C1B3A;--text:#1A2A4A;--text-light:#5A6B8A;
+  --gold:#D4A017;--green:#1B8C3D;--orange:#E67E22;
+  --body:'Plus Jakarta Sans',system-ui,sans-serif;
+  --display:'DM Serif Display',Georgia,serif;
+}
+body{font-family:var(--body);background:var(--off-white);color:var(--text);-webkit-font-smoothing:antialiased;min-height:100vh}
+
+.top-bar{
+  background:var(--dark);padding:12px 20px;display:flex;align-items:center;justify-content:space-between;
+  position:sticky;top:0;z-index:100;
+}
+.top-bar-left{display:flex;align-items:center;gap:10px}
+.top-bar-left img{height:28px;border-radius:6px}
+.top-bar-left span{color:#fff;font-family:var(--display);font-size:1rem}
+.top-bar-left span em{color:var(--red);font-style:italic}
+.top-bar-tag{color:rgba(255,255,255,.4);font-size:.68rem;font-weight:700;background:rgba(255,255,255,.08);padding:3px 10px;border-radius:100px;margin-left:8px}
+.top-bar-right{display:flex;gap:8px}
+.top-bar-right a{color:rgba(255,255,255,.6);font-size:.75rem;font-weight:600;padding:5px 12px;border-radius:100px;border:1px solid rgba(255,255,255,.15);transition:all .2s;text-decoration:none}
+.top-bar-right a:hover{color:#fff;border-color:rgba(255,255,255,.4)}
+
+.admin-header{
+  background:linear-gradient(160deg,var(--blue-dark),var(--blue));
+  padding:24px 20px;color:#fff;
+}
+.admin-header-inner{max-width:1100px;margin:0 auto}
+.admin-header h1{font-family:var(--display);font-size:1.4rem;margin-bottom:4px}
+.admin-header p{font-size:.82rem;color:rgba(255,255,255,.6)}
+
+.admin-content{max-width:1100px;margin:0 auto;padding:20px}
+
+/* KPI CARDS */
+.kpi-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:12px;margin-bottom:24px}
+.kpi-card{background:var(--white);border-radius:14px;padding:16px;border:1px solid var(--light-gray)}
+.kpi-card .val{font-family:var(--display);font-size:1.5rem;color:var(--dark);line-height:1}
+.kpi-card .val.blue{color:var(--blue)}
+.kpi-card .val.green{color:var(--green)}
+.kpi-card .val.gold{color:var(--gold)}
+.kpi-card .val.red{color:var(--red)}
+.kpi-card .label{font-size:.68rem;color:var(--text-light);margin-top:4px;font-weight:700;text-transform:uppercase;letter-spacing:.04em}
+
+/* FILTERS */
+.filter-bar{
+  display:flex;align-items:center;gap:10px;margin-bottom:16px;flex-wrap:wrap;
+}
+.filter-bar select, .filter-bar input{
+  padding:10px 14px;border:2px solid var(--light-gray);border-radius:10px;
+  font-family:var(--body);font-size:.82rem;background:var(--white);color:var(--text);outline:none;
+}
+.filter-bar select:focus, .filter-bar input:focus{border-color:var(--blue)}
+.filter-bar input{flex:1;min-width:200px}
+.filter-btn{
+  padding:10px 20px;background:var(--blue);color:#fff;border:none;border-radius:10px;
+  font-family:var(--body);font-size:.82rem;font-weight:700;cursor:pointer;
+}
+.filter-btn:hover{background:var(--blue-light)}
+
+/* TABLE */
+.table-wrap{
+  background:var(--white);border-radius:16px;border:1px solid var(--light-gray);overflow-x:auto;
+}
+table{width:100%;border-collapse:collapse;font-size:.8rem}
+thead{background:var(--off-white)}
+th{padding:12px 14px;text-align:left;font-size:.68rem;font-weight:800;text-transform:uppercase;letter-spacing:.06em;color:var(--text-light);border-bottom:2px solid var(--light-gray);white-space:nowrap}
+td{padding:10px 14px;border-bottom:1px solid var(--light-gray);vertical-align:middle}
+tr:hover td{background:rgba(0,32,159,.01)}
+.badge{
+  display:inline-block;padding:3px 10px;border-radius:100px;font-size:.65rem;font-weight:800;
+  text-transform:uppercase;letter-spacing:.06em;
+}
+.badge-pending{background:rgba(212,160,23,.1);color:var(--gold);border:1px solid rgba(212,160,23,.2)}
+.badge-processing{background:rgba(0,51,204,.1);color:var(--blue);border:1px solid rgba(0,51,204,.2)}
+.badge-completed{background:rgba(27,140,61,.1);color:var(--green);border:1px solid rgba(27,140,61,.2)}
+.badge-failed{background:rgba(210,16,52,.1);color:var(--red);border:1px solid rgba(210,16,52,.2)}
+.badge-refunded{background:rgba(90,107,138,.1);color:var(--text-light);border:1px solid rgba(90,107,138,.2)}
+.badge-edh{background:rgba(212,160,23,.08);color:#b8860b}
+.badge-dinepa{background:rgba(2,119,189,.08);color:#0277BD}
+.type-label{font-weight:700;font-size:.72rem}
+.act-btn{
+  padding:5px 12px;border:1px solid var(--light-gray);border-radius:8px;
+  font-family:var(--body);font-size:.7rem;font-weight:700;cursor:pointer;
+  background:var(--white);color:var(--text);transition:all .2s;white-space:nowrap;
+}
+.act-btn:hover{border-color:var(--blue);color:var(--blue)}
+.act-btn.green{border-color:var(--green);color:var(--green)}
+.act-btn.green:hover{background:var(--green);color:#fff}
+
+.empty-state{text-align:center;padding:60px 20px;color:var(--text-light)}
+.empty-state .icon{font-size:2.5rem;margin-bottom:12px}
+.empty-state h3{font-family:var(--display);font-size:1.2rem;color:var(--dark);margin-bottom:4px}
+
+.pagination{display:flex;align-items:center;justify-content:center;gap:8px;padding:16px}
+.page-btn{
+  padding:8px 14px;border:1px solid var(--light-gray);border-radius:8px;
+  font-family:var(--body);font-size:.78rem;font-weight:700;cursor:pointer;
+  background:var(--white);color:var(--text);transition:all .2s;
+}
+.page-btn:hover{border-color:var(--blue);color:var(--blue)}
+.page-btn.active{background:var(--blue);color:#fff;border-color:var(--blue)}
+.page-info{font-size:.78rem;color:var(--text-light)}
+
+/* DETAIL MODAL */
+.modal-overlay{
+  position:fixed;inset:0;z-index:500;background:rgba(12,27,58,.5);backdrop-filter:blur(4px);
+  display:none;align-items:center;justify-content:center;
+}
+.modal-overlay.open{display:flex}
+.modal{
+  background:var(--white);border-radius:20px;width:95%;max-width:600px;max-height:90vh;overflow-y:auto;
+}
+.modal-header{
+  display:flex;align-items:center;justify-content:space-between;
+  padding:20px 24px;border-bottom:1px solid var(--light-gray);
+  position:sticky;top:0;background:var(--white);z-index:2;border-radius:20px 20px 0 0;
+}
+.modal-header h3{font-family:var(--display);font-size:1.15rem}
+.modal-close{background:none;border:none;font-size:1.3rem;color:var(--text-light);cursor:pointer;width:36px;height:36px;border-radius:50%;display:flex;align-items:center;justify-content:center}
+.modal-close:hover{background:var(--off-white);color:var(--dark)}
+.modal-body{padding:20px 24px}
+.detail-section{margin-bottom:20px}
+.detail-section-title{font-size:.68rem;font-weight:800;text-transform:uppercase;letter-spacing:.1em;color:var(--text-light);margin-bottom:10px}
+.detail-row{display:flex;justify-content:space-between;padding:7px 0;font-size:.82rem;border-bottom:1px solid var(--light-gray)}
+.detail-row:last-child{border-bottom:none}
+.detail-row .dl{color:var(--text-light)}
+.detail-row .dv{font-weight:700}
+
+.admin-action-group{display:flex;flex-direction:column;gap:10px;margin-top:16px}
+.admin-field{margin-bottom:12px}
+.admin-field label{display:block;font-size:.72rem;font-weight:700;color:var(--text);margin-bottom:4px;text-transform:uppercase;letter-spacing:.04em}
+.admin-field input, .admin-field select, .admin-field textarea{
+  width:100%;padding:12px;border:2px solid var(--light-gray);border-radius:10px;
+  font-family:var(--body);font-size:.85rem;outline:none;
+}
+.admin-field input:focus, .admin-field select:focus, .admin-field textarea:focus{border-color:var(--blue)}
+.admin-field textarea{resize:vertical;min-height:60px}
+
+.admin-btn{
+  padding:12px 20px;border:none;border-radius:12px;font-family:var(--body);
+  font-size:.85rem;font-weight:700;cursor:pointer;transition:all .2s;width:100%;
+}
+.admin-btn.blue{background:var(--blue);color:#fff}
+.admin-btn.blue:hover{background:var(--blue-light)}
+.admin-btn.green{background:var(--green);color:#fff}
+.admin-btn.green:hover{opacity:.9}
+.admin-btn.outline{background:transparent;border:2px solid var(--light-gray);color:var(--text)}
+.admin-btn.outline:hover{border-color:var(--blue);color:var(--blue)}
+
+.status-log{margin-top:12px}
+.log-item{padding:8px 0;border-bottom:1px solid var(--light-gray);font-size:.78rem}
+.log-item:last-child{border-bottom:none}
+.log-item .log-meta{color:var(--text-light);font-size:.68rem;margin-top:2px}
+
+.login-screen{
+  display:flex;align-items:center;justify-content:center;min-height:80vh;padding:20px;
+}
+.login-box{
+  background:var(--white);border-radius:20px;padding:40px 32px;
+  border:1px solid var(--light-gray);max-width:400px;width:100%;text-align:center;
+}
+.login-box h2{font-family:var(--display);font-size:1.5rem;margin-bottom:8px}
+.login-box p{font-size:.85rem;color:var(--text-light);margin-bottom:24px}
+.login-box .field{margin-bottom:14px;text-align:left}
+.login-box .field label{display:block;font-size:.72rem;font-weight:700;margin-bottom:4px;text-transform:uppercase;letter-spacing:.04em}
+.login-box .field input{
+  width:100%;padding:14px;border:2px solid var(--light-gray);border-radius:12px;
+  font-family:var(--body);font-size:.9rem;outline:none;
+}
+.login-box .field input:focus{border-color:var(--blue)}
+.login-btn{
+  width:100%;padding:16px;background:var(--blue);color:#fff;border:none;border-radius:14px;
+  font-family:var(--body);font-size:.95rem;font-weight:800;cursor:pointer;margin-top:8px;
+}
+.login-btn:hover{background:var(--blue-light)}
+.login-error{color:var(--red);font-size:.82rem;margin-top:8px;display:none}
+
+.toast{
+  position:fixed;bottom:30px;left:50%;transform:translateX(-50%) translateY(20px);
+  background:var(--dark);color:#fff;padding:12px 24px;border-radius:12px;
+  font-size:.85rem;font-weight:600;opacity:0;transition:all .3s;z-index:600;
+  pointer-events:none;box-shadow:0 8px 24px rgba(0,0,0,.2);
+}
+.toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+
+@media(max-width:700px){
+  .kpi-grid{grid-template-columns:1fr 1fr}
+  .filter-bar{flex-direction:column}
+  .filter-bar input, .filter-bar select{width:100%}
+}
+</style>
+</head>
+<body>
+
+<!-- TOP BAR -->
+<div class="top-bar">
+  <div class="top-bar-left">
+    <img src="assets/haitibiznis-logo.jpg" alt="HaitiBiznis">
+    <span>Haiti<em>Biznis</em></span>
+    <span class="top-bar-tag">Utility Admin</span>
+  </div>
+  <div class="top-bar-right">
+    <a href="utility-hub.html">Hub</a>
+    <a href="#" onclick="logout()">Logout</a>
+  </div>
+</div>
+
+<!-- LOGIN -->
+<div class="login-screen" id="loginScreen">
+  <div class="login-box">
+    <h2>Admin Login</h2>
+    <p>Utility Payment Hub management</p>
+    <div class="field">
+      <label>Email</label>
+      <input type="email" id="loginEmail" placeholder="admin@haitibiznis.com">
+    </div>
+    <div class="field">
+      <label>Password</label>
+      <input type="password" id="loginPassword" placeholder="Password" onkeypress="if(event.key==='Enter')doLogin()">
+    </div>
+    <button class="login-btn" onclick="doLogin()">Login</button>
+    <div class="login-error" id="loginError"></div>
+  </div>
+</div>
+
+<!-- MAIN DASHBOARD (hidden until logged in) -->
+<div id="dashboardMain" style="display:none">
+<div class="admin-header">
+  <div class="admin-header-inner">
+    <h1>Utility Payment Hub</h1>
+    <p>Manage EDH and DINEPA transactions</p>
+  </div>
+</div>
+
+<div class="admin-content">
+  <!-- KPI CARDS -->
+  <div class="kpi-grid" id="kpiGrid">
+    <div class="kpi-card"><div class="val blue" id="kpiTotal">0</div><div class="label">Today Total</div></div>
+    <div class="kpi-card"><div class="val gold" id="kpiEdh">0</div><div class="label">EDH Today</div></div>
+    <div class="kpi-card"><div class="val blue" id="kpiDinepa">0</div><div class="label">DINEPA Today</div></div>
+    <div class="kpi-card"><div class="val gold" id="kpiPending">0</div><div class="label">Pending</div></div>
+    <div class="kpi-card"><div class="val green" id="kpiCompleted">0</div><div class="label">Completed</div></div>
+    <div class="kpi-card"><div class="val red" id="kpiFailed">0</div><div class="label">Failed</div></div>
+    <div class="kpi-card"><div class="val green" id="kpiFees">0 HTG</div><div class="label">Total Fees</div></div>
+  </div>
+
+  <!-- FILTERS -->
+  <div class="filter-bar">
+    <select id="filterStatus" onchange="loadTransactions()">
+      <option value="">All Statuses</option>
+      <option value="pending">Pending</option>
+      <option value="processing">Processing</option>
+      <option value="completed">Completed</option>
+      <option value="failed">Failed</option>
+      <option value="refunded">Refunded</option>
+    </select>
+    <select id="filterType" onchange="loadTransactions()">
+      <option value="">All Types</option>
+      <option value="edh">EDH</option>
+      <option value="dinepa">DINEPA</option>
+    </select>
+    <input type="text" id="filterSearch" placeholder="Search by name, phone, ref, meter..." onkeypress="if(event.key==='Enter')loadTransactions()">
+    <button class="filter-btn" onclick="loadTransactions()">Search</button>
+  </div>
+
+  <!-- TABLE -->
+  <div class="table-wrap">
+    <table>
+      <thead>
+        <tr>
+          <th>Date</th>
+          <th>Ref</th>
+          <th>Type</th>
+          <th>Customer</th>
+          <th>Phone</th>
+          <th>Account/Meter</th>
+          <th>Amount</th>
+          <th>Fee</th>
+          <th>Total</th>
+          <th>Method</th>
+          <th>Status</th>
+          <th>Action</th>
+        </tr>
+      </thead>
+      <tbody id="txTableBody">
+        <tr><td colspan="12"><div class="empty-state"><div class="icon">&#128270;</div><h3>Loading...</h3></div></td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- PAGINATION -->
+  <div class="pagination" id="pagination"></div>
+</div>
+</div>
+
+<!-- DETAIL MODAL -->
+<div class="modal-overlay" id="detailModal">
+<div class="modal">
+  <div class="modal-header">
+    <h3 id="modalTitle">Transaction Details</h3>
+    <button class="modal-close" onclick="closeModal()">&times;</button>
+  </div>
+  <div class="modal-body" id="modalBody"></div>
+</div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+var API_BASE = 'https://myplopplop.com/api';
+var authToken = localStorage.getItem('admin_token') || '';
+var currentPage = 1;
+var currentTx = null;
+
+if (authToken) {
+  showDashboard();
+}
+
+function doLogin() {
+  var email = document.getElementById('loginEmail').value.trim();
+  var password = document.getElementById('loginPassword').value;
+  var errEl = document.getElementById('loginError');
+  errEl.style.display = 'none';
+
+  if (!email || !password) {
+    errEl.textContent = 'Please enter email and password';
+    errEl.style.display = 'block';
+    return;
+  }
+
+  fetch(API_BASE + '/auth/login', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ email: email, password: password })
+  })
+  .then(function(r) { return r.json(); })
+  .then(function(data) {
+    if (data.success && data.token) {
+      authToken = data.token;
+      localStorage.setItem('admin_token', authToken);
+      showDashboard();
+    } else {
+      errEl.textContent = data.message || 'Login failed';
+      errEl.style.display = 'block';
+    }
+  })
+  .catch(function() {
+    errEl.textContent = 'Connection error. Try again.';
+    errEl.style.display = 'block';
+  });
+}
+
+function showDashboard() {
+  document.getElementById('loginScreen').style.display = 'none';
+  document.getElementById('dashboardMain').style.display = '';
+  loadTransactions();
+}
+
+function logout() {
+  authToken = '';
+  localStorage.removeItem('admin_token');
+  document.getElementById('loginScreen').style.display = '';
+  document.getElementById('dashboardMain').style.display = 'none';
+}
+
+function loadTransactions() {
+  var status = document.getElementById('filterStatus').value;
+  var type = document.getElementById('filterType').value;
+  var search = document.getElementById('filterSearch').value.trim();
+
+  var url = API_BASE + '/utility/admin/transactions?page=' + currentPage;
+  if (status) url += '&status=' + status;
+  if (type) url += '&type=' + type;
+  if (search) url += '&search=' + encodeURIComponent(search);
+
+  fetch(url, {
+    headers: { 'Authorization': 'Bearer ' + authToken }
+  })
+  .then(function(r) {
+    if (r.status === 401 || r.status === 403) { logout(); throw new Error('Unauthorized'); }
+    return r.json();
+  })
+  .then(function(data) {
+    if (data.success) {
+      renderKPIs(data.stats);
+      renderTable(data.transactions);
+      renderPagination(data.page, data.pages, data.total);
+    }
+  })
+  .catch(function(err) {
+    console.error(err);
+  });
+}
+
+function renderKPIs(s) {
+  document.getElementById('kpiTotal').textContent = s.today_total;
+  document.getElementById('kpiEdh').textContent = s.today_edh;
+  document.getElementById('kpiDinepa').textContent = s.today_dinepa;
+  document.getElementById('kpiPending').textContent = s.pending;
+  document.getElementById('kpiCompleted').textContent = s.completed;
+  document.getElementById('kpiFailed').textContent = s.failed;
+  document.getElementById('kpiFees').textContent = s.total_fees.toLocaleString() + ' HTG';
+}
+
+function renderTable(txs) {
+  var tbody = document.getElementById('txTableBody');
+  if (!txs || txs.length === 0) {
+    tbody.innerHTML = '<tr><td colspan="12"><div class="empty-state"><div class="icon">&#128194;</div><h3>No transactions found</h3></div></td></tr>';
+    return;
+  }
+  var html = '';
+  for (var i = 0; i < txs.length; i++) {
+    var tx = txs[i];
+    var d = new Date(tx.createdAt);
+    var dateStr = d.toLocaleDateString('en-US', { month:'short', day:'numeric' }) + ' ' + d.toLocaleTimeString('en-US', { hour:'2-digit', minute:'2-digit' });
+    var typeBadge = tx.utility_type === 'edh' ? '<span class="badge badge-edh">EDH</span>' : '<span class="badge badge-dinepa">DINEPA</span>';
+    var statusBadge = '<span class="badge badge-' + tx.payment_status + '">' + tx.payment_status + '</span>';
+    var acctMeter = tx.meter_number || tx.account_number || '—';
+    html += '<tr>';
+    html += '<td>' + dateStr + '</td>';
+    html += '<td style="font-family:monospace;font-size:.72rem;font-weight:700">' + tx.reference_id + '</td>';
+    html += '<td>' + typeBadge + '</td>';
+    html += '<td>' + esc(tx.customer_name) + '</td>';
+    html += '<td>' + esc(tx.phone) + '</td>';
+    html += '<td style="font-family:monospace;font-size:.78rem">' + esc(acctMeter) + '</td>';
+    html += '<td>' + tx.amount.toLocaleString() + '</td>';
+    html += '<td>' + tx.service_fee.toLocaleString() + '</td>';
+    html += '<td style="font-weight:700">' + tx.total_amount.toLocaleString() + '</td>';
+    html += '<td>' + (tx.payment_method || '—') + '</td>';
+    html += '<td>' + statusBadge + '</td>';
+    html += '<td><button class="act-btn" onclick="openDetail(\'' + tx._id + '\')">View</button></td>';
+    html += '</tr>';
+  }
+  tbody.innerHTML = html;
+}
+
+function renderPagination(page, pages, total) {
+  var div = document.getElementById('pagination');
+  if (pages <= 1) { div.innerHTML = '<span class="page-info">' + total + ' transactions</span>'; return; }
+  var html = '';
+  if (page > 1) html += '<button class="page-btn" onclick="goPage(' + (page-1) + ')">&laquo;</button>';
+  for (var i = 1; i <= pages && i <= 10; i++) {
+    html += '<button class="page-btn' + (i === page ? ' active' : '') + '" onclick="goPage(' + i + ')">' + i + '</button>';
+  }
+  if (page < pages) html += '<button class="page-btn" onclick="goPage(' + (page+1) + ')">&raquo;</button>';
+  html += '<span class="page-info">' + total + ' total</span>';
+  div.innerHTML = html;
+}
+
+function goPage(p) {
+  currentPage = p;
+  loadTransactions();
+}
+
+function openDetail(id) {
+  fetch(API_BASE + '/utility/admin/transactions/' + id, {
+    headers: { 'Authorization': 'Bearer ' + authToken }
+  })
+  .then(function(r) { return r.json(); })
+  .then(function(data) {
+    if (data.success) {
+      currentTx = data.transaction;
+      renderModal(data.transaction);
+      document.getElementById('detailModal').classList.add('open');
+    }
+  });
+}
+
+function closeModal() {
+  document.getElementById('detailModal').classList.remove('open');
+  currentTx = null;
+}
+
+function renderModal(tx) {
+  document.getElementById('modalTitle').textContent = tx.reference_id;
+  var d = new Date(tx.createdAt);
+  var dateStr = d.toLocaleDateString('en-US', { year:'numeric', month:'long', day:'numeric', hour:'2-digit', minute:'2-digit' });
+  var statusBadge = '<span class="badge badge-' + tx.payment_status + '">' + tx.payment_status + '</span>';
+
+  var html = '';
+  html += '<div class="detail-section">';
+  html += '<div class="detail-section-title">Customer Info</div>';
+  html += detailRow('Name', tx.customer_name);
+  html += detailRow('Phone', tx.phone);
+  html += detailRow('Email', tx.email || '—');
+  html += detailRow('Zone', tx.zone || '—');
+  html += '</div>';
+
+  html += '<div class="detail-section">';
+  html += '<div class="detail-section-title">Utility Info</div>';
+  html += detailRow('Type', tx.utility_type.toUpperCase());
+  if (tx.meter_number) html += detailRow('Meter #', tx.meter_number);
+  if (tx.account_number) html += detailRow('Account #', tx.account_number);
+  html += '</div>';
+
+  html += '<div class="detail-section">';
+  html += '<div class="detail-section-title">Payment Info</div>';
+  html += detailRow('Amount', tx.amount.toLocaleString() + ' HTG');
+  html += detailRow('Service Fee', tx.service_fee.toLocaleString() + ' HTG');
+  html += detailRow('Total', tx.total_amount.toLocaleString() + ' HTG');
+  html += detailRow('Method', tx.payment_method);
+  html += '<div class="detail-row"><span class="dl">Status</span><span class="dv">' + statusBadge + '</span></div>';
+  html += detailRow('Date', dateStr);
+  if (tx.provider_reference) html += detailRow('Provider Ref', tx.provider_reference);
+  if (tx.koutye_code) html += detailRow('Koutye Code', tx.koutye_code);
+  html += '</div>';
+
+  if (tx.token) {
+    html += '<div class="detail-section">';
+    html += '<div class="detail-section-title">Token</div>';
+    html += '<div style="background:#FFFDE7;border:2px solid rgba(212,160,23,.3);border-radius:12px;padding:16px;text-align:center">';
+    html += '<div style="font-family:monospace;font-size:1.5rem;font-weight:900;letter-spacing:.08em">' + esc(tx.token) + '</div>';
+    html += '</div></div>';
+  }
+
+  html += '<div class="detail-section">';
+  html += '<div class="detail-section-title">Admin Actions</div>';
+
+  html += '<div class="admin-action-group">';
+  html += '<div class="admin-field"><label>Update Status</label>';
+  html += '<select id="modalStatus">';
+  html += '<option value="pending"' + (tx.payment_status==='pending'?' selected':'') + '>Pending</option>';
+  html += '<option value="processing"' + (tx.payment_status==='processing'?' selected':'') + '>Processing</option>';
+  html += '<option value="completed"' + (tx.payment_status==='completed'?' selected':'') + '>Completed</option>';
+  html += '<option value="failed"' + (tx.payment_status==='failed'?' selected':'') + '>Failed</option>';
+  html += '<option value="refunded"' + (tx.payment_status==='refunded'?' selected':'') + '>Refunded</option>';
+  html += '</select></div>';
+
+  if (tx.utility_type === 'edh') {
+    html += '<div class="admin-field"><label>EDH Token</label>';
+    html += '<input type="text" id="modalToken" value="' + esc(tx.token || '') + '" placeholder="Enter EDH token"></div>';
+  }
+
+  html += '<div class="admin-field"><label>Admin Notes</label>';
+  html += '<textarea id="modalNotes" placeholder="Add notes...">' + esc(tx.admin_notes || '') + '</textarea></div>';
+
+  html += '<button class="admin-btn blue" onclick="saveChanges()">Save Changes</button>';
+  html += '<button class="admin-btn green" onclick="sendConfirmation()" style="margin-top:8px">Send WhatsApp Confirmation</button>';
+  html += '</div></div>';
+
+  if (tx.status_logs && tx.status_logs.length) {
+    html += '<div class="detail-section">';
+    html += '<div class="detail-section-title">Status History</div>';
+    html += '<div class="status-log">';
+    for (var i = tx.status_logs.length - 1; i >= 0; i--) {
+      var log = tx.status_logs[i];
+      var logDate = new Date(log.created_at).toLocaleDateString('en-US', { month:'short', day:'numeric', hour:'2-digit', minute:'2-digit' });
+      html += '<div class="log-item">';
+      if (log.old_status) html += '<span class="badge badge-' + log.old_status + '" style="font-size:.55rem">' + log.old_status + '</span> &rarr; ';
+      html += '<span class="badge badge-' + log.new_status + '" style="font-size:.55rem">' + log.new_status + '</span>';
+      if (log.note) html += ' — ' + esc(log.note);
+      html += '<div class="log-meta">' + logDate + ' by ' + esc(log.changed_by || 'system') + '</div>';
+      html += '</div>';
+    }
+    html += '</div></div>';
+  }
+
+  document.getElementById('modalBody').innerHTML = html;
+}
+
+function detailRow(label, value) {
+  return '<div class="detail-row"><span class="dl">' + label + '</span><span class="dv">' + esc(String(value)) + '</span></div>';
+}
+
+function saveChanges() {
+  if (!currentTx) return;
+  var id = currentTx._id;
+  var status = document.getElementById('modalStatus').value;
+  var notes = document.getElementById('modalNotes').value;
+  var tokenEl = document.getElementById('modalToken');
+  var token = tokenEl ? tokenEl.value.trim() : '';
+
+  var promises = [];
+
+  if (status !== currentTx.payment_status) {
+    promises.push(
+      fetch(API_BASE + '/utility/admin/transactions/' + id + '/status', {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + authToken },
+        body: JSON.stringify({ status: status, note: notes || 'Status updated by admin' })
+      }).then(function(r) { return r.json(); })
+    );
+  }
+
+  if (token || notes) {
+    var tokenBody = {};
+    if (token) tokenBody.token = token;
+    if (notes) tokenBody.admin_notes = notes;
+    promises.push(
+      fetch(API_BASE + '/utility/admin/transactions/' + id + '/token', {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + authToken },
+        body: JSON.stringify(tokenBody)
+      }).then(function(r) { return r.json(); })
+    );
+  }
+
+  if (promises.length === 0) {
+    showToast('No changes to save');
+    return;
+  }
+
+  Promise.all(promises).then(function() {
+    showToast('Saved!');
+    closeModal();
+    loadTransactions();
+  }).catch(function() {
+    showToast('Error saving changes');
+  });
+}
+
+function sendConfirmation() {
+  if (!currentTx) return;
+  fetch(API_BASE + '/utility/admin/transactions/' + currentTx._id + '/send-confirmation', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + authToken }
+  })
+  .then(function(r) { return r.json(); })
+  .then(function(data) {
+    if (data.success && data.whatsapp_url) {
+      window.open(data.whatsapp_url, '_blank');
+      showToast('WhatsApp opened');
+    }
+  });
+}
+
+function esc(s) {
+  if (!s) return '';
+  var div = document.createElement('div');
+  div.textContent = s;
+  return div.innerHTML;
+}
+
+function showToast(msg) {
+  var t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  setTimeout(function() { t.classList.remove('show'); }, 2500);
+}
+</script>
+</body>
+</html>
