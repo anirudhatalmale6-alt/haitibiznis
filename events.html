@@ -1,0 +1,832 @@
+<!DOCTYPE html>
+<html lang="ht">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>HaitiBiznis Events — Kreye. Envite. Vann Tikè.</title>
+<meta name="description" content="Desiyen bèl envitasyon, vann tikè, ak jere envite ou nan yon sèl plas. Premye platfòm evènman Ayiti.">
+<meta name="theme-color" content="#00209F">
+<link rel="icon" type="image/x-icon" href="favicon.ico">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --blue:#00209F;--blue-deep:#001566;--blue-light:#0A3ACC;
+  --red:#D21034;--red-dark:#B00D2C;--red-glow:rgba(210,16,52,.15);
+  --gold:#D4A017;--gold-light:#E8B82E;--gold-soft:#FDF3D7;--gold-glow:rgba(212,160,23,.2);
+  --green:#1B8C3D;--green-light:#E8F5E9;
+  --white:#FFFFFF;--off-white:#F5F7FA;--cream:#FAFBFD;
+  --dark:#0A0E1A;--text:#1A2A4A;--text-light:#5A6B8A;--text-muted:#8A95AA;
+  --border:#E2E8F0;--border-light:#F0F3F7;
+  --body:'Plus Jakarta Sans',system-ui,sans-serif;
+  --display:'DM Serif Display',Georgia,serif;
+  --shadow-sm:0 1px 3px rgba(10,14,26,.06);
+  --shadow-md:0 4px 16px rgba(10,14,26,.08);
+  --shadow-lg:0 12px 40px rgba(10,14,26,.12);
+  --radius:14px;--radius-lg:20px;
+}
+html{scroll-behavior:smooth}
+body{font-family:var(--body);background:var(--off-white);color:var(--text);overflow-x:hidden;-webkit-font-smoothing:antialiased}
+a{text-decoration:none;color:inherit}
+button{font-family:var(--body);cursor:pointer;border:none;background:none}
+img{max-width:100%;display:block}
+
+/* FLAG */
+.flag-stripe{height:4px;background:linear-gradient(90deg,var(--blue) 50%,var(--red) 50%);position:relative;z-index:1002}
+
+/* LANG */
+.lang-bar{
+  background:var(--dark);padding:6px 20px;
+  display:flex;align-items:center;justify-content:center;gap:4px;
+  font-size:.68rem;z-index:1001;position:relative;
+}
+.lang-bar a{
+  color:rgba(255,255,255,.5);padding:3px 12px;border-radius:100px;
+  font-weight:600;transition:all .2s;cursor:pointer;
+}
+.lang-bar a:hover{color:#fff;background:rgba(255,255,255,.08)}
+.lang-bar a.active{color:var(--gold);background:rgba(212,160,23,.15)}
+
+/* HEADER */
+.header{
+  position:sticky;top:0;z-index:100;
+  background:rgba(255,255,255,.95);backdrop-filter:blur(16px);
+  border-bottom:1px solid var(--border);padding:0 20px;height:60px;
+  display:flex;align-items:center;justify-content:space-between;
+}
+.header-logo{display:flex;align-items:center;gap:10px}
+.header-logo img{height:34px;border-radius:6px}
+.header-logo span{font-family:var(--display);font-size:1.15rem;color:var(--dark)}
+.header-logo span em{color:var(--red);font-style:italic}
+.header-back{
+  font-size:.78rem;font-weight:600;color:var(--text-light);
+  display:flex;align-items:center;gap:5px;padding:8px 14px;border-radius:8px;transition:all .2s;
+}
+.header-back:hover{background:rgba(0,32,159,.06);color:var(--blue)}
+.header-back svg{width:16px;height:16px}
+
+/* ═══ HERO ═══ */
+.hero{
+  background:linear-gradient(160deg,var(--dark) 0%,#0A1235 25%,var(--blue-deep) 50%,var(--blue) 80%,var(--blue-light) 100%);
+  color:#fff;padding:52px 20px 64px;text-align:center;
+  position:relative;overflow:hidden;min-height:420px;
+  display:flex;align-items:center;justify-content:center;
+}
+.hero::before{
+  content:'';position:absolute;inset:0;
+  background:
+    radial-gradient(ellipse 500px 350px at 15% 85%, rgba(210,16,52,.1) 0%, transparent 70%),
+    radial-gradient(ellipse 400px 400px at 85% 15%, rgba(212,160,23,.08) 0%, transparent 70%),
+    radial-gradient(ellipse 300px 300px at 50% 50%, rgba(255,255,255,.03) 0%, transparent 70%);
+  pointer-events:none;
+}
+.hero-confetti{position:absolute;inset:0;pointer-events:none;overflow:hidden}
+.confetti-dot{
+  position:absolute;border-radius:50%;
+  animation:confettiFall linear infinite;
+  opacity:0;
+}
+@keyframes confettiFall{
+  0%{transform:translateY(-20px) rotate(0deg) scale(0);opacity:0}
+  10%{opacity:1;transform:translateY(0) rotate(45deg) scale(1)}
+  90%{opacity:.6}
+  100%{transform:translateY(calc(100vh + 20px)) rotate(360deg) scale(.5);opacity:0}
+}
+.hero-content{position:relative;z-index:1;max-width:620px}
+.hero-logo-wrap{
+  display:inline-block;background:var(--white);border-radius:16px;
+  padding:8px 16px;margin-bottom:22px;
+  box-shadow:0 8px 40px rgba(0,0,0,.25);
+}
+.hero-logo-wrap img{height:56px}
+.hero h1{
+  font-family:var(--display);font-size:clamp(2rem,5.5vw,3.2rem);
+  line-height:1.15;margin-bottom:14px;
+  text-shadow:0 2px 20px rgba(0,0,0,.3);
+}
+.hero h1 .dot{color:var(--gold-light)}
+.hero h1 em{color:var(--gold-light);font-style:italic}
+.hero-sub{
+  font-size:clamp(.88rem,2vw,1.02rem);color:rgba(255,255,255,.7);
+  line-height:1.6;margin-bottom:28px;max-width:460px;margin-left:auto;margin-right:auto;
+}
+.hero-ctas{display:flex;gap:12px;justify-content:center;flex-wrap:wrap;margin-bottom:32px}
+.btn{
+  display:inline-flex;align-items:center;justify-content:center;gap:8px;
+  font-size:.88rem;font-weight:700;padding:14px 26px;border-radius:12px;
+  transition:all .25s cubic-bezier(.4,0,.2,1);white-space:nowrap;
+}
+.btn svg{width:18px;height:18px;flex-shrink:0}
+.btn-red{
+  background:linear-gradient(135deg,var(--red),var(--red-dark));color:#fff;
+  box-shadow:0 4px 20px rgba(210,16,52,.35);
+}
+.btn-red:hover{transform:translateY(-2px);box-shadow:0 8px 28px rgba(210,16,52,.5)}
+.btn-outline{background:transparent;color:#fff;border:2px solid rgba(255,255,255,.3)}
+.btn-outline:hover{background:rgba(255,255,255,.1);border-color:rgba(255,255,255,.5)}
+.btn-gold{background:linear-gradient(135deg,var(--gold),#C4900F);color:#fff;box-shadow:0 4px 20px var(--gold-glow)}
+.btn-gold:hover{transform:translateY(-2px);box-shadow:0 8px 28px rgba(212,160,23,.4)}
+.hero-stats{display:flex;gap:24px;justify-content:center;flex-wrap:wrap}
+.hero-stat{text-align:center}
+.hero-stat .num{font-family:var(--display);font-size:1.3rem;color:var(--gold-light)}
+.hero-stat .label{font-size:.68rem;color:rgba(255,255,255,.45);margin-top:2px;text-transform:uppercase;letter-spacing:.06em;font-weight:600}
+
+/* ═══ DIAGONAL ═══ */
+.diag{position:relative;margin-top:-36px;height:36px;z-index:2;overflow:hidden}
+.diag::before{content:'';position:absolute;bottom:0;left:-5%;width:110%;height:72px;background:var(--off-white);transform:skewY(-1.3deg);transform-origin:bottom left}
+
+/* ═══ SECTION ═══ */
+.section{padding:44px 20px;max-width:960px;margin:0 auto}
+.section-tag{
+  display:inline-flex;align-items:center;gap:6px;
+  font-size:.68rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;
+  color:var(--blue);background:rgba(0,32,159,.08);
+  padding:5px 14px;border-radius:100px;margin-bottom:12px;
+}
+.section-title{font-family:var(--display);font-size:clamp(1.5rem,4vw,2.1rem);color:var(--dark);margin-bottom:6px;line-height:1.2}
+.section-title em{color:var(--red);font-style:italic}
+.section-desc{font-size:.9rem;color:var(--text-light);max-width:480px;line-height:1.6;margin-bottom:24px}
+
+/* ═══ CATEGORIES ═══ */
+.cats{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}
+.cat-card{
+  background:var(--white);border:1.5px solid var(--border);border-radius:var(--radius);
+  padding:16px 8px;text-align:center;cursor:pointer;transition:all .25s;
+  position:relative;overflow:hidden;
+}
+.cat-card::after{
+  content:'';position:absolute;bottom:0;left:0;right:0;height:3px;
+  background:linear-gradient(90deg,var(--blue),var(--red));
+  transform:scaleX(0);transition:transform .3s;
+}
+.cat-card:hover{transform:translateY(-3px);box-shadow:var(--shadow-md);border-color:var(--blue)}
+.cat-card:hover::after{transform:scaleX(1)}
+.cat-icon{font-size:1.8rem;display:block;margin-bottom:6px}
+.cat-name{font-size:.72rem;font-weight:700;color:var(--text);letter-spacing:.01em}
+.cat-count{font-size:.65rem;color:var(--text-muted);margin-top:2px}
+@media(max-width:500px){.cats{grid-template-columns:repeat(2,1fr)}}
+
+/* ═══ EVENTS ═══ */
+.events-scroll{
+  display:flex;gap:16px;overflow-x:auto;overflow-y:visible;
+  scroll-snap-type:x mandatory;-webkit-overflow-scrolling:touch;
+  padding:4px 0 16px;margin:0 -20px;padding-left:20px;padding-right:20px;
+}
+.events-scroll::-webkit-scrollbar{display:none}
+.ev-card{
+  min-width:270px;max-width:290px;scroll-snap-align:start;flex-shrink:0;
+  background:var(--white);border:1px solid var(--border);border-radius:var(--radius-lg);
+  overflow:hidden;transition:all .3s;cursor:pointer;
+}
+.ev-card:hover{transform:translateY(-4px);box-shadow:var(--shadow-lg)}
+.ev-img{height:160px;position:relative;overflow:hidden}
+.ev-img-bg{width:100%;height:100%;display:flex;align-items:center;justify-content:center;font-size:2.8rem}
+.ev-type-tag{
+  position:absolute;top:10px;left:10px;
+  font-size:.62rem;font-weight:700;letter-spacing:.05em;text-transform:uppercase;
+  padding:4px 10px;border-radius:6px;
+  backdrop-filter:blur(8px);color:#fff;
+}
+.ev-date-badge{
+  position:absolute;top:10px;right:10px;
+  background:var(--white);border-radius:10px;padding:6px 10px;text-align:center;
+  box-shadow:0 2px 10px rgba(0,0,0,.15);min-width:48px;
+}
+.ev-date-badge .month{font-size:.58rem;font-weight:700;text-transform:uppercase;color:var(--red);letter-spacing:.06em}
+.ev-date-badge .day{font-size:1.1rem;font-weight:900;color:var(--dark);line-height:1}
+.ev-body{padding:14px}
+.ev-title{font-weight:700;font-size:.92rem;color:var(--dark);margin-bottom:6px;line-height:1.3}
+.ev-meta{display:flex;flex-direction:column;gap:4px;margin-bottom:12px}
+.ev-meta-row{display:flex;align-items:center;gap:6px;font-size:.78rem;color:var(--text-light)}
+.ev-meta-row svg{width:14px;height:14px;flex-shrink:0;color:var(--text-muted)}
+.ev-footer{display:flex;align-items:center;justify-content:space-between}
+.ev-price{font-size:1rem;font-weight:800;color:var(--dark)}
+.ev-price.free{color:var(--green);font-size:.85rem}
+.ev-buy{
+  height:36px;padding:0 16px;border-radius:8px;font-size:.78rem;font-weight:700;
+  display:flex;align-items:center;gap:5px;transition:all .2s;
+}
+.ev-buy.ticket{background:var(--red);color:#fff}
+.ev-buy.ticket:hover{background:var(--red-dark)}
+.ev-buy.rsvp{background:var(--green-light);color:var(--green);border:1px solid rgba(27,140,61,.2)}
+.ev-buy.rsvp:hover{background:var(--green);color:#fff}
+
+/* ═══ HOW IT WORKS ═══ */
+.steps{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;counter-reset:step}
+.step{
+  background:var(--white);border:1px solid var(--border);border-radius:var(--radius-lg);
+  padding:22px 16px;text-align:center;position:relative;
+  transition:all .3s;
+}
+.step:hover{transform:translateY(-3px);box-shadow:var(--shadow-md)}
+.step-num{
+  width:36px;height:36px;border-radius:10px;margin:0 auto 12px;
+  display:flex;align-items:center;justify-content:center;
+  font-size:.82rem;font-weight:800;color:#fff;
+  background:linear-gradient(135deg,var(--blue),var(--blue-light));
+  counter-increment:step;
+}
+.step-num::after{content:counter(step)}
+.step-icon{font-size:1.6rem;display:block;margin-bottom:8px}
+.step h4{font-size:.88rem;font-weight:700;color:var(--dark);margin-bottom:4px}
+.step p{font-size:.78rem;color:var(--text-light);line-height:1.5}
+.step-arrow{
+  position:absolute;right:-18px;top:50%;transform:translateY(-50%);
+  color:var(--border);font-size:1.2rem;z-index:1;
+}
+.step:last-child .step-arrow{display:none}
+@media(max-width:700px){
+  .steps{grid-template-columns:1fr 1fr}
+  .step-arrow{display:none!important}
+}
+@media(max-width:400px){.steps{grid-template-columns:1fr}}
+
+/* ═══ BENEFITS ═══ */
+.benefits{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.benefit{
+  background:var(--white);border:1px solid var(--border);border-radius:var(--radius-lg);
+  padding:22px 18px;transition:all .3s;position:relative;overflow:hidden;
+}
+.benefit:hover{transform:translateY(-3px);box-shadow:var(--shadow-md)}
+.benefit::before{
+  content:'';position:absolute;top:0;left:0;right:0;height:3px;
+  border-radius:var(--radius-lg) var(--radius-lg) 0 0;
+}
+.benefit:nth-child(1)::before{background:linear-gradient(90deg,var(--red),var(--gold))}
+.benefit:nth-child(2)::before{background:linear-gradient(90deg,var(--blue),var(--blue-light))}
+.benefit:nth-child(3)::before{background:linear-gradient(90deg,var(--green),#2DB855)}
+.benefit:nth-child(4)::before{background:linear-gradient(90deg,var(--gold),var(--red))}
+.benefit-icon{font-size:1.6rem;display:block;margin-bottom:10px}
+.benefit h4{font-size:.92rem;font-weight:700;color:var(--dark);margin-bottom:4px}
+.benefit p{font-size:.8rem;color:var(--text-light);line-height:1.5}
+@media(max-width:500px){.benefits{grid-template-columns:1fr}}
+
+/* ═══ KOUTYE ═══ */
+.koutye-section{
+  background:linear-gradient(140deg,var(--dark) 0%,var(--blue-deep) 40%,var(--blue) 80%,var(--red-dark) 100%);
+  padding:52px 20px;text-align:center;color:#fff;position:relative;overflow:hidden;
+}
+.koutye-section::before{
+  content:'';position:absolute;inset:0;
+  background:url("data:image/svg+xml,%3Csvg width='60' height='60' xmlns='http://www.w3.org/2000/svg'%3E%3Ccircle cx='30' cy='30' r='1.5' fill='%23fff' opacity='.03'/%3E%3C/svg%3E");
+  pointer-events:none;
+}
+.koutye-inner{position:relative;z-index:1;max-width:520px;margin:0 auto}
+.koutye-icon{font-size:2rem;display:block;margin-bottom:14px}
+.koutye-section h2{font-family:var(--display);font-size:clamp(1.5rem,4vw,2rem);margin-bottom:10px}
+.koutye-section h2 em{color:var(--gold-light);font-style:italic}
+.koutye-section p{font-size:.92rem;color:rgba(255,255,255,.7);line-height:1.6;margin-bottom:22px}
+
+/* ═══ CTA SECTION ═══ */
+.cta-section{
+  padding:48px 20px;text-align:center;
+  background:var(--white);border-top:1px solid var(--border-light);border-bottom:1px solid var(--border-light);
+}
+.cta-inner{max-width:500px;margin:0 auto}
+.cta-section h2{font-family:var(--display);font-size:clamp(1.5rem,4vw,2rem);color:var(--dark);margin-bottom:8px}
+.cta-section h2 em{color:var(--red);font-style:italic}
+.cta-section>p,.cta-inner>p{font-size:.9rem;color:var(--text-light);margin-bottom:24px;line-height:1.5}
+.cta-btn{
+  display:inline-flex;align-items:center;gap:10px;
+  background:linear-gradient(135deg,var(--red),var(--red-dark));color:#fff;
+  font-size:1rem;font-weight:800;padding:16px 36px;border-radius:14px;
+  box-shadow:0 6px 28px rgba(210,16,52,.35);transition:all .25s;margin-bottom:24px;
+}
+.cta-btn:hover{transform:translateY(-3px);box-shadow:0 10px 36px rgba(210,16,52,.5)}
+.cta-btn svg{width:20px;height:20px}
+.trust-badges{display:flex;gap:20px;justify-content:center;flex-wrap:wrap}
+.trust-badge{display:flex;align-items:center;gap:6px;font-size:.78rem;font-weight:600;color:var(--text-light)}
+.trust-badge-icon{
+  width:28px;height:28px;border-radius:8px;
+  display:flex;align-items:center;justify-content:center;font-size:.85rem;
+  background:var(--green-light);
+}
+
+/* ═══ FOOTER ═══ */
+.footer{
+  background:var(--dark);color:rgba(255,255,255,.6);
+  padding:40px 20px 100px;text-align:center;
+}
+.footer-logo{font-family:var(--display);font-size:1.1rem;color:#fff;margin-bottom:6px}
+.footer-logo em{color:var(--gold-light);font-style:italic}
+.footer-text{font-size:.78rem;line-height:1.6;margin-bottom:16px}
+.footer-eco{
+  display:inline-flex;align-items:center;gap:6px;
+  font-size:.72rem;font-weight:600;color:rgba(255,255,255,.4);
+  padding:6px 14px;border-radius:100px;border:1px solid rgba(255,255,255,.08);
+}
+.footer-eco img{height:18px;border-radius:4px}
+.footer-links{display:flex;gap:16px;justify-content:center;margin-top:14px;flex-wrap:wrap}
+.footer-links a{font-size:.75rem;color:rgba(255,255,255,.4);transition:color .2s}
+.footer-links a:hover{color:var(--gold-light)}
+.footer-copy{font-size:.7rem;color:rgba(255,255,255,.2);margin-top:14px}
+
+/* ═══ BOTTOM NAV ═══ */
+.bottom-nav{
+  position:fixed;bottom:0;left:0;right:0;z-index:100;
+  background:rgba(255,255,255,.95);backdrop-filter:blur(16px);
+  border-top:1px solid var(--border);display:flex;height:56px;
+}
+.bottom-nav a{
+  flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;
+  color:var(--text-muted);font-size:.6rem;font-weight:600;transition:color .2s;
+  text-transform:uppercase;letter-spacing:.04em;
+}
+.bottom-nav a.active{color:var(--blue)}
+.bottom-nav a svg{width:22px;height:22px}
+.bottom-nav .create-tab{
+  position:relative;margin-top:-12px;
+}
+.bottom-nav .create-dot{
+  width:44px;height:44px;border-radius:14px;
+  background:linear-gradient(135deg,var(--red),var(--red-dark));
+  display:flex;align-items:center;justify-content:center;
+  box-shadow:0 4px 16px rgba(210,16,52,.3);
+}
+.bottom-nav .create-dot svg{color:#fff}
+
+@media(min-width:768px){
+  .bottom-nav{display:none}
+  .footer{padding-bottom:40px}
+  body{padding-bottom:0}
+}
+@media(max-width:767px){
+  body{padding-bottom:56px}
+  .header-back span{display:none}
+}
+
+/* ═══ REVEAL ═══ */
+.reveal{opacity:0;transform:translateY(20px);transition:opacity .5s ease,transform .5s ease}
+.reveal.visible{opacity:1;transform:translateY(0)}
+.reveal-d1{transition-delay:.1s}
+.reveal-d2{transition-delay:.2s}
+.reveal-d3{transition-delay:.3s}
+</style>
+</head>
+<body>
+
+<!-- FLAG -->
+<div class="flag-stripe"></div>
+
+<!-- LANG -->
+<div class="lang-bar">
+  <a class="active" data-lang="ht">Kreyòl</a>
+  <a data-lang="fr">Français</a>
+  <a data-lang="en">English</a>
+  <a data-lang="es">Español</a>
+</div>
+
+<!-- HEADER -->
+<header class="header">
+  <a href="events.html" class="header-logo">
+    <img src="assets/events-logo.png" alt="HaitiBiznis Events">
+    <span>Haiti<em>Biznis</em> Events</span>
+  </a>
+  <a href="index.html" class="header-back">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M19 12H5M12 5l-7 7 7 7"/></svg>
+    <span>HaitiBiznis</span>
+  </a>
+</header>
+
+<!-- ═══ 1. HERO ═══ -->
+<section class="hero">
+  <div class="hero-confetti" id="confetti"></div>
+  <div class="hero-content">
+    <div class="hero-logo-wrap">
+      <img src="assets/events-logo.png" alt="HaitiBiznis Events">
+    </div>
+    <h1>Kreye<span class="dot">.</span> Envite<span class="dot">.</span> <em>Vann Tikè</em><span class="dot">.</span></h1>
+    <p class="hero-sub">Desiyen bèl envitasyon, vann tikè, ak jere envite ou nan yon sèl plas. Premye platfòm evènman Ayiti.</p>
+    <div class="hero-ctas">
+      <a href="create-event.html" class="btn btn-red">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg>
+        Kreye Evènman
+      </a>
+      <a href="#events" class="btn btn-outline">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg>
+        Gade Evènman
+      </a>
+    </div>
+    <div class="hero-stats">
+      <div class="hero-stat"><div class="num">500+</div><div class="label">Evènman Kreye</div></div>
+      <div class="hero-stat"><div class="num">10,000+</div><div class="label">Tikè Vann</div></div>
+      <div class="hero-stat"><div class="num">200+</div><div class="label">Ògannizatè</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ 2. CATEGORIES ═══ -->
+<div class="diag"></div>
+<section class="section">
+  <div class="section-tag reveal">📂 Kategori</div>
+  <h2 class="section-title reveal">Tout Tip <em>Evènman</em></h2>
+  <p class="section-desc reveal">Konferans, fèt, gala, maryaj — tout gen plas sou platfòm lan.</p>
+  <div class="cats reveal">
+    <div class="cat-card" data-cat="conference">
+      <span class="cat-icon">🎤</span>
+      <span class="cat-name">Konferans</span>
+      <span class="cat-count">45 evènman</span>
+    </div>
+    <div class="cat-card" data-cat="party">
+      <span class="cat-icon">🎉</span>
+      <span class="cat-name">Fèt / Party</span>
+      <span class="cat-count">128 evènman</span>
+    </div>
+    <div class="cat-card" data-cat="fundraiser">
+      <span class="cat-icon">💝</span>
+      <span class="cat-name">Gala / Kolèk</span>
+      <span class="cat-count">32 evènman</span>
+    </div>
+    <div class="cat-card" data-cat="seminar">
+      <span class="cat-icon">📚</span>
+      <span class="cat-name">Seminè</span>
+      <span class="cat-count">67 evènman</span>
+    </div>
+    <div class="cat-card" data-cat="wedding">
+      <span class="cat-icon">💍</span>
+      <span class="cat-name">Maryaj</span>
+      <span class="cat-count">89 evènman</span>
+    </div>
+    <div class="cat-card" data-cat="church">
+      <span class="cat-icon">⛪</span>
+      <span class="cat-name">Legliz</span>
+      <span class="cat-count">156 evènman</span>
+    </div>
+    <div class="cat-card" data-cat="business">
+      <span class="cat-icon">💼</span>
+      <span class="cat-name">Biznis</span>
+      <span class="cat-count">78 evènman</span>
+    </div>
+    <div class="cat-card" data-cat="concert">
+      <span class="cat-icon">🎵</span>
+      <span class="cat-name">Konsè</span>
+      <span class="cat-count">94 evènman</span>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ 3. FEATURED EVENTS ═══ -->
+<section class="section" id="events" style="background:var(--white);max-width:100%;border-top:1px solid var(--border-light);border-bottom:1px solid var(--border-light);padding-left:0;padding-right:0">
+  <div style="max-width:960px;margin:0 auto;padding:0 20px">
+    <div class="section-tag reveal">🔥 Popilè</div>
+    <h2 class="section-title reveal">Evènman <em>Popilè</em></h2>
+    <p class="section-desc reveal">Evènman ki pi cho nan peyi a kounye a.</p>
+  </div>
+  <div class="events-scroll" style="padding-left:max(20px, calc((100% - 960px)/2 + 20px))">
+
+    <div class="ev-card reveal" onclick="alert('Paj evènman ap vini byento!')">
+      <div class="ev-img">
+        <div class="ev-img-bg" style="background:linear-gradient(135deg,#0A1235,#00209F,#0A3ACC)">🎤</div>
+        <span class="ev-type-tag" style="background:rgba(0,32,159,.85)">Konferans</span>
+        <div class="ev-date-badge"><div class="month">JUN</div><div class="day">15</div></div>
+      </div>
+      <div class="ev-body">
+        <div class="ev-title">Konferans Biznis Ayiti 2026</div>
+        <div class="ev-meta">
+          <div class="ev-meta-row">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>
+            Port-au-Prince, Karibe Hotel
+          </div>
+          <div class="ev-meta-row">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
+            9:00 AM — 5:00 PM
+          </div>
+        </div>
+        <div class="ev-footer">
+          <span class="ev-price">HTG 2,500</span>
+          <button class="ev-buy ticket">Achte Tikè</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="ev-card reveal reveal-d1" onclick="alert('Paj evènman ap vini byento!')">
+      <div class="ev-img">
+        <div class="ev-img-bg" style="background:linear-gradient(135deg,#5a1a3a,#D21034,#FF4466)">🎉</div>
+        <span class="ev-type-tag" style="background:rgba(210,16,52,.85)">Party</span>
+        <div class="ev-date-badge"><div class="month">JUL</div><div class="day">04</div></div>
+      </div>
+      <div class="ev-body">
+        <div class="ev-title">Soirée Tropicale</div>
+        <div class="ev-meta">
+          <div class="ev-meta-row">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>
+            Pétion-Ville, Yanvalou Lounge
+          </div>
+          <div class="ev-meta-row">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
+            9:00 PM — 3:00 AM
+          </div>
+        </div>
+        <div class="ev-footer">
+          <span class="ev-price">HTG 1,500</span>
+          <button class="ev-buy ticket">Achte Tikè</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="ev-card reveal reveal-d2" onclick="alert('Paj evènman ap vini byento!')">
+      <div class="ev-img">
+        <div class="ev-img-bg" style="background:linear-gradient(135deg,#1a3a1a,#D4A017,#E8B82E)">💝</div>
+        <span class="ev-type-tag" style="background:rgba(212,160,23,.9)">Gala</span>
+        <div class="ev-date-badge"><div class="month">AOU</div><div class="day">22</div></div>
+      </div>
+      <div class="ev-body">
+        <div class="ev-title">Gala Solidarité</div>
+        <div class="ev-meta">
+          <div class="ev-meta-row">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>
+            Cap-Haïtien, Habitation Labadie
+          </div>
+          <div class="ev-meta-row">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
+            7:00 PM — 11:00 PM
+          </div>
+        </div>
+        <div class="ev-footer">
+          <span class="ev-price">HTG 5,000</span>
+          <button class="ev-buy ticket">Achte Tikè</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="ev-card reveal reveal-d3" onclick="alert('Paj evènman ap vini byento!')">
+      <div class="ev-img">
+        <div class="ev-img-bg" style="background:linear-gradient(135deg,#f5e6d0,#e8c9a0,#d4a870)">💍</div>
+        <span class="ev-type-tag" style="background:rgba(180,140,80,.9)">Maryaj</span>
+        <div class="ev-date-badge"><div class="month">SEP</div><div class="day">06</div></div>
+      </div>
+      <div class="ev-body">
+        <div class="ev-title">Maryaj Jean &amp; Marie</div>
+        <div class="ev-meta">
+          <div class="ev-meta-row">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>
+            Jacmel, Hôtel Florita
+          </div>
+          <div class="ev-meta-row">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
+            4:00 PM — 11:00 PM
+          </div>
+        </div>
+        <div class="ev-footer">
+          <span class="ev-price free">✓ RSVP Gratis</span>
+          <button class="ev-buy rsvp">RSVP</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="ev-card reveal" onclick="alert('Paj evènman ap vini byento!')">
+      <div class="ev-img">
+        <div class="ev-img-bg" style="background:linear-gradient(135deg,#2a1a5a,#5a3a8a,#8a6abd)">⛪</div>
+        <span class="ev-type-tag" style="background:rgba(90,58,138,.85)">Legliz</span>
+        <div class="ev-date-badge"><div class="month">MAI</div><div class="day">18</div></div>
+      </div>
+      <div class="ev-body">
+        <div class="ev-title">Louanj ak Adorasyon</div>
+        <div class="ev-meta">
+          <div class="ev-meta-row">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>
+            Delmas, Église Shalom
+          </div>
+          <div class="ev-meta-row">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
+            6:00 PM — 9:00 PM
+          </div>
+        </div>
+        <div class="ev-footer">
+          <span class="ev-price free">✓ Gratis</span>
+          <button class="ev-buy rsvp">RSVP</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="ev-card reveal" onclick="alert('Paj evènman ap vini byento!')">
+      <div class="ev-img">
+        <div class="ev-img-bg" style="background:linear-gradient(135deg,#0a2a4a,#00209F,#D4A017)">🏠</div>
+        <span class="ev-type-tag" style="background:rgba(0,32,159,.85)">Konferans</span>
+        <div class="ev-date-badge"><div class="month">JUN</div><div class="day">28</div></div>
+      </div>
+      <div class="ev-body">
+        <div class="ev-title">Konferans Immobilye ProLakay</div>
+        <div class="ev-meta">
+          <div class="ev-meta-row">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>
+            Tabarre, ProLakay HQ
+          </div>
+          <div class="ev-meta-row">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
+            10:00 AM — 4:00 PM
+          </div>
+        </div>
+        <div class="ev-footer">
+          <span class="ev-price">HTG 3,000</span>
+          <button class="ev-buy ticket">Achte Tikè</button>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ═══ 4. HOW IT WORKS ═══ -->
+<section class="section">
+  <div class="section-tag reveal">⚡ Kòman sa Mache</div>
+  <h2 class="section-title reveal">4 Etap pou <em>Kreye Evènman</em></h2>
+  <p class="section-desc reveal">Kreye, envite, vann — tout nan kèk minit.</p>
+  <div class="steps reveal">
+    <div class="step">
+      <div class="step-num"></div>
+      <span class="step-icon">📝</span>
+      <h4>Kreye Evènman</h4>
+      <p>Non, dat, lè, kote — mete tout detay yo.</p>
+      <span class="step-arrow">→</span>
+    </div>
+    <div class="step">
+      <div class="step-num"></div>
+      <span class="step-icon">🎨</span>
+      <h4>Desiyen Envitasyon</h4>
+      <p>Chwazi template, mete logo ou, personalize tout.</p>
+      <span class="step-arrow">→</span>
+    </div>
+    <div class="step">
+      <div class="step-num"></div>
+      <span class="step-icon">🎟️</span>
+      <h4>Ajoute Tikè</h4>
+      <p>General, VIP, Early Bird — mete pri ak kantite.</p>
+      <span class="step-arrow">→</span>
+    </div>
+    <div class="step">
+      <div class="step-num"></div>
+      <span class="step-icon">🚀</span>
+      <h4>Pataje &amp; Vann</h4>
+      <p>Pataje sou WhatsApp, Facebook. Lajan rive nan MonCash ou.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ 5. BENEFITS ═══ -->
+<section class="section" style="background:var(--cream);max-width:100%;border-top:1px solid var(--border-light);padding-left:20px;padding-right:20px">
+  <div style="max-width:960px;margin:0 auto">
+    <div class="section-tag reveal">✨ Avantaj</div>
+    <h2 class="section-title reveal">Poukisa Chwazi <em>HaitiBiznis Events?</em></h2>
+    <p class="section-desc reveal">Tout sa ou bezwen pou fè evènman ou yon siksè.</p>
+    <div class="benefits reveal">
+      <div class="benefit">
+        <span class="benefit-icon">🎨</span>
+        <h4>Envitasyon Pwofesyonèl</h4>
+        <p>Bèl template pou tout okazyon. Personalize koulè, logo, tèks — fè l parèt tankou pa ou.</p>
+      </div>
+      <div class="benefit">
+        <span class="benefit-icon">📱</span>
+        <h4>Tikè ak QR Code</h4>
+        <p>Chak tikè gen yon QR code inik. Skan lè envite rive — pa gen fwòd, pa gen dezòd.</p>
+      </div>
+      <div class="benefit">
+        <span class="benefit-icon">💳</span>
+        <h4>Peman Fasil</h4>
+        <p>MonCash, NatCash, kat kredi — aksepte tout kalite peman. Lajan rive dirèkteman.</p>
+      </div>
+      <div class="benefit">
+        <span class="benefit-icon">💰</span>
+        <h4>Koutye Biznis</h4>
+        <p>Pataje evènman ak lyen referral ou. Chak tikè ki vann = komisyon pou ou.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ 6. KOUTYE ═══ -->
+<section class="koutye-section">
+  <div class="koutye-inner">
+    <span class="koutye-icon reveal">💰</span>
+    <h2 class="reveal">Fè Lajan ak <em>Evènman</em></h2>
+    <p class="reveal">Pataje evènman, touche komisyon sou chak tikè vann. Lyen referral yo swiv otomatikman. Plis ou pataje, plis ou touche.</p>
+    <div class="reveal" style="display:flex;gap:12px;justify-content:center;flex-wrap:wrap">
+      <a href="koutye.html" class="btn btn-gold">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 000 7h5a3.5 3.5 0 010 7H6"/></svg>
+        Vin yon Koutye
+      </a>
+      <a href="koutye.html#how" class="btn btn-outline">Gade Komisyon yo</a>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ 7. CREATE CTA ═══ -->
+<section class="cta-section">
+  <div class="cta-inner">
+    <h2 class="reveal">Prè pou Kreye <em>Evènman Ou?</em></h2>
+    <p class="reveal">Gratis pou kòmanse. San frè jiskaske ou vann tikè.</p>
+    <a href="create-event.html" class="cta-btn reveal">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg>
+      Kreye Evènman Gratis
+    </a>
+    <div class="trust-badges reveal">
+      <div class="trust-badge">
+        <div class="trust-badge-icon">🔒</div>
+        San Frè Kache
+      </div>
+      <div class="trust-badge">
+        <div class="trust-badge-icon">💬</div>
+        Sipò 24/7
+      </div>
+      <div class="trust-badge">
+        <div class="trust-badge-icon">✅</div>
+        Peman Sekirize
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ FOOTER ═══ -->
+<footer class="footer">
+  <div class="footer-logo">Haiti<em>Biznis</em> Events</div>
+  <p class="footer-text">Premye platfòm evènman an Ayiti — kreye, envite, vann tikè ak konfyans.</p>
+  <div class="footer-eco">
+    <img src="assets/haitibiznis-icon.png" alt="HaitiBiznis">
+    Yon Platfòm HaitiBiznis
+  </div>
+  <div class="footer-links">
+    <a href="index.html">HaitiBiznis</a>
+    <a href="prolakay.html">ProLakay</a>
+    <a href="koutye.html">Koutye Biznis</a>
+    <a href="utility-hub.html">Utility Hub</a>
+  </div>
+  <p class="footer-copy">&copy; 2026 HaitiBiznis Events. Tout dwa rezève.</p>
+</footer>
+
+<!-- ═══ BOTTOM NAV ═══ -->
+<nav class="bottom-nav">
+  <a href="#" class="active" onclick="event.preventDefault();window.scrollTo({top:0,behavior:'smooth'})">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+    Akèy
+  </a>
+  <a href="#events" onclick="event.preventDefault();document.getElementById('events').scrollIntoView({behavior:'smooth'})">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>
+    Evènman
+  </a>
+  <a href="create-event.html" class="create-tab">
+    <div class="create-dot">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" style="width:22px;height:22px"><path d="M12 5v14M5 12h14"/></svg>
+    </div>
+    <span style="margin-top:4px">Kreye</span>
+  </a>
+  <a href="koutye.html">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 000 7h5a3.5 3.5 0 010 7H6"/></svg>
+    Koutye
+  </a>
+  <a href="#">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4-4v2"/><circle cx="12" cy="7" r="4"/></svg>
+    Kont
+  </a>
+</nav>
+
+<script>
+/* ═══ CONFETTI PARTICLES ═══ */
+(function(){
+  var container = document.getElementById('confetti');
+  var colors = ['#D21034','#D4A017','#E8B82E','#FF6B8A','#FFD700','#FFFFFF','#00209F','#1B8C3D'];
+  var shapes = ['circle','square'];
+  for (var i = 0; i < 35; i++) {
+    var dot = document.createElement('div');
+    dot.className = 'confetti-dot';
+    var color = colors[Math.floor(Math.random() * colors.length)];
+    var size = 4 + Math.random() * 8;
+    var isSquare = Math.random() > 0.6;
+    dot.style.cssText =
+      'left:' + (Math.random() * 100) + '%;' +
+      'width:' + size + 'px;height:' + size + 'px;' +
+      'background:' + color + ';' +
+      'animation-duration:' + (5 + Math.random() * 8) + 's;' +
+      'animation-delay:' + (Math.random() * 6) + 's;' +
+      (isSquare ? 'border-radius:2px;' : '') +
+      'opacity:0;';
+    container.appendChild(dot);
+  }
+})();
+
+/* ═══ SCROLL REVEAL ═══ */
+var observer = new IntersectionObserver(function(entries){
+  entries.forEach(function(entry){
+    if (entry.isIntersecting) entry.target.classList.add('visible');
+  });
+}, {threshold:0.1, rootMargin:'0px 0px -30px 0px'});
+document.querySelectorAll('.reveal').forEach(function(el){ observer.observe(el); });
+
+/* ═══ LANG SWITCHER ═══ */
+document.querySelectorAll('.lang-bar a').forEach(function(a){
+  a.addEventListener('click', function(){
+    document.querySelectorAll('.lang-bar a').forEach(function(l){l.classList.remove('active')});
+    a.classList.add('active');
+  });
+});
+
+/* ═══ CATEGORY CLICK ═══ */
+document.querySelectorAll('.cat-card').forEach(function(card){
+  card.addEventListener('click', function(){
+    document.getElementById('events').scrollIntoView({behavior:'smooth'});
+  });
+});
+</script>
+</body>
+</html>
