@@ -1,0 +1,1366 @@
+<!DOCTYPE html>
+<html lang="ht">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ProLakay — Jwenn Kay, Tè, ak Pwofesyonèl Ou Fè Konfyans</title>
+<meta name="description" content="Achte, vann, lwe pwopriyete an Ayiti. Jwenn pwofesyonèl verifye. Fè lajan ak komisyon Koutye Biznis.">
+<meta property="og:title" content="ProLakay — Immobilier & Services Vérifié en Haïti">
+<meta property="og:description" content="Achte, vann, lwe pwopriyete an Ayiti. Jwenn pwofesyonèl verifye.">
+<meta property="og:type" content="website">
+<meta name="theme-color" content="#00209F">
+<link rel="icon" type="image/x-icon" href="favicon.ico">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --blue:#00209F;--blue-deep:#001566;--blue-light:#0A3ACC;--blue-glow:rgba(0,32,159,.12);
+  --red:#D21034;--red-dark:#B00D2C;--red-glow:rgba(210,16,52,.15);
+  --gold:#D4A017;--gold-light:#E8B82E;--gold-soft:#FDF3D7;--gold-glow:rgba(212,160,23,.2);
+  --white:#FFFFFF;--off-white:#F5F7FA;--cream:#FAFBFD;
+  --dark:#0A0E1A;--text:#1A2A4A;--text-light:#5A6B8A;--text-muted:#8A95AA;
+  --border:#E2E8F0;--border-light:#F0F3F7;
+  --green:#1B8C3D;--green-light:#E8F5E9;
+  --body:'Plus Jakarta Sans',system-ui,sans-serif;
+  --display:'DM Serif Display',Georgia,serif;
+  --shadow-sm:0 1px 3px rgba(10,14,26,.06);
+  --shadow-md:0 4px 16px rgba(10,14,26,.08);
+  --shadow-lg:0 12px 40px rgba(10,14,26,.12);
+  --shadow-xl:0 20px 60px rgba(10,14,26,.16);
+  --radius:14px;--radius-lg:20px;
+}
+html{scroll-behavior:smooth}
+body{font-family:var(--body);background:var(--off-white);color:var(--text);overflow-x:hidden;-webkit-font-smoothing:antialiased}
+a{text-decoration:none;color:inherit}
+button{font-family:var(--body);cursor:pointer;border:none;background:none}
+input,select,textarea{font-family:var(--body)}
+img{max-width:100%;display:block}
+
+/* ═══ FLAG STRIPE ═══ */
+.flag-stripe{height:4px;background:linear-gradient(90deg,var(--blue) 50%,var(--red) 50%);position:relative;z-index:1002}
+
+/* ═══ LANG BAR ═══ */
+.lang-bar{
+  background:var(--dark);padding:6px 20px;
+  display:flex;align-items:center;justify-content:center;gap:4px;
+  font-size:.68rem;position:relative;z-index:1001;
+}
+.lang-bar a{
+  color:rgba(255,255,255,.5);padding:3px 12px;border-radius:100px;
+  font-weight:600;transition:all .2s;cursor:pointer;
+}
+.lang-bar a:hover{color:#fff;background:rgba(255,255,255,.08)}
+.lang-bar a.active{color:var(--gold);background:rgba(212,160,23,.15)}
+
+/* ═══ HEADER ═══ */
+.header{
+  position:sticky;top:0;z-index:100;
+  background:rgba(255,255,255,.95);backdrop-filter:blur(16px);
+  border-bottom:1px solid var(--border);
+  padding:0 20px;height:60px;
+  display:flex;align-items:center;justify-content:space-between;
+  max-width:100%;
+}
+.header-logo{display:flex;align-items:center;gap:10px}
+.header-logo img{height:36px;border-radius:8px}
+.header-logo span{font-family:var(--display);font-size:1.2rem;color:var(--dark)}
+.header-logo span em{color:var(--red);font-style:italic}
+.header-back{
+  font-size:.78rem;font-weight:600;color:var(--text-light);
+  display:flex;align-items:center;gap:5px;padding:8px 14px;border-radius:8px;
+  transition:all .2s;
+}
+.header-back:hover{background:var(--blue-glow);color:var(--blue)}
+.header-back svg{width:16px;height:16px}
+
+/* ═══ HERO ═══ */
+.hero{
+  background:linear-gradient(165deg,var(--dark) 0%,var(--blue-deep) 30%,var(--blue) 70%,var(--blue-light) 100%);
+  color:#fff;padding:56px 20px 72px;text-align:center;
+  position:relative;overflow:hidden;
+}
+.hero::before{
+  content:'';position:absolute;inset:0;
+  background:
+    radial-gradient(ellipse 600px 400px at 20% 80%, rgba(210,16,52,.12) 0%, transparent 70%),
+    radial-gradient(ellipse 500px 500px at 80% 20%, rgba(212,160,23,.08) 0%, transparent 70%);
+  pointer-events:none;
+}
+.hero::after{
+  content:'';position:absolute;inset:0;
+  background:url("data:image/svg+xml,%3Csvg width='60' height='60' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M0 30h60M30 0v60' stroke='%23ffffff' stroke-width='.3' opacity='.04'/%3E%3C/svg%3E");
+  pointer-events:none;
+}
+.hero-content{position:relative;z-index:1;max-width:640px;margin:0 auto}
+.hero-logo{
+  width:72px;height:72px;border-radius:16px;margin:0 auto 20px;
+  box-shadow:0 8px 32px rgba(0,0,0,.3);border:2px solid rgba(255,255,255,.15);
+}
+.hero-badge{
+  display:inline-flex;align-items:center;gap:6px;
+  background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.15);
+  backdrop-filter:blur(8px);
+  padding:6px 16px;border-radius:100px;
+  font-size:.7rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;
+  color:var(--gold-light);margin-bottom:20px;
+}
+.hero h1{
+  font-family:var(--display);font-size:clamp(1.8rem,5vw,3rem);
+  line-height:1.18;margin-bottom:14px;
+  text-shadow:0 2px 20px rgba(0,0,0,.3);
+}
+.hero h1 em{color:var(--gold-light);font-style:italic}
+.hero-sub{
+  font-size:clamp(.88rem,2vw,1.05rem);color:rgba(255,255,255,.7);
+  margin-bottom:28px;letter-spacing:.02em;font-weight:500;
+}
+.hero-sub span{color:var(--gold-light);font-weight:700}
+.hero-ctas{display:flex;flex-wrap:wrap;gap:10px;justify-content:center}
+.btn{
+  display:inline-flex;align-items:center;justify-content:center;gap:8px;
+  font-size:.88rem;font-weight:700;padding:14px 24px;border-radius:12px;
+  transition:all .25s cubic-bezier(.4,0,.2,1);position:relative;overflow:hidden;
+  white-space:nowrap;
+}
+.btn-red{
+  background:linear-gradient(135deg,var(--red),var(--red-dark));color:#fff;
+  box-shadow:0 4px 20px rgba(210,16,52,.35);
+}
+.btn-red:hover{transform:translateY(-2px);box-shadow:0 8px 28px rgba(210,16,52,.45)}
+.btn-outline{
+  background:transparent;color:#fff;
+  border:2px solid rgba(255,255,255,.3);
+}
+.btn-outline:hover{background:rgba(255,255,255,.1);border-color:rgba(255,255,255,.5)}
+.btn-gold{
+  background:linear-gradient(135deg,var(--gold),#C4900F);color:#fff;
+  box-shadow:0 4px 20px var(--gold-glow);
+}
+.btn-gold:hover{transform:translateY(-2px);box-shadow:0 8px 28px rgba(212,160,23,.4)}
+.btn svg{width:18px;height:18px;flex-shrink:0}
+
+/* ═══ DIAGONAL DIVIDER ═══ */
+.diag-top{
+  position:relative;margin-top:-40px;z-index:2;
+  height:40px;overflow:hidden;
+}
+.diag-top::before{
+  content:'';position:absolute;bottom:0;left:-5%;width:110%;height:80px;
+  background:var(--off-white);transform:skewY(-1.5deg);transform-origin:bottom left;
+}
+
+/* ═══ SEARCH BAR ═══ */
+.search-section{
+  position:relative;z-index:10;margin-top:-36px;padding:0 16px 32px;
+}
+.search-card{
+  max-width:800px;margin:0 auto;
+  background:var(--white);border:1px solid var(--border);
+  border-radius:var(--radius-lg);padding:20px;
+  box-shadow:var(--shadow-lg);
+}
+.search-row{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:12px}
+.search-field{position:relative}
+.search-field label{
+  display:block;font-size:.7rem;font-weight:700;letter-spacing:.06em;text-transform:uppercase;
+  color:var(--text-muted);margin-bottom:5px;
+}
+.search-field select,.search-field input{
+  width:100%;height:44px;padding:0 14px;
+  border:1.5px solid var(--border);border-radius:10px;
+  font-size:.88rem;color:var(--text);background:var(--cream);
+  transition:border-color .2s;appearance:none;outline:none;
+}
+.search-field select{
+  background-image:url("data:image/svg+xml,%3Csvg width='12' height='8' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%238A95AA' stroke-width='1.5' fill='none'/%3E%3C/svg%3E");
+  background-repeat:no-repeat;background-position:right 14px center;padding-right:36px;
+}
+.search-field select:focus,.search-field input:focus{border-color:var(--blue);background:var(--white)}
+.search-budget{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.search-actions{display:flex;align-items:center;justify-content:space-between;gap:12px}
+.search-verify{display:flex;align-items:center;gap:8px;font-size:.82rem;font-weight:600;color:var(--text-light);cursor:pointer}
+.search-verify input[type="checkbox"]{display:none}
+.search-verify .check{
+  width:20px;height:20px;border:2px solid var(--border);border-radius:6px;
+  display:flex;align-items:center;justify-content:center;transition:all .2s;flex-shrink:0;
+}
+.search-verify input:checked + .check{background:var(--blue);border-color:var(--blue)}
+.search-verify input:checked + .check::after{content:'';width:6px;height:10px;border:2px solid #fff;border-width:0 2px 2px 0;transform:rotate(45deg);margin-top:-2px}
+.search-btn{
+  height:44px;padding:0 28px;background:linear-gradient(135deg,var(--red),var(--red-dark));
+  color:#fff;font-size:.88rem;font-weight:700;border-radius:10px;
+  display:flex;align-items:center;gap:8px;
+  box-shadow:0 4px 16px rgba(210,16,52,.25);transition:all .2s;
+}
+.search-btn:hover{transform:translateY(-1px);box-shadow:0 6px 20px rgba(210,16,52,.35)}
+.search-btn svg{width:18px;height:18px}
+
+@media(max-width:600px){
+  .search-row{grid-template-columns:1fr}
+  .search-actions{flex-direction:column;align-items:stretch}
+  .search-btn{justify-content:center}
+}
+
+/* ═══ SECTION COMMON ═══ */
+.section{padding:48px 20px;max-width:1000px;margin:0 auto}
+.section-tag{
+  display:inline-flex;align-items:center;gap:6px;
+  font-size:.68rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;
+  color:var(--blue);background:var(--blue-glow);
+  padding:5px 14px;border-radius:100px;margin-bottom:14px;
+}
+.section-title{font-family:var(--display);font-size:clamp(1.5rem,4vw,2.2rem);color:var(--dark);margin-bottom:8px;line-height:1.2}
+.section-title em{color:var(--red);font-style:italic}
+.section-desc{font-size:.92rem;color:var(--text-light);max-width:500px;line-height:1.6;margin-bottom:28px}
+
+/* ═══ PROPERTIES ═══ */
+.props-scroll{
+  display:flex;gap:16px;overflow-x:auto;overflow-y:visible;
+  scroll-snap-type:x mandatory;-webkit-overflow-scrolling:touch;
+  padding:4px 0 20px;margin:0 -20px;padding-left:20px;padding-right:20px;
+}
+.props-scroll::-webkit-scrollbar{display:none}
+.prop-card{
+  min-width:280px;max-width:300px;scroll-snap-align:start;flex-shrink:0;
+  background:var(--white);border:1px solid var(--border);border-radius:var(--radius-lg);
+  overflow:hidden;transition:all .3s;position:relative;
+}
+.prop-card:hover{transform:translateY(-4px);box-shadow:var(--shadow-lg)}
+.prop-img{
+  height:180px;position:relative;overflow:hidden;
+}
+.prop-img-bg{
+  width:100%;height:100%;
+  display:flex;align-items:center;justify-content:center;
+  font-size:3rem;
+}
+.prop-tags{position:absolute;top:10px;left:10px;display:flex;gap:6px;flex-wrap:wrap}
+.prop-tag{
+  font-size:.65rem;font-weight:700;letter-spacing:.04em;text-transform:uppercase;
+  padding:4px 10px;border-radius:6px;backdrop-filter:blur(8px);
+}
+.prop-tag.sale{background:rgba(210,16,52,.9);color:#fff}
+.prop-tag.rent{background:rgba(0,32,159,.9);color:#fff}
+.prop-tag.verified{background:rgba(255,255,255,.9);color:var(--green)}
+.prop-tag.hot{background:linear-gradient(135deg,var(--gold),#C4900F);color:#fff}
+.prop-price{
+  position:absolute;bottom:0;left:0;right:0;
+  background:linear-gradient(transparent,rgba(0,0,0,.7));
+  padding:24px 14px 12px;
+  font-size:1.3rem;font-weight:800;color:#fff;
+}
+.prop-price small{font-size:.7rem;font-weight:600;opacity:.8;display:block;margin-top:2px}
+.prop-body{padding:14px}
+.prop-loc{display:flex;align-items:center;gap:6px;font-size:.82rem;color:var(--text-light);margin-bottom:10px}
+.prop-loc svg{width:14px;height:14px;color:var(--red);flex-shrink:0}
+.prop-meta{display:flex;gap:12px;font-size:.75rem;color:var(--text-muted);margin-bottom:14px}
+.prop-meta span{display:flex;align-items:center;gap:4px}
+.prop-actions{display:flex;gap:8px}
+.prop-btn{
+  flex:1;height:38px;border-radius:8px;font-size:.78rem;font-weight:700;
+  display:flex;align-items:center;justify-content:center;gap:6px;
+  transition:all .2s;
+}
+.prop-btn.detail{background:var(--red);color:#fff}
+.prop-btn.detail:hover{background:var(--red-dark)}
+.prop-btn.wa{background:var(--green-light);color:var(--green);border:1px solid rgba(27,140,61,.2)}
+.prop-btn.wa:hover{background:var(--green);color:#fff}
+
+/* ═══ PROFESSIONALS ═══ */
+.pro-cats{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:28px}
+.pro-cat{
+  background:var(--white);border:1.5px solid var(--border);border-radius:var(--radius);
+  padding:16px 12px;text-align:center;cursor:pointer;transition:all .25s;
+}
+.pro-cat:hover,.pro-cat.active{border-color:var(--blue);background:var(--blue-glow);transform:translateY(-2px);box-shadow:var(--shadow-sm)}
+.pro-cat-icon{font-size:1.6rem;margin-bottom:6px;display:block}
+.pro-cat-name{font-size:.72rem;font-weight:700;color:var(--text);letter-spacing:.02em}
+.pro-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:14px}
+.pro-card{
+  background:var(--white);border:1px solid var(--border);border-radius:var(--radius-lg);
+  padding:18px;display:flex;gap:14px;transition:all .3s;
+}
+.pro-card:hover{transform:translateY(-3px);box-shadow:var(--shadow-md)}
+.pro-avatar{
+  width:56px;height:56px;border-radius:14px;flex-shrink:0;
+  display:flex;align-items:center;justify-content:center;
+  font-size:1.1rem;font-weight:800;color:#fff;
+  position:relative;
+}
+.pro-avatar .verify-badge{
+  position:absolute;bottom:-3px;right:-3px;width:18px;height:18px;
+  background:var(--green);border-radius:50%;border:2px solid var(--white);
+  display:flex;align-items:center;justify-content:center;
+}
+.pro-avatar .verify-badge::after{content:'';width:5px;height:8px;border:1.5px solid #fff;border-width:0 1.5px 1.5px 0;transform:rotate(45deg);margin-top:-2px}
+.pro-info{flex:1;min-width:0}
+.pro-name{font-weight:700;font-size:.9rem;color:var(--dark);margin-bottom:2px}
+.pro-title{font-size:.78rem;color:var(--text-light);margin-bottom:6px}
+.pro-rating{display:flex;align-items:center;gap:3px;margin-bottom:10px}
+.pro-star{color:var(--gold);font-size:.8rem}
+.pro-rating-num{font-size:.75rem;font-weight:600;color:var(--text-muted);margin-left:4px}
+.pro-actions{display:flex;gap:8px}
+.pro-btn{
+  height:34px;padding:0 14px;border-radius:8px;font-size:.75rem;font-weight:700;
+  display:flex;align-items:center;gap:5px;transition:all .2s;
+}
+.pro-btn.contact{background:var(--red);color:#fff}
+.pro-btn.contact:hover{background:var(--red-dark)}
+.pro-btn.refer{background:var(--gold-soft);color:var(--gold);border:1px solid var(--gold-glow)}
+.pro-btn.refer:hover{background:var(--gold);color:#fff}
+
+@media(max-width:500px){.pro-cats{grid-template-columns:repeat(2,1fr)}}
+
+/* ═══ KOUTYE SECTION ═══ */
+.koutye-section{
+  background:linear-gradient(135deg,var(--blue-deep) 0%,var(--blue) 40%,var(--red-dark) 100%);
+  padding:56px 20px;text-align:center;color:#fff;
+  position:relative;overflow:hidden;
+}
+.koutye-section::before{
+  content:'';position:absolute;inset:0;
+  background:url("data:image/svg+xml,%3Csvg width='40' height='40' xmlns='http://www.w3.org/2000/svg'%3E%3Ccircle cx='20' cy='20' r='1' fill='%23fff' opacity='.05'/%3E%3C/svg%3E");
+  pointer-events:none;
+}
+.koutye-inner{position:relative;z-index:1;max-width:600px;margin:0 auto}
+.koutye-icon{
+  width:64px;height:64px;margin:0 auto 18px;
+  background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.15);
+  border-radius:16px;display:flex;align-items:center;justify-content:center;
+  font-size:1.6rem;backdrop-filter:blur(8px);
+}
+.koutye-section h2{font-family:var(--display);font-size:clamp(1.6rem,4vw,2.2rem);margin-bottom:12px}
+.koutye-section h2 em{color:var(--gold-light);font-style:italic}
+.koutye-section p{font-size:.95rem;color:rgba(255,255,255,.75);line-height:1.6;margin-bottom:24px}
+.koutye-ctas{display:flex;gap:12px;justify-content:center;flex-wrap:wrap}
+.koutye-stats{display:flex;justify-content:center;gap:32px;margin-top:28px}
+.koutye-stat{text-align:center}
+.koutye-stat .num{font-family:var(--display);font-size:1.6rem;color:var(--gold-light)}
+.koutye-stat .label{font-size:.72rem;color:rgba(255,255,255,.5);margin-top:2px;text-transform:uppercase;letter-spacing:.06em;font-weight:600}
+
+/* ═══ DIASPORA ═══ */
+.diaspora{
+  background:var(--white);border:1.5px solid var(--border);border-radius:var(--radius-lg);
+  padding:24px;margin:32px auto;max-width:600px;
+  position:relative;overflow:hidden;
+}
+.diaspora::before{
+  content:'';position:absolute;top:0;right:0;width:120px;height:120px;
+  background:radial-gradient(circle, var(--gold-glow) 0%, transparent 70%);
+  pointer-events:none;
+}
+.diaspora-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:16px}
+.diaspora-title{display:flex;align-items:center;gap:10px}
+.diaspora-title h3{font-family:var(--display);font-size:1.1rem;color:var(--dark)}
+.diaspora-title .globe{font-size:1.3rem}
+.toggle{
+  width:48px;height:26px;border-radius:100px;background:var(--border);
+  position:relative;cursor:pointer;transition:background .3s;flex-shrink:0;
+}
+.toggle.on{background:var(--blue)}
+.toggle::after{
+  content:'';position:absolute;top:3px;left:3px;width:20px;height:20px;
+  background:#fff;border-radius:50%;transition:transform .3s;
+  box-shadow:0 1px 4px rgba(0,0,0,.15);
+}
+.toggle.on::after{transform:translateX(22px)}
+.diaspora-features{
+  display:none;gap:10px;flex-direction:column;
+  animation:slideDown .3s ease;
+}
+.diaspora-features.visible{display:flex}
+@keyframes slideDown{from{opacity:0;transform:translateY(-8px)}to{opacity:1;transform:translateY(0)}}
+.diaspora-feat{
+  display:flex;align-items:center;gap:12px;
+  background:var(--cream);border:1px solid var(--border-light);border-radius:12px;
+  padding:12px 16px;
+}
+.diaspora-feat-icon{
+  width:36px;height:36px;border-radius:10px;flex-shrink:0;
+  display:flex;align-items:center;justify-content:center;font-size:1rem;
+}
+.diaspora-feat-icon.pay{background:var(--gold-soft)}
+.diaspora-feat-icon.assign{background:var(--blue-glow)}
+.diaspora-feat-icon.track{background:var(--green-light)}
+.diaspora-feat h4{font-size:.85rem;font-weight:700;color:var(--dark)}
+.diaspora-feat p{font-size:.78rem;color:var(--text-light);margin-top:2px}
+
+/* ═══ SERVICE REQUEST ═══ */
+.request-section{
+  background:var(--cream);padding:48px 20px;
+  border-top:1px solid var(--border-light);border-bottom:1px solid var(--border-light);
+}
+.request-inner{max-width:560px;margin:0 auto}
+.request-form{
+  background:var(--white);border:1px solid var(--border);border-radius:var(--radius-lg);
+  padding:24px;box-shadow:var(--shadow-sm);
+}
+.form-group{margin-bottom:16px}
+.form-group label{
+  display:block;font-size:.78rem;font-weight:700;color:var(--text);margin-bottom:6px;
+}
+.form-group select,.form-group input,.form-group textarea{
+  width:100%;height:44px;padding:0 14px;
+  border:1.5px solid var(--border);border-radius:10px;
+  font-size:.88rem;color:var(--text);background:var(--cream);
+  outline:none;transition:border-color .2s;
+}
+.form-group textarea{height:88px;padding:12px 14px;resize:vertical}
+.form-group select:focus,.form-group input:focus,.form-group textarea:focus{border-color:var(--blue);background:var(--white)}
+.form-submit{
+  width:100%;height:48px;background:linear-gradient(135deg,var(--red),var(--red-dark));
+  color:#fff;font-size:.92rem;font-weight:700;border-radius:12px;
+  display:flex;align-items:center;justify-content:center;gap:8px;
+  box-shadow:0 4px 20px rgba(210,16,52,.25);transition:all .25s;
+}
+.form-submit:hover{transform:translateY(-2px);box-shadow:0 8px 28px rgba(210,16,52,.35)}
+.form-submit svg{width:18px;height:18px}
+
+/* ═══ PROPERTY DETAIL MODAL ═══ */
+.modal-overlay{
+  position:fixed;inset:0;background:rgba(10,14,26,.6);backdrop-filter:blur(4px);
+  z-index:2000;display:none;align-items:flex-end;justify-content:center;
+  padding:0;
+}
+.modal-overlay.open{display:flex}
+.modal{
+  background:var(--white);width:100%;max-width:600px;max-height:92vh;
+  border-radius:var(--radius-lg) var(--radius-lg) 0 0;
+  overflow-y:auto;position:relative;
+  animation:modalUp .35s cubic-bezier(.4,0,.2,1);
+}
+@keyframes modalUp{from{transform:translateY(100%)}to{transform:translateY(0)}}
+.modal-close{
+  position:absolute;top:14px;right:14px;z-index:10;
+  width:36px;height:36px;border-radius:50%;
+  background:rgba(0,0,0,.5);color:#fff;
+  display:flex;align-items:center;justify-content:center;
+  backdrop-filter:blur(8px);font-size:1.1rem;transition:background .2s;
+}
+.modal-close:hover{background:rgba(0,0,0,.7)}
+.modal-gallery{
+  height:240px;position:relative;overflow:hidden;
+}
+.modal-gallery-bg{width:100%;height:100%;display:flex;align-items:center;justify-content:center;font-size:4rem}
+.modal-gallery-dots{
+  position:absolute;bottom:12px;left:50%;transform:translateX(-50%);
+  display:flex;gap:6px;
+}
+.modal-gallery-dots span{
+  width:8px;height:8px;border-radius:50%;background:rgba(255,255,255,.4);
+  transition:all .2s;
+}
+.modal-gallery-dots span.active{background:#fff;width:20px;border-radius:4px}
+.modal-price-bar{
+  display:flex;align-items:center;justify-content:space-between;
+  padding:16px 20px;border-bottom:1px solid var(--border-light);
+}
+.modal-price{font-size:1.5rem;font-weight:900;color:var(--dark)}
+.modal-price small{font-size:.78rem;font-weight:500;color:var(--text-muted);display:block;margin-top:2px}
+.modal-type-tag{
+  font-size:.72rem;font-weight:700;text-transform:uppercase;letter-spacing:.04em;
+  padding:5px 12px;border-radius:8px;
+}
+.modal-body{padding:20px}
+.modal-loc{display:flex;align-items:center;gap:6px;font-size:.88rem;color:var(--text-light);margin-bottom:16px}
+.modal-loc svg{width:16px;height:16px;color:var(--red)}
+.modal-specs{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:18px}
+.modal-spec{
+  background:var(--cream);border:1px solid var(--border-light);border-radius:10px;
+  padding:12px;text-align:center;
+}
+.modal-spec .val{font-size:1.1rem;font-weight:800;color:var(--dark)}
+.modal-spec .label{font-size:.7rem;color:var(--text-muted);margin-top:2px;text-transform:uppercase;letter-spacing:.04em;font-weight:600}
+.modal-desc{font-size:.88rem;color:var(--text-light);line-height:1.7;margin-bottom:20px}
+.modal-actions{display:flex;flex-direction:column;gap:10px;padding:0 20px 24px}
+.modal-btn{
+  height:48px;border-radius:12px;font-size:.88rem;font-weight:700;
+  display:flex;align-items:center;justify-content:center;gap:8px;
+  transition:all .2s;
+}
+.modal-btn.wa{background:var(--green);color:#fff}
+.modal-btn.wa:hover{background:#158C32}
+.modal-btn.visit{background:var(--gold-soft);color:var(--gold);border:1.5px solid var(--gold-glow)}
+.modal-btn.visit:hover{background:var(--gold);color:#fff}
+.modal-btn.refer{background:var(--red-glow);color:var(--red);border:1.5px solid rgba(210,16,52,.2)}
+.modal-btn.refer:hover{background:var(--red);color:#fff}
+.modal-btn svg{width:18px;height:18px}
+
+@media(min-width:601px){
+  .modal-overlay{align-items:center;padding:20px}
+  .modal{border-radius:var(--radius-lg);max-height:85vh}
+  @keyframes modalUp{from{opacity:0;transform:translateY(40px) scale(.98)}to{opacity:1;transform:translateY(0) scale(1)}}
+}
+
+/* ═══ FOOTER ═══ */
+.footer{
+  background:var(--dark);color:rgba(255,255,255,.6);
+  padding:40px 20px 100px;text-align:center;
+}
+.footer-logo{
+  font-family:var(--display);font-size:1.1rem;color:#fff;margin-bottom:6px;
+}
+.footer-logo em{color:var(--gold-light);font-style:italic}
+.footer-text{font-size:.78rem;line-height:1.6;margin-bottom:16px}
+.footer-eco{
+  display:inline-flex;align-items:center;gap:6px;
+  font-size:.72rem;font-weight:600;color:rgba(255,255,255,.4);
+  padding:6px 14px;border-radius:100px;
+  border:1px solid rgba(255,255,255,.08);
+}
+.footer-eco img{height:18px;border-radius:4px}
+.footer-links{display:flex;gap:16px;justify-content:center;margin-top:14px;flex-wrap:wrap}
+.footer-links a{font-size:.75rem;color:rgba(255,255,255,.4);transition:color .2s}
+.footer-links a:hover{color:var(--gold-light)}
+
+/* ═══ STICKY CTA ═══ */
+.sticky-cta{
+  position:fixed;bottom:60px;left:0;right:0;z-index:90;
+  padding:0 12px;pointer-events:none;
+}
+.sticky-cta-inner{
+  max-width:500px;margin:0 auto;pointer-events:all;
+  background:linear-gradient(135deg,var(--gold),#C4900F);
+  border-radius:14px;padding:12px 18px;
+  display:flex;align-items:center;justify-content:space-between;
+  box-shadow:0 6px 28px rgba(212,160,23,.35),0 0 0 1px rgba(255,255,255,.15) inset;
+  cursor:pointer;transition:all .25s;
+}
+.sticky-cta-inner:hover{transform:translateY(-2px);box-shadow:0 10px 36px rgba(212,160,23,.45)}
+.sticky-cta-text{color:#fff;font-size:.85rem;font-weight:700;display:flex;align-items:center;gap:8px}
+.sticky-cta-text .coin{font-size:1.1rem}
+.sticky-cta-arrow{
+  width:32px;height:32px;border-radius:8px;background:rgba(255,255,255,.2);
+  display:flex;align-items:center;justify-content:center;color:#fff;
+}
+.sticky-cta-arrow svg{width:16px;height:16px}
+.sticky-cta-pulse{
+  position:absolute;left:14px;top:50%;transform:translateY(-50%);
+  width:8px;height:8px;border-radius:50%;background:#fff;
+}
+.sticky-cta-pulse::after{
+  content:'';position:absolute;inset:-4px;border-radius:50%;
+  border:2px solid rgba(255,255,255,.4);
+  animation:pulse-ring 2s ease infinite;
+}
+@keyframes pulse-ring{0%{transform:scale(1);opacity:1}100%{transform:scale(2.5);opacity:0}}
+
+/* ═══ BOTTOM NAV ═══ */
+.bottom-nav{
+  position:fixed;bottom:0;left:0;right:0;z-index:100;
+  background:rgba(255,255,255,.95);backdrop-filter:blur(16px);
+  border-top:1px solid var(--border);
+  display:flex;height:56px;
+}
+.bottom-nav a{
+  flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;
+  color:var(--text-muted);font-size:.62rem;font-weight:600;transition:color .2s;
+  text-transform:uppercase;letter-spacing:.04em;
+}
+.bottom-nav a.active{color:var(--blue)}
+.bottom-nav a svg{width:22px;height:22px}
+.bottom-nav a .nav-dot{
+  width:4px;height:4px;border-radius:50%;background:var(--red);
+  position:absolute;top:6px;right:calc(50% - 14px);display:none;
+}
+
+/* ═══ SCROLL ANIMATIONS ═══ */
+.reveal{opacity:0;transform:translateY(24px);transition:opacity .6s ease,transform .6s ease}
+.reveal.visible{opacity:1;transform:translateY(0)}
+.reveal-delay-1{transition-delay:.1s}
+.reveal-delay-2{transition-delay:.2s}
+.reveal-delay-3{transition-delay:.3s}
+
+/* ═══ RESPONSIVE ═══ */
+@media(min-width:768px){
+  .hero{padding:72px 40px 88px}
+  .section{padding:56px 40px}
+  .prop-card{min-width:300px}
+  .pro-cats{grid-template-columns:repeat(6,1fr)}
+  .bottom-nav{display:none}
+  .sticky-cta{bottom:20px}
+  .footer{padding-bottom:40px}
+  body{padding-bottom:0}
+}
+@media(max-width:767px){
+  .header-back span{display:none}
+  body{padding-bottom:56px}
+}
+</style>
+</head>
+<body>
+
+<!-- FLAG STRIPE -->
+<div class="flag-stripe"></div>
+
+<!-- LANG BAR -->
+<div class="lang-bar">
+  <a class="active" data-lang="ht">Kreyòl</a>
+  <a data-lang="fr">Français</a>
+  <a data-lang="en">English</a>
+  <a data-lang="es">Español</a>
+</div>
+
+<!-- HEADER -->
+<header class="header">
+  <a href="prolakay.html" class="header-logo">
+    <img src="assets/prolakay-logo-new.png" alt="ProLakay">
+    <span>Pro<em>Lakay</em></span>
+  </a>
+  <a href="index.html" class="header-back">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M19 12H5M12 5l-7 7 7 7"/></svg>
+    <span>HaitiBiznis</span>
+  </a>
+</header>
+
+<!-- ═══════════ 1. HERO ═══════════ -->
+<section class="hero">
+  <div class="hero-content">
+    <img src="assets/prolakay-logo-new.png" alt="ProLakay" class="hero-logo">
+    <div class="hero-badge">🏠 Immobilier &amp; Sèvis Verifye</div>
+    <h1>Jwenn Kay, Tè, ak Pwofesyonèl Ou <em>Fè Konfyans</em></h1>
+    <p class="hero-sub"><span>Achte</span> · <span>Vann</span> · <span>Lwe</span> · <span>Evalye</span> · <span>Konstwi</span></p>
+    <div class="hero-ctas">
+      <a href="#properties" class="btn btn-red">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg>
+        Chèche Pwopriyete
+      </a>
+      <a href="#professionals" class="btn btn-outline">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4-4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75"/></svg>
+        Jwenn Pwofesyonèl
+      </a>
+      <a href="#koutye" class="btn btn-gold">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 000 7h5a3.5 3.5 0 010 7H6"/></svg>
+        Vin yon Koutye
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════ 2. SEARCH BAR ═══════════ -->
+<div class="diag-top"></div>
+<section class="search-section">
+  <div class="search-card reveal">
+    <div class="search-row">
+      <div class="search-field">
+        <label>Tip Pwopriyete</label>
+        <select id="searchType">
+          <option value="">Tout Tip</option>
+          <option value="kay">🏠 Kay</option>
+          <option value="te">🏞️ Tè</option>
+          <option value="apatman">🏢 Apatman</option>
+          <option value="komesyal">🏪 Komèsyal</option>
+        </select>
+      </div>
+      <div class="search-field">
+        <label>Zòn / Komin</label>
+        <input type="text" id="searchLoc" placeholder="Eks: Pétion-Ville, Tabarre...">
+      </div>
+    </div>
+    <div class="search-row">
+      <div class="search-field">
+        <label>Bidjè Minimòm (HTG)</label>
+        <input type="number" id="searchMin" placeholder="500,000">
+      </div>
+      <div class="search-field">
+        <label>Bidjè Maksimòm (HTG)</label>
+        <input type="number" id="searchMax" placeholder="5,000,000">
+      </div>
+    </div>
+    <div class="search-actions">
+      <label class="search-verify">
+        <input type="checkbox" id="searchVerified">
+        <span class="check"></span>
+        Sèlman Verifye
+      </label>
+      <button class="search-btn" onclick="doSearch()">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg>
+        Chèche
+      </button>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════ 3. FEATURED PROPERTIES ═══════════ -->
+<section class="section" id="properties">
+  <div class="section-tag reveal">🏘 Pwopriyete</div>
+  <h2 class="section-title reveal">Pwopriyete <em>Seleksyone</em></h2>
+  <p class="section-desc reveal">Meilleur opsyon nan mache immobilier an Ayiti — verifye, byen pri, pare pou ou.</p>
+
+  <div class="props-scroll" id="propsScroll">
+
+    <div class="prop-card reveal" onclick="openModal(0)">
+      <div class="prop-img">
+        <div class="prop-img-bg" style="background:linear-gradient(135deg,#1a3a5c,#2a5a8c,#4a8abd)">🏠</div>
+        <div class="prop-tags">
+          <span class="prop-tag sale">A Vann</span>
+          <span class="prop-tag verified">✓ Verifye</span>
+          <span class="prop-tag hot">🔥 Hot</span>
+        </div>
+        <div class="prop-price">HTG 8,500,000 <small>≈ USD $62,000</small></div>
+      </div>
+      <div class="prop-body">
+        <div class="prop-loc">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>
+          Pétion-Ville, Rue Faubert
+        </div>
+        <div class="prop-meta">
+          <span>🛏 4 chanm</span>
+          <span>📐 280 m²</span>
+          <span>🚗 2 pakin</span>
+        </div>
+        <div class="prop-actions">
+          <button class="prop-btn detail">Gade Detay</button>
+          <button class="prop-btn wa" onclick="event.stopPropagation();window.open('https://wa.me/50946859702?text=Bonjou! Mwen enterese nan kay Pétion-Ville HTG 8.5M sou ProLakay','_blank')">WhatsApp</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="prop-card reveal reveal-delay-1" onclick="openModal(1)">
+      <div class="prop-img">
+        <div class="prop-img-bg" style="background:linear-gradient(135deg,#2d5a2d,#4a8c4a,#6abd6a)">🏞️</div>
+        <div class="prop-tags">
+          <span class="prop-tag sale">A Vann</span>
+          <span class="prop-tag verified">✓ Verifye</span>
+        </div>
+        <div class="prop-price">HTG 3,200,000 <small>≈ USD $23,400</small></div>
+      </div>
+      <div class="prop-body">
+        <div class="prop-loc">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>
+          Tabarre, pwochen Sonapi
+        </div>
+        <div class="prop-meta">
+          <span>🏞️ 450 m²</span>
+          <span>📋 Tit klè</span>
+        </div>
+        <div class="prop-actions">
+          <button class="prop-btn detail">Gade Detay</button>
+          <button class="prop-btn wa" onclick="event.stopPropagation();window.open('https://wa.me/50946859702?text=Bonjou! Mwen enterese nan tè Tabarre HTG 3.2M sou ProLakay','_blank')">WhatsApp</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="prop-card reveal reveal-delay-2" onclick="openModal(2)">
+      <div class="prop-img">
+        <div class="prop-img-bg" style="background:linear-gradient(135deg,#5a3a1a,#8c6a3a,#bd9a5a)">🏢</div>
+        <div class="prop-tags">
+          <span class="prop-tag rent">A Lwe</span>
+          <span class="prop-tag verified">✓ Verifye</span>
+        </div>
+        <div class="prop-price">HTG 45,000 <small>/mwa</small></div>
+      </div>
+      <div class="prop-body">
+        <div class="prop-loc">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>
+          Delmas 33, bò Digicel
+        </div>
+        <div class="prop-meta">
+          <span>🛏 2 chanm</span>
+          <span>📐 95 m²</span>
+          <span>🚿 1 twalèt</span>
+        </div>
+        <div class="prop-actions">
+          <button class="prop-btn detail">Gade Detay</button>
+          <button class="prop-btn wa" onclick="event.stopPropagation();window.open('https://wa.me/50946859702?text=Bonjou! Mwen enterese nan apatman Delmas 33 HTG 45K/mwa sou ProLakay','_blank')">WhatsApp</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="prop-card reveal reveal-delay-3" onclick="openModal(3)">
+      <div class="prop-img">
+        <div class="prop-img-bg" style="background:linear-gradient(135deg,#0a2a5a,#1a4a8a,#3a7abd)">🏠</div>
+        <div class="prop-tags">
+          <span class="prop-tag sale">A Vann</span>
+          <span class="prop-tag hot">🔥 Hot</span>
+        </div>
+        <div class="prop-price">HTG 12,000,000 <small>≈ USD $88,000</small></div>
+      </div>
+      <div class="prop-body">
+        <div class="prop-loc">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>
+          Cap-Haïtien, Vètyè
+        </div>
+        <div class="prop-meta">
+          <span>🛏 5 chanm</span>
+          <span>📐 350 m²</span>
+          <span>🏊 Pisin</span>
+        </div>
+        <div class="prop-actions">
+          <button class="prop-btn detail">Gade Detay</button>
+          <button class="prop-btn wa" onclick="event.stopPropagation();window.open('https://wa.me/50946859702?text=Bonjou! Mwen enterese nan kay Cap-Haitien HTG 12M sou ProLakay','_blank')">WhatsApp</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="prop-card reveal" onclick="openModal(4)">
+      <div class="prop-img">
+        <div class="prop-img-bg" style="background:linear-gradient(135deg,#1a4a3a,#2a7a5a,#4abd8a)">🏡</div>
+        <div class="prop-tags">
+          <span class="prop-tag sale">A Vann</span>
+          <span class="prop-tag verified">✓ Verifye</span>
+        </div>
+        <div class="prop-price">HTG 15,500,000 <small>≈ USD $113,000</small></div>
+      </div>
+      <div class="prop-body">
+        <div class="prop-loc">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>
+          Kenscoff, Route de Furcy
+        </div>
+        <div class="prop-meta">
+          <span>🛏 3 chanm</span>
+          <span>📐 500 m²</span>
+          <span>🌳 Jaden</span>
+        </div>
+        <div class="prop-actions">
+          <button class="prop-btn detail">Gade Detay</button>
+          <button class="prop-btn wa" onclick="event.stopPropagation();window.open('https://wa.me/50946859702?text=Bonjou! Mwen enterese nan kay Kenscoff HTG 15.5M sou ProLakay','_blank')">WhatsApp</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="prop-card reveal" onclick="openModal(5)">
+      <div class="prop-img">
+        <div class="prop-img-bg" style="background:linear-gradient(135deg,#3a2a5a,#6a4a8a,#9a7abd)">🏪</div>
+        <div class="prop-tags">
+          <span class="prop-tag rent">A Lwe</span>
+          <span class="prop-tag verified">✓ Verifye</span>
+        </div>
+        <div class="prop-price">HTG 120,000 <small>/mwa</small></div>
+      </div>
+      <div class="prop-body">
+        <div class="prop-loc">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>
+          Jacmel, Centre-Ville
+        </div>
+        <div class="prop-meta">
+          <span>🏪 Komèsyal</span>
+          <span>📐 200 m²</span>
+          <span>🅿️ 4 pakin</span>
+        </div>
+        <div class="prop-actions">
+          <button class="prop-btn detail">Gade Detay</button>
+          <button class="prop-btn wa" onclick="event.stopPropagation();window.open('https://wa.me/50946859702?text=Bonjou! Mwen enterese nan lokal komèsyal Jacmel HTG 120K/mwa sou ProLakay','_blank')">WhatsApp</button>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ═══════════ 4. PROFESSIONALS ═══════════ -->
+<section class="section" id="professionals" style="background:var(--white);border-top:1px solid var(--border-light);border-bottom:1px solid var(--border-light);max-width:100%;padding-left:20px;padding-right:20px">
+  <div style="max-width:1000px;margin:0 auto">
+    <div class="section-tag reveal">👷 Pwofesyonèl</div>
+    <h2 class="section-title reveal">Pwofesyonèl <em>Verifye</em></h2>
+    <p class="section-desc reveal">Enjenyè, achitèk, avoka, evalyatè — tout verifye ak reyèl.</p>
+
+    <div class="pro-cats reveal">
+      <div class="pro-cat active" data-cat="all">
+        <span class="pro-cat-icon">👥</span>
+        <span class="pro-cat-name">Tout</span>
+      </div>
+      <div class="pro-cat" data-cat="engineer">
+        <span class="pro-cat-icon">🏗</span>
+        <span class="pro-cat-name">Enjenyè</span>
+      </div>
+      <div class="pro-cat" data-cat="architect">
+        <span class="pro-cat-icon">📐</span>
+        <span class="pro-cat-name">Achitèk</span>
+      </div>
+      <div class="pro-cat" data-cat="lawyer">
+        <span class="pro-cat-icon">⚖️</span>
+        <span class="pro-cat-name">Avoka</span>
+      </div>
+      <div class="pro-cat" data-cat="evaluator">
+        <span class="pro-cat-icon">💰</span>
+        <span class="pro-cat-name">Evalyatè</span>
+      </div>
+      <div class="pro-cat" data-cat="agent">
+        <span class="pro-cat-icon">🏠</span>
+        <span class="pro-cat-name">Ajan</span>
+      </div>
+    </div>
+
+    <div class="pro-grid" id="proGrid">
+
+      <div class="pro-card reveal" data-cat="engineer">
+        <div class="pro-avatar" style="background:linear-gradient(135deg,#0A3ACC,#00209F)">
+          JB
+          <span class="verify-badge"></span>
+        </div>
+        <div class="pro-info">
+          <div class="pro-name">Jean-Baptiste Michel</div>
+          <div class="pro-title">Enjenyè Sivil · 12 ane eksperyans</div>
+          <div class="pro-rating">
+            <span class="pro-star">★</span><span class="pro-star">★</span><span class="pro-star">★</span><span class="pro-star">★</span><span class="pro-star">★</span>
+            <span class="pro-rating-num">5.0 (47)</span>
+          </div>
+          <div class="pro-actions">
+            <button class="pro-btn contact" onclick="window.open('https://wa.me/50937001234?text=Bonjou! Mwen jwenn ou sou ProLakay. Mwen bezwen yon enjenyè sivil.','_blank')">Kontakte</button>
+            <button class="pro-btn refer" onclick="window.open('koutye.html','_blank')">Rekòmande</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="pro-card reveal reveal-delay-1" data-cat="architect">
+        <div class="pro-avatar" style="background:linear-gradient(135deg,#D21034,#B00D2C)">
+          MA
+          <span class="verify-badge"></span>
+        </div>
+        <div class="pro-info">
+          <div class="pro-name">Marie-Ange Duval</div>
+          <div class="pro-title">Achitèk · Espesyalis kay modèn</div>
+          <div class="pro-rating">
+            <span class="pro-star">★</span><span class="pro-star">★</span><span class="pro-star">★</span><span class="pro-star">★</span><span class="pro-star" style="color:var(--border)">★</span>
+            <span class="pro-rating-num">4.8 (32)</span>
+          </div>
+          <div class="pro-actions">
+            <button class="pro-btn contact" onclick="window.open('https://wa.me/50938005678?text=Bonjou! Mwen jwenn ou sou ProLakay. Mwen bezwen yon achitèk.','_blank')">Kontakte</button>
+            <button class="pro-btn refer" onclick="window.open('koutye.html','_blank')">Rekòmande</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="pro-card reveal reveal-delay-2" data-cat="lawyer">
+        <div class="pro-avatar" style="background:linear-gradient(135deg,#1a3a5c,#2a5a8c)">
+          PL
+          <span class="verify-badge"></span>
+        </div>
+        <div class="pro-info">
+          <div class="pro-name">Pierre Louissaint</div>
+          <div class="pro-title">Avoka Immobilye · Tit &amp; Kontra</div>
+          <div class="pro-rating">
+            <span class="pro-star">★</span><span class="pro-star">★</span><span class="pro-star">★</span><span class="pro-star">★</span><span class="pro-star">★</span>
+            <span class="pro-rating-num">5.0 (28)</span>
+          </div>
+          <div class="pro-actions">
+            <button class="pro-btn contact" onclick="window.open('https://wa.me/50936009012?text=Bonjou! Mwen jwenn ou sou ProLakay. Mwen bezwen yon avoka immobilye.','_blank')">Kontakte</button>
+            <button class="pro-btn refer" onclick="window.open('koutye.html','_blank')">Rekòmande</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="pro-card reveal" data-cat="evaluator">
+        <div class="pro-avatar" style="background:linear-gradient(135deg,#D4A017,#C4900F)">
+          RM
+          <span class="verify-badge"></span>
+        </div>
+        <div class="pro-info">
+          <div class="pro-name">Rose-Marie Théodore</div>
+          <div class="pro-title">Evalyatè Immobilye Sètifye</div>
+          <div class="pro-rating">
+            <span class="pro-star">★</span><span class="pro-star">★</span><span class="pro-star">★</span><span class="pro-star">★</span><span class="pro-star" style="color:var(--border)">★</span>
+            <span class="pro-rating-num">4.7 (19)</span>
+          </div>
+          <div class="pro-actions">
+            <button class="pro-btn contact" onclick="window.open('https://wa.me/50934003456?text=Bonjou! Mwen jwenn ou sou ProLakay. Mwen bezwen yon evalyatè.','_blank')">Kontakte</button>
+            <button class="pro-btn refer" onclick="window.open('koutye.html','_blank')">Rekòmande</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="pro-card reveal reveal-delay-1" data-cat="agent">
+        <div class="pro-avatar" style="background:linear-gradient(135deg,#1B8C3D,#158C32)">
+          WD
+          <span class="verify-badge"></span>
+        </div>
+        <div class="pro-info">
+          <div class="pro-name">Widelson Dorcéus</div>
+          <div class="pro-title">Ajan Immobilye · Pétion-Ville &amp; Tabarre</div>
+          <div class="pro-rating">
+            <span class="pro-star">★</span><span class="pro-star">★</span><span class="pro-star">★</span><span class="pro-star">★</span><span class="pro-star">★</span>
+            <span class="pro-rating-num">4.9 (41)</span>
+          </div>
+          <div class="pro-actions">
+            <button class="pro-btn contact" onclick="window.open('https://wa.me/50940007890?text=Bonjou! Mwen jwenn ou sou ProLakay. Mwen ap chèche yon pwopriyete.','_blank')">Kontakte</button>
+            <button class="pro-btn refer" onclick="window.open('koutye.html','_blank')">Rekòmande</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="pro-card reveal reveal-delay-2" data-cat="engineer">
+        <div class="pro-avatar" style="background:linear-gradient(135deg,#5a2a1a,#8c4a2a)">
+          SC
+          <span class="verify-badge"></span>
+        </div>
+        <div class="pro-info">
+          <div class="pro-name">Stéphane Casimir</div>
+          <div class="pro-title">Kontraktè · Konstriksyon &amp; Renovasyon</div>
+          <div class="pro-rating">
+            <span class="pro-star">★</span><span class="pro-star">★</span><span class="pro-star">★</span><span class="pro-star">★</span><span class="pro-star" style="color:var(--border)">★</span>
+            <span class="pro-rating-num">4.6 (23)</span>
+          </div>
+          <div class="pro-actions">
+            <button class="pro-btn contact" onclick="window.open('https://wa.me/50941002345?text=Bonjou! Mwen jwenn ou sou ProLakay. Mwen bezwen yon kontraktè.','_blank')">Kontakte</button>
+            <button class="pro-btn refer" onclick="window.open('koutye.html','_blank')">Rekòmande</button>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════ 5. KOUTYE BIZNIS ═══════════ -->
+<section class="koutye-section" id="koutye">
+  <div class="koutye-inner">
+    <div class="koutye-icon reveal">💰</div>
+    <h2 class="reveal">Fè Lajan ak <em>ProLakay</em></h2>
+    <p class="reveal">Refere kliyan, pwopriyete, oswa pwofesyonèl — touche komisyon sou chak tranzaksyon. Sistèm Koutye Biznis la peye ou pou koneksyon ou fè.</p>
+    <div class="koutye-ctas reveal">
+      <a href="koutye.html" class="btn btn-red">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 000 7h5a3.5 3.5 0 010 7H6"/></svg>
+        Vin yon Koutye
+      </a>
+      <a href="koutye.html#how" class="btn btn-outline">Gade Komisyon yo</a>
+    </div>
+    <div class="koutye-stats reveal">
+      <div class="koutye-stat">
+        <div class="num">10%</div>
+        <div class="label">Komisyon</div>
+      </div>
+      <div class="koutye-stat">
+        <div class="num">200+</div>
+        <div class="label">Koutye Aktif</div>
+      </div>
+      <div class="koutye-stat">
+        <div class="num">HTG 1M+</div>
+        <div class="label">Peye</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════ 8. DIASPORA MODE ═══════════ -->
+<section class="section">
+  <div class="diaspora reveal">
+    <div class="diaspora-header">
+      <div class="diaspora-title">
+        <span class="globe">🌍</span>
+        <h3>Mwen pa Ayiti</h3>
+      </div>
+      <div class="toggle" id="diasporaToggle" onclick="toggleDiaspora()"></div>
+    </div>
+    <div class="diaspora-features" id="diasporaFeatures">
+      <div class="diaspora-feat">
+        <div class="diaspora-feat-icon pay">💳</div>
+        <div>
+          <h4>Peye Depi Lòt Bò</h4>
+          <p>Kat kredi, PayPal, Zelle — peye nan dola, resevwa sèvis an Ayiti.</p>
+        </div>
+      </div>
+      <div class="diaspora-feat">
+        <div class="diaspora-feat-icon assign">👤</div>
+        <div>
+          <h4>Asiyen Yon Moun Lokal</h4>
+          <p>Chwazi yon ajan oswa pwofesyonèl ki pral jere tout bagay pou ou sou teren an.</p>
+        </div>
+      </div>
+      <div class="diaspora-feat">
+        <div class="diaspora-feat-icon track">📍</div>
+        <div>
+          <h4>Swiv Pwopriyete / Sèvis</h4>
+          <p>Resevwa mizajou, foto, ak rapò sou travay la oswa pwopriyete a.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════ 7. SERVICE REQUEST ═══════════ -->
+<section class="request-section" id="request">
+  <div class="request-inner">
+    <div class="section-tag reveal">📋 Demann Sèvis</div>
+    <h2 class="section-title reveal" style="margin-bottom:6px">Kisa Ou <em>Bezwen?</em></h2>
+    <p class="section-desc reveal">Di nou sa w ap chèche — nou pral konekte w ak bon pwofesyonèl la.</p>
+
+    <form class="request-form reveal" id="requestForm" onsubmit="submitRequest(event)">
+      <div class="form-group">
+        <label>Tip Sèvis</label>
+        <select id="reqType" required>
+          <option value="">Chwazi...</option>
+          <option value="achte">🏠 Achte yon Pwopriyete</option>
+          <option value="lwe">🔑 Lwe yon Pwopriyete</option>
+          <option value="evalye">💰 Evalye yon Pwopriyete</option>
+          <option value="konstwi">🏗 Konstwi / Renove</option>
+          <option value="legal">⚖️ Konsèy Legal (Tit, Kontra)</option>
+          <option value="vann">📢 Vann yon Pwopriyete</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label>Bidjè Estimasyon (HTG)</label>
+        <input type="text" id="reqBudget" placeholder="Eks: 5,000,000">
+      </div>
+      <div class="form-group">
+        <label>Zòn / Komin</label>
+        <input type="text" id="reqLoc" placeholder="Eks: Pétion-Ville, Delmas..." required>
+      </div>
+      <div class="form-group">
+        <label>Nimewo Telefòn</label>
+        <input type="tel" id="reqPhone" placeholder="+509 XXXX XXXX" required>
+      </div>
+      <div class="form-group">
+        <label>Nòt Adisyonèl</label>
+        <textarea id="reqNote" placeholder="Bay plis detay sou sa w bezwen..."></textarea>
+      </div>
+      <button type="submit" class="form-submit">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M22 2L11 13M22 2l-7 20-4-9-9-4z"/></svg>
+        Voye Demann
+      </button>
+    </form>
+  </div>
+</section>
+
+<!-- ═══════════ 6. PROPERTY DETAIL MODAL ═══════════ -->
+<div class="modal-overlay" id="modalOverlay" onclick="if(event.target===this)closeModal()">
+  <div class="modal" id="modal">
+    <button class="modal-close" onclick="closeModal()">✕</button>
+    <div class="modal-gallery">
+      <div class="modal-gallery-bg" id="modalGalleryBg">🏠</div>
+      <div class="modal-gallery-dots">
+        <span class="active"></span><span></span><span></span><span></span>
+      </div>
+    </div>
+    <div class="modal-price-bar">
+      <div>
+        <div class="modal-price" id="modalPrice">HTG 8,500,000</div>
+        <small style="color:var(--text-muted);font-size:.78rem" id="modalPriceUsd">≈ USD $62,000</small>
+      </div>
+      <span class="modal-type-tag" id="modalTypeTag" style="background:var(--red-glow);color:var(--red)">A Vann</span>
+    </div>
+    <div class="modal-body">
+      <div class="modal-loc" id="modalLoc">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>
+        <span>Pétion-Ville, Rue Faubert</span>
+      </div>
+      <div class="modal-specs" id="modalSpecs">
+        <div class="modal-spec"><div class="val">280</div><div class="label">m²</div></div>
+        <div class="modal-spec"><div class="val">4</div><div class="label">Chanm</div></div>
+        <div class="modal-spec"><div class="val">2</div><div class="label">Pakin</div></div>
+      </div>
+      <p class="modal-desc" id="modalDesc">
+        Bèl kay modèn nan kè Pétion-Ville. 4 chanm, 3 twalèt, gwo salon ak kwizin ouvè. Garaj pou 2 machin. Tèras ak bèl vi sou lavil la. Tit klè, pare pou vann.
+      </p>
+    </div>
+    <div class="modal-actions">
+      <button class="modal-btn wa" id="modalWaBtn" onclick="contactOwner()">
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.625.846 5.059 2.284 7.034L.789 23.492l4.625-1.515A11.93 11.93 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 21.818c-2.17 0-4.182-.577-5.927-1.588l-.422-.255-2.747.9.882-2.686-.271-.437A9.769 9.769 0 012.182 12c0-5.423 4.395-9.818 9.818-9.818S21.818 6.577 21.818 12s-4.395 9.818-9.818 9.818z"/></svg>
+        Kontakte Pwopriyetè via WhatsApp
+      </button>
+      <button class="modal-btn visit" onclick="requestVisit()">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>
+        Mande Vizit
+      </button>
+      <button class="modal-btn refer" onclick="window.open('koutye.html','_blank')">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 000 7h5a3.5 3.5 0 010 7H6"/></svg>
+        Refere &amp; Touche Komisyon
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════ FOOTER ═══════════ -->
+<footer class="footer">
+  <div class="footer-logo">Pro<em>Lakay</em></div>
+  <p class="footer-text">Enfrastrikti immobilye Ayiti a — achte, vann, lwe, konstwi ak konfyans.</p>
+  <div class="footer-eco">
+    <img src="assets/haitibiznis-icon.png" alt="HaitiBiznis">
+    Yon Platfòm HaitiBiznis
+  </div>
+  <div class="footer-links">
+    <a href="index.html">HaitiBiznis</a>
+    <a href="koutye.html">Koutye Biznis</a>
+    <a href="utility-hub.html">Utility Hub</a>
+    <a href="#request">Kontakte Nou</a>
+  </div>
+  <p style="font-size:.7rem;color:rgba(255,255,255,.25);margin-top:14px">&copy; 2026 ProLakay. Tout dwa rezève.</p>
+</footer>
+
+<!-- ═══════════ 10. STICKY CTA ═══════════ -->
+<div class="sticky-cta" id="stickyCta">
+  <a href="koutye.html" class="sticky-cta-inner">
+    <span class="sticky-cta-pulse"></span>
+    <span class="sticky-cta-text"><span class="coin">💰</span> Vin yon Koutye — Fè Lajan</span>
+    <span class="sticky-cta-arrow">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+    </span>
+  </a>
+</div>
+
+<!-- ═══════════ 9. BOTTOM NAV ═══════════ -->
+<nav class="bottom-nav">
+  <a href="#" class="active" onclick="scrollToTop(event)">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+    Akèy
+  </a>
+  <a href="#properties" onclick="navTo(event,'properties')">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg>
+    Chèche
+  </a>
+  <a href="#professionals" onclick="navTo(event,'professionals')">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4-4v2"/><circle cx="9" cy="7" r="4"/></svg>
+    Pwofesyonèl
+  </a>
+  <a href="#koutye" onclick="navTo(event,'koutye')">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 000 7h5a3.5 3.5 0 010 7H6"/></svg>
+    Koutye
+  </a>
+  <a href="#request" onclick="navTo(event,'request')">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4-4v2"/><circle cx="12" cy="7" r="4"/></svg>
+    Kont
+  </a>
+</nav>
+
+<script>
+/* ══════════ PROPERTY DATA ══════════ */
+var properties = [
+  {emoji:'🏠',bg:'linear-gradient(135deg,#1a3a5c,#2a5a8c,#4a8abd)',price:'HTG 8,500,000',usd:'≈ USD $62,000',type:'A Vann',typeBg:'var(--red-glow)',typeColor:'var(--red)',loc:'Pétion-Ville, Rue Faubert',specs:[{v:'280',l:'m²'},{v:'4',l:'Chanm'},{v:'2',l:'Pakin'}],desc:'Bèl kay modèn nan kè Pétion-Ville. 4 chanm, 3 twalèt, gwo salon ak kwizin ouvè. Garaj pou 2 machin. Tèras ak bèl vi sou lavil la. Tit klè, pare pou vann.',wa:'Bonjou! Mwen enterese nan kay Pétion-Ville HTG 8.5M sou ProLakay'},
+  {emoji:'🏞️',bg:'linear-gradient(135deg,#2d5a2d,#4a8c4a,#6abd6a)',price:'HTG 3,200,000',usd:'≈ USD $23,400',type:'A Vann',typeBg:'var(--red-glow)',typeColor:'var(--red)',loc:'Tabarre, pwochen Sonapi',specs:[{v:'450',l:'m²'},{v:'—',l:'Tè vid'},{v:'✓',l:'Tit klè'}],desc:'Tè vid ki byen sitye nan Tabarre, bò Sonapi. 450 m² ak aksè fasil sou wout prensipal la. Tit klè, pare pou konstriksyon. Zon rezidansyèl trankil.',wa:'Bonjou! Mwen enterese nan tè Tabarre HTG 3.2M sou ProLakay'},
+  {emoji:'🏢',bg:'linear-gradient(135deg,#5a3a1a,#8c6a3a,#bd9a5a)',price:'HTG 45,000/mwa',usd:'',type:'A Lwe',typeBg:'var(--blue-glow)',typeColor:'var(--blue)',loc:'Delmas 33, bò Digicel',specs:[{v:'95',l:'m²'},{v:'2',l:'Chanm'},{v:'1',l:'Twalèt'}],desc:'Apatman konfòtab nan Delmas 33. 2 chanm, 1 twalèt, balkon. Dlo ak elektrisite disponib. Bon sekirite nan bilding lan. Disponib imedyatman.',wa:'Bonjou! Mwen enterese nan apatman Delmas 33 HTG 45K/mwa sou ProLakay'},
+  {emoji:'🏠',bg:'linear-gradient(135deg,#0a2a5a,#1a4a8a,#3a7abd)',price:'HTG 12,000,000',usd:'≈ USD $88,000',type:'A Vann',typeBg:'var(--red-glow)',typeColor:'var(--red)',loc:'Cap-Haïtien, Vètyè',specs:[{v:'350',l:'m²'},{v:'5',l:'Chanm'},{v:'1',l:'Pisin'}],desc:'Magnifik rezidans nan Cap-Haïtien ak 5 chanm, pisin, jaden, ak yon bèl vi sou lanmè. Kay la gen sistèm solè, envètè, ak gwo sitèn dlo. Ideyal pou fanmi oswa investisman touristik.',wa:'Bonjou! Mwen enterese nan kay Cap-Haitien HTG 12M sou ProLakay'},
+  {emoji:'🏡',bg:'linear-gradient(135deg,#1a4a3a,#2a7a5a,#4abd8a)',price:'HTG 15,500,000',usd:'≈ USD $113,000',type:'A Vann',typeBg:'var(--red-glow)',typeColor:'var(--red)',loc:'Kenscoff, Route de Furcy',specs:[{v:'500',l:'m²'},{v:'3',l:'Chanm'},{v:'1',l:'Jaden'}],desc:'Kay nan mòn Kenscoff ak yon bèl jaden. 3 chanm, tèras, ak yon panorama enkwayab sou lavil Pòtoprens. Lè frè, trankilite, ak nati. Aksesib pa machin 4x4.',wa:'Bonjou! Mwen enterese nan kay Kenscoff HTG 15.5M sou ProLakay'},
+  {emoji:'🏪',bg:'linear-gradient(135deg,#3a2a5a,#6a4a8a,#9a7abd)',price:'HTG 120,000/mwa',usd:'',type:'A Lwe',typeBg:'var(--blue-glow)',typeColor:'var(--blue)',loc:'Jacmel, Centre-Ville',specs:[{v:'200',l:'m²'},{v:'1',l:'Gwo sal'},{v:'4',l:'Pakin'}],desc:'Gwo lokal komèsyal nan santrevil Jacmel. 200 m², 4 pakin, bon sikilasyon kliyantèl. Ideyal pou magazen, restoran, oswa biwo. Disponib kounye a.',wa:'Bonjou! Mwen enterese nan lokal komèsyal Jacmel HTG 120K/mwa sou ProLakay'}
+];
+
+/* ══════════ MODAL ══════════ */
+function openModal(idx) {
+  var p = properties[idx];
+  document.getElementById('modalGalleryBg').style.background = p.bg;
+  document.getElementById('modalGalleryBg').textContent = p.emoji;
+  document.getElementById('modalPrice').textContent = p.price;
+  document.getElementById('modalPriceUsd').textContent = p.usd;
+  var tag = document.getElementById('modalTypeTag');
+  tag.textContent = p.type;
+  tag.style.background = p.typeBg;
+  tag.style.color = p.typeColor;
+  document.getElementById('modalLoc').querySelector('span').textContent = p.loc;
+  var specs = document.getElementById('modalSpecs');
+  specs.innerHTML = p.specs.map(function(s){return '<div class="modal-spec"><div class="val">'+s.v+'</div><div class="label">'+s.l+'</div></div>'}).join('');
+  document.getElementById('modalDesc').textContent = p.desc;
+  document.getElementById('modalWaBtn').onclick = function(){window.open('https://wa.me/50946859702?text='+encodeURIComponent(p.wa),'_blank')};
+  document.getElementById('modalOverlay').classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+
+function closeModal() {
+  document.getElementById('modalOverlay').classList.remove('open');
+  document.body.style.overflow = '';
+}
+
+function contactOwner() {
+  var btn = document.getElementById('modalWaBtn');
+  if (btn.onclick) btn.onclick();
+}
+
+function requestVisit() {
+  closeModal();
+  setTimeout(function(){
+    document.getElementById('request').scrollIntoView({behavior:'smooth'});
+    document.getElementById('reqType').value = 'achte';
+  }, 300);
+}
+
+/* ══════════ DIASPORA TOGGLE ══════════ */
+function toggleDiaspora() {
+  var t = document.getElementById('diasporaToggle');
+  var f = document.getElementById('diasporaFeatures');
+  t.classList.toggle('on');
+  f.classList.toggle('visible');
+}
+
+/* ══════════ PROFESSIONAL CATEGORY FILTER ══════════ */
+document.querySelectorAll('.pro-cat').forEach(function(cat){
+  cat.addEventListener('click', function(){
+    document.querySelectorAll('.pro-cat').forEach(function(c){c.classList.remove('active')});
+    cat.classList.add('active');
+    var sel = cat.dataset.cat;
+    document.querySelectorAll('.pro-card').forEach(function(card){
+      if (sel === 'all' || card.dataset.cat === sel) {
+        card.style.display = 'flex';
+      } else {
+        card.style.display = 'none';
+      }
+    });
+  });
+});
+
+/* ══════════ SEARCH (VISUAL ONLY) ══════════ */
+function doSearch() {
+  document.getElementById('properties').scrollIntoView({behavior:'smooth'});
+}
+
+/* ══════════ SERVICE REQUEST ══════════ */
+function submitRequest(e) {
+  e.preventDefault();
+  var type = document.getElementById('reqType').value;
+  var budget = document.getElementById('reqBudget').value;
+  var loc = document.getElementById('reqLoc').value;
+  var phone = document.getElementById('reqPhone').value;
+  var note = document.getElementById('reqNote').value;
+  var msg = 'Nouvo demann ProLakay:\n\n';
+  msg += 'Sèvis: ' + type + '\n';
+  msg += 'Bidjè: ' + (budget || 'Pa presize') + '\n';
+  msg += 'Zòn: ' + loc + '\n';
+  msg += 'Telefòn: ' + phone + '\n';
+  if (note) msg += 'Nòt: ' + note + '\n';
+  window.open('https://wa.me/50946859702?text=' + encodeURIComponent(msg), '_blank');
+  var btn = document.querySelector('.form-submit');
+  btn.innerHTML = '✓ Demann Voye!';
+  btn.style.background = 'var(--green)';
+  setTimeout(function(){
+    btn.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M22 2L11 13M22 2l-7 20-4-9-9-4z"/></svg> Voye Demann';
+    btn.style.background = '';
+  }, 3000);
+}
+
+/* ══════════ BOTTOM NAV ══════════ */
+function scrollToTop(e) {
+  e.preventDefault();
+  window.scrollTo({top:0,behavior:'smooth'});
+  setActiveNav(e.currentTarget);
+}
+function navTo(e, id) {
+  e.preventDefault();
+  document.getElementById(id).scrollIntoView({behavior:'smooth'});
+  setActiveNav(e.currentTarget);
+}
+function setActiveNav(el) {
+  document.querySelectorAll('.bottom-nav a').forEach(function(a){a.classList.remove('active')});
+  el.classList.add('active');
+}
+
+/* ══════════ SCROLL REVEAL ══════════ */
+var observer = new IntersectionObserver(function(entries){
+  entries.forEach(function(entry){
+    if (entry.isIntersecting) {
+      entry.target.classList.add('visible');
+    }
+  });
+}, {threshold:0.1, rootMargin:'0px 0px -40px 0px'});
+
+document.querySelectorAll('.reveal').forEach(function(el){
+  observer.observe(el);
+});
+
+/* ══════════ LANG SWITCHER (VISUAL) ══════════ */
+document.querySelectorAll('.lang-bar a').forEach(function(a){
+  a.addEventListener('click', function(){
+    document.querySelectorAll('.lang-bar a').forEach(function(l){l.classList.remove('active')});
+    a.classList.add('active');
+  });
+});
+
+/* ══════════ HIDE STICKY CTA NEAR KOUTYE SECTION ══════════ */
+var koutyeObs = new IntersectionObserver(function(entries){
+  entries.forEach(function(entry){
+    document.getElementById('stickyCta').style.opacity = entry.isIntersecting ? '0' : '1';
+    document.getElementById('stickyCta').style.pointerEvents = entry.isIntersecting ? 'none' : '';
+  });
+}, {threshold:0.3});
+koutyeObs.observe(document.querySelector('.koutye-section'));
+</script>
+</body>
+</html>
