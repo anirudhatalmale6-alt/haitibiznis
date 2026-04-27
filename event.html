@@ -3,8 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Gran Konferans Teknoloji 2026 — HaitiBiznis Events</title>
-<meta name="description" content="Yon gwo konferans sou teknoloji ak inovasyon nan Ayiti. Achte tikè sou HaitiBiznis Events.">
+<title>Gran Konferans Teknoloji 2026 — Tikè Lakay</title>
+<meta name="description" content="Yon gwo konferans sou teknoloji ak inovasyon nan Ayiti. Achte tikè sou Tikè Lakay.">
 <meta name="theme-color" content="#00209F">
 <link rel="icon" type="image/x-icon" href="favicon.ico">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -381,8 +381,8 @@ img{max-width:100%;display:block}
 <!-- HEADER -->
 <header class="header">
   <a href="events.html" class="header-left">
-    <img src="assets/events-logo.png" alt="HaitiBiznis Events">
-    <span>Haiti<em>Biznis</em></span>
+    <img src="assets/tike-lakay-logo.png" alt="Tikè Lakay">
+    <span>Tikè <em>Lakay</em></span>
   </a>
   <a href="events.html" class="header-back">
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M19 12H5M12 5l-7 7 7 7"/></svg>
@@ -648,7 +648,7 @@ function renderPage() {
   renderSimilar();
 
   /* Page title */
-  document.title = event.title + ' — HaitiBiznis Events';
+  document.title = event.title + ' — Tikè Lakay';
 }
 
 /* ═══ RENDER TICKETS ═══ */
@@ -747,7 +747,7 @@ function toggleDesc() {
 
 /* ═══ SHARE ═══ */
 function shareWhatsApp() {
-  var text = '🎤 ' + event.title + '\n📅 ' + formatDate(event.date) + '\n📍 ' + event.location + '\n\nAchte tikè sou HaitiBiznis Events!\n' + window.location.href;
+  var text = '🎤 ' + event.title + '\n📅 ' + formatDate(event.date) + '\n📍 ' + event.location + '\n\nAchte tikè sou Tikè Lakay!\n' + window.location.href;
   window.open('https://wa.me/?text=' + encodeURIComponent(text), '_blank');
 }
 
@@ -789,7 +789,7 @@ function buyTickets() {
 
 /* ═══ ORGANIZER ═══ */
 function contactOrganizer() {
-  var text = 'Bonjou! Mwen enterese nan evènman "' + event.title + '" sou HaitiBiznis Events.';
+  var text = 'Bonjou! Mwen enterese nan evènman "' + event.title + '" sou Tikè Lakay.';
   window.open('https://wa.me/' + event.organizerPhone.replace('+', '') + '?text=' + encodeURIComponent(text), '_blank');
 }
 

@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Kreye Evènman — HaitiBiznis Events</title>
+<title>Kreye Evènman — Tikè Lakay</title>
 <meta name="theme-color" content="#00209F">
 <link rel="icon" type="image/x-icon" href="favicon.ico">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -268,8 +268,8 @@ img{max-width:100%;display:block}
 <!-- HEADER -->
 <header class="header">
   <div class="header-left">
-    <img src="assets/events-logo.png" alt="Events">
-    <span>Kreye <em>Evènman</em></span>
+    <img src="assets/tike-lakay-logo.png" alt="Tikè Lakay">
+    <span>Tikè <em>Lakay</em></span>
   </div>
   <a href="events.html" class="header-back">
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M18 6L6 18M6 6l12 12"/></svg>
@@ -324,6 +324,8 @@ img{max-width:100%;display:block}
           <option value="biznis">💼 Biznis</option>
           <option value="konsè">🎵 Konsè</option>
           <option value="fòmasyon">🎓 Fòmasyon / Workshop</option>
+          <option value="kominyon">🕊️ Premye Kominyon</option>
+          <option value="batèm">💧 Batèm</option>
           <option value="lòt">📌 Lòt</option>
         </select>
       </div>
@@ -751,7 +753,7 @@ function renderCanvas() {
 
   ctx.font = '600 ' + Math.floor(h * 0.025) + 'px "Plus Jakarta Sans", sans-serif';
   ctx.globalAlpha = 0.35;
-  ctx.fillText('HaitiBiznis Events', w / 2, h * 0.94);
+  ctx.fillText('Tikè Lakay', w / 2, h * 0.94);
   ctx.globalAlpha = 1;
 }
 
@@ -908,7 +910,7 @@ function publishEvent() {
 
 function shareWhatsApp() {
   var title = document.getElementById('evTitle').value || 'Mon evènman';
-  window.open('https://wa.me/?text=' + encodeURIComponent('🎉 ' + title + ' — Achte tikè sou HaitiBiznis Events!\nhttps://haitibiznis.com/events'), '_blank');
+  window.open('https://wa.me/?text=' + encodeURIComponent('🎉 ' + title + ' — Achte tikè sou Tikè Lakay!\nhttps://haitibiznis.com/events'), '_blank');
 }
 
 function shareFacebook() {
