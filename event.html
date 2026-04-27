@@ -371,9 +371,23 @@ img{max-width:100%;display:block}
 @media(min-width:500px){
   .hero-invite{aspect-ratio:2/1}
 }
+
+/* LANG BAR */
+.lang-bar{background:var(--dark);padding:6px 20px;display:flex;align-items:center;justify-content:center;gap:4px;font-size:.68rem;z-index:1001;position:relative}
+.lang-bar a{color:rgba(255,255,255,.5);padding:3px 12px;border-radius:100px;font-weight:600;transition:all .2s;cursor:pointer}
+.lang-bar a:hover{color:#fff;background:rgba(255,255,255,.08)}
+.lang-bar a.active{color:var(--gold);background:rgba(212,160,23,.15)}
 </style>
 </head>
 <body>
+
+<!-- LANGUAGE BAR -->
+<div class="lang-bar">
+  <a class="active" data-lang="ht">Kreyòl</a>
+  <a data-lang="fr">Français</a>
+  <a data-lang="en">English</a>
+  <a data-lang="es">Español</a>
+</div>
 
 <!-- FLAG -->
 <div class="flag-stripe"></div>
@@ -382,11 +396,11 @@ img{max-width:100%;display:block}
 <header class="header">
   <a href="events.html" class="header-left">
     <img src="assets/tike-lakay-logo.png" alt="Tikè Lakay">
-    <span>Tikè <em>Lakay</em></span>
+    <span data-i18n="brand">Tikè <em>Lakay</em></span>
   </a>
   <a href="events.html" class="header-back">
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M19 12H5M12 5l-7 7 7 7"/></svg>
-    Retounen
+    <span data-i18n="back">Retounen</span>
   </a>
 </header>
 
@@ -427,45 +441,45 @@ img{max-width:100%;display:block}
     </button>
     <button class="share-btn copy" onclick="copyLink()">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
-      Kopye
+      <span data-i18n="copy">Kopye</span>
     </button>
   </div>
 </div>
 
 <!-- DESCRIPTION CARD -->
 <div class="card reveal reveal-d1" id="descCard">
-  <div class="card-title"><span class="icon">📖</span> Detay Evènman</div>
+  <div class="card-title"><span class="icon">📖</span> <span data-i18n="eventDetails">Detay Evènman</span></div>
   <div class="desc-text collapsed" id="descText"></div>
   <button class="read-more-btn" id="readMoreBtn" onclick="toggleDesc()">
-    <span id="readMoreLabel">Li plis</span>
+    <span id="readMoreLabel" data-i18n="readMore">Li plis</span>
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M6 9l6 6 6-6"/></svg>
   </button>
 </div>
 
 <!-- TICKET SELECTION CARD -->
 <div class="card reveal reveal-d2" id="ticketsCard">
-  <div class="card-title"><span class="icon">🎟️</span> Chwazi Tikè</div>
+  <div class="card-title"><span class="icon">🎟️</span> <span data-i18n="chooseTickets">Chwazi Tikè</span></div>
   <div id="ticketsList"></div>
 </div>
 
 <!-- ORGANIZER SECTION -->
 <div class="card reveal reveal-d3" id="orgCard">
-  <div class="card-title"><span class="icon">👤</span> Òganizatè</div>
+  <div class="card-title"><span class="icon">👤</span> <span data-i18n="organizer">Òganizatè</span></div>
   <div class="org-row">
     <div class="org-avatar" id="orgAvatar"></div>
     <div class="org-info">
       <div class="org-name" id="orgName"></div>
-      <div class="org-label">Òganizatè</div>
+      <div class="org-label" data-i18n="organizer">Òganizatè</div>
     </div>
   </div>
   <div class="org-actions">
     <button class="org-btn wa" id="orgWaBtn" onclick="contactOrganizer()">
       <svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/></svg>
-      Kontakte
+      <span data-i18n="contact">Kontakte</span>
     </button>
     <button class="org-btn report" onclick="reportEvent()">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1z"/><line x1="4" y1="22" x2="4" y2="15"/></svg>
-      Rapòte Evènman
+      <span data-i18n="reportEvent">Rapòte Evènman</span>
     </button>
   </div>
 </div>
@@ -473,18 +487,18 @@ img{max-width:100%;display:block}
 <!-- KOUTYE REFERRAL BANNER -->
 <div class="koutye-banner reveal" id="koutyeBanner" style="display:none">
   <div class="koutye-banner-inner">
-    <div class="koutye-banner-title"><span class="icon">💰</span> Pataje ak touche komisyon!</div>
-    <div class="koutye-banner-desc">Ou ka touche 5% sou chak tikè vann atravè lyen pa ou.</div>
+    <div class="koutye-banner-title"><span class="icon">💰</span> <span data-i18n="koutyeTitle">Pataje ak touche komisyon!</span></div>
+    <div class="koutye-banner-desc" data-i18n="koutyeDesc">Ou ka touche 5% sou chak tikè vann atravè lyen pa ou.</div>
     <button class="koutye-btn" onclick="shareKoutye()">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 12v8a2 2 0 002 2h12a2 2 0 002-2v-8M16 6l-4-4-4 4M12 2v13"/></svg>
-      Pataje Kounye a
+      <span data-i18n="shareNow">Pataje Kounye a</span>
     </button>
   </div>
 </div>
 
 <!-- SIMILAR EVENTS -->
 <div class="card reveal" style="margin-top:16px;margin-bottom:24px">
-  <div class="card-title"><span class="icon">🔥</span> Evènman Similè</div>
+  <div class="card-title"><span class="icon">🔥</span> <span data-i18n="similarEvents">Evènman Similè</span></div>
   <div class="similar-scroll" id="similarEvents"></div>
 </div>
 
@@ -493,12 +507,12 @@ img{max-width:100%;display:block}
 <!-- ORDER SUMMARY BAR -->
 <div class="order-bar" id="orderBar">
   <div class="order-info">
-    <div class="order-count" id="orderCount">0 tikè</div>
+    <div class="order-count" id="orderCount" data-i18n="ticketCount">0 tikè</div>
     <div class="order-total"><span class="currency">HTG</span> <span id="orderTotal">0</span></div>
   </div>
   <button class="buy-btn" onclick="buyTickets()">
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4zM3 6h18M16 10a4 4 0 01-8 0"/></svg>
-    Achte Tikè
+    <span data-i18n="buyTickets">Achte Tikè</span>
   </button>
 </div>
 
@@ -506,25 +520,25 @@ img{max-width:100%;display:block}
 <nav class="bottom-nav">
   <a href="events.html">
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
-    Akèy
+    <span data-i18n="navHome">Akèy</span>
   </a>
   <a href="events.html" class="active">
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>
-    Evènman
+    <span data-i18n="navEvents">Evènman</span>
   </a>
   <a href="create-event.html" class="create-tab">
     <div class="create-dot">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" style="width:22px;height:22px"><path d="M12 5v14M5 12h14"/></svg>
     </div>
-    <span style="margin-top:4px">Kreye</span>
+    <span style="margin-top:4px" data-i18n="navCreate">Kreye</span>
   </a>
   <a href="#">
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M15 5v2M15 11v2M15 17v2M5 5h14a2 2 0 012 2v3a2 2 0 000 4v3a2 2 0 01-2 2H5a2 2 0 01-2-2v-3a2 2 0 000-4V7a2 2 0 012-2z"/></svg>
-    Tikè
+    <span data-i18n="navTickets">Tikè</span>
   </a>
   <a href="#">
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
-    Kont
+    <span data-i18n="navAccount">Kont</span>
   </a>
 </nav>
 
@@ -561,13 +575,199 @@ var similarEvents = [
   { title: "Louanj ak Adorasyon", date: "2026-05-18", price: 0, emoji: "⛪", gradient: "linear-gradient(135deg,#2a1a5a,#5a3a8a,#8a6abd)", month: "MAI", day: "18" }
 ];
 
-/* ═══ HAITIAN CREOLE FORMATTING ═══ */
-var jourSemèn = ['Dimanch','Lendi','Madi','Mèkredi','Jedi','Vandredi','Samdi'];
-var mwaKreyòl = ['Jan','Fev','Mas','Avr','Mai','Jun','Jiy','Aou','Sep','Okt','Nov','Des'];
+/* ═══ I18N TRANSLATIONS ═══ */
+var currentLang = localStorage.getItem('tl_lang') || 'ht';
+
+var translations = {
+  ht: {
+    brand: 'Tikè <em>Lakay</em>',
+    back: 'Retounen',
+    hostedBy: 'Prezante pa',
+    dateTime: 'Dat ak Lè',
+    location: 'Kote',
+    onlineLink: 'Lyen Anliy',
+    eventType: 'Tip Evènman',
+    copy: 'Kopye',
+    copied: 'Kopye!',
+    eventDetails: 'Detay Evènman',
+    readMore: 'Li plis',
+    readLess: 'Li mwens',
+    chooseTickets: 'Chwazi Tikè',
+    spotsLeft: 'plas rete',
+    goingFast: 'ale vit!',
+    soldOut: 'Fini — pa gen plas ankò',
+    ticketSuffix: 'tikè',
+    buyTickets: 'Achte Tikè',
+    organizer: 'Òganizatè',
+    contact: 'Kontakte',
+    reportEvent: 'Rapòte Evènman',
+    koutyeTitle: 'Pataje ak touche komisyon!',
+    koutyeDesc: 'Ou ka touche 5% sou chak tikè vann atravè lyen pa ou.',
+    shareNow: 'Pataje Kounye a',
+    similarEvents: 'Evènman Similè',
+    navHome: 'Akèy',
+    navEvents: 'Evènman',
+    navCreate: 'Kreye',
+    navTickets: 'Tikè',
+    navAccount: 'Kont'
+  },
+  fr: {
+    brand: 'Tikè <em>Lakay</em>',
+    back: 'Retour',
+    hostedBy: 'Présenté par',
+    dateTime: 'Date et Heure',
+    location: 'Lieu',
+    onlineLink: 'Lien en Ligne',
+    eventType: "Type d'Événement",
+    copy: 'Copier',
+    copied: 'Copié!',
+    eventDetails: "Détails de l'Événement",
+    readMore: 'Lire plus',
+    readLess: 'Lire moins',
+    chooseTickets: 'Choisir les Billets',
+    spotsLeft: 'places restantes',
+    goingFast: 'vite!',
+    soldOut: 'Épuisé — plus de places',
+    ticketSuffix: 'billets',
+    buyTickets: 'Acheter les Billets',
+    organizer: 'Organisateur',
+    contact: 'Contacter',
+    reportEvent: "Signaler l'Événement",
+    koutyeTitle: 'Partagez et gagnez des commissions!',
+    koutyeDesc: 'Vous gagnez 5% sur chaque billet vendu via votre lien.',
+    shareNow: 'Partager Maintenant',
+    similarEvents: 'Événements Similaires',
+    navHome: 'Accueil',
+    navEvents: 'Événements',
+    navCreate: 'Créer',
+    navTickets: 'Billets',
+    navAccount: 'Compte'
+  },
+  en: {
+    brand: 'Tikè <em>Lakay</em>',
+    back: 'Back',
+    hostedBy: 'Hosted by',
+    dateTime: 'Date & Time',
+    location: 'Location',
+    onlineLink: 'Online Link',
+    eventType: 'Event Type',
+    copy: 'Copy',
+    copied: 'Copied!',
+    eventDetails: 'Event Details',
+    readMore: 'Read more',
+    readLess: 'Read less',
+    chooseTickets: 'Choose Tickets',
+    spotsLeft: 'spots left',
+    goingFast: 'going fast!',
+    soldOut: 'Sold out — no spots left',
+    ticketSuffix: 'tickets',
+    buyTickets: 'Buy Tickets',
+    organizer: 'Organizer',
+    contact: 'Contact',
+    reportEvent: 'Report Event',
+    koutyeTitle: 'Share and earn commissions!',
+    koutyeDesc: 'You earn 5% on every ticket sold through your link.',
+    shareNow: 'Share Now',
+    similarEvents: 'Similar Events',
+    navHome: 'Home',
+    navEvents: 'Events',
+    navCreate: 'Create',
+    navTickets: 'Tickets',
+    navAccount: 'Account'
+  },
+  es: {
+    brand: 'Tikè <em>Lakay</em>',
+    back: 'Volver',
+    hostedBy: 'Presentado por',
+    dateTime: 'Fecha y Hora',
+    location: 'Ubicación',
+    onlineLink: 'Enlace en Línea',
+    eventType: 'Tipo de Evento',
+    copy: 'Copiar',
+    copied: 'Copiado!',
+    eventDetails: 'Detalles del Evento',
+    readMore: 'Leer más',
+    readLess: 'Leer menos',
+    chooseTickets: 'Elegir Boletos',
+    spotsLeft: 'lugares disponibles',
+    goingFast: 'rápido!',
+    soldOut: 'Agotado — sin lugares',
+    ticketSuffix: 'boletos',
+    buyTickets: 'Comprar Boletos',
+    organizer: 'Organizador',
+    contact: 'Contactar',
+    reportEvent: 'Reportar Evento',
+    koutyeTitle: 'Comparte y gana comisiones!',
+    koutyeDesc: 'Ganas 5% en cada boleto vendido por tu enlace.',
+    shareNow: 'Compartir Ahora',
+    similarEvents: 'Eventos Similares',
+    navHome: 'Inicio',
+    navEvents: 'Eventos',
+    navCreate: 'Crear',
+    navTickets: 'Boletos',
+    navAccount: 'Cuenta'
+  }
+};
+
+function t(key) {
+  return (translations[currentLang] && translations[currentLang][key]) || translations.ht[key] || key;
+}
+
+function setLang(lang) {
+  currentLang = lang;
+  localStorage.setItem('tl_lang', lang);
+
+  /* Update lang-bar active state */
+  document.querySelectorAll('.lang-bar a').forEach(function(a) {
+    a.classList.toggle('active', a.getAttribute('data-lang') === lang);
+  });
+
+  /* Update all static data-i18n elements */
+  document.querySelectorAll('[data-i18n]').forEach(function(el) {
+    var key = el.getAttribute('data-i18n');
+    if (key === 'brand') {
+      el.innerHTML = t(key);
+    } else {
+      el.textContent = t(key);
+    }
+  });
+
+  /* Re-render dynamic content with new language */
+  renderPage();
+
+  /* Update read more/less button based on current state */
+  var label = document.getElementById('readMoreLabel');
+  if (label) {
+    label.textContent = descExpanded ? t('readLess') : t('readMore');
+  }
+}
+
+/* Attach lang-bar click handlers */
+document.querySelectorAll('.lang-bar a').forEach(function(a) {
+  a.addEventListener('click', function() {
+    setLang(this.getAttribute('data-lang'));
+  });
+});
+
+/* ═══ DATE / TIME FORMATTING PER LANGUAGE ═══ */
+var dayNames = {
+  ht: ['Dimanch','Lendi','Madi','Mèkredi','Jedi','Vandredi','Samdi'],
+  fr: ['Dimanche','Lundi','Mardi','Mercredi','Jeudi','Vendredi','Samedi'],
+  en: ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'],
+  es: ['Domingo','Lunes','Martes','Miércoles','Jueves','Viernes','Sábado']
+};
+var monthNames = {
+  ht: ['Jan','Fev','Mas','Avr','Mai','Jun','Jiy','Aou','Sep','Okt','Nov','Des'],
+  fr: ['Jan','Fév','Mar','Avr','Mai','Jun','Jul','Aoû','Sep','Oct','Nov','Déc'],
+  en: ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'],
+  es: ['Ene','Feb','Mar','Abr','May','Jun','Jul','Ago','Sep','Oct','Nov','Dic']
+};
 
 function formatDate(dateStr) {
   var d = new Date(dateStr + 'T00:00:00');
-  return jourSemèn[d.getDay()] + ', ' + d.getDate() + ' ' + mwaKreyòl[d.getMonth()] + ' ' + d.getFullYear();
+  var days = dayNames[currentLang] || dayNames.ht;
+  var months = monthNames[currentLang] || monthNames.ht;
+  return days[d.getDay()] + ', ' + d.getDate() + ' ' + months[d.getMonth()] + ' ' + d.getFullYear();
 }
 
 function formatTime(t) {
@@ -596,7 +796,7 @@ function renderPage() {
   document.getElementById('heroDateText').textContent = formatDate(event.date) + ' · ' + formatTime(event.startTime);
   document.getElementById('heroLocText').textContent = event.location;
   if (event.hostedBy) {
-    document.getElementById('heroHosted').innerHTML = '👤 Prezante pa <strong>' + event.hostedBy + '</strong>';
+    document.getElementById('heroHosted').innerHTML = '👤 ' + t('hostedBy') + ' <strong>' + event.hostedBy + '</strong>';
   } else {
     document.getElementById('heroHosted').style.display = 'none';
   }
@@ -608,24 +808,24 @@ function renderPage() {
   /* Date + Time */
   infoHtml += '<div class="info-row">' +
     '<div class="info-icon blue"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg></div>' +
-    '<div class="info-text"><div class="label">Dat ak Lè</div><div class="value">' + formatDate(event.date) + ' · ' + formatTime(event.startTime) + ' - ' + formatTime(event.endTime) + '</div></div></div>';
+    '<div class="info-text"><div class="label">' + t('dateTime') + '</div><div class="value">' + formatDate(event.date) + ' · ' + formatTime(event.startTime) + ' - ' + formatTime(event.endTime) + '</div></div></div>';
 
   /* Location */
   infoHtml += '<div class="info-row">' +
     '<div class="info-icon red"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg></div>' +
-    '<div class="info-text"><div class="label">Kote</div><div class="value">' + event.location + '</div></div></div>';
+    '<div class="info-text"><div class="label">' + t('location') + '</div><div class="value">' + event.location + '</div></div></div>';
 
   /* Online Link */
   if (event.onlineLink) {
     infoHtml += '<div class="info-row">' +
       '<div class="info-icon green"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M10 13a5 5 0 007.54.54l3-3a5 5 0 00-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 00-7.54-.54l-3 3a5 5 0 007.07 7.07l1.71-1.71"/></svg></div>' +
-      '<div class="info-text"><div class="label">Lyen Anliy</div><div class="value"><a href="' + event.onlineLink + '" target="_blank">' + event.onlineLink + '</a></div></div></div>';
+      '<div class="info-text"><div class="label">' + t('onlineLink') + '</div><div class="value"><a href="' + event.onlineLink + '" target="_blank">' + event.onlineLink + '</a></div></div></div>';
   }
 
   /* Event Type */
   infoHtml += '<div class="info-row">' +
     '<div class="info-icon gold"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1z"/><line x1="4" y1="22" x2="4" y2="15"/></svg></div>' +
-    '<div class="info-text"><div class="label">Tip Evènman</div><div class="event-type-pill">' + event.typeEmoji + ' ' + event.typeLabel + '</div></div></div>';
+    '<div class="info-text"><div class="label">' + t('eventType') + '</div><div class="event-type-pill">' + event.typeEmoji + ' ' + event.typeLabel + '</div></div></div>';
 
   document.getElementById('infoRows').innerHTML = infoHtml;
 
@@ -654,25 +854,25 @@ function renderPage() {
 /* ═══ RENDER TICKETS ═══ */
 function renderTickets() {
   var html = '';
-  event.tickets.forEach(function(t, i) {
-    var remaining = t.qty - t.sold;
+  event.tickets.forEach(function(tk, i) {
+    var remaining = tk.qty - tk.sold;
     var availClass = '';
-    var availText = remaining + ' plas rete';
-    if (remaining <= 15) { availClass = ' low'; availText = remaining + ' plas rete — ale vit!'; }
-    if (remaining <= 0) { availClass = ' soldout'; availText = 'Fini — pa gen plas ankò'; }
+    var availText = remaining + ' ' + t('spotsLeft');
+    if (remaining <= 15) { availClass = ' low'; availText = remaining + ' ' + t('spotsLeft') + ' — ' + t('goingFast'); }
+    if (remaining <= 0) { availClass = ' soldout'; availText = t('soldOut'); }
 
     var isSelected = ticketQty[i] > 0;
 
     html += '<div class="ticket-option' + (isSelected ? ' selected' : '') + '" id="ticket' + i + '" onclick="selectTicket(' + i + ')">';
     html += '<div class="ticket-top">';
-    html += '<div class="ticket-name">' + t.name + '</div>';
-    if (t.price === 0) {
+    html += '<div class="ticket-name">' + tk.name + '</div>';
+    if (tk.price === 0) {
       html += '<div class="ticket-price free">GRATIS</div>';
     } else {
-      html += '<div class="ticket-price"><span class="currency">HTG</span> ' + formatPrice(t.price) + '</div>';
+      html += '<div class="ticket-price"><span class="currency">HTG</span> ' + formatPrice(tk.price) + '</div>';
     }
     html += '</div>';
-    html += '<div class="ticket-desc">' + t.desc + '</div>';
+    html += '<div class="ticket-desc">' + tk.desc + '</div>';
     html += '<div class="ticket-bottom">';
     html += '<div class="ticket-avail' + availClass + '"><span class="dot"></span> ' + availText + '</div>';
     if (remaining > 0) {
@@ -720,7 +920,7 @@ function updateOrderBar() {
   var bar = document.getElementById('orderBar');
   if (totalQty > 0) {
     bar.classList.add('visible');
-    document.getElementById('orderCount').textContent = totalQty + ' tikè';
+    document.getElementById('orderCount').textContent = totalQty + ' ' + t('ticketSuffix');
     document.getElementById('orderTotal').textContent = formatPrice(totalPrice);
   } else {
     bar.classList.remove('visible');
@@ -736,11 +936,11 @@ function toggleDesc() {
   var label = document.getElementById('readMoreLabel');
   if (descExpanded) {
     el.classList.remove('collapsed');
-    label.textContent = 'Li mwens';
+    label.textContent = t('readLess');
     btn.classList.add('expanded');
   } else {
     el.classList.add('collapsed');
-    label.textContent = 'Li plis';
+    label.textContent = t('readMore');
     btn.classList.remove('expanded');
   }
 }
@@ -759,7 +959,7 @@ function copyLink() {
   navigator.clipboard.writeText(window.location.href).then(function() {
     var btn = document.querySelector('.share-btn.copy');
     var orig = btn.innerHTML;
-    btn.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" style="width:16px;height:16px"><polyline points="20 6 9 17 4 12"/></svg> Kopye!';
+    btn.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" style="width:16px;height:16px"><polyline points="20 6 9 17 4 12"/></svg> <span>' + t('copied') + '</span>';
     btn.style.background = 'var(--green-light)';
     btn.style.borderColor = 'var(--green)';
     btn.style.color = 'var(--green)';
@@ -825,7 +1025,8 @@ var observer = new IntersectionObserver(function(entries) {
 document.querySelectorAll('.reveal').forEach(function(el) { observer.observe(el); });
 
 /* ═══ INIT ═══ */
-renderPage();
+/* Set initial language from localStorage (or default ht) */
+setLang(currentLang);
 </script>
 </body>
 </html>

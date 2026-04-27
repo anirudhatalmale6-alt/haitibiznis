@@ -261,15 +261,29 @@ img{max-width:100%;display:block}
 .share-btn.fb{background:#1877F2;color:#fff}
 .share-btn.copy{background:var(--off-white);color:var(--text);border:1px solid var(--border)}
 .share-btn:hover{transform:translateY(-1px)}
+
+/* LANG BAR */
+.lang-bar{background:var(--dark);padding:6px 20px;display:flex;align-items:center;justify-content:center;gap:4px;font-size:.68rem;z-index:1001;position:relative}
+.lang-bar a{color:rgba(255,255,255,.5);padding:3px 12px;border-radius:100px;font-weight:600;transition:all .2s;cursor:pointer}
+.lang-bar a:hover{color:#fff;background:rgba(255,255,255,.08)}
+.lang-bar a.active{color:var(--gold);background:rgba(212,160,23,.15)}
 </style>
 </head>
 <body>
+
+<!-- LANGUAGE BAR -->
+<div class="lang-bar" id="langBar">
+  <a class="active" data-lang="ht">Kreyòl</a>
+  <a data-lang="fr">Français</a>
+  <a data-lang="en">English</a>
+  <a data-lang="es">Español</a>
+</div>
 
 <!-- HEADER -->
 <header class="header">
   <div class="header-left">
     <img src="assets/tike-lakay-logo.png" alt="Tikè Lakay">
-    <span>Tikè <em>Lakay</em></span>
+    <span data-i18n="brand">Tikè <em>Lakay</em></span>
   </div>
   <a href="events.html" class="header-back">
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M18 6L6 18M6 6l12 12"/></svg>
@@ -280,22 +294,22 @@ img{max-width:100%;display:block}
 <div class="stepper" id="stepper">
   <div class="stepper-item active" data-step="1">
     <div class="stepper-dot active">1</div>
-    <span class="stepper-label">Detay</span>
+    <span class="stepper-label" data-i18n="step_details">Detay</span>
   </div>
   <div class="stepper-line"></div>
   <div class="stepper-item" data-step="2">
     <div class="stepper-dot">2</div>
-    <span class="stepper-label">Envitasyon</span>
+    <span class="stepper-label" data-i18n="step_invitation">Envitasyon</span>
   </div>
   <div class="stepper-line"></div>
   <div class="stepper-item" data-step="3">
     <div class="stepper-dot">3</div>
-    <span class="stepper-label">Tikè</span>
+    <span class="stepper-label" data-i18n="step_tickets">Tikè</span>
   </div>
   <div class="stepper-line"></div>
   <div class="stepper-item" data-step="4">
     <div class="stepper-dot">4</div>
-    <span class="stepper-label">Pibliye</span>
+    <span class="stepper-label" data-i18n="step_publish">Pibliye</span>
   </div>
 </div>
 
@@ -305,14 +319,14 @@ img{max-width:100%;display:block}
 <!-- ═══════════ STEP 1: EVENT DETAILS ═══════════ -->
 <div class="step active" id="step1">
   <div class="form-card">
-    <div class="form-card-title"><span class="icon">📝</span> Detay Evènman</div>
+    <div class="form-card-title"><span class="icon">📝</span> <span data-i18n="event_details">Detay Evènman</span></div>
     <div class="form-group">
-      <label>Tit Evènman</label>
-      <input type="text" id="evTitle" placeholder="Eks: Konferans Biznis Ayiti 2026">
+      <label data-i18n="event_title">Tit Evènman</label>
+      <input type="text" id="evTitle" data-i18n-ph="ph_event_title" placeholder="Eks: Konferans Biznis Ayiti 2026">
     </div>
     <div class="form-row">
       <div class="form-group">
-        <label>Tip Evènman</label>
+        <label data-i18n="event_type">Tip Evènman</label>
         <select id="evType">
           <option value="">Chwazi...</option>
           <option value="konferans">🎤 Konferans</option>
@@ -346,53 +360,53 @@ img{max-width:100%;display:block}
         </select>
       </div>
       <div class="form-group">
-        <label>Dat</label>
+        <label data-i18n="date">Dat</label>
         <input type="date" id="evDate">
       </div>
     </div>
     <div class="form-row">
       <div class="form-group">
-        <label>Lè Kòmanse</label>
+        <label data-i18n="start_time">Lè Kòmanse</label>
         <input type="time" id="evStart" value="09:00">
       </div>
       <div class="form-group">
-        <label>Lè Fini</label>
+        <label data-i18n="end_time">Lè Fini</label>
         <input type="time" id="evEnd" value="17:00">
       </div>
     </div>
     <div class="form-group">
-      <label>Kote (Lokasyon)</label>
-      <input type="text" id="evLocation" placeholder="Eks: Karibe Hotel, Port-au-Prince">
+      <label data-i18n="location">Kote (Lokasyon)</label>
+      <input type="text" id="evLocation" data-i18n-ph="ph_location" placeholder="Eks: Karibe Hotel, Port-au-Prince">
     </div>
     <div class="form-group">
-      <label>Lyen Evènman Anliy <span class="opt">(opsyonèl)</span></label>
+      <label data-i18n="online_link">Lyen Evènman Anliy <span class="opt">(opsyonèl)</span></label>
       <input type="url" id="evOnline" placeholder="https://zoom.us/...">
     </div>
     <div class="form-group">
-      <label>Deskripsyon</label>
-      <textarea id="evDesc" placeholder="Dekri evènman ou a..."></textarea>
+      <label data-i18n="description">Deskripsyon</label>
+      <textarea id="evDesc" data-i18n-ph="ph_description" placeholder="Dekri evènman ou a..."></textarea>
     </div>
   </div>
   <div class="form-card">
-    <div class="form-card-title"><span class="icon">👤</span> Ògannizatè</div>
+    <div class="form-card-title"><span class="icon">👤</span> <span data-i18n="organizer">Ògannizatè</span></div>
     <div class="form-group">
-      <label>Non Ògannizatè</label>
-      <input type="text" id="evOrgName" placeholder="Non ou oswa non biznis ou">
+      <label data-i18n="organizer_name">Non Ògannizatè</label>
+      <input type="text" id="evOrgName" data-i18n-ph="ph_org_name" placeholder="Non ou oswa non biznis ou">
     </div>
     <div class="form-row">
       <div class="form-group">
-        <label>Telefòn</label>
+        <label data-i18n="phone">Telefòn</label>
         <input type="tel" id="evOrgPhone" placeholder="+509 XXXX XXXX">
       </div>
       <div class="form-group">
-        <label>Imèl <span class="opt">(opsyonèl)</span></label>
+        <label data-i18n="email">Imèl <span class="opt">(opsyonèl)</span></label>
         <input type="email" id="evOrgEmail" placeholder="ou@email.com">
       </div>
     </div>
   </div>
   <div class="btn-bar">
     <button class="btn btn-blue" onclick="goStep(2)">
-      Kontinye
+      <span data-i18n="continue">Kontinye</span>
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
     </button>
   </div>
@@ -401,56 +415,56 @@ img{max-width:100%;display:block}
 <!-- ═══════════ STEP 2: INVITE DESIGNER ═══════════ -->
 <div class="step" id="step2">
   <div class="form-card">
-    <div class="form-card-title"><span class="icon">🎨</span> Desiyen Envitasyon</div>
+    <div class="form-card-title"><span class="icon">🎨</span> <span data-i18n="design_invitation">Desiyen Envitasyon</span></div>
     <div class="canvas-wrap">
       <canvas id="inviteCanvas" width="960" height="540"></canvas>
     </div>
     <div class="template-grid" id="templateGrid">
       <div class="template-thumb active" data-tpl="professional" style="background:linear-gradient(135deg,#0A0E1A,#00209F,#D4A017)">
-        <span class="name">Pwofesyonèl</span>
+        <span class="name" data-i18n="tpl_professional">Pwofesyonèl</span>
       </div>
       <div class="template-thumb" data-tpl="conference" style="background:linear-gradient(135deg,#00209F,#0A3ACC,#4A7AFF)">
-        <span class="name">Konferans</span>
+        <span class="name" data-i18n="tpl_conference">Konferans</span>
       </div>
       <div class="template-thumb" data-tpl="party" style="background:linear-gradient(135deg,#D21034,#FF4466,#FF8CA0)">
-        <span class="name">Fèt</span>
+        <span class="name" data-i18n="tpl_party">Fèt</span>
       </div>
       <div class="template-thumb" data-tpl="church" style="background:linear-gradient(135deg,#2A1A5A,#5A3A8A,#D4A017)">
-        <span class="name">Legliz</span>
+        <span class="name" data-i18n="tpl_church">Legliz</span>
       </div>
       <div class="template-thumb" data-tpl="wedding" style="background:linear-gradient(135deg,#F5E6D0,#E8C9A0,#D4A870)">
-        <span class="name">Maryaj</span>
+        <span class="name" data-i18n="tpl_wedding">Maryaj</span>
       </div>
       <div class="template-thumb" data-tpl="concert" style="background:linear-gradient(135deg,#0A0E1A,#1A1A2E,#FF0066)">
-        <span class="name">Konsè</span>
+        <span class="name" data-i18n="tpl_concert">Konsè</span>
       </div>
     </div>
   </div>
   <div class="form-card">
-    <div class="form-card-title"><span class="icon">✏️</span> Modifye Tèks</div>
+    <div class="form-card-title"><span class="icon">✏️</span> <span data-i18n="edit_text">Modifye Tèks</span></div>
     <div class="form-row">
       <div class="form-group full">
-        <label>Tit sou Envitasyon</label>
-        <input type="text" id="invTitle" placeholder="Tit evènman">
+        <label data-i18n="inv_title">Tit sou Envitasyon</label>
+        <input type="text" id="invTitle" data-i18n-ph="ph_inv_title" placeholder="Tit evènman">
       </div>
     </div>
     <div class="form-row">
       <div class="form-group">
-        <label>Dat / Lè</label>
+        <label data-i18n="inv_datetime">Dat / Lè</label>
         <input type="text" id="invDate" placeholder="15 Jen 2026 · 9:00 AM">
       </div>
       <div class="form-group">
-        <label>Kote</label>
-        <input type="text" id="invLoc" placeholder="Lokasyon">
+        <label data-i18n="inv_location">Kote</label>
+        <input type="text" id="invLoc" data-i18n-ph="ph_inv_loc" placeholder="Lokasyon">
       </div>
     </div>
     <div class="form-group">
-      <label>Non Prezantatè / Òganizatè</label>
-      <input type="text" id="invHost" placeholder="Prezante pa...">
+      <label data-i18n="inv_host">Non Prezantatè / Òganizatè</label>
+      <input type="text" id="invHost" data-i18n-ph="ph_inv_host" placeholder="Prezante pa...">
     </div>
     <div class="form-row">
       <div class="form-group">
-        <label>Koulè Tèks</label>
+        <label data-i18n="text_color">Koulè Tèks</label>
         <div class="color-toggles">
           <div class="color-toggle active" data-color="#FFFFFF" style="background:#fff"></div>
           <div class="color-toggle" data-color="#0A0E1A" style="background:#0A0E1A"></div>
@@ -459,22 +473,22 @@ img{max-width:100%;display:block}
         </div>
       </div>
       <div class="form-group">
-        <label>Koulè Fon</label>
+        <label data-i18n="bg_color">Koulè Fon</label>
         <input type="color" id="invBgColor" value="#00209F" style="height:28px;padding:0;border:none;cursor:pointer;background:none">
       </div>
     </div>
   </div>
   <div class="form-card">
-    <div class="form-card-title"><span class="icon">📁</span> Imaj</div>
+    <div class="form-card-title"><span class="icon">📁</span> <span data-i18n="images">Imaj</span></div>
     <div class="form-row">
       <label class="upload-btn">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M17 8l-5-5-5 5M12 3v12"/></svg>
-        <span id="flyerLabel">Mete Flyer / Foto</span>
+        <span id="flyerLabel" data-i18n="upload_flyer">Mete Flyer / Foto</span>
         <input type="file" id="flyerInput" accept="image/*">
       </label>
       <label class="upload-btn">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg>
-        <span id="logoLabel">Mete Logo</span>
+        <span id="logoLabel" data-i18n="upload_logo">Mete Logo</span>
         <input type="file" id="logoInput" accept="image/*">
       </label>
     </div>
@@ -482,16 +496,16 @@ img{max-width:100%;display:block}
   <div class="download-bar">
     <button class="btn btn-gold" onclick="downloadInvite()" style="flex:1">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M7 10l5 5 5-5M12 15V3"/></svg>
-      Telechaje Envitasyon
+      <span data-i18n="download_invite">Telechaje Envitasyon</span>
     </button>
   </div>
   <div class="btn-bar">
     <button class="btn btn-back" onclick="goStep(1)">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M19 12H5M12 5l-7 7 7 7"/></svg>
-      Retounen
+      <span data-i18n="back">Retounen</span>
     </button>
     <button class="btn btn-blue" onclick="goStep(3)">
-      Kontinye
+      <span data-i18n="continue">Kontinye</span>
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
     </button>
   </div>
@@ -500,20 +514,20 @@ img{max-width:100%;display:block}
 <!-- ═══════════ STEP 3: TICKETS ═══════════ -->
 <div class="step" id="step3">
   <div class="form-card">
-    <div class="form-card-title"><span class="icon">🎟️</span> Konfigire Tikè</div>
+    <div class="form-card-title"><span class="icon">🎟️</span> <span data-i18n="setup_tickets">Konfigire Tikè</span></div>
     <div id="ticketsList"></div>
     <button class="add-ticket-btn" onclick="addTicket()">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg>
-      Ajoute yon Tikè
+      <span data-i18n="add_ticket">Ajoute yon Tikè</span>
     </button>
   </div>
   <div class="btn-bar">
     <button class="btn btn-back" onclick="goStep(2)">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M19 12H5M12 5l-7 7 7 7"/></svg>
-      Retounen
+      <span data-i18n="back">Retounen</span>
     </button>
     <button class="btn btn-blue" onclick="goStep(4)">
-      Kontinye
+      <span data-i18n="continue">Kontinye</span>
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
     </button>
   </div>
@@ -522,7 +536,7 @@ img{max-width:100%;display:block}
 <!-- ═══════════ STEP 4: PAYMENT & PUBLISH ═══════════ -->
 <div class="step" id="step4">
   <div class="form-card">
-    <div class="form-card-title"><span class="icon">💳</span> Metòd Peman</div>
+    <div class="form-card-title"><span class="icon">💳</span> <span data-i18n="payment_method">Metòd Peman</span></div>
     <label class="pay-check" onclick="togglePay(this)">
       <input type="checkbox" name="pay" value="moncash" checked>
       <span class="pay-check-box"></span>
@@ -531,7 +545,7 @@ img{max-width:100%;display:block}
     </label>
     <div class="pay-sub-input visible" id="moncashInput">
       <div class="form-group" style="margin-bottom:8px">
-        <input type="tel" placeholder="Nimewo MonCash: +509 XXXX XXXX">
+        <input type="tel" data-i18n-ph="ph_moncash" placeholder="Nimewo MonCash: +509 XXXX XXXX">
       </div>
     </div>
     <label class="pay-check" onclick="togglePay(this)">
@@ -542,74 +556,74 @@ img{max-width:100%;display:block}
     </label>
     <div class="pay-sub-input" id="natcashInput">
       <div class="form-group" style="margin-bottom:8px">
-        <input type="tel" placeholder="Nimewo NatCash: +509 XXXX XXXX">
+        <input type="tel" data-i18n-ph="ph_natcash" placeholder="Nimewo NatCash: +509 XXXX XXXX">
       </div>
     </div>
     <label class="pay-check" onclick="togglePay(this)">
       <input type="checkbox" name="pay" value="card">
       <span class="pay-check-box"></span>
       <span class="pay-check-icon">💳</span>
-      <span class="pay-check-label">Kat Kredi / Debi</span>
+      <span class="pay-check-label" data-i18n="pay_card">Kat Kredi / Debi</span>
     </label>
     <label class="pay-check" onclick="togglePay(this)">
       <input type="checkbox" name="pay" value="manual">
       <span class="pay-check-box"></span>
       <span class="pay-check-icon">🤝</span>
-      <span class="pay-check-label">Peman Manyèl</span>
+      <span class="pay-check-label" data-i18n="pay_manual">Peman Manyèl</span>
     </label>
   </div>
 
   <div class="form-card">
-    <div class="form-card-title"><span class="icon">🚀</span> Pwomosyon &amp; Referral</div>
+    <div class="form-card-title"><span class="icon">🚀</span> <span data-i18n="promo_referral">Pwomosyon &amp; Referral</span></div>
     <div class="toggle-row">
       <div>
-        <div class="toggle-row-label">Aktive Koutye Referral</div>
-        <div class="toggle-row-sub">Koutye yo ka pataje evènman w ak touche komisyon</div>
+        <div class="toggle-row-label" data-i18n="enable_koutye">Aktive Koutye Referral</div>
+        <div class="toggle-row-sub" data-i18n="koutye_desc">Koutye yo ka pataje evènman w ak touche komisyon</div>
       </div>
       <div class="toggle on" id="koutyeToggle" onclick="this.classList.toggle('on')"></div>
     </div>
     <div class="toggle-row">
       <div>
-        <div class="toggle-row-label">Creator Payout</div>
-        <div class="toggle-row-sub">Bay pwomotè % sou chak tikè yo vann</div>
+        <div class="toggle-row-label" data-i18n="creator_payout">Creator Payout</div>
+        <div class="toggle-row-sub" data-i18n="creator_payout_desc">Bay pwomotè % sou chak tikè yo vann</div>
       </div>
       <div class="toggle" id="creatorToggle" onclick="this.classList.toggle('on');document.getElementById('creatorPct').style.display=this.classList.contains('on')?'block':'none'"></div>
     </div>
     <div id="creatorPct" style="display:none;padding-left:10px;margin-top:8px">
       <div class="form-group" style="margin-bottom:8px">
-        <label>Pousantaj Creator (%)</label>
+        <label data-i18n="creator_pct">Pousantaj Creator (%)</label>
         <input type="number" min="1" max="10" value="3" placeholder="2-5%">
       </div>
     </div>
     <div class="form-group" style="margin-top:12px;margin-bottom:0">
-      <label>"Hosted by" Badge</label>
-      <input type="text" id="hostedBy" placeholder="Non atis / pwomotè (opsyonèl)">
+      <label data-i18n="hosted_badge">"Hosted by" Badge</label>
+      <input type="text" id="hostedBy" data-i18n-ph="ph_hosted_by" placeholder="Non atis / pwomotè (opsyonèl)">
     </div>
   </div>
 
   <div class="fee-note">
     <span class="icon">💡</span>
-    Frè platfòm: 5% sou chak tikè vann. Evènman gratis = san frè.
+    <span data-i18n="platform_fee">Frè platfòm: 5% sou chak tikè vann. Evènman gratis = san frè.</span>
   </div>
 
   <div class="summary-card" id="summaryCard">
-    <h4>📋 Rezime Evènman</h4>
-    <div class="summary-row"><span class="label">Tit</span><span class="val" id="sumTitle">—</span></div>
-    <div class="summary-row"><span class="label">Dat</span><span class="val" id="sumDate">—</span></div>
-    <div class="summary-row"><span class="label">Kote</span><span class="val" id="sumLoc">—</span></div>
+    <h4>📋 <span data-i18n="event_summary">Rezime Evènman</span></h4>
+    <div class="summary-row"><span class="label" data-i18n="sum_title">Tit</span><span class="val" id="sumTitle">—</span></div>
+    <div class="summary-row"><span class="label" data-i18n="sum_date">Dat</span><span class="val" id="sumDate">—</span></div>
+    <div class="summary-row"><span class="label" data-i18n="sum_location">Kote</span><span class="val" id="sumLoc">—</span></div>
     <div class="summary-divider"></div>
-    <div class="summary-row"><span class="label">Tikè</span><span class="val" id="sumTickets">—</span></div>
-    <div class="summary-row"><span class="label">Kapasite Total</span><span class="val" id="sumCapacity">—</span></div>
+    <div class="summary-row"><span class="label" data-i18n="sum_tickets">Tikè</span><span class="val" id="sumTickets">—</span></div>
+    <div class="summary-row"><span class="label" data-i18n="sum_capacity">Kapasite Total</span><span class="val" id="sumCapacity">—</span></div>
   </div>
 
   <div class="btn-bar" style="flex-direction:column;align-items:stretch">
     <button class="btn btn-red" style="height:52px;font-size:1rem" onclick="publishEvent()">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M22 2L11 13M22 2l-7 20-4-9-9-4z"/></svg>
-      Pibliye Evènman
+      <span data-i18n="publish_event">Pibliye Evènman</span>
     </button>
     <button class="btn btn-back" style="justify-content:center" onclick="goStep(3)">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M19 12H5M12 5l-7 7 7 7"/></svg>
-      Retounen
+      <span data-i18n="back">Retounen</span>
     </button>
   </div>
 </div>
@@ -622,8 +636,8 @@ img{max-width:100%;display:block}
   <div class="success-modal">
     <div class="success-confetti" id="successConfetti"></div>
     <div class="success-icon">🎉</div>
-    <h2>Evènman Pibliye!</h2>
-    <p>Evènman ou a ap viv kounye a. Pataje l ak tout moun!</p>
+    <h2 data-i18n="event_published">Evènman Pibliye!</h2>
+    <p data-i18n="event_published_desc">Evènman ou a ap viv kounye a. Pataje l ak tout moun!</p>
     <div class="share-row">
       <button class="share-btn wa" onclick="shareWhatsApp()">
         <svg viewBox="0 0 24 24" fill="currentColor" style="width:16px;height:16px"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/></svg>
@@ -633,9 +647,9 @@ img{max-width:100%;display:block}
         <svg viewBox="0 0 24 24" fill="currentColor" style="width:16px;height:16px"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
         Facebook
       </button>
-      <button class="share-btn copy" onclick="copyLink()">📋 Kopye Lyen</button>
+      <button class="share-btn copy" onclick="copyLink()"><span data-i18n="copy_link">📋 Kopye Lyen</span></button>
     </div>
-    <a href="events.html" class="btn btn-blue" style="width:100%">Gade Evènman Ou</a>
+    <a href="events.html" class="btn btn-blue" style="width:100%" data-i18n="view_event">Gade Evènman Ou</a>
   </div>
 </div>
 
@@ -648,6 +662,426 @@ var selectedTemplate = 'professional';
 var textColor = '#FFFFFF';
 var flyerImage = null;
 var logoImage = null;
+var curLang = 'ht';
+
+/* ═══ TRANSLATIONS ═══ */
+var i18n = {
+  ht: {
+    brand: 'Tikè <em>Lakay</em>',
+    step_details: 'Detay',
+    step_invitation: 'Envitasyon',
+    step_tickets: 'Tikè',
+    step_publish: 'Pibliye',
+    event_details: 'Detay Evènman',
+    event_title: 'Tit Evènman',
+    event_type: 'Tip Evènman',
+    date: 'Dat',
+    start_time: 'Lè Kòmanse',
+    end_time: 'Lè Fini',
+    location: 'Kote (Lokasyon)',
+    online_link: 'Lyen Evènman Anliy <span class="opt">(opsyonèl)</span>',
+    description: 'Deskripsyon',
+    organizer: 'Ògannizatè',
+    organizer_name: 'Non Ògannizatè',
+    phone: 'Telefòn',
+    email: 'Imèl <span class="opt">(opsyonèl)</span>',
+    continue: 'Kontinye',
+    back: 'Retounen',
+    design_invitation: 'Desiyen Envitasyon',
+    tpl_professional: 'Pwofesyonèl',
+    tpl_conference: 'Konferans',
+    tpl_party: 'Fèt',
+    tpl_church: 'Legliz',
+    tpl_wedding: 'Maryaj',
+    tpl_concert: 'Konsè',
+    edit_text: 'Modifye Tèks',
+    inv_title: 'Tit sou Envitasyon',
+    inv_datetime: 'Dat / Lè',
+    inv_location: 'Kote',
+    inv_host: 'Non Prezantatè / Òganizatè',
+    text_color: 'Koulè Tèks',
+    bg_color: 'Koulè Fon',
+    images: 'Imaj',
+    upload_flyer: 'Mete Flyer / Foto',
+    upload_logo: 'Mete Logo',
+    download_invite: 'Telechaje Envitasyon',
+    setup_tickets: 'Konfigire Tikè',
+    ticket_num: 'Tikè #',
+    ticket_name: 'Non Tikè',
+    ticket_price: 'Pri (HTG)',
+    ticket_qty: 'Kantite Disponib',
+    ticket_sale_start: 'Vant Kòmanse',
+    ticket_sale_end: 'Vant Fini',
+    ticket_desc: 'Deskripsyon <span class="opt">(opsyonèl)</span>',
+    add_ticket: 'Ajoute yon Tikè',
+    payment_method: 'Metòd Peman',
+    pay_card: 'Kat Kredi / Debi',
+    pay_manual: 'Peman Manyèl',
+    promo_referral: 'Pwomosyon &amp; Referral',
+    enable_koutye: 'Aktive Koutye Referral',
+    koutye_desc: 'Koutye yo ka pataje evènman w ak touche komisyon',
+    creator_payout: 'Creator Payout',
+    creator_payout_desc: 'Bay pwomotè % sou chak tikè yo vann',
+    creator_pct: 'Pousantaj Creator (%)',
+    hosted_badge: '"Hosted by" Badge',
+    platform_fee: 'Frè platfòm: 5% sou chak tikè vann. Evènman gratis = san frè.',
+    event_summary: 'Rezime Evènman',
+    sum_title: 'Tit',
+    sum_date: 'Dat',
+    sum_location: 'Kote',
+    sum_tickets: 'Tikè',
+    sum_capacity: 'Kapasite Total',
+    publish_event: 'Pibliye Evènman',
+    event_published: 'Evènman Pibliye!',
+    event_published_desc: 'Evènman ou a ap viv kounye a. Pataje l ak tout moun!',
+    copy_link: '📋 Kopye Lyen',
+    view_event: 'Gade Evènman Ou',
+    sum_type_suffix: ' tip',
+    sum_cap_suffix: ' plas',
+    ph_event_title: 'Eks: Konferans Biznis Ayiti 2026',
+    ph_location: 'Eks: Karibe Hotel, Port-au-Prince',
+    ph_description: 'Dekri evènman ou a...',
+    ph_org_name: 'Non ou oswa non biznis ou',
+    ph_inv_title: 'Tit evènman',
+    ph_inv_loc: 'Lokasyon',
+    ph_inv_host: 'Prezante pa...',
+    ph_ticket_name: 'Eks: General, VIP, Early Bird',
+    ph_ticket_price: '0 = gratis',
+    ph_ticket_desc: 'Ti deskripsyon tikè a...',
+    ph_moncash: 'Nimewo MonCash: +509 XXXX XXXX',
+    ph_natcash: 'Nimewo NatCash: +509 XXXX XXXX',
+    ph_hosted_by: 'Non atis / pwomotè (opsyonèl)',
+    presented_by: 'Prezante pa '
+  },
+  fr: {
+    brand: 'Tikè <em>Lakay</em>',
+    step_details: 'Détails',
+    step_invitation: 'Invitation',
+    step_tickets: 'Billets',
+    step_publish: 'Publier',
+    event_details: "Détails de l'Événement",
+    event_title: "Titre de l'Événement",
+    event_type: "Type d'Événement",
+    date: 'Date',
+    start_time: 'Heure de Début',
+    end_time: 'Heure de Fin',
+    location: 'Lieu',
+    online_link: 'Lien en Ligne <span class="opt">(optionnel)</span>',
+    description: 'Description',
+    organizer: 'Organisateur',
+    organizer_name: "Nom de l'Organisateur",
+    phone: 'Téléphone',
+    email: 'Email <span class="opt">(optionnel)</span>',
+    continue: 'Continuer',
+    back: 'Retour',
+    design_invitation: "Designer l'Invitation",
+    tpl_professional: 'Professionnel',
+    tpl_conference: 'Conférence',
+    tpl_party: 'Fête',
+    tpl_church: 'Église',
+    tpl_wedding: 'Mariage',
+    tpl_concert: 'Concert',
+    edit_text: 'Modifier le Texte',
+    inv_title: "Titre de l'Invitation",
+    inv_datetime: 'Date / Heure',
+    inv_location: 'Lieu',
+    inv_host: 'Présenté par',
+    text_color: 'Couleur du Texte',
+    bg_color: 'Couleur du Fond',
+    images: 'Images',
+    upload_flyer: 'Ajouter Flyer / Photo',
+    upload_logo: 'Ajouter Logo',
+    download_invite: "Télécharger l'Invitation",
+    setup_tickets: 'Configurer les Billets',
+    ticket_num: 'Billet #',
+    ticket_name: 'Nom du Billet',
+    ticket_price: 'Prix (HTG)',
+    ticket_qty: 'Quantité Disponible',
+    ticket_sale_start: 'Début des Ventes',
+    ticket_sale_end: 'Fin des Ventes',
+    ticket_desc: 'Description <span class="opt">(optionnel)</span>',
+    add_ticket: 'Ajouter un Billet',
+    payment_method: 'Méthode de Paiement',
+    pay_card: 'Carte de Crédit / Débit',
+    pay_manual: 'Paiement Manuel',
+    promo_referral: 'Promotion &amp; Parrainage',
+    enable_koutye: 'Activer le Parrainage Koutye',
+    koutye_desc: 'Les koutye peuvent partager votre événement et gagner une commission',
+    creator_payout: 'Paiement Créateur',
+    creator_payout_desc: 'Donner aux promoteurs un % sur chaque billet vendu',
+    creator_pct: 'Pourcentage Créateur (%)',
+    hosted_badge: 'Badge "Hébergé par"',
+    platform_fee: 'Frais de plateforme: 5% sur chaque billet vendu. Événement gratuit = sans frais.',
+    event_summary: "Résumé de l'Événement",
+    sum_title: 'Titre',
+    sum_date: 'Date',
+    sum_location: 'Lieu',
+    sum_tickets: 'Billets',
+    sum_capacity: 'Capacité Totale',
+    publish_event: "Publier l'Événement",
+    event_published: 'Événement Publié!',
+    event_published_desc: 'Votre événement est en ligne. Partagez-le avec tout le monde!',
+    copy_link: '📋 Copier le Lien',
+    view_event: 'Voir Votre Événement',
+    sum_type_suffix: ' types',
+    sum_cap_suffix: ' places',
+    ph_event_title: 'Ex: Conférence Business Haïti 2026',
+    ph_location: 'Ex: Karibe Hotel, Port-au-Prince',
+    ph_description: "Décrivez votre événement...",
+    ph_org_name: 'Votre nom ou nom de votre entreprise',
+    ph_inv_title: "Titre de l'événement",
+    ph_inv_loc: 'Lieu',
+    ph_inv_host: 'Présenté par...',
+    ph_ticket_name: 'Ex: Général, VIP, Early Bird',
+    ph_ticket_price: '0 = gratuit',
+    ph_ticket_desc: 'Courte description du billet...',
+    ph_moncash: 'Numéro MonCash: +509 XXXX XXXX',
+    ph_natcash: 'Numéro NatCash: +509 XXXX XXXX',
+    ph_hosted_by: "Nom de l'artiste / promoteur (optionnel)",
+    presented_by: 'Présenté par '
+  },
+  en: {
+    brand: 'Tikè <em>Lakay</em>',
+    step_details: 'Details',
+    step_invitation: 'Invitation',
+    step_tickets: 'Tickets',
+    step_publish: 'Publish',
+    event_details: 'Event Details',
+    event_title: 'Event Title',
+    event_type: 'Event Type',
+    date: 'Date',
+    start_time: 'Start Time',
+    end_time: 'End Time',
+    location: 'Location',
+    online_link: 'Online Event Link <span class="opt">(optional)</span>',
+    description: 'Description',
+    organizer: 'Organizer',
+    organizer_name: 'Organizer Name',
+    phone: 'Phone',
+    email: 'Email <span class="opt">(optional)</span>',
+    continue: 'Continue',
+    back: 'Back',
+    design_invitation: 'Design Invitation',
+    tpl_professional: 'Professional',
+    tpl_conference: 'Conference',
+    tpl_party: 'Party',
+    tpl_church: 'Church',
+    tpl_wedding: 'Wedding',
+    tpl_concert: 'Concert',
+    edit_text: 'Edit Text',
+    inv_title: 'Invitation Title',
+    inv_datetime: 'Date / Time',
+    inv_location: 'Location',
+    inv_host: 'Presented by',
+    text_color: 'Text Color',
+    bg_color: 'Background Color',
+    images: 'Images',
+    upload_flyer: 'Upload Flyer / Photo',
+    upload_logo: 'Upload Logo',
+    download_invite: 'Download Invitation',
+    setup_tickets: 'Set Up Tickets',
+    ticket_num: 'Ticket #',
+    ticket_name: 'Ticket Name',
+    ticket_price: 'Price (HTG)',
+    ticket_qty: 'Quantity Available',
+    ticket_sale_start: 'Sale Start',
+    ticket_sale_end: 'Sale End',
+    ticket_desc: 'Description <span class="opt">(optional)</span>',
+    add_ticket: 'Add a Ticket',
+    payment_method: 'Payment Method',
+    pay_card: 'Credit / Debit Card',
+    pay_manual: 'Manual Payment',
+    promo_referral: 'Promotion &amp; Referral',
+    enable_koutye: 'Enable Koutye Referral',
+    koutye_desc: 'Koutye can share your event and earn commission',
+    creator_payout: 'Creator Payout',
+    creator_payout_desc: 'Give promoters a % on each ticket sold',
+    creator_pct: 'Creator Percentage (%)',
+    hosted_badge: '"Hosted by" Badge',
+    platform_fee: 'Platform fee: 5% on each ticket sold. Free events = no fee.',
+    event_summary: 'Event Summary',
+    sum_title: 'Title',
+    sum_date: 'Date',
+    sum_location: 'Location',
+    sum_tickets: 'Tickets',
+    sum_capacity: 'Total Capacity',
+    publish_event: 'Publish Event',
+    event_published: 'Event Published!',
+    event_published_desc: 'Your event is live now. Share it with everyone!',
+    copy_link: '📋 Copy Link',
+    view_event: 'View Your Event',
+    sum_type_suffix: ' types',
+    sum_cap_suffix: ' seats',
+    ph_event_title: 'Ex: Haiti Business Conference 2026',
+    ph_location: 'Ex: Karibe Hotel, Port-au-Prince',
+    ph_description: 'Describe your event...',
+    ph_org_name: 'Your name or business name',
+    ph_inv_title: 'Event title',
+    ph_inv_loc: 'Location',
+    ph_inv_host: 'Presented by...',
+    ph_ticket_name: 'Ex: General, VIP, Early Bird',
+    ph_ticket_price: '0 = free',
+    ph_ticket_desc: 'Short ticket description...',
+    ph_moncash: 'MonCash Number: +509 XXXX XXXX',
+    ph_natcash: 'NatCash Number: +509 XXXX XXXX',
+    ph_hosted_by: 'Artist / promoter name (optional)',
+    presented_by: 'Presented by '
+  },
+  es: {
+    brand: 'Tikè <em>Lakay</em>',
+    step_details: 'Detalles',
+    step_invitation: 'Invitación',
+    step_tickets: 'Boletos',
+    step_publish: 'Publicar',
+    event_details: 'Detalles del Evento',
+    event_title: 'Título del Evento',
+    event_type: 'Tipo de Evento',
+    date: 'Fecha',
+    start_time: 'Hora de Inicio',
+    end_time: 'Hora de Fin',
+    location: 'Ubicación',
+    online_link: 'Enlace en Línea <span class="opt">(opcional)</span>',
+    description: 'Descripción',
+    organizer: 'Organizador',
+    organizer_name: 'Nombre del Organizador',
+    phone: 'Teléfono',
+    email: 'Correo <span class="opt">(opcional)</span>',
+    continue: 'Continuar',
+    back: 'Volver',
+    design_invitation: 'Diseñar Invitación',
+    tpl_professional: 'Profesional',
+    tpl_conference: 'Conferencia',
+    tpl_party: 'Fiesta',
+    tpl_church: 'Iglesia',
+    tpl_wedding: 'Boda',
+    tpl_concert: 'Concierto',
+    edit_text: 'Editar Texto',
+    inv_title: 'Título de la Invitación',
+    inv_datetime: 'Fecha / Hora',
+    inv_location: 'Ubicación',
+    inv_host: 'Presentado por',
+    text_color: 'Color del Texto',
+    bg_color: 'Color de Fondo',
+    images: 'Imágenes',
+    upload_flyer: 'Subir Flyer / Foto',
+    upload_logo: 'Subir Logo',
+    download_invite: 'Descargar Invitación',
+    setup_tickets: 'Configurar Boletos',
+    ticket_num: 'Boleto #',
+    ticket_name: 'Nombre del Boleto',
+    ticket_price: 'Precio (HTG)',
+    ticket_qty: 'Cantidad Disponible',
+    ticket_sale_start: 'Inicio de Ventas',
+    ticket_sale_end: 'Fin de Ventas',
+    ticket_desc: 'Descripción <span class="opt">(opcional)</span>',
+    add_ticket: 'Agregar Boleto',
+    payment_method: 'Método de Pago',
+    pay_card: 'Tarjeta de Crédito / Débito',
+    pay_manual: 'Pago Manual',
+    promo_referral: 'Promoción &amp; Referencia',
+    enable_koutye: 'Activar Referencia Koutye',
+    koutye_desc: 'Los koutye pueden compartir tu evento y ganar comisión',
+    creator_payout: 'Pago al Creador',
+    creator_payout_desc: 'Dar a promotores un % en cada boleto vendido',
+    creator_pct: 'Porcentaje del Creador (%)',
+    hosted_badge: 'Insignia "Presentado por"',
+    platform_fee: 'Tarifa de plataforma: 5% en cada boleto vendido. Evento gratuito = sin cargo.',
+    event_summary: 'Resumen del Evento',
+    sum_title: 'Título',
+    sum_date: 'Fecha',
+    sum_location: 'Ubicación',
+    sum_tickets: 'Boletos',
+    sum_capacity: 'Capacidad Total',
+    publish_event: 'Publicar Evento',
+    event_published: '¡Evento Publicado!',
+    event_published_desc: 'Tu evento está en vivo. ¡Compártelo con todos!',
+    copy_link: '📋 Copiar Enlace',
+    view_event: 'Ver Tu Evento',
+    sum_type_suffix: ' tipos',
+    sum_cap_suffix: ' lugares',
+    ph_event_title: 'Ej: Conferencia de Negocios Haití 2026',
+    ph_location: 'Ej: Karibe Hotel, Port-au-Prince',
+    ph_description: 'Describe tu evento...',
+    ph_org_name: 'Tu nombre o nombre de tu empresa',
+    ph_inv_title: 'Título del evento',
+    ph_inv_loc: 'Ubicación',
+    ph_inv_host: 'Presentado por...',
+    ph_ticket_name: 'Ej: General, VIP, Early Bird',
+    ph_ticket_price: '0 = gratis',
+    ph_ticket_desc: 'Breve descripción del boleto...',
+    ph_moncash: 'Número MonCash: +509 XXXX XXXX',
+    ph_natcash: 'Número NatCash: +509 XXXX XXXX',
+    ph_hosted_by: 'Nombre del artista / promotor (opcional)',
+    presented_by: 'Presentado por '
+  }
+};
+
+/* ═══ LANGUAGE SWITCHER ═══ */
+function setLang(lang) {
+  curLang = lang;
+  var t = i18n[lang];
+  if (!t) return;
+
+  /* Update lang-bar active state */
+  document.querySelectorAll('.lang-bar a').forEach(function(a) {
+    a.classList.toggle('active', a.dataset.lang === lang);
+  });
+
+  /* Update all data-i18n elements */
+  document.querySelectorAll('[data-i18n]').forEach(function(el) {
+    var key = el.getAttribute('data-i18n');
+    if (t[key] !== undefined) el.innerHTML = t[key];
+  });
+
+  /* Update all data-i18n-ph placeholders */
+  document.querySelectorAll('[data-i18n-ph]').forEach(function(el) {
+    var key = el.getAttribute('data-i18n-ph');
+    if (t[key] !== undefined) el.placeholder = t[key];
+  });
+
+  /* Re-translate dynamically generated ticket cards */
+  document.querySelectorAll('.ticket-card').forEach(function(card) {
+    var numSpan = card.querySelector('.ticket-card-num');
+    if (numSpan) {
+      var num = numSpan.textContent.replace(/[^0-9]/g, '');
+      numSpan.textContent = t.ticket_num + num;
+    }
+    var labels = card.querySelectorAll('label');
+    var labelKeys = ['ticket_name','ticket_price','ticket_qty','ticket_sale_start','ticket_sale_end','ticket_desc'];
+    labels.forEach(function(lbl, i) {
+      if (labelKeys[i] && t[labelKeys[i]] !== undefined) lbl.innerHTML = t[labelKeys[i]];
+    });
+    /* Update placeholders inside ticket cards */
+    var inputs = card.querySelectorAll('input');
+    inputs.forEach(function(inp) {
+      if (inp.type === 'text' && inp.closest('.form-group') === card.querySelector('.form-group:first-of-type')) {
+        inp.placeholder = t.ph_ticket_name || '';
+      }
+    });
+    /* Ticket name placeholder */
+    var firstTextInput = card.querySelector('.form-group:first-of-type input[type="text"]');
+    if (firstTextInput) firstTextInput.placeholder = t.ph_ticket_name;
+    /* Price placeholder */
+    var priceInput = card.querySelector('input[type="number"]');
+    if (priceInput) priceInput.placeholder = t.ph_ticket_price;
+    /* Description placeholder (last input) */
+    var lastGroup = card.querySelector('.form-group:last-child input[type="text"]');
+    if (lastGroup && lastGroup !== firstTextInput) lastGroup.placeholder = t.ph_ticket_desc;
+  });
+
+  /* Persist language choice */
+  try { localStorage.setItem('tl_lang', lang); } catch(e) {}
+
+  /* Update HTML lang attribute */
+  document.documentElement.lang = (lang === 'ht') ? 'ht' : lang;
+}
+
+/* Attach lang-bar click handlers */
+document.querySelectorAll('.lang-bar a').forEach(function(a) {
+  a.addEventListener('click', function() {
+    setLang(a.dataset.lang);
+  });
+});
 
 /* ═══ TEMPLATES ═══ */
 var templates = {
@@ -685,6 +1119,7 @@ function goStep(n) {
 }
 
 function syncStep1ToInvite() {
+  var t = i18n[curLang];
   var title = document.getElementById('evTitle').value;
   var date = document.getElementById('evDate').value;
   var start = document.getElementById('evStart').value;
@@ -700,7 +1135,7 @@ function syncStep1ToInvite() {
   if (start) dateStr += ' · ' + start;
   document.getElementById('invDate').value = dateStr;
   document.getElementById('invLoc').value = loc || '';
-  document.getElementById('invHost').value = org ? 'Prezante pa ' + org : '';
+  document.getElementById('invHost').value = org ? (t.presented_by || 'Prezante pa ') + org : '';
 }
 
 /* ═══ CANVAS INVITE DESIGNER ═══ */
@@ -851,19 +1286,20 @@ function downloadInvite() {
 function addTicket(name, price, qty) {
   ticketCount++;
   var id = ticketCount;
+  var t = i18n[curLang];
   var html = '<div class="ticket-card" id="ticket' + id + '">' +
-    '<div class="ticket-card-header"><span class="ticket-card-num">Tikè #' + id + '</span>' +
+    '<div class="ticket-card-header"><span class="ticket-card-num">' + t.ticket_num + id + '</span>' +
     '<button class="ticket-del" onclick="removeTicket(' + id + ')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M18 6L6 18M6 6l12 12"/></svg></button></div>' +
-    '<div class="form-group"><label>Non Tikè</label><input type="text" value="' + (name || '') + '" placeholder="Eks: General, VIP, Early Bird"></div>' +
+    '<div class="form-group"><label>' + t.ticket_name + '</label><input type="text" value="' + (name || '') + '" placeholder="' + t.ph_ticket_name + '"></div>' +
     '<div class="form-row">' +
-    '<div class="form-group"><label>Pri (HTG)</label><input type="number" value="' + (price || 0) + '" min="0" placeholder="0 = gratis"></div>' +
-    '<div class="form-group"><label>Kantite Disponib</label><input type="number" value="' + (qty || 100) + '" min="1"></div>' +
+    '<div class="form-group"><label>' + t.ticket_price + '</label><input type="number" value="' + (price || 0) + '" min="0" placeholder="' + t.ph_ticket_price + '"></div>' +
+    '<div class="form-group"><label>' + t.ticket_qty + '</label><input type="number" value="' + (qty || 100) + '" min="1"></div>' +
     '</div>' +
     '<div class="form-row">' +
-    '<div class="form-group"><label>Vant Kòmanse</label><input type="date"></div>' +
-    '<div class="form-group"><label>Vant Fini</label><input type="date"></div>' +
+    '<div class="form-group"><label>' + t.ticket_sale_start + '</label><input type="date"></div>' +
+    '<div class="form-group"><label>' + t.ticket_sale_end + '</label><input type="date"></div>' +
     '</div>' +
-    '<div class="form-group" style="margin-bottom:0"><label>Deskripsyon <span class="opt">(opsyonèl)</span></label><input type="text" placeholder="Ti deskripsyon tikè a..."></div>' +
+    '<div class="form-group" style="margin-bottom:0"><label>' + t.ticket_desc + '</label><input type="text" placeholder="' + t.ph_ticket_desc + '"></div>' +
     '</div>';
   document.getElementById('ticketsList').insertAdjacentHTML('beforeend', html);
 }
@@ -891,18 +1327,19 @@ document.querySelectorAll('.pay-check').forEach(function(p) {
 
 /* ═══ SUMMARY ═══ */
 function buildSummary() {
+  var t = i18n[curLang];
   document.getElementById('sumTitle').textContent = document.getElementById('evTitle').value || '—';
   var d = document.getElementById('evDate').value;
   document.getElementById('sumDate').textContent = d || '—';
   document.getElementById('sumLoc').textContent = document.getElementById('evLocation').value || '—';
   var cards = document.querySelectorAll('.ticket-card');
-  document.getElementById('sumTickets').textContent = cards.length + ' tip';
+  document.getElementById('sumTickets').textContent = cards.length + (t.sum_type_suffix || ' tip');
   var total = 0;
   cards.forEach(function(c) {
     var qtyInput = c.querySelectorAll('input[type="number"]')[1];
     if (qtyInput) total += parseInt(qtyInput.value) || 0;
   });
-  document.getElementById('sumCapacity').textContent = total + ' plas';
+  document.getElementById('sumCapacity').textContent = total + (t.sum_cap_suffix || ' plas');
 }
 
 /* ═══ PUBLISH ═══ */
@@ -934,10 +1371,12 @@ function shareFacebook() {
 }
 
 function copyLink() {
+  var t = i18n[curLang];
   navigator.clipboard.writeText('https://haitibiznis.com/events').then(function() {
-    var btn = document.querySelector('.share-btn.copy');
-    btn.textContent = '✅ Kopye!';
-    setTimeout(function(){ btn.innerHTML = '📋 Kopye Lyen'; }, 2000);
+    var btn = document.querySelector('.share-btn.copy span');
+    if (!btn) btn = document.querySelector('.share-btn.copy');
+    btn.innerHTML = '✅ Kopye!';
+    setTimeout(function(){ btn.innerHTML = t.copy_link || '📋 Kopye Lyen'; }, 2000);
   });
 }
 
@@ -946,7 +1385,17 @@ var style = document.createElement('style');
 style.textContent = '@keyframes confettiFall{0%{transform:translateY(-10px) rotate(0) scale(1);opacity:1}100%{transform:translateY(400px) rotate(720deg) scale(0);opacity:0}}';
 document.head.appendChild(style);
 
+/* ═══ INIT ═══ */
 renderCanvas();
+
+/* Restore saved language */
+(function() {
+  var saved = null;
+  try { saved = localStorage.getItem('tl_lang'); } catch(e) {}
+  if (saved && i18n[saved]) {
+    setLang(saved);
+  }
+})();
 </script>
 </body>
 </html>
