@@ -84,6 +84,7 @@ tr:hover td{background:rgba(0,32,159,.01)}
   text-transform:uppercase;letter-spacing:.06em;
 }
 .badge-pending{background:rgba(212,160,23,.1);color:var(--gold);border:1px solid rgba(212,160,23,.2)}
+.badge-paid{background:rgba(0,51,204,.1);color:var(--blue);border:1px solid rgba(0,51,204,.2)}
 .badge-processing{background:rgba(0,51,204,.1);color:var(--blue);border:1px solid rgba(0,51,204,.2)}
 .badge-completed{background:rgba(27,140,61,.1);color:var(--green);border:1px solid rgba(27,140,61,.2)}
 .badge-failed{background:rgba(210,16,52,.1);color:var(--red);border:1px solid rgba(210,16,52,.2)}
@@ -252,9 +253,11 @@ tr:hover td{background:rgba(0,32,159,.01)}
     <div class="kpi-card"><div class="val gold" id="kpiEdh">0</div><div class="label">EDH Today</div></div>
     <div class="kpi-card"><div class="val blue" id="kpiDinepa">0</div><div class="label">DINEPA Today</div></div>
     <div class="kpi-card"><div class="val gold" id="kpiPending">0</div><div class="label">Pending</div></div>
+    <div class="kpi-card"><div class="val blue" id="kpiPaid">0</div><div class="label">Paid</div></div>
     <div class="kpi-card"><div class="val green" id="kpiCompleted">0</div><div class="label">Completed</div></div>
     <div class="kpi-card"><div class="val red" id="kpiFailed">0</div><div class="label">Failed</div></div>
-    <div class="kpi-card"><div class="val green" id="kpiFees">0 HTG</div><div class="label">Total Fees</div></div>
+    <div class="kpi-card"><div class="val green" id="kpiRevenue">0 HTG</div><div class="label">Revenue</div></div>
+    <div class="kpi-card"><div class="val green" id="kpiFees">0 HTG</div><div class="label">Fees Earned</div></div>
   </div>
 
   <!-- FILTERS -->
@@ -262,6 +265,7 @@ tr:hover td{background:rgba(0,32,159,.01)}
     <select id="filterStatus" onchange="loadTransactions()">
       <option value="">All Statuses</option>
       <option value="pending">Pending</option>
+      <option value="paid">Paid</option>
       <option value="processing">Processing</option>
       <option value="completed">Completed</option>
       <option value="failed">Failed</option>
@@ -274,6 +278,7 @@ tr:hover td{background:rgba(0,32,159,.01)}
     </select>
     <input type="text" id="filterSearch" placeholder="Search by name, phone, ref, meter..." onkeypress="if(event.key==='Enter')loadTransactions()">
     <button class="filter-btn" onclick="loadTransactions()">Search</button>
+    <button class="filter-btn" style="background:var(--green)" onclick="exportCSV()">Export CSV</button>
   </div>
 
   <!-- TABLE -->
@@ -410,9 +415,32 @@ function renderKPIs(s) {
   document.getElementById('kpiEdh').textContent = s.today_edh;
   document.getElementById('kpiDinepa').textContent = s.today_dinepa;
   document.getElementById('kpiPending').textContent = s.pending;
+  document.getElementById('kpiPaid').textContent = s.paid || 0;
   document.getElementById('kpiCompleted').textContent = s.completed;
   document.getElementById('kpiFailed').textContent = s.failed;
-  document.getElementById('kpiFees').textContent = s.total_fees.toLocaleString() + ' HTG';
+  document.getElementById('kpiRevenue').textContent = (s.total_revenue || 0).toLocaleString() + ' HTG';
+  document.getElementById('kpiFees').textContent = (s.total_fees || 0).toLocaleString() + ' HTG';
+}
+
+function exportCSV() {
+  var status = document.getElementById('filterStatus').value;
+  var type = document.getElementById('filterType').value;
+  var url = API_BASE + '/utility/admin/export?_=' + Date.now();
+  if (status) url += '&status=' + status;
+  if (type) url += '&type=' + type;
+  var a = document.createElement('a');
+  a.href = url;
+  a.setAttribute('download', 'utility-transactions.csv');
+  fetch(url, { headers: { 'Authorization': 'Bearer ' + authToken } })
+    .then(function(r) { return r.blob(); })
+    .then(function(blob) {
+      var blobUrl = URL.createObjectURL(blob);
+      a.href = blobUrl;
+      a.click();
+      URL.revokeObjectURL(blobUrl);
+      showToast('CSV exported!');
+    })
+    .catch(function() { showToast('Export failed'); });
 }
 
 function renderTable(txs) {
@@ -533,6 +561,7 @@ function renderModal(tx) {
   html += '<div class="admin-field"><label>Update Status</label>';
   html += '<select id="modalStatus">';
   html += '<option value="pending"' + (tx.payment_status==='pending'?' selected':'') + '>Pending</option>';
+  html += '<option value="paid"' + (tx.payment_status==='paid'?' selected':'') + '>Paid</option>';
   html += '<option value="processing"' + (tx.payment_status==='processing'?' selected':'') + '>Processing</option>';
   html += '<option value="completed"' + (tx.payment_status==='completed'?' selected':'') + '>Completed</option>';
   html += '<option value="failed"' + (tx.payment_status==='failed'?' selected':'') + '>Failed</option>';
@@ -542,6 +571,12 @@ function renderModal(tx) {
   if (tx.utility_type === 'edh') {
     html += '<div class="admin-field"><label>EDH Token</label>';
     html += '<input type="text" id="modalToken" value="' + esc(tx.token || '') + '" placeholder="Enter EDH token"></div>';
+    if (tx.token_status) html += '<div style="font-size:.72rem;color:var(--text-light);margin:-8px 0 12px">Token status: <span class="badge badge-' + tx.token_status + '">' + tx.token_status + '</span></div>';
+  }
+
+  if (tx.utility_type === 'dinepa') {
+    html += '<div class="admin-field"><label>Receipt URL</label>';
+    html += '<input type="text" id="modalReceipt" value="' + esc(tx.receipt_url || '') + '" placeholder="Paste DINEPA receipt URL"></div>';
   }
 
   html += '<div class="admin-field"><label>Admin Notes</label>';
@@ -604,6 +639,18 @@ function saveChanges() {
         method: 'PATCH',
         headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + authToken },
         body: JSON.stringify(tokenBody)
+      }).then(function(r) { return r.json(); })
+    );
+  }
+
+  var receiptEl = document.getElementById('modalReceipt');
+  var receipt = receiptEl ? receiptEl.value.trim() : '';
+  if (receipt && receipt !== (currentTx.receipt_url || '')) {
+    promises.push(
+      fetch(API_BASE + '/utility/admin/transactions/' + id + '/receipt', {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + authToken },
+        body: JSON.stringify({ receipt_url: receipt, admin_notes: notes || '' })
       }).then(function(r) { return r.json(); })
     );
   }

@@ -88,6 +88,7 @@ nav{
              radial-gradient(circle at 80% 20%,rgba(0,51,204,.15) 0%,transparent 50%);
 }
 .hero-inner{max-width:800px;margin:0 auto;position:relative;z-index:1}
+.hero-logo{width:140px;height:140px;border-radius:24px;object-fit:contain;margin:0 auto 20px;display:block;background:rgba(255,255,255,.95);padding:8px;box-shadow:0 8px 32px rgba(0,0,0,.15)}
 .hero-badge{
   display:inline-flex;align-items:center;gap:6px;
   background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.15);
@@ -507,6 +508,7 @@ nav{
 <!-- HERO -->
 <section class="hero">
 <div class="hero-inner">
+  <img src="assets/utility-hub-logo.jpg" alt="Utility Payment Hub" class="hero-logo">
   <div class="hero-badge"><span>&#9889;</span> <span data-i18n="hero_badge">HaitiBiznis Utility Hub</span></div>
   <h1 data-i18n="hero_title">Peye Sèvis Ou <em>Fasil</em></h1>
   <p data-i18n="hero_sub">Peye EDH ak DINEPA sou HaitiBiznis avek MonCash, NatCash oswa kat kredi. Rapid, senp, sekirize.</p>
@@ -1323,7 +1325,7 @@ function pollStatus(type, refId) {
       .then(function(data) {
         if (data.success && data.transaction) {
           var tx = data.transaction;
-          if (tx.payment_status === 'completed') {
+          if (tx.payment_status === 'completed' || tx.payment_status === 'paid') {
             clearInterval(interval);
             showCompleted(type, tx);
           } else if (tx.payment_status === 'failed') {
