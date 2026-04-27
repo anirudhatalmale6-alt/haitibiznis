@@ -1,0 +1,831 @@
+<!DOCTYPE html>
+<html lang="ht">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Gran Konferans Teknoloji 2026 — HaitiBiznis Events</title>
+<meta name="description" content="Yon gwo konferans sou teknoloji ak inovasyon nan Ayiti. Achte tikè sou HaitiBiznis Events.">
+<meta name="theme-color" content="#00209F">
+<link rel="icon" type="image/x-icon" href="favicon.ico">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --blue:#00209F;--blue-deep:#001566;--blue-light:#0A3ACC;
+  --red:#D21034;--red-dark:#B00D2C;--red-glow:rgba(210,16,52,.15);
+  --gold:#D4A017;--gold-light:#E8B82E;--gold-soft:#FDF3D7;--gold-glow:rgba(212,160,23,.2);
+  --green:#1B8C3D;--green-light:#E8F5E9;
+  --white:#FFFFFF;--off-white:#F5F7FA;--cream:#FAFBFD;
+  --dark:#0A0E1A;--text:#1A2A4A;--text-light:#5A6B8A;--text-muted:#8A95AA;
+  --border:#E2E8F0;--border-light:#F0F3F7;
+  --body:'Plus Jakarta Sans',system-ui,sans-serif;
+  --display:'DM Serif Display',Georgia,serif;
+  --shadow-sm:0 1px 3px rgba(10,14,26,.06);
+  --shadow-md:0 4px 16px rgba(10,14,26,.08);
+  --shadow-lg:0 12px 40px rgba(10,14,26,.12);
+  --radius:14px;--radius-lg:20px;
+}
+html{scroll-behavior:smooth}
+body{font-family:var(--body);background:var(--off-white);color:var(--text);overflow-x:hidden;-webkit-font-smoothing:antialiased;padding-bottom:56px}
+a{text-decoration:none;color:inherit}
+button{font-family:var(--body);cursor:pointer;border:none;background:none}
+img{max-width:100%;display:block}
+
+/* FLAG */
+.flag-stripe{height:4px;background:linear-gradient(90deg,var(--blue) 50%,var(--red) 50%);position:relative;z-index:1002}
+
+/* HEADER */
+.header{
+  position:sticky;top:0;z-index:100;
+  background:rgba(255,255,255,.95);backdrop-filter:blur(16px);
+  border-bottom:1px solid var(--border);padding:0 16px;height:56px;
+  display:flex;align-items:center;justify-content:space-between;
+}
+.header-left{display:flex;align-items:center;gap:10px}
+.header-left img{height:30px;border-radius:5px}
+.header-left span{font-family:var(--display);font-size:1rem;color:var(--dark)}
+.header-left span em{color:var(--red);font-style:italic}
+.header-back{
+  display:flex;align-items:center;gap:6px;
+  font-size:.78rem;font-weight:600;color:var(--text-light);
+  padding:8px 14px;border-radius:10px;border:1px solid var(--border);
+  transition:all .2s;
+}
+.header-back:hover{background:var(--off-white);border-color:var(--text-muted);color:var(--blue)}
+.header-back svg{width:16px;height:16px}
+
+/* HERO IMAGE */
+.hero-invite{
+  width:100%;aspect-ratio:16/9;position:relative;overflow:hidden;
+  background:linear-gradient(160deg,var(--dark) 0%,#0A1235 30%,var(--blue-deep) 55%,var(--blue) 80%,var(--gold) 100%);
+}
+.hero-invite::before{
+  content:'';position:absolute;inset:0;
+  background:
+    radial-gradient(ellipse 500px 300px at 20% 80%, rgba(212,160,23,.15) 0%, transparent 70%),
+    radial-gradient(ellipse 400px 400px at 80% 20%, rgba(0,32,159,.2) 0%, transparent 70%);
+  pointer-events:none;
+}
+.hero-invite::after{
+  content:'';position:absolute;inset:0;
+  background:linear-gradient(180deg, transparent 30%, rgba(10,14,26,.7) 100%);
+  pointer-events:none;
+}
+.hero-grid{
+  position:absolute;inset:0;
+  background:
+    repeating-linear-gradient(90deg, rgba(255,255,255,.02) 0px, rgba(255,255,255,.02) 1px, transparent 1px, transparent 80px),
+    repeating-linear-gradient(0deg, rgba(255,255,255,.02) 0px, rgba(255,255,255,.02) 1px, transparent 1px, transparent 80px);
+  pointer-events:none;
+}
+.hero-content{
+  position:absolute;bottom:0;left:0;right:0;padding:20px 16px 18px;
+  z-index:2;color:#fff;
+}
+.hero-type-badge{
+  display:inline-flex;align-items:center;gap:5px;
+  font-size:.62rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;
+  padding:4px 12px;border-radius:6px;
+  background:rgba(0,32,159,.85);backdrop-filter:blur(6px);
+  color:#fff;margin-bottom:10px;
+}
+.hero-title{
+  font-family:var(--display);font-size:clamp(1.5rem,5vw,2.2rem);
+  line-height:1.15;margin-bottom:8px;text-shadow:0 2px 12px rgba(0,0,0,.4);
+}
+.hero-date-loc{
+  display:flex;flex-direction:column;gap:4px;font-size:.82rem;
+  color:rgba(255,255,255,.8);
+}
+.hero-date-loc span{display:flex;align-items:center;gap:6px}
+.hero-date-loc svg{width:14px;height:14px;flex-shrink:0;opacity:.7}
+.hero-hosted{
+  display:inline-flex;align-items:center;gap:6px;
+  margin-top:10px;padding:5px 12px;border-radius:100px;
+  background:rgba(255,255,255,.12);backdrop-filter:blur(8px);
+  font-size:.72rem;font-weight:600;color:rgba(255,255,255,.85);
+}
+
+/* MAIN */
+.main{max-width:640px;margin:0 auto;padding:0 16px 24px}
+
+/* CARD */
+.card{
+  background:var(--white);border:1px solid var(--border);
+  border-radius:var(--radius-lg);padding:20px;margin-top:16px;
+  box-shadow:var(--shadow-sm);
+}
+.card-title{
+  font-family:var(--display);font-size:1.15rem;color:var(--dark);
+  margin-bottom:14px;display:flex;align-items:center;gap:8px;
+}
+.card-title .icon{font-size:1.15rem}
+
+/* EVENT INFO */
+.info-rows{display:flex;flex-direction:column;gap:12px}
+.info-row{display:flex;align-items:flex-start;gap:12px}
+.info-icon{
+  width:40px;height:40px;border-radius:12px;flex-shrink:0;
+  display:flex;align-items:center;justify-content:center;
+}
+.info-icon svg{width:18px;height:18px}
+.info-icon.blue{background:rgba(0,32,159,.08);color:var(--blue)}
+.info-icon.red{background:rgba(210,16,52,.08);color:var(--red)}
+.info-icon.green{background:rgba(27,140,61,.08);color:var(--green)}
+.info-icon.gold{background:rgba(212,160,23,.1);color:#8B6914}
+.info-text{flex:1;min-width:0}
+.info-text .label{font-size:.72rem;font-weight:600;color:var(--text-muted);text-transform:uppercase;letter-spacing:.04em}
+.info-text .value{font-size:.9rem;font-weight:600;color:var(--text);margin-top:1px}
+.info-text .value a{color:var(--blue);text-decoration:underline;text-decoration-color:rgba(0,32,159,.25)}
+
+/* EVENT TYPE BADGE (in info card) */
+.event-type-pill{
+  display:inline-flex;align-items:center;gap:5px;
+  padding:5px 14px;border-radius:100px;
+  font-size:.75rem;font-weight:700;
+  background:rgba(0,32,159,.08);color:var(--blue);
+  margin-top:4px;
+}
+
+/* SHARE BUTTONS */
+.share-row{display:flex;gap:8px;margin-top:16px;padding-top:14px;border-top:1px solid var(--border-light)}
+.share-btn{
+  height:38px;padding:0 14px;border-radius:10px;font-size:.75rem;font-weight:700;
+  display:flex;align-items:center;gap:6px;transition:all .2s;flex:1;justify-content:center;
+}
+.share-btn svg{width:16px;height:16px;flex-shrink:0}
+.share-btn.wa{background:#25D366;color:#fff}
+.share-btn.wa:hover{background:#1DA851}
+.share-btn.fb{background:#1877F2;color:#fff}
+.share-btn.fb:hover{background:#1466D8}
+.share-btn.copy{background:var(--off-white);color:var(--text);border:1px solid var(--border)}
+.share-btn.copy:hover{background:var(--border-light);border-color:var(--text-muted)}
+
+/* DESCRIPTION */
+.desc-text{font-size:.88rem;color:var(--text-light);line-height:1.7;white-space:pre-line}
+.desc-text.collapsed{
+  display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;
+  overflow:hidden;
+}
+.read-more-btn{
+  display:inline-flex;align-items:center;gap:4px;
+  margin-top:10px;font-size:.82rem;font-weight:700;color:var(--blue);
+  padding:6px 0;transition:color .2s;
+}
+.read-more-btn:hover{color:var(--blue-light)}
+.read-more-btn svg{width:14px;height:14px;transition:transform .2s}
+.read-more-btn.expanded svg{transform:rotate(180deg)}
+
+/* TICKETS */
+.ticket-option{
+  border:2px solid var(--border);border-radius:var(--radius);
+  padding:16px;margin-bottom:10px;transition:all .25s;cursor:pointer;
+  position:relative;overflow:hidden;
+}
+.ticket-option:hover{border-color:var(--blue-light);box-shadow:var(--shadow-sm)}
+.ticket-option.selected{border-color:var(--blue);background:rgba(0,32,159,.02);box-shadow:0 0 0 3px rgba(0,32,159,.08)}
+.ticket-option.selected::before{
+  content:'';position:absolute;top:0;left:0;right:0;height:3px;
+  background:linear-gradient(90deg,var(--blue),var(--blue-light));
+}
+.ticket-top{display:flex;align-items:flex-start;justify-content:space-between;gap:12px;margin-bottom:8px}
+.ticket-name{font-size:.92rem;font-weight:700;color:var(--dark)}
+.ticket-price{
+  font-size:1rem;font-weight:800;color:var(--dark);white-space:nowrap;
+  display:flex;align-items:baseline;gap:3px;
+}
+.ticket-price .currency{font-size:.72rem;font-weight:600;color:var(--text-muted)}
+.ticket-price.free{color:var(--green);font-size:.88rem}
+.ticket-desc{font-size:.78rem;color:var(--text-light);margin-bottom:10px;line-height:1.4}
+.ticket-bottom{display:flex;align-items:center;justify-content:space-between;gap:8px}
+.ticket-avail{
+  display:flex;align-items:center;gap:5px;
+  font-size:.7rem;font-weight:600;color:var(--text-muted);
+}
+.ticket-avail .dot{width:6px;height:6px;border-radius:50%;background:var(--green);flex-shrink:0}
+.ticket-avail.low .dot{background:var(--gold)}
+.ticket-avail.low{color:#8B6914}
+.ticket-avail.soldout .dot{background:var(--red)}
+.ticket-avail.soldout{color:var(--red)}
+.qty-selector{
+  display:flex;align-items:center;gap:0;
+  border:1.5px solid var(--border);border-radius:10px;overflow:hidden;
+  height:36px;
+}
+.qty-btn{
+  width:36px;height:100%;display:flex;align-items:center;justify-content:center;
+  font-size:1rem;font-weight:700;color:var(--text-light);
+  transition:all .15s;background:var(--off-white);
+}
+.qty-btn:hover{background:var(--border-light);color:var(--blue)}
+.qty-btn:active{background:var(--border)}
+.qty-val{
+  width:36px;height:100%;display:flex;align-items:center;justify-content:center;
+  font-size:.88rem;font-weight:800;color:var(--dark);
+  border-left:1.5px solid var(--border);border-right:1.5px solid var(--border);
+  background:var(--white);
+}
+
+/* STICKY BOTTOM BAR */
+.order-bar{
+  position:fixed;bottom:56px;left:0;right:0;z-index:90;
+  background:rgba(255,255,255,.97);backdrop-filter:blur(16px);
+  border-top:1px solid var(--border);padding:12px 16px;
+  display:flex;align-items:center;justify-content:space-between;gap:12px;
+  transform:translateY(100%);opacity:0;
+  transition:all .35s cubic-bezier(.4,0,.2,1);
+  pointer-events:none;
+}
+.order-bar.visible{transform:translateY(0);opacity:1;pointer-events:auto}
+.order-info{display:flex;flex-direction:column;gap:2px}
+.order-count{font-size:.75rem;font-weight:600;color:var(--text-light)}
+.order-total{font-size:1.1rem;font-weight:800;color:var(--dark)}
+.order-total .currency{font-size:.78rem;font-weight:600;color:var(--text-muted)}
+.buy-btn{
+  height:48px;padding:0 28px;border-radius:12px;
+  background:linear-gradient(135deg,var(--red),var(--red-dark));
+  color:#fff;font-size:.92rem;font-weight:800;
+  display:flex;align-items:center;gap:8px;
+  box-shadow:0 4px 20px rgba(210,16,52,.35);
+  transition:all .25s;white-space:nowrap;
+}
+.buy-btn svg{width:18px;height:18px;flex-shrink:0}
+.buy-btn:hover{transform:translateY(-1px);box-shadow:0 6px 28px rgba(210,16,52,.45)}
+.buy-btn:active{transform:translateY(0)}
+
+/* ORGANIZER */
+.org-row{display:flex;align-items:center;gap:14px}
+.org-avatar{
+  width:48px;height:48px;border-radius:14px;flex-shrink:0;
+  background:linear-gradient(135deg,var(--blue),var(--blue-light));
+  display:flex;align-items:center;justify-content:center;
+  font-size:1.2rem;font-weight:800;color:#fff;
+}
+.org-info{flex:1;min-width:0}
+.org-name{font-size:.92rem;font-weight:700;color:var(--dark)}
+.org-label{font-size:.72rem;color:var(--text-muted);margin-top:1px}
+.org-actions{display:flex;gap:8px;margin-top:14px}
+.org-btn{
+  height:38px;padding:0 16px;border-radius:10px;
+  font-size:.78rem;font-weight:700;display:flex;align-items:center;gap:6px;
+  transition:all .2s;
+}
+.org-btn svg{width:16px;height:16px;flex-shrink:0}
+.org-btn.wa{background:#25D366;color:#fff}
+.org-btn.wa:hover{background:#1DA851}
+.org-btn.report{color:var(--text-muted);border:1px solid var(--border);background:var(--white);font-size:.72rem}
+.org-btn.report:hover{border-color:var(--red);color:var(--red)}
+
+/* KOUTYE BANNER */
+.koutye-banner{
+  background:linear-gradient(135deg,var(--dark),var(--blue-deep));
+  border-radius:var(--radius-lg);padding:18px 20px;margin-top:16px;
+  color:#fff;position:relative;overflow:hidden;
+}
+.koutye-banner::before{
+  content:'';position:absolute;inset:0;
+  background:radial-gradient(ellipse 200px 200px at 90% 50%, rgba(212,160,23,.15), transparent);
+  pointer-events:none;
+}
+.koutye-banner-inner{position:relative;z-index:1}
+.koutye-banner-title{
+  font-size:.88rem;font-weight:800;margin-bottom:4px;
+  display:flex;align-items:center;gap:6px;
+}
+.koutye-banner-title .icon{font-size:1rem}
+.koutye-banner-desc{font-size:.78rem;color:rgba(255,255,255,.65);line-height:1.5;margin-bottom:12px}
+.koutye-btn{
+  height:36px;padding:0 18px;border-radius:10px;
+  background:linear-gradient(135deg,var(--gold),#C4900F);
+  color:#fff;font-size:.78rem;font-weight:700;
+  display:inline-flex;align-items:center;gap:6px;
+  box-shadow:0 4px 16px rgba(212,160,23,.25);transition:all .2s;
+}
+.koutye-btn:hover{transform:translateY(-1px);box-shadow:0 6px 20px rgba(212,160,23,.35)}
+.koutye-btn svg{width:14px;height:14px}
+
+/* SIMILAR EVENTS */
+.similar-scroll{
+  display:flex;gap:12px;overflow-x:auto;overflow-y:visible;
+  scroll-snap-type:x mandatory;-webkit-overflow-scrolling:touch;
+  padding:4px 0 8px;margin:0 -20px;padding-left:20px;padding-right:20px;
+}
+.similar-scroll::-webkit-scrollbar{display:none}
+.sim-card{
+  min-width:200px;max-width:220px;scroll-snap-align:start;flex-shrink:0;
+  background:var(--white);border:1px solid var(--border);border-radius:var(--radius);
+  overflow:hidden;transition:all .25s;cursor:pointer;
+}
+.sim-card:hover{transform:translateY(-3px);box-shadow:var(--shadow-md)}
+.sim-img{height:100px;position:relative;overflow:hidden;display:flex;align-items:center;justify-content:center;font-size:1.8rem}
+.sim-date{
+  position:absolute;top:8px;right:8px;
+  background:var(--white);border-radius:8px;padding:4px 8px;text-align:center;
+  box-shadow:0 2px 8px rgba(0,0,0,.15);
+}
+.sim-date .month{font-size:.5rem;font-weight:700;text-transform:uppercase;color:var(--red);letter-spacing:.05em}
+.sim-date .day{font-size:.88rem;font-weight:900;color:var(--dark);line-height:1}
+.sim-body{padding:10px 12px}
+.sim-title{font-size:.78rem;font-weight:700;color:var(--dark);margin-bottom:4px;line-height:1.3;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.sim-price{font-size:.78rem;font-weight:800;color:var(--blue)}
+.sim-price.free{color:var(--green)}
+
+/* BOTTOM NAV */
+.bottom-nav{
+  position:fixed;bottom:0;left:0;right:0;z-index:100;
+  background:rgba(255,255,255,.95);backdrop-filter:blur(16px);
+  border-top:1px solid var(--border);display:flex;height:56px;
+}
+.bottom-nav a{
+  flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;
+  color:var(--text-muted);font-size:.6rem;font-weight:600;transition:color .2s;
+  text-transform:uppercase;letter-spacing:.04em;
+}
+.bottom-nav a.active{color:var(--blue)}
+.bottom-nav a svg{width:22px;height:22px}
+.bottom-nav .create-tab{position:relative;margin-top:-12px}
+.bottom-nav .create-dot{
+  width:44px;height:44px;border-radius:14px;
+  background:linear-gradient(135deg,var(--red),var(--red-dark));
+  display:flex;align-items:center;justify-content:center;
+  box-shadow:0 4px 16px rgba(210,16,52,.3);
+}
+.bottom-nav .create-dot svg{color:#fff}
+
+/* REVEAL */
+.reveal{opacity:0;transform:translateY(16px);transition:opacity .45s ease,transform .45s ease}
+.reveal.visible{opacity:1;transform:translateY(0)}
+.reveal-d1{transition-delay:.08s}
+.reveal-d2{transition-delay:.16s}
+.reveal-d3{transition-delay:.24s}
+
+/* RESPONSIVE */
+@media(min-width:768px){
+  .bottom-nav{display:none}
+  body{padding-bottom:0}
+  .order-bar{bottom:0}
+  .order-bar .inner{max-width:640px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;width:100%}
+}
+@media(min-width:500px){
+  .hero-invite{aspect-ratio:2/1}
+}
+</style>
+</head>
+<body>
+
+<!-- FLAG -->
+<div class="flag-stripe"></div>
+
+<!-- HEADER -->
+<header class="header">
+  <a href="events.html" class="header-left">
+    <img src="assets/events-logo.png" alt="HaitiBiznis Events">
+    <span>Haiti<em>Biznis</em></span>
+  </a>
+  <a href="events.html" class="header-back">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M19 12H5M12 5l-7 7 7 7"/></svg>
+    Retounen
+  </a>
+</header>
+
+<!-- HERO INVITE IMAGE -->
+<div class="hero-invite" id="heroInvite">
+  <div class="hero-grid"></div>
+  <div class="hero-content">
+    <div class="hero-type-badge" id="heroType"></div>
+    <h1 class="hero-title" id="heroTitle"></h1>
+    <div class="hero-date-loc">
+      <span id="heroDate">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>
+        <span id="heroDateText"></span>
+      </span>
+      <span id="heroLoc">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>
+        <span id="heroLocText"></span>
+      </span>
+    </div>
+    <div class="hero-hosted" id="heroHosted"></div>
+  </div>
+</div>
+
+<div class="main">
+
+<!-- EVENT INFO CARD -->
+<div class="card reveal" id="infoCard">
+  <div class="card-title"><span class="icon">📋</span> <span id="infoTitle"></span></div>
+  <div class="info-rows" id="infoRows"></div>
+  <div class="share-row">
+    <button class="share-btn wa" onclick="shareWhatsApp()">
+      <svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/></svg>
+      WhatsApp
+    </button>
+    <button class="share-btn fb" onclick="shareFacebook()">
+      <svg viewBox="0 0 24 24" fill="currentColor"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
+      Facebook
+    </button>
+    <button class="share-btn copy" onclick="copyLink()">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
+      Kopye
+    </button>
+  </div>
+</div>
+
+<!-- DESCRIPTION CARD -->
+<div class="card reveal reveal-d1" id="descCard">
+  <div class="card-title"><span class="icon">📖</span> Detay Evènman</div>
+  <div class="desc-text collapsed" id="descText"></div>
+  <button class="read-more-btn" id="readMoreBtn" onclick="toggleDesc()">
+    <span id="readMoreLabel">Li plis</span>
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M6 9l6 6 6-6"/></svg>
+  </button>
+</div>
+
+<!-- TICKET SELECTION CARD -->
+<div class="card reveal reveal-d2" id="ticketsCard">
+  <div class="card-title"><span class="icon">🎟️</span> Chwazi Tikè</div>
+  <div id="ticketsList"></div>
+</div>
+
+<!-- ORGANIZER SECTION -->
+<div class="card reveal reveal-d3" id="orgCard">
+  <div class="card-title"><span class="icon">👤</span> Òganizatè</div>
+  <div class="org-row">
+    <div class="org-avatar" id="orgAvatar"></div>
+    <div class="org-info">
+      <div class="org-name" id="orgName"></div>
+      <div class="org-label">Òganizatè</div>
+    </div>
+  </div>
+  <div class="org-actions">
+    <button class="org-btn wa" id="orgWaBtn" onclick="contactOrganizer()">
+      <svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/></svg>
+      Kontakte
+    </button>
+    <button class="org-btn report" onclick="reportEvent()">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1z"/><line x1="4" y1="22" x2="4" y2="15"/></svg>
+      Rapòte Evènman
+    </button>
+  </div>
+</div>
+
+<!-- KOUTYE REFERRAL BANNER -->
+<div class="koutye-banner reveal" id="koutyeBanner" style="display:none">
+  <div class="koutye-banner-inner">
+    <div class="koutye-banner-title"><span class="icon">💰</span> Pataje ak touche komisyon!</div>
+    <div class="koutye-banner-desc">Ou ka touche 5% sou chak tikè vann atravè lyen pa ou.</div>
+    <button class="koutye-btn" onclick="shareKoutye()">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 12v8a2 2 0 002 2h12a2 2 0 002-2v-8M16 6l-4-4-4 4M12 2v13"/></svg>
+      Pataje Kounye a
+    </button>
+  </div>
+</div>
+
+<!-- SIMILAR EVENTS -->
+<div class="card reveal" style="margin-top:16px;margin-bottom:24px">
+  <div class="card-title"><span class="icon">🔥</span> Evènman Similè</div>
+  <div class="similar-scroll" id="similarEvents"></div>
+</div>
+
+</div><!-- end .main -->
+
+<!-- ORDER SUMMARY BAR -->
+<div class="order-bar" id="orderBar">
+  <div class="order-info">
+    <div class="order-count" id="orderCount">0 tikè</div>
+    <div class="order-total"><span class="currency">HTG</span> <span id="orderTotal">0</span></div>
+  </div>
+  <button class="buy-btn" onclick="buyTickets()">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4zM3 6h18M16 10a4 4 0 01-8 0"/></svg>
+    Achte Tikè
+  </button>
+</div>
+
+<!-- BOTTOM NAV -->
+<nav class="bottom-nav">
+  <a href="events.html">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+    Akèy
+  </a>
+  <a href="events.html" class="active">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>
+    Evènman
+  </a>
+  <a href="create-event.html" class="create-tab">
+    <div class="create-dot">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" style="width:22px;height:22px"><path d="M12 5v14M5 12h14"/></svg>
+    </div>
+    <span style="margin-top:4px">Kreye</span>
+  </a>
+  <a href="#">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M15 5v2M15 11v2M15 17v2M5 5h14a2 2 0 012 2v3a2 2 0 000 4v3a2 2 0 01-2 2H5a2 2 0 01-2-2v-3a2 2 0 000-4V7a2 2 0 012-2z"/></svg>
+    Tikè
+  </a>
+  <a href="#">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+    Kont
+  </a>
+</nav>
+
+<script>
+/* ═══ DEMO DATA ═══ */
+var event = {
+  title: "Gran Konferans Teknoloji 2026",
+  type: "konferans",
+  typeLabel: "Konferans",
+  typeEmoji: "🎤",
+  date: "2026-06-15",
+  startTime: "18:00",
+  endTime: "22:00",
+  location: "Karibe Hotel, Pétion-Ville",
+  onlineLink: "",
+  description: "Yon gwo konferans sou teknoloji ak inovasyon nan Ayiti. Vini aprann sou AI, fintech, e-commerce, ak plis ankò. Konekte ak lidè endistri a, startup fondatè, ak envèstisè.\n\nOratè envite:\n• Jean-Baptiste Pierre — CEO, TechHaiti\n• Marie Duval — Fondatè, FinPay Solutions\n• Roberto Charles — CTO, Caribbean Digital\n\nPatisipan yo ap resevwa yon sètifika prezans ak aksè a yon gwoup WhatsApp eksklizif pou netwòking apre evènman an.",
+  organizer: "HaitiBiznis",
+  organizerPhone: "+50946859702",
+  hostedBy: "TechHaiti Community",
+  koutyeEnabled: true,
+  tickets: [
+    { name: "General Admission", price: 500, desc: "Antre jeneral", qty: 200, sold: 152 },
+    { name: "VIP", price: 2500, desc: "Tab VIP, manje ak bwason enkli", qty: 50, sold: 38 },
+    { name: "Early Bird", price: 350, desc: "Pri espesyal pou premye 50 tikè", qty: 50, sold: 38 },
+    { name: "Etidyan", price: 250, desc: "Montre kat etidyan ou", qty: 100, sold: 45 }
+  ]
+};
+
+/* Similar events demo */
+var similarEvents = [
+  { title: "Soirée Tropicale", date: "2026-07-04", price: 1500, emoji: "🎉", gradient: "linear-gradient(135deg,#5a1a3a,#D21034,#FF4466)", month: "JUL", day: "04" },
+  { title: "Gala Solidarité", date: "2026-08-22", price: 5000, emoji: "💝", gradient: "linear-gradient(135deg,#1a3a1a,#D4A017,#E8B82E)", month: "AOU", day: "22" },
+  { title: "Konferans Immobilye ProLakay", date: "2026-06-28", price: 3000, emoji: "🏠", gradient: "linear-gradient(135deg,#0a2a4a,#00209F,#D4A017)", month: "JUN", day: "28" },
+  { title: "Louanj ak Adorasyon", date: "2026-05-18", price: 0, emoji: "⛪", gradient: "linear-gradient(135deg,#2a1a5a,#5a3a8a,#8a6abd)", month: "MAI", day: "18" }
+];
+
+/* ═══ HAITIAN CREOLE FORMATTING ═══ */
+var jourSemèn = ['Dimanch','Lendi','Madi','Mèkredi','Jedi','Vandredi','Samdi'];
+var mwaKreyòl = ['Jan','Fev','Mas','Avr','Mai','Jun','Jiy','Aou','Sep','Okt','Nov','Des'];
+
+function formatDate(dateStr) {
+  var d = new Date(dateStr + 'T00:00:00');
+  return jourSemèn[d.getDay()] + ', ' + d.getDate() + ' ' + mwaKreyòl[d.getMonth()] + ' ' + d.getFullYear();
+}
+
+function formatTime(t) {
+  var parts = t.split(':');
+  var h = parseInt(parts[0]);
+  var m = parts[1];
+  var ampm = h >= 12 ? 'PM' : 'AM';
+  if (h > 12) h -= 12;
+  if (h === 0) h = 12;
+  return h + ':' + m + ' ' + ampm;
+}
+
+function formatPrice(p) {
+  return p.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+}
+
+/* ═══ TICKET STATE ═══ */
+var ticketQty = [];
+event.tickets.forEach(function() { ticketQty.push(0); });
+
+/* ═══ RENDER PAGE ═══ */
+function renderPage() {
+  /* Hero */
+  document.getElementById('heroType').innerHTML = event.typeEmoji + ' ' + event.typeLabel;
+  document.getElementById('heroTitle').textContent = event.title;
+  document.getElementById('heroDateText').textContent = formatDate(event.date) + ' · ' + formatTime(event.startTime);
+  document.getElementById('heroLocText').textContent = event.location;
+  if (event.hostedBy) {
+    document.getElementById('heroHosted').innerHTML = '👤 Prezante pa <strong>' + event.hostedBy + '</strong>';
+  } else {
+    document.getElementById('heroHosted').style.display = 'none';
+  }
+
+  /* Info Card */
+  document.getElementById('infoTitle').textContent = event.title;
+  var infoHtml = '';
+
+  /* Date + Time */
+  infoHtml += '<div class="info-row">' +
+    '<div class="info-icon blue"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg></div>' +
+    '<div class="info-text"><div class="label">Dat ak Lè</div><div class="value">' + formatDate(event.date) + ' · ' + formatTime(event.startTime) + ' - ' + formatTime(event.endTime) + '</div></div></div>';
+
+  /* Location */
+  infoHtml += '<div class="info-row">' +
+    '<div class="info-icon red"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg></div>' +
+    '<div class="info-text"><div class="label">Kote</div><div class="value">' + event.location + '</div></div></div>';
+
+  /* Online Link */
+  if (event.onlineLink) {
+    infoHtml += '<div class="info-row">' +
+      '<div class="info-icon green"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M10 13a5 5 0 007.54.54l3-3a5 5 0 00-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 00-7.54-.54l-3 3a5 5 0 007.07 7.07l1.71-1.71"/></svg></div>' +
+      '<div class="info-text"><div class="label">Lyen Anliy</div><div class="value"><a href="' + event.onlineLink + '" target="_blank">' + event.onlineLink + '</a></div></div></div>';
+  }
+
+  /* Event Type */
+  infoHtml += '<div class="info-row">' +
+    '<div class="info-icon gold"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1z"/><line x1="4" y1="22" x2="4" y2="15"/></svg></div>' +
+    '<div class="info-text"><div class="label">Tip Evènman</div><div class="event-type-pill">' + event.typeEmoji + ' ' + event.typeLabel + '</div></div></div>';
+
+  document.getElementById('infoRows').innerHTML = infoHtml;
+
+  /* Description */
+  document.getElementById('descText').textContent = event.description;
+
+  /* Tickets */
+  renderTickets();
+
+  /* Organizer */
+  document.getElementById('orgAvatar').textContent = event.organizer.charAt(0);
+  document.getElementById('orgName').textContent = event.organizer;
+
+  /* Koutye Banner */
+  if (event.koutyeEnabled) {
+    document.getElementById('koutyeBanner').style.display = 'block';
+  }
+
+  /* Similar Events */
+  renderSimilar();
+
+  /* Page title */
+  document.title = event.title + ' — HaitiBiznis Events';
+}
+
+/* ═══ RENDER TICKETS ═══ */
+function renderTickets() {
+  var html = '';
+  event.tickets.forEach(function(t, i) {
+    var remaining = t.qty - t.sold;
+    var availClass = '';
+    var availText = remaining + ' plas rete';
+    if (remaining <= 15) { availClass = ' low'; availText = remaining + ' plas rete — ale vit!'; }
+    if (remaining <= 0) { availClass = ' soldout'; availText = 'Fini — pa gen plas ankò'; }
+
+    var isSelected = ticketQty[i] > 0;
+
+    html += '<div class="ticket-option' + (isSelected ? ' selected' : '') + '" id="ticket' + i + '" onclick="selectTicket(' + i + ')">';
+    html += '<div class="ticket-top">';
+    html += '<div class="ticket-name">' + t.name + '</div>';
+    if (t.price === 0) {
+      html += '<div class="ticket-price free">GRATIS</div>';
+    } else {
+      html += '<div class="ticket-price"><span class="currency">HTG</span> ' + formatPrice(t.price) + '</div>';
+    }
+    html += '</div>';
+    html += '<div class="ticket-desc">' + t.desc + '</div>';
+    html += '<div class="ticket-bottom">';
+    html += '<div class="ticket-avail' + availClass + '"><span class="dot"></span> ' + availText + '</div>';
+    if (remaining > 0) {
+      html += '<div class="qty-selector" onclick="event.stopPropagation()">';
+      html += '<button class="qty-btn" onclick="changeQty(' + i + ',-1)">-</button>';
+      html += '<div class="qty-val" id="qtyVal' + i + '">' + ticketQty[i] + '</div>';
+      html += '<button class="qty-btn" onclick="changeQty(' + i + ',1)">+</button>';
+      html += '</div>';
+    }
+    html += '</div></div>';
+  });
+  document.getElementById('ticketsList').innerHTML = html;
+}
+
+/* ═══ TICKET INTERACTIONS ═══ */
+function selectTicket(idx) {
+  var remaining = event.tickets[idx].qty - event.tickets[idx].sold;
+  if (remaining <= 0) return;
+  if (ticketQty[idx] === 0) {
+    ticketQty[idx] = 1;
+    renderTickets();
+    updateOrderBar();
+  }
+}
+
+function changeQty(idx, delta) {
+  var remaining = event.tickets[idx].qty - event.tickets[idx].sold;
+  var newVal = ticketQty[idx] + delta;
+  if (newVal < 0) newVal = 0;
+  if (newVal > Math.min(remaining, 10)) newVal = Math.min(remaining, 10);
+  ticketQty[idx] = newVal;
+  renderTickets();
+  updateOrderBar();
+}
+
+/* ═══ ORDER BAR ═══ */
+function updateOrderBar() {
+  var totalQty = 0;
+  var totalPrice = 0;
+  ticketQty.forEach(function(q, i) {
+    totalQty += q;
+    totalPrice += q * event.tickets[i].price;
+  });
+
+  var bar = document.getElementById('orderBar');
+  if (totalQty > 0) {
+    bar.classList.add('visible');
+    document.getElementById('orderCount').textContent = totalQty + ' tikè';
+    document.getElementById('orderTotal').textContent = formatPrice(totalPrice);
+  } else {
+    bar.classList.remove('visible');
+  }
+}
+
+/* ═══ DESCRIPTION TOGGLE ═══ */
+var descExpanded = false;
+function toggleDesc() {
+  descExpanded = !descExpanded;
+  var el = document.getElementById('descText');
+  var btn = document.getElementById('readMoreBtn');
+  var label = document.getElementById('readMoreLabel');
+  if (descExpanded) {
+    el.classList.remove('collapsed');
+    label.textContent = 'Li mwens';
+    btn.classList.add('expanded');
+  } else {
+    el.classList.add('collapsed');
+    label.textContent = 'Li plis';
+    btn.classList.remove('expanded');
+  }
+}
+
+/* ═══ SHARE ═══ */
+function shareWhatsApp() {
+  var text = '🎤 ' + event.title + '\n📅 ' + formatDate(event.date) + '\n📍 ' + event.location + '\n\nAchte tikè sou HaitiBiznis Events!\n' + window.location.href;
+  window.open('https://wa.me/?text=' + encodeURIComponent(text), '_blank');
+}
+
+function shareFacebook() {
+  window.open('https://www.facebook.com/sharer/sharer.php?u=' + encodeURIComponent(window.location.href), '_blank');
+}
+
+function copyLink() {
+  navigator.clipboard.writeText(window.location.href).then(function() {
+    var btn = document.querySelector('.share-btn.copy');
+    var orig = btn.innerHTML;
+    btn.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" style="width:16px;height:16px"><polyline points="20 6 9 17 4 12"/></svg> Kopye!';
+    btn.style.background = 'var(--green-light)';
+    btn.style.borderColor = 'var(--green)';
+    btn.style.color = 'var(--green)';
+    setTimeout(function() {
+      btn.innerHTML = orig;
+      btn.style.background = '';
+      btn.style.borderColor = '';
+      btn.style.color = '';
+    }, 2000);
+  });
+}
+
+/* ═══ BUY TICKETS ═══ */
+function buyTickets() {
+  var totalQty = 0;
+  var totalPrice = 0;
+  var summary = '';
+  ticketQty.forEach(function(q, i) {
+    if (q > 0) {
+      totalQty += q;
+      totalPrice += q * event.tickets[i].price;
+      summary += q + 'x ' + event.tickets[i].name + ' (' + formatPrice(q * event.tickets[i].price) + ' HTG)\n';
+    }
+  });
+  alert('Rezime Kòmand:\n\n' + summary + '\nTotal: ' + formatPrice(totalPrice) + ' HTG\n\nPaj peman ap vini byento!');
+}
+
+/* ═══ ORGANIZER ═══ */
+function contactOrganizer() {
+  var text = 'Bonjou! Mwen enterese nan evènman "' + event.title + '" sou HaitiBiznis Events.';
+  window.open('https://wa.me/' + event.organizerPhone.replace('+', '') + '?text=' + encodeURIComponent(text), '_blank');
+}
+
+function reportEvent() {
+  alert('Rapòte evènman sa a? Fonksyon sa a ap vini byento. Kontakte support@haitibiznis.com.');
+}
+
+/* ═══ KOUTYE ═══ */
+function shareKoutye() {
+  var text = '💰 Touche komisyon lè ou pataje evènman sa a!\n\n🎤 ' + event.title + '\n📅 ' + formatDate(event.date) + '\n\nAchte tikè: ' + window.location.href + '&ref=koutye';
+  window.open('https://wa.me/?text=' + encodeURIComponent(text), '_blank');
+}
+
+/* ═══ RENDER SIMILAR EVENTS ═══ */
+function renderSimilar() {
+  var html = '';
+  similarEvents.forEach(function(ev) {
+    var priceText = ev.price === 0 ? '<span class="sim-price free">GRATIS</span>' : '<span class="sim-price">HTG ' + formatPrice(ev.price) + '</span>';
+    html += '<a href="event.html" class="sim-card">' +
+      '<div class="sim-img" style="background:' + ev.gradient + '">' + ev.emoji +
+      '<div class="sim-date"><div class="month">' + ev.month + '</div><div class="day">' + ev.day + '</div></div></div>' +
+      '<div class="sim-body"><div class="sim-title">' + ev.title + '</div>' + priceText + '</div></a>';
+  });
+  document.getElementById('similarEvents').innerHTML = html;
+}
+
+/* ═══ SCROLL REVEAL ═══ */
+var observer = new IntersectionObserver(function(entries) {
+  entries.forEach(function(entry) {
+    if (entry.isIntersecting) entry.target.classList.add('visible');
+  });
+}, { threshold: 0.05, rootMargin: '0px 0px -20px 0px' });
+document.querySelectorAll('.reveal').forEach(function(el) { observer.observe(el); });
+
+/* ═══ INIT ═══ */
+renderPage();
+</script>
+</body>
+</html>
