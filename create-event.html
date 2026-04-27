@@ -1,0 +1,934 @@
+<!DOCTYPE html>
+<html lang="ht">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Kreye Evènman — HaitiBiznis Events</title>
+<meta name="theme-color" content="#00209F">
+<link rel="icon" type="image/x-icon" href="favicon.ico">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --blue:#00209F;--blue-deep:#001566;--blue-light:#0A3ACC;
+  --red:#D21034;--red-dark:#B00D2C;
+  --gold:#D4A017;--gold-light:#E8B82E;--gold-soft:#FDF3D7;
+  --green:#1B8C3D;--green-light:#E8F5E9;
+  --white:#FFFFFF;--off-white:#F5F7FA;--cream:#FAFBFD;
+  --dark:#0A0E1A;--text:#1A2A4A;--text-light:#5A6B8A;--text-muted:#8A95AA;
+  --border:#E2E8F0;--border-light:#F0F3F7;
+  --body:'Plus Jakarta Sans',system-ui,sans-serif;
+  --display:'DM Serif Display',Georgia,serif;
+  --shadow-sm:0 1px 3px rgba(10,14,26,.06);
+  --shadow-md:0 4px 16px rgba(10,14,26,.08);
+  --radius:12px;--radius-lg:16px;
+}
+html{scroll-behavior:smooth}
+body{font-family:var(--body);background:var(--off-white);color:var(--text);-webkit-font-smoothing:antialiased;min-height:100vh}
+a{text-decoration:none;color:inherit}
+button{font-family:var(--body);cursor:pointer;border:none;background:none}
+input,select,textarea{font-family:var(--body)}
+img{max-width:100%;display:block}
+
+/* HEADER */
+.header{
+  background:var(--white);border-bottom:1px solid var(--border);
+  padding:0 16px;height:56px;display:flex;align-items:center;justify-content:space-between;
+  position:sticky;top:0;z-index:50;
+}
+.header-left{display:flex;align-items:center;gap:10px}
+.header-left img{height:28px;border-radius:4px}
+.header-left span{font-family:var(--display);font-size:1rem;color:var(--dark)}
+.header-left span em{color:var(--red);font-style:italic}
+.header-back{
+  width:36px;height:36px;border-radius:10px;border:1px solid var(--border);
+  display:flex;align-items:center;justify-content:center;transition:all .2s;
+}
+.header-back:hover{background:var(--off-white);border-color:var(--text-muted)}
+.header-back svg{width:18px;height:18px;color:var(--text-light)}
+
+/* STEPPER */
+.stepper{
+  background:var(--white);border-bottom:1px solid var(--border);
+  padding:14px 16px;display:flex;align-items:center;justify-content:center;gap:6px;
+}
+.stepper-item{display:flex;align-items:center;gap:6px}
+.stepper-dot{
+  width:28px;height:28px;border-radius:50%;
+  display:flex;align-items:center;justify-content:center;
+  font-size:.72rem;font-weight:800;
+  border:2px solid var(--border);color:var(--text-muted);
+  transition:all .3s;flex-shrink:0;
+}
+.stepper-dot.active{background:var(--blue);border-color:var(--blue);color:#fff}
+.stepper-dot.done{background:var(--green);border-color:var(--green);color:#fff}
+.stepper-label{font-size:.68rem;font-weight:600;color:var(--text-muted);display:none}
+.stepper-item.active .stepper-label{display:block;color:var(--blue)}
+.stepper-line{width:20px;height:2px;background:var(--border);flex-shrink:0;border-radius:1px;transition:background .3s}
+.stepper-line.done{background:var(--green)}
+@media(min-width:600px){.stepper-label{display:block}.stepper-item.active .stepper-label{color:var(--blue)}}
+
+/* MAIN */
+.main{max-width:640px;margin:0 auto;padding:20px 16px 100px;position:relative;overflow:hidden}
+
+/* STEPS */
+.steps-container{position:relative}
+.step{display:none;animation:fadeSlide .35s ease}
+.step.active{display:block}
+@keyframes fadeSlide{from{opacity:0;transform:translateX(20px)}to{opacity:1;transform:translateX(0)}}
+
+/* FORM */
+.form-card{background:var(--white);border:1px solid var(--border);border-radius:var(--radius-lg);padding:20px;margin-bottom:16px}
+.form-card-title{font-family:var(--display);font-size:1.15rem;color:var(--dark);margin-bottom:16px;display:flex;align-items:center;gap:8px}
+.form-card-title .icon{font-size:1.2rem}
+.form-row{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:0}
+.form-group{margin-bottom:14px}
+.form-group.full{grid-column:1/-1}
+.form-group label{display:block;font-size:.75rem;font-weight:700;color:var(--text);margin-bottom:5px}
+.form-group label .opt{font-weight:500;color:var(--text-muted);font-size:.68rem}
+.form-group input,.form-group select,.form-group textarea{
+  width:100%;height:42px;padding:0 12px;
+  border:1.5px solid var(--border);border-radius:10px;
+  font-size:.88rem;color:var(--text);background:var(--cream);
+  outline:none;transition:all .2s;
+}
+.form-group textarea{height:90px;padding:10px 12px;resize:vertical}
+.form-group input:focus,.form-group select:focus,.form-group textarea:focus{border-color:var(--blue);background:var(--white);box-shadow:0 0 0 3px rgba(0,32,159,.08)}
+.form-group select{appearance:none;background-image:url("data:image/svg+xml,%3Csvg width='12' height='8' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%238A95AA' stroke-width='1.5' fill='none'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 12px center;padding-right:32px}
+@media(max-width:500px){.form-row{grid-template-columns:1fr}}
+
+/* BUTTONS */
+.btn-bar{display:flex;gap:10px;justify-content:flex-end;margin-top:8px}
+.btn{
+  height:46px;padding:0 24px;border-radius:12px;font-size:.88rem;font-weight:700;
+  display:inline-flex;align-items:center;justify-content:center;gap:8px;transition:all .2s;
+}
+.btn svg{width:18px;height:18px;flex-shrink:0}
+.btn-blue{background:var(--blue);color:#fff;box-shadow:0 2px 12px rgba(0,32,159,.2)}
+.btn-blue:hover{background:var(--blue-light);transform:translateY(-1px)}
+.btn-back{border:1.5px solid var(--border);color:var(--text-light);background:var(--white)}
+.btn-back:hover{background:var(--off-white);border-color:var(--text-muted)}
+.btn-red{background:linear-gradient(135deg,var(--red),var(--red-dark));color:#fff;box-shadow:0 4px 20px rgba(210,16,52,.3)}
+.btn-red:hover{transform:translateY(-2px);box-shadow:0 8px 28px rgba(210,16,52,.4)}
+.btn-gold{background:linear-gradient(135deg,var(--gold),#C4900F);color:#fff}
+.btn-green{background:var(--green);color:#fff}
+
+/* ═══ INVITE DESIGNER ═══ */
+.canvas-wrap{
+  background:#111;border-radius:var(--radius-lg);overflow:hidden;
+  margin-bottom:16px;position:relative;
+}
+.canvas-wrap canvas{width:100%;display:block}
+.template-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:16px}
+.template-thumb{
+  aspect-ratio:16/9;border-radius:10px;cursor:pointer;position:relative;
+  border:2px solid transparent;transition:all .2s;overflow:hidden;
+}
+.template-thumb:hover{transform:scale(1.03)}
+.template-thumb.active{border-color:var(--blue);box-shadow:0 0 0 2px rgba(0,32,159,.2)}
+.template-thumb .name{
+  position:absolute;bottom:0;left:0;right:0;
+  background:linear-gradient(transparent,rgba(0,0,0,.6));
+  color:#fff;font-size:.58rem;font-weight:700;padding:8px 6px 4px;
+  text-align:center;letter-spacing:.03em;
+}
+.color-toggles{display:flex;gap:6px;align-items:center}
+.color-toggle{
+  width:28px;height:28px;border-radius:8px;cursor:pointer;
+  border:2px solid var(--border);transition:all .2s;
+}
+.color-toggle.active{border-color:var(--blue);box-shadow:0 0 0 2px rgba(0,32,159,.2)}
+.upload-btn{
+  display:flex;align-items:center;gap:8px;padding:10px 14px;
+  border:1.5px dashed var(--border);border-radius:10px;
+  font-size:.8rem;font-weight:600;color:var(--text-light);
+  cursor:pointer;transition:all .2s;width:100%;
+}
+.upload-btn:hover{border-color:var(--blue);color:var(--blue);background:rgba(0,32,159,.03)}
+.upload-btn svg{width:18px;height:18px;flex-shrink:0}
+.upload-btn input{display:none}
+.download-bar{display:flex;gap:8px;margin-bottom:16px}
+
+/* ═══ TICKETS ═══ */
+.ticket-card{
+  background:var(--white);border:1.5px solid var(--border);border-radius:var(--radius-lg);
+  padding:16px;margin-bottom:12px;position:relative;
+  transition:all .2s;
+}
+.ticket-card:hover{border-color:var(--blue-light)}
+.ticket-card-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px}
+.ticket-card-num{
+  font-size:.7rem;font-weight:700;color:var(--blue);background:rgba(0,32,159,.08);
+  padding:3px 10px;border-radius:6px;
+}
+.ticket-del{
+  width:28px;height:28px;border-radius:8px;border:1px solid var(--border);
+  display:flex;align-items:center;justify-content:center;color:var(--text-muted);
+  transition:all .2s;
+}
+.ticket-del:hover{background:#FEE;border-color:var(--red);color:var(--red)}
+.ticket-del svg{width:14px;height:14px}
+.add-ticket-btn{
+  width:100%;height:44px;border:1.5px dashed var(--border);border-radius:var(--radius);
+  display:flex;align-items:center;justify-content:center;gap:8px;
+  font-size:.85rem;font-weight:700;color:var(--blue);
+  transition:all .2s;margin-bottom:16px;
+}
+.add-ticket-btn:hover{border-color:var(--blue);background:rgba(0,32,159,.03)}
+.add-ticket-btn svg{width:18px;height:18px}
+
+/* ═══ PAYMENT ═══ */
+.pay-check{
+  display:flex;align-items:center;gap:10px;padding:12px;
+  border:1.5px solid var(--border);border-radius:10px;
+  cursor:pointer;transition:all .2s;margin-bottom:8px;
+}
+.pay-check:hover{border-color:var(--blue)}
+.pay-check.checked{border-color:var(--blue);background:rgba(0,32,159,.03)}
+.pay-check input{display:none}
+.pay-check-box{
+  width:20px;height:20px;border:2px solid var(--border);border-radius:6px;
+  display:flex;align-items:center;justify-content:center;flex-shrink:0;
+  transition:all .2s;
+}
+.pay-check.checked .pay-check-box{background:var(--blue);border-color:var(--blue)}
+.pay-check.checked .pay-check-box::after{content:'';width:6px;height:10px;border:2px solid #fff;border-width:0 2px 2px 0;transform:rotate(45deg);margin-top:-2px}
+.pay-check-label{font-size:.85rem;font-weight:600;color:var(--text)}
+.pay-check-icon{font-size:1.1rem}
+.pay-sub-input{margin-top:8px;margin-bottom:8px;padding-left:30px;display:none}
+.pay-sub-input.visible{display:block}
+.toggle-row{
+  display:flex;align-items:center;justify-content:space-between;
+  padding:12px 0;border-bottom:1px solid var(--border-light);
+}
+.toggle-row:last-child{border-bottom:none}
+.toggle-row-label{font-size:.85rem;font-weight:600;color:var(--text)}
+.toggle-row-sub{font-size:.75rem;color:var(--text-muted);margin-top:2px}
+.toggle{
+  width:44px;height:24px;border-radius:100px;background:var(--border);
+  position:relative;cursor:pointer;transition:background .3s;flex-shrink:0;
+}
+.toggle.on{background:var(--blue)}
+.toggle::after{
+  content:'';position:absolute;top:2px;left:2px;width:20px;height:20px;
+  background:#fff;border-radius:50%;transition:transform .3s;box-shadow:0 1px 4px rgba(0,0,0,.15);
+}
+.toggle.on::after{transform:translateX(20px)}
+.summary-card{
+  background:linear-gradient(135deg,var(--dark),var(--blue-deep));
+  border-radius:var(--radius-lg);padding:20px;color:#fff;margin-bottom:16px;
+}
+.summary-card h4{font-family:var(--display);font-size:1.1rem;margin-bottom:14px;color:var(--gold-light)}
+.summary-row{display:flex;justify-content:space-between;align-items:center;padding:6px 0;font-size:.85rem}
+.summary-row .label{color:rgba(255,255,255,.6)}
+.summary-row .val{font-weight:700}
+.summary-divider{height:1px;background:rgba(255,255,255,.1);margin:8px 0}
+.fee-note{
+  display:flex;align-items:center;gap:8px;padding:12px;
+  background:var(--gold-soft);border:1px solid rgba(212,160,23,.2);
+  border-radius:10px;font-size:.8rem;color:#8B6914;margin-bottom:16px;
+}
+.fee-note .icon{font-size:1rem}
+
+/* ═══ SUCCESS MODAL ═══ */
+.success-overlay{
+  position:fixed;inset:0;background:rgba(10,14,26,.7);backdrop-filter:blur(6px);
+  z-index:200;display:none;align-items:center;justify-content:center;padding:20px;
+}
+.success-overlay.open{display:flex}
+.success-modal{
+  background:var(--white);border-radius:var(--radius-lg);
+  padding:32px 24px;text-align:center;max-width:400px;width:100%;
+  animation:modalPop .4s cubic-bezier(.4,0,.2,1);position:relative;overflow:hidden;
+}
+@keyframes modalPop{from{opacity:0;transform:scale(.9) translateY(20px)}to{opacity:1;transform:scale(1) translateY(0)}}
+.success-confetti{position:absolute;inset:0;pointer-events:none;overflow:hidden}
+.success-icon{
+  width:64px;height:64px;border-radius:50%;background:var(--green-light);
+  display:flex;align-items:center;justify-content:center;margin:0 auto 16px;
+  font-size:1.8rem;
+}
+.success-modal h2{font-family:var(--display);font-size:1.4rem;color:var(--dark);margin-bottom:8px}
+.success-modal p{font-size:.88rem;color:var(--text-light);margin-bottom:20px;line-height:1.5}
+.share-row{display:flex;gap:10px;justify-content:center;margin-bottom:16px}
+.share-btn{
+  height:40px;padding:0 16px;border-radius:10px;font-size:.8rem;font-weight:700;
+  display:flex;align-items:center;gap:6px;transition:all .2s;
+}
+.share-btn.wa{background:#25D366;color:#fff}
+.share-btn.fb{background:#1877F2;color:#fff}
+.share-btn.copy{background:var(--off-white);color:var(--text);border:1px solid var(--border)}
+.share-btn:hover{transform:translateY(-1px)}
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<header class="header">
+  <div class="header-left">
+    <img src="assets/events-logo.png" alt="Events">
+    <span>Kreye <em>Evènman</em></span>
+  </div>
+  <a href="events.html" class="header-back">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M18 6L6 18M6 6l12 12"/></svg>
+  </a>
+</header>
+
+<!-- STEPPER -->
+<div class="stepper" id="stepper">
+  <div class="stepper-item active" data-step="1">
+    <div class="stepper-dot active">1</div>
+    <span class="stepper-label">Detay</span>
+  </div>
+  <div class="stepper-line"></div>
+  <div class="stepper-item" data-step="2">
+    <div class="stepper-dot">2</div>
+    <span class="stepper-label">Envitasyon</span>
+  </div>
+  <div class="stepper-line"></div>
+  <div class="stepper-item" data-step="3">
+    <div class="stepper-dot">3</div>
+    <span class="stepper-label">Tikè</span>
+  </div>
+  <div class="stepper-line"></div>
+  <div class="stepper-item" data-step="4">
+    <div class="stepper-dot">4</div>
+    <span class="stepper-label">Pibliye</span>
+  </div>
+</div>
+
+<main class="main">
+<div class="steps-container">
+
+<!-- ═══════════ STEP 1: EVENT DETAILS ═══════════ -->
+<div class="step active" id="step1">
+  <div class="form-card">
+    <div class="form-card-title"><span class="icon">📝</span> Detay Evènman</div>
+    <div class="form-group">
+      <label>Tit Evènman</label>
+      <input type="text" id="evTitle" placeholder="Eks: Konferans Biznis Ayiti 2026">
+    </div>
+    <div class="form-row">
+      <div class="form-group">
+        <label>Tip Evènman</label>
+        <select id="evType">
+          <option value="">Chwazi...</option>
+          <option value="konferans">🎤 Konferans</option>
+          <option value="party">🎉 Fèt / Party</option>
+          <option value="gala">💝 Gala / Kolèk</option>
+          <option value="seminè">📚 Seminè</option>
+          <option value="maryaj">💍 Maryaj</option>
+          <option value="legliz">⛪ Legliz</option>
+          <option value="biznis">💼 Biznis</option>
+          <option value="konsè">🎵 Konsè</option>
+          <option value="fòmasyon">🎓 Fòmasyon / Workshop</option>
+          <option value="lòt">📌 Lòt</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label>Dat</label>
+        <input type="date" id="evDate">
+      </div>
+    </div>
+    <div class="form-row">
+      <div class="form-group">
+        <label>Lè Kòmanse</label>
+        <input type="time" id="evStart" value="09:00">
+      </div>
+      <div class="form-group">
+        <label>Lè Fini</label>
+        <input type="time" id="evEnd" value="17:00">
+      </div>
+    </div>
+    <div class="form-group">
+      <label>Kote (Lokasyon)</label>
+      <input type="text" id="evLocation" placeholder="Eks: Karibe Hotel, Port-au-Prince">
+    </div>
+    <div class="form-group">
+      <label>Lyen Evènman Anliy <span class="opt">(opsyonèl)</span></label>
+      <input type="url" id="evOnline" placeholder="https://zoom.us/...">
+    </div>
+    <div class="form-group">
+      <label>Deskripsyon</label>
+      <textarea id="evDesc" placeholder="Dekri evènman ou a..."></textarea>
+    </div>
+  </div>
+  <div class="form-card">
+    <div class="form-card-title"><span class="icon">👤</span> Ògannizatè</div>
+    <div class="form-group">
+      <label>Non Ògannizatè</label>
+      <input type="text" id="evOrgName" placeholder="Non ou oswa non biznis ou">
+    </div>
+    <div class="form-row">
+      <div class="form-group">
+        <label>Telefòn</label>
+        <input type="tel" id="evOrgPhone" placeholder="+509 XXXX XXXX">
+      </div>
+      <div class="form-group">
+        <label>Imèl <span class="opt">(opsyonèl)</span></label>
+        <input type="email" id="evOrgEmail" placeholder="ou@email.com">
+      </div>
+    </div>
+  </div>
+  <div class="btn-bar">
+    <button class="btn btn-blue" onclick="goStep(2)">
+      Kontinye
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+    </button>
+  </div>
+</div>
+
+<!-- ═══════════ STEP 2: INVITE DESIGNER ═══════════ -->
+<div class="step" id="step2">
+  <div class="form-card">
+    <div class="form-card-title"><span class="icon">🎨</span> Desiyen Envitasyon</div>
+    <div class="canvas-wrap">
+      <canvas id="inviteCanvas" width="960" height="540"></canvas>
+    </div>
+    <div class="template-grid" id="templateGrid">
+      <div class="template-thumb active" data-tpl="professional" style="background:linear-gradient(135deg,#0A0E1A,#00209F,#D4A017)">
+        <span class="name">Pwofesyonèl</span>
+      </div>
+      <div class="template-thumb" data-tpl="conference" style="background:linear-gradient(135deg,#00209F,#0A3ACC,#4A7AFF)">
+        <span class="name">Konferans</span>
+      </div>
+      <div class="template-thumb" data-tpl="party" style="background:linear-gradient(135deg,#D21034,#FF4466,#FF8CA0)">
+        <span class="name">Fèt</span>
+      </div>
+      <div class="template-thumb" data-tpl="church" style="background:linear-gradient(135deg,#2A1A5A,#5A3A8A,#D4A017)">
+        <span class="name">Legliz</span>
+      </div>
+      <div class="template-thumb" data-tpl="wedding" style="background:linear-gradient(135deg,#F5E6D0,#E8C9A0,#D4A870)">
+        <span class="name">Maryaj</span>
+      </div>
+      <div class="template-thumb" data-tpl="concert" style="background:linear-gradient(135deg,#0A0E1A,#1A1A2E,#FF0066)">
+        <span class="name">Konsè</span>
+      </div>
+    </div>
+  </div>
+  <div class="form-card">
+    <div class="form-card-title"><span class="icon">✏️</span> Modifye Tèks</div>
+    <div class="form-row">
+      <div class="form-group full">
+        <label>Tit sou Envitasyon</label>
+        <input type="text" id="invTitle" placeholder="Tit evènman">
+      </div>
+    </div>
+    <div class="form-row">
+      <div class="form-group">
+        <label>Dat / Lè</label>
+        <input type="text" id="invDate" placeholder="15 Jen 2026 · 9:00 AM">
+      </div>
+      <div class="form-group">
+        <label>Kote</label>
+        <input type="text" id="invLoc" placeholder="Lokasyon">
+      </div>
+    </div>
+    <div class="form-group">
+      <label>Non Prezantatè / Òganizatè</label>
+      <input type="text" id="invHost" placeholder="Prezante pa...">
+    </div>
+    <div class="form-row">
+      <div class="form-group">
+        <label>Koulè Tèks</label>
+        <div class="color-toggles">
+          <div class="color-toggle active" data-color="#FFFFFF" style="background:#fff"></div>
+          <div class="color-toggle" data-color="#0A0E1A" style="background:#0A0E1A"></div>
+          <div class="color-toggle" data-color="#D4A017" style="background:#D4A017"></div>
+          <div class="color-toggle" data-color="#D21034" style="background:#D21034"></div>
+        </div>
+      </div>
+      <div class="form-group">
+        <label>Koulè Fon</label>
+        <input type="color" id="invBgColor" value="#00209F" style="height:28px;padding:0;border:none;cursor:pointer;background:none">
+      </div>
+    </div>
+  </div>
+  <div class="form-card">
+    <div class="form-card-title"><span class="icon">📁</span> Imaj</div>
+    <div class="form-row">
+      <label class="upload-btn">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M17 8l-5-5-5 5M12 3v12"/></svg>
+        <span id="flyerLabel">Mete Flyer / Foto</span>
+        <input type="file" id="flyerInput" accept="image/*">
+      </label>
+      <label class="upload-btn">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg>
+        <span id="logoLabel">Mete Logo</span>
+        <input type="file" id="logoInput" accept="image/*">
+      </label>
+    </div>
+  </div>
+  <div class="download-bar">
+    <button class="btn btn-gold" onclick="downloadInvite()" style="flex:1">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M7 10l5 5 5-5M12 15V3"/></svg>
+      Telechaje Envitasyon
+    </button>
+  </div>
+  <div class="btn-bar">
+    <button class="btn btn-back" onclick="goStep(1)">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M19 12H5M12 5l-7 7 7 7"/></svg>
+      Retounen
+    </button>
+    <button class="btn btn-blue" onclick="goStep(3)">
+      Kontinye
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+    </button>
+  </div>
+</div>
+
+<!-- ═══════════ STEP 3: TICKETS ═══════════ -->
+<div class="step" id="step3">
+  <div class="form-card">
+    <div class="form-card-title"><span class="icon">🎟️</span> Konfigire Tikè</div>
+    <div id="ticketsList"></div>
+    <button class="add-ticket-btn" onclick="addTicket()">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg>
+      Ajoute yon Tikè
+    </button>
+  </div>
+  <div class="btn-bar">
+    <button class="btn btn-back" onclick="goStep(2)">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M19 12H5M12 5l-7 7 7 7"/></svg>
+      Retounen
+    </button>
+    <button class="btn btn-blue" onclick="goStep(4)">
+      Kontinye
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+    </button>
+  </div>
+</div>
+
+<!-- ═══════════ STEP 4: PAYMENT & PUBLISH ═══════════ -->
+<div class="step" id="step4">
+  <div class="form-card">
+    <div class="form-card-title"><span class="icon">💳</span> Metòd Peman</div>
+    <label class="pay-check" onclick="togglePay(this)">
+      <input type="checkbox" name="pay" value="moncash" checked>
+      <span class="pay-check-box"></span>
+      <span class="pay-check-icon">📱</span>
+      <span class="pay-check-label">MonCash</span>
+    </label>
+    <div class="pay-sub-input visible" id="moncashInput">
+      <div class="form-group" style="margin-bottom:8px">
+        <input type="tel" placeholder="Nimewo MonCash: +509 XXXX XXXX">
+      </div>
+    </div>
+    <label class="pay-check" onclick="togglePay(this)">
+      <input type="checkbox" name="pay" value="natcash">
+      <span class="pay-check-box"></span>
+      <span class="pay-check-icon">📲</span>
+      <span class="pay-check-label">NatCash</span>
+    </label>
+    <div class="pay-sub-input" id="natcashInput">
+      <div class="form-group" style="margin-bottom:8px">
+        <input type="tel" placeholder="Nimewo NatCash: +509 XXXX XXXX">
+      </div>
+    </div>
+    <label class="pay-check" onclick="togglePay(this)">
+      <input type="checkbox" name="pay" value="card">
+      <span class="pay-check-box"></span>
+      <span class="pay-check-icon">💳</span>
+      <span class="pay-check-label">Kat Kredi / Debi</span>
+    </label>
+    <label class="pay-check" onclick="togglePay(this)">
+      <input type="checkbox" name="pay" value="manual">
+      <span class="pay-check-box"></span>
+      <span class="pay-check-icon">🤝</span>
+      <span class="pay-check-label">Peman Manyèl</span>
+    </label>
+  </div>
+
+  <div class="form-card">
+    <div class="form-card-title"><span class="icon">🚀</span> Pwomosyon &amp; Referral</div>
+    <div class="toggle-row">
+      <div>
+        <div class="toggle-row-label">Aktive Koutye Referral</div>
+        <div class="toggle-row-sub">Koutye yo ka pataje evènman w ak touche komisyon</div>
+      </div>
+      <div class="toggle on" id="koutyeToggle" onclick="this.classList.toggle('on')"></div>
+    </div>
+    <div class="toggle-row">
+      <div>
+        <div class="toggle-row-label">Creator Payout</div>
+        <div class="toggle-row-sub">Bay pwomotè % sou chak tikè yo vann</div>
+      </div>
+      <div class="toggle" id="creatorToggle" onclick="this.classList.toggle('on');document.getElementById('creatorPct').style.display=this.classList.contains('on')?'block':'none'"></div>
+    </div>
+    <div id="creatorPct" style="display:none;padding-left:10px;margin-top:8px">
+      <div class="form-group" style="margin-bottom:8px">
+        <label>Pousantaj Creator (%)</label>
+        <input type="number" min="1" max="10" value="3" placeholder="2-5%">
+      </div>
+    </div>
+    <div class="form-group" style="margin-top:12px;margin-bottom:0">
+      <label>"Hosted by" Badge</label>
+      <input type="text" id="hostedBy" placeholder="Non atis / pwomotè (opsyonèl)">
+    </div>
+  </div>
+
+  <div class="fee-note">
+    <span class="icon">💡</span>
+    Frè platfòm: 5% sou chak tikè vann. Evènman gratis = san frè.
+  </div>
+
+  <div class="summary-card" id="summaryCard">
+    <h4>📋 Rezime Evènman</h4>
+    <div class="summary-row"><span class="label">Tit</span><span class="val" id="sumTitle">—</span></div>
+    <div class="summary-row"><span class="label">Dat</span><span class="val" id="sumDate">—</span></div>
+    <div class="summary-row"><span class="label">Kote</span><span class="val" id="sumLoc">—</span></div>
+    <div class="summary-divider"></div>
+    <div class="summary-row"><span class="label">Tikè</span><span class="val" id="sumTickets">—</span></div>
+    <div class="summary-row"><span class="label">Kapasite Total</span><span class="val" id="sumCapacity">—</span></div>
+  </div>
+
+  <div class="btn-bar" style="flex-direction:column;align-items:stretch">
+    <button class="btn btn-red" style="height:52px;font-size:1rem" onclick="publishEvent()">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M22 2L11 13M22 2l-7 20-4-9-9-4z"/></svg>
+      Pibliye Evènman
+    </button>
+    <button class="btn btn-back" style="justify-content:center" onclick="goStep(3)">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M19 12H5M12 5l-7 7 7 7"/></svg>
+      Retounen
+    </button>
+  </div>
+</div>
+
+</div>
+</main>
+
+<!-- SUCCESS MODAL -->
+<div class="success-overlay" id="successOverlay" onclick="if(event.target===this)this.classList.remove('open')">
+  <div class="success-modal">
+    <div class="success-confetti" id="successConfetti"></div>
+    <div class="success-icon">🎉</div>
+    <h2>Evènman Pibliye!</h2>
+    <p>Evènman ou a ap viv kounye a. Pataje l ak tout moun!</p>
+    <div class="share-row">
+      <button class="share-btn wa" onclick="shareWhatsApp()">
+        <svg viewBox="0 0 24 24" fill="currentColor" style="width:16px;height:16px"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/></svg>
+        WhatsApp
+      </button>
+      <button class="share-btn fb" onclick="shareFacebook()">
+        <svg viewBox="0 0 24 24" fill="currentColor" style="width:16px;height:16px"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
+        Facebook
+      </button>
+      <button class="share-btn copy" onclick="copyLink()">📋 Kopye Lyen</button>
+    </div>
+    <a href="events.html" class="btn btn-blue" style="width:100%">Gade Evènman Ou</a>
+  </div>
+</div>
+
+<script>
+/* ═══ STATE ═══ */
+var currentStep = 1;
+var eventData = {};
+var ticketCount = 0;
+var selectedTemplate = 'professional';
+var textColor = '#FFFFFF';
+var flyerImage = null;
+var logoImage = null;
+
+/* ═══ TEMPLATES ═══ */
+var templates = {
+  professional: {bg1:'#0A0E1A',bg2:'#00209F',bg3:'#D4A017',accent:'#D4A017'},
+  conference:   {bg1:'#00209F',bg2:'#0A3ACC',bg3:'#4A7AFF',accent:'#FFFFFF'},
+  party:        {bg1:'#D21034',bg2:'#FF4466',bg3:'#FF8CA0',accent:'#FFFFFF'},
+  church:       {bg1:'#2A1A5A',bg2:'#5A3A8A',bg3:'#D4A017',accent:'#D4A017'},
+  wedding:      {bg1:'#F5E6D0',bg2:'#E8C9A0',bg3:'#D4A870',accent:'#5A3A1A'},
+  concert:      {bg1:'#0A0E1A',bg2:'#1A1A2E',bg3:'#FF0066',accent:'#FF0066'}
+};
+
+/* ═══ STEP NAVIGATION ═══ */
+function goStep(n) {
+  if (n === 2) syncStep1ToInvite();
+  if (n === 4) buildSummary();
+  document.querySelectorAll('.step').forEach(function(s){s.classList.remove('active')});
+  document.getElementById('step' + n).classList.add('active');
+  var items = document.querySelectorAll('.stepper-item');
+  var lines = document.querySelectorAll('.stepper-line');
+  items.forEach(function(item, i) {
+    var step = i + 1;
+    var dot = item.querySelector('.stepper-dot');
+    item.classList.remove('active');
+    dot.classList.remove('active','done');
+    if (step < n) { dot.classList.add('done'); dot.innerHTML = '✓'; }
+    else if (step === n) { item.classList.add('active'); dot.classList.add('active'); dot.innerHTML = step; }
+    else { dot.innerHTML = step; }
+  });
+  lines.forEach(function(line, i) {
+    line.classList.toggle('done', i < n - 1);
+  });
+  currentStep = n;
+  window.scrollTo({top: 0, behavior: 'smooth'});
+  if (n === 2) setTimeout(renderCanvas, 100);
+}
+
+function syncStep1ToInvite() {
+  var title = document.getElementById('evTitle').value;
+  var date = document.getElementById('evDate').value;
+  var start = document.getElementById('evStart').value;
+  var loc = document.getElementById('evLocation').value;
+  var org = document.getElementById('evOrgName').value;
+  document.getElementById('invTitle').value = title || '';
+  var dateStr = '';
+  if (date) {
+    var d = new Date(date + 'T00:00');
+    var months = ['Jan','Fev','Mas','Avr','Mai','Jun','Jiy','Aou','Sep','Okt','Nov','Des'];
+    dateStr = d.getDate() + ' ' + months[d.getMonth()] + ' ' + d.getFullYear();
+  }
+  if (start) dateStr += ' · ' + start;
+  document.getElementById('invDate').value = dateStr;
+  document.getElementById('invLoc').value = loc || '';
+  document.getElementById('invHost').value = org ? 'Prezante pa ' + org : '';
+}
+
+/* ═══ CANVAS INVITE DESIGNER ═══ */
+var canvas = document.getElementById('inviteCanvas');
+var ctx = canvas.getContext('2d');
+
+function renderCanvas() {
+  var w = canvas.width, h = canvas.height;
+  var tpl = templates[selectedTemplate];
+
+  ctx.clearRect(0, 0, w, h);
+
+  if (flyerImage) {
+    ctx.drawImage(flyerImage, 0, 0, w, h);
+    ctx.fillStyle = 'rgba(0,0,0,0.45)';
+    ctx.fillRect(0, 0, w, h);
+  } else {
+    var grad = ctx.createLinearGradient(0, 0, w, h);
+    grad.addColorStop(0, tpl.bg1);
+    grad.addColorStop(0.5, tpl.bg2);
+    grad.addColorStop(1, tpl.bg3);
+    ctx.fillStyle = grad;
+    ctx.fillRect(0, 0, w, h);
+    ctx.fillStyle = 'rgba(255,255,255,.03)';
+    for (var i = 0; i < 12; i++) {
+      var x = (w / 12) * i;
+      ctx.fillRect(x, 0, 1, h);
+    }
+  }
+
+  var topBorder = ctx.createLinearGradient(0, 0, w, 0);
+  topBorder.addColorStop(0, tpl.accent);
+  topBorder.addColorStop(1, 'transparent');
+  ctx.fillStyle = topBorder;
+  ctx.fillRect(0, 0, w, 5);
+
+  ctx.fillStyle = textColor;
+  ctx.textAlign = 'center';
+
+  var title = document.getElementById('invTitle').value || 'Tit Evènman Ou';
+  ctx.font = 'bold ' + Math.floor(h * 0.085) + 'px "DM Serif Display", Georgia, serif';
+  wrapText(ctx, title, w / 2, h * 0.38, w * 0.8, h * 0.1);
+
+  ctx.globalAlpha = 0.7;
+  ctx.font = '600 ' + Math.floor(h * 0.038) + 'px "Plus Jakarta Sans", sans-serif';
+  var dateTxt = document.getElementById('invDate').value || '';
+  if (dateTxt) ctx.fillText(dateTxt, w / 2, h * 0.55);
+
+  var locTxt = document.getElementById('invLoc').value || '';
+  if (locTxt) { ctx.fillText('📍 ' + locTxt, w / 2, h * 0.62); }
+  ctx.globalAlpha = 1;
+
+  var hostTxt = document.getElementById('invHost').value || '';
+  if (hostTxt) {
+    ctx.font = '500 ' + Math.floor(h * 0.032) + 'px "Plus Jakarta Sans", sans-serif';
+    ctx.globalAlpha = 0.5;
+    ctx.fillText(hostTxt, w / 2, h * 0.74);
+    ctx.globalAlpha = 1;
+  }
+
+  if (logoImage) {
+    var lh = h * 0.1;
+    var lw = (logoImage.width / logoImage.height) * lh;
+    ctx.drawImage(logoImage, (w - lw) / 2, h * 0.08, lw, lh);
+  }
+
+  ctx.font = '600 ' + Math.floor(h * 0.025) + 'px "Plus Jakarta Sans", sans-serif';
+  ctx.globalAlpha = 0.35;
+  ctx.fillText('HaitiBiznis Events', w / 2, h * 0.94);
+  ctx.globalAlpha = 1;
+}
+
+function wrapText(c, text, x, y, maxW, lineH) {
+  var words = text.split(' ');
+  var line = '';
+  var lines = [];
+  for (var i = 0; i < words.length; i++) {
+    var test = line + words[i] + ' ';
+    if (c.measureText(test).width > maxW && line) {
+      lines.push(line.trim());
+      line = words[i] + ' ';
+    } else { line = test; }
+  }
+  lines.push(line.trim());
+  var startY = y - ((lines.length - 1) * lineH) / 2;
+  for (var j = 0; j < lines.length; j++) {
+    c.fillText(lines[j], x, startY + j * lineH);
+  }
+}
+
+document.querySelectorAll('.template-thumb').forEach(function(t) {
+  t.addEventListener('click', function() {
+    document.querySelectorAll('.template-thumb').forEach(function(x){x.classList.remove('active')});
+    t.classList.add('active');
+    selectedTemplate = t.dataset.tpl;
+    renderCanvas();
+  });
+});
+
+document.querySelectorAll('.color-toggle').forEach(function(c) {
+  c.addEventListener('click', function() {
+    document.querySelectorAll('.color-toggle').forEach(function(x){x.classList.remove('active')});
+    c.classList.add('active');
+    textColor = c.dataset.color;
+    renderCanvas();
+  });
+});
+
+['invTitle','invDate','invLoc','invHost'].forEach(function(id) {
+  document.getElementById(id).addEventListener('input', renderCanvas);
+});
+
+document.getElementById('invBgColor').addEventListener('input', function() {
+  var c = this.value;
+  templates._custom = {bg1:c,bg2:c,bg3:c,accent:'#D4A017'};
+  selectedTemplate = '_custom';
+  document.querySelectorAll('.template-thumb').forEach(function(x){x.classList.remove('active')});
+  renderCanvas();
+});
+
+document.getElementById('flyerInput').addEventListener('change', function(e) {
+  if (e.target.files[0]) {
+    var img = new Image();
+    img.onload = function() { flyerImage = img; renderCanvas(); };
+    img.src = URL.createObjectURL(e.target.files[0]);
+    document.getElementById('flyerLabel').textContent = e.target.files[0].name;
+  }
+});
+
+document.getElementById('logoInput').addEventListener('change', function(e) {
+  if (e.target.files[0]) {
+    var img = new Image();
+    img.onload = function() { logoImage = img; renderCanvas(); };
+    img.src = URL.createObjectURL(e.target.files[0]);
+    document.getElementById('logoLabel').textContent = e.target.files[0].name;
+  }
+});
+
+function downloadInvite() {
+  renderCanvas();
+  var link = document.createElement('a');
+  link.download = 'envitasyon-' + (document.getElementById('invTitle').value || 'event').replace(/\s+/g,'-') + '.png';
+  link.href = canvas.toDataURL('image/png');
+  link.click();
+}
+
+/* ═══ TICKETS ═══ */
+function addTicket(name, price, qty) {
+  ticketCount++;
+  var id = ticketCount;
+  var html = '<div class="ticket-card" id="ticket' + id + '">' +
+    '<div class="ticket-card-header"><span class="ticket-card-num">Tikè #' + id + '</span>' +
+    '<button class="ticket-del" onclick="removeTicket(' + id + ')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M18 6L6 18M6 6l12 12"/></svg></button></div>' +
+    '<div class="form-group"><label>Non Tikè</label><input type="text" value="' + (name || '') + '" placeholder="Eks: General, VIP, Early Bird"></div>' +
+    '<div class="form-row">' +
+    '<div class="form-group"><label>Pri (HTG)</label><input type="number" value="' + (price || 0) + '" min="0" placeholder="0 = gratis"></div>' +
+    '<div class="form-group"><label>Kantite Disponib</label><input type="number" value="' + (qty || 100) + '" min="1"></div>' +
+    '</div>' +
+    '<div class="form-row">' +
+    '<div class="form-group"><label>Vant Kòmanse</label><input type="date"></div>' +
+    '<div class="form-group"><label>Vant Fini</label><input type="date"></div>' +
+    '</div>' +
+    '<div class="form-group" style="margin-bottom:0"><label>Deskripsyon <span class="opt">(opsyonèl)</span></label><input type="text" placeholder="Ti deskripsyon tikè a..."></div>' +
+    '</div>';
+  document.getElementById('ticketsList').insertAdjacentHTML('beforeend', html);
+}
+
+function removeTicket(id) {
+  var el = document.getElementById('ticket' + id);
+  if (el) { el.style.opacity = '0'; el.style.transform = 'scale(.95)'; el.style.transition = 'all .2s'; setTimeout(function(){el.remove()}, 200); }
+}
+
+addTicket('General Admission', 0, 100);
+
+/* ═══ PAYMENT ═══ */
+function togglePay(label) {
+  setTimeout(function() {
+    var cb = label.querySelector('input');
+    label.classList.toggle('checked', cb.checked);
+    var val = cb.value;
+    if (val === 'moncash') document.getElementById('moncashInput').classList.toggle('visible', cb.checked);
+    if (val === 'natcash') document.getElementById('natcashInput').classList.toggle('visible', cb.checked);
+  }, 10);
+}
+document.querySelectorAll('.pay-check').forEach(function(p) {
+  if (p.querySelector('input').checked) p.classList.add('checked');
+});
+
+/* ═══ SUMMARY ═══ */
+function buildSummary() {
+  document.getElementById('sumTitle').textContent = document.getElementById('evTitle').value || '—';
+  var d = document.getElementById('evDate').value;
+  document.getElementById('sumDate').textContent = d || '—';
+  document.getElementById('sumLoc').textContent = document.getElementById('evLocation').value || '—';
+  var cards = document.querySelectorAll('.ticket-card');
+  document.getElementById('sumTickets').textContent = cards.length + ' tip';
+  var total = 0;
+  cards.forEach(function(c) {
+    var qtyInput = c.querySelectorAll('input[type="number"]')[1];
+    if (qtyInput) total += parseInt(qtyInput.value) || 0;
+  });
+  document.getElementById('sumCapacity').textContent = total + ' plas';
+}
+
+/* ═══ PUBLISH ═══ */
+function publishEvent() {
+  var overlay = document.getElementById('successOverlay');
+  overlay.classList.add('open');
+  var confetti = document.getElementById('successConfetti');
+  confetti.innerHTML = '';
+  var colors = ['#D21034','#D4A017','#00209F','#1B8C3D','#FF6B8A','#FFD700'];
+  for (var i = 0; i < 40; i++) {
+    var dot = document.createElement('div');
+    var size = 4 + Math.random() * 8;
+    dot.style.cssText = 'position:absolute;width:' + size + 'px;height:' + size + 'px;' +
+      'background:' + colors[Math.floor(Math.random() * colors.length)] + ';' +
+      'border-radius:' + (Math.random() > 0.5 ? '50%' : '2px') + ';' +
+      'left:' + (Math.random() * 100) + '%;top:-10px;' +
+      'animation:confettiFall ' + (2 + Math.random() * 3) + 's ease ' + (Math.random() * 0.5) + 's forwards;';
+    confetti.appendChild(dot);
+  }
+}
+
+function shareWhatsApp() {
+  var title = document.getElementById('evTitle').value || 'Mon evènman';
+  window.open('https://wa.me/?text=' + encodeURIComponent('🎉 ' + title + ' — Achte tikè sou HaitiBiznis Events!\nhttps://haitibiznis.com/events'), '_blank');
+}
+
+function shareFacebook() {
+  window.open('https://www.facebook.com/sharer/sharer.php?u=' + encodeURIComponent('https://haitibiznis.com/events'), '_blank');
+}
+
+function copyLink() {
+  navigator.clipboard.writeText('https://haitibiznis.com/events').then(function() {
+    var btn = document.querySelector('.share-btn.copy');
+    btn.textContent = '✅ Kopye!';
+    setTimeout(function(){ btn.innerHTML = '📋 Kopye Lyen'; }, 2000);
+  });
+}
+
+/* Confetti keyframes for success modal */
+var style = document.createElement('style');
+style.textContent = '@keyframes confettiFall{0%{transform:translateY(-10px) rotate(0) scale(1);opacity:1}100%{transform:translateY(400px) rotate(720deg) scale(0);opacity:0}}';
+document.head.appendChild(style);
+
+renderCanvas();
+</script>
+</body>
+</html>
