@@ -563,7 +563,7 @@ function renderTicket(data, qrData) {
     if (eventData.date) mswParams += '&date=' + eventData.date;
     if (eventData.startTime) mswParams += '&time=' + eventData.startTime;
     if (data.referenceId) mswParams += '&ref=' + data.referenceId;
-    document.getElementById('mswLink').href = 'msouwout.html?' + mswParams;
+    document.getElementById('mswLink').href = 'https://msouwout.com?' + mswParams;
     document.getElementById('mswUpsell').style.display = '';
   }
 
