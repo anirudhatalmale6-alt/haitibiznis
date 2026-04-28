@@ -240,20 +240,27 @@ input{font-family:var(--body)}
   text-transform:uppercase;letter-spacing:.08em;margin-bottom:12px;
 }
 
+.field-group{margin-bottom:18px}
+.field-label{
+  display:block;font-size:.7rem;font-weight:800;color:var(--text-light);
+  text-transform:uppercase;letter-spacing:.07em;margin-bottom:7px;
+  padding-left:2px;
+}
 .phone-wrap{position:relative}
 .phone-input{
   width:100%;padding:16px 16px 16px 48px;border:2px solid var(--border);border-radius:14px;
   font-size:1.1rem;font-weight:600;color:var(--text);outline:none;
-  transition:border-color .2s,box-shadow .2s;
+  transition:border-color .2s,box-shadow .2s;background:var(--white);
 }
 .phone-input:focus{border-color:var(--gold);box-shadow:0 0 0 3px rgba(212,160,23,.12)}
 .phone-flag{position:absolute;left:16px;top:50%;transform:translateY(-50%);font-size:1.2rem}
 
-.name-row{display:flex;gap:10px;margin-bottom:12px}
+.name-row{display:flex;gap:10px}
+.name-row .field-group{flex:1;margin-bottom:0}
 .name-input{
-  flex:1;padding:14px 16px;border:2px solid var(--border);border-radius:12px;
+  width:100%;padding:14px 16px;border:2px solid var(--border);border-radius:12px;
   font-size:.9rem;font-weight:500;color:var(--text);outline:none;
-  transition:border-color .2s;
+  transition:border-color .2s;background:var(--white);
 }
 .name-input:focus{border-color:var(--gold);box-shadow:0 0 0 3px rgba(212,160,23,.12)}
 
@@ -264,7 +271,7 @@ input{font-family:var(--body)}
 }
 .plate-input:focus{border-color:var(--gold);box-shadow:0 0 0 3px rgba(212,160,23,.12)}
 
-.vehicle-choice{display:flex;gap:12px;margin:12px 0 16px}
+.vehicle-choice{display:flex;gap:12px;margin:4px 0 0}
 .v-option{
   flex:1;padding:20px 12px;border-radius:14px;text-align:center;
   border:2px solid var(--border);cursor:pointer;
@@ -289,14 +296,14 @@ input{font-family:var(--body)}
   transition:border-color .2s;
 }
 .zone-select:focus{border-color:var(--gold);box-shadow:0 0 0 3px rgba(212,160,23,.12)}
-.zone-wrap{position:relative;margin-top:12px}
+.zone-wrap{position:relative}
 .zone-wrap::after{
   content:'';position:absolute;right:16px;top:50%;transform:translateY(-50%);
   border:5px solid transparent;border-top:6px solid var(--text-muted);pointer-events:none;
 }
 
 .next-btn{
-  width:100%;padding:16px;border-radius:14px;margin-top:16px;
+  width:100%;padding:16px;border-radius:14px;margin-top:22px;
   font-size:1rem;font-weight:900;color:#fff;
   display:flex;align-items:center;justify-content:center;gap:8px;
   transition:all .25s;
@@ -499,14 +506,26 @@ input{font-family:var(--body)}
     <!-- STEP 1: Phone + Name -->
     <div class="wizard-step active" id="wizStep1">
       <div class="step-label-top">Etap 1 nan 3 — Enfomasyon ou</div>
-      <div class="phone-wrap" style="margin-bottom:12px">
-        <span class="phone-flag">🇭🇹</span>
-        <input type="tel" class="phone-input" id="wPhone" placeholder="+509 ..." autocomplete="tel">
+
+      <div class="field-group">
+        <label class="field-label">Nimewo telefon</label>
+        <div class="phone-wrap">
+          <span class="phone-flag">🇭🇹</span>
+          <input type="tel" class="phone-input" id="wPhone" placeholder="+509 ..." autocomplete="tel">
+        </div>
       </div>
+
       <div class="name-row">
-        <input type="text" class="name-input" id="wFirstName" placeholder="Premye non">
-        <input type="text" class="name-input" id="wLastName" placeholder="Siyati">
+        <div class="field-group">
+          <label class="field-label">Premye non</label>
+          <input type="text" class="name-input" id="wFirstName" placeholder="Jean, Marie...">
+        </div>
+        <div class="field-group">
+          <label class="field-label">Siyati</label>
+          <input type="text" class="name-input" id="wLastName" placeholder="Pierre, Louis...">
+        </div>
       </div>
+
       <button class="next-btn red" onclick="goStep2()">
         <div class="spinner"></div>
         <span class="btn-label">Kontinye</span>
@@ -517,32 +536,43 @@ input{font-family:var(--body)}
     <!-- STEP 2: Vehicle Type + Plate -->
     <div class="wizard-step" id="wizStep2">
       <div class="step-label-top">Etap 2 nan 3 — Machin ou</div>
-      <div class="vehicle-choice">
-        <div class="v-option selected" id="vMoto" onclick="pickVehicle('moto')">
-          <div class="v-check">✓</div>
-          <div class="v-icon">🏍️</div>
-          <div class="v-name">Moto</div>
-          <div class="v-earn">500-1,000 HTG/jou</div>
-        </div>
-        <div class="v-option" id="vCar" onclick="pickVehicle('car')">
-          <div class="v-check">✓</div>
-          <div class="v-icon">🚗</div>
-          <div class="v-name">Machin</div>
-          <div class="v-earn">1,000-3,000 HTG/jou</div>
+
+      <div class="field-group" style="margin-bottom:4px">
+        <label class="field-label">Ki tip machin ou?</label>
+        <div class="vehicle-choice">
+          <div class="v-option selected" id="vMoto" onclick="pickVehicle('moto')">
+            <div class="v-check">✓</div>
+            <div class="v-icon">🏍️</div>
+            <div class="v-name">Moto</div>
+            <div class="v-earn">500-1,000 HTG/jou</div>
+          </div>
+          <div class="v-option" id="vCar" onclick="pickVehicle('car')">
+            <div class="v-check">✓</div>
+            <div class="v-icon">🚗</div>
+            <div class="v-name">Machin</div>
+            <div class="v-earn">1,000-3,000 HTG/jou</div>
+          </div>
         </div>
       </div>
-      <input type="text" class="plate-input" id="wPlate" placeholder="Nimewo plak (AA-00000)">
-      <div class="zone-wrap">
-        <select class="zone-select" id="wZone">
-          <option value="Port-au-Prince">Port-au-Prince</option>
-          <option value="Petion-Ville">Petion-Ville</option>
-          <option value="Delmas">Delmas</option>
-          <option value="Cap-Haitien">Cap-Haitien</option>
-          <option value="Les Cayes">Les Cayes</option>
-          <option value="Jacmel">Jacmel</option>
-          <option value="Gonaives">Gonaives</option>
-          <option value="Lot">Lot</option>
-        </select>
+
+      <div class="field-group">
+        <label class="field-label">Nimewo plak</label>
+        <input type="text" class="plate-input" id="wPlate" placeholder="AA-00000">
+      </div>
+      <div class="field-group">
+        <label class="field-label">Zon travay ou</label>
+        <div class="zone-wrap">
+          <select class="zone-select" id="wZone">
+            <option value="Port-au-Prince">Port-au-Prince</option>
+            <option value="Petion-Ville">Petion-Ville</option>
+            <option value="Delmas">Delmas</option>
+            <option value="Cap-Haitien">Cap-Haitien</option>
+            <option value="Les Cayes">Les Cayes</option>
+            <option value="Jacmel">Jacmel</option>
+            <option value="Gonaives">Gonaives</option>
+            <option value="Lot">Lot</option>
+          </select>
+        </div>
       </div>
       <button class="next-btn gold" onclick="goStep3()">
         <div class="spinner"></div>
