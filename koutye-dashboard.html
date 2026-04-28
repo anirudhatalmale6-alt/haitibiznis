@@ -135,9 +135,29 @@ body{font-family:var(--body);background:var(--off-white);color:var(--text);-webk
   .stat-card .val{font-size:1.3rem}
   .ref-btns{flex-direction:column}
 }
+.flag-stripe{height:4px;background:linear-gradient(90deg,#00209F 50%,#D21034 50%)}
+.lang-bar{
+  background:var(--dark, #0A0E1A);padding:6px 20px;
+  display:flex;align-items:center;justify-content:center;gap:4px;
+  font-size:.68rem;z-index:1001;position:relative;
+}
+.lang-bar a{
+  color:rgba(255,255,255,.5);padding:3px 12px;border-radius:100px;
+  font-weight:600;transition:all .2s;cursor:pointer;
+}
+.lang-bar a:hover{color:#fff;background:rgba(255,255,255,.08)}
+.lang-bar a.active{color:#D4A017;background:rgba(212,160,23,.15)}
 </style>
 </head>
 <body>
+
+<div class="lang-bar">
+  <a class="active" data-lang="ht">Kreyòl</a>
+  <a data-lang="fr">Français</a>
+  <a data-lang="en">English</a>
+  <a data-lang="es">Español</a>
+</div>
+<div class="flag-stripe"></div>
 
 <div class="top-bar">
   <div class="top-bar-left">
@@ -318,6 +338,23 @@ function shareSMS() {
 function requestPayout() {
   var msg = 'Mwen vle mande yon peman.\n\nKod: ' + code + '\nNon: ' + (name||'') + '\nTelefon: ' + (phone||'');
   window.open('https://wa.me/50941902005?text=' + encodeURIComponent(msg), '_blank');
+}
+
+/* LANGUAGE BAR */
+document.querySelectorAll('.lang-bar a').forEach(function(a){
+  a.addEventListener('click',function(){
+    var l=a.getAttribute('data-lang');
+    localStorage.setItem('kb_lang',l);
+    document.querySelectorAll('.lang-bar a').forEach(function(b){
+      b.classList.toggle('active',b.getAttribute('data-lang')===l);
+    });
+  });
+});
+var savedLang=localStorage.getItem('kb_lang');
+if(savedLang){
+  document.querySelectorAll('.lang-bar a').forEach(function(a){
+    a.classList.toggle('active',a.getAttribute('data-lang')===savedLang);
+  });
 }
 </script>
 </body>

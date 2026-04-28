@@ -281,6 +281,18 @@ img{max-width:100%;display:block}
   text-transform:uppercase;pointer-events:none;
 }
 
+.lang-bar{
+  background:var(--dark, #0A0E1A);padding:6px 20px;
+  display:flex;align-items:center;justify-content:center;gap:4px;
+  font-size:.68rem;z-index:1001;position:relative;
+}
+.lang-bar a{
+  color:rgba(255,255,255,.5);padding:3px 12px;border-radius:100px;
+  font-weight:600;transition:all .2s;cursor:pointer;
+}
+.lang-bar a:hover{color:#fff;background:rgba(255,255,255,.08)}
+.lang-bar a.active{color:#D4A017;background:rgba(212,160,23,.15)}
+
 @media(min-width:480px){
   .qr-img,.qr-placeholder{width:240px;height:240px}
   .ticket-title{font-size:1.5rem}
@@ -288,6 +300,13 @@ img{max-width:100%;display:block}
 </style>
 </head>
 <body>
+
+<div class="lang-bar">
+  <a class="active" data-lang="ht">Kreyòl</a>
+  <a data-lang="fr">Français</a>
+  <a data-lang="en">English</a>
+  <a data-lang="es">Español</a>
+</div>
 
 <div class="flag-stripe"></div>
 
@@ -633,6 +652,45 @@ function copyTicketRef() {
     setTimeout(function() { btn.innerHTML = orig; }, 2000);
   });
 }
+
+/* ── Lang-bar wiring ── */
+(function(){
+  var links = document.querySelectorAll('.lang-bar a[data-lang]');
+  /* Set active state from stored preference on load */
+  for(var i=0;i<links.length;i++){
+    if(links[i].getAttribute('data-lang')===curLang){
+      links[i].classList.add('active');
+    } else {
+      links[i].classList.remove('active');
+    }
+  }
+  /* Click handlers */
+  for(var j=0;j<links.length;j++){
+    links[j].addEventListener('click',function(e){
+      e.preventDefault();
+      var lang=this.getAttribute('data-lang');
+      curLang=lang;
+      localStorage.setItem('tl_lang',lang);
+      for(var k=0;k<links.length;k++) links[k].classList.remove('active');
+      this.classList.add('active');
+      applyI18n();
+      /* Re-apply dynamic status text */
+      if(ticketData){
+        var st=document.getElementById('statusText');
+        if(ticketData.status==='completed') st.textContent=t('confirmed');
+        else if(ticketData.status==='failed') st.textContent=t('failed');
+        else st.textContent=t('pending');
+        /* Re-apply total (free label may change) */
+        var totalEl=document.getElementById('tTotal');
+        if(totalEl) totalEl.textContent=ticketData.totalAmount>0?'HTG '+formatPrice(ticketData.totalAmount):t('free');
+        /* Re-format date for new locale */
+        if(eventData && eventData.date){
+          document.getElementById('tDate').textContent=formatDate(eventData.date);
+        }
+      }
+    });
+  }
+})();
 
 applyI18n();
 </script>
