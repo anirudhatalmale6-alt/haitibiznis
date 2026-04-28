@@ -267,6 +267,11 @@ img{max-width:100%;display:block}
 .lang-bar a{color:rgba(255,255,255,.5);padding:3px 12px;border-radius:100px;font-weight:600;transition:all .2s;cursor:pointer}
 .lang-bar a:hover{color:#fff;background:rgba(255,255,255,.08)}
 .lang-bar a.active{color:var(--gold);background:rgba(212,160,23,.15)}
+@keyframes spin{to{transform:rotate(360deg)}}
+.path-card:hover{transform:translateY(-2px)}
+.path-card.ai-path:hover{box-shadow:0 8px 24px rgba(0,32,159,.25)}
+.path-card.manual-path:hover{border-color:var(--blue)}
+#aiDropZone.dragover{border-color:var(--blue);background:var(--gold-soft)}
 </style>
 </head>
 <body>
@@ -291,7 +296,7 @@ img{max-width:100%;display:block}
 </header>
 
 <!-- STEPPER -->
-<div class="stepper" id="stepper">
+<div class="stepper" id="stepper" style="display:none">
   <div class="stepper-item active" data-step="1">
     <div class="stepper-dot active">1</div>
     <span class="stepper-label" data-i18n="step_details">Detay</span>
@@ -316,8 +321,62 @@ img{max-width:100%;display:block}
 <main class="main">
 <div class="steps-container">
 
+<!-- ═══════════ STEP 0: CHOOSE PATH ═══════════ -->
+<div class="step active" id="step0">
+  <div class="form-card" style="text-align:center;padding:28px 20px">
+    <div style="font-size:2.5rem;margin-bottom:8px">🚀</div>
+    <div class="form-card-title" style="justify-content:center" data-i18n="choose_path_title">Kijan ou vle kreye evènman ou?</div>
+    <p style="color:var(--text-light);font-size:.85rem;margin:4px 0 20px" data-i18n="choose_path_desc">Chwazi metòd ki pi rapid pou ou.</p>
+
+    <!-- AI FAST PATH -->
+    <div class="path-card ai-path" onclick="choosePath('ai')" style="background:linear-gradient(135deg,var(--blue-deep),var(--blue),var(--blue-light));color:#fff;border-radius:var(--radius-lg);padding:24px 20px;margin-bottom:14px;cursor:pointer;text-align:left;position:relative;overflow:hidden;transition:transform .2s">
+      <div style="position:absolute;top:-20px;right:-10px;font-size:5rem;opacity:.12;transform:rotate(-15deg)">🤖</div>
+      <div style="display:flex;align-items:center;gap:8px;margin-bottom:10px">
+        <span style="background:rgba(255,255,255,.15);border-radius:8px;padding:4px 10px;font-size:.7rem;font-weight:700;letter-spacing:.05em">AI</span>
+        <span style="font-family:var(--display);font-size:1.15rem" data-i18n="ai_path_title">Upload Flyer — AI Ranpli Tout</span>
+      </div>
+      <p style="font-size:.82rem;opacity:.8;line-height:1.4;margin-bottom:12px" data-i18n="ai_path_desc">Voye foto afich ou a, AI a ap li tout enfòmasyon yo otomatikman. 30 segonn.</p>
+      <div style="display:flex;align-items:center;gap:16px;font-size:.75rem;opacity:.65">
+        <span>⚡ 30s</span>
+        <span>📸 Upload &rarr; Review &rarr; Pibliye</span>
+      </div>
+    </div>
+
+    <!-- MANUAL PATH -->
+    <div class="path-card manual-path" onclick="choosePath('manual')" style="background:var(--white);border:1.5px solid var(--border);border-radius:var(--radius-lg);padding:20px;cursor:pointer;text-align:left;transition:transform .2s,border-color .2s">
+      <div style="display:flex;align-items:center;gap:8px;margin-bottom:6px">
+        <span style="font-size:1.3rem">📝</span>
+        <span style="font-family:var(--display);font-size:1.05rem;color:var(--text)" data-i18n="manual_path_title">Kreye Manyèlman</span>
+      </div>
+      <p style="font-size:.8rem;color:var(--text-light);line-height:1.4" data-i18n="manual_path_desc">Ranpli chak etap poukont ou. 4 etap — detay, envitasyon, tikè, pibliye.</p>
+    </div>
+  </div>
+
+  <!-- AI UPLOAD AREA (hidden until AI path chosen) -->
+  <div class="form-card" id="aiUploadCard" style="display:none">
+    <div class="form-card-title"><span class="icon">📸</span> <span data-i18n="ai_upload_title">Upload Afich / Flyer</span></div>
+    <div id="aiDropZone" style="border:2px dashed var(--border);border-radius:var(--radius);padding:32px 16px;text-align:center;cursor:pointer;transition:border-color .2s;background:var(--cream)" onclick="document.getElementById('aiFileInput').click()">
+      <div style="font-size:2.5rem;margin-bottom:8px" id="aiDropIcon">📤</div>
+      <p style="font-weight:600;color:var(--text)" data-i18n="ai_drop_text">Tape la pou chwazi foto</p>
+      <p style="font-size:.75rem;color:var(--text-muted);margin-top:4px" data-i18n="ai_drop_hint">JPG, PNG — jiska 10MB</p>
+      <input type="file" id="aiFileInput" accept="image/*" style="display:none" onchange="handleAiUpload(this)">
+    </div>
+    <div id="aiPreview" style="display:none;margin-top:12px;position:relative">
+      <img id="aiPreviewImg" style="width:100%;border-radius:var(--radius);border:1px solid var(--border)">
+      <button onclick="clearAiUpload()" style="position:absolute;top:8px;right:8px;background:rgba(0,0,0,.6);color:#fff;border-radius:50%;width:28px;height:28px;display:flex;align-items:center;justify-content:center;font-size:.8rem">✕</button>
+    </div>
+    <div id="aiLoading" style="display:none;text-align:center;padding:20px">
+      <div style="width:40px;height:40px;border:3px solid var(--border);border-top-color:var(--blue);border-radius:50%;animation:spin 1s linear infinite;margin:0 auto 12px"></div>
+      <p style="font-weight:600;color:var(--text)" data-i18n="ai_scanning">AI ap li afich la...</p>
+      <p style="font-size:.75rem;color:var(--text-muted);margin-top:4px" data-i18n="ai_scanning_wait">Sa pran 10-15 segonn</p>
+    </div>
+    <div id="aiError" style="display:none;background:#FEE2E2;border:1px solid #FECACA;border-radius:var(--radius);padding:12px;margin-top:12px;color:#991B1B;font-size:.85rem"></div>
+    <button class="btn btn-blue" id="aiScanBtn" style="display:none;width:100%;margin-top:12px" onclick="scanFlyer()" data-i18n="ai_scan_btn">🤖 Analize ak AI</button>
+  </div>
+</div>
+
 <!-- ═══════════ STEP 1: EVENT DETAILS ═══════════ -->
-<div class="step active" id="step1">
+<div class="step" id="step1">
   <div class="form-card">
     <div class="form-card-title"><span class="icon">📝</span> <span data-i18n="event_details">Detay Evènman</span></div>
     <div class="form-group">
@@ -654,8 +713,10 @@ img{max-width:100%;display:block}
 </div>
 
 <script>
+var API_URL = 'https://width-era-households-enabled.trycloudflare.com';
+
 /* ═══ STATE ═══ */
-var currentStep = 1;
+var currentStep = 0;
 var eventData = {};
 var ticketCount = 0;
 var selectedTemplate = 'professional';
@@ -668,6 +729,18 @@ var curLang = 'ht';
 var i18n = {
   ht: {
     brand: 'Tikè <em>Lakay</em>',
+    choose_path_title: 'Kijan ou vle kreye evènman ou?',
+    choose_path_desc: 'Chwazi metòd ki pi rapid pou ou.',
+    ai_path_title: 'Upload Flyer — AI Ranpli Tout',
+    ai_path_desc: 'Voye foto afich ou a, AI a ap li tout enfòmasyon yo otomatikman. 30 segonn.',
+    manual_path_title: 'Kreye Manyèlman',
+    manual_path_desc: 'Ranpli chak etap poukont ou. 4 etap — detay, envitasyon, tikè, pibliye.',
+    ai_upload_title: 'Upload Afich / Flyer',
+    ai_drop_text: 'Tape la pou chwazi foto',
+    ai_drop_hint: 'JPG, PNG — jiska 10MB',
+    ai_scanning: 'AI ap li afich la...',
+    ai_scanning_wait: 'Sa pran 10-15 segonn',
+    ai_scan_btn: '🤖 Analize ak AI',
     step_details: 'Detay',
     step_invitation: 'Envitasyon',
     step_tickets: 'Tikè',
@@ -755,6 +828,18 @@ var i18n = {
   },
   fr: {
     brand: 'Tikè <em>Lakay</em>',
+    choose_path_title: 'Comment créer votre événement ?',
+    choose_path_desc: 'Choisissez la méthode la plus rapide.',
+    ai_path_title: 'Upload Flyer — L\'IA remplit tout',
+    ai_path_desc: 'Envoyez la photo de votre affiche, l\'IA extrait automatiquement toutes les infos. 30 secondes.',
+    manual_path_title: 'Créer manuellement',
+    manual_path_desc: 'Remplissez chaque étape vous-même. 4 étapes — détails, invitation, billets, publier.',
+    ai_upload_title: 'Upload Affiche / Flyer',
+    ai_drop_text: 'Appuyez pour choisir une photo',
+    ai_drop_hint: 'JPG, PNG — jusqu\'à 10MB',
+    ai_scanning: 'L\'IA analyse l\'affiche...',
+    ai_scanning_wait: 'Cela prend 10-15 secondes',
+    ai_scan_btn: '🤖 Analyser avec l\'IA',
     step_details: 'Détails',
     step_invitation: 'Invitation',
     step_tickets: 'Billets',
@@ -842,6 +927,18 @@ var i18n = {
   },
   en: {
     brand: 'Tikè <em>Lakay</em>',
+    choose_path_title: 'How do you want to create your event?',
+    choose_path_desc: 'Choose the fastest method for you.',
+    ai_path_title: 'Upload Flyer — AI Fills Everything',
+    ai_path_desc: 'Upload your flyer photo, AI reads all the info automatically. 30 seconds.',
+    manual_path_title: 'Create Manually',
+    manual_path_desc: 'Fill each step yourself. 4 steps — details, invitation, tickets, publish.',
+    ai_upload_title: 'Upload Poster / Flyer',
+    ai_drop_text: 'Tap to choose a photo',
+    ai_drop_hint: 'JPG, PNG — up to 10MB',
+    ai_scanning: 'AI is reading the poster...',
+    ai_scanning_wait: 'This takes 10-15 seconds',
+    ai_scan_btn: '🤖 Analyze with AI',
     step_details: 'Details',
     step_invitation: 'Invitation',
     step_tickets: 'Tickets',
@@ -929,6 +1026,18 @@ var i18n = {
   },
   es: {
     brand: 'Tikè <em>Lakay</em>',
+    choose_path_title: 'Como quieres crear tu evento?',
+    choose_path_desc: 'Elige el metodo mas rapido para ti.',
+    ai_path_title: 'Subir Flyer — IA Llena Todo',
+    ai_path_desc: 'Sube la foto de tu afiche, la IA lee toda la info automaticamente. 30 segundos.',
+    manual_path_title: 'Crear Manualmente',
+    manual_path_desc: 'Llena cada paso tu mismo. 4 pasos — detalles, invitacion, boletos, publicar.',
+    ai_upload_title: 'Subir Afiche / Flyer',
+    ai_drop_text: 'Toca para elegir una foto',
+    ai_drop_hint: 'JPG, PNG — hasta 10MB',
+    ai_scanning: 'La IA esta leyendo el afiche...',
+    ai_scanning_wait: 'Esto toma 10-15 segundos',
+    ai_scan_btn: '🤖 Analizar con IA',
     step_details: 'Detalles',
     step_invitation: 'Invitación',
     step_tickets: 'Boletos',
@@ -1093,12 +1202,134 @@ var templates = {
   concert:      {bg1:'#0A0E1A',bg2:'#1A1A2E',bg3:'#FF0066',accent:'#FF0066'}
 };
 
+/* ═══ PATH CHOOSER ═══ */
+var aiFile = null;
+var aiMode = false;
+
+function choosePath(path) {
+  if (path === 'ai') {
+    aiMode = true;
+    document.getElementById('aiUploadCard').style.display = '';
+    document.querySelector('.path-card.ai-path').style.border = '2px solid var(--gold)';
+    document.querySelector('.path-card.manual-path').style.opacity = '.5';
+  } else {
+    aiMode = false;
+    document.getElementById('stepper').style.display = '';
+    goStep(1);
+  }
+}
+
+function handleAiUpload(input) {
+  var file = input.files[0];
+  if (!file) return;
+  aiFile = file;
+  var reader = new FileReader();
+  reader.onload = function(e) {
+    document.getElementById('aiPreviewImg').src = e.target.result;
+    document.getElementById('aiPreview').style.display = '';
+    document.getElementById('aiScanBtn').style.display = '';
+    document.getElementById('aiDropZone').style.display = 'none';
+    document.getElementById('aiError').style.display = 'none';
+  };
+  reader.readAsDataURL(file);
+}
+
+function clearAiUpload() {
+  aiFile = null;
+  document.getElementById('aiPreview').style.display = 'none';
+  document.getElementById('aiScanBtn').style.display = 'none';
+  document.getElementById('aiDropZone').style.display = '';
+  document.getElementById('aiFileInput').value = '';
+}
+
+function scanFlyer() {
+  if (!aiFile) return;
+  document.getElementById('aiScanBtn').style.display = 'none';
+  document.getElementById('aiLoading').style.display = '';
+  document.getElementById('aiError').style.display = 'none';
+
+  var formData = new FormData();
+  formData.append('flyer', aiFile);
+
+  fetch(API_URL + '/api/ai/scan-flyer', { method: 'POST', body: formData })
+    .then(function(r) { return r.json(); })
+    .then(function(data) {
+      document.getElementById('aiLoading').style.display = 'none';
+      if (data.error) {
+        document.getElementById('aiError').textContent = data.error;
+        document.getElementById('aiError').style.display = '';
+        document.getElementById('aiScanBtn').style.display = '';
+        return;
+      }
+      applyAiData(data);
+    })
+    .catch(function(err) {
+      document.getElementById('aiLoading').style.display = 'none';
+      document.getElementById('aiError').textContent = 'Erè koneksyon. Eseye ankò.';
+      document.getElementById('aiError').style.display = '';
+      document.getElementById('aiScanBtn').style.display = '';
+    });
+}
+
+function applyAiData(data) {
+  document.getElementById('evTitle').value = data.title || '';
+  if (data.type) {
+    var sel = document.getElementById('evType');
+    for (var i = 0; i < sel.options.length; i++) {
+      if (sel.options[i].value === data.type) { sel.selectedIndex = i; break; }
+    }
+  }
+  document.getElementById('evDate').value = data.date || '';
+  document.getElementById('evStart').value = data.startTime || '';
+  document.getElementById('evEnd').value = data.endTime || '';
+  document.getElementById('evLocation').value = data.location || '';
+  document.getElementById('evDesc').value = data.description || '';
+  if (data.organizer) document.getElementById('evOrgName').value = data.organizer;
+  if (data.organizerPhone) document.getElementById('evOrgPhone').value = data.organizerPhone;
+
+  if (data.flyerBase64) {
+    var img = new Image();
+    img.onload = function() { flyerImage = img; renderCanvas(); };
+    img.src = data.flyerBase64;
+  }
+
+  if (data.tickets && data.tickets.length) {
+    document.getElementById('ticketsList').innerHTML = '';
+    ticketCount = 0;
+    data.tickets.forEach(function(t) {
+      addTicket(t.name || 'General', t.price || 0, t.qty || 100);
+    });
+  }
+
+  document.getElementById('stepper').style.display = '';
+  goStep(1);
+
+  var badge = document.createElement('div');
+  badge.innerHTML = '✅ AI ranpli tout champ yo! Verifye epi kontinye.';
+  badge.style.cssText = 'background:var(--green-light);color:var(--green);border:1px solid #C6F6D5;border-radius:var(--radius);padding:10px 14px;font-size:.85rem;font-weight:600;margin-bottom:12px;text-align:center;animation:fadeIn .3s';
+  var firstCard = document.querySelector('#step1 .form-card');
+  if (firstCard) firstCard.insertBefore(badge, firstCard.firstChild);
+}
+
+/* Drag & drop support */
+(function() {
+  var dz = document.getElementById('aiDropZone');
+  if (!dz) return;
+  ['dragenter','dragover'].forEach(function(e) { dz.addEventListener(e, function(ev) { ev.preventDefault(); dz.classList.add('dragover'); }); });
+  ['dragleave','drop'].forEach(function(e) { dz.addEventListener(e, function(ev) { ev.preventDefault(); dz.classList.remove('dragover'); }); });
+  dz.addEventListener('drop', function(ev) {
+    var files = ev.dataTransfer.files;
+    if (files.length) { document.getElementById('aiFileInput').files = files; handleAiUpload(document.getElementById('aiFileInput')); }
+  });
+})();
+
 /* ═══ STEP NAVIGATION ═══ */
 function goStep(n) {
   if (n === 2) syncStep1ToInvite();
   if (n === 4) buildSummary();
   document.querySelectorAll('.step').forEach(function(s){s.classList.remove('active')});
   document.getElementById('step' + n).classList.add('active');
+  document.getElementById('stepper').style.display = '';
   var items = document.querySelectorAll('.stepper-item');
   var lines = document.querySelectorAll('.stepper-line');
   items.forEach(function(item, i) {
@@ -1426,10 +1657,30 @@ function publishEvent() {
     createdAt: new Date().toISOString()
   };
 
+  // Save to localStorage (offline fallback)
   var events = [];
   try { events = JSON.parse(localStorage.getItem('tl_events') || '[]'); } catch(e) { events = []; }
   events.unshift(eventObj);
   try { localStorage.setItem('tl_events', JSON.stringify(events)); } catch(e) {}
+
+  // Save to backend API
+  fetch(API_URL + '/api/events', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(eventObj)
+  }).then(function(r) { return r.json(); }).then(function(saved) {
+    if (saved._id) {
+      var apiUrl = 'https://haitibiznis.com/event.html?id=' + saved._id;
+      var viewBtn = document.querySelector('#successOverlay .btn-blue');
+      if (viewBtn) viewBtn.href = 'event.html?id=' + saved._id;
+      window._publishedEventUrl = apiUrl;
+      window._publishedEventId = saved._id;
+      // Update localStorage with API id
+      eventObj._id = saved._id;
+      events[0] = eventObj;
+      try { localStorage.setItem('tl_events', JSON.stringify(events)); } catch(e) {}
+    }
+  }).catch(function() {});
 
   var evUrl = 'https://haitibiznis.com/event.html?id=' + evId;
   var viewBtn = document.querySelector('#successOverlay .btn-blue');

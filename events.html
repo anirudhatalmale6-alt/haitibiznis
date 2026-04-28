@@ -1484,10 +1484,9 @@ document.querySelectorAll('.cat-card').forEach(function(card){
 });
 
 /* ═══ RENDER USER-CREATED EVENTS ═══ */
-(function renderUserEvents() {
-  var events = [];
-  try { events = JSON.parse(localStorage.getItem('tl_events') || '[]'); } catch(e) { return; }
-  if (!events.length) return;
+var EVENTS_API_URL = 'https://width-era-households-enabled.trycloudflare.com';
+
+function renderEventCards(events) {
 
   var section = document.getElementById('yourEventsSection');
   var scroll = document.getElementById('yourEventsScroll');
@@ -1522,7 +1521,8 @@ document.querySelectorAll('.cat-card').forEach(function(card){
     var timeStr = (ev.startTime || '') + (ev.endTime ? ' — ' + ev.endTime : '');
     var delayClass = idx > 0 ? ' reveal-d' + Math.min(idx, 3) : '';
 
-    html += '<div class="ev-card reveal' + delayClass + '" onclick="window.location.href=\'event.html?id=' + ev.id + '\'">' +
+    var evLinkId = ev._id || ev.id;
+    html += '<div class="ev-card reveal' + delayClass + '" onclick="window.location.href=\'event.html?id=' + evLinkId + '\'">' +
       '<div class="ev-img">' +
       '<div class="ev-img-bg" style="background:' + gradient + '">' + emoji + '</div>' +
       '<span class="ev-type-tag" style="background:' + tagBg + '">' + typeLabel + '</span>' +
@@ -1540,6 +1540,28 @@ document.querySelectorAll('.cat-card').forEach(function(card){
   scroll.innerHTML = html;
 
   scroll.querySelectorAll('.reveal').forEach(function(el) { observer.observe(el); });
+}
+
+(function loadAndRenderEvents() {
+  // Load from localStorage first
+  var localEvents = [];
+  try { localEvents = JSON.parse(localStorage.getItem('tl_events') || '[]'); } catch(e) {}
+  if (localEvents.length) renderEventCards(localEvents);
+
+  // Also fetch from API and merge
+  fetch(EVENTS_API_URL + '/api/events?limit=20')
+    .then(function(r) { return r.json(); })
+    .then(function(data) {
+      if (!data.events || !data.events.length) return;
+      var localIds = {};
+      localEvents.forEach(function(e) { if (e.id) localIds[e.id] = true; if (e._id) localIds[e._id] = true; });
+      var newEvents = data.events.filter(function(e) { return !localIds[e._id]; });
+      if (newEvents.length) {
+        var merged = localEvents.concat(newEvents);
+        renderEventCards(merged);
+      }
+    })
+    .catch(function() {});
 })();
 
 /* Also make static event cards link to demo event page */
