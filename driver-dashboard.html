@@ -1,0 +1,625 @@
+<!DOCTYPE html>
+<html lang="ht">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dashboard Chofè — M Sou Wout</title>
+<meta name="theme-color" content="#0A0E1A">
+<link rel="icon" type="image/x-icon" href="favicon.ico">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --blue:#00209F;--blue-deep:#001566;--blue-light:#0A3ACC;
+  --red:#D21034;--red-dark:#B00D2C;--red-glow:rgba(210,16,52,.15);
+  --gold:#D4A017;--gold-light:#E8B82E;--gold-soft:#FDF3D7;--gold-glow:rgba(212,160,23,.2);
+  --green:#1B8C3D;--green-light:#E8F5E9;
+  --white:#FFFFFF;--off-white:#F5F7FA;--cream:#FAFBFD;
+  --dark:#0A0E1A;--text:#1A2A4A;--text-light:#5A6B8A;--text-muted:#8A95AA;
+  --border:#E2E8F0;--border-light:#F0F3F7;
+  --body:'Plus Jakarta Sans',system-ui,sans-serif;
+  --display:'DM Serif Display',Georgia,serif;
+  --shadow-sm:0 1px 3px rgba(10,14,26,.06);
+  --shadow-md:0 4px 16px rgba(10,14,26,.08);
+  --shadow-lg:0 12px 40px rgba(10,14,26,.12);
+  --radius:14px;--radius-lg:20px;
+}
+html{scroll-behavior:smooth}
+body{font-family:var(--body);background:var(--off-white);color:var(--text);overflow-x:hidden;-webkit-font-smoothing:antialiased;padding-bottom:56px}
+a{text-decoration:none;color:inherit}
+button{font-family:var(--body);cursor:pointer;border:none;background:none}
+input{font-family:var(--body)}
+
+.flag-stripe{height:4px;background:linear-gradient(90deg,var(--blue) 50%,var(--red) 50%);position:relative;z-index:1002}
+
+.header{
+  position:sticky;top:0;z-index:100;
+  background:rgba(255,255,255,.95);backdrop-filter:blur(16px);
+  border-bottom:1px solid var(--border);padding:0 16px;height:56px;
+  display:flex;align-items:center;justify-content:space-between;
+}
+.header-left{display:flex;align-items:center;gap:10px}
+.header-left img{height:30px;border-radius:5px}
+.header-left span{font-family:var(--display);font-size:1rem;color:var(--dark)}
+.header-left span em{color:var(--red);font-style:italic}
+.header-badge{
+  font-size:.7rem;font-weight:700;color:var(--white);
+  padding:5px 12px;border-radius:20px;
+  background:linear-gradient(135deg,var(--dark),#1a2040);
+}
+
+.lang-bar{
+  display:flex;justify-content:center;gap:2px;padding:6px 16px;
+  background:var(--white);border-bottom:1px solid var(--border-light);
+}
+.lang-bar button{
+  padding:4px 12px;border-radius:6px;font-size:.68rem;font-weight:700;
+  color:var(--text-muted);letter-spacing:.06em;transition:all .2s;
+}
+.lang-bar button.active{background:var(--dark);color:var(--white)}
+.lang-bar button:hover:not(.active){background:var(--off-white);color:var(--text)}
+
+/* ═══ LOGIN SCREEN ═══ */
+.login-screen{
+  min-height:calc(100vh - 120px);display:flex;align-items:center;justify-content:center;
+  padding:20px;
+}
+.login-card{
+  max-width:380px;width:100%;background:var(--white);border-radius:var(--radius-lg);
+  box-shadow:var(--shadow-lg);padding:32px 24px;text-align:center;
+}
+.login-card .login-emoji{font-size:2.5rem;margin-bottom:12px}
+.login-card h2{font-family:var(--display);font-size:1.5rem;color:var(--dark);margin-bottom:6px}
+.login-card .login-sub{font-size:.82rem;color:var(--text-light);margin-bottom:24px;font-weight:500}
+.login-group{margin-bottom:14px;text-align:left}
+.login-group label{
+  display:block;font-size:.72rem;font-weight:700;
+  color:var(--text-light);text-transform:uppercase;letter-spacing:.06em;margin-bottom:6px;
+}
+.login-input{
+  width:100%;padding:13px 16px;border:2px solid var(--border);border-radius:12px;
+  font-size:.9rem;font-weight:500;color:var(--text);outline:none;
+  transition:border-color .2s,box-shadow .2s;
+}
+.login-input:focus{border-color:var(--gold);box-shadow:0 0 0 3px rgba(212,160,23,.12)}
+.login-input.pin-input{text-align:center;font-size:1.5rem;letter-spacing:.4em;font-weight:800}
+.login-btn{
+  width:100%;padding:14px;border-radius:12px;margin-top:8px;
+  background:linear-gradient(135deg,var(--gold),var(--gold-light));
+  color:var(--dark);font-size:.9rem;font-weight:800;
+  box-shadow:0 4px 16px rgba(212,160,23,.3);transition:all .2s;
+}
+.login-btn:hover{transform:translateY(-1px)}
+.login-error{
+  display:none;margin-top:10px;padding:8px 12px;border-radius:8px;
+  background:var(--red-glow);color:var(--red);font-size:.78rem;font-weight:600;
+}
+.login-error.show{display:block}
+.login-link{display:block;margin-top:16px;font-size:.78rem;color:var(--text-light);font-weight:500}
+.login-link a{color:var(--gold);font-weight:700}
+
+/* ═══ DASHBOARD ═══ */
+.dashboard{display:none;padding:16px;max-width:600px;margin:0 auto}
+.dashboard.show{display:block}
+
+.driver-header{
+  display:flex;align-items:center;gap:14px;margin-bottom:20px;
+  padding:16px;background:var(--white);border-radius:var(--radius);
+  box-shadow:var(--shadow-sm);border:1px solid var(--border-light);
+}
+.driver-avatar{
+  width:48px;height:48px;border-radius:14px;
+  background:linear-gradient(135deg,var(--gold),var(--gold-light));
+  display:flex;align-items:center;justify-content:center;
+  font-size:1.5rem;flex-shrink:0;
+}
+.driver-info{flex:1;min-width:0}
+.driver-name{font-weight:800;font-size:.95rem;color:var(--dark)}
+.driver-meta{font-size:.72rem;color:var(--text-light);margin-top:2px;font-weight:500}
+.status-toggle{
+  padding:8px 16px;border-radius:20px;font-size:.72rem;font-weight:700;
+  text-transform:uppercase;letter-spacing:.04em;transition:all .2s;
+}
+.status-toggle.offline{background:var(--off-white);color:var(--text-muted);border:1px solid var(--border)}
+.status-toggle.available{background:var(--green-light);color:var(--green);border:1px solid rgba(27,140,61,.2)}
+.status-toggle.busy{background:var(--red-glow);color:var(--red);border:1px solid rgba(210,16,52,.2)}
+
+/* STATS */
+.stats-row{display:flex;gap:10px;margin-bottom:20px}
+.stat-card{
+  flex:1;padding:14px;border-radius:var(--radius);
+  background:var(--white);box-shadow:var(--shadow-sm);border:1px solid var(--border-light);
+  text-align:center;
+}
+.stat-value{font-size:1.3rem;font-weight:900;color:var(--dark)}
+.stat-label{font-size:.65rem;color:var(--text-muted);font-weight:600;text-transform:uppercase;letter-spacing:.04em;margin-top:2px}
+.stat-card.gold .stat-value{color:var(--gold)}
+.stat-card.green .stat-value{color:var(--green)}
+.stat-card.blue .stat-value{color:var(--blue)}
+
+/* TABS */
+.tab-bar{
+  display:flex;gap:4px;padding:4px;border-radius:12px;
+  background:var(--off-white);border:1px solid var(--border-light);
+  margin-bottom:16px;
+}
+.tab-btn{
+  flex:1;padding:10px;border-radius:9px;font-size:.78rem;font-weight:700;
+  color:var(--text-muted);text-align:center;transition:all .2s;
+}
+.tab-btn.active{background:var(--white);color:var(--dark);box-shadow:0 1px 4px rgba(0,0,0,.06)}
+.tab-content{display:none}
+.tab-content.active{display:block}
+
+/* RIDE CARDS */
+.ride-card{
+  background:var(--white);border-radius:var(--radius);
+  box-shadow:var(--shadow-sm);border:1px solid var(--border-light);
+  padding:16px;margin-bottom:12px;transition:transform .2s;
+}
+.ride-card:hover{transform:translateY(-1px)}
+.ride-card-header{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:10px}
+.ride-vehicle{
+  display:inline-flex;align-items:center;gap:4px;
+  font-size:.7rem;font-weight:700;color:var(--text-light);
+  padding:3px 8px;border-radius:6px;background:var(--off-white);
+}
+.ride-time{font-size:.72rem;color:var(--text-muted);font-weight:600}
+.ride-route{margin-bottom:10px}
+.ride-point{display:flex;align-items:flex-start;gap:10px;padding:4px 0}
+.ride-dot{
+  width:10px;height:10px;border-radius:50%;margin-top:3px;flex-shrink:0;
+  border:2px solid var(--green);
+}
+.ride-dot.dest{border-color:var(--red);background:var(--red)}
+.ride-line{
+  width:2px;height:16px;background:var(--border);margin-left:4px;
+}
+.ride-addr{font-size:.82rem;font-weight:600;color:var(--text);line-height:1.3}
+.ride-event{
+  display:inline-flex;align-items:center;gap:4px;
+  font-size:.7rem;font-weight:600;color:var(--gold);
+  padding:3px 8px;border-radius:6px;background:var(--gold-soft);
+  margin-bottom:8px;
+}
+.ride-footer{display:flex;justify-content:space-between;align-items:center}
+.ride-fare{font-size:.95rem;font-weight:800;color:var(--dark)}
+.ride-rider{font-size:.75rem;color:var(--text-light);font-weight:500}
+.ride-actions{display:flex;gap:8px;margin-top:10px}
+.ride-btn{
+  flex:1;padding:10px;border-radius:10px;font-size:.78rem;font-weight:700;
+  text-align:center;transition:all .2s;
+}
+.ride-btn.accept{background:var(--green);color:#fff;box-shadow:0 2px 8px rgba(27,140,61,.25)}
+.ride-btn.decline{background:var(--off-white);color:var(--text-muted);border:1px solid var(--border)}
+.ride-btn.update{background:var(--blue);color:#fff;box-shadow:0 2px 8px rgba(0,32,159,.2)}
+.ride-btn.complete{background:var(--gold);color:var(--dark);box-shadow:0 2px 8px rgba(212,160,23,.25)}
+.ride-btn.cancel{background:var(--off-white);color:var(--red);border:1px solid var(--red-glow)}
+.ride-status-badge{
+  display:inline-flex;align-items:center;gap:4px;
+  padding:3px 10px;border-radius:8px;font-size:.68rem;font-weight:700;
+  text-transform:uppercase;letter-spacing:.03em;
+}
+.ride-status-badge.accepted{background:var(--green-light);color:var(--green)}
+.ride-status-badge.enroute{background:#e8f0ff;color:var(--blue)}
+.ride-status-badge.arrived{background:var(--gold-soft);color:var(--gold)}
+.ride-status-badge.in_progress{background:#fff0e8;color:#e06520}
+.ride-status-badge.completed{background:var(--green-light);color:var(--green)}
+
+.empty-state{
+  text-align:center;padding:40px 20px;color:var(--text-muted);
+}
+.empty-state .empty-icon{font-size:2rem;margin-bottom:8px}
+.empty-state p{font-size:.82rem;font-weight:500}
+
+.not-verified{
+  padding:16px;border-radius:var(--radius);text-align:center;
+  background:var(--gold-soft);border:1px solid rgba(212,160,23,.25);
+  margin-bottom:20px;
+}
+.not-verified .nv-icon{font-size:1.5rem;margin-bottom:6px}
+.not-verified p{font-size:.82rem;color:var(--text);font-weight:600;line-height:1.5}
+
+/* BOTTOM NAV */
+.bottom-nav{
+  position:fixed;bottom:0;left:0;right:0;z-index:100;
+  background:rgba(255,255,255,.95);backdrop-filter:blur(16px);
+  border-top:1px solid var(--border);display:flex;height:56px;
+}
+.bottom-nav a{
+  flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;
+  color:var(--text-muted);font-size:.6rem;font-weight:600;transition:color .2s;
+  text-transform:uppercase;letter-spacing:.04em;
+}
+.bottom-nav a.active{color:var(--blue)}
+.bottom-nav a svg{width:22px;height:22px}
+.bottom-nav .create-tab{position:relative;margin-top:-12px}
+.bottom-nav .create-dot{
+  width:44px;height:44px;border-radius:14px;
+  background:linear-gradient(135deg,var(--red),var(--red-dark));
+  display:flex;align-items:center;justify-content:center;
+  box-shadow:0 4px 16px rgba(210,16,52,.3);
+}
+.bottom-nav .create-dot svg{color:#fff}
+
+@media(min-width:768px){
+  .bottom-nav{display:none}
+  body{padding-bottom:0}
+}
+</style>
+</head>
+<body>
+<div class="flag-stripe"></div>
+
+<header class="header">
+  <a href="events.html" class="header-left">
+    <img src="assets/events-logo.png" alt="Tikè Lakay">
+    <span data-i18n="brand">Tikè <em>Lakay</em></span>
+  </a>
+  <div class="header-badge">Dashboard Chofè</div>
+</header>
+
+<div class="lang-bar">
+  <button class="active" data-lang="ht">HT</button>
+  <button data-lang="fr">FR</button>
+  <button data-lang="en">EN</button>
+  <button data-lang="es">ES</button>
+</div>
+
+<!-- LOGIN -->
+<div class="login-screen" id="loginScreen">
+  <div class="login-card">
+    <div class="login-emoji">🚘</div>
+    <h2 data-i18n="loginTitle">Konekte Kòm Chofè</h2>
+    <p class="login-sub" data-i18n="loginSub">Antre telefòn ou ak PIN ou</p>
+    <div class="login-group">
+      <label data-i18n="phoneLabel">Telefòn</label>
+      <input type="tel" class="login-input" id="loginPhone" placeholder="+509 ...">
+    </div>
+    <div class="login-group">
+      <label>PIN</label>
+      <input type="text" class="login-input pin-input" id="loginPin" maxlength="4" placeholder="····">
+    </div>
+    <button class="login-btn" onclick="doLogin()" data-i18n="loginBtn">Konekte</button>
+    <div class="login-error" id="loginError"></div>
+    <div class="login-link"><span data-i18n="noAccount">Pa gen kont?</span> <a href="driver-register.html" data-i18n="registerLink">Enskri kounye a</a></div>
+  </div>
+</div>
+
+<!-- DASHBOARD -->
+<div class="dashboard" id="dashboard">
+  <div class="driver-header">
+    <div class="driver-avatar">🚘</div>
+    <div class="driver-info">
+      <div class="driver-name" id="driverName">--</div>
+      <div class="driver-meta" id="driverMeta">--</div>
+    </div>
+    <button class="status-toggle offline" id="statusToggle" onclick="toggleStatus()">Offline</button>
+  </div>
+
+  <div class="not-verified" id="notVerified" style="display:none">
+    <div class="nv-icon">⏳</div>
+    <p data-i18n="notVerifiedMsg">Kont ou poko verifye. Ou pral ka aksepte kous lè verifikasyon an fini.</p>
+  </div>
+
+  <div class="stats-row">
+    <div class="stat-card gold">
+      <div class="stat-value" id="statEarnings">0</div>
+      <div class="stat-label" data-i18n="earnings">Revni (HTG)</div>
+    </div>
+    <div class="stat-card green">
+      <div class="stat-value" id="statRides">0</div>
+      <div class="stat-label" data-i18n="totalRides">Total Kous</div>
+    </div>
+    <div class="stat-card blue">
+      <div class="stat-value" id="statRating">5.0</div>
+      <div class="stat-label" data-i18n="rating">Nòt</div>
+    </div>
+  </div>
+
+  <div class="tab-bar">
+    <button class="tab-btn active" onclick="switchTab('available')" data-i18n="tabAvailable">Disponib</button>
+    <button class="tab-btn" onclick="switchTab('active')" data-i18n="tabActive">Aktif</button>
+    <button class="tab-btn" onclick="switchTab('history')" data-i18n="tabHistory">Istwa</button>
+  </div>
+
+  <div class="tab-content active" id="tabAvailable">
+    <div id="availableRides"></div>
+  </div>
+  <div class="tab-content" id="tabActive">
+    <div id="activeRides"></div>
+  </div>
+  <div class="tab-content" id="tabHistory">
+    <div id="historyRides"></div>
+  </div>
+</div>
+
+<!-- BOTTOM NAV -->
+<nav class="bottom-nav">
+  <a href="events.html">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+    <span data-i18n="navHome">Akèy</span>
+  </a>
+  <a href="events.html">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>
+    <span data-i18n="navEvents">Evènman</span>
+  </a>
+  <a href="create-event.html" class="create-tab">
+    <div class="create-dot">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" style="width:22px;height:22px"><path d="M12 5v14M5 12h14"/></svg>
+    </div>
+    <span style="margin-top:4px" data-i18n="navCreate">Kreye</span>
+  </a>
+  <a href="msouwout.html" class="active">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+    <span data-i18n="navRides">Transpò</span>
+  </a>
+  <a href="#">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+    <span data-i18n="navAccount">Kont</span>
+  </a>
+</nav>
+
+<script>
+var API_URL = 'https://haitibiznis-api.onrender.com';
+var currentLang = localStorage.getItem('tl_lang') || 'ht';
+var driver = null;
+
+var translations = {
+  ht: {
+    brand:'Tikè <em>Lakay</em>',
+    loginTitle:'Konekte Kòm Chofè', loginSub:'Antre telefòn ou ak PIN ou',
+    phoneLabel:'Telefòn', loginBtn:'Konekte',
+    noAccount:'Pa gen kont?', registerLink:'Enskri kounye a',
+    notVerifiedMsg:'Kont ou poko verifye. Ou pral ka aksepte kous lè verifikasyon an fini.',
+    earnings:'Revni (HTG)', totalRides:'Total Kous', rating:'Nòt',
+    tabAvailable:'Disponib', tabActive:'Aktif', tabHistory:'Istwa',
+    accept:'Aksepte', decline:'Refize', enroute:'M Sou Wout', arrived:'Mwen Rive',
+    startRide:'Kòmanse Kous', complete:'Fini Kous', cancel:'Anile',
+    noAvailable:'Pa gen kous disponib pou kounye a', noActive:'Pa gen kous aktif',
+    noHistory:'Ou poko gen istwa kous',
+    pickup:'Ranmase', dropoff:'Depoze', fare:'Tarif',
+    riderInfo:'Pasaje', call:'Rele',
+    navHome:'Akèy', navEvents:'Evènman', navCreate:'Kreye', navRides:'Transpò', navAccount:'Kont',
+    errLogin:'Telefòn oswa PIN pa kòrèk', errNetwork:'Erè koneksyon'
+  },
+  fr: {
+    brand:'Tikè <em>Lakay</em>',
+    loginTitle:'Connexion Chauffeur', loginSub:'Entrez votre téléphone et PIN',
+    phoneLabel:'Téléphone', loginBtn:'Se Connecter',
+    noAccount:'Pas de compte?', registerLink:'Inscrivez-vous',
+    notVerifiedMsg:'Votre compte n\'est pas encore vérifié. Vous pourrez accepter des courses après vérification.',
+    earnings:'Revenus (HTG)', totalRides:'Total Courses', rating:'Note',
+    tabAvailable:'Disponibles', tabActive:'Actives', tabHistory:'Historique',
+    accept:'Accepter', decline:'Refuser', enroute:'En Route', arrived:'Arrivé',
+    startRide:'Démarrer', complete:'Terminer', cancel:'Annuler',
+    noAvailable:'Aucune course disponible pour le moment', noActive:'Aucune course active',
+    noHistory:'Pas encore d\'historique',
+    pickup:'Prise en charge', dropoff:'Dépose', fare:'Tarif',
+    riderInfo:'Passager', call:'Appeler',
+    navHome:'Accueil', navEvents:'Événements', navCreate:'Créer', navRides:'Transport', navAccount:'Compte',
+    errLogin:'Téléphone ou PIN incorrect', errNetwork:'Erreur de connexion'
+  },
+  en: {
+    brand:'Tikè <em>Lakay</em>',
+    loginTitle:'Driver Login', loginSub:'Enter your phone and PIN',
+    phoneLabel:'Phone', loginBtn:'Log In',
+    noAccount:'No account?', registerLink:'Register now',
+    notVerifiedMsg:'Your account is not verified yet. You\'ll be able to accept rides after verification.',
+    earnings:'Earnings (HTG)', totalRides:'Total Rides', rating:'Rating',
+    tabAvailable:'Available', tabActive:'Active', tabHistory:'History',
+    accept:'Accept', decline:'Decline', enroute:'En Route', arrived:'Arrived',
+    startRide:'Start Ride', complete:'Complete', cancel:'Cancel',
+    noAvailable:'No rides available right now', noActive:'No active rides',
+    noHistory:'No ride history yet',
+    pickup:'Pickup', dropoff:'Dropoff', fare:'Fare',
+    riderInfo:'Rider', call:'Call',
+    navHome:'Home', navEvents:'Events', navCreate:'Create', navRides:'Transport', navAccount:'Account',
+    errLogin:'Wrong phone or PIN', errNetwork:'Connection error'
+  },
+  es: {
+    brand:'Tikè <em>Lakay</em>',
+    loginTitle:'Inicio de Sesión Conductor', loginSub:'Ingresa tu teléfono y PIN',
+    phoneLabel:'Teléfono', loginBtn:'Iniciar Sesión',
+    noAccount:'No tienes cuenta?', registerLink:'Regístrate ahora',
+    notVerifiedMsg:'Tu cuenta aún no está verificada. Podrás aceptar viajes después de la verificación.',
+    earnings:'Ingresos (HTG)', totalRides:'Total Viajes', rating:'Calificación',
+    tabAvailable:'Disponibles', tabActive:'Activos', tabHistory:'Historial',
+    accept:'Aceptar', decline:'Rechazar', enroute:'En Camino', arrived:'Llegué',
+    startRide:'Iniciar Viaje', complete:'Completar', cancel:'Cancelar',
+    noAvailable:'No hay viajes disponibles ahora', noActive:'No hay viajes activos',
+    noHistory:'Sin historial de viajes',
+    pickup:'Recogida', dropoff:'Destino', fare:'Tarifa',
+    riderInfo:'Pasajero', call:'Llamar',
+    navHome:'Inicio', navEvents:'Eventos', navCreate:'Crear', navRides:'Transporte', navAccount:'Cuenta',
+    errLogin:'Teléfono o PIN incorrecto', errNetwork:'Error de conexión'
+  }
+};
+
+function t(key){return (translations[currentLang]&&translations[currentLang][key])||translations.ht[key]||key}
+
+function setLang(lang){
+  currentLang=lang;localStorage.setItem('tl_lang',lang);
+  document.querySelectorAll('.lang-bar button').forEach(function(b){b.classList.toggle('active',b.getAttribute('data-lang')===lang)});
+  document.querySelectorAll('[data-i18n]').forEach(function(el){var k=el.getAttribute('data-i18n');var v=t(k);if(v)el.innerHTML=v});
+}
+document.querySelectorAll('.lang-bar button').forEach(function(btn){btn.addEventListener('click',function(){setLang(this.getAttribute('data-lang'))})});
+
+function doLogin(){
+  var phone=document.getElementById('loginPhone').value.trim();
+  var pin=document.getElementById('loginPin').value.trim();
+  var err=document.getElementById('loginError');
+  if(!phone||!pin){err.textContent=t('errLogin');err.classList.add('show');return}
+  err.classList.remove('show');
+
+  fetch(API_URL+'/api/rides/driver/login',{
+    method:'POST',headers:{'Content-Type':'application/json'},
+    body:JSON.stringify({phone:phone,pin:pin})
+  }).then(function(r){return r.json()}).then(function(data){
+    if(data.success){
+      driver=data.driver;
+      localStorage.setItem('msw_driver',JSON.stringify(driver));
+      showDashboard();
+    } else {
+      err.textContent=t('errLogin');err.classList.add('show');
+    }
+  }).catch(function(){err.textContent=t('errNetwork');err.classList.add('show')});
+}
+
+function showDashboard(){
+  document.getElementById('loginScreen').style.display='none';
+  document.getElementById('dashboard').classList.add('show');
+  document.getElementById('driverName').textContent=driver.firstName+' '+driver.lastName;
+  document.getElementById('driverMeta').textContent=(driver.vehicleType==='car'?'🚗':'🏍️')+' '+
+    (driver.vehicleMake||'')+' '+(driver.vehicleModel||'')+' · '+(driver.licensePlate||'');
+
+  updateStatusBtn();
+  if(!driver.verified){document.getElementById('notVerified').style.display=''}
+  loadStats();loadAvailable();loadActive();loadHistory();
+}
+
+function updateStatusBtn(){
+  var btn=document.getElementById('statusToggle');
+  btn.className='status-toggle '+driver.status;
+  var labels={offline:'Offline',available:'Online',busy:'Busy'};
+  btn.textContent=labels[driver.status]||driver.status;
+}
+
+function toggleStatus(){
+  if(!driver.verified)return;
+  var next=driver.status==='available'?'offline':'available';
+  fetch(API_URL+'/api/rides/driver/status',{
+    method:'POST',headers:{'Content-Type':'application/json'},
+    body:JSON.stringify({driverId:driver._id,status:next})
+  }).then(function(r){return r.json()}).then(function(data){
+    if(data.success){driver.status=data.status;updateStatusBtn();localStorage.setItem('msw_driver',JSON.stringify(driver))}
+  }).catch(function(){});
+}
+
+function loadStats(){
+  fetch(API_URL+'/api/rides/driver/stats/'+driver._id)
+    .then(function(r){return r.json()}).then(function(s){
+      document.getElementById('statEarnings').textContent=s.totalEarnings||0;
+      document.getElementById('statRides').textContent=s.totalRides||0;
+      document.getElementById('statRating').textContent=(s.rating||5).toFixed(1);
+    }).catch(function(){});
+}
+
+function loadAvailable(){
+  fetch(API_URL+'/api/rides/driver/available-rides?driverId='+driver._id)
+    .then(function(r){return r.json()}).then(function(rides){
+      var c=document.getElementById('availableRides');
+      if(!rides.length){c.innerHTML='<div class="empty-state"><div class="empty-icon">🔍</div><p>'+t('noAvailable')+'</p></div>';return}
+      c.innerHTML=rides.map(function(r){return renderRideCard(r,'available')}).join('');
+    }).catch(function(){});
+}
+
+function loadActive(){
+  fetch(API_URL+'/api/rides/driver/rides?driverId='+driver._id+'&status=accepted')
+    .then(function(r){return r.json()}).then(function(rides){
+      var c=document.getElementById('activeRides');
+      if(!rides.length){c.innerHTML='<div class="empty-state"><div class="empty-icon">🚗</div><p>'+t('noActive')+'</p></div>';return}
+      c.innerHTML=rides.map(function(r){return renderRideCard(r,'active')}).join('');
+    }).catch(function(){});
+}
+
+function loadHistory(){
+  fetch(API_URL+'/api/rides/driver/rides?driverId='+driver._id)
+    .then(function(r){return r.json()}).then(function(rides){
+      var completed=rides.filter(function(r){return r.status==='completed'||r.status==='cancelled'});
+      var c=document.getElementById('historyRides');
+      if(!completed.length){c.innerHTML='<div class="empty-state"><div class="empty-icon">📋</div><p>'+t('noHistory')+'</p></div>';return}
+      c.innerHTML=completed.map(function(r){return renderRideCard(r,'history')}).join('');
+    }).catch(function(){});
+}
+
+function renderRideCard(ride,mode){
+  var vIcon=ride.vehicleType==='car'?'🚗':'🏍️';
+  var eventHtml=ride.event?'<div class="ride-event">'+(ride.event.typeEmoji||'🎪')+' '+ride.event.title+'</div>':'';
+  var statusMap={accepted:'accepted',driver_enroute:'enroute',arrived:'arrived',in_progress:'in_progress',completed:'completed'};
+  var statusLabel={accepted:t('accept'),driver_enroute:t('enroute'),arrived:t('arrived'),in_progress:'En cours',completed:t('complete')};
+  var actions='';
+
+  if(mode==='available'){
+    actions='<div class="ride-actions">'+
+      '<button class="ride-btn accept" onclick="acceptRide(\''+ride._id+'\')">'+t('accept')+'</button>'+
+      '</div>';
+  } else if(mode==='active'){
+    var nextMap={accepted:'driver_enroute',driver_enroute:'arrived',arrived:'in_progress',in_progress:'completed'};
+    var nextLabel={accepted:t('enroute'),driver_enroute:t('arrived'),arrived:t('startRide'),in_progress:t('complete')};
+    var nextStatus=nextMap[ride.status];
+    var btnClass=ride.status==='in_progress'?'complete':'update';
+    actions='<div class="ride-actions">'+
+      (nextStatus?'<button class="ride-btn '+btnClass+'" onclick="updateRide(\''+ride._id+'\',\''+nextStatus+'\')">'+nextLabel[ride.status]+'</button>':'')+
+      '<button class="ride-btn cancel" onclick="cancelRide(\''+ride._id+'\')">'+t('cancel')+'</button>'+
+      '</div>'+
+      '<div style="margin-top:8px;font-size:.75rem;color:var(--text-light)">'+t('riderInfo')+': '+ride.riderName+' · <a href="tel:'+ride.riderPhone+'" style="color:var(--blue);font-weight:700">'+t('call')+' '+ride.riderPhone+'</a></div>';
+  }
+
+  return '<div class="ride-card">'+
+    '<div class="ride-card-header">'+
+      '<div class="ride-vehicle">'+vIcon+' '+(ride.vehicleType==='car'?t('accept').substring(0,0)+'Machin':'Moto')+'</div>'+
+      '<div class="ride-time">'+ride.scheduledDate+' · '+ride.scheduledTime+'</div>'+
+    '</div>'+
+    eventHtml+
+    '<div class="ride-route">'+
+      '<div class="ride-point"><div class="ride-dot"></div><div class="ride-addr">'+ride.pickupAddress+'</div></div>'+
+      '<div class="ride-line"></div>'+
+      '<div class="ride-point"><div class="ride-dot dest"></div><div class="ride-addr">'+ride.dropoffAddress+'</div></div>'+
+    '</div>'+
+    '<div class="ride-footer">'+
+      '<div class="ride-fare">'+(ride.estimatedFare||0)+' HTG</div>'+
+      (mode==='history'?'<div class="ride-status-badge '+(statusMap[ride.status]||'')+'">'+(statusLabel[ride.status]||ride.status)+'</div>':'<div class="ride-rider">'+ride.riderName+'</div>')+
+    '</div>'+
+    actions+
+    '</div>';
+}
+
+function acceptRide(rideId){
+  fetch(API_URL+'/api/rides/driver/accept/'+rideId,{
+    method:'POST',headers:{'Content-Type':'application/json'},
+    body:JSON.stringify({driverId:driver._id})
+  }).then(function(r){return r.json()}).then(function(data){
+    if(data.success){driver.status='busy';updateStatusBtn();loadAvailable();loadActive()}
+  }).catch(function(){});
+}
+
+function updateRide(rideId,status){
+  fetch(API_URL+'/api/rides/driver/update-ride/'+rideId,{
+    method:'POST',headers:{'Content-Type':'application/json'},
+    body:JSON.stringify({driverId:driver._id,status:status})
+  }).then(function(r){return r.json()}).then(function(data){
+    if(data.success){
+      if(status==='completed'){driver.status='available';updateStatusBtn();loadStats()}
+      loadActive();loadHistory();
+    }
+  }).catch(function(){});
+}
+
+function cancelRide(rideId){
+  fetch(API_URL+'/api/rides/driver/update-ride/'+rideId,{
+    method:'POST',headers:{'Content-Type':'application/json'},
+    body:JSON.stringify({driverId:driver._id,status:'cancelled'})
+  }).then(function(r){return r.json()}).then(function(data){
+    if(data.success){driver.status='available';updateStatusBtn();loadActive();loadHistory()}
+  }).catch(function(){});
+}
+
+function switchTab(tab){
+  document.querySelectorAll('.tab-btn').forEach(function(b,i){b.classList.toggle('active',['available','active','history'][i]===tab)});
+  document.querySelectorAll('.tab-content').forEach(function(c){c.classList.remove('active')});
+  document.getElementById('tab'+tab.charAt(0).toUpperCase()+tab.slice(1)).classList.add('active');
+}
+
+(function init(){
+  setLang(currentLang);
+  var saved=localStorage.getItem('msw_driver');
+  if(saved){
+    try{driver=JSON.parse(saved);showDashboard()}catch(e){}
+  }
+})();
+</script>
+</body>
+</html>

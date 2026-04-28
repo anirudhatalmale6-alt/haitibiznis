@@ -1,0 +1,855 @@
+<!DOCTYPE html>
+<html lang="ht">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Devni Chofè — M Sou Wout | HaitiBiznis</title>
+<meta name="description" content="Enskri kòm chofè MsouWout. Touche lajan chak jou ak machin oswa moto ou nan Ayiti.">
+<meta name="theme-color" content="#0A0E1A">
+<link rel="icon" type="image/x-icon" href="favicon.ico">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --blue:#00209F;--blue-deep:#001566;--blue-light:#0A3ACC;
+  --red:#D21034;--red-dark:#B00D2C;--red-glow:rgba(210,16,52,.15);
+  --gold:#D4A017;--gold-light:#E8B82E;--gold-soft:#FDF3D7;--gold-glow:rgba(212,160,23,.2);
+  --green:#1B8C3D;--green-light:#E8F5E9;
+  --white:#FFFFFF;--off-white:#F5F7FA;--cream:#FAFBFD;
+  --dark:#0A0E1A;--text:#1A2A4A;--text-light:#5A6B8A;--text-muted:#8A95AA;
+  --border:#E2E8F0;--border-light:#F0F3F7;
+  --body:'Plus Jakarta Sans',system-ui,sans-serif;
+  --display:'DM Serif Display',Georgia,serif;
+  --shadow-sm:0 1px 3px rgba(10,14,26,.06);
+  --shadow-md:0 4px 16px rgba(10,14,26,.08);
+  --shadow-lg:0 12px 40px rgba(10,14,26,.12);
+  --radius:14px;--radius-lg:20px;
+}
+html{scroll-behavior:smooth}
+body{font-family:var(--body);background:var(--off-white);color:var(--text);overflow-x:hidden;-webkit-font-smoothing:antialiased;padding-bottom:56px}
+a{text-decoration:none;color:inherit}
+button{font-family:var(--body);cursor:pointer;border:none;background:none}
+img{max-width:100%;display:block}
+input,textarea,select{font-family:var(--body)}
+
+.flag-stripe{height:4px;background:linear-gradient(90deg,var(--blue) 50%,var(--red) 50%);position:relative;z-index:1002}
+
+.header{
+  position:sticky;top:0;z-index:100;
+  background:rgba(255,255,255,.95);backdrop-filter:blur(16px);
+  border-bottom:1px solid var(--border);padding:0 16px;height:56px;
+  display:flex;align-items:center;justify-content:space-between;
+}
+.header-left{display:flex;align-items:center;gap:10px}
+.header-left img{height:30px;border-radius:5px}
+.header-left span{font-family:var(--display);font-size:1rem;color:var(--dark)}
+.header-left span em{color:var(--red);font-style:italic}
+.header-back{
+  display:flex;align-items:center;gap:6px;
+  font-size:.76rem;font-weight:600;color:var(--text-light);
+  padding:7px 14px;border-radius:10px;border:1px solid var(--border);
+  transition:all .2s;
+}
+.header-back:hover{background:var(--off-white);border-color:var(--text-muted);color:var(--blue)}
+.header-back svg{width:16px;height:16px}
+
+.lang-bar{
+  display:flex;justify-content:center;gap:2px;padding:6px 16px;
+  background:var(--white);border-bottom:1px solid var(--border-light);
+}
+.lang-bar button{
+  padding:4px 12px;border-radius:6px;font-size:.68rem;font-weight:700;
+  color:var(--text-muted);letter-spacing:.06em;transition:all .2s;
+}
+.lang-bar button.active{background:var(--dark);color:var(--white)}
+.lang-bar button:hover:not(.active){background:var(--off-white);color:var(--text)}
+
+/* ═══ HERO ═══ */
+.hero{
+  position:relative;overflow:hidden;padding:40px 20px 52px;text-align:center;
+  background:linear-gradient(165deg,var(--dark) 0%,#10182e 35%,#1a2650 65%,#243060 100%);
+}
+.hero::before{
+  content:'';position:absolute;inset:0;
+  background:
+    radial-gradient(ellipse 500px 350px at 30% 90%, rgba(212,160,23,.18) 0%, transparent 70%),
+    radial-gradient(ellipse 400px 400px at 75% 15%, rgba(212,160,23,.08) 0%, transparent 70%);
+  pointer-events:none;
+}
+.hero::after{
+  content:'';position:absolute;bottom:0;left:0;right:0;height:50px;
+  background:linear-gradient(180deg,transparent,var(--off-white));
+  pointer-events:none;z-index:2;
+}
+.hero-coins{
+  position:absolute;inset:0;pointer-events:none;overflow:hidden;
+}
+.coin{
+  position:absolute;width:8px;height:8px;border-radius:50%;
+  background:var(--gold);opacity:.15;
+  animation:coinDrift 6s ease-in-out infinite;
+}
+.coin:nth-child(1){left:10%;top:25%;animation-delay:0s;width:6px;height:6px}
+.coin:nth-child(2){left:25%;top:60%;animation-delay:1.2s;width:10px;height:10px;opacity:.1}
+.coin:nth-child(3){right:15%;top:20%;animation-delay:2.4s}
+.coin:nth-child(4){right:30%;top:55%;animation-delay:.6s;width:5px;height:5px;opacity:.12}
+.coin:nth-child(5){left:50%;top:35%;animation-delay:1.8s;width:4px;height:4px;opacity:.1}
+.coin:nth-child(6){right:10%;top:70%;animation-delay:3s;width:7px;height:7px;opacity:.08}
+@keyframes coinDrift{
+  0%,100%{transform:translateY(0) scale(1);opacity:.15}
+  50%{transform:translateY(-12px) scale(1.3);opacity:.3}
+}
+
+.hero-content{position:relative;z-index:1}
+.hero-emoji{font-size:2.8rem;margin-bottom:10px;display:inline-block;animation:heroGrow .5s ease-out}
+@keyframes heroGrow{from{transform:scale(.6);opacity:0}to{transform:scale(1);opacity:1}}
+.hero h1{
+  font-family:var(--display);font-size:2rem;color:var(--white);
+  margin-bottom:8px;line-height:1.15;
+}
+.hero h1 em{color:var(--gold);font-style:italic}
+.hero-sub{
+  font-size:.85rem;color:rgba(255,255,255,.55);font-weight:500;
+  max-width:300px;margin:0 auto 20px;line-height:1.5;
+}
+.hero-benefits{display:flex;justify-content:center;gap:8px;flex-wrap:wrap}
+.benefit-pill{
+  display:flex;align-items:center;gap:5px;
+  padding:7px 14px;border-radius:30px;
+  background:rgba(212,160,23,.12);border:1px solid rgba(212,160,23,.2);
+  color:var(--gold-light);font-size:.72rem;font-weight:700;
+  letter-spacing:.02em;
+}
+
+/* ═══ FORM ═══ */
+.form-section{
+  padding:0 16px;margin-top:-24px;position:relative;z-index:3;
+}
+.form-card{
+  max-width:480px;margin:0 auto;
+  background:var(--white);border-radius:var(--radius-lg);
+  box-shadow:var(--shadow-lg),0 0 0 1px rgba(0,0,0,.04);
+  padding:24px 20px 28px;
+  animation:cardUp .5s ease-out;
+}
+@keyframes cardUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
+
+.form-section-title{
+  font-weight:800;font-size:.82rem;color:var(--dark);
+  text-transform:uppercase;letter-spacing:.06em;
+  padding-bottom:10px;margin-bottom:16px;margin-top:24px;
+  border-bottom:2px solid var(--border-light);
+  display:flex;align-items:center;gap:8px;
+}
+.form-section-title:first-child{margin-top:0}
+.form-section-title .fs-icon{font-size:1rem}
+
+.form-row{display:flex;gap:10px}
+.form-row .form-group{flex:1}
+
+.form-group{margin-bottom:14px;position:relative}
+.form-group label{
+  display:block;font-size:.72rem;font-weight:700;
+  color:var(--text-light);text-transform:uppercase;
+  letter-spacing:.06em;margin-bottom:6px;
+}
+.input-wrap{
+  position:relative;display:flex;align-items:center;
+  border:2px solid var(--border);border-radius:12px;
+  transition:border-color .2s,box-shadow .2s;background:var(--white);
+}
+.input-wrap:focus-within{
+  border-color:var(--gold);
+  box-shadow:0 0 0 3px rgba(212,160,23,.12);
+}
+.input-icon{
+  position:absolute;left:14px;font-size:1rem;
+  pointer-events:none;z-index:1;
+}
+.input-wrap input,.input-wrap select{
+  width:100%;padding:13px 14px 13px 42px;border:none;outline:none;
+  font-size:.88rem;font-weight:500;color:var(--text);
+  border-radius:12px;background:transparent;
+}
+.input-wrap input::placeholder{color:var(--text-muted);font-weight:400}
+.input-wrap select{appearance:none;cursor:pointer}
+.input-wrap .select-arrow{
+  position:absolute;right:14px;pointer-events:none;
+  color:var(--text-muted);
+}
+
+.vehicle-toggle{
+  display:flex;gap:4px;padding:4px;border-radius:14px;
+  background:var(--off-white);margin-bottom:16px;
+  border:1px solid var(--border-light);
+}
+.vehicle-btn{
+  flex:1;display:flex;align-items:center;justify-content:center;gap:8px;
+  padding:14px;border-radius:11px;font-size:.85rem;font-weight:700;
+  color:var(--text-muted);transition:all .3s ease;
+}
+.vehicle-btn.active{
+  background:var(--white);color:var(--dark);
+  box-shadow:0 2px 8px rgba(0,0,0,.08),0 0 0 1px rgba(0,0,0,.04);
+}
+.vehicle-btn .v-icon{font-size:1.3rem;transition:transform .3s}
+.vehicle-btn.active .v-icon{transform:scale(1.15)}
+
+.submit-btn{
+  width:100%;padding:16px;border-radius:14px;margin-top:8px;
+  background:linear-gradient(135deg,var(--gold),var(--gold-light));
+  color:var(--dark);font-size:1rem;font-weight:800;
+  display:flex;align-items:center;justify-content:center;gap:8px;
+  box-shadow:0 4px 16px rgba(212,160,23,.3);
+  transition:all .25s;position:relative;overflow:hidden;
+}
+.submit-btn:hover{transform:translateY(-1px);box-shadow:0 6px 24px rgba(212,160,23,.4)}
+.submit-btn:active{transform:translateY(0)}
+.submit-btn.loading{pointer-events:none;opacity:.85}
+.submit-btn .btn-spinner{
+  width:20px;height:20px;border:2.5px solid rgba(10,14,26,.2);
+  border-top-color:var(--dark);border-radius:50%;
+  animation:spin .6s linear infinite;display:none;
+}
+.submit-btn.loading .btn-spinner{display:block}
+.submit-btn.loading .btn-text{display:none}
+@keyframes spin{to{transform:rotate(360deg)}}
+
+.form-error{
+  display:none;margin-top:10px;padding:10px 14px;border-radius:10px;
+  background:var(--red-glow);color:var(--red);
+  font-size:.78rem;font-weight:600;text-align:center;
+}
+.form-error.show{display:block}
+
+/* ═══ REQUIREMENTS ═══ */
+.req-section{
+  padding:40px 16px;max-width:500px;margin:0 auto;
+}
+.req-title{
+  font-family:var(--display);font-size:1.4rem;color:var(--dark);
+  text-align:center;margin-bottom:6px;
+}
+.req-sub{
+  text-align:center;font-size:.8rem;color:var(--text-light);
+  margin-bottom:24px;font-weight:500;
+}
+.req-list{display:flex;flex-direction:column;gap:12px}
+.req-item{
+  display:flex;align-items:center;gap:14px;
+  padding:16px;border-radius:var(--radius);
+  background:var(--white);box-shadow:var(--shadow-sm);
+  border:1px solid var(--border-light);
+  transition:transform .2s;
+}
+.req-item:hover{transform:translateX(4px)}
+.req-icon{
+  width:42px;height:42px;border-radius:11px;flex-shrink:0;
+  display:flex;align-items:center;justify-content:center;
+  font-size:1.2rem;
+}
+.req-item:nth-child(1) .req-icon{background:linear-gradient(135deg,var(--blue),var(--blue-light));color:#fff}
+.req-item:nth-child(2) .req-icon{background:linear-gradient(135deg,var(--gold),var(--gold-light))}
+.req-item:nth-child(3) .req-icon{background:linear-gradient(135deg,var(--green),#2aa04e);color:#fff}
+.req-item:nth-child(4) .req-icon{background:linear-gradient(135deg,var(--red),var(--red-dark));color:#fff}
+.req-text{flex:1}
+.req-text-title{font-weight:700;font-size:.85rem;color:var(--dark);margin-bottom:2px}
+.req-text-desc{font-size:.74rem;color:var(--text-light);font-weight:500;line-height:1.4}
+
+/* ═══ SUCCESS OVERLAY ═══ */
+.success-overlay{
+  display:none;position:fixed;inset:0;z-index:200;
+  background:rgba(10,14,26,.75);backdrop-filter:blur(10px);
+  align-items:center;justify-content:center;padding:20px;
+}
+.success-overlay.show{display:flex}
+.success-card{
+  background:var(--white);border-radius:var(--radius-lg);
+  padding:32px 24px;max-width:400px;width:100%;
+  text-align:center;box-shadow:0 20px 60px rgba(0,0,0,.3);
+  animation:successPop .4s cubic-bezier(.34,1.56,.64,1);
+}
+@keyframes successPop{from{opacity:0;transform:scale(.8) translateY(20px)}to{opacity:1;transform:scale(1) translateY(0)}}
+
+.success-icon{
+  width:68px;height:68px;border-radius:50%;margin:0 auto 16px;
+  background:linear-gradient(135deg,var(--gold),var(--gold-light));
+  display:flex;align-items:center;justify-content:center;
+  box-shadow:0 4px 20px rgba(212,160,23,.35);
+  font-size:2rem;
+}
+.success-card h3{font-family:var(--display);font-size:1.4rem;color:var(--dark);margin-bottom:6px}
+.success-card .success-sub{font-size:.82rem;color:var(--text-light);margin-bottom:20px;font-weight:500;line-height:1.5}
+
+.pin-display{
+  margin:0 auto 20px;padding:20px;border-radius:14px;
+  background:linear-gradient(135deg,#fffbe6,var(--gold-soft));
+  border:2px solid rgba(212,160,23,.25);
+  max-width:260px;
+}
+.pin-label{font-size:.7rem;font-weight:700;color:var(--gold);text-transform:uppercase;letter-spacing:.08em;margin-bottom:8px}
+.pin-code{
+  font-size:2.2rem;font-weight:900;letter-spacing:.3em;
+  color:var(--dark);font-family:var(--body);
+}
+.pin-warning{
+  font-size:.7rem;color:var(--red);font-weight:600;margin-top:8px;
+  display:flex;align-items:center;justify-content:center;gap:4px;
+}
+
+.success-info{
+  text-align:left;padding:14px;border-radius:12px;
+  background:var(--off-white);border:1px solid var(--border-light);
+  margin-bottom:20px;
+}
+.success-row{
+  display:flex;justify-content:space-between;padding:5px 0;font-size:.78rem;
+}
+.success-row .s-label{color:var(--text-light);font-weight:500}
+.success-row .s-value{font-weight:700;color:var(--text)}
+.success-status{
+  display:inline-flex;align-items:center;gap:4px;
+  padding:3px 10px;border-radius:8px;font-size:.68rem;font-weight:700;
+  background:var(--gold-soft);color:var(--gold);
+  text-transform:uppercase;letter-spacing:.04em;
+}
+
+.success-actions{display:flex;gap:10px}
+.success-actions a,.success-actions button{
+  flex:1;padding:12px;border-radius:10px;font-size:.82rem;font-weight:700;
+  transition:all .2s;text-align:center;
+}
+.success-actions .btn-primary{
+  background:linear-gradient(135deg,var(--gold),var(--gold-light));
+  color:var(--dark);box-shadow:0 2px 8px rgba(212,160,23,.2);
+}
+.success-actions .btn-secondary{
+  background:var(--off-white);color:var(--text);border:1px solid var(--border);
+}
+
+/* ═══ BOTTOM NAV ═══ */
+.bottom-nav{
+  position:fixed;bottom:0;left:0;right:0;z-index:100;
+  background:rgba(255,255,255,.95);backdrop-filter:blur(16px);
+  border-top:1px solid var(--border);display:flex;height:56px;
+}
+.bottom-nav a{
+  flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;
+  color:var(--text-muted);font-size:.6rem;font-weight:600;transition:color .2s;
+  text-transform:uppercase;letter-spacing:.04em;
+}
+.bottom-nav a.active{color:var(--blue)}
+.bottom-nav a svg{width:22px;height:22px}
+.bottom-nav .create-tab{position:relative;margin-top:-12px}
+.bottom-nav .create-dot{
+  width:44px;height:44px;border-radius:14px;
+  background:linear-gradient(135deg,var(--red),var(--red-dark));
+  display:flex;align-items:center;justify-content:center;
+  box-shadow:0 4px 16px rgba(210,16,52,.3);
+}
+.bottom-nav .create-dot svg{color:#fff}
+
+.reveal{opacity:0;transform:translateY(16px);transition:opacity .45s ease,transform .45s ease}
+.reveal.visible{opacity:1;transform:translateY(0)}
+.reveal-d1{transition-delay:.1s}
+.reveal-d2{transition-delay:.2s}
+.reveal-d3{transition-delay:.3s}
+
+@media(min-width:768px){
+  .hero h1{font-size:2.4rem}
+  .form-card{padding:32px 28px 36px}
+  .req-list{flex-direction:row;flex-wrap:wrap}
+  .req-item{flex:1 1 calc(50% - 6px);min-width:200px}
+  .bottom-nav{display:none}
+  body{padding-bottom:0}
+}
+</style>
+</head>
+<body>
+<div class="flag-stripe"></div>
+
+<header class="header">
+  <a href="events.html" class="header-left">
+    <img src="assets/events-logo.png" alt="Tikè Lakay">
+    <span data-i18n="brand">Tikè <em>Lakay</em></span>
+  </a>
+  <a href="msouwout.html" class="header-back">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polyline points="15 18 9 12 15 6"/></svg>
+    <span data-i18n="backRides">M Sou Wout</span>
+  </a>
+</header>
+
+<div class="lang-bar">
+  <button class="active" data-lang="ht">HT</button>
+  <button data-lang="fr">FR</button>
+  <button data-lang="en">EN</button>
+  <button data-lang="es">ES</button>
+</div>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-coins">
+    <div class="coin"></div><div class="coin"></div><div class="coin"></div>
+    <div class="coin"></div><div class="coin"></div><div class="coin"></div>
+  </div>
+  <div class="hero-content">
+    <div class="hero-emoji">🚘</div>
+    <h1>Devni Chofè <em>MsouWout</em></h1>
+    <p class="hero-sub" data-i18n="heroSub">Touche lajan chak jou ak machin oswa moto ou</p>
+    <div class="hero-benefits">
+      <div class="benefit-pill"><span>💰</span> <span data-i18n="benefit1">Touche Chak Jou</span></div>
+      <div class="benefit-pill"><span>⏰</span> <span data-i18n="benefit2">Orè Fleksib</span></div>
+      <div class="benefit-pill"><span>📱</span> <span data-i18n="benefit3">Aplikasyon Senp</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- REGISTRATION FORM -->
+<div class="form-section">
+  <div class="form-card">
+
+    <div class="form-section-title" data-i18n="personalInfo"><span class="fs-icon">👤</span> Enfòmasyon Pèsonèl</div>
+
+    <div class="form-row">
+      <div class="form-group">
+        <label data-i18n="firstNameLabel">Premye non</label>
+        <div class="input-wrap">
+          <span class="input-icon">✏️</span>
+          <input type="text" id="firstName" data-i18n-ph="firstNamePh" placeholder="Premye non...">
+        </div>
+      </div>
+      <div class="form-group">
+        <label data-i18n="lastNameLabel">Siyati</label>
+        <div class="input-wrap">
+          <span class="input-icon">✏️</span>
+          <input type="text" id="lastName" data-i18n-ph="lastNamePh" placeholder="Siyati...">
+        </div>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label data-i18n="phoneLabel">Telefòn</label>
+      <div class="input-wrap">
+        <span class="input-icon">📱</span>
+        <input type="tel" id="driverPhone" data-i18n-ph="phonePh" placeholder="+509 ...">
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label data-i18n="emailLabel">Imèl (opsyonèl)</label>
+      <div class="input-wrap">
+        <span class="input-icon">📧</span>
+        <input type="email" id="driverEmail" data-i18n-ph="emailPh" placeholder="email@example.com">
+      </div>
+    </div>
+
+    <div class="form-section-title" data-i18n="vehicleInfo"><span class="fs-icon">🚗</span> Enfòmasyon Machin</div>
+
+    <div class="vehicle-toggle">
+      <button class="vehicle-btn active" data-type="car" onclick="setVehicle('car')">
+        <span class="v-icon">🚗</span>
+        <span data-i18n="car">Machin</span>
+      </button>
+      <button class="vehicle-btn" data-type="moto" onclick="setVehicle('moto')">
+        <span class="v-icon">🏍️</span>
+        <span data-i18n="moto">Moto</span>
+      </button>
+    </div>
+
+    <div class="form-row">
+      <div class="form-group">
+        <label data-i18n="makeLabel">Mak</label>
+        <div class="input-wrap">
+          <span class="input-icon">🏭</span>
+          <input type="text" id="vehicleMake" data-i18n-ph="makePh" placeholder="Toyota, Honda...">
+        </div>
+      </div>
+      <div class="form-group">
+        <label data-i18n="modelLabel">Modèl</label>
+        <div class="input-wrap">
+          <span class="input-icon">📋</span>
+          <input type="text" id="vehicleModel" data-i18n-ph="modelPh" placeholder="Corolla, Civic...">
+        </div>
+      </div>
+    </div>
+
+    <div class="form-row">
+      <div class="form-group">
+        <label data-i18n="colorLabel">Koulè</label>
+        <div class="input-wrap">
+          <span class="input-icon">🎨</span>
+          <input type="text" id="vehicleColor" data-i18n-ph="colorPh" placeholder="Nwa, Blan...">
+        </div>
+      </div>
+      <div class="form-group">
+        <label data-i18n="plateLabel">Plak</label>
+        <div class="input-wrap">
+          <span class="input-icon">🔢</span>
+          <input type="text" id="licensePlate" data-i18n-ph="platePh" placeholder="AA-00000">
+        </div>
+      </div>
+    </div>
+
+    <div class="form-section-title" data-i18n="zoneInfo"><span class="fs-icon">📍</span> Zòn Travay</div>
+
+    <div class="form-group">
+      <label data-i18n="zoneLabel">Zòn prensipal ou</label>
+      <div class="input-wrap">
+        <span class="input-icon">🗺️</span>
+        <select id="driverZone">
+          <option value="Port-au-Prince">Port-au-Prince</option>
+          <option value="Pétion-Ville">Pétion-Ville</option>
+          <option value="Delmas">Delmas</option>
+          <option value="Cap-Haïtien">Cap-Haïtien</option>
+          <option value="Les Cayes">Les Cayes</option>
+          <option value="Jacmel">Jacmel</option>
+          <option value="Gonaïves">Gonaïves</option>
+          <option value="Lòt" data-i18n="otherZone">Lòt</option>
+        </select>
+        <span class="select-arrow">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polyline points="6 9 12 15 18 9"/></svg>
+        </span>
+      </div>
+    </div>
+
+    <button class="submit-btn" id="submitBtn" onclick="submitRegistration()">
+      <div class="btn-spinner"></div>
+      <span class="btn-text" data-i18n="submitReg">Soumèt Enskripsyon</span>
+    </button>
+
+    <div class="form-error" id="formError"></div>
+  </div>
+</div>
+
+<!-- REQUIREMENTS -->
+<section class="req-section">
+  <h2 class="req-title reveal" data-i18n="reqTitle">Kisa ou bezwen?</h2>
+  <p class="req-sub reveal reveal-d1" data-i18n="reqSub">Verifye ou gen tout sa anvan ou enskri</p>
+  <div class="req-list">
+    <div class="req-item reveal reveal-d1">
+      <div class="req-icon">🪪</div>
+      <div class="req-text">
+        <div class="req-text-title" data-i18n="req1Title">Pyès idantite oswa pèmi</div>
+        <div class="req-text-desc" data-i18n="req1Desc">Yon pyès idantite valab oswa pèmi kondui</div>
+      </div>
+    </div>
+    <div class="req-item reveal reveal-d2">
+      <div class="req-icon">🔧</div>
+      <div class="req-text">
+        <div class="req-text-title" data-i18n="req2Title">Machin nan bon eta</div>
+        <div class="req-text-desc" data-i18n="req2Desc">Machin oswa moto ou dwe an bon kondisyon</div>
+      </div>
+    </div>
+    <div class="req-item reveal reveal-d2">
+      <div class="req-icon">📱</div>
+      <div class="req-text">
+        <div class="req-text-title" data-i18n="req3Title">Telefòn ak entènèt</div>
+        <div class="req-text-desc" data-i18n="req3Desc">Yon telefòn ki gen data pou resevwa kous</div>
+      </div>
+    </div>
+    <div class="req-item reveal reveal-d3">
+      <div class="req-icon">🗺️</div>
+      <div class="req-text">
+        <div class="req-text-title" data-i18n="req4Title">Konnen wout lokal yo</div>
+        <div class="req-text-desc" data-i18n="req4Desc">Bon konesans zòn kote ou pral travay</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SUCCESS OVERLAY -->
+<div class="success-overlay" id="successOverlay">
+  <div class="success-card">
+    <div class="success-icon">🎉</div>
+    <h3 data-i18n="successTitle">Enskripsyon Soumèt!</h3>
+    <p class="success-sub" data-i18n="successSub">N ap verifye enfòmasyon ou. Ou pral resevwa yon notifikasyon lè kont ou aktive.</p>
+
+    <div class="pin-display">
+      <div class="pin-label" data-i18n="pinLabel">PIN pou konekte</div>
+      <div class="pin-code" id="pinCode">----</div>
+      <div class="pin-warning">⚠️ <span data-i18n="pinWarning">Ekri PIN sa a! Ou pral bezwen li pou konekte.</span></div>
+    </div>
+
+    <div class="success-info">
+      <div class="success-row">
+        <span class="s-label" data-i18n="driverIdLabel">ID Chofè</span>
+        <span class="s-value" id="successDriverId">--</span>
+      </div>
+      <div class="success-row">
+        <span class="s-label">Status</span>
+        <span class="s-value"><span class="success-status" data-i18n="statusPending">An Atant Verifikasyon</span></span>
+      </div>
+    </div>
+
+    <div class="success-actions">
+      <a href="driver-dashboard.html" class="btn-primary" data-i18n="goDashboard">Ale nan Dashboard</a>
+      <button class="btn-secondary" onclick="closeSuccess()" data-i18n="close">Fèmen</button>
+    </div>
+  </div>
+</div>
+
+<!-- BOTTOM NAV -->
+<nav class="bottom-nav">
+  <a href="events.html">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+    <span data-i18n="navHome">Akèy</span>
+  </a>
+  <a href="events.html">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>
+    <span data-i18n="navEvents">Evènman</span>
+  </a>
+  <a href="create-event.html" class="create-tab">
+    <div class="create-dot">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" style="width:22px;height:22px"><path d="M12 5v14M5 12h14"/></svg>
+    </div>
+    <span style="margin-top:4px" data-i18n="navCreate">Kreye</span>
+  </a>
+  <a href="msouwout.html" class="active">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+    <span data-i18n="navRides">Transpò</span>
+  </a>
+  <a href="#">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+    <span data-i18n="navAccount">Kont</span>
+  </a>
+</nav>
+
+<script>
+var API_URL = 'https://haitibiznis-api.onrender.com';
+var currentLang = localStorage.getItem('tl_lang') || 'ht';
+var selectedVehicle = 'car';
+
+var translations = {
+  ht: {
+    brand:'Tikè <em>Lakay</em>', backRides:'M Sou Wout',
+    heroSub:'Touche lajan chak jou ak machin oswa moto ou',
+    benefit1:'Touche Chak Jou', benefit2:'Orè Fleksib', benefit3:'Aplikasyon Senp',
+    personalInfo:'<span class="fs-icon">👤</span> Enfòmasyon Pèsonèl',
+    firstNameLabel:'Premye non', firstNamePh:'Premye non...',
+    lastNameLabel:'Siyati', lastNamePh:'Siyati...',
+    phoneLabel:'Telefòn', phonePh:'+509 ...',
+    emailLabel:'Imèl (opsyonèl)', emailPh:'email@example.com',
+    vehicleInfo:'<span class="fs-icon">🚗</span> Enfòmasyon Machin',
+    car:'Machin', moto:'Moto',
+    makeLabel:'Mak', makePh:'Toyota, Honda...',
+    modelLabel:'Modèl', modelPh:'Corolla, Civic...',
+    colorLabel:'Koulè', colorPh:'Nwa, Blan...',
+    plateLabel:'Plak', platePh:'AA-00000',
+    zoneInfo:'<span class="fs-icon">📍</span> Zòn Travay',
+    zoneLabel:'Zòn prensipal ou', otherZone:'Lòt',
+    submitReg:'Soumèt Enskripsyon',
+    reqTitle:'Kisa ou bezwen?', reqSub:'Verifye ou gen tout sa anvan ou enskri',
+    req1Title:'Pyès idantite oswa pèmi', req1Desc:'Yon pyès idantite valab oswa pèmi kondui',
+    req2Title:'Machin nan bon eta', req2Desc:'Machin oswa moto ou dwe an bon kondisyon',
+    req3Title:'Telefòn ak entènèt', req3Desc:'Yon telefòn ki gen data pou resevwa kous',
+    req4Title:'Konnen wout lokal yo', req4Desc:'Bon konesans zòn kote ou pral travay',
+    successTitle:'Enskripsyon Soumèt!', successSub:'N ap verifye enfòmasyon ou. Ou pral resevwa yon notifikasyon lè kont ou aktive.',
+    pinLabel:'PIN pou konekte', pinWarning:'Ekri PIN sa a! Ou pral bezwen li pou konekte.',
+    driverIdLabel:'ID Chofè', statusPending:'An Atant Verifikasyon',
+    goDashboard:'Ale nan Dashboard', close:'Fèmen',
+    navHome:'Akèy', navEvents:'Evènman', navCreate:'Kreye', navRides:'Transpò', navAccount:'Kont',
+    errRequired:'Tanpri ranpli tout chan obligatwa yo',
+    errNetwork:'Erè koneksyon. Eseye ankò.',
+    errDuplicate:'Nimewo telefòn sa a deja enskri'
+  },
+  fr: {
+    brand:'Tikè <em>Lakay</em>', backRides:'M Sou Wout',
+    heroSub:'Gagnez de l\'argent chaque jour avec votre voiture ou moto',
+    benefit1:'Gagner Chaque Jour', benefit2:'Horaire Flexible', benefit3:'App Simple',
+    personalInfo:'<span class="fs-icon">👤</span> Informations Personnelles',
+    firstNameLabel:'Prénom', firstNamePh:'Prénom...',
+    lastNameLabel:'Nom', lastNamePh:'Nom de famille...',
+    phoneLabel:'Téléphone', phonePh:'+509 ...',
+    emailLabel:'Email (optionnel)', emailPh:'email@example.com',
+    vehicleInfo:'<span class="fs-icon">🚗</span> Informations Véhicule',
+    car:'Voiture', moto:'Moto',
+    makeLabel:'Marque', makePh:'Toyota, Honda...',
+    modelLabel:'Modèle', modelPh:'Corolla, Civic...',
+    colorLabel:'Couleur', colorPh:'Noir, Blanc...',
+    plateLabel:'Plaque', platePh:'AA-00000',
+    zoneInfo:'<span class="fs-icon">📍</span> Zone de Travail',
+    zoneLabel:'Votre zone principale', otherZone:'Autre',
+    submitReg:'Soumettre l\'Inscription',
+    reqTitle:'Ce qu\'il vous faut', reqSub:'Vérifiez que vous avez tout avant de vous inscrire',
+    req1Title:'Pièce d\'identité ou permis', req1Desc:'Un document d\'identité valide ou permis de conduire',
+    req2Title:'Véhicule en bon état', req2Desc:'Votre voiture ou moto doit être en bonne condition',
+    req3Title:'Téléphone avec internet', req3Desc:'Un téléphone avec données pour recevoir les courses',
+    req4Title:'Connaissance des routes', req4Desc:'Bonne connaissance de votre zone de travail',
+    successTitle:'Inscription Soumise!', successSub:'Nous vérifions vos informations. Vous recevrez une notification quand votre compte sera activé.',
+    pinLabel:'PIN de connexion', pinWarning:'Notez ce PIN! Vous en aurez besoin pour vous connecter.',
+    driverIdLabel:'ID Chauffeur', statusPending:'En Attente de Vérification',
+    goDashboard:'Aller au Dashboard', close:'Fermer',
+    navHome:'Accueil', navEvents:'Événements', navCreate:'Créer', navRides:'Transport', navAccount:'Compte',
+    errRequired:'Veuillez remplir tous les champs obligatoires',
+    errNetwork:'Erreur de connexion. Réessayez.',
+    errDuplicate:'Ce numéro de téléphone est déjà inscrit'
+  },
+  en: {
+    brand:'Tikè <em>Lakay</em>', backRides:'M Sou Wout',
+    heroSub:'Earn money every day with your car or moto',
+    benefit1:'Earn Daily', benefit2:'Flexible Hours', benefit3:'Simple App',
+    personalInfo:'<span class="fs-icon">👤</span> Personal Information',
+    firstNameLabel:'First name', firstNamePh:'First name...',
+    lastNameLabel:'Last name', lastNamePh:'Last name...',
+    phoneLabel:'Phone', phonePh:'+509 ...',
+    emailLabel:'Email (optional)', emailPh:'email@example.com',
+    vehicleInfo:'<span class="fs-icon">🚗</span> Vehicle Information',
+    car:'Car', moto:'Moto',
+    makeLabel:'Make', makePh:'Toyota, Honda...',
+    modelLabel:'Model', modelPh:'Corolla, Civic...',
+    colorLabel:'Color', colorPh:'Black, White...',
+    plateLabel:'Plate', platePh:'AA-00000',
+    zoneInfo:'<span class="fs-icon">📍</span> Work Zone',
+    zoneLabel:'Your main zone', otherZone:'Other',
+    submitReg:'Submit Registration',
+    reqTitle:'What you need', reqSub:'Make sure you have everything before signing up',
+    req1Title:'Valid ID or license', req1Desc:'A valid ID document or driver\'s license',
+    req2Title:'Vehicle in good condition', req2Desc:'Your car or moto must be in good shape',
+    req3Title:'Phone with data', req3Desc:'A phone with internet to receive rides',
+    req4Title:'Local road knowledge', req4Desc:'Good knowledge of your working area',
+    successTitle:'Registration Submitted!', successSub:'We\'re verifying your information. You\'ll be notified when your account is activated.',
+    pinLabel:'Login PIN', pinWarning:'Write down this PIN! You\'ll need it to log in.',
+    driverIdLabel:'Driver ID', statusPending:'Pending Verification',
+    goDashboard:'Go to Dashboard', close:'Close',
+    navHome:'Home', navEvents:'Events', navCreate:'Create', navRides:'Transport', navAccount:'Account',
+    errRequired:'Please fill in all required fields',
+    errNetwork:'Connection error. Try again.',
+    errDuplicate:'This phone number is already registered'
+  },
+  es: {
+    brand:'Tikè <em>Lakay</em>', backRides:'M Sou Wout',
+    heroSub:'Gana dinero cada día con tu carro o moto',
+    benefit1:'Gana Cada Día', benefit2:'Horario Flexible', benefit3:'App Simple',
+    personalInfo:'<span class="fs-icon">👤</span> Información Personal',
+    firstNameLabel:'Nombre', firstNamePh:'Nombre...',
+    lastNameLabel:'Apellido', lastNamePh:'Apellido...',
+    phoneLabel:'Teléfono', phonePh:'+509 ...',
+    emailLabel:'Email (opcional)', emailPh:'email@example.com',
+    vehicleInfo:'<span class="fs-icon">🚗</span> Información del Vehículo',
+    car:'Carro', moto:'Moto',
+    makeLabel:'Marca', makePh:'Toyota, Honda...',
+    modelLabel:'Modelo', modelPh:'Corolla, Civic...',
+    colorLabel:'Color', colorPh:'Negro, Blanco...',
+    plateLabel:'Placa', platePh:'AA-00000',
+    zoneInfo:'<span class="fs-icon">📍</span> Zona de Trabajo',
+    zoneLabel:'Tu zona principal', otherZone:'Otro',
+    submitReg:'Enviar Registro',
+    reqTitle:'Qué necesitas', reqSub:'Verifica que tengas todo antes de registrarte',
+    req1Title:'Identificación o licencia', req1Desc:'Un documento de identidad válido o licencia de conducir',
+    req2Title:'Vehículo en buen estado', req2Desc:'Tu carro o moto debe estar en buena condición',
+    req3Title:'Teléfono con datos', req3Desc:'Un teléfono con internet para recibir viajes',
+    req4Title:'Conocimiento de rutas', req4Desc:'Buen conocimiento de tu zona de trabajo',
+    successTitle:'Registro Enviado!', successSub:'Estamos verificando tu información. Serás notificado cuando tu cuenta esté activada.',
+    pinLabel:'PIN de inicio de sesión', pinWarning:'Anota este PIN! Lo necesitarás para iniciar sesión.',
+    driverIdLabel:'ID Conductor', statusPending:'Pendiente de Verificación',
+    goDashboard:'Ir al Dashboard', close:'Cerrar',
+    navHome:'Inicio', navEvents:'Eventos', navCreate:'Crear', navRides:'Transporte', navAccount:'Cuenta',
+    errRequired:'Por favor completa todos los campos obligatorios',
+    errNetwork:'Error de conexión. Intenta de nuevo.',
+    errDuplicate:'Este número de teléfono ya está registrado'
+  }
+};
+
+function t(key) {
+  return (translations[currentLang] && translations[currentLang][key]) || translations.ht[key] || key;
+}
+
+function setLang(lang) {
+  currentLang = lang;
+  localStorage.setItem('tl_lang', lang);
+  document.querySelectorAll('.lang-bar button').forEach(function(b) {
+    b.classList.toggle('active', b.getAttribute('data-lang') === lang);
+  });
+  document.querySelectorAll('[data-i18n]').forEach(function(el) {
+    var key = el.getAttribute('data-i18n');
+    var val = t(key);
+    if (val) el.innerHTML = val;
+  });
+  document.querySelectorAll('[data-i18n-ph]').forEach(function(el) {
+    var key = el.getAttribute('data-i18n-ph');
+    var val = t(key);
+    if (val) el.placeholder = val;
+  });
+}
+
+document.querySelectorAll('.lang-bar button').forEach(function(btn) {
+  btn.addEventListener('click', function() { setLang(this.getAttribute('data-lang')); });
+});
+
+function setVehicle(type) {
+  selectedVehicle = type;
+  document.querySelectorAll('.vehicle-btn').forEach(function(b) {
+    b.classList.toggle('active', b.getAttribute('data-type') === type);
+  });
+}
+
+function submitRegistration() {
+  var firstName = document.getElementById('firstName').value.trim();
+  var lastName = document.getElementById('lastName').value.trim();
+  var phone = document.getElementById('driverPhone').value.trim();
+  var email = document.getElementById('driverEmail').value.trim();
+  var make = document.getElementById('vehicleMake').value.trim();
+  var model = document.getElementById('vehicleModel').value.trim();
+  var color = document.getElementById('vehicleColor').value.trim();
+  var plate = document.getElementById('licensePlate').value.trim();
+  var zone = document.getElementById('driverZone').value;
+  var errEl = document.getElementById('formError');
+
+  if (!firstName || !lastName || !phone || !plate) {
+    errEl.textContent = t('errRequired');
+    errEl.classList.add('show');
+    return;
+  }
+  errEl.classList.remove('show');
+
+  var btn = document.getElementById('submitBtn');
+  btn.classList.add('loading');
+
+  fetch(API_URL + '/api/rides/driver/register', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      firstName: firstName, lastName: lastName,
+      phone: phone, email: email || undefined,
+      vehicleType: selectedVehicle,
+      vehicleMake: make, vehicleModel: model,
+      vehicleColor: color, licensePlate: plate,
+      zone: zone
+    })
+  }).then(function(r) { return r.json(); })
+  .then(function(data) {
+    btn.classList.remove('loading');
+    if (data.success) {
+      document.getElementById('pinCode').textContent = data.pin;
+      document.getElementById('successDriverId').textContent = data.driverId.substring(0, 10) + '...';
+      document.getElementById('successOverlay').classList.add('show');
+    } else if (data.error && data.error.indexOf('already') !== -1) {
+      errEl.textContent = t('errDuplicate');
+      errEl.classList.add('show');
+    } else {
+      errEl.textContent = data.error || t('errNetwork');
+      errEl.classList.add('show');
+    }
+  }).catch(function() {
+    btn.classList.remove('loading');
+    errEl.textContent = t('errNetwork');
+    errEl.classList.add('show');
+  });
+}
+
+function closeSuccess() {
+  document.getElementById('successOverlay').classList.remove('show');
+}
+
+(function init() {
+  setLang(currentLang);
+  var obs = new IntersectionObserver(function(entries) {
+    entries.forEach(function(e) { if (e.isIntersecting) { e.target.classList.add('visible'); obs.unobserve(e.target); } });
+  }, { threshold: 0.15 });
+  document.querySelectorAll('.reveal').forEach(function(el) { obs.observe(el); });
+})();
+</script>
+</body>
+</html>

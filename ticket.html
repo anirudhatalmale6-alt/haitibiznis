@@ -213,6 +213,35 @@ img{max-width:100%;display:block}
 .share-btn.copy{background:var(--off-white);color:var(--text);border:1px solid var(--border)}
 .share-btn.copy:hover{background:var(--border-light)}
 
+/* MSOUWOUT UPSELL */
+.msw-upsell{
+  max-width:420px;margin:20px auto 0;padding:0 16px;
+}
+.msw-card{
+  border-radius:var(--radius);overflow:hidden;
+  background:linear-gradient(135deg,var(--dark),#1a2650);
+  padding:20px;position:relative;
+}
+.msw-card::before{
+  content:'';position:absolute;top:-20px;right:-20px;width:80px;height:80px;
+  background:radial-gradient(circle,rgba(212,160,23,.2),transparent);
+  border-radius:50%;pointer-events:none;
+}
+.msw-top{display:flex;align-items:center;gap:10px;margin-bottom:10px}
+.msw-icon{font-size:1.5rem}
+.msw-label{font-size:.62rem;font-weight:700;color:var(--gold);text-transform:uppercase;letter-spacing:.08em}
+.msw-title{font-family:var(--display);font-size:1.05rem;color:var(--white);margin-bottom:4px;line-height:1.3}
+.msw-desc{font-size:.75rem;color:rgba(255,255,255,.5);margin-bottom:14px;line-height:1.4;font-weight:500}
+.msw-btn{
+  display:inline-flex;align-items:center;gap:6px;
+  padding:10px 20px;border-radius:10px;
+  background:linear-gradient(135deg,var(--gold),var(--gold-light));
+  color:var(--dark);font-size:.8rem;font-weight:800;
+  box-shadow:0 2px 10px rgba(212,160,23,.3);transition:all .2s;
+}
+.msw-btn:hover{transform:translateY(-1px)}
+.msw-btn svg{width:14px;height:14px}
+
 /* BOTTOM NAV */
 .bottom-nav{
   position:fixed;bottom:0;left:0;right:0;z-index:100;
@@ -365,6 +394,22 @@ img{max-width:100%;display:block}
     </div>
   </div>
 
+  <!-- MSOUWOUT UPSELL -->
+  <div class="msw-upsell" id="mswUpsell" style="display:none">
+    <div class="msw-card">
+      <div class="msw-top">
+        <div class="msw-icon">🚗</div>
+        <div class="msw-label">M Sou Wout</div>
+      </div>
+      <div class="msw-title" data-i18n="mswTitle">Bezwen transpò pou jou evènman an?</div>
+      <div class="msw-desc" data-i18n="mswDesc">Rezève yon machin oswa moto kounye a — tout bagay deja ranpli pou ou!</div>
+      <a class="msw-btn" id="mswLink" href="#">
+        <span data-i18n="mswBtn">Rezève Transpò</span>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+      </a>
+    </div>
+  </div>
+
 </div>
 
 <nav class="bottom-nav">
@@ -399,10 +444,10 @@ var ticketData = null;
 var eventData = null;
 
 var i18n = {
-  ht: { back:'Retounen', loadingTicket:'Ap chaje tikè ou...', ticketNotFound:'Tikè pa jwenn', ticketNotFoundSub:'Verifye referans ou a epi eseye ankò.', browseEvents:'Gade Evènman', confirmed:'KONFIME', pending:'AN ATANT', failed:'ECHWE', ticketType:'Tip Tikè', quantity:'Kantite', attendee:'Patisipan', downloadTicket:'Telechaje Tikè', addCalendar:'Kalandriye', copy:'Kopye', copied:'Kopye!', scanHint:'Montre QR code sa a nan antre a', loadingQr:'Ap chaje QR...', free:'GRATIS', navHome:'Akèy', navEvents:'Evènman', navCreate:'Kreye', navTickets:'Tikè', navAccount:'Kont' },
-  fr: { back:'Retour', loadingTicket:'Chargement du billet...', ticketNotFound:'Billet introuvable', ticketNotFoundSub:'Vérifiez votre référence et réessayez.', browseEvents:'Voir les événements', confirmed:'CONFIRMÉ', pending:'EN ATTENTE', failed:'ÉCHOUÉ', ticketType:'Type de Billet', quantity:'Quantité', attendee:'Participant', downloadTicket:'Télécharger', addCalendar:'Calendrier', copy:'Copier', copied:'Copié!', scanHint:'Présentez ce QR code à l\'entrée', loadingQr:'Chargement QR...', free:'GRATUIT', navHome:'Accueil', navEvents:'Événements', navCreate:'Créer', navTickets:'Billets', navAccount:'Compte' },
-  en: { back:'Back', loadingTicket:'Loading your ticket...', ticketNotFound:'Ticket not found', ticketNotFoundSub:'Check your reference and try again.', browseEvents:'Browse Events', confirmed:'CONFIRMED', pending:'PENDING', failed:'FAILED', ticketType:'Ticket Type', quantity:'Quantity', attendee:'Attendee', downloadTicket:'Download', addCalendar:'Calendar', copy:'Copy', copied:'Copied!', scanHint:'Show this QR code at the entrance', loadingQr:'Loading QR...', free:'FREE', navHome:'Home', navEvents:'Events', navCreate:'Create', navTickets:'Tickets', navAccount:'Account' },
-  es: { back:'Volver', loadingTicket:'Cargando tu boleto...', ticketNotFound:'Boleto no encontrado', ticketNotFoundSub:'Verifica tu referencia e intenta de nuevo.', browseEvents:'Ver Eventos', confirmed:'CONFIRMADO', pending:'PENDIENTE', failed:'FALLIDO', ticketType:'Tipo de Boleto', quantity:'Cantidad', attendee:'Asistente', downloadTicket:'Descargar', addCalendar:'Calendario', copy:'Copiar', copied:'¡Copiado!', scanHint:'Muestra este código QR en la entrada', loadingQr:'Cargando QR...', free:'GRATIS', navHome:'Inicio', navEvents:'Eventos', navCreate:'Crear', navTickets:'Boletos', navAccount:'Cuenta' }
+  ht: { back:'Retounen', loadingTicket:'Ap chaje tikè ou...', ticketNotFound:'Tikè pa jwenn', ticketNotFoundSub:'Verifye referans ou a epi eseye ankò.', browseEvents:'Gade Evènman', confirmed:'KONFIME', pending:'AN ATANT', failed:'ECHWE', ticketType:'Tip Tikè', quantity:'Kantite', attendee:'Patisipan', downloadTicket:'Telechaje Tikè', addCalendar:'Kalandriye', copy:'Kopye', copied:'Kopye!', scanHint:'Montre QR code sa a nan antre a', loadingQr:'Ap chaje QR...', free:'GRATIS', mswTitle:'Bezwen transpò pou jou evènman an?', mswDesc:'Rezève yon machin oswa moto kounye a — tout bagay deja ranpli pou ou!', mswBtn:'Rezève Transpò', navHome:'Akèy', navEvents:'Evènman', navCreate:'Kreye', navTickets:'Tikè', navAccount:'Kont' },
+  fr: { back:'Retour', loadingTicket:'Chargement du billet...', ticketNotFound:'Billet introuvable', ticketNotFoundSub:'Vérifiez votre référence et réessayez.', browseEvents:'Voir les événements', confirmed:'CONFIRMÉ', pending:'EN ATTENTE', failed:'ÉCHOUÉ', ticketType:'Type de Billet', quantity:'Quantité', attendee:'Participant', downloadTicket:'Télécharger', addCalendar:'Calendrier', copy:'Copier', copied:'Copié!', scanHint:'Présentez ce QR code à l\'entrée', loadingQr:'Chargement QR...', free:'GRATUIT', mswTitle:'Besoin de transport pour le jour de l\'événement?', mswDesc:'Réservez une voiture ou moto maintenant — tout est pré-rempli!', mswBtn:'Réserver Transport', navHome:'Accueil', navEvents:'Événements', navCreate:'Créer', navTickets:'Billets', navAccount:'Compte' },
+  en: { back:'Back', loadingTicket:'Loading your ticket...', ticketNotFound:'Ticket not found', ticketNotFoundSub:'Check your reference and try again.', browseEvents:'Browse Events', confirmed:'CONFIRMED', pending:'PENDING', failed:'FAILED', ticketType:'Ticket Type', quantity:'Quantity', attendee:'Attendee', downloadTicket:'Download', addCalendar:'Calendar', copy:'Copy', copied:'Copied!', scanHint:'Show this QR code at the entrance', loadingQr:'Loading QR...', free:'FREE', mswTitle:'Need a ride to the event?', mswDesc:'Book a car or moto now — everything is pre-filled for you!', mswBtn:'Book Transport', navHome:'Home', navEvents:'Events', navCreate:'Create', navTickets:'Tickets', navAccount:'Account' },
+  es: { back:'Volver', loadingTicket:'Cargando tu boleto...', ticketNotFound:'Boleto no encontrado', ticketNotFoundSub:'Verifica tu referencia e intenta de nuevo.', browseEvents:'Ver Eventos', confirmed:'CONFIRMADO', pending:'PENDIENTE', failed:'FALLIDO', ticketType:'Tipo de Boleto', quantity:'Cantidad', attendee:'Asistente', downloadTicket:'Descargar', addCalendar:'Calendario', copy:'Copiar', copied:'¡Copiado!', scanHint:'Muestra este código QR en la entrada', loadingQr:'Cargando QR...', free:'GRATIS', mswTitle:'Necesitas transporte para el evento?', mswDesc:'Reserva un carro o moto ahora — todo pre-llenado!', mswBtn:'Reservar Transporte', navHome:'Inicio', navEvents:'Eventos', navCreate:'Crear', navTickets:'Boletos', navAccount:'Cuenta' }
 };
 
 var curLang = localStorage.getItem('tl_lang') || 'ht';
@@ -511,6 +556,15 @@ function renderTicket(data, qrData) {
     qrImg.src = qrData.qr;
     qrImg.style.display = 'block';
     document.getElementById('qrPlaceholder').style.display = 'none';
+  }
+
+  if (eventData && eventData._id) {
+    var mswParams = 'event=' + eventData._id;
+    if (eventData.date) mswParams += '&date=' + eventData.date;
+    if (eventData.startTime) mswParams += '&time=' + eventData.startTime;
+    if (data.referenceId) mswParams += '&ref=' + data.referenceId;
+    document.getElementById('mswLink').href = 'msouwout.html?' + mswParams;
+    document.getElementById('mswUpsell').style.display = '';
   }
 
   applyI18n();
