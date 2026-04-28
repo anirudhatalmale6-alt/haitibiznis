@@ -706,6 +706,10 @@ img{max-width:100%;display:block}
         <svg viewBox="0 0 24 24" fill="currentColor" style="width:16px;height:16px"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
         Facebook
       </button>
+      <button class="share-btn email" onclick="shareEmail()" style="background:#EA4335;color:#fff">
+        <svg viewBox="0 0 24 24" fill="currentColor" style="width:16px;height:16px"><path d="M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/></svg>
+        Email
+      </button>
       <button class="share-btn copy" onclick="copyLink()"><span data-i18n="copy_link">📋 Kopye Lyen</span></button>
     </div>
     <a href="events.html" class="btn btn-blue" style="width:100%" data-i18n="view_event">Gade Evènman Ou</a>
@@ -1715,6 +1719,19 @@ function shareWhatsApp() {
 function shareFacebook() {
   var url = window._publishedEventUrl || 'https://haitibiznis.com/events';
   window.open('https://www.facebook.com/sharer/sharer.php?u=' + encodeURIComponent(url), '_blank');
+}
+
+function shareEmail() {
+  var title = document.getElementById('evTitle').value || 'Mon evènman';
+  var date = document.getElementById('evDate').value || '';
+  var loc = document.getElementById('evLocation').value || '';
+  var url = window._publishedEventUrl || 'https://haitibiznis.com/events';
+  var subject = '🎉 ' + title + ' — Tikè Lakay';
+  var body = title + '\n\n' +
+    (date ? '📅 ' + date + '\n' : '') +
+    (loc ? '📍 ' + loc + '\n' : '') +
+    '\nAchte tikè sou Tikè Lakay!\n' + url;
+  window.location.href = 'mailto:?subject=' + encodeURIComponent(subject) + '&body=' + encodeURIComponent(body);
 }
 
 function copyLink() {

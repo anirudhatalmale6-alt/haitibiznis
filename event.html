@@ -162,6 +162,8 @@ img{max-width:100%;display:block}
 .share-btn.fb:hover{background:#1466D8}
 .share-btn.copy{background:var(--off-white);color:var(--text);border:1px solid var(--border)}
 .share-btn.copy:hover{background:var(--border-light);border-color:var(--text-muted)}
+.share-btn.email{background:#EA4335;color:#fff}
+.share-btn.email:hover{background:#D33426}
 
 /* DESCRIPTION */
 .desc-text{font-size:.88rem;color:var(--text-light);line-height:1.7;white-space:pre-line}
@@ -438,6 +440,10 @@ img{max-width:100%;display:block}
     <button class="share-btn fb" onclick="shareFacebook()">
       <svg viewBox="0 0 24 24" fill="currentColor"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
       Facebook
+    </button>
+    <button class="share-btn email" onclick="shareEmail()">
+      <svg viewBox="0 0 24 24" fill="currentColor"><path d="M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/></svg>
+      Email
     </button>
     <button class="share-btn copy" onclick="copyLink()">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
@@ -997,6 +1003,16 @@ function shareWhatsApp() {
 
 function shareFacebook() {
   window.open('https://www.facebook.com/sharer/sharer.php?u=' + encodeURIComponent(window.location.href), '_blank');
+}
+
+function shareEmail() {
+  var subject = event.typeEmoji + ' ' + event.title + ' — Tikè Lakay';
+  var body = event.title + '\n\n' +
+    '📅 ' + formatDate(event.date) + ' · ' + (event.startTime || '') + (event.endTime ? ' – ' + event.endTime : '') + '\n' +
+    '📍 ' + (event.location || '') + '\n\n' +
+    (event.description ? event.description + '\n\n' : '') +
+    'Achte tikè sou Tikè Lakay!\n' + window.location.href;
+  window.location.href = 'mailto:?subject=' + encodeURIComponent(subject) + '&body=' + encodeURIComponent(body);
 }
 
 function copyLink() {
