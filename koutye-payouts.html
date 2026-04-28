@@ -35,17 +35,17 @@ a{text-decoration:none;color:inherit}
 .flag-stripe{height:4px;background:linear-gradient(90deg,var(--blue) 50%,var(--red) 50%)}
 
 /* ═══ LANGUAGE BAR ═══ */
-.top-lang-bar{
-  background:var(--dark);color:#fff;font-size:.7rem;
-  padding:5px 20px;display:flex;align-items:center;justify-content:center;gap:4px;
-  position:fixed;top:0;left:0;right:0;z-index:1001;height:32px;
+.lang-bar{
+  background:var(--dark);padding:6px 20px;
+  display:flex;align-items:center;justify-content:center;gap:4px;
+  font-size:.68rem;z-index:1001;position:relative;
 }
-.top-lang-bar a{
-  color:#fff;background:rgba(255,255,255,.12);padding:3px 10px;border-radius:100px;
-  font-size:.68rem;font-weight:600;cursor:pointer;transition:all .15s;white-space:nowrap;
+.lang-bar a{
+  color:rgba(255,255,255,.5);padding:3px 12px;border-radius:100px;
+  font-weight:600;transition:all .2s;cursor:pointer;
 }
-.top-lang-bar a:hover{background:rgba(255,255,255,.25)}
-.top-lang-bar a.active{background:var(--red);color:#fff}
+.lang-bar a:hover{color:#fff;background:rgba(255,255,255,.08)}
+.lang-bar a.active{color:var(--gold);background:rgba(212,160,23,.15)}
 
 /* ═══ LAYOUT ═══ */
 .inner{max-width:1000px;margin:0 auto;padding:0 20px}
@@ -329,13 +329,13 @@ a{text-decoration:none;color:inherit}
 </head>
 <body>
 
-<div class="flag-stripe"></div>
-<div class="top-lang-bar">
-  <a onclick="setLang('ht')" class="active" id="lang-ht">&#127469;&#127481; Kreyol</a>
-  <a onclick="setLang('fr')" id="lang-fr">&#127467;&#127479; Francais</a>
-  <a onclick="setLang('en')" id="lang-en">&#127468;&#127463; English</a>
-  <a onclick="setLang('es')" id="lang-es">&#127466;&#127480; Espanol</a>
+<div class="lang-bar">
+  <a class="active" data-lang="ht">Kreyòl</a>
+  <a data-lang="fr">Français</a>
+  <a data-lang="en">English</a>
+  <a data-lang="es">Español</a>
 </div>
+<div class="flag-stripe"></div>
 
 <!-- ═══ BACK LINK ═══ -->
 <div class="back-bar">
@@ -817,20 +817,23 @@ var T = {
 var currentLang='ht';
 function setLang(l){
   currentLang=l;
-  document.querySelectorAll('.top-lang-bar a').forEach(function(a){a.classList.remove('active')});
-  document.getElementById('lang-'+l).classList.add('active');
+  document.querySelectorAll('.lang-bar a').forEach(function(a){
+    a.classList.toggle('active',a.getAttribute('data-lang')===l);
+  });
   var t=T[l]||T.ht;
   document.querySelectorAll('[data-i18n]').forEach(function(el){
     var k=el.getAttribute('data-i18n');
     if(t[k])el.innerHTML=t[k];
   });
-  /* Handle placeholder translations */
   document.querySelectorAll('[data-i18n-placeholder]').forEach(function(el){
     var k=el.getAttribute('data-i18n-placeholder');
     if(t[k])el.placeholder=t[k];
   });
   localStorage.setItem('kb_lang',l);
 }
+document.querySelectorAll('.lang-bar a').forEach(function(a){
+  a.addEventListener('click',function(){ setLang(a.getAttribute('data-lang')); });
+});
 var s=localStorage.getItem('kb_lang');
 if(s&&T[s])setLang(s);
 

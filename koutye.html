@@ -257,10 +257,28 @@ input{font-family:var(--body)}
 @keyframes fadeUp{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
 .fade-up{animation:fadeUp .4s ease-out both}
 .d1{animation-delay:.1s}.d2{animation-delay:.15s}.d3{animation-delay:.2s}
+
+.lang-bar{
+  background:var(--dark);padding:6px 20px;
+  display:flex;align-items:center;justify-content:center;gap:4px;
+  font-size:.68rem;z-index:1001;position:relative;
+}
+.lang-bar a{
+  color:rgba(255,255,255,.5);padding:3px 12px;border-radius:100px;
+  font-weight:600;transition:all .2s;cursor:pointer;
+}
+.lang-bar a:hover{color:#fff;background:rgba(255,255,255,.08)}
+.lang-bar a.active{color:var(--gold);background:rgba(212,160,23,.15)}
 </style>
 </head>
 <body>
 
+<div class="lang-bar">
+  <a class="active" data-lang="ht">Kreyòl</a>
+  <a data-lang="fr">Français</a>
+  <a data-lang="en">English</a>
+  <a data-lang="es">Español</a>
+</div>
 <div class="flag-stripe"></div>
 <header class="header">
   <a href="koutye.html" class="header-logo">
@@ -613,8 +631,14 @@ function setLang(l){
     var k=el.getAttribute('data-i18n');
     if(t[k]) el.innerHTML=t[k];
   });
+  document.querySelectorAll('.lang-bar a').forEach(function(a){
+    a.classList.toggle('active',a.getAttribute('data-lang')===l);
+  });
   localStorage.setItem('kb_lang',l);
 }
+document.querySelectorAll('.lang-bar a').forEach(function(a){
+  a.addEventListener('click',function(){ setLang(a.getAttribute('data-lang')); });
+});
 var savedLang=localStorage.getItem('kb_lang');
 if(savedLang&&T[savedLang]) setLang(savedLang);
 
