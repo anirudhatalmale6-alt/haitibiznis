@@ -1,0 +1,580 @@
+<!DOCTYPE html>
+<html lang="ht">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Tikè Ou — Tikè Lakay</title>
+<meta name="description" content="Tikè dijital ou sou Tikè Lakay. Montre QR code sa a nan pòt la.">
+<meta name="theme-color" content="#00209F">
+<link rel="icon" type="image/x-icon" href="favicon.ico">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --blue:#00209F;--blue-deep:#001566;--blue-light:#0A3ACC;
+  --red:#D21034;--red-dark:#B00D2C;
+  --gold:#D4A017;--gold-light:#E8B82E;--gold-soft:#FDF3D7;
+  --green:#1B8C3D;--green-light:#E8F5E9;
+  --white:#FFFFFF;--off-white:#F5F7FA;--cream:#FAFBFD;
+  --dark:#0A0E1A;--text:#1A2A4A;--text-light:#5A6B8A;--text-muted:#8A95AA;
+  --border:#E2E8F0;--border-light:#F0F3F7;
+  --body:'Plus Jakarta Sans',system-ui,sans-serif;
+  --display:'DM Serif Display',Georgia,serif;
+  --mono:'JetBrains Mono',monospace;
+  --shadow-sm:0 1px 3px rgba(10,14,26,.06);
+  --shadow-md:0 4px 16px rgba(10,14,26,.08);
+  --shadow-lg:0 12px 40px rgba(10,14,26,.12);
+  --shadow-ticket:0 8px 32px rgba(10,14,26,.1),0 2px 8px rgba(10,14,26,.06);
+  --radius:14px;--radius-lg:20px;
+}
+html{scroll-behavior:smooth}
+body{font-family:var(--body);background:var(--off-white);color:var(--text);overflow-x:hidden;-webkit-font-smoothing:antialiased;padding-bottom:72px;min-height:100vh}
+a{text-decoration:none;color:inherit}
+button{font-family:var(--body);cursor:pointer;border:none;background:none}
+img{max-width:100%;display:block}
+
+.flag-stripe{height:4px;background:linear-gradient(90deg,var(--blue) 50%,var(--red) 50%);position:relative;z-index:1002}
+
+.header{
+  position:sticky;top:0;z-index:100;
+  background:rgba(255,255,255,.95);backdrop-filter:blur(16px);
+  border-bottom:1px solid var(--border);padding:0 16px;height:56px;
+  display:flex;align-items:center;justify-content:space-between;
+}
+.header-left{display:flex;align-items:center;gap:10px}
+.header-left img{height:30px;border-radius:5px}
+.header-left span{font-family:var(--display);font-size:1rem;color:var(--dark)}
+.header-left span em{color:var(--red);font-style:italic}
+.header-back{
+  display:flex;align-items:center;gap:6px;
+  font-size:.78rem;font-weight:600;color:var(--text-light);
+  padding:8px 14px;border-radius:10px;border:1px solid var(--border);
+  transition:all .2s;
+}
+.header-back:hover{background:var(--off-white);border-color:var(--text-muted);color:var(--blue)}
+.header-back svg{width:16px;height:16px}
+
+/* LOADING */
+.loading-state{display:flex;flex-direction:column;align-items:center;justify-content:center;padding:80px 20px;gap:16px}
+.loading-spinner{width:36px;height:36px;border:3px solid var(--border);border-top-color:var(--blue);border-radius:50%;animation:spin .8s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+.loading-text{font-size:.88rem;color:var(--text-muted)}
+.error-state{display:none;text-align:center;padding:80px 20px}
+.error-state .err-icon{font-size:3rem;margin-bottom:12px}
+.error-state .err-msg{font-size:1rem;font-weight:600;color:var(--text);margin-bottom:6px}
+.error-state .err-sub{font-size:.85rem;color:var(--text-muted);margin-bottom:20px}
+
+/* STATUS BADGE */
+.status-wrap{text-align:center;padding:20px 16px 0}
+.status-badge{
+  display:inline-flex;align-items:center;gap:6px;
+  padding:6px 18px;border-radius:100px;
+  font-size:.72rem;font-weight:800;letter-spacing:.08em;text-transform:uppercase;
+  animation:badgePop .4s cubic-bezier(.34,1.56,.64,1) .3s both;
+}
+.status-badge.confirmed{background:var(--green-light);color:var(--green)}
+.status-badge.pending{background:var(--gold-soft);color:#8B6914}
+.status-badge.failed{background:rgba(210,16,52,.08);color:var(--red)}
+.status-dot{width:7px;height:7px;border-radius:50%;flex-shrink:0}
+.confirmed .status-dot{background:var(--green);animation:pulse 2s ease infinite}
+.pending .status-dot{background:var(--gold);animation:pulse 2s ease infinite}
+.failed .status-dot{background:var(--red)}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.4}}
+@keyframes badgePop{0%{opacity:0;transform:scale(.7)}100%{opacity:1;transform:scale(1)}}
+
+/* TICKET CARD */
+.ticket-wrap{max-width:420px;margin:16px auto 0;padding:0 16px}
+.ticket-card{
+  background:var(--white);
+  border-radius:var(--radius-lg);
+  box-shadow:var(--shadow-ticket);
+  overflow:hidden;
+  position:relative;
+  animation:ticketSlide .5s cubic-bezier(.25,.46,.45,.94) .1s both;
+}
+@keyframes ticketSlide{0%{opacity:0;transform:translateY(24px)}100%{opacity:1;transform:translateY(0)}}
+
+.ticket-header{
+  padding:22px 22px 18px;
+  position:relative;
+  overflow:hidden;
+}
+.ticket-header::before{
+  content:'';position:absolute;top:0;right:0;width:120px;height:120px;
+  background:radial-gradient(circle at top right,rgba(212,160,23,.08) 0%,transparent 70%);
+  pointer-events:none;
+}
+.ticket-emoji{font-size:1.8rem;margin-bottom:6px;display:block}
+.ticket-title{font-family:var(--display);font-size:1.35rem;line-height:1.2;color:var(--dark);margin-bottom:14px}
+.ticket-meta{display:flex;flex-direction:column;gap:10px}
+.ticket-meta-row{display:flex;align-items:center;gap:10px}
+.meta-icon{
+  width:34px;height:34px;border-radius:10px;flex-shrink:0;
+  display:flex;align-items:center;justify-content:center;
+}
+.meta-icon svg{width:15px;height:15px}
+.meta-icon.cal{background:rgba(0,32,159,.07);color:var(--blue)}
+.meta-icon.loc{background:rgba(210,16,52,.06);color:var(--red)}
+.meta-text{font-size:.82rem;font-weight:600;color:var(--text);line-height:1.35}
+.meta-sub{font-size:.72rem;color:var(--text-muted);font-weight:500}
+
+/* PERFORATED DIVIDER */
+.ticket-perf{
+  position:relative;height:28px;
+  display:flex;align-items:center;
+}
+.ticket-perf::before,.ticket-perf::after{
+  content:'';position:absolute;top:50%;
+  width:18px;height:18px;border-radius:50%;
+  background:var(--off-white);
+  transform:translateY(-50%);
+  box-shadow:inset 0 1px 4px rgba(10,14,26,.08);
+}
+.ticket-perf::before{left:-9px}
+.ticket-perf::after{right:-9px}
+.perf-line{
+  flex:1;margin:0 16px;
+  border-top:2px dashed var(--border);
+}
+
+/* QR SECTION */
+.ticket-qr-section{padding:8px 22px 22px;text-align:center}
+.qr-frame{
+  display:inline-block;
+  padding:12px;
+  background:var(--white);
+  border:2px solid var(--border-light);
+  border-radius:14px;
+  position:relative;
+}
+.qr-frame::before{
+  content:'';position:absolute;inset:3px;
+  border:1px solid rgba(0,32,159,.06);border-radius:11px;
+  pointer-events:none;
+}
+.qr-img{width:200px;height:200px;display:block;image-rendering:pixelated}
+.qr-placeholder{width:200px;height:200px;background:var(--off-white);border-radius:8px;display:flex;align-items:center;justify-content:center;color:var(--text-muted);font-size:.8rem}
+
+.ref-id{
+  font-family:var(--mono);font-size:.85rem;font-weight:700;
+  color:var(--blue);letter-spacing:.06em;
+  margin-top:12px;
+  padding:6px 16px;
+  background:rgba(0,32,159,.04);
+  border-radius:8px;
+  display:inline-block;
+}
+.ticket-detail-row{
+  display:flex;justify-content:space-between;align-items:center;
+  padding:6px 0;font-size:.8rem;
+}
+.ticket-detail-row .tdl{color:var(--text-muted);font-weight:500}
+.ticket-detail-row .tdv{font-weight:700;color:var(--text)}
+.ticket-details{
+  margin-top:14px;padding:12px 0 0;
+  border-top:1px solid var(--border-light);
+}
+.scan-hint{
+  margin-top:14px;
+  font-size:.7rem;color:var(--text-muted);
+  display:flex;align-items:center;justify-content:center;gap:5px;
+}
+.scan-hint svg{width:13px;height:13px;opacity:.5}
+
+/* ACTIONS */
+.actions-wrap{max-width:420px;margin:16px auto 0;padding:0 16px}
+.action-row{display:flex;gap:8px;margin-bottom:8px}
+.action-btn{
+  flex:1;height:44px;border-radius:12px;
+  font-size:.8rem;font-weight:700;
+  display:flex;align-items:center;justify-content:center;gap:7px;
+  transition:all .2s;
+}
+.action-btn svg{width:16px;height:16px;flex-shrink:0}
+.action-btn.primary{background:var(--blue);color:#fff}
+.action-btn.primary:hover{background:var(--blue-deep)}
+.action-btn.secondary{background:var(--white);color:var(--text);border:1px solid var(--border)}
+.action-btn.secondary:hover{background:var(--off-white);border-color:var(--text-muted)}
+.action-btn.download{background:var(--dark);color:#fff}
+.action-btn.download:hover{background:#1a2a3a}
+
+.share-row{display:flex;gap:8px;margin-top:8px}
+.share-btn{
+  height:38px;padding:0 14px;border-radius:10px;font-size:.75rem;font-weight:700;
+  display:flex;align-items:center;gap:6px;transition:all .2s;flex:1;justify-content:center;
+}
+.share-btn svg{width:16px;height:16px;flex-shrink:0}
+.share-btn.wa{background:#25D366;color:#fff}
+.share-btn.wa:hover{background:#1DA851}
+.share-btn.email{background:#EA4335;color:#fff}
+.share-btn.email:hover{background:#D33426}
+.share-btn.copy{background:var(--off-white);color:var(--text);border:1px solid var(--border)}
+.share-btn.copy:hover{background:var(--border-light)}
+
+/* BOTTOM NAV */
+.bottom-nav{
+  position:fixed;bottom:0;left:0;right:0;z-index:100;
+  height:56px;background:rgba(255,255,255,.97);backdrop-filter:blur(16px);
+  border-top:1px solid var(--border);
+  display:flex;align-items:center;justify-content:space-around;
+  padding:0 8px;
+}
+.bottom-nav a{
+  display:flex;flex-direction:column;align-items:center;gap:2px;
+  font-size:.6rem;font-weight:600;color:var(--text-muted);
+  transition:color .2s;padding:6px 8px;
+}
+.bottom-nav a:hover,.bottom-nav a.active{color:var(--blue)}
+.bottom-nav a svg{width:20px;height:20px}
+.bottom-nav .create-tab{color:var(--text-muted)}
+.bottom-nav .create-dot{
+  width:38px;height:38px;border-radius:50%;
+  background:var(--red);color:#fff;
+  display:flex;align-items:center;justify-content:center;
+  margin-top:-18px;box-shadow:0 4px 12px rgba(210,16,52,.35);
+  transition:transform .2s;
+}
+.bottom-nav .create-tab:hover .create-dot{transform:scale(1.08)}
+
+/* WATERMARK */
+.ticket-watermark{
+  position:absolute;bottom:8px;right:14px;
+  font-family:var(--display);font-size:.55rem;
+  color:rgba(0,32,159,.08);letter-spacing:.1em;
+  text-transform:uppercase;pointer-events:none;
+}
+
+@media(min-width:480px){
+  .qr-img,.qr-placeholder{width:240px;height:240px}
+  .ticket-title{font-size:1.5rem}
+}
+</style>
+</head>
+<body>
+
+<div class="flag-stripe"></div>
+
+<header class="header">
+  <div class="header-left">
+    <img src="assets/events-logo.png" alt="Tikè Lakay" onerror="this.style.display='none'">
+    <span>Tik&egrave; <em>Lakay</em></span>
+  </div>
+  <a href="events.html" class="header-back">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+    <span data-i18n="back">Retounen</span>
+  </a>
+</header>
+
+<!-- LOADING -->
+<div id="loadingState" class="loading-state">
+  <div class="loading-spinner"></div>
+  <div class="loading-text" data-i18n="loadingTicket">Ap chaje tik&egrave; ou...</div>
+</div>
+
+<!-- ERROR -->
+<div id="errorState" class="error-state">
+  <div class="err-icon">🎫</div>
+  <div class="err-msg" data-i18n="ticketNotFound">Tikè pa jwenn</div>
+  <div class="err-sub" data-i18n="ticketNotFoundSub">Verifye referans ou a epi eseye ank&ograve;.</div>
+  <a href="events.html" class="action-btn primary" style="display:inline-flex;width:auto;padding:0 24px" data-i18n="browseEvents">Gade Ev&egrave;nman</a>
+</div>
+
+<!-- TICKET CONTENT -->
+<div id="ticketContent" style="display:none">
+
+  <div class="status-wrap">
+    <div class="status-badge" id="statusBadge">
+      <span class="status-dot"></span>
+      <span id="statusText"></span>
+    </div>
+  </div>
+
+  <div class="ticket-wrap">
+    <div class="ticket-card" id="ticketCard">
+      <div class="ticket-header">
+        <span class="ticket-emoji" id="tEmoji"></span>
+        <div class="ticket-title" id="tTitle"></div>
+        <div class="ticket-meta">
+          <div class="ticket-meta-row">
+            <div class="meta-icon cal">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>
+            </div>
+            <div>
+              <div class="meta-text" id="tDate"></div>
+              <div class="meta-sub" id="tTime"></div>
+            </div>
+          </div>
+          <div class="ticket-meta-row">
+            <div class="meta-icon loc">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>
+            </div>
+            <div class="meta-text" id="tLocation"></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="ticket-perf"><div class="perf-line"></div></div>
+
+      <div class="ticket-qr-section">
+        <div class="qr-frame">
+          <div class="qr-placeholder" id="qrPlaceholder"><span data-i18n="loadingQr">Ap chaje QR...</span></div>
+          <img class="qr-img" id="qrImg" style="display:none" alt="QR Code">
+        </div>
+        <div class="ref-id" id="tRef"></div>
+        <div class="ticket-details">
+          <div class="ticket-detail-row"><span class="tdl" data-i18n="ticketType">Tip Tikè</span><span class="tdv" id="tTicketName"></span></div>
+          <div class="ticket-detail-row"><span class="tdl" data-i18n="quantity">Kantite</span><span class="tdv" id="tQty"></span></div>
+          <div class="ticket-detail-row"><span class="tdl" data-i18n="attendee">Patisipan</span><span class="tdv" id="tBuyer"></span></div>
+          <div class="ticket-detail-row"><span class="tdl">Total</span><span class="tdv" id="tTotal"></span></div>
+        </div>
+        <div class="scan-hint">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><path d="M14 14h3v3M17 17h3v3"/></svg>
+          <span data-i18n="scanHint">Montre QR code sa a nan antre a</span>
+        </div>
+      </div>
+      <div class="ticket-watermark">Tikè Lakay</div>
+    </div>
+  </div>
+
+  <div class="actions-wrap">
+    <div class="action-row">
+      <button class="action-btn download" onclick="downloadTicket()">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M7 10l5 5 5-5M12 15V3"/></svg>
+        <span data-i18n="downloadTicket">Telechaje Tikè</span>
+      </button>
+      <button class="action-btn secondary" onclick="addToCalendar()">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18M8 14h.01M12 14h.01M16 14h.01"/></svg>
+        <span data-i18n="addCalendar">Kalandriye</span>
+      </button>
+    </div>
+    <div class="share-row">
+      <button class="share-btn wa" onclick="shareTicketWA()">
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/></svg>
+        WhatsApp
+      </button>
+      <button class="share-btn email" onclick="shareTicketEmail()">
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/></svg>
+        Email
+      </button>
+      <button class="share-btn copy" onclick="copyTicketRef()">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
+        <span data-i18n="copy">Kopye</span>
+      </button>
+    </div>
+  </div>
+
+</div>
+
+<nav class="bottom-nav">
+  <a href="events.html">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+    <span data-i18n="navHome">Akèy</span>
+  </a>
+  <a href="events.html">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>
+    <span data-i18n="navEvents">Evènman</span>
+  </a>
+  <a href="create-event.html" class="create-tab">
+    <div class="create-dot">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" style="width:22px;height:22px"><path d="M12 5v14M5 12h14"/></svg>
+    </div>
+    <span style="margin-top:4px" data-i18n="navCreate">Kreye</span>
+  </a>
+  <a href="#" class="active">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M15 5v2M15 11v2M15 17v2M5 5h14a2 2 0 012 2v3a2 2 0 000 4v3a2 2 0 01-2 2H5a2 2 0 01-2-2v-3a2 2 0 000-4V7a2 2 0 012-2z"/></svg>
+    <span data-i18n="navTickets">Tikè</span>
+  </a>
+  <a href="#">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+    <span data-i18n="navAccount">Kont</span>
+  </a>
+</nav>
+
+<script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
+<script>
+var API_URL = 'https://haitibiznis-api.onrender.com';
+var ticketData = null;
+var eventData = null;
+
+var i18n = {
+  ht: { back:'Retounen', loadingTicket:'Ap chaje tikè ou...', ticketNotFound:'Tikè pa jwenn', ticketNotFoundSub:'Verifye referans ou a epi eseye ankò.', browseEvents:'Gade Evènman', confirmed:'KONFIME', pending:'AN ATANT', failed:'ECHWE', ticketType:'Tip Tikè', quantity:'Kantite', attendee:'Patisipan', downloadTicket:'Telechaje Tikè', addCalendar:'Kalandriye', copy:'Kopye', copied:'Kopye!', scanHint:'Montre QR code sa a nan antre a', loadingQr:'Ap chaje QR...', free:'GRATIS', navHome:'Akèy', navEvents:'Evènman', navCreate:'Kreye', navTickets:'Tikè', navAccount:'Kont' },
+  fr: { back:'Retour', loadingTicket:'Chargement du billet...', ticketNotFound:'Billet introuvable', ticketNotFoundSub:'Vérifiez votre référence et réessayez.', browseEvents:'Voir les événements', confirmed:'CONFIRMÉ', pending:'EN ATTENTE', failed:'ÉCHOUÉ', ticketType:'Type de Billet', quantity:'Quantité', attendee:'Participant', downloadTicket:'Télécharger', addCalendar:'Calendrier', copy:'Copier', copied:'Copié!', scanHint:'Présentez ce QR code à l\'entrée', loadingQr:'Chargement QR...', free:'GRATUIT', navHome:'Accueil', navEvents:'Événements', navCreate:'Créer', navTickets:'Billets', navAccount:'Compte' },
+  en: { back:'Back', loadingTicket:'Loading your ticket...', ticketNotFound:'Ticket not found', ticketNotFoundSub:'Check your reference and try again.', browseEvents:'Browse Events', confirmed:'CONFIRMED', pending:'PENDING', failed:'FAILED', ticketType:'Ticket Type', quantity:'Quantity', attendee:'Attendee', downloadTicket:'Download', addCalendar:'Calendar', copy:'Copy', copied:'Copied!', scanHint:'Show this QR code at the entrance', loadingQr:'Loading QR...', free:'FREE', navHome:'Home', navEvents:'Events', navCreate:'Create', navTickets:'Tickets', navAccount:'Account' },
+  es: { back:'Volver', loadingTicket:'Cargando tu boleto...', ticketNotFound:'Boleto no encontrado', ticketNotFoundSub:'Verifica tu referencia e intenta de nuevo.', browseEvents:'Ver Eventos', confirmed:'CONFIRMADO', pending:'PENDIENTE', failed:'FALLIDO', ticketType:'Tipo de Boleto', quantity:'Cantidad', attendee:'Asistente', downloadTicket:'Descargar', addCalendar:'Calendario', copy:'Copiar', copied:'¡Copiado!', scanHint:'Muestra este código QR en la entrada', loadingQr:'Cargando QR...', free:'GRATIS', navHome:'Inicio', navEvents:'Eventos', navCreate:'Crear', navTickets:'Boletos', navAccount:'Cuenta' }
+};
+
+var curLang = localStorage.getItem('tl_lang') || 'ht';
+function t(key) { return (i18n[curLang] || i18n.ht)[key] || (i18n.ht)[key] || key; }
+
+function applyI18n() {
+  var els = document.querySelectorAll('[data-i18n]');
+  for (var i = 0; i < els.length; i++) {
+    var k = els[i].getAttribute('data-i18n');
+    if (t(k)) els[i].textContent = t(k);
+  }
+}
+
+function formatDate(dateStr) {
+  if (!dateStr) return '';
+  try {
+    var d = new Date(dateStr + 'T00:00:00');
+    var opts = { weekday:'long', year:'numeric', month:'long', day:'numeric' };
+    var lang = curLang === 'ht' ? 'fr-HT' : curLang === 'en' ? 'en-US' : curLang === 'es' ? 'es' : 'fr-FR';
+    return d.toLocaleDateString(lang, opts);
+  } catch(e) { return dateStr; }
+}
+
+function formatTime(t) {
+  if (!t) return '';
+  var parts = t.split(':');
+  var h = parseInt(parts[0]);
+  var m = parts[1] || '00';
+  var ampm = h >= 12 ? 'PM' : 'AM';
+  h = h % 12 || 12;
+  return h + ':' + m + ' ' + ampm;
+}
+
+function formatPrice(n) {
+  return n.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+}
+
+(function loadTicket() {
+  var params = new URLSearchParams(window.location.search);
+  var ref = params.get('ref');
+  if (!ref) { showError(); return; }
+
+  Promise.all([
+    fetch(API_URL + '/api/payments/ticket/' + ref).then(function(r) { return r.json(); }),
+    fetch(API_URL + '/api/payments/ticket/' + ref + '/qr').then(function(r) { return r.json(); })
+  ]).then(function(results) {
+    var data = results[0];
+    var qrData = results[1];
+    if (data.error) { showError(); return; }
+    ticketData = data;
+    eventData = data.event || {};
+    renderTicket(data, qrData);
+  }).catch(function() { showError(); });
+})();
+
+function showError() {
+  document.getElementById('loadingState').style.display = 'none';
+  document.getElementById('errorState').style.display = 'block';
+}
+
+function renderTicket(data, qrData) {
+  document.getElementById('loadingState').style.display = 'none';
+  document.getElementById('ticketContent').style.display = '';
+
+  var badge = document.getElementById('statusBadge');
+  var statusText = document.getElementById('statusText');
+  if (data.status === 'completed') {
+    badge.className = 'status-badge confirmed';
+    statusText.textContent = t('confirmed');
+  } else if (data.status === 'failed') {
+    badge.className = 'status-badge failed';
+    statusText.textContent = t('failed');
+  } else {
+    badge.className = 'status-badge pending';
+    statusText.textContent = t('pending');
+  }
+
+  document.getElementById('tEmoji').textContent = eventData.typeEmoji || '🎫';
+  document.getElementById('tTitle').textContent = eventData.title || data.ticketName || '';
+  document.getElementById('tDate').textContent = formatDate(eventData.date);
+  var timeStr = formatTime(eventData.startTime);
+  if (eventData.endTime) timeStr += ' – ' + formatTime(eventData.endTime);
+  document.getElementById('tTime').textContent = timeStr;
+  document.getElementById('tLocation').textContent = eventData.location || '';
+  document.getElementById('tRef').textContent = data.referenceId;
+  document.getElementById('tTicketName').textContent = data.ticketName;
+  document.getElementById('tQty').textContent = data.qty;
+  document.getElementById('tBuyer').textContent = data.buyerName || data.buyerPhone || '—';
+  document.getElementById('tTotal').textContent = data.totalAmount > 0 ? 'HTG ' + formatPrice(data.totalAmount) : t('free');
+
+  if (eventData.gradient) {
+    document.querySelector('.ticket-header').style.background = eventData.gradient;
+    document.querySelector('.ticket-header').style.color = '#fff';
+    document.querySelector('.ticket-emoji').style.filter = 'drop-shadow(0 2px 4px rgba(0,0,0,.3))';
+    document.querySelector('.ticket-title').style.color = '#fff';
+    document.querySelectorAll('.meta-text').forEach(function(el) { el.style.color = 'rgba(255,255,255,.95)'; });
+    document.querySelectorAll('.meta-sub').forEach(function(el) { el.style.color = 'rgba(255,255,255,.6)'; });
+    document.querySelectorAll('.meta-icon').forEach(function(el) {
+      el.style.background = 'rgba(255,255,255,.15)';
+      el.style.color = '#fff';
+    });
+  }
+
+  if (qrData && qrData.qr) {
+    var qrImg = document.getElementById('qrImg');
+    qrImg.src = qrData.qr;
+    qrImg.style.display = 'block';
+    document.getElementById('qrPlaceholder').style.display = 'none';
+  }
+
+  applyI18n();
+}
+
+function downloadTicket() {
+  var card = document.getElementById('ticketCard');
+  if (typeof html2canvas === 'undefined') { alert('Loading...'); return; }
+  html2canvas(card, { scale: 2, useCORS: true, backgroundColor: '#ffffff', borderRadius: 20 }).then(function(canvas) {
+    var link = document.createElement('a');
+    link.download = 'ticket-' + (ticketData ? ticketData.referenceId : 'tike-lakay') + '.png';
+    link.href = canvas.toDataURL('image/png');
+    link.click();
+  });
+}
+
+function addToCalendar() {
+  if (!eventData || !eventData.date) return;
+  var dateStr = eventData.date.replace(/-/g, '');
+  var startT = (eventData.startTime || '00:00').replace(':', '') + '00';
+  var endT = (eventData.endTime || eventData.startTime || '23:59').replace(':', '') + '00';
+  var icsContent = [
+    'BEGIN:VCALENDAR', 'VERSION:2.0', 'BEGIN:VEVENT',
+    'DTSTART:' + dateStr + 'T' + startT,
+    'DTEND:' + dateStr + 'T' + endT,
+    'SUMMARY:' + (eventData.title || ''),
+    'LOCATION:' + (eventData.location || ''),
+    'DESCRIPTION:Tikè Lakay - ' + (ticketData ? ticketData.referenceId : ''),
+    'END:VEVENT', 'END:VCALENDAR'
+  ].join('\r\n');
+  var blob = new Blob([icsContent], { type: 'text/calendar' });
+  var link = document.createElement('a');
+  link.href = URL.createObjectURL(blob);
+  link.download = 'event.ics';
+  link.click();
+}
+
+function shareTicketWA() {
+  var title = eventData ? eventData.title : '';
+  var ref = ticketData ? ticketData.referenceId : '';
+  var text = '🎫 ' + title + '\n📋 Ref: ' + ref + '\n\n' + window.location.href;
+  window.open('https://wa.me/?text=' + encodeURIComponent(text), '_blank');
+}
+
+function shareTicketEmail() {
+  var title = eventData ? eventData.title : '';
+  var ref = ticketData ? ticketData.referenceId : '';
+  var date = eventData ? formatDate(eventData.date) : '';
+  var subject = '🎫 Tikè — ' + title;
+  var body = 'Tikè mwen pou ' + title + '\n\n📅 ' + date + '\n📋 Ref: ' + ref + '\n\n' + window.location.href;
+  window.location.href = 'mailto:?subject=' + encodeURIComponent(subject) + '&body=' + encodeURIComponent(body);
+}
+
+function copyTicketRef() {
+  var ref = ticketData ? ticketData.referenceId : '';
+  navigator.clipboard.writeText(ref).then(function() {
+    var btn = document.querySelector('.share-btn.copy');
+    var orig = btn.innerHTML;
+    btn.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" style="width:16px;height:16px"><polyline points="20 6 9 17 4 12"/></svg> ' + t('copied');
+    setTimeout(function() { btn.innerHTML = orig; }, 2000);
+  });
+}
+
+applyI18n();
+</script>
+</body>
+</html>

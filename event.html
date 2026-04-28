@@ -996,27 +996,33 @@ function toggleDesc() {
 }
 
 /* ═══ SHARE ═══ */
+function getShareUrl() {
+  var evId = new URLSearchParams(window.location.search).get('id') || (event._id || event.id);
+  return evId ? API_URL + '/api/events/' + evId + '/share' : window.location.href;
+}
+
 function shareWhatsApp() {
-  var text = '🎤 ' + event.title + '\n📅 ' + formatDate(event.date) + '\n📍 ' + event.location + '\n\nAchte tikè sou Tikè Lakay!\n' + window.location.href;
+  var url = getShareUrl();
+  var text = (event.typeEmoji || '🎤') + ' ' + event.title + '\n📅 ' + formatDate(event.date) + '\n📍 ' + event.location + '\n\nAchte tikè sou Tikè Lakay!\n' + url;
   window.open('https://wa.me/?text=' + encodeURIComponent(text), '_blank');
 }
 
 function shareFacebook() {
-  window.open('https://www.facebook.com/sharer/sharer.php?u=' + encodeURIComponent(window.location.href), '_blank');
+  window.open('https://www.facebook.com/sharer/sharer.php?u=' + encodeURIComponent(getShareUrl()), '_blank');
 }
 
 function shareEmail() {
-  var subject = event.typeEmoji + ' ' + event.title + ' — Tikè Lakay';
+  var subject = (event.typeEmoji || '') + ' ' + event.title + ' — Tikè Lakay';
   var body = event.title + '\n\n' +
     '📅 ' + formatDate(event.date) + ' · ' + (event.startTime || '') + (event.endTime ? ' – ' + event.endTime : '') + '\n' +
     '📍 ' + (event.location || '') + '\n\n' +
     (event.description ? event.description + '\n\n' : '') +
-    'Achte tikè sou Tikè Lakay!\n' + window.location.href;
+    'Achte tikè sou Tikè Lakay!\n' + getShareUrl();
   window.location.href = 'mailto:?subject=' + encodeURIComponent(subject) + '&body=' + encodeURIComponent(body);
 }
 
 function copyLink() {
-  navigator.clipboard.writeText(window.location.href).then(function() {
+  navigator.clipboard.writeText(getShareUrl()).then(function() {
     var btn = document.querySelector('.share-btn.copy');
     var orig = btn.innerHTML;
     btn.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" style="width:16px;height:16px"><polyline points="20 6 9 17 4 12"/></svg> <span>' + t('copied') + '</span>';
@@ -1095,9 +1101,7 @@ function processPayment(method, freeTicket) {
     body: JSON.stringify(body)
   }).then(function(r) { return r.json(); }).then(function(data) {
     if (data.free) {
-      var modal = document.getElementById('paymentModal');
-      if (modal) modal.remove();
-      alert('✅ ' + (t('ticketConfirmed') || 'Tikè ou konfime! Referans: ') + data.referenceId);
+      window.location.href = 'ticket.html?ref=' + data.referenceId;
       return;
     }
     if (data.paymentUrl) {
