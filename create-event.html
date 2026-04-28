@@ -1670,10 +1670,10 @@ function publishEvent() {
     body: JSON.stringify(eventObj)
   }).then(function(r) { return r.json(); }).then(function(saved) {
     if (saved._id) {
-      var apiUrl = 'https://haitibiznis.com/event.html?id=' + saved._id;
+      var shareUrl = API_URL + '/api/events/' + saved._id + '/share';
       var viewBtn = document.querySelector('#successOverlay .btn-blue');
       if (viewBtn) viewBtn.href = 'event.html?id=' + saved._id;
-      window._publishedEventUrl = apiUrl;
+      window._publishedEventUrl = shareUrl;
       window._publishedEventId = saved._id;
       // Update localStorage with API id
       eventObj._id = saved._id;
