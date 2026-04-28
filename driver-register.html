@@ -42,17 +42,17 @@ input{font-family:var(--body)}
 .flag-stripe{height:4px;background:linear-gradient(90deg,var(--blue) 50%,var(--red) 50%);position:relative;z-index:1002}
 
 /* LANG BAR */
-.top-lang-bar{
-  background:var(--blue);color:#fff;font-size:.7rem;
-  padding:5px 20px;display:flex;align-items:center;justify-content:center;gap:4px;
-  position:fixed;top:0;left:0;right:0;z-index:1001;height:32px;
+.lang-bar{
+  background:var(--dark);padding:6px 20px;
+  display:flex;align-items:center;justify-content:center;gap:4px;
+  font-size:.68rem;z-index:1001;position:relative;
 }
-.top-lang-bar a{
-  color:#fff;background:rgba(255,255,255,.15);padding:3px 10px;border-radius:100px;
-  font-size:.68rem;font-weight:600;cursor:pointer;transition:all .15s;white-space:nowrap;
+.lang-bar a{
+  color:rgba(255,255,255,.5);padding:3px 12px;border-radius:100px;
+  font-weight:600;transition:all .2s;cursor:pointer;
 }
-.top-lang-bar a:hover{background:rgba(255,255,255,.3)}
-.top-lang-bar a.active{background:#fff;color:var(--blue)}
+.lang-bar a:hover{color:#fff;background:rgba(255,255,255,.08)}
+.lang-bar a.active{color:var(--gold);background:rgba(212,160,23,.15)}
 
 .header{
   position:sticky;top:0;z-index:100;
@@ -417,14 +417,14 @@ input{font-family:var(--body)}
 <body>
 
 <!-- LANGUAGE BAR -->
-<div class="top-lang-bar">
-  <a onclick="setLang('fr')">&#127467;&#127479; Fran&ccedil;ais</a>
-  <a onclick="setLang('en')">&#127468;&#127463; English</a>
-  <a onclick="setLang('ht')" class="active">&#127469;&#127481; Krey&ograve;l</a>
-  <a onclick="setLang('es')">&#127466;&#127480; Espa&ntilde;ol</a>
+<div class="lang-bar">
+  <a class="active" data-lang="ht">Kreyòl</a>
+  <a data-lang="fr">Français</a>
+  <a data-lang="en">English</a>
+  <a data-lang="es">Español</a>
 </div>
 
-<div class="flag-stripe" style="margin-top:32px"></div>
+<div class="flag-stripe"></div>
 
 <header class="header">
   <a href="events.html" class="header-left">
@@ -868,9 +868,8 @@ function setLang(lang){
   localStorage.setItem('hb_lang',lang);
   document.documentElement.lang=lang;
   /* update lang bar active state */
-  document.querySelectorAll('.top-lang-bar a').forEach(function(a){
-    var l=a.getAttribute('onclick');
-    a.classList.toggle('active',l&&l.indexOf("'"+lang+"'")>-1);
+  document.querySelectorAll('.lang-bar a').forEach(function(a){
+    a.classList.toggle('active',a.getAttribute('data-lang')===lang);
   });
   /* apply translations */
   var t=T[lang]||T.ht;
@@ -884,6 +883,9 @@ function setLang(lang){
   /* update page title */
   if(t.page_title) document.title=t.page_title;
 }
+document.querySelectorAll('.lang-bar a').forEach(function(a){
+  a.addEventListener('click',function(){ setLang(a.getAttribute('data-lang')); });
+});
 var savedLang=localStorage.getItem('hb_lang');
 if(savedLang&&T[savedLang]) setLang(savedLang); else setLang('ht');
 
