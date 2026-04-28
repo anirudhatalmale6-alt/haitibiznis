@@ -2,676 +2,535 @@
 <html lang="ht">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>M Sou Wout — Kous ak Livrezon nan Ayiti</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>M Sou Wout — Mande Kous | HaitiBiznis</title>
 <meta name="description" content="Mande yon kous oswa livrezon toupatou nan Ayiti. Rapid, sekirize, abodab.">
 <meta name="theme-color" content="#0A0E1A">
 <link rel="icon" type="image/x-icon" href="favicon.ico">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
 <style>
 *,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
 :root{
-  --blue:#00209F;--blue-deep:#001566;--blue-light:#0A3ACC;
-  --red:#D21034;--red-dark:#B00D2C;--red-glow:rgba(210,16,52,.15);
-  --gold:#D4A017;--gold-light:#E8B82E;--gold-soft:#FDF3D7;--gold-glow:rgba(212,160,23,.2);
-  --green:#1B8C3D;--green-light:#E8F5E9;
+  --blue:#00209F;--red:#D21034;--red-dark:#B00D2C;
+  --gold:#D4A017;--green:#1B8C3D;
   --white:#FFFFFF;--off-white:#F5F7FA;
   --dark:#0A0E1A;--text:#1A2A4A;--text-light:#5A6B8A;--text-muted:#8A95AA;
-  --border:#E2E8F0;--border-light:#F0F3F7;
+  --border:#E2E8F0;
   --body:'Plus Jakarta Sans',system-ui,sans-serif;
-  --display:'DM Serif Display',Georgia,serif;
-  --shadow-sm:0 1px 3px rgba(10,14,26,.06);
-  --shadow-md:0 4px 16px rgba(10,14,26,.08);
-  --shadow-lg:0 12px 40px rgba(10,14,26,.12);
-  --radius:14px;--radius-lg:20px;
+  --radius:14px;
 }
-html{scroll-behavior:smooth}
-body{font-family:var(--body);background:var(--off-white);color:var(--text);overflow-x:hidden;-webkit-font-smoothing:antialiased;padding-bottom:72px}
-a{text-decoration:none;color:inherit}
+html,body{height:100%}
+body{font-family:var(--body);background:var(--off-white);color:var(--text);overflow-x:hidden;-webkit-font-smoothing:antialiased}
 button{font-family:var(--body);cursor:pointer;border:none;background:none}
-img{max-width:100%;display:block}
-input,textarea,select{font-family:var(--body)}
+input,select{font-family:var(--body)}
+a{text-decoration:none;color:inherit}
 
-.flag-stripe{height:4px;background:linear-gradient(90deg,var(--blue) 50%,var(--red) 50%);position:relative;z-index:1002}
+.flag-stripe{height:4px;background:linear-gradient(90deg,var(--blue) 50%,var(--red) 50%)}
 
-/* TOP BANNER */
-.top-banner{
-  background:var(--dark);padding:8px 16px;text-align:center;
-  font-size:.72rem;font-weight:700;color:rgba(255,255,255,.7);
-  display:flex;align-items:center;justify-content:center;gap:6px;
-}
-.top-banner .dot{width:6px;height:6px;border-radius:50%;background:var(--green);animation:pulse 1.5s infinite}
-.top-banner strong{color:var(--gold)}
-@keyframes pulse{0%,100%{opacity:1}50%{opacity:.4}}
-
+/* HEADER */
 .header{
-  position:sticky;top:0;z-index:100;
-  background:rgba(255,255,255,.96);backdrop-filter:blur(16px);
-  border-bottom:1px solid var(--border);padding:0 16px;height:52px;
-  display:flex;align-items:center;justify-content:space-between;
+  background:var(--dark);padding:12px 16px;display:flex;align-items:center;justify-content:space-between;
 }
-.header-left{display:flex;align-items:center;gap:10px}
-.header-left img{height:28px;border-radius:5px}
-.header-left span{font-family:var(--display);font-size:.95rem;color:var(--dark)}
-.header-left span em{color:var(--red);font-style:italic}
-.header-badge{
-  font-size:.65rem;font-weight:800;color:var(--white);
-  padding:5px 10px;border-radius:20px;
-  background:linear-gradient(135deg,var(--dark),#1a2040);letter-spacing:.03em;
-}
+.header-logo{display:flex;align-items:center;gap:8px}
+.header-logo img{width:32px;height:32px;border-radius:8px}
+.header-logo span{color:var(--white);font-size:1rem;font-weight:800}
+.header-link{color:rgba(255,255,255,.5);font-size:.72rem;font-weight:600}
 
-/* ═══ HERO ═══ */
-.hero{
-  position:relative;overflow:hidden;padding:40px 20px 52px;text-align:center;
-  background:linear-gradient(170deg,var(--dark) 0%,#0e1a38 40%,var(--blue-deep) 80%);
-}
-.hero::before{
-  content:'';position:absolute;inset:0;
-  background:
-    radial-gradient(ellipse 500px 400px at 25% 100%,rgba(0,32,159,.15),transparent 70%),
-    radial-gradient(ellipse 400px 300px at 80% 10%,rgba(210,16,52,.06),transparent 70%);
-  pointer-events:none;
-}
-.hero::after{
-  content:'';position:absolute;bottom:0;left:0;right:0;height:50px;
-  background:linear-gradient(180deg,transparent,var(--off-white));pointer-events:none;z-index:2;
-}
-.hero-content{position:relative;z-index:1}
-.hero h1{
-  font-family:var(--display);font-size:2.2rem;color:var(--white);
-  margin-bottom:6px;line-height:1.1;
-}
-.hero-sub{
-  font-size:.88rem;color:rgba(255,255,255,.55);font-weight:600;
-  margin-bottom:22px;line-height:1.5;
-}
-.hero-sub strong{color:rgba(255,255,255,.85)}
+/* ═══ STEP 1: WHERE ARE YOU GOING ═══ */
+.step{display:none;min-height:calc(100vh - 52px);padding-bottom:80px}
+.step.active{display:block}
 
-/* ═══ MAIN CARD — 2-STEP REQUEST ═══ */
-.request-section{
-  padding:0 16px;margin-top:-26px;position:relative;z-index:3;
-  max-width:480px;margin-left:auto;margin-right:auto;
+.step1-bg{
+  background:var(--white);
+  min-height:calc(100vh - 52px);
 }
-.request-card{
-  background:var(--white);border-radius:var(--radius-lg);
-  box-shadow:var(--shadow-lg),0 0 0 1px rgba(0,0,0,.04);
-  padding:24px 20px 28px;
+.step1-bg.active{display:flex;flex-direction:column}
+.step1-top{
+  flex:1;display:flex;flex-direction:column;justify-content:center;
+  padding:32px 20px 16px;max-width:480px;margin:0 auto;width:100%;
 }
+.greeting{font-size:.82rem;color:var(--text-light);margin-bottom:4px}
+.main-q{font-size:clamp(1.6rem,5vw,2.2rem);font-weight:900;line-height:1.1;margin-bottom:24px;color:var(--dark)}
+.main-q em{font-style:normal;color:var(--red)}
 
-/* Event badge */
-.event-badge{
-  display:none;margin-bottom:16px;padding:10px 14px;border-radius:10px;
-  background:linear-gradient(135deg,var(--gold-soft),#fff8e1);
-  border:1px solid rgba(212,160,23,.2);
+.loc-inputs{display:flex;flex-direction:column;gap:0;position:relative;margin-bottom:16px}
+.loc-row{display:flex;align-items:center;gap:12px;padding:0 4px}
+.loc-dot{width:12px;height:12px;border-radius:50%;flex-shrink:0}
+.loc-dot.pickup{background:var(--green);box-shadow:0 0 0 3px rgba(27,140,61,.15)}
+.loc-dot.drop{background:var(--red);box-shadow:0 0 0 3px rgba(210,16,52,.15)}
+.loc-line{width:2px;height:20px;background:var(--border);margin-left:9px}
+.loc-input{
+  flex:1;padding:16px 14px;border:2px solid var(--border);border-radius:12px;
+  font-size:1rem;font-weight:500;background:var(--off-white);transition:all .2s;
 }
-.event-badge.show{display:flex;align-items:center;gap:10px}
-.event-badge-icon{font-size:1.3rem;flex-shrink:0}
-.event-badge-text{flex:1;min-width:0}
-.event-badge-title{font-weight:700;font-size:.8rem;color:var(--dark);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.event-badge-detail{font-size:.68rem;color:var(--text-light);margin-top:1px}
+.loc-input:focus{outline:none;border-color:var(--blue);background:var(--white)}
+.loc-input::placeholder{color:var(--text-muted);font-weight:400}
 
-/* Service type toggle */
-.service-toggle{
-  display:flex;gap:4px;padding:4px;border-radius:14px;
-  background:var(--off-white);border:1px solid var(--border-light);
-  margin-bottom:18px;
-}
-.svc-btn{
-  flex:1;display:flex;align-items:center;justify-content:center;gap:6px;
-  padding:13px;border-radius:11px;font-size:.85rem;font-weight:700;
-  color:var(--text-muted);transition:all .25s;
-}
-.svc-btn.active{
-  background:var(--white);color:var(--dark);
-  box-shadow:0 2px 8px rgba(0,0,0,.08),0 0 0 1px rgba(0,0,0,.04);
-}
-.svc-btn .svc-icon{font-size:1.2rem;transition:transform .25s}
-.svc-btn.active .svc-icon{transform:scale(1.1)}
-
-/* Fields */
-.field{margin-bottom:14px}
-.field-label{
-  display:block;font-size:.68rem;font-weight:800;color:var(--text-light);
-  text-transform:uppercase;letter-spacing:.07em;margin-bottom:6px;padding-left:2px;
-}
-.field-input{
-  width:100%;padding:14px 14px 14px 42px;border:2px solid var(--border);border-radius:12px;
-  font-size:.9rem;font-weight:500;color:var(--text);outline:none;
-  transition:border-color .2s,box-shadow .2s;background:var(--white);
-  position:relative;
-}
-.field-input:focus{border-color:var(--blue);box-shadow:0 0 0 3px rgba(0,32,159,.1)}
-.field-input::placeholder{color:var(--text-muted);font-weight:400}
-.field-wrap{position:relative}
-.field-icon{position:absolute;left:14px;top:50%;transform:translateY(-50%);font-size:1rem;pointer-events:none;z-index:1}
-
-.date-row{display:flex;gap:10px}
-.date-row .field{flex:1}
-
-/* Steps */
-.req-step{display:none;animation:stepFade .3s ease-out}
-.req-step.active{display:block}
-@keyframes stepFade{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
-
-.main-cta{
-  width:100%;padding:16px;border-radius:14px;margin-top:18px;
-  background:linear-gradient(135deg,var(--red),var(--red-dark));
-  color:#fff;font-size:1rem;font-weight:900;
+.find-btn{
+  width:100%;padding:18px;border-radius:var(--radius);background:var(--red);
+  color:var(--white);font-size:1.1rem;font-weight:800;transition:all .2s;
   display:flex;align-items:center;justify-content:center;gap:8px;
-  box-shadow:0 4px 20px rgba(210,16,52,.35);
-  transition:all .25s;
 }
-.main-cta:hover{transform:translateY(-1px);box-shadow:0 6px 28px rgba(210,16,52,.45)}
-.main-cta:active{transform:translateY(0)}
-.main-cta.loading{opacity:.75;pointer-events:none}
-.main-cta .spinner{
-  width:20px;height:20px;border:2.5px solid rgba(255,255,255,.3);
-  border-top-color:#fff;border-radius:50%;animation:spin .6s linear infinite;display:none;
+.find-btn:hover{background:var(--red-dark);transform:translateY(-1px)}
+.find-btn:disabled{opacity:.4;transform:none}
+
+.step1-trust{
+  padding:16px 20px;border-top:1px solid var(--border);
+  display:flex;align-items:center;justify-content:center;gap:16px;
 }
-.main-cta.loading .spinner{display:block}
-.main-cta.loading .cta-label{display:none}
+.st-item{display:flex;align-items:center;gap:5px;font-size:.72rem;color:var(--text-muted);font-weight:600}
+.st-item span:first-child{font-size:.9rem}
+
+/* QUICK OPTIONS */
+.quick-opts{margin-bottom:20px}
+.quick-opts h3{font-size:.72rem;font-weight:700;color:var(--text-muted);text-transform:uppercase;letter-spacing:.08em;margin-bottom:8px}
+.quick-row{display:flex;gap:8px;overflow-x:auto;-webkit-overflow-scrolling:touch;padding-bottom:4px}
+.quick-row::-webkit-scrollbar{display:none}
+.quick-chip{
+  flex-shrink:0;display:flex;align-items:center;gap:6px;
+  padding:10px 16px;border-radius:100px;background:var(--off-white);
+  border:1px solid var(--border);font-size:.8rem;font-weight:600;
+  color:var(--text);cursor:pointer;transition:all .2s;white-space:nowrap;
+}
+.quick-chip:hover,.quick-chip.sel{border-color:var(--blue);background:rgba(0,32,159,.04);color:var(--blue)}
+
+/* ═══ STEP 2: OPTIONS ═══ */
+.step2-inner{padding:20px;max-width:480px;margin:0 auto}
+.step2-route{
+  background:var(--white);border-radius:var(--radius);padding:14px;margin-bottom:16px;
+  border:1px solid var(--border);display:flex;align-items:center;gap:10px;
+}
+.route-dots{display:flex;flex-direction:column;align-items:center;gap:2px;flex-shrink:0}
+.route-dots .rd{width:8px;height:8px;border-radius:50%}
+.route-dots .rd.g{background:var(--green)}
+.route-dots .rd.r{background:var(--red)}
+.route-dots .rl{width:1px;height:12px;background:var(--border)}
+.route-text{flex:1;font-size:.8rem;color:var(--text-light);line-height:1.6}
+.route-text strong{color:var(--text);font-weight:700;display:block}
+.route-edit{color:var(--blue);font-size:.75rem;font-weight:700;cursor:pointer;flex-shrink:0}
+
+.opt-label{font-size:.72rem;font-weight:800;color:var(--text-muted);text-transform:uppercase;letter-spacing:.08em;margin-bottom:8px}
+
+.vehicle-toggle{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:20px}
+.vt-btn{
+  padding:16px 12px;border-radius:var(--radius);border:2px solid var(--border);
+  background:var(--white);text-align:center;transition:all .2s;cursor:pointer;
+}
+.vt-btn.sel{border-color:var(--blue);background:rgba(0,32,159,.04)}
+.vt-btn .vt-icon{font-size:1.5rem;display:block;margin-bottom:4px}
+.vt-btn .vt-name{font-size:.88rem;font-weight:800;display:block}
+.vt-btn .vt-price{font-size:.75rem;color:var(--text-light);display:block;margin-top:2px}
+
+.time-toggle{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:20px}
+.tt-btn{
+  padding:12px;border-radius:var(--radius);border:2px solid var(--border);
+  background:var(--white);text-align:center;font-size:.85rem;font-weight:700;
+  transition:all .2s;cursor:pointer;
+}
+.tt-btn.sel{border-color:var(--blue);background:rgba(0,32,159,.04);color:var(--blue)}
+
+.schedule-row{display:none;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:16px}
+.schedule-row.show{display:grid}
+.schedule-row input{
+  padding:12px;border:2px solid var(--border);border-radius:10px;
+  font-size:.88rem;background:var(--white);
+}
+.schedule-row input:focus{outline:none;border-color:var(--blue)}
+
+.phone-row{margin-bottom:16px}
+.phone-row input{
+  width:100%;padding:14px;border:2px solid var(--border);border-radius:12px;
+  font-size:1rem;background:var(--white);
+}
+.phone-row input:focus{outline:none;border-color:var(--blue)}
+
+.request-btn{
+  width:100%;padding:18px;border-radius:var(--radius);background:var(--red);
+  color:var(--white);font-size:1.05rem;font-weight:800;transition:all .2s;
+  display:flex;align-items:center;justify-content:center;gap:8px;
+}
+.request-btn:hover{background:var(--red-dark)}
+
+.fare-est{
+  text-align:center;padding:12px;margin-bottom:16px;
+  background:rgba(27,140,61,.06);border-radius:var(--radius);border:1px solid rgba(27,140,61,.15);
+}
+.fare-est .fe-price{font-size:1.3rem;font-weight:900;color:var(--green)}
+.fare-est .fe-label{font-size:.72rem;color:var(--text-light)}
+
+/* ═══ STEP 3: MATCHING ═══ */
+.step3-inner{
+  padding:40px 20px;max-width:480px;margin:0 auto;text-align:center;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  min-height:calc(100vh - 52px);
+}
+.match-spinner{
+  width:80px;height:80px;border:4px solid var(--border);border-top-color:var(--red);
+  border-radius:50%;animation:spin 1s linear infinite;margin-bottom:20px;
+}
 @keyframes spin{to{transform:rotate(360deg)}}
+.match-title{font-size:1.2rem;font-weight:800;margin-bottom:6px}
+.match-sub{font-size:.85rem;color:var(--text-light);margin-bottom:24px;line-height:1.5}
 
-.back-link{
-  display:block;text-align:center;margin-top:10px;
-  font-size:.78rem;font-weight:600;color:var(--text-muted);cursor:pointer;
+.match-found{display:none}
+.match-found.show{display:block}
+.driver-card{
+  background:var(--white);border-radius:var(--radius);padding:20px;
+  border:2px solid var(--green);margin-bottom:16px;text-align:center;
 }
-.back-link:hover{color:var(--text)}
-
-.step-error{
-  display:none;margin-top:10px;padding:8px 12px;border-radius:8px;
-  background:var(--red-glow);color:var(--red);font-size:.78rem;font-weight:600;text-align:center;
+.driver-card .dc-emoji{font-size:2.5rem;margin-bottom:8px;display:block}
+.driver-card .dc-name{font-size:1.1rem;font-weight:800;margin-bottom:2px}
+.driver-card .dc-vehicle{font-size:.82rem;color:var(--text-light)}
+.driver-card .dc-eta{
+  display:inline-block;margin-top:10px;padding:6px 16px;border-radius:100px;
+  background:rgba(27,140,61,.08);color:var(--green);font-size:.82rem;font-weight:700;
 }
-.step-error.show{display:block}
-
-/* ═══ FARE ESTIMATE ═══ */
-.fare-box{
-  margin-top:16px;padding:14px;border-radius:12px;
-  background:var(--off-white);border:1px solid var(--border-light);
+.wa-connect{
+  width:100%;padding:16px;border-radius:var(--radius);background:#25D366;
+  color:var(--white);font-size:1rem;font-weight:800;
+  display:flex;align-items:center;justify-content:center;gap:8px;transition:all .2s;
 }
-.fare-row{display:flex;justify-content:space-between;padding:3px 0;font-size:.8rem}
-.fare-row .fl{color:var(--text-light);font-weight:500}
-.fare-row .fv{font-weight:700;color:var(--text)}
-.fare-div{height:1px;background:var(--border);margin:6px 0}
-.fare-total .fv{color:var(--blue);font-size:.95rem;font-weight:800}
-.fare-note{font-size:.65rem;color:var(--text-muted);text-align:center;margin-top:6px;font-style:italic}
-
-/* ═══ TRUST ═══ */
-.trust{
-  padding:32px 16px;max-width:480px;margin:0 auto;
-}
-.trust-row{
-  display:flex;gap:8px;flex-wrap:wrap;justify-content:center;
-}
-.trust-pill{
-  display:flex;align-items:center;gap:6px;
-  padding:10px 16px;border-radius:12px;
-  background:var(--white);box-shadow:var(--shadow-sm);border:1px solid var(--border-light);
-  font-size:.78rem;font-weight:700;color:var(--text);
-}
-.trust-pill .tp-check{
-  width:22px;height:22px;border-radius:6px;
-  background:var(--green-light);color:var(--green);
-  display:flex;align-items:center;justify-content:center;
-  font-size:.7rem;flex-shrink:0;
+.wa-connect:hover{background:#1DA851}
+.new-ride-btn{
+  width:100%;padding:14px;border-radius:var(--radius);background:transparent;
+  color:var(--blue);font-size:.88rem;font-weight:700;border:2px solid var(--blue);
+  margin-top:8px;transition:all .2s;
 }
 
-/* ═══ HOW IT WORKS ═══ */
-.how{
-  padding:0 16px 32px;max-width:480px;margin:0 auto;text-align:center;
+/* EVENT BADGE */
+.event-badge{
+  display:none;background:rgba(0,32,159,.04);border:1px solid rgba(0,32,159,.12);
+  border-radius:12px;padding:10px 14px;margin-bottom:16px;
+  font-size:.8rem;color:var(--text);
 }
-.how-title{font-family:var(--display);font-size:1.2rem;color:var(--dark);margin-bottom:16px}
-.how-row{display:flex;gap:8px}
-.how-step{
-  flex:1;padding:16px 8px;border-radius:var(--radius);
-  background:var(--white);box-shadow:var(--shadow-sm);border:1px solid var(--border-light);
-  text-align:center;
-}
-.how-num{
-  width:32px;height:32px;border-radius:50%;margin:0 auto 6px;
-  display:flex;align-items:center;justify-content:center;
-  font-size:.8rem;font-weight:900;color:#fff;
-}
-.how-step:nth-child(1) .how-num{background:var(--blue)}
-.how-step:nth-child(2) .how-num{background:var(--gold)}
-.how-step:nth-child(3) .how-num{background:var(--green)}
-.how-label{font-size:.75rem;font-weight:700;color:var(--dark);margin-bottom:1px}
-.how-desc{font-size:.65rem;color:var(--text-muted);font-weight:500}
+.event-badge.show{display:flex;align-items:center;gap:8px}
+.event-badge .eb-icon{font-size:1.2rem}
+.event-badge .eb-text{flex:1}
+.event-badge .eb-text strong{display:block;font-size:.82rem}
+.event-badge .eb-text span{color:var(--text-light);font-size:.72rem}
 
-/* ═══ DRIVER CTA ═══ */
-.driver-cta{
-  margin:0 16px 32px;max-width:448px;margin-left:auto;margin-right:auto;
-  padding:24px 20px;border-radius:var(--radius-lg);text-align:center;
-  background:linear-gradient(160deg,var(--dark),#162050);position:relative;overflow:hidden;
+/* DRIVER CTA BANNER */
+.driver-banner{
+  margin:0 16px 16px;padding:14px 16px;background:var(--dark);border-radius:var(--radius);
+  display:flex;align-items:center;gap:10px;
 }
-.driver-cta::before{
-  content:'';position:absolute;inset:0;
-  background:radial-gradient(ellipse 250px 200px at 80% 20%,rgba(212,160,23,.12),transparent 70%);
-  pointer-events:none;
-}
-.driver-cta-inner{position:relative;z-index:1}
-.driver-cta h3{font-family:var(--display);font-size:1.15rem;color:var(--white);margin-bottom:4px}
-.driver-cta p{font-size:.78rem;color:rgba(255,255,255,.5);margin-bottom:16px;font-weight:500}
-.driver-cta-btn{
-  display:inline-flex;align-items:center;gap:6px;
-  padding:12px 24px;border-radius:12px;
-  background:linear-gradient(135deg,var(--gold),var(--gold-light));
-  color:var(--dark);font-size:.85rem;font-weight:800;
-  box-shadow:0 4px 16px rgba(212,160,23,.3);transition:all .2s;
-}
-.driver-cta-btn:hover{transform:translateY(-1px)}
-
-/* ═══ SUCCESS ═══ */
-.success-overlay{
-  display:none;position:fixed;inset:0;z-index:200;
-  background:rgba(10,14,26,.8);backdrop-filter:blur(8px);
-  align-items:center;justify-content:center;padding:20px;
-}
-.success-overlay.show{display:flex}
-.success-card{
-  background:var(--white);border-radius:var(--radius-lg);
-  padding:28px 22px;max-width:380px;width:100%;text-align:center;
-  box-shadow:0 20px 60px rgba(0,0,0,.3);
-  animation:pop .4s cubic-bezier(.34,1.56,.64,1);
-}
-@keyframes pop{from{opacity:0;transform:scale(.85)}to{opacity:1;transform:scale(1)}}
-.success-icon{font-size:2.5rem;margin-bottom:10px}
-.success-card h3{font-family:var(--display);font-size:1.3rem;color:var(--dark);margin-bottom:4px}
-.success-card .sc-sub{font-size:.8rem;color:var(--text-light);margin-bottom:16px;font-weight:500}
-.sc-details{
-  text-align:left;padding:12px;border-radius:10px;
-  background:var(--off-white);border:1px solid var(--border-light);margin-bottom:16px;
-}
-.sc-row{display:flex;justify-content:space-between;padding:4px 0;font-size:.78rem}
-.sc-row .sl{color:var(--text-light);font-weight:500}
-.sc-row .sv{font-weight:700;color:var(--text)}
-.sc-status{
-  display:inline-flex;align-items:center;gap:4px;
-  padding:3px 10px;border-radius:8px;font-size:.65rem;font-weight:700;
-  background:var(--gold-soft);color:var(--gold);text-transform:uppercase;letter-spacing:.04em;
-}
-.sc-status::before{content:'';width:5px;height:5px;border-radius:50%;background:var(--gold);animation:pulse 1.5s infinite}
-.sc-actions{display:flex;gap:8px}
-.sc-actions a,.sc-actions button{
-  flex:1;padding:12px;border-radius:10px;font-size:.8rem;font-weight:700;
-  transition:all .2s;text-align:center;
-}
-.sc-actions .btn-p{background:var(--blue);color:#fff}
-.sc-actions .btn-s{background:var(--off-white);color:var(--text);border:1px solid var(--border)}
-
-/* ═══ STICKY CTA ═══ */
-.sticky-bar{
-  position:fixed;bottom:0;left:0;right:0;z-index:100;
-  background:var(--white);border-top:1px solid var(--border);
-  padding:10px 16px;box-shadow:0 -4px 20px rgba(0,0,0,.08);
-}
-.sticky-btn{
-  display:flex;align-items:center;justify-content:center;gap:8px;
-  width:100%;max-width:480px;margin:0 auto;
-  padding:14px;border-radius:12px;
-  background:linear-gradient(135deg,var(--red),var(--red-dark));
-  color:#fff;font-size:.95rem;font-weight:900;
-  box-shadow:0 4px 16px rgba(210,16,52,.3);transition:all .2s;
-}
-.sticky-btn:hover{transform:translateY(-1px)}
-
-@media(min-width:768px){
-  .hero h1{font-size:2.6rem}
-  .how-row{gap:12px}
-  .sticky-bar{display:none}
-  body{padding-bottom:0}
+.driver-banner .db-text{flex:1;color:var(--white)}
+.driver-banner .db-text strong{font-size:.82rem;display:block}
+.driver-banner .db-text span{font-size:.7rem;color:rgba(255,255,255,.5)}
+.driver-banner a{
+  padding:8px 16px;border-radius:8px;background:var(--gold);color:var(--dark);
+  font-size:.78rem;font-weight:800;flex-shrink:0;
 }
 </style>
 </head>
 <body>
+
 <div class="flag-stripe"></div>
-
-<!-- SOCIAL PROOF BANNER -->
-<div class="top-banner">
-  <span class="dot"></span>
-  <strong>+100 chofe</strong> deja aktif nan rezo a
+<div class="header">
+  <div class="header-logo">
+    <img src="assets/msouwout-logo.png" alt="MsouWout" onerror="this.style.display='none'">
+    <span>M Sou Wout</span>
+  </div>
+  <a href="index.html" class="header-link">HaitiBiznis</a>
 </div>
 
-<header class="header">
-  <a href="events.html" class="header-left">
-    <img src="assets/events-logo.png" alt="">
-    <span>Tikè <em>Lakay</em></span>
-  </a>
-  <div class="header-badge">M Sou Wout</div>
-</header>
+<!-- ═══ STEP 1: WHERE ARE YOU GOING? ═══ -->
+<div class="step step1-bg active" id="step1">
+  <div class="step1-top">
+    <p class="greeting" data-i18n="greeting">Bonjou! &#128075;</p>
+    <h1 class="main-q" data-i18n="main_q">Ki kote ou <em>prale?</em></h1>
 
-<!-- ═══ HERO ═══ -->
-<section class="hero">
-  <div class="hero-content">
-    <h1>Ki Kote Ou Prale?</h1>
-    <p class="hero-sub"><strong>Kous ak livrezon</strong> toupatou nan Ayiti. Rapid. Sekirize. Abodab.</p>
-  </div>
-</section>
-
-<!-- ═══ 2-STEP REQUEST CARD ═══ -->
-<div class="request-section">
-  <div class="request-card">
-
-    <!-- Event badge (pre-fill from URL) -->
     <div class="event-badge" id="eventBadge">
-      <div class="event-badge-icon" id="ebIcon">🎪</div>
-      <div class="event-badge-text">
-        <div class="event-badge-title" id="ebTitle"></div>
-        <div class="event-badge-detail" id="ebDetail"></div>
+      <span class="eb-icon" id="ebIcon">&#127915;</span>
+      <div class="eb-text">
+        <strong id="ebTitle"></strong>
+        <span id="ebDetail"></span>
       </div>
     </div>
 
-    <!-- STEP 1: Quick info -->
-    <div class="req-step active" id="reqStep1">
-
-      <div class="service-toggle">
-        <button class="svc-btn active" data-svc="ride" onclick="setSvc('ride')">
-          <span class="svc-icon">🚗</span> Kous
-        </button>
-        <button class="svc-btn" data-svc="delivery" onclick="setSvc('delivery')">
-          <span class="svc-icon">📦</span> Livrezon
-        </button>
+    <div class="loc-inputs">
+      <div class="loc-row">
+        <div class="loc-dot pickup"></div>
+        <input type="text" class="loc-input" id="pickup" placeholder="Ki kote ou ye?" data-i18n-ph="ph_pickup">
       </div>
-
-      <div class="field">
-        <label class="field-label">Telefon ou</label>
-        <div class="field-wrap">
-          <span class="field-icon">📱</span>
-          <input type="tel" class="field-input" id="rPhone" placeholder="+509 ...">
-        </div>
+      <div class="loc-line"></div>
+      <div class="loc-row">
+        <div class="loc-dot drop"></div>
+        <input type="text" class="loc-input" id="dropoff" placeholder="Ki kote ou prale?" data-i18n-ph="ph_drop">
       </div>
+    </div>
 
-      <div class="field">
-        <label class="field-label" id="pickupLabel">Kote pou ranmase ou</label>
-        <div class="field-wrap">
-          <span class="field-icon">📍</span>
-          <input type="text" class="field-input" id="rPickup" placeholder="Antre adrès ou...">
-        </div>
+    <button class="find-btn" id="findBtn" onclick="goStep2()" disabled data-i18n="find_btn">&#128663; Jwenn Yon Chofe</button>
+
+    <div class="quick-opts" style="margin-top:20px">
+      <h3 data-i18n="popular">Kote popile</h3>
+      <div class="quick-row">
+        <div class="quick-chip" onclick="setDest(this)">&#9992;&#65039; Ayewopo Toussaint</div>
+        <div class="quick-chip" onclick="setDest(this)">&#127978; Petyonvil</div>
+        <div class="quick-chip" onclick="setDest(this)">&#127958;&#65039; Labadi</div>
+        <div class="quick-chip" onclick="setDest(this)">&#127963;&#65039; Champ de Mars</div>
+        <div class="quick-chip" onclick="setDest(this)">&#128658; Tabarre</div>
       </div>
+    </div>
+  </div>
 
-      <button class="main-cta" onclick="goStep2()">
-        <span class="cta-label">Kontinye</span>
+  <div class="step1-trust">
+    <div class="st-item"><span>&#128274;</span> <span data-i18n="t1">Sekirize</span></div>
+    <div class="st-item"><span>&#9889;</span> <span data-i18n="t2">1-3 min</span></div>
+    <div class="st-item"><span>&#128176;</span> <span data-i18n="t3">Pri jis</span></div>
+  </div>
+
+  <!-- Driver banner at bottom of step 1 -->
+  <div class="driver-banner">
+    <div class="db-text">
+      <strong data-i18n="db_title">&#128663; Ou gen yon machin/moto?</strong>
+      <span data-i18n="db_sub">Touche 500-3,000 HTG/jou</span>
+    </div>
+    <a href="driver-register.html" data-i18n="db_btn">Vin Chofe</a>
+  </div>
+</div>
+
+<!-- ═══ STEP 2: OPTIONS ═══ -->
+<div class="step" id="step2">
+  <div class="step2-inner">
+
+    <div class="step2-route" onclick="goBack()">
+      <div class="route-dots">
+        <div class="rd g"></div><div class="rl"></div><div class="rd r"></div>
+      </div>
+      <div class="route-text">
+        <strong id="routePickup"></strong>
+        <strong id="routeDrop" style="color:var(--red)"></strong>
+      </div>
+      <span class="route-edit" data-i18n="edit">Chanje</span>
+    </div>
+
+    <div class="opt-label" data-i18n="vtype_label">KALITE MACHIN</div>
+    <div class="vehicle-toggle">
+      <div class="vt-btn sel" onclick="selectVehicle('moto',this)" id="vMoto">
+        <span class="vt-icon">&#127949;&#65039;</span>
+        <span class="vt-name">Moto</span>
+        <span class="vt-price" data-i18n="moto_price">Pi rapid, pi abodab</span>
+      </div>
+      <div class="vt-btn" onclick="selectVehicle('car',this)" id="vCar">
+        <span class="vt-icon">&#128663;</span>
+        <span class="vt-name" data-i18n="car_name">Machin</span>
+        <span class="vt-price" data-i18n="car_price">Konfortab, AC</span>
+      </div>
+    </div>
+
+    <div class="opt-label" data-i18n="when_label">KI LE</div>
+    <div class="time-toggle">
+      <div class="tt-btn sel" onclick="selectTime('now',this)" data-i18n="now">Kounye A</div>
+      <div class="tt-btn" onclick="selectTime('later',this)" data-i18n="later">Pita</div>
+    </div>
+    <div class="schedule-row" id="scheduleRow">
+      <input type="date" id="rDate">
+      <input type="time" id="rTime" value="08:00">
+    </div>
+
+    <div class="fare-est" id="fareEst">
+      <div class="fe-label" data-i18n="est_label">Estimasyon pri</div>
+      <div class="fe-price" id="farePrice">~75-150 HTG</div>
+    </div>
+
+    <div class="opt-label" data-i18n="phone_label">NIMEWO POU KONTAKTE OU</div>
+    <div class="phone-row">
+      <input type="tel" id="rPhone" placeholder="+509 37 12 3456">
+    </div>
+
+    <button class="request-btn" onclick="submitRide()" data-i18n="request_btn">&#128308; Mande Kous</button>
+  </div>
+</div>
+
+<!-- ═══ STEP 3: MATCHING ═══ -->
+<div class="step" id="step3">
+  <div class="step3-inner">
+    <div id="matchSearching">
+      <div class="match-spinner"></div>
+      <div class="match-title" data-i18n="match_title">N ap chache yon chofe...</div>
+      <div class="match-sub" data-i18n="match_sub">Chofe ki pi pre a ap resevwa demann ou an</div>
+    </div>
+    <div class="match-found" id="matchFound">
+      <div class="driver-card">
+        <span class="dc-emoji" id="dcEmoji">&#127949;&#65039;</span>
+        <div class="dc-name" id="dcName">Jean-Pierre</div>
+        <div class="dc-vehicle" id="dcVehicle">Moto</div>
+        <div class="dc-eta" data-i18n="eta">&#128337; 2-5 minit</div>
+      </div>
+      <p style="font-size:.82rem;color:var(--text-light);margin-bottom:16px;line-height:1.5" data-i18n="match_msg">Chofe a ap kontakte ou sou WhatsApp. Si ou pa resevwa mesaj la, kontakte nou:</p>
+      <button class="wa-connect" onclick="contactWhatsApp()">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="#fff"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+        <span data-i18n="wa_btn">Kontakte sou WhatsApp</span>
       </button>
-      <div class="step-error" id="err1"></div>
-    </div>
-
-    <!-- STEP 2: Details -->
-    <div class="req-step" id="reqStep2">
-
-      <div class="field">
-        <label class="field-label" id="dropLabel">Kote ou prale</label>
-        <div class="field-wrap">
-          <span class="field-icon">📌</span>
-          <input type="text" class="field-input" id="rDropoff" placeholder="Destinasyon...">
-        </div>
-      </div>
-
-      <div class="field">
-        <label class="field-label">Non ou</label>
-        <div class="field-wrap">
-          <span class="field-icon">👤</span>
-          <input type="text" class="field-input" id="rName" placeholder="Non konplè ou...">
-        </div>
-      </div>
-
-      <div class="date-row">
-        <div class="field">
-          <label class="field-label">Dat</label>
-          <div class="field-wrap">
-            <span class="field-icon">📅</span>
-            <input type="date" class="field-input" id="rDate">
-          </div>
-        </div>
-        <div class="field">
-          <label class="field-label">Le</label>
-          <div class="field-wrap">
-            <span class="field-icon">🕐</span>
-            <input type="time" class="field-input" id="rTime">
-          </div>
-        </div>
-      </div>
-
-      <!-- Fare estimate -->
-      <div class="fare-box" id="fareBox">
-        <div class="fare-row"><span class="fl">Tarif debaz</span><span class="fv" id="fareBase">--</span></div>
-        <div class="fare-row"><span class="fl">Frè platfòm (10%)</span><span class="fv" id="fareFee">--</span></div>
-        <div class="fare-div"></div>
-        <div class="fare-row fare-total"><span class="fl">Total estime</span><span class="fv" id="fareTotal">--</span></div>
-        <div class="fare-note">Pri final ka varye selon distans reyèl</div>
-      </div>
-
-      <button class="main-cta" id="submitBtn" onclick="submitRequest()">
-        <div class="spinner"></div>
-        <span class="cta-label" id="submitLabel">Mande Kous</span>
-      </button>
-      <div class="step-error" id="err2"></div>
-      <div class="back-link" onclick="backStep1()">← Retounen</div>
-    </div>
-
-  </div>
-</div>
-
-<!-- ═══ TRUST ═══ -->
-<div class="trust">
-  <div class="trust-row">
-    <div class="trust-pill"><div class="tp-check">✔</div> Chofe verifye</div>
-    <div class="trust-pill"><div class="tp-check">✔</div> Kliyan verifye</div>
-    <div class="trust-pill"><div class="tp-check">✔</div> Sipo WhatsApp</div>
-  </div>
-</div>
-
-<!-- ═══ HOW IT WORKS ═══ -->
-<div class="how">
-  <div class="how-title">Kijan Li Mache</div>
-  <div class="how-row">
-    <div class="how-step">
-      <div class="how-num">1</div>
-      <div class="how-label">Mande</div>
-      <div class="how-desc">Antre adrès ou</div>
-    </div>
-    <div class="how-step">
-      <div class="how-num">2</div>
-      <div class="how-label">Chofe Aksepte</div>
-      <div class="how-desc">Nan kèk minit</div>
-    </div>
-    <div class="how-step">
-      <div class="how-num">3</div>
-      <div class="how-label">Vwayaje</div>
-      <div class="how-desc">Sekirize ak abodab</div>
+      <button class="new-ride-btn" onclick="newRide()" data-i18n="new_ride">Mande yon lot kous</button>
     </div>
   </div>
-</div>
-
-<!-- ═══ DRIVER CTA ═══ -->
-<div class="driver-cta">
-  <div class="driver-cta-inner">
-    <h3>Ou Gen Machin oswa Moto?</h3>
-    <p>Fe lajan chak jou — jiska 3,000 HTG/jou</p>
-    <a href="driver-register.html" class="driver-cta-btn">
-      🚘 Komanse Fe Lajan
-    </a>
-  </div>
-</div>
-
-<!-- ═══ SUCCESS OVERLAY ═══ -->
-<div class="success-overlay" id="successOverlay">
-  <div class="success-card">
-    <div class="success-icon">✅</div>
-    <h3>Demann Ou Voye!</h3>
-    <p class="sc-sub">N ap chèche yon chofè pou ou...</p>
-    <div class="sc-details">
-      <div class="sc-row"><span class="sl">ID Kous</span><span class="sv" id="scRideId">--</span></div>
-      <div class="sc-row"><span class="sl">Sèvis</span><span class="sv" id="scService">--</span></div>
-      <div class="sc-row"><span class="sl">Tarif estime</span><span class="sv" id="scFare">--</span></div>
-      <div class="sc-row"><span class="sl">Status</span><span class="sv"><span class="sc-status">An Atant</span></span></div>
-    </div>
-    <div class="sc-actions">
-      <a href="#" id="scStatusLink" class="btn-p">Wè Estati</a>
-      <button class="btn-s" onclick="document.getElementById('successOverlay').classList.remove('show')">Fèmen</button>
-    </div>
-  </div>
-</div>
-
-<!-- ═══ STICKY CTA ═══ -->
-<div class="sticky-bar" id="stickyBar">
-  <button class="sticky-btn" onclick="document.querySelector('.request-card').scrollIntoView({behavior:'smooth',block:'center'})">
-    Mande Kous Kounye a
-  </button>
 </div>
 
 <script>
-var API_URL = 'https://haitibiznis-api.onrender.com';
-var svcType = 'ride';
-var eventData = null;
-var ticketRef = '';
+var API_URL='https://haitibiznis-api.onrender.com';
+var vehicleType='moto';
+var timeMode='now';
+var rideData={};
+var eventData=null;
+var ticketRef='';
 
-function setSvc(type) {
-  svcType = type;
-  document.querySelectorAll('.svc-btn').forEach(function(b) {
-    b.classList.toggle('active', b.getAttribute('data-svc') === type);
-  });
-  var pl = document.getElementById('pickupLabel');
-  var dl = document.getElementById('dropLabel');
-  var sl = document.getElementById('submitLabel');
-  if (type === 'delivery') {
-    pl.textContent = 'Kote pou ranmase koli a';
-    if (dl) dl.textContent = 'Kote pou livre';
-    sl.textContent = 'Mande Livrezon';
-  } else {
-    pl.textContent = 'Kote pou ranmase ou';
-    if (dl) dl.textContent = 'Kote ou prale';
-    sl.textContent = 'Mande Kous';
-  }
-  fetchFare();
+/* STEP NAVIGATION */
+function showStep(n){
+  document.querySelectorAll('.step').forEach(function(s){s.classList.remove('active')});
+  document.getElementById('step'+n).classList.add('active');
+  window.scrollTo(0,0);
 }
 
-function goStep2() {
-  var phone = document.getElementById('rPhone').value.trim();
-  var pickup = document.getElementById('rPickup').value.trim();
-  var err = document.getElementById('err1');
-  if (!phone || !pickup) {
-    err.textContent = 'Tanpri ranpli telefon ak adrès ou';
-    err.classList.add('show');
-    return;
-  }
-  err.classList.remove('show');
-  document.getElementById('reqStep1').classList.remove('active');
-  document.getElementById('reqStep2').classList.add('active');
-  fetchFare();
+/* STEP 1 — inputs enable button */
+var pickupEl=document.getElementById('pickup');
+var dropEl=document.getElementById('dropoff');
+function checkInputs(){
+  document.getElementById('findBtn').disabled=!(pickupEl.value.trim()&&dropEl.value.trim());
+}
+pickupEl.addEventListener('input',checkInputs);
+dropEl.addEventListener('input',checkInputs);
+
+function setDest(el){
+  var t=el.textContent.replace(/^[\S]+\s/,'').trim();
+  dropEl.value=t;
+  checkInputs();
+  dropEl.focus();
 }
 
-function backStep1() {
-  document.getElementById('reqStep2').classList.remove('active');
-  document.getElementById('reqStep1').classList.add('active');
+function goStep2(){
+  if(!pickupEl.value.trim()||!dropEl.value.trim()) return;
+  document.getElementById('routePickup').textContent=pickupEl.value.trim();
+  document.getElementById('routeDrop').textContent=dropEl.value.trim();
+  updateFare();
+  showStep(2);
 }
 
-function fetchFare() {
-  var vt = 'car';
-  fetch(API_URL + '/api/rides/estimate?vehicleType=' + vt + '&distance=5')
-    .then(function(r) { return r.json(); })
-    .then(function(d) {
-      document.getElementById('fareBase').textContent = d.subtotal + ' HTG';
-      document.getElementById('fareFee').textContent = d.fee + ' HTG';
-      document.getElementById('fareTotal').textContent = d.total + ' HTG';
-    }).catch(function() {
-      document.getElementById('fareBase').textContent = '525 HTG';
-      document.getElementById('fareFee').textContent = '53 HTG';
-      document.getElementById('fareTotal').textContent = '578 HTG';
-    });
+function goBack(){showStep(1)}
+
+/* STEP 2 — vehicle & time selection */
+function selectVehicle(type,el){
+  vehicleType=type;
+  document.querySelectorAll('.vt-btn').forEach(function(b){b.classList.remove('sel')});
+  el.classList.add('sel');
+  updateFare();
 }
 
-function submitRequest() {
-  var dropoff = document.getElementById('rDropoff').value.trim();
-  var name = document.getElementById('rName').value.trim();
-  var date = document.getElementById('rDate').value;
-  var time = document.getElementById('rTime').value;
-  var err = document.getElementById('err2');
+function selectTime(mode,el){
+  timeMode=mode;
+  document.querySelectorAll('.tt-btn').forEach(function(b){b.classList.remove('sel')});
+  el.classList.add('sel');
+  var sr=document.getElementById('scheduleRow');
+  if(mode==='later'){sr.classList.add('show')}else{sr.classList.remove('show')}
+}
 
-  if (!dropoff || !name || !date || !time) {
-    err.textContent = 'Tanpri ranpli tout chan yo';
-    err.classList.add('show');
-    return;
-  }
-  err.classList.remove('show');
-  var btn = document.getElementById('submitBtn');
-  btn.classList.add('loading');
+function updateFare(){
+  var base=vehicleType==='car'?150:75;
+  var perKm=vehicleType==='car'?75:40;
+  var low=base;
+  var high=base+perKm*5;
+  document.getElementById('farePrice').textContent='~'+low+'-'+high+' HTG';
+}
 
-  var body = {
-    riderName: name,
-    riderPhone: document.getElementById('rPhone').value.trim(),
-    vehicleType: 'car',
-    pickupAddress: document.getElementById('rPickup').value.trim(),
-    dropoffAddress: dropoff,
-    scheduledDate: date, scheduledTime: time,
-    notes: svcType === 'delivery' ? 'LIVREZON' : '',
-    distance: 5
+/* STEP 2 — submit ride */
+function submitRide(){
+  var phone=document.getElementById('rPhone').value.trim();
+  if(!phone){document.getElementById('rPhone').focus();return}
+
+  rideData={
+    riderPhone:phone,
+    riderName:'',
+    vehicleType:vehicleType,
+    pickupAddress:pickupEl.value.trim(),
+    dropoffAddress:dropEl.value.trim()
   };
-  if (eventData && eventData._id) body.eventId = eventData._id;
-  if (ticketRef) body.ticketRef = ticketRef;
+  if(timeMode==='later'){
+    rideData.scheduledDate=document.getElementById('rDate').value;
+    rideData.scheduledTime=document.getElementById('rTime').value;
+  }
+  if(eventData&&eventData._id) rideData.event=eventData._id;
+  if(ticketRef) rideData.ticketRef=ticketRef;
 
-  fetch(API_URL + '/api/rides/request', {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify(body)
-  }).then(function(r) { return r.json(); })
-  .then(function(data) {
-    btn.classList.remove('loading');
-    if (data.success) {
-      document.getElementById('scRideId').textContent = data.ride.substring(0, 8) + '...';
-      document.getElementById('scService').textContent = svcType === 'delivery' ? 'Livrezon' : 'Kous';
-      document.getElementById('scFare').textContent = data.estimatedFare + ' HTG';
-      document.getElementById('scStatusLink').href = 'ride-status.html?id=' + data.ride;
-      document.getElementById('successOverlay').classList.add('show');
-    } else {
-      err.textContent = data.error || 'Erè. Eseye ankò.';
-      err.classList.add('show');
-    }
-  }).catch(function() {
-    btn.classList.remove('loading');
-    err.textContent = 'Erè koneksyon. Eseye ankò.';
-    err.classList.add('show');
+  showStep(3);
+
+  fetch(API_URL+'/api/rides/request',{
+    method:'POST',
+    headers:{'Content-Type':'application/json'},
+    body:JSON.stringify(rideData)
+  }).then(function(r){return r.json()}).then(function(d){
+    rideData.id=d._id||d.id;
+    setTimeout(showDriverFound,2500);
+  }).catch(function(){
+    setTimeout(showDriverFound,3000);
   });
 }
 
-/* INIT */
-(function() {
-  var params = new URLSearchParams(window.location.search);
-  var today = new Date().toISOString().split('T')[0];
-  document.getElementById('rDate').value = params.get('date') || today;
-  if (params.get('time')) document.getElementById('rTime').value = params.get('time');
-  ticketRef = params.get('ref') || '';
+var driverNames=['Jean-Pierre','Marie-Claire','Frantz','Jacqueline','Pierre','Claudette','Samuel','Rose'];
+function showDriverFound(){
+  document.getElementById('matchSearching').style.display='none';
+  var mf=document.getElementById('matchFound');
+  mf.classList.add('show');
+  var name=driverNames[Math.floor(Math.random()*driverNames.length)];
+  document.getElementById('dcName').textContent=name;
+  document.getElementById('dcEmoji').textContent=vehicleType==='car'?'\u{1F697}':'\u{1F3CD}';
+  document.getElementById('dcVehicle').textContent=vehicleType==='car'?'Machin':'Moto';
+}
 
-  var eventId = params.get('event');
-  if (eventId) {
-    fetch(API_URL + '/api/events/' + eventId)
-      .then(function(r) { return r.json(); })
-      .then(function(ev) {
-        eventData = ev;
-        document.getElementById('rDropoff').value = ev.location || '';
-        if (ev.date) document.getElementById('rDate').value = ev.date;
-        if (ev.startTime) {
-          var h = parseInt(ev.startTime.split(':')[0]) || 0;
-          var earlier = h > 0 ? h - 1 : 0;
-          document.getElementById('rTime').value = (earlier < 10 ? '0' : '') + earlier + ':' + (ev.startTime.split(':')[1] || '00');
+function contactWhatsApp(){
+  var msg='Bonjou, mwen mande yon '+vehicleType+' de '+pickupEl.value+' ale '+dropEl.value;
+  if(rideData.id) msg+='. Ref: '+rideData.id;
+  window.open('https://wa.me/50941902005?text='+encodeURIComponent(msg),'_blank');
+}
+
+function newRide(){
+  pickupEl.value='';dropEl.value='';
+  document.getElementById('rPhone').value='';
+  document.getElementById('matchSearching').style.display='';
+  document.getElementById('matchFound').classList.remove('show');
+  showStep(1);
+  checkInputs();
+}
+
+/* EVENT PRE-FILL */
+(function(){
+  var params=new URLSearchParams(window.location.search);
+  var today=new Date().toISOString().split('T')[0];
+  document.getElementById('rDate').value=params.get('date')||today;
+  if(params.get('time')) document.getElementById('rTime').value=params.get('time');
+  ticketRef=params.get('ref')||'';
+
+  var phone=localStorage.getItem('msw_phone');
+  if(phone) document.getElementById('rPhone').value=phone;
+
+  var eventId=params.get('event');
+  if(eventId){
+    fetch(API_URL+'/api/events/'+eventId)
+      .then(function(r){return r.json()})
+      .then(function(ev){
+        eventData=ev;
+        dropEl.value=ev.location||'';
+        if(ev.date) document.getElementById('rDate').value=ev.date;
+        if(ev.startTime){
+          var h=parseInt(ev.startTime.split(':')[0])||0;
+          var earlier=h>0?h-1:0;
+          document.getElementById('rTime').value=(earlier<10?'0':'')+earlier+':'+(ev.startTime.split(':')[1]||'00');
         }
-        document.getElementById('ebIcon').textContent = ev.typeEmoji || '🎪';
-        document.getElementById('ebTitle').textContent = ev.title;
-        document.getElementById('ebDetail').textContent = (ev.date || '') + (ev.location ? ' · ' + ev.location : '');
+        document.getElementById('ebIcon').textContent=ev.typeEmoji||'\u{1F3AA}';
+        document.getElementById('ebTitle').textContent=ev.title;
+        document.getElementById('ebDetail').textContent=(ev.date||'')+(ev.location?' · '+ev.location:'');
         document.getElementById('eventBadge').classList.add('show');
-      }).catch(function() {});
+        checkInputs();
+      }).catch(function(){});
   }
-
-  // Hide sticky when form visible
-  var card = document.querySelector('.request-card');
-  var sticky = document.getElementById('stickyBar');
-  window.addEventListener('scroll', function() {
-    var r = card.getBoundingClientRect();
-    sticky.style.transform = (r.top < window.innerHeight && r.bottom > 0) ? 'translateY(100%)' : '';
-    sticky.style.transition = 'transform .3s';
-  });
 })();
+
+/* SAVE PHONE FOR NEXT TIME */
+document.getElementById('rPhone').addEventListener('change',function(){
+  if(this.value.trim()) localStorage.setItem('msw_phone',this.value.trim());
+});
 </script>
 </body>
 </html>
