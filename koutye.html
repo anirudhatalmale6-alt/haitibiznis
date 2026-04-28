@@ -37,6 +37,11 @@ button{font-family:var(--body);cursor:pointer;border:none;background:none}
 input{font-family:var(--body)}
 
 .flag-stripe{height:4px;background:linear-gradient(90deg,var(--blue) 50%,var(--red) 50%);position:relative;z-index:1002}
+.header{background:var(--dark);padding:12px 16px;display:flex;align-items:center;justify-content:space-between}
+.header-logo{display:flex;align-items:center;gap:8px}
+.header-logo img{width:32px;height:32px;border-radius:8px}
+.header-logo span{color:#fff;font-size:1rem;font-weight:800}
+.header-link{color:rgba(255,255,255,.5);font-size:.72rem;font-weight:600;text-decoration:none}
 
 /* SOCIAL PROOF BANNER */
 .top-banner{
@@ -256,6 +261,13 @@ input{font-family:var(--body)}
 <body>
 
 <div class="flag-stripe"></div>
+<header class="header">
+  <a href="koutye.html" class="header-logo">
+    <img src="assets/koutye-biznis-logo.jpg" alt="Koutye Biznis">
+    <span>Koutye Biznis</span>
+  </a>
+  <a href="index.html" class="header-link">HaitiBiznis</a>
+</header>
 
 <!-- SOCIAL PROOF BANNER -->
 <div class="top-banner">
