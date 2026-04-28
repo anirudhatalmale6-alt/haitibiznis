@@ -528,22 +528,22 @@ footer{padding:40px 20px 24px;background:var(--dark);color:var(--white)}
 
 /* CHOOSE SECTION - 6 cards */
 .choose-section{padding:48px 20px;max-width:1000px;margin:0 auto}
-.choose-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:16px}
+.choose-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}
 .choose-card{
-  border-radius:18px;padding:24px 20px;color:#fff;cursor:pointer;
+  border-radius:14px;padding:14px 12px;color:#fff;cursor:pointer;
   position:relative;overflow:hidden;transition:transform .3s,box-shadow .3s;
 }
 .choose-card:hover{transform:translateY(-4px);box-shadow:0 12px 32px rgba(0,0,0,.2)}
-.choose-card h4{font-family:var(--display);font-size:1.05rem;margin-bottom:6px}
-.choose-card p{font-size:.8rem;color:rgba(255,255,255,.85);line-height:1.4}
-.choose-card .cc-logo{height:36px;border-radius:8px;margin-bottom:10px;object-fit:contain}
+.choose-card h4{font-family:var(--display);font-size:.88rem;margin-bottom:4px}
+.choose-card p{font-size:.7rem;color:rgba(255,255,255,.85);line-height:1.35}
+.choose-card .cc-logo{height:30px;border-radius:6px;margin-bottom:6px;object-fit:contain}
 .choose-card.cc-flag{background:linear-gradient(160deg,var(--blue) 0%,#001A80 50%,var(--red-dark) 100%);border:1px solid rgba(210,16,52,.3)}
 .choose-card.cc-blue{background:linear-gradient(160deg,#1A4FD4 0%,var(--blue) 60%,var(--blue-dark) 100%)}
 .choose-card.cc-green{background:linear-gradient(160deg,#2CA855 0%,var(--green) 60%,#126B2A 100%)}
 .choose-card.cc-gold{background:linear-gradient(160deg,#E8B830 0%,var(--gold) 60%,#A07510 100%)}
 .choose-card.cc-red{background:linear-gradient(160deg,var(--red-light) 0%,var(--red) 60%,var(--red-dark) 100%)}
 .choose-card.cc-dark{background:linear-gradient(160deg,#1E293B 0%,#111827 60%,#0C1222 100%);border:1px solid rgba(255,255,255,.08)}
-@media(max-width:480px){.choose-grid{grid-template-columns:1fr}}
+@media(max-width:360px){.choose-grid{gap:8px}.choose-card{padding:12px 10px}.choose-card h4{font-size:.82rem}.choose-card p{font-size:.65rem}}
 
 /* COMMISSION TABLE */
 .commission-section{padding:48px 20px;background:var(--white)}
@@ -702,20 +702,20 @@ footer{padding:40px 20px 24px;background:var(--dark);color:var(--white)}
       <h4>Tik&egrave; Lakay</h4>
       <p data-i18n="cc_events">Kreye ev&egrave;nman, vann tik&egrave;, desine envitasyon. Touche komisyon.</p>
     </a>
-    <a href="https://48hoursready.com" target="_blank" class="choose-card cc-green reveal reveal-d3">
+    <a href="https://myplopplop.com" target="_blank" class="choose-card cc-red reveal reveal-d3">
+      <img src="assets/myplopplop-logo-new.png" alt="MyPlopPlop" class="cc-logo">
+      <h4>MyPlopPlop</h4>
+      <p data-i18n="cc_plop">Vann pwodwi. Jwenn plis kliyan.</p>
+    </a>
+    <a href="https://48hoursready.com" target="_blank" class="choose-card cc-green reveal">
       <img src="assets/48hoursready-logo.jpg" alt="48HoursReady" class="cc-logo">
       <h4>48HoursReady</h4>
       <p data-i18n="cc_48hr">Ref&egrave;re biznis. Touche 10% sou chak pake.</p>
     </a>
-    <a href="prolakay.html" class="choose-card cc-gold reveal">
+    <a href="prolakay.html" class="choose-card cc-gold reveal reveal-d1">
       <img src="assets/prolakay-logo-full.png" alt="ProLakay" class="cc-logo">
       <h4>ProLakay</h4>
       <p data-i18n="cc_pro">Ou gen talan oswa metye? Jwenn kliyan.</p>
-    </a>
-    <a href="https://myplopplop.com" target="_blank" class="choose-card cc-red reveal reveal-d1">
-      <img src="assets/myplopplop-logo-new.png" alt="MyPlopPlop" class="cc-logo">
-      <h4>MyPlopPlop Marketplace</h4>
-      <p data-i18n="cc_plop">Vann pwodwi. Jwenn plis kliyan.</p>
     </a>
     <a href="utility-hub.html" class="choose-card cc-dark reveal reveal-d2">
       <img src="assets/utility-hub-logo.jpg" alt="Utility Hub" class="cc-logo">
