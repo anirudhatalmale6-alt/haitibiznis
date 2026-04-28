@@ -562,6 +562,17 @@ img{max-width:100%;display:block}
   </div>
 </section>
 
+<!-- ═══ YOUR EVENTS (dynamic from localStorage) ═══ -->
+<section class="section" id="yourEventsSection" style="background:var(--off-white);max-width:100%;border-top:1px solid var(--border-light);border-bottom:1px solid var(--border-light);padding-left:0;padding-right:0;display:none">
+  <div style="max-width:960px;margin:0 auto;padding:0 20px">
+    <div class="section-tag reveal" data-i18n="tag_your_events">✨ Evènman Ou Yo</div>
+    <h2 class="section-title reveal" data-i18n="your_events_title">Evènman <em>Ou Kreye</em></h2>
+    <p class="section-desc reveal" data-i18n="your_events_desc">Evènman ou pibliye sou Tikè Lakay.</p>
+  </div>
+  <div class="events-scroll" id="yourEventsScroll" style="padding-left:max(20px, calc((100% - 960px)/2 + 20px))">
+  </div>
+</section>
+
 <!-- ═══ 3. FEATURED EVENTS ═══ -->
 <section class="section" id="events" style="background:var(--white);max-width:100%;border-top:1px solid var(--border-light);border-bottom:1px solid var(--border-light);padding-left:0;padding-right:0">
   <div style="max-width:960px;margin:0 auto;padding:0 20px">
@@ -976,6 +987,9 @@ var translations = {
     cat_martial_arts_count: '24 evènman',
     cat_other_sports: 'Lòt Spò',
     cat_other_sports_count: '39 evènman',
+    tag_your_events: '✨ Evènman Ou Yo',
+    your_events_title: 'Evènman <em>Ou Kreye</em>',
+    your_events_desc: 'Evènman ou pibliye sou Tikè Lakay.',
     tag_popular: '🔥 Popilè',
     popular_title: 'Evènman <em>Popilè</em>',
     popular_desc: 'Evènman ki pi cho nan peyi a kounye a.',
@@ -1106,6 +1120,9 @@ var translations = {
     cat_martial_arts_count: '24 événements',
     cat_other_sports: 'Autres Sports',
     cat_other_sports_count: '39 événements',
+    tag_your_events: '✨ Vos Événements',
+    your_events_title: 'Événements <em>que Vous Avez Créés</em>',
+    your_events_desc: 'Événements que vous avez publiés sur Tikè Lakay.',
     tag_popular: '🔥 Populaires',
     popular_title: 'Événements <em>Populaires</em>',
     popular_desc: 'Les événements les plus en vogue dans le pays en ce moment.',
@@ -1236,6 +1253,9 @@ var translations = {
     cat_martial_arts_count: '24 events',
     cat_other_sports: 'Other Sports',
     cat_other_sports_count: '39 events',
+    tag_your_events: '✨ Your Events',
+    your_events_title: 'Events <em>You Created</em>',
+    your_events_desc: 'Events you published on Tikè Lakay.',
     tag_popular: '🔥 Popular',
     popular_title: 'Popular <em>Events</em>',
     popular_desc: 'The hottest events in the country right now.',
@@ -1366,6 +1386,9 @@ var translations = {
     cat_martial_arts_count: '24 eventos',
     cat_other_sports: 'Otros Deportes',
     cat_other_sports_count: '39 eventos',
+    tag_your_events: '✨ Tus Eventos',
+    your_events_title: 'Eventos <em>que Creaste</em>',
+    your_events_desc: 'Eventos que publicaste en Tikè Lakay.',
     tag_popular: '🔥 Populares',
     popular_title: 'Eventos <em>Populares</em>',
     popular_desc: 'Los eventos más populares del país en este momento.',
@@ -1458,6 +1481,70 @@ document.querySelectorAll('.cat-card').forEach(function(card){
   card.addEventListener('click', function(){
     document.getElementById('events').scrollIntoView({behavior:'smooth'});
   });
+});
+
+/* ═══ RENDER USER-CREATED EVENTS ═══ */
+(function renderUserEvents() {
+  var events = [];
+  try { events = JSON.parse(localStorage.getItem('tl_events') || '[]'); } catch(e) { return; }
+  if (!events.length) return;
+
+  var section = document.getElementById('yourEventsSection');
+  var scroll = document.getElementById('yourEventsScroll');
+  if (!section || !scroll) return;
+  section.style.display = '';
+
+  var monthNames = {ht:['JAN','FEV','MAS','AVR','MAI','JEN','JIY','AOU','SEP','OKT','NOV','DES'],en:['JAN','FEB','MAR','APR','MAY','JUN','JUL','AUG','SEP','OCT','NOV','DEC'],fr:['JAN','FÉV','MAR','AVR','MAI','JUN','JUL','AOÛ','SEP','OCT','NOV','DÉC'],es:['ENE','FEB','MAR','ABR','MAY','JUN','JUL','AGO','SEP','OCT','NOV','DIC']};
+  var lang = localStorage.getItem('tl_lang') || 'ht';
+  var months = monthNames[lang] || monthNames.ht;
+
+  var html = '';
+  events.forEach(function(ev, idx) {
+    var d = ev.date ? new Date(ev.date + 'T00:00:00') : null;
+    var monthStr = d ? months[d.getMonth()] : '—';
+    var dayStr = d ? d.getDate() : '—';
+    var emoji = ev.typeEmoji || '📌';
+    var gradient = ev.gradient || 'linear-gradient(135deg,#2a2a4a,#4a4a8a,#6a6abd)';
+    var tagBg = ev.tagBg || 'rgba(74,74,138,.85)';
+    var typeLabel = ev.typeLabel || ev.type || 'Evènman';
+    var minPrice = null;
+    var isFree = true;
+    if (ev.tickets && ev.tickets.length) {
+      ev.tickets.forEach(function(t) {
+        if (t.price > 0) {
+          isFree = false;
+          if (minPrice === null || t.price < minPrice) minPrice = t.price;
+        }
+      });
+    }
+    var priceHtml = isFree ? '<span class="ev-price free">✓ GRATIS</span>' : '<span class="ev-price">HTG ' + (minPrice || 0).toLocaleString() + '</span>';
+    var btnHtml = isFree ? '<button class="ev-buy rsvp">RSVP</button>' : '<button class="ev-buy ticket">Achte Tikè</button>';
+    var timeStr = (ev.startTime || '') + (ev.endTime ? ' — ' + ev.endTime : '');
+    var delayClass = idx > 0 ? ' reveal-d' + Math.min(idx, 3) : '';
+
+    html += '<div class="ev-card reveal' + delayClass + '" onclick="window.location.href=\'event.html?id=' + ev.id + '\'">' +
+      '<div class="ev-img">' +
+      '<div class="ev-img-bg" style="background:' + gradient + '">' + emoji + '</div>' +
+      '<span class="ev-type-tag" style="background:' + tagBg + '">' + typeLabel + '</span>' +
+      '<div class="ev-date-badge"><div class="month">' + monthStr + '</div><div class="day">' + dayStr + '</div></div>' +
+      '</div>' +
+      '<div class="ev-body">' +
+      '<div class="ev-title">' + (ev.title || 'Evènman') + '</div>' +
+      '<div class="ev-meta">' +
+      '<div class="ev-meta-row"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>' + (ev.location || '—') + '</div>' +
+      (timeStr ? '<div class="ev-meta-row"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>' + timeStr + '</div>' : '') +
+      '</div>' +
+      '<div class="ev-footer">' + priceHtml + btnHtml + '</div>' +
+      '</div></div>';
+  });
+  scroll.innerHTML = html;
+
+  scroll.querySelectorAll('.reveal').forEach(function(el) { observer.observe(el); });
+})();
+
+/* Also make static event cards link to demo event page */
+document.querySelectorAll('#events .ev-card').forEach(function(card) {
+  card.onclick = function() { window.location.href = 'event.html'; };
 });
 </script>
 </body>

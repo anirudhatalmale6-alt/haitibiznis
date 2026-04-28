@@ -1342,8 +1342,102 @@ function buildSummary() {
   document.getElementById('sumCapacity').textContent = total + (t.sum_cap_suffix || ' plas');
 }
 
+/* ═══ EVENT TYPE CONFIG ═══ */
+var typeConfig = {
+  konferans:{emoji:'🎤',gradient:'linear-gradient(135deg,#0A1235,#00209F,#0A3ACC)',tagBg:'rgba(0,32,159,.85)',label:'Konferans'},
+  party:{emoji:'🎉',gradient:'linear-gradient(135deg,#5a1a3a,#D21034,#FF4466)',tagBg:'rgba(210,16,52,.85)',label:'Fèt/Party'},
+  gala:{emoji:'💝',gradient:'linear-gradient(135deg,#1a3a1a,#D4A017,#E8B82E)',tagBg:'rgba(212,160,23,.9)',label:'Gala/Kolèk'},
+  seminè:{emoji:'📚',gradient:'linear-gradient(135deg,#1a2a4a,#2a4a8a,#4a7acc)',tagBg:'rgba(42,74,138,.85)',label:'Seminè'},
+  maryaj:{emoji:'💍',gradient:'linear-gradient(135deg,#f5e6d0,#e8c9a0,#d4a870)',tagBg:'rgba(180,140,80,.9)',label:'Maryaj'},
+  legliz:{emoji:'⛪',gradient:'linear-gradient(135deg,#2a1a5a,#5a3a8a,#8a6abd)',tagBg:'rgba(90,58,138,.85)',label:'Legliz'},
+  biznis:{emoji:'💼',gradient:'linear-gradient(135deg,#0a2a4a,#00209F,#D4A017)',tagBg:'rgba(0,32,159,.85)',label:'Biznis'},
+  konsè:{emoji:'🎵',gradient:'linear-gradient(135deg,#1a0a3a,#4a1a8a,#8a3acc)',tagBg:'rgba(74,26,138,.85)',label:'Konsè'},
+  fòmasyon:{emoji:'🎓',gradient:'linear-gradient(135deg,#0a3a2a,#1B8C3D,#2acc5a)',tagBg:'rgba(27,140,61,.85)',label:'Fòmasyon/Workshop'},
+  kominyon:{emoji:'🕊️',gradient:'linear-gradient(135deg,#e8e0d0,#c0a880,#d4a870)',tagBg:'rgba(180,140,80,.85)',label:'Premye Kominyon'},
+  batèm:{emoji:'💧',gradient:'linear-gradient(135deg,#d0e8f0,#80b0d0,#4a8ab0)',tagBg:'rgba(74,138,176,.85)',label:'Batèm'},
+  futbol:{emoji:'⚽',gradient:'linear-gradient(135deg,#0a3a0a,#1B8C3D,#2acc5a)',tagBg:'rgba(27,140,61,.85)',label:'Futbol'},
+  baskètbòl:{emoji:'🏀',gradient:'linear-gradient(135deg,#8a3a0a,#cc6a1a,#e8982a)',tagBg:'rgba(204,106,26,.85)',label:'Baskètbòl'},
+  volibòl:{emoji:'🏐',gradient:'linear-gradient(135deg,#2a3a5a,#4a6a9a,#6a8acc)',tagBg:'rgba(74,106,154,.85)',label:'Volibòl'},
+  tenis:{emoji:'🎾',gradient:'linear-gradient(135deg,#2a4a0a,#6a8a2a,#8aaa4a)',tagBg:'rgba(106,138,42,.85)',label:'Tenis'},
+  badminton:{emoji:'🏸',gradient:'linear-gradient(135deg,#0a4a4a,#2a8a8a,#4abaaa)',tagBg:'rgba(42,138,138,.85)',label:'Badminton'},
+  bòks:{emoji:'🥊',gradient:'linear-gradient(135deg,#4a0a0a,#8a1a1a,#cc2a2a)',tagBg:'rgba(138,26,26,.85)',label:'Bòks'},
+  karate:{emoji:'🥋',gradient:'linear-gradient(135deg,#1a1a1a,#4a4a4a,#7a7a7a)',tagBg:'rgba(74,74,74,.85)',label:'Karate/Judo'},
+  gradyasyon:{emoji:'🎓',gradient:'linear-gradient(135deg,#0a2a4a,#1a4a8a,#2a6acc)',tagBg:'rgba(26,74,138,.85)',label:'Gradyasyon'},
+  bal:{emoji:'💃',gradient:'linear-gradient(135deg,#3a0a3a,#8a2a8a,#cc4acc)',tagBg:'rgba(138,42,138,.85)',label:'Bal/Dans'},
+  jounen_nasyonal:{emoji:'🇭🇹',gradient:'linear-gradient(135deg,#00209F,#D21034,#D4A017)',tagBg:'rgba(0,32,159,.85)',label:'Jounen Nasyonal'},
+  nwèl:{emoji:'🎄',gradient:'linear-gradient(135deg,#0a2a0a,#D21034,#1B8C3D)',tagBg:'rgba(27,140,61,.85)',label:'Nwèl/Fèt'},
+  kanaval:{emoji:'🎭',gradient:'linear-gradient(135deg,#D21034,#D4A017,#00209F)',tagBg:'rgba(210,16,52,.85)',label:'Kanaval'},
+  lòt:{emoji:'📌',gradient:'linear-gradient(135deg,#2a2a4a,#4a4a8a,#6a6abd)',tagBg:'rgba(74,74,138,.85)',label:'Lòt'}
+};
+
 /* ═══ PUBLISH ═══ */
 function publishEvent() {
+  var evId = 'evt_' + Date.now();
+  var evType = document.getElementById('evType').value;
+  var cfg = typeConfig[evType] || typeConfig['lòt'];
+
+  var tickets = [];
+  document.querySelectorAll('.ticket-card').forEach(function(card) {
+    var inputs = card.querySelectorAll('input');
+    tickets.push({
+      name: inputs[0] ? inputs[0].value : '',
+      price: inputs[1] ? parseInt(inputs[1].value) || 0 : 0,
+      qty: inputs[2] ? parseInt(inputs[2].value) || 0 : 0,
+      sold: 0,
+      saleStart: inputs[3] ? inputs[3].value : '',
+      saleEnd: inputs[4] ? inputs[4].value : '',
+      desc: inputs[5] ? inputs[5].value : ''
+    });
+  });
+
+  var payMethods = {};
+  document.querySelectorAll('.pay-check input[type="checkbox"]').forEach(function(cb) {
+    payMethods[cb.value] = cb.checked;
+  });
+
+  var inviteImage = '';
+  try { inviteImage = document.getElementById('inviteCanvas').toDataURL('image/jpeg', 0.7); } catch(e) {}
+
+  var eventObj = {
+    id: evId,
+    title: document.getElementById('evTitle').value || '',
+    type: evType,
+    typeLabel: cfg.label,
+    typeEmoji: cfg.emoji,
+    gradient: cfg.gradient,
+    tagBg: cfg.tagBg,
+    date: document.getElementById('evDate').value || '',
+    startTime: document.getElementById('evStart').value || '',
+    endTime: document.getElementById('evEnd').value || '',
+    location: document.getElementById('evLocation').value || '',
+    onlineLink: document.getElementById('evOnline').value || '',
+    description: document.getElementById('evDesc').value || '',
+    organizer: document.getElementById('evOrgName').value || '',
+    organizerPhone: document.getElementById('evOrgPhone').value || '',
+    organizerEmail: document.getElementById('evOrgEmail').value || '',
+    hostedBy: document.getElementById('hostedBy') ? document.getElementById('hostedBy').value : '',
+    inviteImage: inviteImage,
+    tickets: tickets,
+    paymentMethods: payMethods,
+    moncashNumber: document.getElementById('moncashInput') ? (document.getElementById('moncashInput').querySelector('input') || {}).value || '' : '',
+    natcashNumber: document.getElementById('natcashInput') ? (document.getElementById('natcashInput').querySelector('input') || {}).value || '' : '',
+    koutyeEnabled: document.getElementById('koutyeToggle') ? document.getElementById('koutyeToggle').checked : false,
+    creatorPct: document.getElementById('creatorPct') ? parseInt(document.getElementById('creatorPct').value) || 0 : 0,
+    createdAt: new Date().toISOString()
+  };
+
+  var events = [];
+  try { events = JSON.parse(localStorage.getItem('tl_events') || '[]'); } catch(e) { events = []; }
+  events.unshift(eventObj);
+  try { localStorage.setItem('tl_events', JSON.stringify(events)); } catch(e) {}
+
+  var evUrl = 'https://haitibiznis.com/event.html?id=' + evId;
+  var viewBtn = document.querySelector('#successOverlay .btn-blue');
+  if (viewBtn) { viewBtn.href = 'event.html?id=' + evId; }
+
+  window._publishedEventId = evId;
+  window._publishedEventUrl = evUrl;
+
   var overlay = document.getElementById('successOverlay');
   overlay.classList.add('open');
   var confetti = document.getElementById('successConfetti');
@@ -1363,16 +1457,19 @@ function publishEvent() {
 
 function shareWhatsApp() {
   var title = document.getElementById('evTitle').value || 'Mon evènman';
-  window.open('https://wa.me/?text=' + encodeURIComponent('🎉 ' + title + ' — Achte tikè sou Tikè Lakay!\nhttps://haitibiznis.com/events'), '_blank');
+  var url = window._publishedEventUrl || 'https://haitibiznis.com/events';
+  window.open('https://wa.me/?text=' + encodeURIComponent('🎉 ' + title + ' — Achte tikè sou Tikè Lakay!\n' + url), '_blank');
 }
 
 function shareFacebook() {
-  window.open('https://www.facebook.com/sharer/sharer.php?u=' + encodeURIComponent('https://haitibiznis.com/events'), '_blank');
+  var url = window._publishedEventUrl || 'https://haitibiznis.com/events';
+  window.open('https://www.facebook.com/sharer/sharer.php?u=' + encodeURIComponent(url), '_blank');
 }
 
 function copyLink() {
   var t = i18n[curLang];
-  navigator.clipboard.writeText('https://haitibiznis.com/events').then(function() {
+  var url = window._publishedEventUrl || 'https://haitibiznis.com/events';
+  navigator.clipboard.writeText(url).then(function() {
     var btn = document.querySelector('.share-btn.copy span');
     if (!btn) btn = document.querySelector('.share-btn.copy');
     btn.innerHTML = '✅ Kopye!';

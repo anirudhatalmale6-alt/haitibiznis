@@ -543,8 +543,8 @@ img{max-width:100%;display:block}
 </nav>
 
 <script>
-/* ═══ DEMO DATA ═══ */
-var event = {
+/* ═══ LOAD EVENT DATA ═══ */
+var demoEvent = {
   title: "Gran Konferans Teknoloji 2026",
   type: "konferans",
   typeLabel: "Konferans",
@@ -566,6 +566,25 @@ var event = {
     { name: "Etidyan", price: 250, desc: "Montre kat etidyan ou", qty: 100, sold: 45 }
   ]
 };
+
+var event = demoEvent;
+(function loadEventFromUrl() {
+  var params = new URLSearchParams(window.location.search);
+  var evId = params.get('id');
+  if (!evId) return;
+  var events = [];
+  try { events = JSON.parse(localStorage.getItem('tl_events') || '[]'); } catch(e) { return; }
+  for (var i = 0; i < events.length; i++) {
+    if (events[i].id === evId) {
+      event = events[i];
+      if (!event.typeEmoji) event.typeEmoji = '📌';
+      if (!event.typeLabel) event.typeLabel = event.type || 'Lòt';
+      if (!event.koutyeEnabled) event.koutyeEnabled = false;
+      event.tickets.forEach(function(t) { if (!t.sold) t.sold = 0; });
+      break;
+    }
+  }
+})();
 
 /* Similar events demo */
 var similarEvents = [
