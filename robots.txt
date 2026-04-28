@@ -1,0 +1,5 @@
+User-agent: *
+Allow: /
+Disallow: /utility-admin.html
+
+Sitemap: https://haitibiznis.com/sitemap.xml

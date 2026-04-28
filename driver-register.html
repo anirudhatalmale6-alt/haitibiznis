@@ -11,6 +11,7 @@
 <meta property="og:image" content="https://haitibiznis.com/assets/og-msouwout.jpg">
 <meta property="og:url" content="https://haitibiznis.com/driver-register.html">
 <meta property="og:type" content="website">
+<link rel="canonical" href="https://haitibiznis.com/driver-register.html">
 <link rel="icon" type="image/x-icon" href="favicon.ico">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -39,6 +40,19 @@ button{font-family:var(--body);cursor:pointer;border:none;background:none}
 input{font-family:var(--body)}
 
 .flag-stripe{height:4px;background:linear-gradient(90deg,var(--blue) 50%,var(--red) 50%);position:relative;z-index:1002}
+
+/* LANG BAR */
+.top-lang-bar{
+  background:var(--blue);color:#fff;font-size:.7rem;
+  padding:5px 20px;display:flex;align-items:center;justify-content:center;gap:4px;
+  position:fixed;top:0;left:0;right:0;z-index:1001;height:32px;
+}
+.top-lang-bar a{
+  color:#fff;background:rgba(255,255,255,.15);padding:3px 10px;border-radius:100px;
+  font-size:.68rem;font-weight:600;cursor:pointer;transition:all .15s;white-space:nowrap;
+}
+.top-lang-bar a:hover{background:rgba(255,255,255,.3)}
+.top-lang-bar a.active{background:#fff;color:var(--blue)}
 
 .header{
   position:sticky;top:0;z-index:100;
@@ -401,27 +415,36 @@ input{font-family:var(--body)}
 </style>
 </head>
 <body>
-<div class="flag-stripe"></div>
+
+<!-- LANGUAGE BAR -->
+<div class="top-lang-bar">
+  <a onclick="setLang('fr')">&#127467;&#127479; Fran&ccedil;ais</a>
+  <a onclick="setLang('en')">&#127468;&#127463; English</a>
+  <a onclick="setLang('ht')" class="active">&#127469;&#127481; Krey&ograve;l</a>
+  <a onclick="setLang('es')">&#127466;&#127480; Espa&ntilde;ol</a>
+</div>
+
+<div class="flag-stripe" style="margin-top:32px"></div>
 
 <header class="header">
   <a href="events.html" class="header-left">
     <img src="assets/events-logo.png" alt="">
-    <span>Tikè <em>Lakay</em></span>
+    <span>Tik&egrave; <em>Lakay</em></span>
   </a>
-  <div class="header-badge">M Sou Wout</div>
+  <div class="header-badge" data-i18n="header_badge">M Sou Wout</div>
 </header>
 
 <!-- ═══ 1. HERO ═══ -->
 <section class="hero">
   <div class="hero-content">
     <div class="hero-emoji">🚗</div>
-    <h1>Ou Gen Machin oswa Moto?</h1>
-    <div class="hero-headline">Fè Lajan <em>Jodi a.</em></div>
-    <p class="hero-sub">Jiska <strong>1,000+ HTG pa jou.</strong> Komanse nan 2 minit.</p>
-    <a href="#signup" class="hero-cta" onclick="scrollToSignup(event)">Komanse Kounye a</a>
+    <h1 data-i18n="hero_title">Ou Gen Machin oswa Moto?</h1>
+    <div class="hero-headline" data-i18n="hero_headline">F&egrave; Lajan <em>Jodi a.</em></div>
+    <p class="hero-sub" data-i18n="hero_sub">Jiska <strong>1,000+ HTG pa jou.</strong> Komanse nan 2 minit.</p>
+    <a href="#signup" class="hero-cta" onclick="scrollToSignup(event)" data-i18n="hero_cta">Komanse Kounye a</a>
     <div class="hero-proof">
       <span class="dot"></span>
-      +100 chofe deja ap fe lajan
+      <span data-i18n="hero_proof">+100 chofe deja ap fe lajan</span>
     </div>
   </div>
 </section>
@@ -429,44 +452,44 @@ input{font-family:var(--body)}
 <!-- ═══ 2. MONEY SECTION ═══ -->
 <div class="money">
   <div class="money-card">
-    <div class="money-title">Konbyen Ou Ka Fe?</div>
-    <div class="money-sub">Jiska 1,000+ HTG pa jou</div>
+    <div class="money-title" data-i18n="money_title">Konbyen Ou Ka Fe?</div>
+    <div class="money-sub" data-i18n="money_sub">Jiska 1,000+ HTG pa jou</div>
     <div class="money-grid">
       <div class="money-box moto">
         <div class="money-box-icon">🏍️</div>
-        <div class="money-box-type">Moto</div>
+        <div class="money-box-type" data-i18n="money_moto">Moto</div>
         <div class="money-box-amount">500-1,000</div>
-        <div class="money-box-per">HTG / jou</div>
+        <div class="money-box-per" data-i18n="money_per">HTG / jou</div>
       </div>
       <div class="money-box car">
         <div class="money-box-icon">🚗</div>
-        <div class="money-box-type">Machin</div>
+        <div class="money-box-type" data-i18n="money_car">Machin</div>
         <div class="money-box-amount">1,000-3,000</div>
-        <div class="money-box-per">HTG / jou</div>
+        <div class="money-box-per" data-i18n="money_per2">HTG / jou</div>
       </div>
     </div>
-    <div class="money-tag">✅ Touche chak jou - pa gen limit</div>
+    <div class="money-tag" data-i18n="money_tag">&#9989; Touche chak jou - pa gen limit</div>
   </div>
 </div>
 
 <!-- ═══ 3. THREE STEPS ═══ -->
 <section class="steps-section">
-  <div class="steps-title">Kijan Li Mache (3 Etap)</div>
+  <div class="steps-title" data-i18n="steps_title">Kijan Li Mache (3 Etap)</div>
   <div class="steps-row">
     <div class="step-box">
       <div class="step-num">1</div>
-      <div class="step-label">Enskri gratis</div>
-      <div class="step-desc">Nan 2 minit</div>
+      <div class="step-label" data-i18n="step1_label">Enskri gratis</div>
+      <div class="step-desc" data-i18n="step1_desc">Nan 2 minit</div>
     </div>
     <div class="step-box">
       <div class="step-num">2</div>
-      <div class="step-label">Resevwa kous</div>
-      <div class="step-desc">Sou telefon ou</div>
+      <div class="step-label" data-i18n="step2_label">Resevwa kous</div>
+      <div class="step-desc" data-i18n="step2_desc">Sou telefon ou</div>
     </div>
     <div class="step-box">
       <div class="step-num">3</div>
-      <div class="step-label">Fe lajan</div>
-      <div class="step-desc">Chak jou</div>
+      <div class="step-label" data-i18n="step3_label">Fe lajan</div>
+      <div class="step-desc" data-i18n="step3_desc">Chak jou</div>
     </div>
   </div>
 </section>
@@ -474,12 +497,12 @@ input{font-family:var(--body)}
 <!-- ═══ 4. TRUST ═══ -->
 <div class="trust-section">
   <div class="trust-card">
-    <div class="trust-title">Sekirite Nou Se Priyorite</div>
+    <div class="trust-title" data-i18n="trust_title">Sekirite Nou Se Priyorite</div>
     <div class="trust-items">
-      <div class="trust-item"><div class="trust-check">✔</div> Chofe verifye</div>
-      <div class="trust-item"><div class="trust-check">✔</div> Kliyan verifye</div>
-      <div class="trust-item"><div class="trust-check">✔</div> Sipo WhatsApp 24/7</div>
-      <div class="trust-item"><div class="trust-check">✔</div> Peman sekirize</div>
+      <div class="trust-item"><div class="trust-check">&#10004;</div> <span data-i18n="trust1">Chofe verifye</span></div>
+      <div class="trust-item"><div class="trust-check">&#10004;</div> <span data-i18n="trust2">Kliyan verifye</span></div>
+      <div class="trust-item"><div class="trust-check">&#10004;</div> <span data-i18n="trust3">Sipo WhatsApp 24/7</span></div>
+      <div class="trust-item"><div class="trust-check">&#10004;</div> <span data-i18n="trust4">Peman sekirize</span></div>
     </div>
   </div>
 </div>
@@ -490,7 +513,7 @@ input{font-family:var(--body)}
     <div class="proof-avatars">
       <span>J</span><span>M</span><span>P</span><span>R</span>
     </div>
-    <div class="proof-text"><strong>+100 chofe</strong> deja ap fe lajan</div>
+    <div class="proof-text" data-i18n="proof_text"><strong>+100 chofe</strong> deja ap fe lajan</div>
   </div>
 </div>
 
@@ -498,8 +521,8 @@ input{font-family:var(--body)}
 <div class="signup-section" id="signup">
   <div class="signup-card">
     <div class="signup-header">
-      <h3>Enskri Nan 2 Minit</h3>
-      <p>Pa gen fom long. Jis 3 etap rapid.</p>
+      <h3 data-i18n="signup_title">Enskri Nan 2 Minit</h3>
+      <p data-i18n="signup_sub">Pa gen fom long. Jis 3 etap rapid.</p>
     </div>
 
     <div class="progress-bar">
@@ -510,86 +533,86 @@ input{font-family:var(--body)}
 
     <!-- STEP 1: Phone + Name -->
     <div class="wizard-step active" id="wizStep1">
-      <div class="step-label-top">Etap 1 nan 3 — Enfomasyon ou</div>
+      <div class="step-label-top" data-i18n="wiz_step1_label">Etap 1 nan 3 — Enfomasyon ou</div>
 
       <div class="field-group">
-        <label class="field-label">Nimewo telefon</label>
+        <label class="field-label" data-i18n="field_phone">Nimewo telefon</label>
         <div class="phone-wrap">
-          <span class="phone-flag">🇭🇹</span>
+          <span class="phone-flag">&#127469;&#127481;</span>
           <input type="tel" class="phone-input" id="wPhone" placeholder="+509 ..." autocomplete="tel">
         </div>
       </div>
 
       <div class="name-row">
         <div class="field-group">
-          <label class="field-label">Premye non</label>
+          <label class="field-label" data-i18n="field_first">Premye non</label>
           <input type="text" class="name-input" id="wFirstName" placeholder="Jean, Marie...">
         </div>
         <div class="field-group">
-          <label class="field-label">Siyati</label>
+          <label class="field-label" data-i18n="field_last">Siyati</label>
           <input type="text" class="name-input" id="wLastName" placeholder="Pierre, Louis...">
         </div>
       </div>
 
       <button class="next-btn red" onclick="goStep2()">
         <div class="spinner"></div>
-        <span class="btn-label">Kontinye</span>
+        <span class="btn-label" data-i18n="btn_continue">Kontinye</span>
       </button>
       <div class="step-error" id="err1"></div>
     </div>
 
     <!-- STEP 2: Vehicle Type + Plate -->
     <div class="wizard-step" id="wizStep2">
-      <div class="step-label-top">Etap 2 nan 3 — Machin ou</div>
+      <div class="step-label-top" data-i18n="wiz_step2_label">Etap 2 nan 3 — Machin ou</div>
 
       <div class="field-group" style="margin-bottom:4px">
-        <label class="field-label">Ki tip machin ou?</label>
+        <label class="field-label" data-i18n="field_vehicle_type">Ki tip machin ou?</label>
         <div class="vehicle-choice">
           <div class="v-option selected" id="vMoto" onclick="pickVehicle('moto')">
-            <div class="v-check">✓</div>
+            <div class="v-check">&#10003;</div>
             <div class="v-icon">🏍️</div>
-            <div class="v-name">Moto</div>
-            <div class="v-earn">500-1,000 HTG/jou</div>
+            <div class="v-name" data-i18n="v_moto">Moto</div>
+            <div class="v-earn" data-i18n="v_moto_earn">500-1,000 HTG/jou</div>
           </div>
           <div class="v-option" id="vCar" onclick="pickVehicle('car')">
-            <div class="v-check">✓</div>
+            <div class="v-check">&#10003;</div>
             <div class="v-icon">🚗</div>
-            <div class="v-name">Machin</div>
-            <div class="v-earn">1,000-3,000 HTG/jou</div>
+            <div class="v-name" data-i18n="v_car">Machin</div>
+            <div class="v-earn" data-i18n="v_car_earn">1,000-3,000 HTG/jou</div>
           </div>
         </div>
       </div>
 
       <div class="field-group">
-        <label class="field-label">Nimewo plak</label>
+        <label class="field-label" data-i18n="field_plate">Nimewo plak</label>
         <input type="text" class="plate-input" id="wPlate" placeholder="AA-00000">
       </div>
       <div class="field-group">
-        <label class="field-label">Zon travay ou</label>
+        <label class="field-label" data-i18n="field_zone">Zon travay ou</label>
         <div class="zone-wrap">
           <select class="zone-select" id="wZone">
             <option value="Port-au-Prince">Port-au-Prince</option>
-            <option value="Petion-Ville">Petion-Ville</option>
+            <option value="Petion-Ville">P&eacute;tion-Ville</option>
             <option value="Delmas">Delmas</option>
-            <option value="Cap-Haitien">Cap-Haitien</option>
+            <option value="Cap-Haitien">Cap-Ha&iuml;tien</option>
             <option value="Les Cayes">Les Cayes</option>
             <option value="Jacmel">Jacmel</option>
-            <option value="Gonaives">Gonaives</option>
-            <option value="Lot">Lot</option>
+            <option value="Gonaives">Gona&iuml;ves</option>
+            <option value="Lot" data-i18n-opt="zone_other">Lot</option>
           </select>
         </div>
       </div>
       <button class="next-btn gold" onclick="goStep3()">
         <div class="spinner"></div>
-        <span class="btn-label">Kontinye</span>
+        <span class="btn-label" data-i18n="btn_continue2">Kontinye</span>
       </button>
       <div class="step-error" id="err2"></div>
-      <div class="back-link" onclick="backTo(1)">← Retounen</div>
+      <div class="back-link" onclick="backTo(1)" data-i18n="btn_back">&#8592; Retounen</div>
     </div>
 
     <!-- STEP 3: Submit -->
     <div class="wizard-step" id="wizStep3">
-      <div class="step-label-top">Etap 3 nan 3 — Konfime</div>
+      <div class="step-label-top" data-i18n="wiz_step3_label">Etap 3 nan 3 — Konfime</div>
       <div style="text-align:center;padding:10px 0 16px">
         <div style="font-size:2.5rem;margin-bottom:8px" id="summaryIcon">🏍️</div>
         <div style="font-size:1rem;font-weight:800;color:var(--dark)" id="summaryName">--</div>
@@ -597,28 +620,28 @@ input{font-family:var(--body)}
       </div>
       <div style="padding:12px;border-radius:10px;background:var(--off-white);border:1px solid var(--border-light);margin-bottom:4px">
         <div style="display:flex;justify-content:space-between;padding:4px 0;font-size:.8rem">
-          <span style="color:var(--text-light)">Telefon</span>
+          <span style="color:var(--text-light)" data-i18n="sum_phone">Telefon</span>
           <span style="font-weight:700" id="summaryPhone">--</span>
         </div>
         <div style="display:flex;justify-content:space-between;padding:4px 0;font-size:.8rem">
-          <span style="color:var(--text-light)">Machin</span>
+          <span style="color:var(--text-light)" data-i18n="sum_vehicle">Machin</span>
           <span style="font-weight:700" id="summaryVehicle">--</span>
         </div>
         <div style="display:flex;justify-content:space-between;padding:4px 0;font-size:.8rem">
-          <span style="color:var(--text-light)">Plak</span>
+          <span style="color:var(--text-light)" data-i18n="sum_plate">Plak</span>
           <span style="font-weight:700" id="summaryPlate">--</span>
         </div>
         <div style="display:flex;justify-content:space-between;padding:4px 0;font-size:.8rem">
-          <span style="color:var(--text-light)">Zon</span>
+          <span style="color:var(--text-light)" data-i18n="sum_zone">Zon</span>
           <span style="font-weight:700" id="summaryZone">--</span>
         </div>
       </div>
       <button class="next-btn green" id="submitBtn" onclick="submitSignup()">
         <div class="spinner"></div>
-        <span class="btn-label">Komanse Fe Lajan Kounye a</span>
+        <span class="btn-label" data-i18n="btn_submit">Komanse Fe Lajan Kounye a</span>
       </button>
       <div class="step-error" id="err3"></div>
-      <div class="back-link" onclick="backTo(2)">← Retounen</div>
+      <div class="back-link" onclick="backTo(2)" data-i18n="btn_back2">&#8592; Retounen</div>
     </div>
   </div>
 </div>
@@ -627,14 +650,14 @@ input{font-family:var(--body)}
 <div class="success-overlay" id="successOverlay">
   <div class="success-card">
     <div class="success-icon">🎉</div>
-    <h3>Ou Enskri!</h3>
-    <p class="success-sub">N ap verifye enfomasyon ou. Ou pral resevwa notifikasyon le kont ou aktive.</p>
+    <h3 data-i18n="success_title">Ou Enskri!</h3>
+    <p class="success-sub" data-i18n="success_sub">N ap verifye enfomasyon ou. Ou pral resevwa notifikasyon le kont ou aktive.</p>
     <div class="pin-box">
-      <div class="pin-label">PIN pou konekte</div>
+      <div class="pin-label" data-i18n="pin_label">PIN pou konekte</div>
       <div class="pin-code" id="pinCode">----</div>
-      <div class="pin-warn">⚠️ Ekri PIN sa a! Ou bezwen li pou konekte.</div>
+      <div class="pin-warn" data-i18n="pin_warn">&#9888;&#65039; Ekri PIN sa a! Ou bezwen li pou konekte.</div>
     </div>
-    <a href="driver-dashboard.html" class="success-btn">Ale nan Dashboard</a>
+    <a href="driver-dashboard.html" class="success-btn" data-i18n="success_btn">Ale nan Dashboard</a>
   </div>
 </div>
 
@@ -642,11 +665,229 @@ input{font-family:var(--body)}
 <div class="sticky-cta" id="stickyCta">
   <button class="sticky-cta-btn" onclick="scrollToSignup(event)">
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
-    Komanse Fe Lajan Kounye a
+    <span data-i18n="sticky_cta">Komanse Fe Lajan Kounye a</span>
   </button>
 </div>
 
 <script>
+/* ═══ i18n TRANSLATIONS ═══ */
+var T = {
+  ht: {
+    header_badge:"M Sou Wout",
+    hero_title:"Ou Gen Machin oswa Moto?",
+    hero_headline:"F&egrave; Lajan <em>Jodi a.</em>",
+    hero_sub:"Jiska <strong>1,000+ HTG pa jou.</strong> Komanse nan 2 minit.",
+    hero_cta:"Komanse Kounye a",
+    hero_proof:"+100 chofe deja ap fe lajan",
+    money_title:"Konbyen Ou Ka Fe?",
+    money_sub:"Jiska 1,000+ HTG pa jou",
+    money_moto:"Moto",money_car:"Machin",
+    money_per:"HTG / jou",money_per2:"HTG / jou",
+    money_tag:"&#9989; Touche chak jou - pa gen limit",
+    steps_title:"Kijan Li Mache (3 Etap)",
+    step1_label:"Enskri gratis",step1_desc:"Nan 2 minit",
+    step2_label:"Resevwa kous",step2_desc:"Sou telefon ou",
+    step3_label:"Fe lajan",step3_desc:"Chak jou",
+    trust_title:"Sekirite Nou Se Priyorite",
+    trust1:"Chofe verifye",trust2:"Kliyan verifye",trust3:"Sipo WhatsApp 24/7",trust4:"Peman sekirize",
+    proof_text:"<strong>+100 chofe</strong> deja ap fe lajan",
+    signup_title:"Enskri Nan 2 Minit",signup_sub:"Pa gen fom long. Jis 3 etap rapid.",
+    wiz_step1_label:"Etap 1 nan 3 — Enfomasyon ou",
+    field_phone:"Nimewo telefon",field_first:"Premye non",field_last:"Siyati",
+    btn_continue:"Kontinye",btn_continue2:"Kontinye",
+    btn_back:"&#8592; Retounen",btn_back2:"&#8592; Retounen",
+    wiz_step2_label:"Etap 2 nan 3 — Machin ou",
+    field_vehicle_type:"Ki tip machin ou?",
+    v_moto:"Moto",v_car:"Machin",
+    v_moto_earn:"500-1,000 HTG/jou",v_car_earn:"1,000-3,000 HTG/jou",
+    field_plate:"Nimewo plak",field_zone:"Zon travay ou",
+    zone_other:"Lot",
+    wiz_step3_label:"Etap 3 nan 3 — Konfime",
+    sum_phone:"Telefon",sum_vehicle:"Machin",sum_plate:"Plak",sum_zone:"Zon",
+    btn_submit:"Komanse Fe Lajan Kounye a",
+    success_title:"Ou Enskri!",
+    success_sub:"N ap verifye enfomasyon ou. Ou pral resevwa notifikasyon le kont ou aktive.",
+    pin_label:"PIN pou konekte",
+    pin_warn:"&#9888;&#65039; Ekri PIN sa a! Ou bezwen li pou konekte.",
+    success_btn:"Ale nan Dashboard",
+    sticky_cta:"Komanse Fe Lajan Kounye a",
+    err_fill:"Tanpri ranpli tout chan yo",
+    err_plate:"Tanpri antre nimewo plak ou",
+    err_generic:"Ere. Eseye anko.",
+    err_duplicate:"Nimewo sa a deja enskri!",
+    err_connection:"Ere koneksyon. Eseye anko.",
+    vehicle_moto:"Moto",vehicle_car:"Machin",
+    page_title:"Fè Lajan Ak Machin Ou — M Sou Wout"
+  },
+  fr: {
+    header_badge:"M Sou Wout",
+    hero_title:"Vous Avez une Voiture ou une Moto?",
+    hero_headline:"Gagnez de l'Argent <em>Aujourd'hui.</em>",
+    hero_sub:"Jusqu'&agrave; <strong>1,000+ HTG par jour.</strong> Commencez en 2 minutes.",
+    hero_cta:"Commencer Maintenant",
+    hero_proof:"+100 chauffeurs gagnent d&eacute;j&agrave;",
+    money_title:"Combien Pouvez-Vous Gagner?",
+    money_sub:"Jusqu'&agrave; 1,000+ HTG par jour",
+    money_moto:"Moto",money_car:"Voiture",
+    money_per:"HTG / jour",money_per2:"HTG / jour",
+    money_tag:"&#9989; Gagnez chaque jour - pas de limite",
+    steps_title:"Comment &Ccedil;a Marche (3 &Eacute;tapes)",
+    step1_label:"Inscription gratuite",step1_desc:"En 2 minutes",
+    step2_label:"Recevez des courses",step2_desc:"Sur votre t&eacute;l&eacute;phone",
+    step3_label:"Gagnez de l'argent",step3_desc:"Chaque jour",
+    trust_title:"Votre S&eacute;curit&eacute; est Notre Priorit&eacute;",
+    trust1:"Chauffeurs v&eacute;rifi&eacute;s",trust2:"Clients v&eacute;rifi&eacute;s",trust3:"Support WhatsApp 24/7",trust4:"Paiements s&eacute;curis&eacute;s",
+    proof_text:"<strong>+100 chauffeurs</strong> gagnent d&eacute;j&agrave;",
+    signup_title:"Inscription en 2 Minutes",signup_sub:"Pas de long formulaire. Juste 3 &eacute;tapes rapides.",
+    wiz_step1_label:"&Eacute;tape 1 sur 3 — Vos informations",
+    field_phone:"Num&eacute;ro de t&eacute;l&eacute;phone",field_first:"Pr&eacute;nom",field_last:"Nom de famille",
+    btn_continue:"Continuer",btn_continue2:"Continuer",
+    btn_back:"&#8592; Retour",btn_back2:"&#8592; Retour",
+    wiz_step2_label:"&Eacute;tape 2 sur 3 — Votre v&eacute;hicule",
+    field_vehicle_type:"Quel type de v&eacute;hicule?",
+    v_moto:"Moto",v_car:"Voiture",
+    v_moto_earn:"500-1,000 HTG/jour",v_car_earn:"1,000-3,000 HTG/jour",
+    field_plate:"Num&eacute;ro de plaque",field_zone:"Zone de travail",
+    zone_other:"Autre",
+    wiz_step3_label:"&Eacute;tape 3 sur 3 — Confirmation",
+    sum_phone:"T&eacute;l&eacute;phone",sum_vehicle:"V&eacute;hicule",sum_plate:"Plaque",sum_zone:"Zone",
+    btn_submit:"Commencer &agrave; Gagner Maintenant",
+    success_title:"Vous &Ecirc;tes Inscrit!",
+    success_sub:"Nous v&eacute;rifions vos informations. Vous recevrez une notification quand votre compte sera activ&eacute;.",
+    pin_label:"PIN de connexion",
+    pin_warn:"&#9888;&#65039; Notez ce PIN! Vous en aurez besoin pour vous connecter.",
+    success_btn:"Aller au Dashboard",
+    sticky_cta:"Commencer &agrave; Gagner Maintenant",
+    err_fill:"Veuillez remplir tous les champs",
+    err_plate:"Veuillez entrer votre num&eacute;ro de plaque",
+    err_generic:"Erreur. R&eacute;essayez.",
+    err_duplicate:"Ce num&eacute;ro est d&eacute;j&agrave; inscrit!",
+    err_connection:"Erreur de connexion. R&eacute;essayez.",
+    vehicle_moto:"Moto",vehicle_car:"Voiture",
+    page_title:"Gagnez de l'Argent avec Votre Véhicule — M Sou Wout"
+  },
+  en: {
+    header_badge:"M Sou Wout",
+    hero_title:"Have a Car or Motorcycle?",
+    hero_headline:"Make Money <em>Today.</em>",
+    hero_sub:"Up to <strong>1,000+ HTG per day.</strong> Start in 2 minutes.",
+    hero_cta:"Start Now",
+    hero_proof:"+100 drivers already earning",
+    money_title:"How Much Can You Earn?",
+    money_sub:"Up to 1,000+ HTG per day",
+    money_moto:"Motorcycle",money_car:"Car",
+    money_per:"HTG / day",money_per2:"HTG / day",
+    money_tag:"&#9989; Earn every day - no limit",
+    steps_title:"How It Works (3 Steps)",
+    step1_label:"Sign up free",step1_desc:"In 2 minutes",
+    step2_label:"Receive rides",step2_desc:"On your phone",
+    step3_label:"Make money",step3_desc:"Every day",
+    trust_title:"Your Safety is Our Priority",
+    trust1:"Verified drivers",trust2:"Verified riders",trust3:"WhatsApp support 24/7",trust4:"Secure payments",
+    proof_text:"<strong>+100 drivers</strong> already earning",
+    signup_title:"Sign Up in 2 Minutes",signup_sub:"No long forms. Just 3 quick steps.",
+    wiz_step1_label:"Step 1 of 3 — Your information",
+    field_phone:"Phone number",field_first:"First name",field_last:"Last name",
+    btn_continue:"Continue",btn_continue2:"Continue",
+    btn_back:"&#8592; Back",btn_back2:"&#8592; Back",
+    wiz_step2_label:"Step 2 of 3 — Your vehicle",
+    field_vehicle_type:"What type of vehicle?",
+    v_moto:"Motorcycle",v_car:"Car",
+    v_moto_earn:"500-1,000 HTG/day",v_car_earn:"1,000-3,000 HTG/day",
+    field_plate:"License plate number",field_zone:"Work zone",
+    zone_other:"Other",
+    wiz_step3_label:"Step 3 of 3 — Confirm",
+    sum_phone:"Phone",sum_vehicle:"Vehicle",sum_plate:"Plate",sum_zone:"Zone",
+    btn_submit:"Start Earning Money Now",
+    success_title:"You're Signed Up!",
+    success_sub:"We're verifying your information. You'll receive a notification when your account is activated.",
+    pin_label:"Login PIN",
+    pin_warn:"&#9888;&#65039; Write down this PIN! You need it to log in.",
+    success_btn:"Go to Dashboard",
+    sticky_cta:"Start Earning Money Now",
+    err_fill:"Please fill in all fields",
+    err_plate:"Please enter your license plate number",
+    err_generic:"Error. Try again.",
+    err_duplicate:"This number is already registered!",
+    err_connection:"Connection error. Try again.",
+    vehicle_moto:"Motorcycle",vehicle_car:"Car",
+    page_title:"Earn Money with Your Vehicle — M Sou Wout"
+  },
+  es: {
+    header_badge:"M Sou Wout",
+    hero_title:"&iquest;Tienes Auto o Moto?",
+    hero_headline:"Gana Dinero <em>Hoy.</em>",
+    hero_sub:"Hasta <strong>1,000+ HTG por d&iacute;a.</strong> Empieza en 2 minutos.",
+    hero_cta:"Comenzar Ahora",
+    hero_proof:"+100 conductores ya est&aacute;n ganando",
+    money_title:"&iquest;Cu&aacute;nto Puedes Ganar?",
+    money_sub:"Hasta 1,000+ HTG por d&iacute;a",
+    money_moto:"Moto",money_car:"Auto",
+    money_per:"HTG / d&iacute;a",money_per2:"HTG / d&iacute;a",
+    money_tag:"&#9989; Gana cada d&iacute;a - sin l&iacute;mite",
+    steps_title:"C&oacute;mo Funciona (3 Pasos)",
+    step1_label:"Reg&iacute;strate gratis",step1_desc:"En 2 minutos",
+    step2_label:"Recibe viajes",step2_desc:"En tu tel&eacute;fono",
+    step3_label:"Gana dinero",step3_desc:"Cada d&iacute;a",
+    trust_title:"Tu Seguridad es Nuestra Prioridad",
+    trust1:"Conductores verificados",trust2:"Pasajeros verificados",trust3:"Soporte WhatsApp 24/7",trust4:"Pagos seguros",
+    proof_text:"<strong>+100 conductores</strong> ya est&aacute;n ganando",
+    signup_title:"Reg&iacute;strate en 2 Minutos",signup_sub:"Sin formularios largos. Solo 3 pasos r&aacute;pidos.",
+    wiz_step1_label:"Paso 1 de 3 — Tu informaci&oacute;n",
+    field_phone:"N&uacute;mero de tel&eacute;fono",field_first:"Nombre",field_last:"Apellido",
+    btn_continue:"Continuar",btn_continue2:"Continuar",
+    btn_back:"&#8592; Volver",btn_back2:"&#8592; Volver",
+    wiz_step2_label:"Paso 2 de 3 — Tu veh&iacute;culo",
+    field_vehicle_type:"&iquest;Qu&eacute; tipo de veh&iacute;culo?",
+    v_moto:"Moto",v_car:"Auto",
+    v_moto_earn:"500-1,000 HTG/d&iacute;a",v_car_earn:"1,000-3,000 HTG/d&iacute;a",
+    field_plate:"N&uacute;mero de placa",field_zone:"Zona de trabajo",
+    zone_other:"Otro",
+    wiz_step3_label:"Paso 3 de 3 — Confirmar",
+    sum_phone:"Tel&eacute;fono",sum_vehicle:"Veh&iacute;culo",sum_plate:"Placa",sum_zone:"Zona",
+    btn_submit:"Comienza a Ganar Dinero Ahora",
+    success_title:"&iexcl;Est&aacute;s Registrado!",
+    success_sub:"Estamos verificando tu informaci&oacute;n. Recibir&aacute;s una notificaci&oacute;n cuando tu cuenta est&eacute; activada.",
+    pin_label:"PIN de acceso",
+    pin_warn:"&#9888;&#65039; &iexcl;Anota este PIN! Lo necesitas para iniciar sesi&oacute;n.",
+    success_btn:"Ir al Dashboard",
+    sticky_cta:"Comienza a Ganar Dinero Ahora",
+    err_fill:"Por favor completa todos los campos",
+    err_plate:"Por favor ingresa tu n&uacute;mero de placa",
+    err_generic:"Error. Int&eacute;ntalo de nuevo.",
+    err_duplicate:"&iexcl;Este n&uacute;mero ya est&aacute; registrado!",
+    err_connection:"Error de conexi&oacute;n. Int&eacute;ntalo de nuevo.",
+    vehicle_moto:"Moto",vehicle_car:"Auto",
+    page_title:"Gana Dinero con Tu Vehículo — M Sou Wout"
+  }
+};
+
+var currentLang='ht';
+function setLang(lang){
+  currentLang=lang;
+  localStorage.setItem('hb_lang',lang);
+  document.documentElement.lang=lang;
+  /* update lang bar active state */
+  document.querySelectorAll('.top-lang-bar a').forEach(function(a){
+    var l=a.getAttribute('onclick');
+    a.classList.toggle('active',l&&l.indexOf("'"+lang+"'")>-1);
+  });
+  /* apply translations */
+  var t=T[lang]||T.ht;
+  document.querySelectorAll('[data-i18n]').forEach(function(el){
+    var k=el.getAttribute('data-i18n');
+    if(t[k]) el.innerHTML=t[k];
+  });
+  /* translate "Lot"/"Other" option */
+  var lotOpt=document.querySelector('[data-i18n-opt="zone_other"]');
+  if(lotOpt&&t.zone_other) lotOpt.textContent=t.zone_other;
+  /* update page title */
+  if(t.page_title) document.title=t.page_title;
+}
+var savedLang=localStorage.getItem('hb_lang');
+if(savedLang&&T[savedLang]) setLang(savedLang); else setLang('ht');
+
+/* ═══ APP LOGIC ═══ */
 var API_URL = 'https://haitibiznis-api.onrender.com';
 var selectedVehicle = 'moto';
 var currentStep = 1;
@@ -672,13 +913,15 @@ function showStep(n) {
   }
 }
 
+function t(key){ var o=T[currentLang]||T.ht; return o[key]||T.ht[key]||key; }
+
 function goStep2() {
   var phone = document.getElementById('wPhone').value.trim();
   var first = document.getElementById('wFirstName').value.trim();
   var last = document.getElementById('wLastName').value.trim();
   var err = document.getElementById('err1');
   if (!phone || !first || !last) {
-    err.textContent = 'Tanpri ranpli tout chan yo';
+    err.innerHTML = t('err_fill');
     err.classList.add('show');
     return;
   }
@@ -690,7 +933,7 @@ function goStep3() {
   var plate = document.getElementById('wPlate').value.trim();
   var err = document.getElementById('err2');
   if (!plate) {
-    err.textContent = 'Tanpri antre nimewo plak ou';
+    err.innerHTML = t('err_plate');
     err.classList.add('show');
     return;
   }
@@ -698,11 +941,12 @@ function goStep3() {
 
   var first = document.getElementById('wFirstName').value.trim();
   var last = document.getElementById('wLastName').value.trim();
+  var vLabel = selectedVehicle === 'car' ? t('vehicle_car') : t('vehicle_moto');
   document.getElementById('summaryIcon').textContent = selectedVehicle === 'car' ? '🚗' : '🏍️';
   document.getElementById('summaryName').textContent = first + ' ' + last;
-  document.getElementById('summaryDetails').textContent = (selectedVehicle === 'car' ? 'Machin' : 'Moto') + ' · ' + plate;
+  document.getElementById('summaryDetails').textContent = vLabel + ' · ' + plate;
   document.getElementById('summaryPhone').textContent = document.getElementById('wPhone').value.trim();
-  document.getElementById('summaryVehicle').textContent = selectedVehicle === 'car' ? 'Machin' : 'Moto';
+  document.getElementById('summaryVehicle').textContent = vLabel;
   document.getElementById('summaryPlate').textContent = plate;
   document.getElementById('summaryZone').textContent = document.getElementById('wZone').value;
 
@@ -735,13 +979,13 @@ function submitSignup() {
       document.getElementById('pinCode').textContent = data.pin;
       document.getElementById('successOverlay').classList.add('show');
     } else {
-      err.textContent = data.error || 'Ere. Eseye anko.';
-      if (data.error && data.error.indexOf('already') !== -1) err.textContent = 'Nimewo sa a deja enskri!';
+      err.innerHTML = data.error || t('err_generic');
+      if (data.error && data.error.indexOf('already') !== -1) err.innerHTML = t('err_duplicate');
       err.classList.add('show');
     }
   }).catch(function() {
     btn.classList.remove('loading');
-    err.textContent = 'Ere koneksyon. Eseye anko.';
+    err.innerHTML = t('err_connection');
     err.classList.add('show');
   });
 }
