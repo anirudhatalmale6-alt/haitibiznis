@@ -214,13 +214,55 @@ input{font-family:var(--body)}
 .empty-state .empty-icon{font-size:2rem;margin-bottom:8px}
 .empty-state p{font-size:.82rem;font-weight:500}
 
-.not-verified{
-  padding:16px;border-radius:var(--radius);text-align:center;
-  background:var(--gold-soft);border:1px solid rgba(212,160,23,.25);
-  margin-bottom:20px;
+.verify-card{
+  display:none;margin-bottom:20px;border-radius:var(--radius);overflow:hidden;
+  background:var(--white);box-shadow:var(--shadow-md);border:1px solid var(--border-light);
 }
-.not-verified .nv-icon{font-size:1.5rem;margin-bottom:6px}
-.not-verified p{font-size:.82rem;color:var(--text);font-weight:600;line-height:1.5}
+.verify-card.show{display:block}
+.verify-header{
+  padding:16px 18px;
+  background:linear-gradient(135deg,#fffbe6,var(--gold-soft));
+  border-bottom:1px solid rgba(212,160,23,.15);
+}
+.verify-header-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:8px}
+.verify-title{font-weight:800;font-size:.88rem;color:var(--dark);display:flex;align-items:center;gap:6px}
+.verify-title .v-emoji{font-size:1.1rem}
+.verify-reward{
+  font-size:.65rem;font-weight:700;color:var(--green);
+  padding:3px 8px;border-radius:6px;background:var(--green-light);
+}
+.verify-sub{font-size:.75rem;color:var(--text-light);font-weight:600}
+.verify-progress{
+  display:flex;gap:4px;padding:0 18px;margin:12px 0 4px;
+}
+.verify-progress-dot{flex:1;height:4px;border-radius:3px;background:var(--border-light);transition:background .3s}
+.verify-progress-dot.done{background:var(--green)}
+.verify-progress-dot.current{background:var(--gold)}
+.verify-steps{padding:12px 18px 16px}
+.verify-step{
+  display:flex;align-items:center;gap:12px;padding:10px 0;
+  border-bottom:1px solid var(--border-light);
+}
+.verify-step:last-child{border-bottom:none}
+.verify-step-icon{
+  width:34px;height:34px;border-radius:10px;flex-shrink:0;
+  display:flex;align-items:center;justify-content:center;font-size:.9rem;
+  transition:all .2s;
+}
+.verify-step-icon.pending{background:var(--off-white);color:var(--text-muted)}
+.verify-step-icon.uploaded{background:var(--green-light);color:var(--green)}
+.verify-step-text{flex:1;min-width:0}
+.verify-step-name{font-size:.8rem;font-weight:700;color:var(--dark)}
+.verify-step-hint{font-size:.68rem;color:var(--text-muted);font-weight:500;margin-top:1px}
+.verify-step-hint.motivate{color:var(--gold);font-weight:600}
+.verify-step-btn{
+  padding:6px 14px;border-radius:8px;font-size:.7rem;font-weight:700;
+  transition:all .2s;cursor:pointer;
+}
+.verify-step-btn.upload{background:var(--gold-soft);color:var(--gold);border:1px solid rgba(212,160,23,.2)}
+.verify-step-btn.upload:hover{background:rgba(212,160,23,.2)}
+.verify-step-btn.done{background:var(--green-light);color:var(--green);cursor:default}
+.verify-file-input{display:none}
 
 /* BOTTOM NAV */
 .bottom-nav{
@@ -299,9 +341,55 @@ input{font-family:var(--body)}
     <button class="status-toggle offline" id="statusToggle" onclick="toggleStatus()">Offline</button>
   </div>
 
-  <div class="not-verified" id="notVerified" style="display:none">
-    <div class="nv-icon">⏳</div>
-    <p data-i18n="notVerifiedMsg">Kont ou poko verifye. Ou pral ka aksepte kous lè verifikasyon an fini.</p>
+  <!-- VERIFICATION FLOW -->
+  <div class="verify-card" id="verifyCard">
+    <div class="verify-header">
+      <div class="verify-header-top">
+        <div class="verify-title"><span class="v-emoji">🔓</span> Verifye Kont Ou</div>
+        <div class="verify-reward">Touche plis kous</div>
+      </div>
+      <div class="verify-sub">Ajoute dokiman ou pou komanse resevwa kous</div>
+    </div>
+    <div class="verify-progress">
+      <div class="verify-progress-dot current" id="vProg1"></div>
+      <div class="verify-progress-dot" id="vProg2"></div>
+      <div class="verify-progress-dot" id="vProg3"></div>
+    </div>
+    <div class="verify-steps">
+      <div class="verify-step" id="vStep1">
+        <div class="verify-step-icon pending" id="vIcon1">📄</div>
+        <div class="verify-step-text">
+          <div class="verify-step-name">Lisans oswa ID</div>
+          <div class="verify-step-hint motivate">Ajoute li pou touche plis kous</div>
+        </div>
+        <label class="verify-step-btn upload" id="vBtn1">
+          Ajoute
+          <input type="file" class="verify-file-input" accept="image/*" onchange="handleUpload(1,this)">
+        </label>
+      </div>
+      <div class="verify-step" id="vStep2">
+        <div class="verify-step-icon pending" id="vIcon2">🚗</div>
+        <div class="verify-step-text">
+          <div class="verify-step-name">Foto machin/moto</div>
+          <div class="verify-step-hint motivate">Kliyan yo we machin ou</div>
+        </div>
+        <label class="verify-step-btn upload" id="vBtn2">
+          Ajoute
+          <input type="file" class="verify-file-input" accept="image/*" onchange="handleUpload(2,this)">
+        </label>
+      </div>
+      <div class="verify-step" id="vStep3">
+        <div class="verify-step-icon pending" id="vIcon3">🤳</div>
+        <div class="verify-step-text">
+          <div class="verify-step-name">Foto pwofil ou</div>
+          <div class="verify-step-hint motivate">Kliyan yo konnen ki moun w ap ye</div>
+        </div>
+        <label class="verify-step-btn upload" id="vBtn3">
+          Ajoute
+          <input type="file" class="verify-file-input" accept="image/*" onchange="handleUpload(3,this)">
+        </label>
+      </div>
+    </div>
   </div>
 
   <div class="stats-row">
@@ -476,7 +564,18 @@ function showDashboard(){
     (driver.vehicleMake||'')+' '+(driver.vehicleModel||'')+' · '+(driver.licensePlate||'');
 
   updateStatusBtn();
-  if(!driver.verified){document.getElementById('notVerified').style.display=''}
+  if(!driver.verified){
+    document.getElementById('verifyCard').classList.add('show');
+    for(var i=1;i<=3;i++){
+      if(localStorage.getItem('msw_doc_'+driver._id+'_'+i)){
+        uploadState[i]=true;
+        var icon=document.getElementById('vIcon'+i);icon.className='verify-step-icon uploaded';icon.textContent='✅';
+        var btn=document.getElementById('vBtn'+i);if(btn)btn.outerHTML='<span class="verify-step-btn done">Ajoute ✓</span>';
+        var hint=document.getElementById('vStep'+i).querySelector('.verify-step-hint');if(hint){hint.textContent='Soumèt!';hint.className='verify-step-hint'}
+      }
+    }
+    updateVerifyProgress();
+  }
   loadStats();loadAvailable();loadActive();loadHistory();
 }
 
@@ -611,6 +710,52 @@ function switchTab(tab){
   document.querySelectorAll('.tab-btn').forEach(function(b,i){b.classList.toggle('active',['available','active','history'][i]===tab)});
   document.querySelectorAll('.tab-content').forEach(function(c){c.classList.remove('active')});
   document.getElementById('tab'+tab.charAt(0).toUpperCase()+tab.slice(1)).classList.add('active');
+}
+
+var uploadState = { 1: false, 2: false, 3: false };
+
+function handleUpload(step, input) {
+  if (!input.files || !input.files[0]) return;
+  var file = input.files[0];
+  if (file.size > 5 * 1024 * 1024) { alert('Fichye a two gwo. Maks 5MB.'); return; }
+
+  uploadState[step] = true;
+  var icon = document.getElementById('vIcon' + step);
+  var btn = document.getElementById('vBtn' + step);
+  icon.className = 'verify-step-icon uploaded';
+  icon.textContent = '✅';
+  btn.outerHTML = '<span class="verify-step-btn done">Ajoute ✓</span>';
+
+  var hint = document.getElementById('vStep' + step).querySelector('.verify-step-hint');
+  if (hint) { hint.textContent = 'Soumèt!'; hint.className = 'verify-step-hint'; }
+
+  updateVerifyProgress();
+
+  var reader = new FileReader();
+  reader.onload = function(e) {
+    var key = step === 1 ? 'licensePhotoUrl' : step === 2 ? 'vehiclePhotoUrl' : 'photoUrl';
+    localStorage.setItem('msw_doc_' + driver._id + '_' + step, e.target.result.substring(0, 200));
+  };
+  reader.readAsDataURL(file);
+}
+
+function updateVerifyProgress() {
+  var done = 0;
+  for (var i = 1; i <= 3; i++) {
+    var dot = document.getElementById('vProg' + i);
+    if (uploadState[i]) { dot.className = 'verify-progress-dot done'; done++; }
+    else if (done === i - 1) { dot.className = 'verify-progress-dot current'; }
+    else { dot.className = 'verify-progress-dot'; }
+  }
+  if (done === 3) {
+    var header = document.querySelector('.verify-header');
+    header.innerHTML = '<div style="display:flex;align-items:center;gap:10px;padding:4px 0">' +
+      '<div style="font-size:1.5rem">✅</div>' +
+      '<div><div style="font-weight:800;font-size:.88rem;color:var(--dark)">Dokiman soumèt!</div>' +
+      '<div style="font-size:.75rem;color:var(--text-light);font-weight:500">N ap verifye. Ou pral resevwa notifikasyon.</div></div></div>';
+    header.style.background = 'linear-gradient(135deg,#e8f5e9,#f1f8e9)';
+    header.style.borderBottomColor = 'rgba(27,140,61,.15)';
+  }
 }
 
 (function init(){
