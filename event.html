@@ -1036,15 +1036,82 @@ function copyLink() {
 function buyTickets() {
   var totalQty = 0;
   var totalPrice = 0;
-  var summary = '';
+  var selectedTicket = null;
   ticketQty.forEach(function(q, i) {
     if (q > 0) {
       totalQty += q;
       totalPrice += q * event.tickets[i].price;
-      summary += q + 'x ' + event.tickets[i].name + ' (' + formatPrice(q * event.tickets[i].price) + ' HTG)\n';
+      selectedTicket = { name: event.tickets[i].name, qty: q, price: event.tickets[i].price };
     }
   });
-  alert('Rezime Kòmand:\n\n' + summary + '\nTotal: ' + formatPrice(totalPrice) + ' HTG\n\nPaj peman ap vini byento!');
+  if (!totalQty) return alert(t('selectTicket') || 'Chwazi omwen 1 tikè');
+  if (totalPrice === 0) {
+    processPayment('free', selectedTicket);
+    return;
+  }
+  showPaymentModal(selectedTicket, totalPrice);
+}
+
+function showPaymentModal(ticket, total) {
+  var fee = Math.round(total * 0.05);
+  var grandTotal = total + fee;
+  var modal = document.createElement('div');
+  modal.id = 'paymentModal';
+  modal.style.cssText = 'position:fixed;inset:0;z-index:9999;background:rgba(0,0,0,.6);display:flex;align-items:center;justify-content:center;padding:16px';
+  modal.innerHTML = '<div style="background:#fff;border-radius:16px;max-width:400px;width:100%;padding:24px;position:relative">' +
+    '<button onclick="this.closest(\'#paymentModal\').remove()" style="position:absolute;top:12px;right:12px;font-size:1.2rem;background:none;border:none;cursor:pointer">✕</button>' +
+    '<h3 style="font-family:var(--display);margin-bottom:16px">💳 ' + (t('choosePayment') || 'Chwazi Metòd Peman') + '</h3>' +
+    '<div style="background:var(--off-white);border-radius:10px;padding:12px;margin-bottom:16px">' +
+    '<div style="display:flex;justify-content:space-between;font-size:.9rem"><span>' + ticket.qty + 'x ' + ticket.name + '</span><span>HTG ' + formatPrice(total) + '</span></div>' +
+    '<div style="display:flex;justify-content:space-between;font-size:.8rem;color:var(--text-muted);margin-top:4px"><span>' + (t('platformFee') || 'Frè platfòm (5%)') + '</span><span>HTG ' + formatPrice(fee) + '</span></div>' +
+    '<hr style="border:none;border-top:1px solid var(--border);margin:8px 0">' +
+    '<div style="display:flex;justify-content:space-between;font-weight:700"><span>Total</span><span>HTG ' + formatPrice(grandTotal) + '</span></div></div>' +
+    '<div style="margin-bottom:12px"><input id="buyerName" placeholder="' + (t('yourName') || 'Non ou') + '" style="width:100%;padding:10px;border:1px solid var(--border);border-radius:8px;margin-bottom:8px;font-family:var(--body)">' +
+    '<input id="buyerPhone" placeholder="' + (t('yourPhone') || 'Nimewo telefòn') + '" type="tel" style="width:100%;padding:10px;border:1px solid var(--border);border-radius:8px;font-family:var(--body)"></div>' +
+    '<div style="display:flex;flex-direction:column;gap:8px" id="payMethodBtns">' +
+    '<button onclick="processPayment(\'moncash\')" style="padding:12px;border-radius:10px;font-weight:700;font-size:.95rem;border:none;background:#E31937;color:#fff;cursor:pointer;font-family:var(--body)">📱 MonCash</button>' +
+    '<button onclick="processPayment(\'natcash\')" style="padding:12px;border-radius:10px;font-weight:700;font-size:.95rem;border:none;background:#00A651;color:#fff;cursor:pointer;font-family:var(--body)">📱 NatCash</button>' +
+    '<button onclick="processPayment(\'card\')" style="padding:12px;border-radius:10px;font-weight:700;font-size:.95rem;border:none;background:#1a2a4a;color:#fff;cursor:pointer;font-family:var(--body)">💳 ' + (t('creditCard') || 'Kat Kredi') + '</button>' +
+    '</div><div id="payError" style="color:#D21034;font-size:.85rem;margin-top:8px;display:none"></div></div>';
+  document.body.appendChild(modal);
+  window._selectedTicket = ticket;
+}
+
+function processPayment(method, freeTicket) {
+  var ticket = freeTicket || window._selectedTicket;
+  if (!ticket) return;
+  var evId = new URLSearchParams(window.location.search).get('id') || (event._id || event.id);
+  var body = {
+    eventId: evId, ticketName: ticket.name, qty: ticket.qty,
+    paymentMethod: method,
+    buyerName: document.getElementById('buyerName') ? document.getElementById('buyerName').value : '',
+    buyerPhone: document.getElementById('buyerPhone') ? document.getElementById('buyerPhone').value : ''
+  };
+  var btns = document.getElementById('payMethodBtns');
+  if (btns) btns.style.opacity = '0.5';
+  fetch(API_URL + '/api/payments/buy-ticket', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(body)
+  }).then(function(r) { return r.json(); }).then(function(data) {
+    if (data.free) {
+      var modal = document.getElementById('paymentModal');
+      if (modal) modal.remove();
+      alert('✅ ' + (t('ticketConfirmed') || 'Tikè ou konfime! Referans: ') + data.referenceId);
+      return;
+    }
+    if (data.paymentUrl) {
+      window.location.href = data.paymentUrl;
+    } else {
+      var errEl = document.getElementById('payError');
+      if (errEl) { errEl.textContent = data.error || 'Erè peman'; errEl.style.display = ''; }
+      if (btns) btns.style.opacity = '1';
+    }
+  }).catch(function(err) {
+    var errEl = document.getElementById('payError');
+    if (errEl) { errEl.textContent = 'Erè koneksyon'; errEl.style.display = ''; }
+    if (btns) btns.style.opacity = '1';
+  });
 }
 
 /* ═══ ORGANIZER ═══ */
