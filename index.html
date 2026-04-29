@@ -696,7 +696,7 @@ footer{padding:40px 20px 24px;background:var(--dark);color:var(--white)}
       <h4>Koutye Biznis</h4>
       <p data-i18n="cc_koutye">Konekte biznis. Touche komisyon.</p>
     </a>
-    <a href="https://msouwout.com" target="_blank" class="choose-card cc-blue reveal reveal-d1">
+    <a href="https://msouwout.com" target="_blank" rel="noreferrer noopener" class="choose-card cc-blue reveal reveal-d1">
       <img src="assets/msouwout-logo-new.png" alt="MsouWout" class="cc-logo">
       <h4>MsouWout</h4>
       <p data-i18n="cc_msou">Ou gen moto oswa machin? F&egrave; kous ak livrezon.</p>
@@ -706,12 +706,12 @@ footer{padding:40px 20px 24px;background:var(--dark);color:var(--white)}
       <h4>Tik&egrave; Lakay</h4>
       <p data-i18n="cc_events">Kreye ev&egrave;nman, vann tik&egrave;, desine envitasyon. Touche komisyon.</p>
     </a>
-    <a href="https://myplopplop.com" target="_blank" class="choose-card cc-red reveal reveal-d3">
+    <a href="https://myplopplop.com" target="_blank" rel="noreferrer noopener" class="choose-card cc-red reveal reveal-d3">
       <img src="assets/myplopplop-logo-new.png" alt="MyPlopPlop" class="cc-logo">
       <h4>MyPlopPlop</h4>
       <p data-i18n="cc_plop">Vann pwodwi. Jwenn plis kliyan.</p>
     </a>
-    <a href="https://48hoursready.com" target="_blank" class="choose-card cc-green reveal">
+    <a href="https://48hoursready.com" target="_blank" rel="noreferrer noopener" class="choose-card cc-green reveal">
       <img src="assets/48hoursready-logo.jpg" alt="48HoursReady" class="cc-logo">
       <h4>48HoursReady</h4>
       <p data-i18n="cc_48hr">Ref&egrave;re biznis. Touche 10% sou chak pake.</p>
@@ -932,6 +932,19 @@ const obs=new IntersectionObserver(e=>{e.forEach(el=>{if(el.isIntersecting){el.t
 document.querySelectorAll('.reveal').forEach(el=>obs.observe(el));
 document.querySelectorAll('a[href^="#"]').forEach(a=>{a.addEventListener('click',e=>{const t=document.querySelector(a.getAttribute('href'));if(t){e.preventDefault();t.scrollIntoView({behavior:'smooth',block:'start'})}})});
 if('serviceWorker' in navigator){navigator.serviceWorker.register('sw.js').catch(()=>{})}
+
+/* Force external links to open in real browser when in PWA standalone mode */
+if(window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone){
+  document.addEventListener('click',function(e){
+    var a=e.target.closest('a[href]');
+    if(!a)return;
+    var href=a.getAttribute('href');
+    if(href && (href.indexOf('http')===0) && a.hostname!==location.hostname){
+      e.preventDefault();
+      window.open(href,'_system');
+    }
+  });
+}
 
 /* TRANSLATIONS */
 const translations={
