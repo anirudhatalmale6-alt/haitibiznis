@@ -1,0 +1,545 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Refund Admin - MsouWout</title>
+<meta name="description" content="Admin panel pou jere ranbousman kous MsouWout.">
+<meta property="og:title" content="MsouWout - Refund Admin">
+<meta property="og:description" content="Jere demann ranbousman pou kous MsouWout.">
+<meta property="og:image" content="https://haitibiznis.com/assets/og-msouwout.jpg?v=2">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:type" content="website">
+<link rel="icon" type="image/png" sizes="32x32" href="assets/favicon-32.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --blue:#00209F;--blue-light:#0033CC;--blue-dark:#001566;
+  --red:#D21034;--red-light:#E8274A;
+  --white:#FFFFFF;--off-white:#F5F7FA;--light-gray:#E8ECF2;
+  --dark:#0C1B3A;--text:#1A2A4A;--text-light:#5A6B8A;
+  --gold:#D4A017;--green:#1B8C3D;--orange:#E67E22;
+  --body:'Plus Jakarta Sans',system-ui,sans-serif;
+  --display:'DM Serif Display',Georgia,serif;
+}
+body{font-family:var(--body);background:var(--off-white);color:var(--text);-webkit-font-smoothing:antialiased;min-height:100vh}
+
+.top-bar{
+  background:var(--dark);padding:12px 20px;display:flex;align-items:center;justify-content:space-between;
+  position:sticky;top:0;z-index:100;
+}
+.top-bar-left{display:flex;align-items:center;gap:10px}
+.top-bar-left img{height:28px;border-radius:6px}
+.top-bar-left span{color:#fff;font-family:var(--display);font-size:1rem}
+.top-bar-left span em{color:var(--red);font-style:italic}
+.top-bar-tag{color:rgba(255,255,255,.4);font-size:.68rem;font-weight:700;background:rgba(255,255,255,.08);padding:3px 10px;border-radius:100px;margin-left:8px}
+.top-bar-right{display:flex;gap:8px}
+.top-bar-right a{color:rgba(255,255,255,.6);font-size:.75rem;font-weight:600;padding:5px 12px;border-radius:100px;border:1px solid rgba(255,255,255,.15);transition:all .2s;text-decoration:none}
+.top-bar-right a:hover{color:#fff;border-color:rgba(255,255,255,.4)}
+
+.admin-header{
+  background:linear-gradient(160deg,var(--blue-dark),var(--blue));
+  padding:24px 20px;color:#fff;
+}
+.admin-header-inner{max-width:1100px;margin:0 auto}
+.admin-header h1{font-family:var(--display);font-size:1.4rem;margin-bottom:4px}
+.admin-header p{font-size:.82rem;color:rgba(255,255,255,.6)}
+
+.admin-content{max-width:1100px;margin:0 auto;padding:20px}
+
+.kpi-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:12px;margin-bottom:24px}
+.kpi-card{background:var(--white);border-radius:14px;padding:16px;border:1px solid var(--light-gray);transition:transform .15s}
+.kpi-card:hover{transform:translateY(-2px)}
+.kpi-card .val{font-family:var(--display);font-size:1.5rem;color:var(--dark);line-height:1}
+.kpi-card .val.blue{color:var(--blue)}
+.kpi-card .val.green{color:var(--green)}
+.kpi-card .val.gold{color:var(--gold)}
+.kpi-card .val.red{color:var(--red)}
+.kpi-card .label{font-size:.68rem;color:var(--text-light);margin-top:4px;font-weight:700;text-transform:uppercase;letter-spacing:.04em}
+
+.filter-bar{
+  display:flex;align-items:center;gap:10px;margin-bottom:16px;flex-wrap:wrap;
+}
+.filter-bar select, .filter-bar input{
+  padding:10px 14px;border:2px solid var(--light-gray);border-radius:10px;
+  font-family:var(--body);font-size:.82rem;background:var(--white);color:var(--text);outline:none;
+}
+.filter-bar select:focus, .filter-bar input:focus{border-color:var(--blue)}
+.filter-bar input{flex:1;min-width:200px}
+.filter-btn{
+  padding:10px 20px;background:var(--blue);color:#fff;border:none;border-radius:10px;
+  font-family:var(--body);font-size:.82rem;font-weight:700;cursor:pointer;
+}
+.filter-btn:hover{background:var(--blue-light)}
+
+.table-wrap{
+  background:var(--white);border-radius:16px;border:1px solid var(--light-gray);overflow-x:auto;
+}
+table{width:100%;border-collapse:collapse;font-size:.8rem}
+thead{background:var(--off-white)}
+th{padding:12px 14px;text-align:left;font-size:.68rem;font-weight:800;text-transform:uppercase;letter-spacing:.06em;color:var(--text-light);border-bottom:2px solid var(--light-gray);white-space:nowrap}
+td{padding:10px 14px;border-bottom:1px solid var(--light-gray);vertical-align:middle}
+tr:hover td{background:rgba(0,32,159,.01)}
+.badge{
+  display:inline-block;padding:3px 10px;border-radius:100px;font-size:.65rem;font-weight:800;
+  text-transform:uppercase;letter-spacing:.06em;
+}
+.badge-pending{background:rgba(212,160,23,.1);color:var(--gold);border:1px solid rgba(212,160,23,.2)}
+.badge-approved{background:rgba(27,140,61,.1);color:var(--green);border:1px solid rgba(27,140,61,.2)}
+.badge-denied{background:rgba(210,16,52,.1);color:var(--red);border:1px solid rgba(210,16,52,.2)}
+.badge-processed{background:rgba(0,51,204,.1);color:var(--blue);border:1px solid rgba(0,51,204,.2)}
+.badge-reason{background:rgba(90,107,138,.08);color:var(--text);border:1px solid var(--light-gray);font-size:.62rem;text-transform:none;letter-spacing:0}
+
+.act-btn{
+  padding:5px 12px;border:1px solid var(--light-gray);border-radius:8px;
+  font-family:var(--body);font-size:.7rem;font-weight:700;cursor:pointer;
+  background:var(--white);color:var(--text);transition:all .2s;white-space:nowrap;
+}
+.act-btn:hover{border-color:var(--blue);color:var(--blue)}
+
+.empty-state{text-align:center;padding:60px 20px;color:var(--text-light)}
+.empty-state .icon{font-size:2.5rem;margin-bottom:12px}
+.empty-state h3{font-family:var(--display);font-size:1.2rem;color:var(--dark);margin-bottom:4px}
+.empty-state p{font-size:.82rem}
+
+.route-text{max-width:200px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;font-size:.75rem}
+.route-arrow{color:var(--text-light);margin:0 4px}
+.money{font-weight:700;font-family:var(--body);white-space:nowrap}
+.date-cell{white-space:nowrap;font-size:.75rem;color:var(--text-light)}
+
+/* MODAL */
+.modal-overlay{
+  position:fixed;inset:0;z-index:500;background:rgba(12,27,58,.5);backdrop-filter:blur(4px);
+  display:none;align-items:center;justify-content:center;
+}
+.modal-overlay.open{display:flex}
+.modal{
+  background:var(--white);border-radius:20px;width:95%;max-width:600px;max-height:90vh;overflow-y:auto;
+}
+.modal-header{
+  display:flex;align-items:center;justify-content:space-between;
+  padding:20px 24px;border-bottom:1px solid var(--light-gray);
+  position:sticky;top:0;background:var(--white);z-index:2;border-radius:20px 20px 0 0;
+}
+.modal-header h3{font-family:var(--display);font-size:1.15rem}
+.modal-close{background:none;border:none;font-size:1.3rem;color:var(--text-light);cursor:pointer;width:36px;height:36px;border-radius:50%;display:flex;align-items:center;justify-content:center}
+.modal-close:hover{background:var(--off-white);color:var(--dark)}
+.modal-body{padding:20px 24px}
+.detail-section{margin-bottom:20px}
+.detail-section-title{font-size:.68rem;font-weight:800;text-transform:uppercase;letter-spacing:.1em;color:var(--text-light);margin-bottom:10px}
+.detail-row{display:flex;justify-content:space-between;padding:7px 0;font-size:.82rem;border-bottom:1px solid var(--light-gray)}
+.detail-row:last-child{border-bottom:none}
+.detail-row .dl{color:var(--text-light)}
+.detail-row .dv{font-weight:700;text-align:right;max-width:60%}
+
+.reason-box{
+  background:rgba(212,160,23,.06);border:1px solid rgba(212,160,23,.15);
+  border-radius:12px;padding:14px;margin-bottom:16px;
+}
+.reason-box .reason-label{font-size:.68rem;font-weight:800;text-transform:uppercase;color:var(--gold);margin-bottom:6px;letter-spacing:.06em}
+.reason-box .reason-text{font-size:.85rem;line-height:1.5}
+
+.admin-field{margin-bottom:12px}
+.admin-field label{display:block;font-size:.72rem;font-weight:700;color:var(--text);margin-bottom:4px;text-transform:uppercase;letter-spacing:.04em}
+.admin-field input, .admin-field textarea{
+  width:100%;padding:12px;border:2px solid var(--light-gray);border-radius:10px;
+  font-family:var(--body);font-size:.85rem;outline:none;
+}
+.admin-field input:focus, .admin-field textarea:focus{border-color:var(--blue)}
+.admin-field textarea{resize:vertical;min-height:60px}
+.admin-field .hint{font-size:.7rem;color:var(--text-light);margin-top:4px}
+
+.action-row{display:flex;gap:10px;margin-top:20px}
+.admin-btn{
+  padding:12px 20px;border:none;border-radius:12px;font-family:var(--body);
+  font-size:.85rem;font-weight:700;cursor:pointer;transition:all .2s;flex:1;
+}
+.admin-btn.green{background:var(--green);color:#fff}
+.admin-btn.green:hover{opacity:.9}
+.admin-btn.red{background:var(--red);color:#fff}
+.admin-btn.red:hover{opacity:.9}
+.admin-btn:disabled{opacity:.5;cursor:not-allowed}
+
+.processed-badge{
+  text-align:center;padding:16px;border-radius:12px;margin-top:16px;font-weight:700;font-size:.9rem;
+}
+.processed-badge.approved{background:rgba(27,140,61,.1);color:var(--green);border:1px solid rgba(27,140,61,.2)}
+.processed-badge.denied{background:rgba(210,16,52,.1);color:var(--red);border:1px solid rgba(210,16,52,.2)}
+
+.toast{
+  position:fixed;bottom:30px;left:50%;transform:translateX(-50%) translateY(20px);
+  background:var(--dark);color:#fff;padding:12px 24px;border-radius:12px;
+  font-size:.85rem;font-weight:600;opacity:0;transition:all .3s;z-index:600;
+  pointer-events:none;box-shadow:0 8px 24px rgba(0,0,0,.2);
+}
+.toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+
+.loading-spinner{display:inline-block;width:18px;height:18px;border:2px solid rgba(255,255,255,.3);border-top-color:#fff;border-radius:50%;animation:spin .6s linear infinite;vertical-align:middle;margin-right:6px}
+@keyframes spin{to{transform:rotate(360deg)}}
+
+@media(max-width:700px){
+  .kpi-grid{grid-template-columns:1fr 1fr}
+  .filter-bar{flex-direction:column}
+  .filter-bar input, .filter-bar select{width:100%}
+  .action-row{flex-direction:column}
+}
+</style>
+</head>
+<body>
+
+<!-- TOP BAR -->
+<div class="top-bar">
+  <div class="top-bar-left">
+    <img src="assets/msouwout-logo-new.png" alt="MsouWout">
+    <span>M<em>sou</em>Wout</span>
+    <span class="top-bar-tag">Refund Admin</span>
+  </div>
+  <div class="top-bar-right">
+    <a href="msouwout.html">MsouWout</a>
+    <a href="utility-admin.html">Utility Admin</a>
+  </div>
+</div>
+
+<!-- ADMIN HEADER -->
+<div class="admin-header">
+  <div class="admin-header-inner">
+    <h1>Refund Management</h1>
+    <p>Review and process ride refund requests</p>
+  </div>
+</div>
+
+<div class="admin-content">
+  <!-- KPI CARDS -->
+  <div class="kpi-grid">
+    <div class="kpi-card"><div class="val blue" id="kpiTotal">-</div><div class="label">Total Requests</div></div>
+    <div class="kpi-card"><div class="val gold" id="kpiPending">-</div><div class="label">Pending</div></div>
+    <div class="kpi-card"><div class="val green" id="kpiApproved">-</div><div class="label">Approved</div></div>
+    <div class="kpi-card"><div class="val red" id="kpiDenied">-</div><div class="label">Denied</div></div>
+    <div class="kpi-card"><div class="val blue" id="kpiRefunded">0 HTG</div><div class="label">Total Refunded</div></div>
+  </div>
+
+  <!-- FILTERS -->
+  <div class="filter-bar">
+    <select id="filterStatus" onchange="loadRefunds()">
+      <option value="">All Statuses</option>
+      <option value="pending">Pending</option>
+      <option value="approved">Approved</option>
+      <option value="denied">Denied</option>
+    </select>
+    <input type="text" id="filterPhone" placeholder="Search by phone number..." onkeypress="if(event.key==='Enter')loadRefunds()">
+    <button class="filter-btn" onclick="loadRefunds()">Search</button>
+  </div>
+
+  <!-- TABLE -->
+  <div class="table-wrap">
+    <table>
+      <thead>
+        <tr>
+          <th>Date</th>
+          <th>Rider</th>
+          <th>Route</th>
+          <th>Fare</th>
+          <th>Reason</th>
+          <th>Refund</th>
+          <th>Status</th>
+          <th>Action</th>
+        </tr>
+      </thead>
+      <tbody id="refundBody"></tbody>
+    </table>
+    <div class="empty-state" id="emptyState" style="display:none">
+      <div class="icon">&#128203;</div>
+      <h3>No Refund Requests</h3>
+      <p>No refund requests match your filters</p>
+    </div>
+  </div>
+</div>
+
+<!-- REVIEW MODAL -->
+<div class="modal-overlay" id="reviewModal">
+  <div class="modal">
+    <div class="modal-header">
+      <h3>Review Refund Request</h3>
+      <button class="modal-close" onclick="closeModal()">&times;</button>
+    </div>
+    <div class="modal-body" id="modalBody"></div>
+  </div>
+</div>
+
+<!-- TOAST -->
+<div class="toast" id="toast"></div>
+
+<script>
+var API_URL = 'https://haitibiznis-api.onrender.com';
+var allRefunds = [];
+
+var REASON_LABELS = {
+  breakdown: 'Pan',
+  driver_cancelled: 'Chofe Anile',
+  no_driver: 'Pa Gen Chofe',
+  overcharged: 'Twop Chaje',
+  wrong_route: 'Move Wout',
+  safety: 'Sekirite',
+  other: 'Lot'
+};
+
+var STATUS_LABELS = {
+  pending: 'An Atant',
+  approved: 'Apwouve',
+  denied: 'Refize',
+  processed: 'Trete'
+};
+
+function formatMoney(n) {
+  if (!n && n !== 0) return '0 HTG';
+  return n.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',') + ' HTG';
+}
+
+function formatDate(d) {
+  if (!d) return '-';
+  var dt = new Date(d);
+  var day = dt.getDate().toString().padStart(2, '0');
+  var mon = (dt.getMonth() + 1).toString().padStart(2, '0');
+  var yr = dt.getFullYear().toString().slice(2);
+  var hr = dt.getHours().toString().padStart(2, '0');
+  var mn = dt.getMinutes().toString().padStart(2, '0');
+  return day + '/' + mon + '/' + yr + ' ' + hr + ':' + mn;
+}
+
+function shorten(str, max) {
+  if (!str) return '-';
+  return str.length > max ? str.slice(0, max) + '...' : str;
+}
+
+function showToast(msg) {
+  var t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  setTimeout(function() { t.classList.remove('show'); }, 3000);
+}
+
+function loadStats() {
+  fetch(API_URL + '/api/rides/refund/stats')
+    .then(function(r) { return r.json(); })
+    .then(function(d) {
+      document.getElementById('kpiTotal').textContent = d.total || 0;
+      document.getElementById('kpiPending').textContent = d.pending || 0;
+      document.getElementById('kpiApproved').textContent = d.approved || 0;
+      document.getElementById('kpiDenied').textContent = d.denied || 0;
+      document.getElementById('kpiRefunded').textContent = formatMoney(d.totalRefunded || 0);
+    })
+    .catch(function() {
+      document.getElementById('kpiTotal').textContent = '!';
+    });
+}
+
+function loadRefunds() {
+  var status = document.getElementById('filterStatus').value;
+  var phone = document.getElementById('filterPhone').value.trim();
+  var url = API_URL + '/api/rides/refund/requests';
+  if (status) url += '?status=' + status;
+
+  fetch(url)
+    .then(function(r) { return r.json(); })
+    .then(function(data) {
+      allRefunds = data;
+      if (phone) {
+        allRefunds = allRefunds.filter(function(r) {
+          return r.riderPhone && r.riderPhone.indexOf(phone) !== -1;
+        });
+      }
+      renderTable();
+    })
+    .catch(function() {
+      document.getElementById('refundBody').innerHTML = '';
+      document.getElementById('emptyState').style.display = 'block';
+      document.getElementById('emptyState').querySelector('p').textContent = 'Error loading refund requests';
+    });
+}
+
+function renderTable() {
+  var tbody = document.getElementById('refundBody');
+  var empty = document.getElementById('emptyState');
+
+  if (!allRefunds.length) {
+    tbody.innerHTML = '';
+    empty.style.display = 'block';
+    return;
+  }
+  empty.style.display = 'none';
+
+  var html = '';
+  allRefunds.forEach(function(ref) {
+    var ride = ref.ride || {};
+    var riderName = ride.riderName || '';
+    var pickup = shorten(ride.pickupAddress || '-', 20);
+    var dropoff = shorten(ride.dropoffAddress || '-', 20);
+    var fare = ride.fare || ride.estimatedFare || 0;
+    var reasonLabel = REASON_LABELS[ref.reason] || ref.reason;
+    var statusLabel = STATUS_LABELS[ref.status] || ref.status;
+    var statusClass = 'badge-' + ref.status;
+    var isPending = ref.status === 'pending';
+
+    html += '<tr>';
+    html += '<td class="date-cell">' + formatDate(ref.createdAt) + '</td>';
+    html += '<td><div style="font-weight:600;font-size:.78rem">' + (riderName || ref.riderPhone) + '</div>';
+    if (riderName) html += '<div style="font-size:.68rem;color:var(--text-light)">' + ref.riderPhone + '</div>';
+    html += '</td>';
+    html += '<td><div class="route-text">' + pickup + '<span class="route-arrow"> &rarr; </span>' + dropoff + '</div></td>';
+    html += '<td class="money">' + formatMoney(fare) + '</td>';
+    html += '<td><span class="badge badge-reason">' + reasonLabel + '</span></td>';
+    html += '<td class="money" style="color:var(--red)">' + formatMoney(ref.refundAmount) + '</td>';
+    html += '<td><span class="badge ' + statusClass + '">' + statusLabel + '</span></td>';
+    html += '<td>';
+    if (isPending) {
+      html += '<button class="act-btn" onclick="openReview(\'' + ref._id + '\')">Review</button>';
+    } else {
+      html += '<button class="act-btn" onclick="openReview(\'' + ref._id + '\')">View</button>';
+    }
+    html += '</td>';
+    html += '</tr>';
+  });
+
+  tbody.innerHTML = html;
+}
+
+function openReview(id) {
+  var ref = allRefunds.find(function(r) { return r._id === id; });
+  if (!ref) return;
+
+  var ride = ref.ride || {};
+  var driver = ref.driver || {};
+  var driverName = driver.firstName ? (driver.firstName + ' ' + driver.lastName) : '-';
+  var isPending = ref.status === 'pending';
+  var reasonLabel = REASON_LABELS[ref.reason] || ref.reason;
+  var statusLabel = STATUS_LABELS[ref.status] || ref.status;
+
+  var html = '';
+
+  /* Ride details */
+  html += '<div class="detail-section">';
+  html += '<div class="detail-section-title">Ride Details</div>';
+  html += '<div class="detail-row"><span class="dl">Date</span><span class="dv">' + formatDate(ride.scheduledDate || ref.createdAt) + '</span></div>';
+  html += '<div class="detail-row"><span class="dl">Pick-up</span><span class="dv">' + (ride.pickupAddress || '-') + '</span></div>';
+  html += '<div class="detail-row"><span class="dl">Drop-off</span><span class="dv">' + (ride.dropoffAddress || '-') + '</span></div>';
+  html += '<div class="detail-row"><span class="dl">Fare</span><span class="dv">' + formatMoney(ride.fare || ride.estimatedFare || 0) + '</span></div>';
+  html += '<div class="detail-row"><span class="dl">Ride Status</span><span class="dv">' + (ride.status || '-') + '</span></div>';
+  html += '</div>';
+
+  /* Driver */
+  html += '<div class="detail-section">';
+  html += '<div class="detail-section-title">Driver</div>';
+  html += '<div class="detail-row"><span class="dl">Name</span><span class="dv">' + driverName + '</span></div>';
+  html += '<div class="detail-row"><span class="dl">Phone</span><span class="dv">' + (driver.phone || '-') + '</span></div>';
+  html += '<div class="detail-row"><span class="dl">Vehicle</span><span class="dv">' + (driver.vehicleType || '-') + ' / ' + (driver.licensePlate || '-') + '</span></div>';
+  html += '</div>';
+
+  /* Refund reason */
+  html += '<div class="reason-box">';
+  html += '<div class="reason-label">Reason: ' + reasonLabel + '</div>';
+  html += '<div class="reason-text">' + (ref.reasonText || 'No additional details provided.') + '</div>';
+  html += '</div>';
+
+  /* Refund info */
+  html += '<div class="detail-section">';
+  html += '<div class="detail-section-title">Refund Details</div>';
+  html += '<div class="detail-row"><span class="dl">Type</span><span class="dv">' + (ref.refundType === 'partial' ? 'Partial' : 'Full') + '</span></div>';
+  html += '<div class="detail-row"><span class="dl">Trip Completed</span><span class="dv">' + (ref.percentCompleted || 0) + '%</span></div>';
+  html += '<div class="detail-row"><span class="dl">Suggested Amount</span><span class="dv" style="color:var(--red)">' + formatMoney(ref.refundAmount) + '</span></div>';
+  html += '<div class="detail-row"><span class="dl">Requested</span><span class="dv">' + formatDate(ref.createdAt) + '</span></div>';
+  html += '</div>';
+
+  if (isPending) {
+    /* Admin action form */
+    html += '<div class="admin-field">';
+    html += '<label>Refund Amount (HTG)</label>';
+    html += '<input type="number" id="modalAmount" value="' + (ref.refundAmount || 0) + '" min="0" max="' + (ref.rideAmount || 9999) + '">';
+    html += '<div class="hint">Original fare: ' + formatMoney(ref.rideAmount) + '. Adjust if needed.</div>';
+    html += '</div>';
+
+    html += '<div class="admin-field">';
+    html += '<label>Admin Note</label>';
+    html += '<textarea id="modalNote" placeholder="Optional note about this decision..."></textarea>';
+    html += '</div>';
+
+    html += '<div class="action-row">';
+    html += '<button class="admin-btn green" id="btnApprove" onclick="processRefund(\'' + ref._id + '\',\'approve\')">Approve Refund</button>';
+    html += '<button class="admin-btn red" id="btnDeny" onclick="processRefund(\'' + ref._id + '\',\'deny\')">Deny</button>';
+    html += '</div>';
+  } else {
+    var badgeClass = ref.status === 'approved' ? 'approved' : 'denied';
+    html += '<div class="processed-badge ' + badgeClass + '">';
+    html += statusLabel + (ref.status === 'approved' ? ' — ' + formatMoney(ref.refundAmount) : '');
+    html += '</div>';
+    if (ref.adminNote) {
+      html += '<div style="margin-top:12px;font-size:.82rem;color:var(--text-light)"><strong>Admin note:</strong> ' + ref.adminNote + '</div>';
+    }
+    if (ref.processedAt) {
+      html += '<div style="margin-top:6px;font-size:.72rem;color:var(--text-light)">Processed: ' + formatDate(ref.processedAt) + '</div>';
+    }
+  }
+
+  document.getElementById('modalBody').innerHTML = html;
+  document.getElementById('reviewModal').classList.add('open');
+}
+
+function closeModal() {
+  document.getElementById('reviewModal').classList.remove('open');
+}
+
+function processRefund(id, action) {
+  var amount = document.getElementById('modalAmount');
+  var note = document.getElementById('modalNote');
+  var btnApprove = document.getElementById('btnApprove');
+  var btnDeny = document.getElementById('btnDeny');
+
+  btnApprove.disabled = true;
+  btnDeny.disabled = true;
+  var activeBtn = action === 'approve' ? btnApprove : btnDeny;
+  var origText = activeBtn.textContent;
+  activeBtn.innerHTML = '<span class="loading-spinner"></span>' + (action === 'approve' ? 'Processing...' : 'Denying...');
+
+  fetch(API_URL + '/api/rides/refund/process/' + id, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      action: action,
+      refundAmount: amount ? parseInt(amount.value) : 0,
+      adminNote: note ? note.value.trim() : ''
+    })
+  })
+    .then(function(r) { return r.json(); })
+    .then(function(data) {
+      if (data.success) {
+        closeModal();
+        showToast(action === 'approve' ? 'Refund approved!' : 'Refund denied.');
+        loadStats();
+        loadRefunds();
+      } else {
+        showToast('Error: ' + (data.error || 'Unknown error'));
+        btnApprove.disabled = false;
+        btnDeny.disabled = false;
+        activeBtn.textContent = origText;
+      }
+    })
+    .catch(function() {
+      showToast('Connection error. Try again.');
+      btnApprove.disabled = false;
+      btnDeny.disabled = false;
+      activeBtn.textContent = origText;
+    });
+}
+
+document.getElementById('reviewModal').addEventListener('click', function(e) {
+  if (e.target === this) closeModal();
+});
+
+loadStats();
+loadRefunds();
+</script>
+</body>
+</html>
