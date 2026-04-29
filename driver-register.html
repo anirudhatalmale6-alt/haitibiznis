@@ -586,6 +586,13 @@ input{font-family:var(--body)}
       </div>
 
       <div class="field-group">
+        <label class="field-label" data-i18n="field_year">Ane machin nan</label>
+        <select class="zone-select" id="wYear" style="width:100%">
+          <option value="" data-i18n="year_placeholder">Chwazi ane...</option>
+        </select>
+        <div class="field-hint" data-i18n="field_year_hint" style="font-size:.72rem;color:var(--text-light);margin-top:4px">Minimom 2010</div>
+      </div>
+      <div class="field-group">
         <label class="field-label" data-i18n="field_plate">Nimewo plak</label>
         <input type="text" class="plate-input" id="wPlate" placeholder="AA-00000">
       </div>
@@ -702,6 +709,7 @@ var T = {
     field_vehicle_type:"Ki tip machin ou?",
     v_moto:"Moto",v_car:"Machin",
     v_moto_earn:"500-1,000 HTG/jou",v_car_earn:"1,000-3,000 HTG/jou",
+    field_year:"Ane machin nan",year_placeholder:"Chwazi ane...",field_year_hint:"Minimom 2010",
     field_plate:"Nimewo plak",field_zone:"Zon travay ou",
     zone_other:"Lot",
     wiz_step3_label:"Etap 3 nan 3 — Konfime",
@@ -714,7 +722,7 @@ var T = {
     success_btn:"Ale nan Dashboard",
     sticky_cta:"Komanse Fe Lajan Kounye a",
     err_fill:"Tanpri ranpli tout chan yo",
-    err_plate:"Tanpri antre nimewo plak ou",
+    err_year:"Tanpri chwazi ane machin nan",err_plate:"Tanpri antre nimewo plak ou",
     err_generic:"Ere. Eseye anko.",
     err_duplicate:"Nimewo sa a deja enskri!",
     err_connection:"Ere koneksyon. Eseye anko.",
@@ -749,6 +757,7 @@ var T = {
     field_vehicle_type:"Quel type de v&eacute;hicule?",
     v_moto:"Moto",v_car:"Voiture",
     v_moto_earn:"500-1,000 HTG/jour",v_car_earn:"1,000-3,000 HTG/jour",
+    field_year:"Ann&eacute;e du v&eacute;hicule",year_placeholder:"Choisir l'ann&eacute;e...",field_year_hint:"Minimum 2010",
     field_plate:"Num&eacute;ro de plaque",field_zone:"Zone de travail",
     zone_other:"Autre",
     wiz_step3_label:"&Eacute;tape 3 sur 3 — Confirmation",
@@ -761,7 +770,7 @@ var T = {
     success_btn:"Aller au Dashboard",
     sticky_cta:"Commencer &agrave; Gagner Maintenant",
     err_fill:"Veuillez remplir tous les champs",
-    err_plate:"Veuillez entrer votre num&eacute;ro de plaque",
+    err_year:"Veuillez choisir l'ann&eacute;e du v&eacute;hicule",err_plate:"Veuillez entrer votre num&eacute;ro de plaque",
     err_generic:"Erreur. R&eacute;essayez.",
     err_duplicate:"Ce num&eacute;ro est d&eacute;j&agrave; inscrit!",
     err_connection:"Erreur de connexion. R&eacute;essayez.",
@@ -796,6 +805,7 @@ var T = {
     field_vehicle_type:"What type of vehicle?",
     v_moto:"Motorcycle",v_car:"Car",
     v_moto_earn:"500-1,000 HTG/day",v_car_earn:"1,000-3,000 HTG/day",
+    field_year:"Vehicle year",year_placeholder:"Select year...",field_year_hint:"Minimum 2010",
     field_plate:"License plate number",field_zone:"Work zone",
     zone_other:"Other",
     wiz_step3_label:"Step 3 of 3 — Confirm",
@@ -808,7 +818,7 @@ var T = {
     success_btn:"Go to Dashboard",
     sticky_cta:"Start Earning Money Now",
     err_fill:"Please fill in all fields",
-    err_plate:"Please enter your license plate number",
+    err_year:"Please select the vehicle year",err_plate:"Please enter your license plate number",
     err_generic:"Error. Try again.",
     err_duplicate:"This number is already registered!",
     err_connection:"Connection error. Try again.",
@@ -843,6 +853,7 @@ var T = {
     field_vehicle_type:"&iquest;Qu&eacute; tipo de veh&iacute;culo?",
     v_moto:"Moto",v_car:"Auto",
     v_moto_earn:"500-1,000 HTG/d&iacute;a",v_car_earn:"1,000-3,000 HTG/d&iacute;a",
+    field_year:"A&ntilde;o del veh&iacute;culo",year_placeholder:"Seleccionar a&ntilde;o...",field_year_hint:"M&iacute;nimo 2010",
     field_plate:"N&uacute;mero de placa",field_zone:"Zona de trabajo",
     zone_other:"Otro",
     wiz_step3_label:"Paso 3 de 3 — Confirmar",
@@ -855,7 +866,7 @@ var T = {
     success_btn:"Ir al Dashboard",
     sticky_cta:"Comienza a Ganar Dinero Ahora",
     err_fill:"Por favor completa todos los campos",
-    err_plate:"Por favor ingresa tu n&uacute;mero de placa",
+    err_year:"Por favor selecciona el a&ntilde;o del veh&iacute;culo",err_plate:"Por favor ingresa tu n&uacute;mero de placa",
     err_generic:"Error. Int&eacute;ntalo de nuevo.",
     err_duplicate:"&iexcl;Este n&uacute;mero ya est&aacute; registrado!",
     err_connection:"Error de conexi&oacute;n. Int&eacute;ntalo de nuevo.",
@@ -895,6 +906,18 @@ if(savedLang&&T[savedLang]) setLang(savedLang); else setLang('ht');
 var API_URL = 'https://haitibiznis-api.onrender.com';
 var selectedVehicle = 'moto';
 var currentStep = 1;
+var MIN_VEHICLE_YEAR = 2010;
+
+/* Populate vehicle year dropdown */
+(function(){
+  var sel=document.getElementById('wYear');
+  var now=new Date().getFullYear();
+  for(var y=now;y>=MIN_VEHICLE_YEAR;y--){
+    var opt=document.createElement('option');
+    opt.value=y; opt.textContent=y;
+    sel.appendChild(opt);
+  }
+})();
 
 function scrollToSignup(e) {
   if (e) e.preventDefault();
@@ -934,8 +957,14 @@ function goStep2() {
 }
 
 function goStep3() {
+  var year = document.getElementById('wYear').value;
   var plate = document.getElementById('wPlate').value.trim();
   var err = document.getElementById('err2');
+  if (!year) {
+    err.innerHTML = t('err_year');
+    err.classList.add('show');
+    return;
+  }
   if (!plate) {
     err.innerHTML = t('err_plate');
     err.classList.add('show');
@@ -948,9 +977,9 @@ function goStep3() {
   var vLabel = selectedVehicle === 'car' ? t('vehicle_car') : t('vehicle_moto');
   document.getElementById('summaryIcon').textContent = selectedVehicle === 'car' ? '🚗' : '🏍️';
   document.getElementById('summaryName').textContent = first + ' ' + last;
-  document.getElementById('summaryDetails').textContent = vLabel + ' · ' + plate;
+  document.getElementById('summaryDetails').textContent = vLabel + ' ' + year + ' · ' + plate;
   document.getElementById('summaryPhone').textContent = document.getElementById('wPhone').value.trim();
-  document.getElementById('summaryVehicle').textContent = vLabel;
+  document.getElementById('summaryVehicle').textContent = vLabel + ' (' + year + ')';
   document.getElementById('summaryPlate').textContent = plate;
   document.getElementById('summaryZone').textContent = document.getElementById('wZone').value;
 
@@ -973,6 +1002,7 @@ function submitSignup() {
       lastName: document.getElementById('wLastName').value.trim(),
       phone: document.getElementById('wPhone').value.trim(),
       vehicleType: selectedVehicle,
+      vehicleYear: parseInt(document.getElementById('wYear').value),
       licensePlate: document.getElementById('wPlate').value.trim(),
       zone: document.getElementById('wZone').value
     })
