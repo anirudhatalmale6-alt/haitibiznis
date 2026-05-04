@@ -625,6 +625,27 @@ footer{padding:40px 20px 24px;background:var(--dark);color:var(--white)}
   .trust-row{gap:16px}
   .steps-row{flex-direction:column;align-items:center}
 }
+
+/* ═══ TABLET LANDSCAPE ═══ */
+@media(min-width:700px){
+  .hero{
+    display:grid;grid-template-columns:1fr 1fr;align-items:center;
+    text-align:left;padding:48px 40px 40px;gap:0 32px;
+  }
+  .hero-logo,.hero-badge,.hero h1,.hero-sub,.hero-actions,.hero-trust{grid-column:1}
+  .hero-moto{
+    grid-column:2;grid-row:1/-1;justify-self:center;align-self:center;
+    margin-top:0;max-width:100%;
+  }
+  .hero-sub{margin:0 0 32px}
+  .hero-actions{justify-content:flex-start}
+  .hero-badge{align-self:start}
+  .hero-logo{justify-self:start}
+}
+@media(min-width:1024px){
+  .hero{padding:56px 48px 48px;gap:0 48px}
+  .hero h1{font-size:3rem}
+}
 </style>
 </head>
 <body>
