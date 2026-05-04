@@ -1,0 +1,969 @@
+<!DOCTYPE html>
+<html lang="ht">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ecosystem Admin — Kontwol Total</title>
+<meta name="robots" content="noindex, nofollow">
+<link rel="icon" type="image/png" sizes="32x32" href="assets/favicon-32.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --blue:#00209F;--blue-light:#0033CC;--blue-dark:#001566;
+  --red:#D21034;--red-light:#E8274A;
+  --white:#FFFFFF;--off-white:#F5F7FA;--light-gray:#E8ECF2;
+  --dark:#0C1B3A;--text:#1A2A4A;--text-light:#5A6B8A;
+  --gold:#D4A017;--green:#1B8C3D;--orange:#E67E22;
+  --body:'Plus Jakarta Sans',system-ui,sans-serif;
+  --display:'DM Serif Display',Georgia,serif;
+}
+body{font-family:var(--body);background:var(--off-white);color:var(--text);-webkit-font-smoothing:antialiased;min-height:100vh}
+
+.top-bar{
+  background:var(--dark);padding:12px 20px;display:flex;align-items:center;justify-content:space-between;
+  position:sticky;top:0;z-index:100;
+}
+.top-bar-left{display:flex;align-items:center;gap:10px}
+.top-bar-left img{height:28px;border-radius:6px}
+.top-bar-title{color:#fff;font-family:var(--display);font-size:1rem}
+.top-bar-title em{color:var(--red);font-style:italic}
+.top-bar-tag{color:rgba(255,255,255,.4);font-size:.68rem;font-weight:700;background:rgba(255,255,255,.08);padding:3px 10px;border-radius:100px;margin-left:8px}
+.top-bar-right{display:flex;gap:8px}
+.top-bar-right a{color:rgba(255,255,255,.6);font-size:.75rem;font-weight:600;padding:5px 12px;border-radius:100px;border:1px solid rgba(255,255,255,.15);transition:all .2s;text-decoration:none;cursor:pointer}
+.top-bar-right a:hover{color:#fff;border-color:rgba(255,255,255,.4)}
+
+.admin-header{
+  background:linear-gradient(160deg,var(--dark),var(--blue-dark),var(--blue));
+  padding:28px 20px;color:#fff;
+}
+.admin-header-inner{max-width:1200px;margin:0 auto}
+.admin-header h1{font-family:var(--display);font-size:1.5rem;margin-bottom:4px}
+.admin-header p{font-size:.82rem;color:rgba(255,255,255,.55)}
+.platform-badges{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px}
+.p-badge{
+  display:inline-flex;align-items:center;gap:6px;
+  padding:5px 12px;border-radius:100px;font-size:.72rem;font-weight:700;
+  border:1px solid rgba(255,255,255,.2);color:rgba(255,255,255,.8);
+  transition:all .2s;
+}
+.p-badge .dot{width:7px;height:7px;border-radius:50%;background:var(--green);flex-shrink:0}
+.p-badge .dot.off{background:var(--red)}
+.p-badge.active{border-color:rgba(255,255,255,.5);color:#fff;background:rgba(255,255,255,.08)}
+
+.admin-content{max-width:1200px;margin:0 auto;padding:20px}
+
+.kpi-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:10px;margin-bottom:20px}
+.kpi-card{background:var(--white);border-radius:14px;padding:14px;border:1px solid var(--light-gray)}
+.kpi-card .val{font-family:var(--display);font-size:1.4rem;color:var(--dark);line-height:1}
+.kpi-card .val.blue{color:var(--blue)}
+.kpi-card .val.green{color:var(--green)}
+.kpi-card .val.gold{color:var(--gold)}
+.kpi-card .val.red{color:var(--red)}
+.kpi-card .label{font-size:.65rem;color:var(--text-light);margin-top:4px;font-weight:700;text-transform:uppercase;letter-spacing:.04em}
+.kpi-card .src{font-size:.58rem;color:var(--text-light);margin-top:2px;opacity:.7}
+
+.section-tabs{display:flex;gap:6px;margin-bottom:16px;flex-wrap:wrap}
+.s-tab{
+  padding:8px 18px;border-radius:100px;font-size:.78rem;font-weight:700;cursor:pointer;
+  border:2px solid var(--light-gray);background:var(--white);color:var(--text);transition:all .2s;
+  display:flex;align-items:center;gap:6px;
+}
+.s-tab:hover{border-color:var(--blue);color:var(--blue)}
+.s-tab.active{background:var(--blue);color:#fff;border-color:var(--blue)}
+.s-tab .count{
+  background:rgba(0,0,0,.1);padding:1px 7px;border-radius:100px;font-size:.65rem;
+}
+.s-tab.active .count{background:rgba(255,255,255,.2)}
+
+.sub-tabs{display:flex;gap:4px;margin-bottom:12px;flex-wrap:wrap}
+.sub-tab{
+  padding:6px 14px;border-radius:8px;font-size:.72rem;font-weight:600;cursor:pointer;
+  background:var(--white);color:var(--text-light);transition:all .2s;border:1px solid var(--light-gray);
+}
+.sub-tab:hover{color:var(--text);border-color:var(--blue)}
+.sub-tab.active{background:var(--blue);color:#fff;border-color:var(--blue)}
+
+.filter-bar{display:flex;align-items:center;gap:10px;margin-bottom:12px;flex-wrap:wrap}
+.filter-bar select,.filter-bar input{
+  padding:10px 14px;border:2px solid var(--light-gray);border-radius:10px;
+  font-family:var(--body);font-size:.82rem;background:var(--white);color:var(--text);outline:none;
+}
+.filter-bar select:focus,.filter-bar input:focus{border-color:var(--blue)}
+.filter-bar input{flex:1;min-width:180px}
+.filter-btn{
+  padding:10px 20px;background:var(--blue);color:#fff;border:none;border-radius:10px;
+  font-family:var(--body);font-size:.82rem;font-weight:700;cursor:pointer;
+}
+.filter-btn:hover{background:var(--blue-light)}
+
+.table-wrap{background:var(--white);border-radius:16px;border:1px solid var(--light-gray);overflow-x:auto}
+table{width:100%;border-collapse:collapse;font-size:.8rem}
+thead{background:var(--off-white)}
+th{padding:12px 14px;text-align:left;font-size:.68rem;font-weight:800;text-transform:uppercase;letter-spacing:.06em;color:var(--text-light);border-bottom:2px solid var(--light-gray);white-space:nowrap}
+td{padding:10px 14px;border-bottom:1px solid var(--light-gray);vertical-align:middle}
+tr:hover td{background:rgba(0,32,159,.02)}
+.badge{display:inline-block;padding:3px 10px;border-radius:100px;font-size:.65rem;font-weight:800;text-transform:uppercase;letter-spacing:.06em}
+.badge-pending,.badge-requested,.badge-held{background:rgba(212,160,23,.1);color:var(--gold);border:1px solid rgba(212,160,23,.2)}
+.badge-accepted,.badge-verified,.badge-completed,.badge-approved,.badge-delivered,.badge-active,.badge-paid{background:rgba(27,140,61,.1);color:var(--green);border:1px solid rgba(27,140,61,.2)}
+.badge-cancelled,.badge-failed,.badge-denied,.badge-rejected,.badge-suspended{background:rgba(210,16,52,.1);color:var(--red);border:1px solid rgba(210,16,52,.2)}
+.badge-in_progress,.badge-driver_enroute,.badge-arrived,.badge-processing,.badge-picking_up,.badge-preparing,.badge-confirmed,.badge-ready{background:rgba(0,51,204,.1);color:var(--blue);border:1px solid rgba(0,51,204,.2)}
+.badge-refunded{background:rgba(90,107,138,.1);color:var(--text-light);border:1px solid rgba(90,107,138,.2)}
+.badge-customer{background:rgba(0,32,159,.08);color:var(--blue);border:1px solid rgba(0,32,159,.15)}
+.badge-driver{background:rgba(27,140,61,.08);color:var(--green);border:1px solid rgba(27,140,61,.15)}
+.badge-merchant{background:rgba(212,160,23,.08);color:var(--gold);border:1px solid rgba(212,160,23,.15)}
+.badge-admin{background:rgba(210,16,52,.08);color:var(--red);border:1px solid rgba(210,16,52,.15)}
+
+.pagination{display:flex;align-items:center;justify-content:center;gap:8px;padding:16px}
+.page-btn{
+  padding:8px 14px;border:1px solid var(--light-gray);border-radius:8px;
+  font-family:var(--body);font-size:.78rem;font-weight:700;cursor:pointer;
+  background:var(--white);color:var(--text);transition:all .2s;
+}
+.page-btn:hover{border-color:var(--blue);color:var(--blue)}
+.page-btn.active{background:var(--blue);color:#fff;border-color:var(--blue)}
+.page-info{font-size:.78rem;color:var(--text-light)}
+
+.recent-feed{margin-bottom:24px}
+.feed-title{font-family:var(--display);font-size:1.1rem;margin-bottom:12px;color:var(--dark)}
+.feed-item{
+  display:flex;align-items:center;gap:12px;padding:12px 16px;
+  background:var(--white);border:1px solid var(--light-gray);border-radius:12px;margin-bottom:8px;
+  transition:all .2s;
+}
+.feed-item:hover{border-color:var(--blue)}
+.feed-icon{
+  width:36px;height:36px;border-radius:10px;display:flex;align-items:center;justify-content:center;
+  font-size:1rem;flex-shrink:0;
+}
+.feed-icon.user{background:rgba(0,32,159,.08);color:var(--blue)}
+.feed-icon.ride{background:rgba(0,32,159,.08);color:var(--blue)}
+.feed-icon.driver{background:rgba(27,140,61,.08);color:var(--green)}
+.feed-icon.ticket{background:rgba(212,160,23,.08);color:var(--gold)}
+.feed-icon.order{background:rgba(230,126,34,.08);color:var(--orange)}
+.feed-icon.refund{background:rgba(210,16,52,.08);color:var(--red)}
+.feed-body{flex:1;min-width:0}
+.feed-label{font-size:.82rem;font-weight:700;color:var(--dark);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.feed-detail{font-size:.72rem;color:var(--text-light);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.feed-src{font-size:.6rem;color:var(--text-light);opacity:.6;margin-top:1px}
+.feed-meta{text-align:right;flex-shrink:0}
+.feed-time{font-size:.68rem;color:var(--text-light);white-space:nowrap}
+
+.whatsapp-link{
+  display:inline-flex;align-items:center;gap:4px;color:var(--green);font-weight:700;font-size:.72rem;
+  text-decoration:none;
+}
+.whatsapp-link:hover{text-decoration:underline}
+
+.refresh-btn{
+  padding:8px 16px;background:var(--green);color:#fff;border:none;border-radius:10px;
+  font-family:var(--body);font-size:.78rem;font-weight:700;cursor:pointer;margin-left:auto;
+}
+.refresh-btn:hover{opacity:.9}
+
+.empty-state{text-align:center;padding:60px 20px;color:var(--text-light)}
+.empty-state .icon{font-size:2.5rem;margin-bottom:12px}
+.empty-state h3{font-family:var(--display);font-size:1.2rem;color:var(--dark);margin-bottom:4px}
+
+.login-screen{display:flex;align-items:center;justify-content:center;min-height:80vh;padding:20px}
+.login-box{
+  background:var(--white);border-radius:20px;padding:40px 32px;
+  border:1px solid var(--light-gray);max-width:400px;width:100%;text-align:center;
+}
+.login-box h2{font-family:var(--display);font-size:1.5rem;margin-bottom:8px}
+.login-box p{font-size:.85rem;color:var(--text-light);margin-bottom:24px}
+.login-box .field{margin-bottom:14px;text-align:left}
+.login-box .field label{display:block;font-size:.72rem;font-weight:700;margin-bottom:4px;text-transform:uppercase;letter-spacing:.04em}
+.login-box .field input{
+  width:100%;padding:14px;border:2px solid var(--light-gray);border-radius:12px;
+  font-family:var(--body);font-size:.9rem;outline:none;
+}
+.login-box .field input:focus{border-color:var(--blue)}
+.login-btn{
+  width:100%;padding:16px;background:var(--blue);color:#fff;border:none;border-radius:14px;
+  font-family:var(--body);font-size:.95rem;font-weight:800;cursor:pointer;margin-top:8px;
+}
+.login-btn:hover{background:var(--blue-light)}
+.login-error{color:var(--red);font-size:.82rem;margin-top:8px;display:none}
+.login-logos{display:flex;justify-content:center;gap:20px;margin-bottom:20px;opacity:.6}
+.login-logos span{font-size:.7rem;font-weight:700;letter-spacing:.04em}
+
+.toast{
+  position:fixed;bottom:30px;left:50%;transform:translateX(-50%) translateY(20px);
+  background:var(--dark);color:#fff;padding:12px 24px;border-radius:12px;
+  font-size:.85rem;font-weight:600;opacity:0;transition:all .3s;z-index:600;
+  pointer-events:none;box-shadow:0 8px 24px rgba(0,0,0,.2);
+}
+.toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+
+.api-status{
+  display:inline-flex;align-items:center;gap:4px;font-size:.65rem;font-weight:700;
+  padding:2px 8px;border-radius:100px;
+}
+.api-status.ok{background:rgba(27,140,61,.1);color:var(--green)}
+.api-status.err{background:rgba(210,16,52,.1);color:var(--red)}
+
+@media(max-width:700px){
+  .kpi-grid{grid-template-columns:1fr 1fr}
+  .filter-bar{flex-direction:column}
+  .filter-bar input,.filter-bar select{width:100%}
+  .section-tabs,.sub-tabs{overflow-x:auto;flex-wrap:nowrap;-webkit-overflow-scrolling:touch}
+  .s-tab,.sub-tab{white-space:nowrap;flex-shrink:0}
+  .platform-badges{overflow-x:auto;flex-wrap:nowrap}
+}
+</style>
+</head>
+<body>
+
+<div class="top-bar">
+  <div class="top-bar-left">
+    <img src="assets/haitibiznis-logo.jpg" alt="Logo">
+    <span class="top-bar-title">Ecosystem <em>Admin</em></span>
+    <span class="top-bar-tag">Kontwol Total</span>
+  </div>
+  <div class="top-bar-right">
+    <a href="https://haitibiznis.com" target="_blank">HaitiBiznis</a>
+    <a href="https://myplopplop.com" target="_blank">MyPlopPlop</a>
+    <a onclick="logout()">Logout</a>
+  </div>
+</div>
+
+<div class="login-screen" id="loginScreen">
+  <div class="login-box">
+    <div class="login-logos">
+      <span>MYPLOPPLOP</span>
+      <span>HAITIBIZNIS</span>
+      <span>MSOUWOUT</span>
+      <span>48HOURSREADY</span>
+    </div>
+    <h2>Ecosystem Admin</h2>
+    <p>Yon sèl paj pou kontrole tout platfom yo</p>
+    <div class="field">
+      <label>PIN Administratè</label>
+      <input type="password" id="loginPin" placeholder="Antre PIN ou" onkeypress="if(event.key==='Enter')doLogin()">
+    </div>
+    <button class="login-btn" onclick="doLogin()">Antre</button>
+    <div class="login-error" id="loginError"></div>
+  </div>
+</div>
+
+<div id="dashboardMain" style="display:none">
+
+<div class="admin-header">
+  <div class="admin-header-inner">
+    <h1>Kontwol Total — Tout Platfom Yo</h1>
+    <p>MyPlopPlop + HaitiBiznis + MsouWout + 48HoursReady</p>
+    <div class="platform-badges">
+      <div class="p-badge" id="badgeMP"><span class="dot" id="dotMP"></span> MyPlopPlop</div>
+      <div class="p-badge" id="badgeHB"><span class="dot" id="dotHB"></span> HaitiBiznis</div>
+      <div class="p-badge" id="badgeMW"><span class="dot" id="dotMW"></span> MsouWout</div>
+      <div class="p-badge" id="badge48"><span class="dot" id="dot48"></span> 48HoursReady</div>
+    </div>
+  </div>
+</div>
+
+<div class="admin-content">
+
+  <div class="kpi-grid" id="kpiGrid"></div>
+
+  <div class="recent-feed" id="recentFeed">
+    <div style="display:flex;align-items:center;gap:12px;margin-bottom:12px">
+      <div class="feed-title" style="margin-bottom:0">Dènye Aktivite — Tout Platfom</div>
+      <button class="refresh-btn" onclick="loadAll()">&#8635; Refresh</button>
+    </div>
+    <div id="feedList">
+      <div class="empty-state"><div class="icon">&#9203;</div><h3>Loading...</h3></div>
+    </div>
+  </div>
+
+  <div class="section-tabs" id="sectionTabs"></div>
+  <div class="sub-tabs" id="subTabs"></div>
+
+  <div class="filter-bar">
+    <select id="filterStatus" onchange="loadCurrentTab()"><option value="">Tout Estati</option></select>
+    <input type="text" id="filterSearch" placeholder="Chache pa non, telefon, ref..." onkeypress="if(event.key==='Enter')loadCurrentTab()">
+    <button class="filter-btn" onclick="loadCurrentTab()">Chache</button>
+  </div>
+
+  <div class="table-wrap">
+    <table>
+      <thead id="tableHead"><tr><th>Loading...</th></tr></thead>
+      <tbody id="tableBody">
+        <tr><td><div class="empty-state"><div class="icon">&#128270;</div><h3>Loading...</h3></div></td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="pagination" id="pagination"></div>
+
+</div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+var MP_API = 'https://school-supporters-initiative-acquisition.trycloudflare.com/api/admin-pin';
+var HB_API = 'https://huntington-steven-illinois-vault.trycloudflare.com/api/admin';
+var pin = localStorage.getItem('eco_admin_pin') || '';
+var mpOk = false, hbOk = false;
+var mpStats = null, hbStats = null;
+var mpRecent = [], hbRecent = [];
+var currentSection = 'overview';
+var currentSubTab = '';
+var currentPage = 1;
+
+var sections = [
+  { id: 'overview', label: '&#127760; Tout', sub: [] },
+  { id: 'mp-users', label: '&#128101; Itilizatè', src: 'mp', sub: [
+    { id: 'all', label: 'Tout' },
+    { id: 'customer', label: 'Kliyan' },
+    { id: 'driver', label: 'Chofè' },
+    { id: 'merchant', label: 'Machann' }
+  ]},
+  { id: 'mp-drivers', label: '&#128663; Chofè MP', src: 'mp', sub: [
+    { id: 'all', label: 'Tout' },
+    { id: 'pending', label: 'An Atant' },
+    { id: 'approved', label: 'Apwouve' }
+  ]},
+  { id: 'mp-rides', label: '&#128752; Kous MP', src: 'mp', sub: [] },
+  { id: 'mp-orders', label: '&#128230; Kòmand', src: 'mp', sub: [
+    { id: 'all', label: 'Tout' },
+    { id: 'pending', label: 'An Atant' },
+    { id: 'delivered', label: 'Livre' },
+    { id: 'cancelled', label: 'Anile' }
+  ]},
+  { id: 'mp-stores', label: '&#127978; Magazen', src: 'mp', sub: [
+    { id: 'all', label: 'Tout' },
+    { id: 'active', label: 'Aktif' },
+    { id: 'pending', label: 'An Atant' }
+  ]},
+  { id: 'mp-koutye', label: '&#129309; Koutye', src: 'mp', sub: [] },
+  { id: 'hb-rides', label: '&#128663; Kous HB', src: 'hb', sub: [] },
+  { id: 'hb-drivers', label: '&#128100; Chofè HB', src: 'hb', sub: [
+    { id: 'all', label: 'Tout' },
+    { id: 'verified', label: 'Verifye' },
+    { id: 'pending', label: 'An Atant' }
+  ]},
+  { id: 'hb-tickets', label: '&#127915; Tikè', src: 'hb', sub: [] },
+  { id: 'hb-refunds', label: '&#128176; Ranbousman', src: 'hb', sub: [] }
+];
+
+if (pin) showDashboard();
+
+function doLogin() {
+  var p = document.getElementById('loginPin').value.trim();
+  if (!p) { showError('Antre PIN ou'); return; }
+  pin = p;
+  localStorage.setItem('eco_admin_pin', pin);
+  fetch(HB_API + '/dashboard?pin=' + encodeURIComponent(pin))
+    .then(function(r) {
+      if (r.status === 403) throw new Error('PIN envalid');
+      return r.json();
+    })
+    .then(function(data) {
+      if (data.success || data.stats) showDashboard();
+      else throw new Error('Koneksyon echwe');
+    })
+    .catch(function(err) {
+      fetch(MP_API + '/dashboard?pin=' + encodeURIComponent(pin))
+        .then(function(r) {
+          if (r.status === 403) throw new Error('PIN envalid');
+          return r.json();
+        })
+        .then(function(data) {
+          if (data.success) showDashboard();
+          else throw new Error('PIN envalid');
+        })
+        .catch(function(err2) {
+          pin = '';
+          localStorage.removeItem('eco_admin_pin');
+          showError(err2.message || 'PIN envalid');
+        });
+    });
+}
+
+function showError(msg) {
+  var el = document.getElementById('loginError');
+  el.textContent = msg;
+  el.style.display = 'block';
+}
+
+function showDashboard() {
+  document.getElementById('loginScreen').style.display = 'none';
+  document.getElementById('dashboardMain').style.display = '';
+  renderSectionTabs();
+  loadAll();
+}
+
+function logout() {
+  pin = '';
+  localStorage.removeItem('eco_admin_pin');
+  document.getElementById('loginScreen').style.display = '';
+  document.getElementById('dashboardMain').style.display = 'none';
+}
+
+function apiFetch(baseUrl, path) {
+  var sep = path.indexOf('?') >= 0 ? '&' : '?';
+  return fetch(baseUrl + path + sep + 'pin=' + encodeURIComponent(pin))
+    .then(function(r) {
+      if (r.status === 403) { logout(); throw new Error('Session expired'); }
+      return r.json();
+    });
+}
+
+function loadAll() {
+  loadDashboardStats();
+  if (currentSection !== 'overview') loadCurrentTab();
+}
+
+function loadDashboardStats() {
+  mpOk = false; hbOk = false;
+  mpStats = null; hbStats = null;
+  mpRecent = []; hbRecent = [];
+
+  apiFetch(MP_API, '/dashboard')
+    .then(function(data) {
+      mpOk = true;
+      mpStats = data.stats;
+      mpRecent = (data.recent || []).map(function(r) { r._src = 'MyPlopPlop'; return r; });
+      updateDashboard();
+    })
+    .catch(function() {
+      mpOk = false;
+      updateDashboard();
+    });
+
+  apiFetch(HB_API, '/dashboard')
+    .then(function(data) {
+      hbOk = true;
+      hbStats = data.stats;
+      hbRecent = (data.recent || []).map(function(r) { r._src = 'HaitiBiznis'; return r; });
+      updateDashboard();
+    })
+    .catch(function() {
+      hbOk = false;
+      updateDashboard();
+    });
+}
+
+function updateDashboard() {
+  document.getElementById('dotMP').className = 'dot' + (mpOk ? '' : ' off');
+  document.getElementById('dotHB').className = 'dot' + (hbOk ? '' : ' off');
+  document.getElementById('dotMW').className = 'dot' + (hbOk ? '' : ' off');
+  document.getElementById('dot48').className = 'dot' + (hbOk ? '' : ' off');
+
+  var mp = mpStats || {};
+  var hb = hbStats || {};
+
+  var kpis = [
+    { val: (mp.totalUsers || 0), label: 'Itilizatè Total', color: 'blue', src: 'MyPlopPlop' },
+    { val: (mp.todayUsers || 0), label: 'Nouvo Jodi a', color: 'gold', src: 'MyPlopPlop' },
+    { val: (mp.customers || 0), label: 'Kliyan', color: 'blue', src: 'MyPlopPlop' },
+    { val: (mp.merchants || 0), label: 'Machann', color: 'gold', src: 'MyPlopPlop' },
+    { val: (mp.totalStores || 0), label: 'Magazen', color: 'green', src: 'MyPlopPlop' },
+    { val: (mp.totalOrders || 0), label: 'Komand MP', color: 'blue', src: 'MyPlopPlop' },
+    { val: (mp.totalRides || 0) + (hb.totalRides || 0), label: 'Kous Total', color: 'blue', src: 'Tout' },
+    { val: (mp.drivers || 0) + (hb.totalDrivers || 0), label: 'Chofe Total', color: 'green', src: 'Tout' },
+    { val: (hb.totalTickets || 0), label: 'Tike Total', color: 'blue', src: 'HaitiBiznis' },
+    { val: (hb.todayTickets || 0), label: 'Tike Jodi a', color: 'gold', src: 'HaitiBiznis' },
+    { val: (hb.totalEvents || 0), label: 'Evenman', color: 'green', src: 'HaitiBiznis' },
+    { val: fmt((mp.orderCommission || 0) + (mp.commissionRevenue || 0) + (hb.totalFees || 0)), label: 'Reveni Platfom', color: 'green', src: 'Tout', isCurrency: true },
+    { val: (mp.totalKoutye || 0), label: 'Koutye', color: 'gold', src: 'MyPlopPlop' },
+    { val: (mp.totalReferrals || 0), label: 'Referans', color: 'blue', src: 'MyPlopPlop' },
+    { val: (hb.totalRefunds || 0), label: 'Ranbousman', color: 'red', src: 'HaitiBiznis' },
+    { val: (mp.heldOrders || 0), label: 'Komand Kenbe', color: 'gold', src: 'Escrow' }
+  ];
+
+  var html = '';
+  for (var i = 0; i < kpis.length; i++) {
+    var k = kpis[i];
+    var valStr = k.isCurrency ? k.val : (typeof k.val === 'number' ? k.val.toLocaleString() : k.val);
+    html += '<div class="kpi-card"><div class="val ' + k.color + '">' + valStr + '</div>';
+    html += '<div class="label">' + k.label + '</div>';
+    html += '<div class="src">' + k.src + '</div></div>';
+  }
+  document.getElementById('kpiGrid').innerHTML = html;
+
+  var allRecent = mpRecent.concat(hbRecent);
+  allRecent.sort(function(a, b) { return new Date(b.date) - new Date(a.date); });
+  renderFeed(allRecent.slice(0, 20));
+}
+
+function fmt(n) { return (n || 0).toLocaleString() + ' HTG'; }
+
+function renderFeed(items) {
+  var el = document.getElementById('feedList');
+  if (!items || !items.length) {
+    el.innerHTML = '<div class="empty-state"><div class="icon">&#128203;</div><h3>Pa gen aktivite ankò</h3></div>';
+    return;
+  }
+  var icons = { ride: '&#128663;', driver: '&#128100;', ticket: '&#127915;', refund: '&#128176;', user: '&#128101;', order: '&#128230;' };
+  var html = '';
+  for (var i = 0; i < items.length; i++) {
+    var it = items[i];
+    var d = new Date(it.date);
+    var timeStr = d.toLocaleDateString('fr-HT', { month: 'short', day: 'numeric' }) + ' ' + d.toLocaleTimeString('fr-HT', { hour: '2-digit', minute: '2-digit' });
+    html += '<div class="feed-item">';
+    html += '<div class="feed-icon ' + it.type + '">' + (icons[it.type] || '&#128196;') + '</div>';
+    html += '<div class="feed-body">';
+    html += '<div class="feed-label">' + esc(it.label) + '</div>';
+    html += '<div class="feed-detail">' + esc(it.detail) + '</div>';
+    html += '<div class="feed-src">' + (it._src || '') + '</div>';
+    html += '</div>';
+    html += '<div class="feed-meta">';
+    if (it.status) html += '<span class="badge badge-' + it.status + '">' + it.status + '</span>';
+    html += '<div class="feed-time">' + timeStr + '</div>';
+    if (it.phone) {
+      var waPhone = (it.phone || '').replace(/[^0-9+]/g, '');
+      if (waPhone.startsWith('+')) waPhone = waPhone.substring(1);
+      html += '<a class="whatsapp-link" href="https://wa.me/' + waPhone + '" target="_blank">&#128172; WA</a>';
+    }
+    html += '</div></div>';
+  }
+  el.innerHTML = html;
+}
+
+function renderSectionTabs() {
+  var html = '';
+  for (var i = 0; i < sections.length; i++) {
+    var s = sections[i];
+    html += '<div class="s-tab' + (currentSection === s.id ? ' active' : '') + '" data-id="' + s.id + '" onclick="switchSection(\'' + s.id + '\')">';
+    html += s.label;
+    html += '</div>';
+  }
+  document.getElementById('sectionTabs').innerHTML = html;
+}
+
+function switchSection(id) {
+  currentSection = id;
+  currentPage = 1;
+  currentSubTab = '';
+  renderSectionTabs();
+
+  var sec = sections.find(function(s) { return s.id === id; });
+  if (sec && sec.sub && sec.sub.length > 0) {
+    currentSubTab = sec.sub[0].id;
+    renderSubTabs(sec.sub);
+  } else {
+    document.getElementById('subTabs').innerHTML = '';
+  }
+
+  if (id === 'overview') {
+    document.querySelector('.filter-bar').style.display = 'none';
+    document.querySelector('.table-wrap').style.display = 'none';
+    document.getElementById('pagination').style.display = 'none';
+    document.getElementById('recentFeed').style.display = '';
+    document.getElementById('kpiGrid').style.display = '';
+  } else {
+    document.querySelector('.filter-bar').style.display = '';
+    document.querySelector('.table-wrap').style.display = '';
+    document.getElementById('pagination').style.display = '';
+    document.getElementById('recentFeed').style.display = 'none';
+    document.getElementById('kpiGrid').style.display = 'none';
+    document.getElementById('filterSearch').value = '';
+    updateStatusOptions();
+    loadCurrentTab();
+  }
+}
+
+function renderSubTabs(subs) {
+  var html = '';
+  for (var i = 0; i < subs.length; i++) {
+    html += '<div class="sub-tab' + (currentSubTab === subs[i].id ? ' active' : '') + '" onclick="switchSubTab(\'' + subs[i].id + '\')">' + subs[i].label + '</div>';
+  }
+  document.getElementById('subTabs').innerHTML = html;
+}
+
+function switchSubTab(id) {
+  currentSubTab = id;
+  currentPage = 1;
+  var sec = sections.find(function(s) { return s.id === currentSection; });
+  if (sec) renderSubTabs(sec.sub);
+  updateStatusOptions();
+  loadCurrentTab();
+}
+
+function updateStatusOptions() {
+  var sel = document.getElementById('filterStatus');
+  sel.innerHTML = '<option value="">Tout Estati</option>';
+
+  var opts = [];
+  if (currentSection === 'mp-users') {
+    // sub-tab handles role filter
+  } else if (currentSection === 'mp-drivers') {
+    opts = [{ v: 'pending', l: 'An Atant' }, { v: 'approved', l: 'Apwouve' }, { v: 'rejected', l: 'Rejte' }];
+  } else if (currentSection === 'mp-rides') {
+    opts = [{ v: 'requested', l: 'Mande' }, { v: 'accepted', l: 'Aksepte' }, { v: 'in_progress', l: 'Nan Wout' }, { v: 'delivered', l: 'Livre' }, { v: 'cancelled', l: 'Anile' }];
+  } else if (currentSection === 'mp-orders') {
+    opts = [{ v: 'pending', l: 'An Atant' }, { v: 'confirmed', l: 'Konfime' }, { v: 'preparing', l: 'Ap Prepare' }, { v: 'delivered', l: 'Livre' }, { v: 'cancelled', l: 'Anile' }];
+  } else if (currentSection === 'mp-stores') {
+    opts = [{ v: 'active', l: 'Aktif' }, { v: 'pending', l: 'An Atant' }, { v: 'suspended', l: 'Sispann' }];
+  } else if (currentSection === 'hb-rides') {
+    opts = [{ v: 'pending', l: 'An Atant' }, { v: 'accepted', l: 'Aksepte' }, { v: 'in_progress', l: 'Nan Wout' }, { v: 'completed', l: 'Fini' }, { v: 'cancelled', l: 'Anile' }];
+  } else if (currentSection === 'hb-drivers') {
+    opts = [{ v: 'verified', l: 'Verifye' }, { v: 'pending', l: 'An Atant' }];
+  } else if (currentSection === 'hb-tickets') {
+    opts = [{ v: 'pending', l: 'An Atant' }, { v: 'completed', l: 'Konplete' }, { v: 'failed', l: 'Echwe' }];
+  } else if (currentSection === 'hb-refunds') {
+    opts = [{ v: 'pending', l: 'An Atant' }, { v: 'approved', l: 'Apwouve' }, { v: 'denied', l: 'Refize' }];
+  }
+
+  for (var i = 0; i < opts.length; i++) {
+    sel.innerHTML += '<option value="' + opts[i].v + '">' + opts[i].l + '</option>';
+  }
+}
+
+function loadCurrentTab() {
+  var status = document.getElementById('filterStatus').value;
+  var search = document.getElementById('filterSearch').value.trim();
+
+  if (currentSection === 'mp-users') loadMPUsers(status, search);
+  else if (currentSection === 'mp-drivers') loadMPDrivers(status, search);
+  else if (currentSection === 'mp-rides') loadMPRides(status, search);
+  else if (currentSection === 'mp-orders') loadMPOrders(status, search);
+  else if (currentSection === 'mp-stores') loadMPStores(status, search);
+  else if (currentSection === 'mp-koutye') loadMPKoutye(status, search);
+  else if (currentSection === 'hb-rides') loadHBRides(status, search);
+  else if (currentSection === 'hb-drivers') loadHBDrivers(status, search);
+  else if (currentSection === 'hb-tickets') loadHBTickets(status, search);
+  else if (currentSection === 'hb-refunds') loadHBRefunds(status, search);
+}
+
+function buildQuery(status, search) {
+  var q = '?page=' + currentPage;
+  if (status) q += '&status=' + status;
+  if (search) q += '&search=' + encodeURIComponent(search);
+  return q;
+}
+
+function loadMPUsers(status, search) {
+  var q = '?page=' + currentPage;
+  if (currentSubTab && currentSubTab !== 'all') q += '&role=' + currentSubTab;
+  if (search) q += '&search=' + encodeURIComponent(search);
+
+  apiFetch(MP_API, '/users' + q).then(function(data) {
+    setHead(['Dat', 'Non', 'Telefon', 'Email', 'Wol', 'Referans', 'Balans']);
+    var rows = data.users || [];
+    if (!rows.length) { emptyTable('&#128101;', 'Pa gen itilizate anko'); return; }
+    var html = '';
+    for (var i = 0; i < rows.length; i++) {
+      var u = rows[i];
+      html += '<tr>';
+      html += '<td style="white-space:nowrap">' + fmtDate(u.createdAt) + '</td>';
+      html += '<td style="font-weight:700">' + esc(u.name) + '</td>';
+      html += '<td>' + waLink(u.phone) + '</td>';
+      html += '<td>' + esc(u.email || '-') + '</td>';
+      html += '<td><span class="badge badge-' + u.role + '">' + u.role + '</span></td>';
+      html += '<td style="font-family:monospace;font-size:.75rem">' + esc(u.referralCode || '-') + '</td>';
+      html += '<td>' + (u.balance || 0) + ' HTG</td>';
+      html += '</tr>';
+    }
+    document.getElementById('tableBody').innerHTML = html;
+    renderPagination(data.page, data.pages, data.total);
+  }).catch(apiErr);
+}
+
+function loadMPDrivers(status, search) {
+  var q = buildQuery(currentSubTab !== 'all' ? currentSubTab : status, search);
+  apiFetch(MP_API, '/drivers' + q).then(function(data) {
+    setHead(['Dat', 'Non', 'Telefon', 'Machin', 'Plak', 'Estati']);
+    var rows = data.drivers || [];
+    if (!rows.length) { emptyTable('&#128663;', 'Pa gen chofe anko'); return; }
+    var html = '';
+    for (var i = 0; i < rows.length; i++) {
+      var d = rows[i];
+      var name = d.user ? d.user.name : 'N/A';
+      var phone = d.user ? d.user.phone : '-';
+      html += '<tr>';
+      html += '<td style="white-space:nowrap">' + fmtDate(d.createdAt) + '</td>';
+      html += '<td style="font-weight:700">' + esc(name) + '</td>';
+      html += '<td>' + waLink(phone) + '</td>';
+      html += '<td>' + vIcon(d.vehicleType) + ' ' + esc(d.vehicleModel || d.vehicleType) + '</td>';
+      html += '<td style="font-family:monospace;font-weight:700">' + esc(d.vehiclePlate) + '</td>';
+      html += '<td><span class="badge badge-' + d.status + '">' + d.status + '</span></td>';
+      html += '</tr>';
+    }
+    document.getElementById('tableBody').innerHTML = html;
+    renderPagination(data.page, data.pages, data.total);
+  }).catch(apiErr);
+}
+
+function loadMPRides(status, search) {
+  var q = buildQuery(status, search);
+  apiFetch(MP_API, '/rides' + q).then(function(data) {
+    setHead(['Dat', 'Kliyan', 'Telefon', 'Tip', 'Kote', 'Estati']);
+    var rows = data.rides || [];
+    if (!rows.length) { emptyTable('&#128752;', 'Pa gen kous anko'); return; }
+    var html = '';
+    for (var i = 0; i < rows.length; i++) {
+      var r = rows[i];
+      var name = r.customer ? r.customer.name : 'N/A';
+      var phone = r.customer ? r.customer.phone : '-';
+      html += '<tr>';
+      html += '<td style="white-space:nowrap">' + fmtDate(r.createdAt) + '</td>';
+      html += '<td style="font-weight:700">' + esc(name) + '</td>';
+      html += '<td>' + waLink(phone) + '</td>';
+      html += '<td>' + esc(r.type) + '</td>';
+      html += '<td style="max-width:200px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">' + esc((r.pickup && r.pickup.address || '') + ' → ' + (r.dropoff && r.dropoff.address || '')) + '</td>';
+      html += '<td><span class="badge badge-' + r.status + '">' + r.status + '</span></td>';
+      html += '</tr>';
+    }
+    document.getElementById('tableBody').innerHTML = html;
+    renderPagination(data.page, data.pages, data.total);
+  }).catch(apiErr);
+}
+
+function loadMPOrders(status, search) {
+  var st = (currentSubTab && currentSubTab !== 'all') ? currentSubTab : status;
+  var q = buildQuery(st, search);
+  apiFetch(MP_API, '/orders' + q).then(function(data) {
+    setHead(['Dat', 'Ref', 'Magazen', 'Kliyan', 'Total', 'Peman', 'Eskwò', 'Estati']);
+    var rows = data.orders || [];
+    if (!rows.length) { emptyTable('&#128230;', 'Pa gen komand anko'); return; }
+    var html = '';
+    for (var i = 0; i < rows.length; i++) {
+      var o = rows[i];
+      var storeName = o.store ? o.store.name : '-';
+      var custName = o.customer ? o.customer.name : '-';
+      html += '<tr>';
+      html += '<td style="white-space:nowrap">' + fmtDate(o.createdAt) + '</td>';
+      html += '<td style="font-family:monospace;font-size:.72rem;font-weight:700">' + esc(o.orderNumber || o._id.slice(-6)) + '</td>';
+      html += '<td>' + esc(storeName) + '</td>';
+      html += '<td>' + esc(custName) + '</td>';
+      html += '<td style="font-weight:700">' + (o.total || 0).toLocaleString() + ' HTG</td>';
+      html += '<td><span class="badge badge-' + o.paymentStatus + '">' + o.paymentStatus + '</span></td>';
+      html += '<td><span class="badge badge-' + o.payoutStatus + '">' + o.payoutStatus + '</span></td>';
+      html += '<td><span class="badge badge-' + o.status + '">' + o.status + '</span></td>';
+      html += '</tr>';
+    }
+    document.getElementById('tableBody').innerHTML = html;
+    renderPagination(data.page, data.pages, data.total);
+  }).catch(apiErr);
+}
+
+function loadMPStores(status, search) {
+  var st = (currentSubTab && currentSubTab !== 'all') ? currentSubTab : status;
+  var q = buildQuery(st, search);
+  apiFetch(MP_API, '/stores' + q).then(function(data) {
+    setHead(['Dat', 'Non', 'Kategori', 'Pwopriyetè', 'Telefon', 'Komand', 'Reveni', 'Estati']);
+    var rows = data.stores || [];
+    if (!rows.length) { emptyTable('&#127978;', 'Pa gen magazen anko'); return; }
+    var html = '';
+    for (var i = 0; i < rows.length; i++) {
+      var s = rows[i];
+      var ownerName = s.owner ? s.owner.name : '-';
+      var ownerPhone = s.owner ? s.owner.phone : '-';
+      html += '<tr>';
+      html += '<td style="white-space:nowrap">' + fmtDate(s.createdAt) + '</td>';
+      html += '<td style="font-weight:700">' + esc(s.name) + '</td>';
+      html += '<td>' + esc(s.category) + '</td>';
+      html += '<td>' + esc(ownerName) + '</td>';
+      html += '<td>' + waLink(ownerPhone) + '</td>';
+      html += '<td>' + (s.stats ? s.stats.totalOrders : 0) + '</td>';
+      html += '<td>' + (s.stats ? (s.stats.totalRevenue || 0).toLocaleString() : '0') + ' HTG</td>';
+      html += '<td><span class="badge badge-' + s.status + '">' + s.status + '</span></td>';
+      html += '</tr>';
+    }
+    document.getElementById('tableBody').innerHTML = html;
+    renderPagination(data.page, data.pages, data.total);
+  }).catch(apiErr);
+}
+
+function loadMPKoutye(status, search) {
+  var q = buildQuery(status, search);
+  apiFetch(MP_API, '/koutye' + q).then(function(data) {
+    setHead(['Dat', 'Non', 'Kòd', 'WhatsApp', 'Nivo', 'Referans', 'Reveni', 'Estati']);
+    var rows = data.koutye || [];
+    if (!rows.length) { emptyTable('&#129309;', 'Pa gen koutye anko'); return; }
+    var html = '';
+    for (var i = 0; i < rows.length; i++) {
+      var k = rows[i];
+      var name = k.user ? k.user.name : '-';
+      html += '<tr>';
+      html += '<td style="white-space:nowrap">' + fmtDate(k.createdAt) + '</td>';
+      html += '<td style="font-weight:700">' + esc(name) + '</td>';
+      html += '<td style="font-family:monospace;font-weight:700">' + esc(k.koutyeCode) + '</td>';
+      html += '<td>' + waLink(k.whatsapp) + '</td>';
+      html += '<td>' + esc(k.tier) + '</td>';
+      html += '<td>' + (k.stats ? k.stats.totalReferrals : 0) + '</td>';
+      html += '<td>' + (k.stats ? (k.stats.totalEarnings || 0).toLocaleString() : '0') + ' HTG</td>';
+      html += '<td><span class="badge badge-' + k.status + '">' + k.status + '</span></td>';
+      html += '</tr>';
+    }
+    document.getElementById('tableBody').innerHTML = html;
+    renderPagination(data.page, data.pages, data.total);
+  }).catch(apiErr);
+}
+
+function loadHBRides(status, search) {
+  var q = buildQuery(status, search);
+  apiFetch(HB_API, '/rides' + q).then(function(data) {
+    setHead(['Dat', 'Non', 'Telefon', 'Machin', 'Kote', 'Estati']);
+    var rows = data.rides || [];
+    if (!rows.length) { emptyTable('&#128663;', 'Pa gen kous anko'); return; }
+    var html = '';
+    for (var i = 0; i < rows.length; i++) {
+      var r = rows[i];
+      html += '<tr>';
+      html += '<td style="white-space:nowrap">' + fmtDate(r.createdAt) + '</td>';
+      html += '<td style="font-weight:700">' + esc(r.riderName || 'N/A') + '</td>';
+      html += '<td>' + waLink(r.riderPhone) + '</td>';
+      html += '<td>' + vIcon(r.vehicleType) + ' ' + esc(r.vehicleType) + '</td>';
+      html += '<td style="max-width:200px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">' + esc(r.pickupAddress + ' → ' + r.dropoffAddress) + '</td>';
+      html += '<td><span class="badge badge-' + r.status + '">' + r.status + '</span></td>';
+      html += '</tr>';
+    }
+    document.getElementById('tableBody').innerHTML = html;
+    renderPagination(data.page, data.pages, data.total);
+  }).catch(apiErr);
+}
+
+function loadHBDrivers(status, search) {
+  var st = (currentSubTab && currentSubTab !== 'all') ? currentSubTab : status;
+  var q = buildQuery(st, search);
+  apiFetch(HB_API, '/drivers' + q).then(function(data) {
+    setHead(['Dat', 'Non', 'Telefon', 'Machin', 'Zon', 'Plak', 'Estati']);
+    var rows = data.drivers || [];
+    if (!rows.length) { emptyTable('&#128100;', 'Pa gen chofe anko'); return; }
+    var html = '';
+    for (var i = 0; i < rows.length; i++) {
+      var d = rows[i];
+      var st2 = d.verified ? 'verified' : 'pending';
+      html += '<tr>';
+      html += '<td style="white-space:nowrap">' + fmtDate(d.createdAt) + '</td>';
+      html += '<td style="font-weight:700">' + esc(d.firstName + ' ' + d.lastName) + '</td>';
+      html += '<td>' + waLink(d.phone) + '</td>';
+      html += '<td>' + vIcon(d.vehicleType) + ' ' + esc((d.vehicleMake || '') + ' ' + (d.vehicleModel || '')) + '</td>';
+      html += '<td>' + esc(d.zone || '-') + '</td>';
+      html += '<td style="font-family:monospace;font-weight:700">' + esc(d.licensePlate) + '</td>';
+      html += '<td><span class="badge badge-' + st2 + '">' + st2 + '</span></td>';
+      html += '</tr>';
+    }
+    document.getElementById('tableBody').innerHTML = html;
+    renderPagination(data.page, data.pages, data.total);
+  }).catch(apiErr);
+}
+
+function loadHBTickets(status, search) {
+  var q = buildQuery(status, search);
+  apiFetch(HB_API, '/tickets' + q).then(function(data) {
+    setHead(['Dat', 'Ref', 'Achte', 'Telefon', 'Evenman', 'Tike', 'Kantite', 'Montan', 'Estati']);
+    var rows = data.tickets || [];
+    if (!rows.length) { emptyTable('&#127915;', 'Pa gen tike anko'); return; }
+    var html = '';
+    for (var i = 0; i < rows.length; i++) {
+      var t = rows[i];
+      var evTitle = t.event ? ((t.event.typeEmoji || '') + ' ' + t.event.title) : t.ticketName;
+      html += '<tr>';
+      html += '<td style="white-space:nowrap">' + fmtDate(t.createdAt) + '</td>';
+      html += '<td style="font-family:monospace;font-size:.72rem;font-weight:700">' + esc(t.referenceId) + '</td>';
+      html += '<td>' + esc(t.buyerName || 'N/A') + '</td>';
+      html += '<td>' + waLink(t.buyerPhone) + '</td>';
+      html += '<td style="max-width:160px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">' + esc(evTitle) + '</td>';
+      html += '<td>' + esc(t.ticketName) + '</td>';
+      html += '<td>' + t.qty + '</td>';
+      html += '<td style="font-weight:700">' + (t.totalAmount || 0).toLocaleString() + ' HTG</td>';
+      html += '<td><span class="badge badge-' + t.status + '">' + t.status + '</span></td>';
+      html += '</tr>';
+    }
+    document.getElementById('tableBody').innerHTML = html;
+    renderPagination(data.page, data.pages, data.total);
+  }).catch(apiErr);
+}
+
+function loadHBRefunds(status, search) {
+  var q = buildQuery(status, search);
+  apiFetch(HB_API, '/refunds' + q).then(function(data) {
+    setHead(['Dat', 'Telefon', 'Rezon', 'Montan Kous', 'Montan Ranb.', 'Estati']);
+    var rows = data.refunds || [];
+    if (!rows.length) { emptyTable('&#128176;', 'Pa gen ranbousman anko'); return; }
+    var html = '';
+    for (var i = 0; i < rows.length; i++) {
+      var r = rows[i];
+      html += '<tr>';
+      html += '<td style="white-space:nowrap">' + fmtDate(r.createdAt) + '</td>';
+      html += '<td>' + waLink(r.riderPhone) + '</td>';
+      html += '<td>' + esc(r.reason) + (r.reasonText ? ' — ' + esc(r.reasonText) : '') + '</td>';
+      html += '<td>' + (r.rideAmount || 0).toLocaleString() + ' HTG</td>';
+      html += '<td style="font-weight:700">' + (r.refundAmount || 0).toLocaleString() + ' HTG</td>';
+      html += '<td><span class="badge badge-' + r.status + '">' + r.status + '</span></td>';
+      html += '</tr>';
+    }
+    document.getElementById('tableBody').innerHTML = html;
+    renderPagination(data.page, data.pages, data.total);
+  }).catch(apiErr);
+}
+
+function setHead(cols) {
+  var html = '<tr>';
+  for (var i = 0; i < cols.length; i++) html += '<th>' + cols[i] + '</th>';
+  html += '</tr>';
+  document.getElementById('tableHead').innerHTML = html;
+}
+
+function emptyTable(icon, msg) {
+  var cols = document.querySelectorAll('#tableHead th').length || 1;
+  document.getElementById('tableBody').innerHTML = '<tr><td colspan="' + cols + '"><div class="empty-state"><div class="icon">' + icon + '</div><h3>' + msg + '</h3></div></td></tr>';
+  document.getElementById('pagination').innerHTML = '';
+}
+
+function apiErr(err) {
+  var cols = document.querySelectorAll('#tableHead th').length || 1;
+  document.getElementById('tableBody').innerHTML = '<tr><td colspan="' + cols + '"><div class="empty-state"><div class="icon">&#9888;</div><h3>Erè koneksyon</h3><p>' + esc(err.message || '') + '</p></div></td></tr>';
+}
+
+function renderPagination(page, pages, total) {
+  var div = document.getElementById('pagination');
+  if (!pages || pages <= 1) { div.innerHTML = '<span class="page-info">' + (total || 0) + ' total</span>'; return; }
+  var html = '';
+  if (page > 1) html += '<button class="page-btn" onclick="goPage(' + (page - 1) + ')">&laquo;</button>';
+  for (var i = 1; i <= pages && i <= 10; i++) {
+    html += '<button class="page-btn' + (i === page ? ' active' : '') + '" onclick="goPage(' + i + ')">' + i + '</button>';
+  }
+  if (page < pages) html += '<button class="page-btn" onclick="goPage(' + (page + 1) + ')">&raquo;</button>';
+  html += '<span class="page-info">' + total + ' total</span>';
+  div.innerHTML = html;
+}
+
+function goPage(p) {
+  currentPage = p;
+  loadCurrentTab();
+}
+
+function fmtDate(d) {
+  if (!d) return '-';
+  var dt = new Date(d);
+  return dt.toLocaleDateString('fr-HT', { month: 'short', day: 'numeric' }) + ' ' + dt.toLocaleTimeString('fr-HT', { hour: '2-digit', minute: '2-digit' });
+}
+
+function waLink(phone) {
+  if (!phone) return '-';
+  var clean = (phone || '').replace(/[^0-9+]/g, '');
+  var waNum = clean.startsWith('+') ? clean.substring(1) : clean;
+  return '<a class="whatsapp-link" href="https://wa.me/' + waNum + '" target="_blank">' + esc(phone) + ' &#128172;</a>';
+}
+
+function vIcon(type) {
+  if (type === 'car') return '&#128663;';
+  if (type === 'truck') return '&#128666;';
+  return '&#127949;';
+}
+
+function esc(s) {
+  if (!s) return '';
+  var d = document.createElement('div');
+  d.textContent = s;
+  return d.innerHTML;
+}
+
+function showToast(msg) {
+  var t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  setTimeout(function() { t.classList.remove('show'); }, 2500);
+}
+</script>
+</body>
+</html>
