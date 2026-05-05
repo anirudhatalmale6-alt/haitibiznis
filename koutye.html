@@ -336,9 +336,14 @@ input{font-family:var(--body)}
       <input type="tel" class="field-input" id="kPhone" placeholder="+509 37 12 3456">
     </div>
     <div class="field-group">
-      <label class="field-label" data-i18n="signup_ref_label">KOD REFERRAL (OPSYONEL)</label>
+      <label class="field-label" data-i18n="signup_code_label">CHWAZI KOD PA OU (OPSYONEL)</label>
+      <input type="text" class="field-input" id="kCustomCode" placeholder="Ex: JC-Jenn7" maxlength="15">
+      <div class="ref-note" data-i18n="signup_code_note">Chwazi yon kod pou moun rekonnet ou. Si ou pa mete youn, n ap kreye youn pou ou.</div>
+    </div>
+    <div class="field-group">
+      <label class="field-label" data-i18n="signup_ref_label">KI MOUN KI REFERE OU? (OPSYONEL)</label>
       <input type="text" class="field-input" id="kRef" placeholder="Ex: KB-MAR7X">
-      <div class="ref-note" id="refNote" data-i18n="signup_ref_note">Si yon moun refere ou, mete kod yo la</div>
+      <div class="ref-note" id="refNote" data-i18n="signup_ref_note">Si yon moun refere ou, mete kod PA YO la</div>
     </div>
     <button class="signup-btn" onclick="submitKoutye()" data-i18n="signup_btn">Enskri Kounye A</button>
   </div>
@@ -521,7 +526,8 @@ var T = {
     hero_cta:"&#128640; Enskri Gratis &amp; Pataje Lyen Ou",hero_cta2:"Kijan sa mache?",
     signup_title:"Enskri an 10 Segonn",signup_sub:"Jwenn link referral pa ou touswit",
     signup_name_label:"NON KONPLE",signup_phone_label:"NIMEWO TELEFON / WHATSAPP",
-    signup_ref_label:"KOD REFERRAL (OPSYONEL)",signup_ref_note:"Si yon moun refere ou, mete kod yo la",
+    signup_code_label:"CHWAZI KOD PA OU (OPSYONEL)",signup_code_note:"Chwazi yon kod pou moun rekonnet ou. Si ou pa mete youn, n ap kreye youn pou ou.",
+    signup_ref_label:"KI MOUN KI REFERE OU? (OPSYONEL)",signup_ref_note:"Si yon moun refere ou, mete kod PA YO la",
     signup_btn:"Enskri Kounye A",
     success_title:"Ou enskri!",success_msg:"Men link referral ou. Pataje li pou touche komisyon!",
     success_code_label:"Kod Koutye ou",success_link_label:"Link referral ou",success_dash:"Ale nan Dashboard ou",
@@ -552,7 +558,8 @@ var T = {
     hero_cta:"&#128640; S'inscrire Gratuitement",hero_cta2:"Comment ca marche?",
     signup_title:"Inscription en 10 Secondes",signup_sub:"Obtenez votre lien de referral instantanement",
     signup_name_label:"NOM COMPLET",signup_phone_label:"TELEPHONE / WHATSAPP",
-    signup_ref_label:"CODE REFERRAL (OPTIONNEL)",signup_ref_note:"Si quelqu'un vous a refere, entrez son code",
+    signup_code_label:"CHOISISSEZ VOTRE CODE (OPTIONNEL)",signup_code_note:"Choisissez un code pour vous identifier. Si vous n'en mettez pas, on en creera un pour vous.",
+    signup_ref_label:"QUI VOUS A REFERE? (OPTIONNEL)",signup_ref_note:"Si quelqu'un vous a refere, entrez SON code ici",
     signup_btn:"S'inscrire Maintenant",
     success_title:"Vous etes inscrit!",success_msg:"Voici votre lien de referral. Partagez-le pour gagner!",
     success_code_label:"Votre code Courtier",success_link_label:"Votre lien de referral",success_dash:"Aller au Dashboard",
@@ -583,7 +590,8 @@ var T = {
     hero_cta:"&#128640; Sign Up Free &amp; Share My Link",hero_cta2:"How does it work?",
     signup_title:"Sign Up in 10 Seconds",signup_sub:"Get your referral link instantly",
     signup_name_label:"FULL NAME",signup_phone_label:"PHONE / WHATSAPP",
-    signup_ref_label:"REFERRAL CODE (OPTIONAL)",signup_ref_note:"If someone referred you, enter their code",
+    signup_code_label:"CHOOSE YOUR CODE (OPTIONAL)",signup_code_note:"Pick a code people will recognize you by. If you skip this, we'll create one for you.",
+    signup_ref_label:"WHO REFERRED YOU? (OPTIONAL)",signup_ref_note:"If someone referred you, enter THEIR code here",
     signup_btn:"Sign Up Now",
     success_title:"You're signed up!",success_msg:"Here's your referral link. Share it to earn commissions!",
     success_code_label:"Your Broker code",success_link_label:"Your referral link",success_dash:"Go to Dashboard",
@@ -614,7 +622,8 @@ var T = {
     hero_cta:"&#128640; Registrarse Gratis",hero_cta2:"Como funciona?",
     signup_title:"Registrate en 10 Segundos",signup_sub:"Obtiene tu enlace de referencia al instante",
     signup_name_label:"NOMBRE COMPLETO",signup_phone_label:"TELEFONO / WHATSAPP",
-    signup_ref_label:"CODIGO REFERENCIA (OPCIONAL)",signup_ref_note:"Si alguien te refirio, ingresa su codigo",
+    signup_code_label:"ELIGE TU CODIGO (OPCIONAL)",signup_code_note:"Elige un codigo para que te reconozcan. Si no pones uno, crearemos uno para ti.",
+    signup_ref_label:"QUIEN TE REFIRIO? (OPCIONAL)",signup_ref_note:"Si alguien te refirio, ingresa SU codigo aqui",
     signup_btn:"Registrarse Ahora",
     success_title:"Estas registrado!",success_msg:"Aqui esta tu enlace de referencia. Compartelo para ganar!",
     success_code_label:"Tu codigo de Corredor",success_link_label:"Tu enlace de referencia",success_dash:"Ir al Dashboard",
@@ -697,9 +706,15 @@ function submitKoutye(){
   if(!name){document.getElementById('kName').focus();return}
   if(!phone){document.getElementById('kPhone').focus();return}
 
+  var customCode=document.getElementById('kCustomCode').value.trim();
   var existing=localStorage.getItem('kb_code');
   if(existing){
     generatedCode=existing;
+  } else if(customCode){
+    generatedCode=customCode.replace(/\s+/g,'-');
+    localStorage.setItem('kb_code',generatedCode);
+    localStorage.setItem('kb_name',name);
+    localStorage.setItem('kb_phone',phone);
   } else {
     generatedCode=generateKoutyeCode(name);
     localStorage.setItem('kb_code',generatedCode);
