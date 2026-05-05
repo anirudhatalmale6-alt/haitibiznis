@@ -3,7 +3,7 @@
   "short_name": "HaitiBiznis",
   "description": "One Hub for Haiti's Opportunities",
   "start_url": "/",
-  "display": "minimal-ui",
+  "display": "browser",
   "background_color": "#00209F",
   "theme_color": "#00209F",
   "orientation": "portrait",
