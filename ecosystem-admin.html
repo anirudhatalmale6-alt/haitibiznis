@@ -347,7 +347,16 @@ var sections = [
     { id: 'pending', label: 'An Atant' }
   ]},
   { id: 'hb-tickets', label: '&#127915; Tikè', src: 'hb', sub: [] },
-  { id: 'hb-refunds', label: '&#128176; Ranbousman', src: 'hb', sub: [] }
+  { id: 'hb-refunds', label: '&#128176; Ranbousman', src: 'hb', sub: [] },
+  { id: 'hb-verify', label: '&#128272; Verifye', src: 'hb', sub: [
+    { id: 'all', label: 'Tout' },
+    { id: 'pending', label: 'An Atant' },
+    { id: 'verified', label: 'Verifye' },
+    { id: 'premium_verified', label: 'Premium' },
+    { id: 'syndicate_verified', label: 'Sendika' },
+    { id: 'suspended', label: 'Sispann' }
+  ]},
+  { id: 'hb-alerts', label: '&#128680; SOS/Fwod', src: 'hb', sub: [] }
 ];
 
 if (pin) showDashboard();
@@ -446,6 +455,14 @@ function loadDashboardStats() {
       hbOk = false;
       updateDashboard();
     });
+
+  fetch(HB_API.replace('/admin', '/verify/admin/dashboard'), { headers: { 'x-admin-pin': pin } })
+    .then(function(r) { return r.json(); })
+    .then(function(data) {
+      window._vStats = data;
+      updateDashboard();
+    })
+    .catch(function() {});
 }
 
 function updateDashboard() {
@@ -473,7 +490,10 @@ function updateDashboard() {
     { val: (mp.totalKoutye || 0), label: 'Koutye', color: 'gold', src: 'MyPlopPlop' },
     { val: (mp.totalReferrals || 0), label: 'Referans', color: 'blue', src: 'MyPlopPlop' },
     { val: (hb.totalRefunds || 0), label: 'Ranbousman', color: 'red', src: 'HaitiBiznis' },
-    { val: (mp.heldOrders || 0), label: 'Komand Kenbe', color: 'gold', src: 'Escrow' }
+    { val: (mp.heldOrders || 0), label: 'Komand Kenbe', color: 'gold', src: 'Escrow' },
+    { val: (window._vStats || {}).total || 0, label: 'Pwofil Verifye', color: 'green', src: 'Verified' },
+    { val: (window._vStats || {}).pending || 0, label: 'An Atant Verif.', color: 'gold', src: 'Verified' },
+    { val: (window._vStats || {}).suspended || 0, label: 'Sispann', color: 'red', src: 'Verified' }
   ];
 
   var html = '';
@@ -608,6 +628,10 @@ function updateStatusOptions() {
     opts = [{ v: 'pending', l: 'An Atant' }, { v: 'completed', l: 'Konplete' }, { v: 'failed', l: 'Echwe' }];
   } else if (currentSection === 'hb-refunds') {
     opts = [{ v: 'pending', l: 'An Atant' }, { v: 'approved', l: 'Apwouve' }, { v: 'denied', l: 'Refize' }];
+  } else if (currentSection === 'hb-verify') {
+    opts = [{ v: 'pending', l: 'An Atant' }, { v: 'verified', l: 'Verifye' }, { v: 'premium_verified', l: 'Premium' }, { v: 'syndicate_verified', l: 'Sendika' }, { v: 'suspended', l: 'Sispann' }];
+  } else if (currentSection === 'hb-alerts') {
+    opts = [{ v: 'active', l: 'Aktif' }, { v: 'responded', l: 'Reponn' }, { v: 'resolved', l: 'Rezoud' }];
   }
 
   for (var i = 0; i < opts.length; i++) {
@@ -629,6 +653,8 @@ function loadCurrentTab() {
   else if (currentSection === 'hb-drivers') loadHBDrivers(status, search);
   else if (currentSection === 'hb-tickets') loadHBTickets(status, search);
   else if (currentSection === 'hb-refunds') loadHBRefunds(status, search);
+  else if (currentSection === 'hb-verify') loadHBVerify(status, search);
+  else if (currentSection === 'hb-alerts') loadHBAlerts(status, search);
 }
 
 function buildQuery(status, search) {
@@ -894,6 +920,124 @@ function loadHBRefunds(status, search) {
     document.getElementById('tableBody').innerHTML = html;
     renderPagination(data.page, data.pages, data.total);
   }).catch(apiErr);
+}
+
+function loadHBVerify(status, search) {
+  var q = '?page=' + currentPage + '&limit=30';
+  var filterStatus = currentSubTab && currentSubTab !== 'all' ? currentSubTab : status;
+  if (filterStatus) q += '&status=' + filterStatus;
+  fetch(HB_API.replace('/admin', '/verify/admin/all') + q, { headers: { 'x-admin-pin': pin } })
+    .then(function(r) { return r.json(); })
+    .then(function(data) {
+      setHead(['Dat', 'Non', 'Telefon', 'Tip', 'QR Kòd', 'Nòt Konfyans', 'Evalyasyon', 'Estati', 'Aksyon']);
+      var rows = data.profiles || [];
+      if (!rows.length) { emptyTable('&#128272;', 'Pa gen pwofil verifye anko'); return; }
+      var html = '';
+      for (var i = 0; i < rows.length; i++) {
+        var p = rows[i];
+        var typeLabel = { driver: 'Chofe', business: 'Biznis', professional: 'Pwofesyonel', delivery_agent: 'Livrezon', vendor: 'Vande', service_provider: 'Founisoservice' };
+        html += '<tr>';
+        html += '<td style="white-space:nowrap">' + fmtDate(p.createdAt) + '</td>';
+        html += '<td style="font-weight:700">' + esc(p.displayName || p.firstName + ' ' + p.lastName) + '</td>';
+        html += '<td>' + waLink(p.phone) + '</td>';
+        html += '<td><span class="badge badge-' + p.profileType + '">' + (typeLabel[p.profileType] || p.profileType) + '</span></td>';
+        html += '<td style="font-family:monospace;font-size:.72rem">' + esc(p.qrCode || '-') + '</td>';
+        html += '<td style="font-weight:700">' + (p.trustScore || 0) + '/100</td>';
+        html += '<td>' + (p.rating ? p.rating.toFixed(1) + ' &#9733;' : '-') + '</td>';
+        html += '<td><span class="badge badge-' + p.status + '">' + p.status + '</span></td>';
+        html += '<td style="white-space:nowrap">';
+        if (p.status === 'pending') {
+          html += '<button style="font-size:.7rem;padding:4px 10px;border-radius:6px;background:var(--green);color:#fff;font-weight:700;cursor:pointer;border:none;margin-right:4px" onclick="verifyAction(\'' + p._id + '\',\'approve\')">Apwouve</button>';
+          html += '<button style="font-size:.7rem;padding:4px 10px;border-radius:6px;background:var(--red);color:#fff;font-weight:700;cursor:pointer;border:none" onclick="verifyAction(\'' + p._id + '\',\'reject\')">Rejte</button>';
+        } else if (p.status !== 'suspended') {
+          html += '<button style="font-size:.7rem;padding:4px 10px;border-radius:6px;background:var(--orange);color:#fff;font-weight:700;cursor:pointer;border:none" onclick="verifyAction(\'' + p._id + '\',\'suspend\')">Sispann</button>';
+        }
+        html += ' <a href="https://haitibiznis.com/verifye.html?code=' + encodeURIComponent(p.qrCode || '') + '" target="_blank" style="font-size:.7rem;color:var(--blue);font-weight:700">&#128279;</a>';
+        html += '</td>';
+        html += '</tr>';
+      }
+      document.getElementById('tableBody').innerHTML = html;
+      renderPagination(data.page, data.pages, data.total);
+    }).catch(apiErr);
+}
+
+function verifyAction(profileId, action) {
+  var endpoint = '/verify/admin/' + action;
+  var body = { profileId: profileId };
+  if (action === 'approve') {
+    var level = prompt('Nivo verifikasyon?\n1 = Verified\n2 = Premium Verified\n3 = Syndicate Verified\n\n(Antre 1, 2, oswa 3)');
+    if (!level) return;
+    var levels = { '1': 'verified', '2': 'premium_verified', '3': 'syndicate_verified' };
+    body.level = levels[level] || 'verified';
+  } else if (action === 'reject') {
+    var reason = prompt('Rezon rejeksyon:');
+    if (!reason) return;
+    body.reason = reason;
+  } else if (action === 'suspend') {
+    var reason = prompt('Rezon sispansyon:');
+    if (!reason) return;
+    body.reason = reason;
+  }
+
+  fetch(HB_API.replace('/admin', '/verify/admin/' + action), {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json', 'x-admin-pin': pin },
+    body: JSON.stringify(body)
+  })
+  .then(function(r) { return r.json(); })
+  .then(function(data) {
+    showToast(data.message || 'Fini!');
+    loadCurrentTab();
+  })
+  .catch(function() { showToast('Erè'); });
+}
+
+function loadHBAlerts(status, search) {
+  var endpoint = status ? '/verify/admin/alerts?status=' + status : '/verify/admin/alerts';
+  fetch(HB_API.replace('/admin', endpoint), { headers: { 'x-admin-pin': pin } })
+    .then(function(r) { return r.json(); })
+    .then(function(data) {
+      setHead(['Dat', 'Non', 'Telefon', 'Platfom', 'Pozisyon', 'Mesaj', 'Estati', 'Aksyon']);
+      var alerts = data.alerts || [];
+      if (!alerts.length) { emptyTable('&#128680;', 'Pa gen alèt'); return; }
+      var html = '';
+      for (var i = 0; i < alerts.length; i++) {
+        var a = alerts[i];
+        var loc = (a.lat && a.lng) ? '<a href="https://maps.google.com/?q=' + a.lat + ',' + a.lng + '" target="_blank" style="color:var(--blue);font-weight:700">&#128205; Map</a>' : '-';
+        html += '<tr' + (a.status === 'active' ? ' style="background:rgba(210,16,52,.05)"' : '') + '>';
+        html += '<td style="white-space:nowrap">' + fmtDate(a.createdAt) + '</td>';
+        html += '<td style="font-weight:700">' + esc(a.name || '-') + '</td>';
+        html += '<td>' + waLink(a.phone) + '</td>';
+        html += '<td>' + esc(a.platform || '-') + '</td>';
+        html += '<td>' + loc + '</td>';
+        html += '<td style="max-width:200px;overflow:hidden;text-overflow:ellipsis">' + esc(a.message || a.adminNote || '-') + '</td>';
+        html += '<td><span class="badge badge-' + a.status + '">' + a.status + '</span></td>';
+        html += '<td>';
+        if (a.status === 'active') {
+          html += '<button style="font-size:.7rem;padding:4px 10px;border-radius:6px;background:var(--green);color:#fff;font-weight:700;cursor:pointer;border:none" onclick="respondAlert(\'' + a._id + '\')">Reponn</button>';
+        }
+        html += '</td>';
+        html += '</tr>';
+      }
+      document.getElementById('tableBody').innerHTML = html;
+    }).catch(apiErr);
+
+  fetch(HB_API.replace('/admin', '/verify/admin/reports'), { headers: { 'x-admin-pin': pin } })
+    .then(function(r) { return r.json(); })
+    .then(function() {})
+    .catch(function() {});
+}
+
+function respondAlert(alertId) {
+  var note = prompt('Not reponn:');
+  fetch(HB_API.replace('/admin', '/verify/admin/alert/' + alertId + '/respond'), {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json', 'x-admin-pin': pin },
+    body: JSON.stringify({ status: 'responded', note: note || '' })
+  })
+  .then(function(r) { return r.json(); })
+  .then(function() { showToast('Alèt reponn!'); loadCurrentTab(); })
+  .catch(function() { showToast('Erè'); });
 }
 
 function setHead(cols) {
