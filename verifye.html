@@ -1,0 +1,1113 @@
+<!DOCTYPE html>
+<html lang="ht">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>Haiti Biznis Verified</title>
+<meta name="description" content="Verifye idantite ak konfyans nan ekosistèm Haiti Biznis la.">
+<link rel="icon" type="image/png" href="assets/icon-192.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&family=Playfair+Display:wght@700;800;900&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --blue:#00209F;--red:#D21034;--gold:#D4A017;--gold-light:#F5E6A3;
+  --green:#1B8C3D;--green-light:#E8F5E9;
+  --white:#FFFFFF;--off-white:#F5F7FA;--cream:#FAFAF5;
+  --dark:#0A0E1A;--text:#1A2A4A;--text-light:#5A6B8A;--text-muted:#8A95AA;
+  --border:#E2E8F0;--border-gold:rgba(212,160,23,.25);
+  --body:'Plus Jakarta Sans',system-ui,sans-serif;
+  --display:'Playfair Display',Georgia,serif;
+  --radius:14px;--radius-sm:8px;
+}
+html{scroll-behavior:smooth}
+body{font-family:var(--body);background:var(--cream);color:var(--text);min-height:100vh;-webkit-font-smoothing:antialiased}
+button{font-family:var(--body);cursor:pointer;border:none;background:none}
+input,select,textarea{font-family:var(--body)}
+
+.flag-stripe{height:4px;background:linear-gradient(90deg,var(--blue) 50%,var(--red) 50%)}
+
+/* HEADER */
+.hdr{
+  background:var(--dark);padding:14px 16px;text-align:center;position:relative;
+  overflow:hidden;
+}
+.hdr::before{
+  content:'';position:absolute;top:-50%;left:-20%;width:140%;height:200%;
+  background:radial-gradient(ellipse at 30% 50%,rgba(212,160,23,.06) 0%,transparent 60%),
+             radial-gradient(ellipse at 70% 30%,rgba(0,32,159,.08) 0%,transparent 50%);
+  pointer-events:none;
+}
+.hdr-inner{position:relative;display:flex;align-items:center;justify-content:center;gap:10px}
+.hdr-shield{width:28px;height:28px;position:relative}
+.hdr-shield svg{width:28px;height:28px}
+.hdr-title{color:var(--white);font-family:var(--display);font-size:1.15rem;font-weight:800;letter-spacing:-.01em}
+.hdr-title span{color:var(--gold)}
+.hdr-sub{color:rgba(255,255,255,.4);font-size:.65rem;font-weight:600;letter-spacing:.15em;text-transform:uppercase;margin-top:2px}
+
+.lang-bar{
+  background:var(--dark);border-top:1px solid rgba(255,255,255,.06);
+  display:flex;justify-content:center;gap:2px;padding:6px 16px;
+}
+.lang-btn{
+  color:rgba(255,255,255,.35);font-size:.68rem;font-weight:700;padding:4px 12px;
+  border-radius:100px;transition:all .2s;letter-spacing:.03em;
+}
+.lang-btn.active{background:rgba(212,160,23,.15);color:var(--gold)}
+.lang-btn:hover{color:rgba(255,255,255,.6)}
+
+/* LOADING */
+.loading-state{
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  min-height:60vh;gap:16px;
+}
+.loading-spinner{
+  width:40px;height:40px;border:3px solid var(--border);border-top-color:var(--gold);
+  border-radius:50%;animation:spin .8s linear infinite;
+}
+@keyframes spin{to{transform:rotate(360deg)}}
+.loading-text{font-size:.85rem;color:var(--text-muted)}
+
+/* ERROR STATE */
+.error-state{
+  display:none;flex-direction:column;align-items:center;justify-content:center;
+  min-height:60vh;padding:40px 20px;text-align:center;
+}
+.error-icon{font-size:3rem;margin-bottom:12px;opacity:.6}
+.error-title{font-size:1.2rem;font-weight:800;margin-bottom:6px}
+.error-sub{font-size:.85rem;color:var(--text-light);margin-bottom:20px;line-height:1.5}
+.search-box{
+  display:flex;gap:8px;width:100%;max-width:360px;
+}
+.search-box input{
+  flex:1;padding:12px 16px;border:2px solid var(--border);border-radius:var(--radius);
+  font-size:.9rem;font-weight:500;background:var(--white);
+}
+.search-box input:focus{border-color:var(--gold);outline:none}
+.search-box button{
+  padding:12px 20px;background:var(--dark);color:var(--white);border-radius:var(--radius);
+  font-weight:700;font-size:.85rem;white-space:nowrap;
+}
+
+/* MAIN CONTENT */
+.main{display:none;max-width:480px;margin:0 auto;padding:0 16px 40px}
+
+/* PROFILE CARD */
+.pcard{
+  background:var(--white);border-radius:20px;margin-top:-1px;
+  box-shadow:0 2px 20px rgba(0,0,0,.05),0 0 0 1px rgba(0,0,0,.03);
+  overflow:hidden;position:relative;
+}
+.pcard-top{
+  background:linear-gradient(135deg,var(--dark) 0%,#1a2340 100%);
+  padding:28px 20px 50px;text-align:center;position:relative;overflow:hidden;
+}
+.pcard-top::before{
+  content:'';position:absolute;inset:0;
+  background:url("data:image/svg+xml,%3Csvg width='60' height='60' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M30 5L35 25H55L39 35L44 55L30 43L16 55L21 35L5 25H25Z' fill='rgba(212,160,23,0.03)'/%3E%3C/svg%3E");
+  background-size:60px 60px;opacity:.5;
+}
+.pcard-top>*{position:relative}
+
+.avatar-wrap{
+  width:96px;height:96px;margin:0 auto 12px;position:relative;
+}
+.avatar{
+  width:96px;height:96px;border-radius:50%;object-fit:cover;
+  border:3px solid rgba(255,255,255,.2);background:rgba(255,255,255,.1);
+  display:flex;align-items:center;justify-content:center;
+  font-size:2.2rem;color:rgba(255,255,255,.4);overflow:hidden;
+}
+.avatar img{width:100%;height:100%;object-fit:cover}
+.badge-overlay{
+  position:absolute;bottom:0;right:0;width:30px;height:30px;
+  border-radius:50%;display:flex;align-items:center;justify-content:center;
+  font-size:.85rem;border:2px solid var(--dark);
+}
+.badge-verified{background:var(--green)}
+.badge-premium{background:var(--gold)}
+.badge-syndicate{background:var(--blue)}
+.badge-pending{background:#6B7280}
+.badge-suspended{background:var(--red)}
+
+.p-name{
+  font-family:var(--display);font-size:1.5rem;font-weight:800;
+  color:var(--white);margin-bottom:4px;
+}
+.p-type{
+  display:inline-block;font-size:.7rem;font-weight:700;
+  padding:3px 14px;border-radius:100px;text-transform:uppercase;
+  letter-spacing:.1em;margin-bottom:10px;
+}
+.p-type-driver{background:rgba(27,140,61,.2);color:#6FCF97}
+.p-type-business{background:rgba(0,32,159,.2);color:#6B9FFF}
+.p-type-professional{background:rgba(212,160,23,.2);color:var(--gold-light)}
+.p-type-delivery_agent{background:rgba(210,16,52,.2);color:#FF8A9B}
+.p-type-vendor{background:rgba(139,69,19,.2);color:#D2A679}
+.p-type-service_provider{background:rgba(128,0,128,.2);color:#D8A0D8}
+
+.status-badge{
+  display:inline-flex;align-items:center;gap:5px;
+  font-size:.72rem;font-weight:800;padding:5px 16px;border-radius:100px;
+  letter-spacing:.04em;
+}
+.status-pending{background:rgba(107,114,128,.2);color:#9CA3AF}
+.status-verified{background:rgba(27,140,61,.15);color:#4ADE80}
+.status-premium_verified{background:rgba(212,160,23,.15);color:var(--gold-light)}
+.status-syndicate_verified{background:rgba(0,32,159,.2);color:#93B4FF}
+.status-suspended{background:rgba(210,16,52,.15);color:#FF6B6B}
+
+/* TRUST GAUGE */
+.trust-section{padding:20px 20px 0;text-align:center}
+.trust-label{font-size:.65rem;font-weight:700;color:var(--text-muted);text-transform:uppercase;letter-spacing:.12em;margin-bottom:10px}
+.gauge-wrap{position:relative;width:160px;height:90px;margin:0 auto}
+.gauge-bg,.gauge-fill{
+  position:absolute;top:0;left:0;width:160px;height:160px;
+  border-radius:50%;border:10px solid transparent;
+}
+.gauge-bg{border-top-color:var(--border);border-right-color:var(--border);transform:rotate(-90deg)}
+.gauge-fill{
+  border-top-color:var(--green);border-right-color:var(--green);
+  transform:rotate(-90deg);transition:clip-path 1.5s ease-out;
+  clip-path:polygon(0 0,0 0,50% 50%);
+}
+.gauge-val{
+  position:absolute;bottom:2px;left:50%;transform:translateX(-50%);
+  font-family:var(--display);font-size:1.8rem;font-weight:900;
+}
+.gauge-max{
+  position:absolute;bottom:-2px;left:50%;transform:translateX(-50%);
+  font-size:.6rem;color:var(--text-muted);font-weight:600;
+}
+
+.trust-meter{
+  width:100%;height:6px;border-radius:3px;background:var(--border);
+  margin:0 auto;max-width:200px;overflow:hidden;position:relative;
+}
+.trust-meter-fill{
+  height:100%;border-radius:3px;transition:width 1.5s ease-out;width:0;
+}
+.trust-score-num{
+  font-family:var(--display);font-size:2rem;font-weight:900;
+  margin-bottom:2px;
+}
+.trust-score-label{font-size:.65rem;color:var(--text-muted);font-weight:600;margin-bottom:8px}
+
+/* QR + MEMBER */
+.qr-row{
+  display:flex;align-items:center;justify-content:center;gap:16px;
+  padding:14px 20px;border-top:1px solid var(--border);margin-top:16px;
+}
+.qr-code{
+  font-size:.82rem;font-weight:800;color:var(--dark);letter-spacing:.08em;
+  font-family:'Courier New',monospace;background:var(--off-white);
+  padding:6px 14px;border-radius:var(--radius-sm);border:1px dashed var(--border);
+}
+.member-since{font-size:.72rem;color:var(--text-muted)}
+.member-since strong{color:var(--text);font-weight:700}
+
+/* CHECKLIST */
+.checklist{padding:16px 20px}
+.checklist-title{
+  font-size:.65rem;font-weight:700;color:var(--text-muted);
+  text-transform:uppercase;letter-spacing:.12em;margin-bottom:10px;
+}
+.check-grid{display:grid;grid-template-columns:1fr 1fr;gap:6px}
+.check-item{
+  display:flex;align-items:center;gap:6px;font-size:.78rem;font-weight:600;
+  padding:6px 8px;border-radius:var(--radius-sm);
+}
+.check-item.yes{color:var(--green);background:rgba(27,140,61,.04)}
+.check-item.no{color:var(--text-muted);background:rgba(0,0,0,.02)}
+.check-icon{font-size:.85rem;flex-shrink:0}
+
+/* STATS */
+.stats-row{
+  display:grid;grid-template-columns:repeat(3,1fr);gap:1px;
+  background:var(--border);border-top:1px solid var(--border);
+}
+.stat-item{
+  background:var(--white);padding:14px 8px;text-align:center;
+}
+.stat-val{font-size:1.15rem;font-weight:900;color:var(--dark)}
+.stat-label{font-size:.6rem;font-weight:600;color:var(--text-muted);text-transform:uppercase;letter-spacing:.08em;margin-top:2px}
+.stars{color:var(--gold);font-size:.85rem;letter-spacing:1px}
+
+/* RATINGS */
+.ratings-section{padding:20px 16px}
+.section-title{
+  font-size:.7rem;font-weight:700;color:var(--text-muted);
+  text-transform:uppercase;letter-spacing:.12em;margin-bottom:12px;
+}
+.rating-card{
+  background:var(--white);border-radius:var(--radius);padding:14px;
+  margin-bottom:8px;border:1px solid var(--border);
+}
+.rating-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:6px}
+.rating-name{font-size:.82rem;font-weight:700}
+.rating-stars{color:var(--gold);font-size:.75rem}
+.rating-comment{font-size:.8rem;color:var(--text-light);line-height:1.4}
+.rating-date{font-size:.65rem;color:var(--text-muted);margin-top:4px}
+.no-ratings{font-size:.82rem;color:var(--text-muted);text-align:center;padding:20px;font-style:italic}
+
+/* ACTIONS */
+.actions{
+  display:grid;grid-template-columns:1fr 1fr;gap:8px;
+  padding:0 16px;margin-top:16px;
+}
+.act-btn{
+  padding:14px 12px;border-radius:var(--radius);font-size:.85rem;
+  font-weight:800;text-align:center;transition:all .2s;
+  display:flex;align-items:center;justify-content:center;gap:6px;
+}
+.act-rate{background:var(--green);color:var(--white)}
+.act-rate:hover{background:#157A32}
+.act-report{background:var(--off-white);color:var(--text);border:1px solid var(--border)}
+.act-report:hover{background:var(--border)}
+.act-sos{
+  grid-column:1/-1;background:var(--red);color:var(--white);
+  font-size:.9rem;padding:16px;border-radius:var(--radius);
+  animation:sos-pulse 2s ease-in-out infinite;
+}
+@keyframes sos-pulse{0%,100%{box-shadow:0 0 0 0 rgba(210,16,52,.3)}50%{box-shadow:0 0 0 8px rgba(210,16,52,0)}}
+
+/* MODALS */
+.modal-overlay{
+  display:none;position:fixed;inset:0;background:rgba(10,14,26,.6);
+  z-index:1000;align-items:flex-end;justify-content:center;
+  backdrop-filter:blur(4px);-webkit-backdrop-filter:blur(4px);
+}
+.modal-overlay.show{display:flex}
+.modal{
+  background:var(--white);border-radius:20px 20px 0 0;width:100%;max-width:480px;
+  max-height:85vh;overflow-y:auto;padding:24px 20px 32px;
+  animation:slideUp .3s ease-out;
+}
+@keyframes slideUp{from{transform:translateY(100%)}to{transform:translateY(0)}}
+.modal-handle{
+  width:40px;height:4px;border-radius:2px;background:var(--border);
+  margin:0 auto 16px;
+}
+.modal-title{font-family:var(--display);font-size:1.2rem;font-weight:800;margin-bottom:4px}
+.modal-sub{font-size:.8rem;color:var(--text-light);margin-bottom:20px}
+
+.form-group{margin-bottom:14px}
+.form-label{display:block;font-size:.68rem;font-weight:700;color:var(--text-light);text-transform:uppercase;letter-spacing:.06em;margin-bottom:6px}
+.form-input,.form-select,.form-textarea{
+  width:100%;padding:12px 14px;border:2px solid var(--border);border-radius:var(--radius-sm);
+  font-size:.9rem;font-weight:500;background:var(--off-white);transition:border-color .2s;
+}
+.form-input:focus,.form-select:focus,.form-textarea:focus{border-color:var(--gold);outline:none;background:var(--white)}
+.form-textarea{resize:vertical;min-height:80px}
+
+.star-picker{display:flex;gap:6px;margin-bottom:14px}
+.star-pick{
+  font-size:1.8rem;color:var(--border);cursor:pointer;transition:all .15s;
+  filter:grayscale(1);
+}
+.star-pick.active{color:var(--gold);filter:grayscale(0);transform:scale(1.1)}
+.star-pick:hover{transform:scale(1.15)}
+
+.submit-btn{
+  width:100%;padding:16px;border-radius:var(--radius);
+  font-size:.95rem;font-weight:800;color:var(--white);transition:all .2s;
+}
+.submit-rate{background:var(--green)}
+.submit-rate:hover{background:#157A32}
+.submit-report{background:var(--red)}
+.submit-report:hover{background:#B00D2C}
+
+.toast{
+  position:fixed;top:20px;left:50%;transform:translateX(-50%) translateY(-100px);
+  background:var(--dark);color:var(--white);padding:12px 24px;border-radius:var(--radius);
+  font-size:.85rem;font-weight:700;z-index:2000;transition:transform .3s ease-out;
+  box-shadow:0 8px 32px rgba(0,0,0,.3);
+}
+.toast.show{transform:translateX(-50%) translateY(0)}
+
+/* FOOTER */
+.footer{
+  text-align:center;padding:24px 16px 32px;
+}
+.footer-line{font-size:.7rem;color:var(--text-muted);line-height:1.6}
+.footer-line strong{color:var(--text-light)}
+.footer-logo{width:20px;height:20px;vertical-align:middle;border-radius:4px;margin-right:4px}
+
+/* ANIMATIONS */
+@keyframes fadeInUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
+.anim-in{animation:fadeInUp .5s ease-out both}
+.anim-d1{animation-delay:.1s}
+.anim-d2{animation-delay:.2s}
+.anim-d3{animation-delay:.3s}
+.anim-d4{animation-delay:.4s}
+.anim-d5{animation-delay:.5s}
+
+@media(min-width:500px){
+  .main{padding:20px 16px 40px}
+  .pcard{border-radius:20px;margin-top:20px}
+  .modal{border-radius:20px;margin:auto;max-height:80vh}
+}
+</style>
+</head>
+<body>
+
+<div class="flag-stripe"></div>
+
+<header class="hdr">
+  <div class="hdr-inner">
+    <div class="hdr-shield">
+      <svg viewBox="0 0 28 28" fill="none"><path d="M14 2L3 7v7c0 7.18 4.7 13.12 11 15 6.3-1.88 11-7.82 11-15V7L14 2z" fill="rgba(212,160,23,.2)" stroke="#D4A017" stroke-width="1.5"/><path d="M11 14l2.5 2.5L18 11" stroke="#D4A017" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    </div>
+    <div>
+      <div class="hdr-title">Haiti Biznis <span>Verified</span></div>
+      <div class="hdr-sub" data-i18n="hdr_sub">Sistèm Idantite Dijital</div>
+    </div>
+  </div>
+</header>
+
+<div class="lang-bar">
+  <button class="lang-btn active" onclick="setLang('ht')">Kreyòl</button>
+  <button class="lang-btn" onclick="setLang('fr')">Français</button>
+  <button class="lang-btn" onclick="setLang('en')">English</button>
+  <button class="lang-btn" onclick="setLang('es')">Español</button>
+</div>
+
+<!-- LOADING -->
+<div class="loading-state" id="loadingState">
+  <div class="loading-spinner"></div>
+  <div class="loading-text" data-i18n="loading">Chaje pwofil...</div>
+</div>
+
+<!-- ERROR -->
+<div class="error-state" id="errorState">
+  <div class="error-icon">&#128373;</div>
+  <div class="error-title" data-i18n="not_found">Profil Pa Jwenn</div>
+  <div class="error-sub" data-i18n="not_found_sub">Kòd verifikasyon sa pa valid oswa profil la pa egziste.</div>
+  <div class="search-box">
+    <input type="text" id="searchInput" placeholder="HBV-XXXXXXXX oswa telefòn" data-i18n-placeholder="search_ph">
+    <button onclick="searchProfile()" data-i18n="search_btn">Chache</button>
+  </div>
+</div>
+
+<!-- MAIN CONTENT -->
+<div class="main" id="mainContent">
+
+  <div class="pcard anim-in">
+    <div class="pcard-top">
+      <div class="avatar-wrap">
+        <div class="avatar" id="avatarEl">&#128100;</div>
+        <div class="badge-overlay badge-pending" id="badgeOverlay">&#10003;</div>
+      </div>
+      <div class="p-name" id="pName">-</div>
+      <div class="p-type" id="pType">-</div>
+      <br>
+      <div class="status-badge status-pending" id="statusBadge">
+        <span id="statusIcon">&#9679;</span> <span id="statusText" data-i18n="status_pending">Ap Tann</span>
+      </div>
+    </div>
+
+    <!-- TRUST SCORE -->
+    <div class="trust-section anim-in anim-d1">
+      <div class="trust-label" data-i18n="trust_label">Nivo Konfyans</div>
+      <div class="trust-score-num" id="trustNum">0</div>
+      <div class="trust-score-label">/100</div>
+      <div class="trust-meter">
+        <div class="trust-meter-fill" id="trustFill"></div>
+      </div>
+    </div>
+
+    <!-- QR + MEMBER -->
+    <div class="qr-row anim-in anim-d2">
+      <div class="qr-code" id="qrCode">HBV---------</div>
+      <div class="member-since"><span data-i18n="member_since">Manm depi</span> <strong id="memberDate">-</strong></div>
+    </div>
+
+    <!-- CHECKLIST -->
+    <div class="checklist anim-in anim-d3">
+      <div class="checklist-title" data-i18n="checks_title">Verifikasyon</div>
+      <div class="check-grid" id="checkGrid"></div>
+    </div>
+
+    <!-- STATS -->
+    <div class="stats-row anim-in anim-d4">
+      <div class="stat-item">
+        <div class="stars" id="starsEl">&#9734;&#9734;&#9734;&#9734;&#9734;</div>
+        <div class="stat-val" id="ratingVal">0.0</div>
+        <div class="stat-label" data-i18n="stat_rating">Evalyasyon</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-val" id="activityVal">0</div>
+        <div class="stat-label" data-i18n="stat_activity">Aktivite</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-val" id="ratingsCount">0</div>
+        <div class="stat-label" data-i18n="stat_reviews">Revizyon</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- RATINGS -->
+  <div class="ratings-section anim-in anim-d5">
+    <div class="section-title" data-i18n="recent_ratings">Dènye Evalyasyon</div>
+    <div id="ratingsContainer">
+      <div class="no-ratings" data-i18n="no_ratings">Pa gen evalyasyon ankò</div>
+    </div>
+  </div>
+
+  <!-- ACTIONS -->
+  <div class="actions anim-in anim-d5">
+    <button class="act-btn act-rate" onclick="openModal('rate')">
+      <span>&#11088;</span> <span data-i18n="btn_rate">Evalye</span>
+    </button>
+    <button class="act-btn act-report" onclick="openModal('report')">
+      <span>&#9888;</span> <span data-i18n="btn_report">Rapòte</span>
+    </button>
+    <button class="act-btn act-sos" id="sosBtn" style="display:none" onclick="sendSOS()">
+      <span>&#128680;</span> <span data-i18n="btn_sos">SOS IJANS</span>
+    </button>
+  </div>
+
+  <!-- FOOTER -->
+  <div class="footer">
+    <div class="footer-line"><strong>Haiti Biznis Verified</strong></div>
+    <div class="footer-line" data-i18n="footer_desc">Premye sistèm idantite dijital ak konfyans nan Ayiti</div>
+    <div class="footer-line" style="margin-top:6px">
+      <img src="assets/icon-512.png" class="footer-logo" alt="HB">
+      <span style="font-size:.65rem;color:var(--text-muted)">Powered by <strong>HaitiBiznis</strong></span>
+    </div>
+  </div>
+</div>
+
+<!-- RATE MODAL -->
+<div class="modal-overlay" id="rateModal" onclick="if(event.target===this)closeModals()">
+  <div class="modal">
+    <div class="modal-handle"></div>
+    <div class="modal-title" data-i18n="rate_title">Evalye Pwofil Sa</div>
+    <div class="modal-sub" data-i18n="rate_sub">Pataje eksperyans ou</div>
+    <div class="star-picker" id="starPicker">
+      <span class="star-pick" data-v="1" onclick="pickStar(1)">&#9733;</span>
+      <span class="star-pick" data-v="2" onclick="pickStar(2)">&#9733;</span>
+      <span class="star-pick" data-v="3" onclick="pickStar(3)">&#9733;</span>
+      <span class="star-pick" data-v="4" onclick="pickStar(4)">&#9733;</span>
+      <span class="star-pick" data-v="5" onclick="pickStar(5)">&#9733;</span>
+    </div>
+    <div class="form-group">
+      <label class="form-label" data-i18n="rate_name_label">Non ou</label>
+      <input class="form-input" id="rateName" placeholder="Jean-Pierre">
+    </div>
+    <div class="form-group">
+      <label class="form-label" data-i18n="rate_phone_label">Nimewo telefon ou</label>
+      <input class="form-input" id="ratePhone" type="tel" placeholder="+509...">
+    </div>
+    <div class="form-group">
+      <label class="form-label" data-i18n="rate_comment_label">Kòmantè (opsyonèl)</label>
+      <textarea class="form-textarea" id="rateComment" rows="3"></textarea>
+    </div>
+    <div class="form-group">
+      <label class="form-label" data-i18n="rate_platform_label">Platfòm</label>
+      <select class="form-select" id="ratePlatform">
+        <option value="msouwout">MsouWout</option>
+        <option value="myplopplop">MyPlopPlop</option>
+        <option value="prolakay">Pwofesyonèl Lakay</option>
+        <option value="delivery">Delivery</option>
+        <option value="utility_hub">Utility Hub</option>
+        <option value="haitibiznis_center">HaitiBiznis Center</option>
+      </select>
+    </div>
+    <button class="submit-btn submit-rate" onclick="submitRating()" data-i18n="submit_rate">Soumèt Evalyasyon</button>
+  </div>
+</div>
+
+<!-- REPORT MODAL -->
+<div class="modal-overlay" id="reportModal" onclick="if(event.target===this)closeModals()">
+  <div class="modal">
+    <div class="modal-handle"></div>
+    <div class="modal-title" data-i18n="report_title">Rapòte Pwofil Sa</div>
+    <div class="modal-sub" data-i18n="report_sub">Si ou wè yon bagay ki pa nòmal</div>
+    <div class="form-group">
+      <label class="form-label" data-i18n="report_cat_label">Kategori</label>
+      <select class="form-select" id="reportCategory">
+        <option value="fake_identity" data-i18n="cat_fake_id">Fo idantite</option>
+        <option value="scam" data-i18n="cat_scam">Anak</option>
+        <option value="unsafe_behavior" data-i18n="cat_unsafe">Konpòtman danjere</option>
+        <option value="harassment" data-i18n="cat_harass">Asèlman</option>
+        <option value="fake_documents" data-i18n="cat_fake_doc">Fo dokiman</option>
+        <option value="impersonation" data-i18n="cat_imperson">Imite yon lòt moun</option>
+        <option value="other" data-i18n="cat_other">Lòt</option>
+      </select>
+    </div>
+    <div class="form-group">
+      <label class="form-label" data-i18n="report_phone_label">Nimewo telefon ou</label>
+      <input class="form-input" id="reportPhone" type="tel" placeholder="+509...">
+    </div>
+    <div class="form-group">
+      <label class="form-label" data-i18n="report_desc_label">Deskripsyon</label>
+      <textarea class="form-textarea" id="reportDesc" rows="4" required></textarea>
+    </div>
+    <button class="submit-btn submit-report" onclick="submitReport()" data-i18n="submit_report">Voye Rapò</button>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+var API='https://haitibiznis-api.onrender.com';
+var profileData=null;
+var selectedStars=0;
+var currentLang='ht';
+
+var T={
+  ht:{
+    hdr_sub:'Sistèm Idantite Dijital',
+    loading:'Chaje pwofil...',
+    not_found:'Profil Pa Jwenn',
+    not_found_sub:'Kod verifikasyon sa pa valid oswa profil la pa egziste.',
+    search_ph:'HBV-XXXXXXXX oswa telefon',
+    search_btn:'Chache',
+    trust_label:'Nivo Konfyans',
+    member_since:'Manm depi',
+    checks_title:'Verifikasyon',
+    stat_rating:'Evalyasyon',
+    stat_activity:'Aktivite',
+    stat_reviews:'Revizyon',
+    recent_ratings:'Denye Evalyasyon',
+    no_ratings:'Pa gen evalyasyon anko',
+    btn_rate:'Evalye',
+    btn_report:'Rapote',
+    btn_sos:'SOS IJANS',
+    rate_title:'Evalye Pwofil Sa',
+    rate_sub:'Pataje eksperyans ou',
+    rate_name_label:'Non ou',
+    rate_phone_label:'Nimewo telefon ou',
+    rate_comment_label:'Komante (opsyonel)',
+    rate_platform_label:'Platfom',
+    submit_rate:'Soumet Evalyasyon',
+    report_title:'Rapote Pwofil Sa',
+    report_sub:'Si ou we yon bagay ki pa nomal',
+    report_cat_label:'Kategori',
+    report_phone_label:'Nimewo telefon ou',
+    report_desc_label:'Deskripsyon',
+    submit_report:'Voye Rapo',
+    cat_fake_id:'Fo idantite',
+    cat_scam:'Anak',
+    cat_unsafe:'Konpotman danjere',
+    cat_harass:'Aselman',
+    cat_fake_doc:'Fo dokiman',
+    cat_imperson:'Imite yon lot moun',
+    cat_other:'Lot',
+    status_pending:'Ap Tann',
+    status_verified:'Verifye',
+    status_premium:'Premium Verifye',
+    status_syndicate:'Sendika Verifye',
+    status_suspended:'Sispann',
+    type_driver:'Chofe',
+    type_business:'Biznis',
+    type_professional:'Pwofesyonel',
+    type_delivery_agent:'Ajan Livrezon',
+    type_vendor:'Vande',
+    type_service_provider:'Founisoservice',
+    check_phone:'Telefon verifye',
+    check_id:'Pyèsdidantite',
+    check_selfie:'Foto pèsonèl',
+    check_license:'Lisans kondwi',
+    check_business:'Dokiman biznis',
+    check_syndicate:'Afilye sendika',
+    toast_rate_ok:'Evalyasyon anrejistre!',
+    toast_report_ok:'Rapo voye. Mesi.',
+    toast_sos_ok:'Alet SOS voye! Ekip sekirite ap reponn.',
+    toast_err:'Yon ere rive. Eseye anko.',
+    footer_desc:'Premye sistem idantite dijital ak konfyans nan Ayiti'
+  },
+  fr:{
+    hdr_sub:'Systeme Identite Numerique',
+    loading:'Chargement du profil...',
+    not_found:'Profil Non Trouve',
+    not_found_sub:'Ce code de verification est invalide ou le profil n\'existe pas.',
+    search_ph:'HBV-XXXXXXXX ou telephone',
+    search_btn:'Chercher',
+    trust_label:'Niveau de Confiance',
+    member_since:'Membre depuis',
+    checks_title:'Verifications',
+    stat_rating:'Evaluation',
+    stat_activity:'Activite',
+    stat_reviews:'Avis',
+    recent_ratings:'Evaluations Recentes',
+    no_ratings:'Aucune evaluation pour le moment',
+    btn_rate:'Evaluer',
+    btn_report:'Signaler',
+    btn_sos:'SOS URGENCE',
+    rate_title:'Evaluer ce Profil',
+    rate_sub:'Partagez votre experience',
+    rate_name_label:'Votre nom',
+    rate_phone_label:'Votre numero de telephone',
+    rate_comment_label:'Commentaire (optionnel)',
+    rate_platform_label:'Plateforme',
+    submit_rate:'Soumettre l\'Evaluation',
+    report_title:'Signaler ce Profil',
+    report_sub:'Si vous remarquez quelque chose d\'anormal',
+    report_cat_label:'Categorie',
+    report_phone_label:'Votre numero de telephone',
+    report_desc_label:'Description',
+    submit_report:'Envoyer le Signalement',
+    cat_fake_id:'Fausse identite',
+    cat_scam:'Arnaque',
+    cat_unsafe:'Comportement dangereux',
+    cat_harass:'Harcelement',
+    cat_fake_doc:'Faux documents',
+    cat_imperson:'Usurpation d\'identite',
+    cat_other:'Autre',
+    status_pending:'En Attente',
+    status_verified:'Verifie',
+    status_premium:'Premium Verifie',
+    status_syndicate:'Syndicat Verifie',
+    status_suspended:'Suspendu',
+    type_driver:'Chauffeur',
+    type_business:'Entreprise',
+    type_professional:'Professionnel',
+    type_delivery_agent:'Agent Livraison',
+    type_vendor:'Vendeur',
+    type_service_provider:'Prestataire',
+    check_phone:'Telephone verifie',
+    check_id:'Piece d\'identite',
+    check_selfie:'Photo personnelle',
+    check_license:'Permis de conduire',
+    check_business:'Documents entreprise',
+    check_syndicate:'Affiliation syndicat',
+    toast_rate_ok:'Evaluation enregistree!',
+    toast_report_ok:'Signalement envoye. Merci.',
+    toast_sos_ok:'Alerte SOS envoyee! L\'equipe de securite va repondre.',
+    toast_err:'Une erreur est survenue. Reessayez.',
+    footer_desc:'Premier systeme d\'identite numerique et de confiance en Haiti'
+  },
+  en:{
+    hdr_sub:'Digital Identity System',
+    loading:'Loading profile...',
+    not_found:'Profile Not Found',
+    not_found_sub:'This verification code is invalid or the profile does not exist.',
+    search_ph:'HBV-XXXXXXXX or phone',
+    search_btn:'Search',
+    trust_label:'Trust Level',
+    member_since:'Member since',
+    checks_title:'Verifications',
+    stat_rating:'Rating',
+    stat_activity:'Activity',
+    stat_reviews:'Reviews',
+    recent_ratings:'Recent Reviews',
+    no_ratings:'No reviews yet',
+    btn_rate:'Rate',
+    btn_report:'Report',
+    btn_sos:'SOS EMERGENCY',
+    rate_title:'Rate This Profile',
+    rate_sub:'Share your experience',
+    rate_name_label:'Your name',
+    rate_phone_label:'Your phone number',
+    rate_comment_label:'Comment (optional)',
+    rate_platform_label:'Platform',
+    submit_rate:'Submit Rating',
+    report_title:'Report This Profile',
+    report_sub:'If you notice something unusual',
+    report_cat_label:'Category',
+    report_phone_label:'Your phone number',
+    report_desc_label:'Description',
+    submit_report:'Send Report',
+    cat_fake_id:'Fake identity',
+    cat_scam:'Scam',
+    cat_unsafe:'Unsafe behavior',
+    cat_harass:'Harassment',
+    cat_fake_doc:'Fake documents',
+    cat_imperson:'Impersonation',
+    cat_other:'Other',
+    status_pending:'Pending',
+    status_verified:'Verified',
+    status_premium:'Premium Verified',
+    status_syndicate:'Syndicate Verified',
+    status_suspended:'Suspended',
+    type_driver:'Driver',
+    type_business:'Business',
+    type_professional:'Professional',
+    type_delivery_agent:'Delivery Agent',
+    type_vendor:'Vendor',
+    type_service_provider:'Service Provider',
+    check_phone:'Phone verified',
+    check_id:'Government ID',
+    check_selfie:'Selfie verified',
+    check_license:'Driver license',
+    check_business:'Business documents',
+    check_syndicate:'Syndicate affiliation',
+    toast_rate_ok:'Rating submitted!',
+    toast_report_ok:'Report sent. Thank you.',
+    toast_sos_ok:'SOS alert sent! Security team is responding.',
+    toast_err:'An error occurred. Please try again.',
+    footer_desc:'Haiti\'s first digital identity and trust system'
+  },
+  es:{
+    hdr_sub:'Sistema de Identidad Digital',
+    loading:'Cargando perfil...',
+    not_found:'Perfil No Encontrado',
+    not_found_sub:'Este codigo de verificacion es invalido o el perfil no existe.',
+    search_ph:'HBV-XXXXXXXX o telefono',
+    search_btn:'Buscar',
+    trust_label:'Nivel de Confianza',
+    member_since:'Miembro desde',
+    checks_title:'Verificaciones',
+    stat_rating:'Evaluacion',
+    stat_activity:'Actividad',
+    stat_reviews:'Resenas',
+    recent_ratings:'Evaluaciones Recientes',
+    no_ratings:'Aun no hay evaluaciones',
+    btn_rate:'Evaluar',
+    btn_report:'Reportar',
+    btn_sos:'SOS EMERGENCIA',
+    rate_title:'Evaluar este Perfil',
+    rate_sub:'Comparte tu experiencia',
+    rate_name_label:'Tu nombre',
+    rate_phone_label:'Tu numero de telefono',
+    rate_comment_label:'Comentario (opcional)',
+    rate_platform_label:'Plataforma',
+    submit_rate:'Enviar Evaluacion',
+    report_title:'Reportar este Perfil',
+    report_sub:'Si notas algo inusual',
+    report_cat_label:'Categoria',
+    report_phone_label:'Tu numero de telefono',
+    report_desc_label:'Descripcion',
+    submit_report:'Enviar Reporte',
+    cat_fake_id:'Identidad falsa',
+    cat_scam:'Estafa',
+    cat_unsafe:'Conducta peligrosa',
+    cat_harass:'Acoso',
+    cat_fake_doc:'Documentos falsos',
+    cat_imperson:'Suplantacion de identidad',
+    cat_other:'Otro',
+    status_pending:'Pendiente',
+    status_verified:'Verificado',
+    status_premium:'Premium Verificado',
+    status_syndicate:'Sindicato Verificado',
+    status_suspended:'Suspendido',
+    type_driver:'Conductor',
+    type_business:'Negocio',
+    type_professional:'Profesional',
+    type_delivery_agent:'Agente de Entrega',
+    type_vendor:'Vendedor',
+    type_service_provider:'Proveedor de Servicios',
+    check_phone:'Telefono verificado',
+    check_id:'Documento de identidad',
+    check_selfie:'Selfie verificado',
+    check_license:'Licencia de conducir',
+    check_business:'Documentos de negocio',
+    check_syndicate:'Afiliacion sindical',
+    toast_rate_ok:'Evaluacion registrada!',
+    toast_report_ok:'Reporte enviado. Gracias.',
+    toast_sos_ok:'Alerta SOS enviada! El equipo de seguridad esta respondiendo.',
+    toast_err:'Ocurrio un error. Intenta de nuevo.',
+    footer_desc:'Primer sistema de identidad digital y confianza en Haiti'
+  }
+};
+
+function t(k){return(T[currentLang]&&T[currentLang][k])||T.ht[k]||k}
+
+function setLang(lang){
+  currentLang=lang;
+  document.querySelectorAll('.lang-btn').forEach(function(b){b.classList.remove('active')});
+  document.querySelectorAll('.lang-btn').forEach(function(b){if(b.textContent.toLowerCase().indexOf(lang==='ht'?'krey':lang==='fr'?'fran':lang==='en'?'engl':'espa')>=0)b.classList.add('active')});
+  document.querySelectorAll('[data-i18n]').forEach(function(el){
+    var key=el.getAttribute('data-i18n');
+    var txt=t(key);
+    if(txt)el.textContent=txt;
+  });
+  document.querySelectorAll('[data-i18n-placeholder]').forEach(function(el){
+    var key=el.getAttribute('data-i18n-placeholder');
+    var txt=t(key);
+    if(txt)el.placeholder=txt;
+  });
+  if(profileData)renderProfile(profileData);
+}
+
+function showToast(msg){
+  var toast=document.getElementById('toast');
+  toast.textContent=msg;
+  toast.classList.add('show');
+  setTimeout(function(){toast.classList.remove('show')},3000);
+}
+
+function openModal(type){
+  closeModals();
+  document.getElementById(type+'Modal').classList.add('show');
+  document.body.style.overflow='hidden';
+}
+
+function closeModals(){
+  document.querySelectorAll('.modal-overlay').forEach(function(m){m.classList.remove('show')});
+  document.body.style.overflow='';
+}
+
+function pickStar(n){
+  selectedStars=n;
+  document.querySelectorAll('.star-pick').forEach(function(s){
+    s.classList.toggle('active',parseInt(s.getAttribute('data-v'))<=n);
+  });
+}
+
+function starsHTML(rating,max){
+  max=max||5;var h='';
+  for(var i=1;i<=max;i++){
+    h+=i<=Math.round(rating)?'&#9733;':'&#9734;';
+  }
+  return h;
+}
+
+function fmtDate(d){
+  if(!d)return'-';
+  var dt=new Date(d);
+  var months=['Jan','Fev','Mas','Avr','Me','Jen','Jiy','Out','Sep','Okt','Nov','Des'];
+  return months[dt.getMonth()]+' '+dt.getFullYear();
+}
+
+function fmtDateFull(d){
+  if(!d)return'-';
+  var dt=new Date(d);
+  return dt.toLocaleDateString();
+}
+
+function trustColor(score){
+  if(score>=70)return'var(--green)';
+  if(score>=40)return'var(--gold)';
+  return'var(--red)';
+}
+
+function renderProfile(data){
+  profileData=data;
+  document.getElementById('loadingState').style.display='none';
+  document.getElementById('errorState').style.display='none';
+  document.getElementById('mainContent').style.display='block';
+
+  var av=document.getElementById('avatarEl');
+  if(data.photoUrl){
+    av.innerHTML='<img src="'+data.photoUrl+'" alt="'+data.displayName+'">';
+  } else {
+    var initials=(data.firstName||'')[0]+(data.lastName||'')[0];
+    av.textContent=initials||'?';
+    av.style.fontSize='1.6rem';av.style.fontWeight='800';av.style.color='rgba(255,255,255,.5)';
+  }
+
+  var badge=document.getElementById('badgeOverlay');
+  badge.className='badge-overlay';
+  if(data.status==='verified'){badge.classList.add('badge-verified');badge.innerHTML='&#10003;'}
+  else if(data.status==='premium_verified'){badge.classList.add('badge-premium');badge.innerHTML='&#9733;'}
+  else if(data.status==='syndicate_verified'){badge.classList.add('badge-syndicate');badge.innerHTML='&#9879;'}
+  else if(data.status==='suspended'){badge.classList.add('badge-suspended');badge.innerHTML='&#10007;'}
+  else{badge.classList.add('badge-pending');badge.innerHTML='&#8987;'}
+
+  document.getElementById('pName').textContent=data.displayName||'-';
+
+  var typeEl=document.getElementById('pType');
+  typeEl.textContent=t('type_'+data.profileType)||data.profileType;
+  typeEl.className='p-type p-type-'+data.profileType;
+
+  var sb=document.getElementById('statusBadge');
+  sb.className='status-badge status-'+data.status;
+  var statusMap={pending:'status_pending',verified:'status_verified',premium_verified:'status_premium',syndicate_verified:'status_syndicate',suspended:'status_suspended'};
+  document.getElementById('statusText').textContent=t(statusMap[data.status]||'status_pending');
+  var iconMap={pending:'&#9679;',verified:'&#10003;',premium_verified:'&#9733;',syndicate_verified:'&#9879;',suspended:'&#10007;'};
+  document.getElementById('statusIcon').innerHTML=iconMap[data.status]||'&#9679;';
+
+  var score=data.trustScore||0;
+  document.getElementById('trustNum').textContent=score;
+  document.getElementById('trustNum').style.color=trustColor(score);
+  var fill=document.getElementById('trustFill');
+  fill.style.background=trustColor(score);
+  setTimeout(function(){fill.style.width=score+'%'},100);
+
+  document.getElementById('qrCode').textContent=data.qrCode||'-';
+  document.getElementById('memberDate').textContent=fmtDate(data.memberSince);
+
+  var checks=[
+    {key:'check_phone',ok:data.phoneVerified},
+    {key:'check_id',ok:data.hasGovernmentId},
+    {key:'check_selfie',ok:data.hasSelfie}
+  ];
+  if(data.profileType==='driver'||data.profileType==='delivery_agent'){
+    checks.push({key:'check_license',ok:data.hasDriverLicense});
+  }
+  if(data.profileType==='business'||data.profileType==='vendor'){
+    checks.push({key:'check_business',ok:data.hasBusinessDoc});
+  }
+  if(data.syndicateName){
+    checks.push({key:'check_syndicate',ok:data.syndicateVerified});
+  }
+  var cg=document.getElementById('checkGrid');
+  cg.innerHTML='';
+  checks.forEach(function(c){
+    var div=document.createElement('div');
+    div.className='check-item '+(c.ok?'yes':'no');
+    div.innerHTML='<span class="check-icon">'+(c.ok?'&#9989;':'&#10060;')+'</span> '+t(c.key);
+    cg.appendChild(div);
+  });
+
+  document.getElementById('starsEl').innerHTML=starsHTML(data.rating||0);
+  document.getElementById('ratingVal').textContent=(data.rating||0).toFixed(1);
+  var activity=(data.totalTrips||0)+(data.totalOrders||0)+(data.totalServices||0);
+  document.getElementById('activityVal').textContent=activity;
+  document.getElementById('ratingsCount').textContent=data.totalRatings||0;
+
+  var rc=document.getElementById('ratingsContainer');
+  if(data.recentRatings&&data.recentRatings.length>0){
+    rc.innerHTML='';
+    data.recentRatings.forEach(function(r){
+      var card=document.createElement('div');
+      card.className='rating-card';
+      card.innerHTML='<div class="rating-top"><span class="rating-name">'+(r.raterName||'Anonim')+'</span><span class="rating-stars">'+starsHTML(r.score)+'</span></div>'
+        +(r.comment?'<div class="rating-comment">'+r.comment+'</div>':'')
+        +'<div class="rating-date">'+fmtDateFull(r.createdAt)+'</div>';
+      rc.appendChild(card);
+    });
+  } else {
+    rc.innerHTML='<div class="no-ratings">'+t('no_ratings')+'</div>';
+  }
+
+  if(data.profileType==='driver'||data.profileType==='delivery_agent'){
+    document.getElementById('sosBtn').style.display='';
+  }
+}
+
+function loadProfile(identifier){
+  document.getElementById('loadingState').style.display='flex';
+  document.getElementById('errorState').style.display='none';
+  document.getElementById('mainContent').style.display='none';
+
+  fetch(API+'/api/verify/profile/'+encodeURIComponent(identifier))
+    .then(function(r){
+      if(!r.ok)throw new Error('not found');
+      return r.json();
+    })
+    .then(function(data){
+      renderProfile(data);
+    })
+    .catch(function(){
+      document.getElementById('loadingState').style.display='none';
+      document.getElementById('errorState').style.display='flex';
+    });
+}
+
+function searchProfile(){
+  var q=document.getElementById('searchInput').value.trim();
+  if(!q)return;
+  if(q.match(/^[A-Z0-9-]+$/)&&q.startsWith('HBV')){
+    window.location.search='?code='+q;
+  } else {
+    window.location.search='?phone='+encodeURIComponent(q);
+  }
+}
+
+document.getElementById('searchInput').addEventListener('keydown',function(e){
+  if(e.key==='Enter')searchProfile();
+});
+
+function submitRating(){
+  if(!selectedStars){showToast('Chwazi zetwal!');return}
+  var phone=document.getElementById('ratePhone').value.trim();
+  if(!phone){showToast(t('rate_phone_label'));return}
+
+  var body={
+    profileId:profileData.profileId,
+    raterPhone:phone,
+    raterName:document.getElementById('rateName').value.trim(),
+    score:selectedStars,
+    comment:document.getElementById('rateComment').value.trim(),
+    platform:document.getElementById('ratePlatform').value
+  };
+
+  fetch(API+'/api/verify/rate',{
+    method:'POST',headers:{'Content-Type':'application/json'},
+    body:JSON.stringify(body)
+  })
+  .then(function(r){return r.json()})
+  .then(function(data){
+    if(data.message){
+      showToast(t('toast_rate_ok'));
+      closeModals();
+      selectedStars=0;
+      document.querySelectorAll('.star-pick').forEach(function(s){s.classList.remove('active')});
+      loadProfile(profileData.qrCode||profileData.profileId);
+    } else {
+      showToast(data.error||t('toast_err'));
+    }
+  })
+  .catch(function(){showToast(t('toast_err'))});
+}
+
+function submitReport(){
+  var desc=document.getElementById('reportDesc').value.trim();
+  var phone=document.getElementById('reportPhone').value.trim();
+  if(!desc||!phone){showToast(t('report_desc_label')+' + '+t('report_phone_label'));return}
+
+  var body={
+    profileId:profileData.profileId,
+    reporterPhone:phone,
+    category:document.getElementById('reportCategory').value,
+    description:desc
+  };
+
+  fetch(API+'/api/verify/report',{
+    method:'POST',headers:{'Content-Type':'application/json'},
+    body:JSON.stringify(body)
+  })
+  .then(function(r){return r.json()})
+  .then(function(data){
+    if(data.message){
+      showToast(t('toast_report_ok'));
+      closeModals();
+    } else {
+      showToast(data.error||t('toast_err'));
+    }
+  })
+  .catch(function(){showToast(t('toast_err'))});
+}
+
+function sendSOS(){
+  if(!confirm('SOS IJANS - Ou seten?'))return;
+  var body={
+    phone:localStorage.getItem('msw_phone')||'unknown',
+    name:localStorage.getItem('msw_user_name')||'',
+    platform:'msouwout'
+  };
+  if(navigator.geolocation){
+    navigator.geolocation.getCurrentPosition(
+      function(pos){
+        body.lat=pos.coords.latitude;
+        body.lng=pos.coords.longitude;
+        doSOS(body);
+      },
+      function(){doSOS(body)},
+      {timeout:5000}
+    );
+  } else {
+    doSOS(body);
+  }
+}
+
+function doSOS(body){
+  fetch(API+'/api/verify/sos',{
+    method:'POST',headers:{'Content-Type':'application/json'},
+    body:JSON.stringify(body)
+  })
+  .then(function(r){return r.json()})
+  .then(function(data){showToast(t('toast_sos_ok'))})
+  .catch(function(){showToast(t('toast_err'))});
+}
+
+// INIT
+var params=new URLSearchParams(window.location.search);
+var code=params.get('code');
+var phone=params.get('phone');
+if(code){
+  loadProfile(code);
+} else if(phone){
+  loadProfile(phone);
+} else {
+  document.getElementById('loadingState').style.display='none';
+  document.getElementById('errorState').style.display='flex';
+}
+</script>
+</body>
+</html>
