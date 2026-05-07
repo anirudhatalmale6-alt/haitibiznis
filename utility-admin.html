@@ -551,7 +551,7 @@ function renderModal(tx) {
   html += '<div class="detail-row"><span class="dl">Status</span><span class="dv">' + statusBadge + '</span></div>';
   html += detailRow('Date', dateStr);
   if (tx.provider_reference) html += detailRow('Provider Ref', tx.provider_reference);
-  if (tx.koutye_code) html += detailRow('Koutye Code', tx.koutye_code);
+  if (tx.koutye_code) html += detailRow('Parenaj Biznis Code', tx.koutye_code);
   html += '</div>';
 
   if (tx.token) {

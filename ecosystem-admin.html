@@ -339,7 +339,7 @@ var sections = [
     { id: 'active', label: 'Aktif' },
     { id: 'pending', label: 'An Atant' }
   ]},
-  { id: 'mp-koutye', label: '&#129309; Koutye', src: 'mp', sub: [] },
+  { id: 'mp-koutye', label: '&#129309; Parenaj Biznis', src: 'mp', sub: [] },
   { id: 'hb-rides', label: '&#128663; Kous HB', src: 'hb', sub: [] },
   { id: 'hb-drivers', label: '&#128100; Chofè HB', src: 'hb', sub: [
     { id: 'all', label: 'Tout' },
@@ -487,7 +487,7 @@ function updateDashboard() {
     { val: (hb.todayTickets || 0), label: 'Tike Jodi a', color: 'gold', src: 'HaitiBiznis' },
     { val: (hb.totalEvents || 0), label: 'Evenman', color: 'green', src: 'HaitiBiznis' },
     { val: fmt((mp.orderCommission || 0) + (mp.commissionRevenue || 0) + (hb.totalFees || 0)), label: 'Reveni Platfom', color: 'green', src: 'Tout', isCurrency: true },
-    { val: (mp.totalKoutye || 0), label: 'Koutye', color: 'gold', src: 'MyPlopPlop' },
+    { val: (mp.totalKoutye || 0), label: 'Parenaj Biznis', color: 'gold', src: 'MyPlopPlop' },
     { val: (mp.totalReferrals || 0), label: 'Referans', color: 'blue', src: 'MyPlopPlop' },
     { val: (hb.totalRefunds || 0), label: 'Ranbousman', color: 'red', src: 'HaitiBiznis' },
     { val: (mp.heldOrders || 0), label: 'Komand Kenbe', color: 'gold', src: 'Escrow' },
@@ -802,7 +802,7 @@ function loadMPKoutye(status, search) {
   apiFetch(MP_API, '/koutye' + q).then(function(data) {
     setHead(['Dat', 'Non', 'Kòd', 'WhatsApp', 'Nivo', 'Referans', 'Reveni', 'Estati']);
     var rows = data.koutye || [];
-    if (!rows.length) { emptyTable('&#129309;', 'Pa gen koutye anko'); return; }
+    if (!rows.length) { emptyTable('&#129309;', 'Pa gen Parenaj Biznis anko'); return; }
     var html = '';
     for (var i = 0; i < rows.length; i++) {
       var k = rows[i];
