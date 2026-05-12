@@ -104,6 +104,13 @@ input,select,textarea{font-family:var(--body);border:none;outline:none}
   content:'';position:absolute;bottom:0;left:0;right:0;height:48px;
   background:linear-gradient(to top,var(--off-white),transparent);pointer-events:none;
 }
+.hero-logo{
+  width:120px;height:120px;border-radius:20px;object-fit:contain;
+  background:var(--white);padding:8px;
+  box-shadow:0 8px 32px rgba(0,0,0,.2);
+  margin-bottom:16px;
+  animation:fadeUp .5s ease both;
+}
 .hero-flag{
   display:inline-flex;align-items:center;gap:6px;
   font-size:.68rem;font-weight:700;color:var(--gold-light);
@@ -459,6 +466,7 @@ footer{
 
 <!-- HERO -->
 <section class="hero">
+  <img src="toupatou-logo.jpg" alt="TouPaTou" class="hero-logo">
   <div class="hero-flag">&#127469;&#127481; <span data-i18n="hero_flag">Yon Platf&ograve;m. Tout Rez&egrave;vasyon.</span></div>
   <h2 data-i18n="hero_title">Book Travel, Hotels &amp; Premium Transportation Across <em>Haiti</em></h2>
   <p class="hero-sub" data-i18n="hero_sub">&#9992;&#65039; Flights &middot; &#128641; Helicopters &middot; &#127976; Hotels &middot; &#128652; Buses &middot; &#128657; Medical &middot; &#127915; Events</p>
