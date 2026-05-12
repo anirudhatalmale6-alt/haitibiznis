@@ -3,10 +3,10 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no">
-<title>HaitiBiznis Reservations — Rezève Sèvis nan Ayiti</title>
-<meta name="description" content="Book travel, transport, hotels, helicopters, events and logistics across Haiti. Simple WhatsApp booking.">
+<title>HaitiBiznis Reservations — Premium Travel & Reservations in Haiti</title>
+<meta name="description" content="Book flights, helicopters, hotels, buses, maritime transport, events and concierge services across Haiti. Premium reservation platform.">
 <meta property="og:title" content="HaitiBiznis Reservations">
-<meta property="og:description" content="Rezève vwayaj, transpò ak sèvis nan tout Ayiti. Book travel & services across Haiti.">
+<meta property="og:description" content="The Reservation Infrastructure for Haiti. Flights, air mobility, hospitality, regional transport, emergency mobility, experiences & events.">
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://haitibiznis.com/reservations.html">
 <link rel="icon" type="image/x-icon" href="favicon.ico">
@@ -43,7 +43,7 @@ input,select,textarea{font-family:var(--body);border:none;outline:none}
 @keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-6px)}}
 @keyframes shimmer{0%{background-position:-200% 0}100%{background-position:200% 0}}
 
-/* ═══ HEADER ═══ */
+/* HEADER */
 .header{
   position:fixed;top:0;left:0;right:0;z-index:1000;
   background:var(--blue);
@@ -51,13 +51,14 @@ input,select,textarea{font-family:var(--body);border:none;outline:none}
   padding:0 20px;
   box-shadow:0 2px 20px rgba(0,13,79,.3);
 }
-.header-brand{display:flex;align-items:center;gap:8px}
+.header-brand{display:flex;align-items:center;gap:10px}
+.header-brand img{height:36px;width:36px;border-radius:8px;object-fit:contain;background:var(--white);padding:2px}
 .header-brand h1{
-  font-family:var(--display);font-size:1.1rem;color:var(--white);
+  font-family:var(--display);font-size:1.05rem;color:var(--white);
   letter-spacing:-.01em;line-height:1;
 }
 .header-brand h1 span{color:var(--red);font-size:.7em}
-.header-brand .sub{font-size:.6rem;color:rgba(255,255,255,.55);font-weight:600;letter-spacing:.06em;text-transform:uppercase;margin-top:1px}
+.header-brand .sub{font-size:.55rem;color:rgba(255,255,255,.55);font-weight:600;letter-spacing:.06em;text-transform:uppercase;margin-top:1px}
 .header-right{display:flex;align-items:center;gap:12px}
 .lang-toggle{
   display:flex;gap:2px;background:rgba(255,255,255,.1);border-radius:8px;padding:2px;
@@ -74,8 +75,6 @@ input,select,textarea{font-family:var(--body);border:none;outline:none}
   font-size:1.2rem;cursor:pointer;transition:background .2s;
 }
 .menu-btn:hover{background:rgba(255,255,255,.2)}
-
-/* Mobile menu */
 .mobile-menu{
   display:none;position:fixed;top:60px;left:0;right:0;bottom:0;z-index:999;
   background:rgba(0,13,79,.97);backdrop-filter:blur(8px);
@@ -90,7 +89,7 @@ input,select,textarea{font-family:var(--body);border:none;outline:none}
 .mobile-menu a:hover{background:rgba(255,255,255,.08)}
 .mobile-menu a .m-icon{font-size:1.3rem;width:32px;text-align:center}
 
-/* ═══ HERO ═══ */
+/* HERO */
 .hero{
   padding:84px 20px 32px;text-align:center;
   background:linear-gradient(175deg,var(--blue) 0%,var(--blue-dark) 55%,var(--blue-deep) 100%);
@@ -113,32 +112,37 @@ input,select,textarea{font-family:var(--body);border:none;outline:none}
   animation:fadeUp .6s ease both;
 }
 .hero h2{
-  font-family:var(--display);font-size:clamp(1.6rem,5vw,2.6rem);
+  font-family:var(--display);font-size:clamp(1.5rem,5vw,2.4rem);
   color:var(--white);line-height:1.15;letter-spacing:-.02em;
-  max-width:500px;margin:0 auto 12px;position:relative;z-index:1;
+  max-width:520px;margin:0 auto 12px;position:relative;z-index:1;
   animation:fadeUp .6s .08s ease both;
 }
 .hero h2 em{font-style:italic;color:var(--gold-light)}
 .hero-sub{
-  font-size:clamp(.82rem,2vw,.95rem);color:rgba(255,255,255,.55);
-  max-width:380px;margin:0 auto;line-height:1.6;font-weight:400;
+  font-size:clamp(.78rem,2vw,.9rem);color:rgba(255,255,255,.5);
+  max-width:420px;margin:0 auto;line-height:1.6;font-weight:400;
   animation:fadeUp .6s .15s ease both;
 }
+.hero-icons{
+  display:flex;justify-content:center;gap:16px;margin-top:18px;
+  animation:fadeUp .6s .2s ease both;
+}
+.hero-icons span{font-size:1.5rem;opacity:.5}
 
-/* ═══ CATEGORY PILLS ═══ */
+/* CATEGORY PILLS */
 .categories{
-  display:flex;gap:10px;overflow-x:auto;padding:20px 20px 8px;
+  display:flex;gap:8px;overflow-x:auto;padding:20px 20px 8px;
   -webkit-overflow-scrolling:touch;scroll-snap-type:x mandatory;
   scrollbar-width:none;position:relative;z-index:2;margin-top:-20px;
 }
 .categories::-webkit-scrollbar{display:none}
 .cat-pill{
   flex-shrink:0;scroll-snap-align:start;
-  display:flex;flex-direction:column;align-items:center;gap:6px;
-  padding:14px 18px 12px;border-radius:var(--radius);
+  display:flex;flex-direction:column;align-items:center;gap:5px;
+  padding:12px 14px 10px;border-radius:var(--radius);
   background:var(--white);border:2px solid transparent;
   box-shadow:0 4px 16px rgba(0,0,0,.06);
-  cursor:pointer;transition:all .25s;min-width:82px;
+  cursor:pointer;transition:all .25s;min-width:74px;
   -webkit-tap-highlight-color:transparent;
 }
 .cat-pill:hover{transform:translateY(-3px);box-shadow:0 8px 28px rgba(0,0,0,.1)}
@@ -146,11 +150,11 @@ input,select,textarea{font-family:var(--body);border:none;outline:none}
   border-color:var(--blue);background:rgba(0,32,159,.04);
   box-shadow:0 4px 20px rgba(0,32,159,.15);
 }
-.cat-icon{font-size:1.6rem;line-height:1}
-.cat-label{font-size:.62rem;font-weight:800;color:var(--text-light);text-transform:uppercase;letter-spacing:.04em;white-space:nowrap}
+.cat-icon{font-size:1.4rem;line-height:1}
+.cat-label{font-size:.56rem;font-weight:800;color:var(--text-light);text-transform:uppercase;letter-spacing:.03em;white-space:nowrap}
 .cat-pill.active .cat-label{color:var(--blue)}
 
-/* ═══ BOOKING BOX ═══ */
+/* BOOKING BOX */
 .booking-section{padding:20px 20px 0}
 .booking-card{
   background:var(--white);border-radius:var(--radius-lg);
@@ -160,12 +164,10 @@ input,select,textarea{font-family:var(--body);border:none;outline:none}
   animation:fadeUp .5s ease both;
 }
 .booking-title{
-  font-family:var(--display);font-size:1.25rem;color:var(--dark);
+  font-family:var(--display);font-size:1.2rem;color:var(--dark);
   margin-bottom:4px;display:flex;align-items:center;gap:10px;
 }
-.booking-subtitle{font-size:.8rem;color:var(--text-light);margin-bottom:22px;line-height:1.5}
-
-/* Form elements */
+.booking-subtitle{font-size:.78rem;color:var(--text-light);margin-bottom:22px;line-height:1.5}
 .form-group{margin-bottom:16px}
 .form-label{
   display:block;font-size:.7rem;font-weight:800;color:var(--text-light);
@@ -185,23 +187,26 @@ select.form-input{
   color:var(--text);
 }
 .form-row{display:grid;grid-template-columns:1fr 1fr;gap:12px}
-
-/* Booking form panels */
+.form-row-3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px}
 .book-form{display:none}
 .book-form.active{display:block;animation:fadeUp .35s ease both}
 
-/* Vehicle type selector */
-.vehicle-select{display:flex;gap:10px;margin-bottom:0}
-.vehicle-opt{
-  flex:1;padding:14px;border:2px solid var(--border);border-radius:14px;
-  text-align:center;cursor:pointer;transition:all .2s;
-  background:var(--white);
+/* Option selector */
+.option-select{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:0}
+.option-opt{
+  flex:1;min-width:70px;padding:12px 8px;border:2px solid var(--border);border-radius:14px;
+  text-align:center;cursor:pointer;transition:all .2s;background:var(--white);
 }
-.vehicle-opt:hover{border-color:var(--blue)}
-.vehicle-opt.active{border-color:var(--blue);background:rgba(0,32,159,.04)}
-.vehicle-opt .v-icon{font-size:1.6rem;margin-bottom:4px}
-.vehicle-opt .v-label{font-size:.72rem;font-weight:800;color:var(--text-light);text-transform:uppercase;letter-spacing:.03em}
-.vehicle-opt.active .v-label{color:var(--blue)}
+.option-opt:hover{border-color:var(--blue)}
+.option-opt.active{border-color:var(--blue);background:rgba(0,32,159,.04)}
+.option-opt .o-icon{font-size:1.4rem;margin-bottom:3px}
+.option-opt .o-label{font-size:.65rem;font-weight:800;color:var(--text-light);text-transform:uppercase;letter-spacing:.02em}
+.option-opt.active .o-label{color:var(--blue)}
+
+/* Luggage checkbox */
+.check-row{display:flex;align-items:center;gap:10px;padding:12px 0}
+.check-row input[type="checkbox"]{width:22px;height:22px;accent-color:var(--blue)}
+.check-row label{font-size:.85rem;font-weight:600;color:var(--text)}
 
 /* CTA Buttons */
 .btn-book{
@@ -226,8 +231,13 @@ select.form-input{
   box-shadow:0 6px 24px rgba(37,211,102,.3);
 }
 .btn-book.green:hover{transform:translateY(-2px);box-shadow:0 10px 36px rgba(37,211,102,.4)}
+.btn-book.gold{
+  background:linear-gradient(135deg,var(--gold),#B8860B);color:var(--white);
+  box-shadow:0 6px 24px rgba(212,160,23,.3);
+}
+.btn-book.gold:hover{transform:translateY(-2px);box-shadow:0 10px 36px rgba(212,160,23,.4)}
 
-/* Emergency buttons */
+/* Emergency */
 .emergency-grid{display:flex;flex-direction:column;gap:14px;margin-bottom:16px}
 .btn-emergency{
   padding:28px 20px;border:none;border-radius:var(--radius);
@@ -248,20 +258,62 @@ select.form-input{
 }
 .btn-emergency.schedule:hover{transform:translateY(-2px)}
 .btn-emergency .e-icon{font-size:1.8rem}
-
+.em-fields{display:none;margin-top:16px}
+.em-fields.show{display:block;animation:fadeUp .3s ease both}
 .callback-box{
   background:#F8FAFC;border-radius:14px;padding:18px;
-  border:1px solid var(--border);
+  border:1px solid var(--border);margin-top:16px;
 }
 .callback-box .cb-title{font-size:.78rem;font-weight:800;color:var(--text);margin-bottom:10px;text-align:center}
 .callback-row{display:flex;gap:10px}
 .callback-row input{flex:1}
 .callback-row .btn-book{width:auto;flex-shrink:0;margin-top:0;padding:14px 24px}
 
-/* ═══ FEATURED SERVICES ═══ */
+/* Cross-ecosystem CTA */
+.cross-offer{
+  margin-top:20px;padding:16px 18px;border-radius:14px;
+  background:linear-gradient(135deg,rgba(0,32,159,.04),rgba(0,32,159,.08));
+  border:1px dashed rgba(0,32,159,.2);display:none;
+}
+.cross-offer.show{display:block;animation:fadeUp .3s ease both}
+.cross-offer p{font-size:.82rem;font-weight:700;color:var(--blue);margin-bottom:8px}
+.cross-offer a{
+  display:inline-flex;align-items:center;gap:6px;padding:10px 18px;
+  border-radius:10px;background:var(--blue);color:var(--white);
+  font-size:.78rem;font-weight:700;transition:all .2s;
+}
+.cross-offer a:hover{background:var(--blue-dark)}
+
+/* Package cards */
+.package-grid{display:flex;flex-direction:column;gap:10px;margin-bottom:16px}
+.package-card{
+  display:flex;align-items:center;gap:12px;
+  padding:14px 16px;border:2px solid var(--border);border-radius:14px;
+  cursor:pointer;transition:all .2s;
+}
+.package-card:hover{border-color:var(--blue)}
+.package-card.active{border-color:var(--blue);background:rgba(0,32,159,.04)}
+.package-card input[type="checkbox"]{width:20px;height:20px;accent-color:var(--blue);flex-shrink:0}
+.package-info{flex:1}
+.package-info .p-name{font-size:.85rem;font-weight:700;color:var(--dark)}
+.package-info .p-desc{font-size:.7rem;color:var(--text-light)}
+
+/* Concierge service cards */
+.service-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:16px}
+.svc-card{
+  padding:18px 12px;border:2px solid var(--border);border-radius:14px;
+  text-align:center;cursor:pointer;transition:all .2s;background:var(--white);
+}
+.svc-card:hover{border-color:var(--gold);transform:translateY(-2px)}
+.svc-card.active{border-color:var(--gold);background:rgba(212,160,23,.04)}
+.svc-card .s-icon{font-size:1.6rem;margin-bottom:6px;display:block}
+.svc-card .s-label{font-size:.68rem;font-weight:800;color:var(--text-light);text-transform:uppercase;letter-spacing:.02em}
+.svc-card.active .s-label{color:var(--gold)}
+
+/* FEATURED SERVICES */
 .featured{padding:32px 20px}
 .section-title{
-  font-family:var(--display);font-size:1.2rem;color:var(--dark);
+  font-family:var(--display);font-size:1.15rem;color:var(--dark);
   margin-bottom:18px;display:flex;align-items:center;gap:8px;
 }
 .featured-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
@@ -273,14 +325,14 @@ select.form-input{
 }
 .feat-card:hover{transform:translateY(-4px);box-shadow:0 12px 36px rgba(0,0,0,.1)}
 .feat-icon{font-size:2.2rem;margin-bottom:10px;display:block}
-.feat-title{font-size:.82rem;font-weight:800;color:var(--dark);margin-bottom:4px}
-.feat-sub{font-size:.68rem;color:var(--text-light);line-height:1.4}
+.feat-title{font-size:.8rem;font-weight:800;color:var(--dark);margin-bottom:4px}
+.feat-sub{font-size:.65rem;color:var(--text-light);line-height:1.4}
 .feat-card:nth-child(1){border-top:3px solid var(--gold)}
 .feat-card:nth-child(2){border-top:3px solid var(--blue)}
 .feat-card:nth-child(3){border-top:3px solid var(--red)}
 .feat-card:nth-child(4){border-top:3px solid var(--gold)}
 
-/* ═══ TRUST SECTION ═══ */
+/* TRUST */
 .trust{padding:12px 20px 32px}
 .trust-list{display:flex;flex-direction:column;gap:10px}
 .trust-item{
@@ -303,7 +355,7 @@ select.form-input{
 .trust-text{font-size:.85rem;font-weight:700;color:var(--dark)}
 .trust-sub{font-size:.7rem;color:var(--text-light);font-weight:400;margin-top:1px}
 
-/* ═══ WHATSAPP BAR ═══ */
+/* WHATSAPP BAR */
 .wa-bar{
   position:fixed;bottom:0;left:0;right:0;z-index:999;
   background:var(--white);border-top:1px solid var(--border);
@@ -323,7 +375,7 @@ select.form-input{
 .wa-bar-btn:hover{background:var(--green-dark);transform:translateY(-1px);box-shadow:0 8px 24px rgba(37,211,102,.4)}
 .wa-bar-btn svg{width:20px;height:20px;fill:currentColor}
 
-/* ═══ FOOTER ═══ */
+/* FOOTER */
 footer{
   background:var(--dark);padding:40px 20px 24px;
 }
@@ -342,36 +394,45 @@ footer{
   transition:all .2s;
 }
 .footer-links a:hover{color:var(--white);border-color:rgba(255,255,255,.3)}
+.footer-socials{display:flex;gap:12px;margin-bottom:20px}
+.footer-socials a{
+  width:38px;height:38px;border-radius:10px;
+  background:rgba(255,255,255,.08);display:flex;align-items:center;justify-content:center;
+  color:rgba(255,255,255,.5);font-size:1rem;transition:all .2s;
+}
+.footer-socials a:hover{background:rgba(255,255,255,.15);color:var(--white)}
 .footer-copy{
   font-size:.68rem;color:rgba(255,255,255,.25);
   padding-top:20px;border-top:1px solid rgba(255,255,255,.06);
 }
 .footer-copy a{color:var(--red)}
 
-/* ═══ RESPONSIVE ═══ */
+/* RESPONSIVE */
 @media(min-width:600px){
   .hero h2{font-size:2.4rem}
   .booking-card{padding:36px 32px}
   .featured-grid{gap:16px}
   .trust-list{flex-direction:row;flex-wrap:wrap}
   .trust-item{flex:1;min-width:180px}
+  .service-grid{grid-template-columns:repeat(4,1fr)}
 }
 @media(min-width:900px){
   .categories{justify-content:center;padding:20px 40px 8px}
-  .booking-section{max-width:680px;margin:0 auto}
-  .featured{max-width:680px;margin:0 auto}
-  .trust{max-width:680px;margin:0 auto}
+  .booking-section{max-width:700px;margin:0 auto}
+  .featured{max-width:700px;margin:0 auto}
+  .trust{max-width:700px;margin:0 auto}
 }
 </style>
 </head>
 <body>
 
-<!-- ═══ HEADER ═══ -->
+<!-- HEADER -->
 <header class="header">
   <div class="header-brand">
+    <img src="reservations-logo.jpg" alt="HB" onerror="this.style.display='none'">
     <div>
       <h1>HaitiBiznis<span>.</span> Reservations</h1>
-      <div class="sub" data-i18n="header_sub">Rezèvasyon</div>
+      <div class="sub" data-i18n="header_sub">Rez&egrave;vasyon Premium</div>
     </div>
   </div>
   <div class="header-right">
@@ -389,27 +450,26 @@ footer{
 <div class="mobile-menu" id="mobileMenu">
   <a href="https://haitibiznis.com" onclick="toggleMenu()"><span class="m-icon">&#127758;</span> HaitiBiznis</a>
   <a href="https://msouwout.com" onclick="toggleMenu()"><span class="m-icon">&#128665;</span> MsouWout</a>
-  <a href="https://msouwout.com/logistics.html" onclick="toggleMenu()"><span class="m-icon">&#128666;</span> MsouWout Logistics</a>
+  <a href="https://msouwout.com/logistics.html" onclick="toggleMenu()"><span class="m-icon">&#128666;</span> HaitiBiznis Logistics</a>
   <a href="https://tikelakay.haitibiznis.com" onclick="toggleMenu()"><span class="m-icon">&#127915;</span> <span data-i18n="menu_tikeLakay">Tik&egrave; Lakay</span></a>
   <a href="https://myplopplop.com" onclick="toggleMenu()"><span class="m-icon">&#128722;</span> MyPlopPlop</a>
   <a href="https://prolakay.haitibiznis.com" onclick="toggleMenu()"><span class="m-icon">&#128188;</span> <span data-i18n="menu_prolakay">Pwofesyon&egrave;l Lakay</span></a>
   <a href="https://48hoursready.com" onclick="toggleMenu()"><span class="m-icon">&#9889;</span> 48HoursReady</a>
 </div>
 
-<!-- ═══ HERO ═══ -->
+<!-- HERO -->
 <section class="hero">
-  <div class="hero-flag">&#127469;&#127481; <span data-i18n="hero_flag">Platf&ograve;m Ayisyen</span></div>
-  <h2 data-i18n="hero_title">Rez&egrave;ve Vwayaj, Transp&ograve; &amp; S&egrave;vis nan tout <em>Ayiti</em></h2>
-  <p class="hero-sub" data-i18n="hero_sub">Chwazi sa ou bezwen, ranpli f&ograve;m nan, epi rez&egrave;ve sou WhatsApp. Senp kon sa.</p>
+  <div class="hero-flag">&#127469;&#127481; <span data-i18n="hero_flag">Enfrastrikti Rez&egrave;vasyon Ayiti</span></div>
+  <h2 data-i18n="hero_title">Book Travel, Hotels &amp; Premium Transportation Across <em>Haiti</em></h2>
+  <p class="hero-sub" data-i18n="hero_sub">&#9992;&#65039; Flights &middot; &#128641; Helicopters &middot; &#127976; Hotels &middot; &#128652; Buses &middot; &#128657; Medical &middot; &#127915; Events</p>
+  <div class="hero-icons">
+    <span>&#9992;&#65039;</span><span>&#128641;</span><span>&#127976;</span><span>&#128652;</span><span>&#128657;</span><span>&#127915;</span><span>&#9973;</span><span>&#128084;</span>
+  </div>
 </section>
 
-<!-- ═══ CATEGORY PILLS ═══ -->
+<!-- CATEGORY PILLS -->
 <div class="categories" id="catScroll">
-  <div class="cat-pill active" onclick="selectCat('transport')" data-cat="transport">
-    <span class="cat-icon">&#128663;</span>
-    <span class="cat-label" data-i18n="cat_transport">Transp&ograve;</span>
-  </div>
-  <div class="cat-pill" onclick="selectCat('flight')" data-cat="flight">
+  <div class="cat-pill active" onclick="selectCat('flight')" data-cat="flight">
     <span class="cat-icon">&#9992;&#65039;</span>
     <span class="cat-label" data-i18n="cat_flight">Avyon</span>
   </div>
@@ -421,81 +481,51 @@ footer{
     <span class="cat-icon">&#127976;</span>
     <span class="cat-label" data-i18n="cat_hotel">Ot&egrave;l</span>
   </div>
+  <div class="cat-pill" onclick="selectCat('bus')" data-cat="bus">
+    <span class="cat-icon">&#128652;</span>
+    <span class="cat-label" data-i18n="cat_bus">Bis</span>
+  </div>
   <div class="cat-pill" onclick="selectCat('emergency')" data-cat="emergency">
     <span class="cat-icon">&#128657;</span>
-    <span class="cat-label" data-i18n="cat_emergency">Ijans</span>
+    <span class="cat-label" data-i18n="cat_emergency">Hero</span>
   </div>
   <div class="cat-pill" onclick="selectCat('events')" data-cat="events">
     <span class="cat-icon">&#127915;</span>
     <span class="cat-label" data-i18n="cat_events">Ev&egrave;nman</span>
   </div>
-  <div class="cat-pill" onclick="selectCat('logistics')" data-cat="logistics">
-    <span class="cat-icon">&#128666;</span>
-    <span class="cat-label" data-i18n="cat_logistics">Lojistik</span>
+  <div class="cat-pill" onclick="selectCat('maritime')" data-cat="maritime">
+    <span class="cat-icon">&#9973;</span>
+    <span class="cat-label" data-i18n="cat_maritime">Maritim</span>
+  </div>
+  <div class="cat-pill" onclick="selectCat('concierge')" data-cat="concierge">
+    <span class="cat-icon">&#128084;</span>
+    <span class="cat-label" data-i18n="cat_concierge">Conciergerie</span>
   </div>
 </div>
 
-<!-- ═══ BOOKING BOX ═══ -->
+<!-- BOOKING BOX -->
 <section class="booking-section">
   <div class="booking-card">
 
-    <!-- TRANSPORT -->
-    <div class="book-form active" id="form-transport">
-      <div class="booking-title">&#128663; <span data-i18n="book_transport_title">Rez&egrave;ve Transp&ograve;</span></div>
-      <p class="booking-subtitle" data-i18n="book_transport_sub">Chwazi moto oswa machin. Nou konekte ou ak yon chof&egrave;.</p>
-      <div class="form-group">
-        <label class="form-label" data-i18n="lbl_pickup">Kote pou vin chache ou</label>
-        <input type="text" class="form-input" id="t-pickup" placeholder="Ex: Delmas 33" data-i18n-ph="ph_pickup">
-      </div>
-      <div class="form-group">
-        <label class="form-label" data-i18n="lbl_destination">Desitinasyon</label>
-        <input type="text" class="form-input" id="t-dest" placeholder="Ex: Petion-Ville" data-i18n-ph="ph_dest">
-      </div>
-      <div class="form-row">
-        <div class="form-group">
-          <label class="form-label" data-i18n="lbl_date">Dat</label>
-          <input type="date" class="form-input" id="t-date">
-        </div>
-        <div class="form-group">
-          <label class="form-label" data-i18n="lbl_time">L&egrave;</label>
-          <input type="time" class="form-input" id="t-time">
-        </div>
-      </div>
-      <div class="form-group">
-        <label class="form-label" data-i18n="lbl_vehicle">Tip Machin</label>
-        <div class="vehicle-select">
-          <div class="vehicle-opt active" onclick="selectVehicle(this,'moto')">
-            <div class="v-icon">&#128741;</div>
-            <div class="v-label">Moto</div>
-          </div>
-          <div class="vehicle-opt" onclick="selectVehicle(this,'car')">
-            <div class="v-icon">&#128663;</div>
-            <div class="v-label" data-i18n="v_car">Machin</div>
-          </div>
-        </div>
-      </div>
-      <button class="btn-book red" onclick="bookTransport()" data-i18n="btn_book_now">Rez&egrave;ve Kounye a</button>
-    </div>
-
-    <!-- FLIGHT -->
-    <div class="book-form" id="form-flight">
+    <!-- FLIGHTS -->
+    <div class="book-form active" id="form-flight">
       <div class="booking-title">&#9992;&#65039; <span data-i18n="book_flight_title">Rez&egrave;ve V&ograve;l</span></div>
-      <p class="booking-subtitle" data-i18n="book_flight_sub">Jwenn v&ograve;l avyon disponib nan Ayiti ak l&ograve;t peyi.</p>
+      <p class="booking-subtitle" data-i18n="book_flight_sub">Jwenn v&ograve;l avyon nan Ayiti ak entènasyonal. Rezève dirèk.</p>
       <div class="form-row">
         <div class="form-group">
-          <label class="form-label" data-i18n="lbl_from">Soti</label>
+          <label class="form-label" data-i18n="lbl_from">Depa</label>
           <input type="text" class="form-input" id="f-from" placeholder="Port-au-Prince" data-i18n-ph="ph_from">
         </div>
         <div class="form-group">
-          <label class="form-label" data-i18n="lbl_to">Ale</label>
+          <label class="form-label" data-i18n="lbl_to">Desitinasyon</label>
           <input type="text" class="form-input" id="f-to" placeholder="Miami, Cap-Haitien..." data-i18n-ph="ph_to">
         </div>
       </div>
+      <div class="form-group">
+        <label class="form-label" data-i18n="lbl_date">Dat</label>
+        <input type="date" class="form-input" id="f-date">
+      </div>
       <div class="form-row">
-        <div class="form-group">
-          <label class="form-label" data-i18n="lbl_date">Dat</label>
-          <input type="date" class="form-input" id="f-date">
-        </div>
         <div class="form-group">
           <label class="form-label" data-i18n="lbl_passengers">Pasaje</label>
           <select class="form-input" id="f-pax">
@@ -504,21 +534,25 @@ footer{
             <option value="5">5+</option>
           </select>
         </div>
-      </div>
-      <div class="form-group">
-        <label class="form-label" data-i18n="lbl_class">Klas</label>
-        <select class="form-input" id="f-class">
-          <option value="economy" data-i18n="class_economy">Ekonomi</option>
-          <option value="business" data-i18n="class_business">Biznis</option>
-        </select>
+        <div class="form-group">
+          <label class="form-label" data-i18n="lbl_class">Klas</label>
+          <select class="form-input" id="f-class">
+            <option value="economy" data-i18n="class_economy">Ekonomi</option>
+            <option value="business" data-i18n="class_business">Biznis</option>
+          </select>
+        </div>
       </div>
       <button class="btn-book blue" onclick="bookFlight()" data-i18n="btn_search_flight">Ch&egrave;che V&ograve;l</button>
+      <div class="cross-offer" id="cross-flight">
+        <p data-i18n="cross_ground">&#128665; Bezwen transpò tè tou?</p>
+        <a href="https://msouwout.com" target="_blank"><span>&#128665;</span> <span data-i18n="cross_msouwout">MsouWout — Transpò Lokal</span></a>
+      </div>
     </div>
 
     <!-- HELICOPTER -->
     <div class="book-form" id="form-helicopter">
       <div class="booking-title">&#128641; <span data-i18n="book_heli_title">Elikopt&egrave; VIP</span></div>
-      <p class="booking-subtitle" data-i18n="book_heli_sub">Transpò prive pa elikoptè nan tout Ayiti. Rapid ak eksklizif.</p>
+      <p class="booking-subtitle" data-i18n="book_heli_sub">Transp&ograve; prive pa elikopt&egrave; nan tout Ayiti. Rapid ak eksklizif.</p>
       <div class="form-group">
         <label class="form-label" data-i18n="lbl_pickup_zone">Z&ograve;n Ranmasaj</label>
         <input type="text" class="form-input" id="h-pickup" placeholder="Ex: Petion-Ville, Tabarre..." data-i18n-ph="ph_heli_pickup">
@@ -526,6 +560,16 @@ footer{
       <div class="form-group">
         <label class="form-label" data-i18n="lbl_destination">Desitinasyon</label>
         <input type="text" class="form-input" id="h-dest" placeholder="Ex: Cap-Haitien, Ile-a-Vache..." data-i18n-ph="ph_heli_dest">
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label class="form-label" data-i18n="lbl_date">Dat</label>
+          <input type="date" class="form-input" id="h-date">
+        </div>
+        <div class="form-group">
+          <label class="form-label" data-i18n="lbl_time">L&egrave;</label>
+          <input type="time" class="form-input" id="h-time">
+        </div>
       </div>
       <div class="form-row">
         <div class="form-group">
@@ -537,17 +581,23 @@ footer{
           </select>
         </div>
         <div class="form-group">
-          <label class="form-label" data-i18n="lbl_date">Dat</label>
-          <input type="date" class="form-input" id="h-date">
+          <label class="form-label" data-i18n="lbl_purpose">Rezon</label>
+          <select class="form-input" id="h-purpose">
+            <option value="vip" data-i18n="purpose_vip">VIP</option>
+            <option value="tourism" data-i18n="purpose_tourism">Touris</option>
+            <option value="business" data-i18n="purpose_business">Biznis</option>
+            <option value="medical" data-i18n="purpose_medical">Medikal</option>
+            <option value="emergency" data-i18n="purpose_emergency">Ijans</option>
+          </select>
         </div>
       </div>
-      <button class="btn-book blue" onclick="bookHeli()" data-i18n="btn_request_quote">Mande Estimasyon</button>
+      <button class="btn-book blue" onclick="bookHeli()" data-i18n="btn_request_quote">Mande Devis</button>
     </div>
 
-    <!-- HOTEL -->
+    <!-- HOTELS -->
     <div class="book-form" id="form-hotel">
       <div class="booking-title">&#127976; <span data-i18n="book_hotel_title">Jwenn Ot&egrave;l</span></div>
-      <p class="booking-subtitle" data-i18n="book_hotel_sub">Otèl ak mezon vakans nan tout Ayiti. Rezève fasil.</p>
+      <p class="booking-subtitle" data-i18n="book_hotel_sub">Ot&egrave;l ak mezon vakans nan tout Ayiti. Rez&egrave;ve fasil.</p>
       <div class="form-group">
         <label class="form-label" data-i18n="lbl_city">Vil</label>
         <select class="form-input" id="ho-city">
@@ -578,35 +628,97 @@ footer{
         </select>
       </div>
       <button class="btn-book red" onclick="bookHotel()" data-i18n="btn_find_hotel">Jwenn Ot&egrave;l</button>
+      <div class="cross-offer" id="cross-hotel">
+        <p data-i18n="cross_ground">&#128665; Bezwen transp&ograve; t&egrave; tou?</p>
+        <a href="https://msouwout.com" target="_blank"><span>&#128665;</span> <span data-i18n="cross_msouwout">MsouWout — Transp&ograve; Lokal</span></a>
+      </div>
     </div>
 
-    <!-- EMERGENCY -->
+    <!-- BUS RESERVATIONS -->
+    <div class="book-form" id="form-bus">
+      <div class="booking-title">&#128652; <span data-i18n="book_bus_title">Rez&egrave;vasyon Bis</span></div>
+      <p class="booking-subtitle" data-i18n="book_bus_sub">Wout ent&egrave;nasyonal: Ayiti &#8596; Dominikani. Rez&egrave;ve plas ou.</p>
+      <div class="form-group">
+        <label class="form-label" data-i18n="lbl_route">Wout</label>
+        <select class="form-input" id="b-route">
+          <option value="PAP-SDQ">&#127469;&#127481; Port-au-Prince &#8596; Santo Domingo &#127465;&#127476;</option>
+          <option value="PAP-STI">&#127469;&#127481; Port-au-Prince &#8596; Santiago &#127465;&#127476;</option>
+          <option value="CAP-SDQ">&#127469;&#127481; Cap-Ha&iuml;tien &#8596; Santo Domingo &#127465;&#127476;</option>
+          <option value="CAP-STI">&#127469;&#127481; Cap-Ha&iuml;tien &#8596; Santiago &#127465;&#127476;</option>
+        </select>
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label class="form-label" data-i18n="lbl_date">Dat</label>
+          <input type="date" class="form-input" id="b-date">
+        </div>
+        <div class="form-group">
+          <label class="form-label" data-i18n="lbl_seats">Plas</label>
+          <select class="form-input" id="b-seats">
+            <option value="1">1</option><option value="2">2</option>
+            <option value="3">3</option><option value="4">4</option>
+            <option value="5">5+</option>
+          </select>
+        </div>
+      </div>
+      <div class="check-row">
+        <input type="checkbox" id="b-luggage">
+        <label for="b-luggage" data-i18n="lbl_extra_luggage">&#128188; Bagaj siplemant&egrave;</label>
+      </div>
+      <button class="btn-book red" onclick="bookBus()" data-i18n="btn_reserve_seat">Rez&egrave;ve Plas</button>
+    </div>
+
+    <!-- HERO MEDICAL -->
     <div class="book-form" id="form-emergency">
-      <div class="booking-title">&#128657; <span data-i18n="book_emergency_title">Hero Ijans</span></div>
-      <p class="booking-subtitle" data-i18n="book_emergency_sub">Sèvis ijans medikal ak transpò lopital nan tout Ayiti.</p>
+      <div class="booking-title">&#128657; <span data-i18n="book_emergency_title">Hero Medikal</span></div>
+      <p class="booking-subtitle" data-i18n="book_emergency_sub">S&egrave;vis ijans medikal ak transp&ograve; lopital nan tout Ayiti.</p>
       <div class="emergency-grid">
         <a href="tel:+50941902005" class="btn-emergency panic">
           <span class="e-icon">&#128680;</span>
           <span data-i18n="btn_emergency_now">IJANS KOUNYE A</span>
         </a>
-        <button class="btn-emergency schedule" onclick="selectCat('emergency');document.getElementById('em-phone').focus()">
+        <button class="btn-emergency schedule" onclick="showEmFields()">
           <span class="e-icon">&#128197;</span>
-          <span data-i18n="btn_schedule_medical">Pwograme Transpò Medikal</span>
+          <span data-i18n="btn_schedule_medical">Pwograme Transp&ograve; Medikal</span>
         </button>
+      </div>
+      <div class="em-fields" id="emFields">
+        <div class="form-group">
+          <label class="form-label" data-i18n="lbl_em_pickup">Kote pou vin chache</label>
+          <input type="text" class="form-input" id="em-pickup" placeholder="Ex: Delmas 33" data-i18n-ph="ph_em_pickup">
+        </div>
+        <div class="form-group">
+          <label class="form-label" data-i18n="lbl_em_hospital">Lopital</label>
+          <input type="text" class="form-input" id="em-hospital" placeholder="Ex: HUEH, Bernard Mevs..." data-i18n-ph="ph_em_hospital">
+        </div>
+        <div class="form-group">
+          <label class="form-label" data-i18n="lbl_em_condition">Kondisyon Pasyan</label>
+          <input type="text" class="form-input" id="em-condition" placeholder="Ex: blese, malad, ansent..." data-i18n-ph="ph_em_condition">
+        </div>
+        <div class="form-group">
+          <label class="form-label" data-i18n="lbl_em_assistance">Asistans Bezwen</label>
+          <select class="form-input" id="em-assistance">
+            <option value="stretcher" data-i18n="assist_stretcher">Branka (Stretcher)</option>
+            <option value="wheelchair" data-i18n="assist_wheelchair">Chèz Woulant</option>
+            <option value="ambulatory" data-i18n="assist_ambulatory">Ka mache</option>
+            <option value="oxygen" data-i18n="assist_oxygen">Bezwen oksijèn</option>
+          </select>
+        </div>
+        <button class="btn-book green" onclick="bookMedical()" data-i18n="btn_schedule_transport">Pwograme Transpò</button>
       </div>
       <div class="callback-box">
         <div class="cb-title" data-i18n="cb_title">Nou rele ou touswit</div>
         <div class="callback-row">
           <input type="tel" class="form-input" id="em-phone" placeholder="+509 XXXX XXXX" data-i18n-ph="ph_phone">
-          <button class="btn-book green" onclick="bookEmergency()" style="margin-top:0" data-i18n="btn_call_me">Rele Mwen</button>
+          <button class="btn-book green" onclick="bookEmergencyCallback()" style="margin-top:0" data-i18n="btn_call_me">Rele Mwen</button>
         </div>
       </div>
     </div>
 
-    <!-- EVENTS -->
+    <!-- EVENTS & PACKAGES -->
     <div class="book-form" id="form-events">
-      <div class="booking-title">&#127915; <span data-i18n="book_events_title">Ev&egrave;nman</span></div>
-      <p class="booking-subtitle" data-i18n="book_events_sub">Jwenn evènman, konsè ak aktivite nan tout Ayiti.</p>
+      <div class="booking-title">&#127915; <span data-i18n="book_events_title">Ev&egrave;nman &amp; Pakè</span></div>
+      <p class="booking-subtitle" data-i18n="book_events_sub">Jwenn ev&egrave;nman, kons&egrave; ak aktivite. Rezève pakè konplè (tikè + otèl + transpò).</p>
       <div class="form-group">
         <label class="form-label" data-i18n="lbl_city">Vil</label>
         <select class="form-input" id="ev-city">
@@ -617,62 +729,161 @@ footer{
           <option value="Les Cayes">Les Cayes</option>
         </select>
       </div>
-      <div class="form-group">
-        <label class="form-label" data-i18n="lbl_date">Dat</label>
-        <input type="date" class="form-input" id="ev-date">
+      <div class="form-row">
+        <div class="form-group">
+          <label class="form-label" data-i18n="lbl_date">Dat</label>
+          <input type="date" class="form-input" id="ev-date">
+        </div>
+        <div class="form-group">
+          <label class="form-label" data-i18n="lbl_event_type">Tip Ev&egrave;nman</label>
+          <select class="form-input" id="ev-type">
+            <option value="music" data-i18n="evt_music">&#127925; Mizik</option>
+            <option value="sport" data-i18n="evt_sport">&#9917; Esp&ograve;</option>
+            <option value="culture" data-i18n="evt_culture">&#127912; Kilti</option>
+            <option value="business" data-i18n="evt_business">&#128188; Biznis</option>
+          </select>
+        </div>
       </div>
       <div class="form-group">
-        <label class="form-label" data-i18n="lbl_event_type">Tip Ev&egrave;nman</label>
-        <select class="form-input" id="ev-type">
-          <option value="music" data-i18n="evt_music">&#127925; Mizik</option>
-          <option value="sport" data-i18n="evt_sport">&#9917; Espò</option>
-          <option value="culture" data-i18n="evt_culture">&#127912; Kilti</option>
-          <option value="business" data-i18n="evt_business">&#128188; Biznis</option>
-        </select>
+        <label class="form-label" data-i18n="lbl_package">Pakè (opsyonèl)</label>
+        <div class="package-grid">
+          <label class="package-card" onclick="this.classList.toggle('active')">
+            <input type="checkbox" id="pkg-ticket" checked>
+            <div class="package-info">
+              <div class="p-name" data-i18n="pkg_ticket">&#127915; Tikè Evènman</div>
+              <div class="p-desc" data-i18n="pkg_ticket_desc">Via Tikè Lakay</div>
+            </div>
+          </label>
+          <label class="package-card" onclick="this.classList.toggle('active')">
+            <input type="checkbox" id="pkg-hotel">
+            <div class="package-info">
+              <div class="p-name" data-i18n="pkg_hotel">&#127976; Otèl</div>
+              <div class="p-desc" data-i18n="pkg_hotel_desc">Akomodasyon tou pre</div>
+            </div>
+          </label>
+          <label class="package-card" onclick="this.classList.toggle('active')">
+            <input type="checkbox" id="pkg-transport">
+            <div class="package-info">
+              <div class="p-name" data-i18n="pkg_transport">&#128665; Transpò</div>
+              <div class="p-desc" data-i18n="pkg_transport_desc">Ale retounen</div>
+            </div>
+          </label>
+          <label class="package-card" onclick="this.classList.toggle('active')">
+            <input type="checkbox" id="pkg-vip">
+            <div class="package-info">
+              <div class="p-name" data-i18n="pkg_vip">&#11088; Aksè VIP</div>
+              <div class="p-desc" data-i18n="pkg_vip_desc">Eksperyans eksklizif</div>
+            </div>
+          </label>
+        </div>
       </div>
       <button class="btn-book red" onclick="bookEvents()" data-i18n="btn_see_events">W&egrave; Ev&egrave;nman</button>
     </div>
 
-    <!-- LOGISTICS -->
-    <div class="book-form" id="form-logistics">
-      <div class="booking-title">&#128666; <span data-i18n="book_logistics_title">Lojistik &amp; Fret</span></div>
-      <p class="booking-subtitle" data-i18n="book_logistics_sub">Transpò machandiz, kamyon, bato ak kontènè nan tout Ayiti.</p>
-      <div class="form-group">
-        <label class="form-label" data-i18n="lbl_cargo_type">Tip Machandiz</label>
-        <select class="form-input" id="l-cargo">
-          <option value="general" data-i18n="cargo_general">&#128230; Machandiz Jeneral</option>
-          <option value="rice" data-i18n="cargo_rice">&#127834; Diri / Rice</option>
-          <option value="cement" data-i18n="cargo_cement">&#127959; Siman / Cement</option>
-          <option value="construction" data-i18n="cargo_construction">&#128296; Konstriksyon</option>
-          <option value="food" data-i18n="cargo_food">&#127869; Manje</option>
-          <option value="fuel" data-i18n="cargo_fuel">&#9981; Gaz</option>
-        </select>
+    <!-- MARITIME -->
+    <div class="book-form" id="form-maritime">
+      <div class="booking-title">&#9973; <span data-i18n="book_maritime_title">Maritim</span></div>
+      <p class="booking-subtitle" data-i18n="book_maritime_sub">Rez&egrave;vasyon transp&ograve; maritim — pasaje ak kag&ograve; pa bato.</p>
+      <div class="form-row">
+        <div class="form-group">
+          <label class="form-label" data-i18n="lbl_port_from">P&ograve; Depa</label>
+          <select class="form-input" id="m-from">
+            <option value="Port-au-Prince">Port-au-Prince</option>
+            <option value="Cap-Haitien">Cap-Ha&iuml;tien</option>
+            <option value="Jeremie">J&eacute;r&eacute;mie</option>
+            <option value="Les Cayes">Les Cayes</option>
+            <option value="Gonaives">Gona&iuml;ves</option>
+            <option value="Ile-de-la-Gonave">Ile de la Gon&acirc;ve</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label class="form-label" data-i18n="lbl_port_to">Desitinasyon</label>
+          <select class="form-input" id="m-to">
+            <option value="Ile-de-la-Gonave">Ile de la Gon&acirc;ve</option>
+            <option value="Ile-a-Vache">Ile-&agrave;-Vache</option>
+            <option value="La Tortue">La Tortue</option>
+            <option value="Cap-Haitien">Cap-Ha&iuml;tien</option>
+            <option value="Jeremie">J&eacute;r&eacute;mie</option>
+            <option value="Les Cayes">Les Cayes</option>
+          </select>
+        </div>
       </div>
       <div class="form-group">
-        <label class="form-label" data-i18n="lbl_pickup">Kote pou vin chache</label>
-        <input type="text" class="form-input" id="l-pickup" placeholder="Ex: Port Lafito" data-i18n-ph="ph_l_pickup">
+        <label class="form-label" data-i18n="lbl_maritime_type">Tip</label>
+        <div class="option-select">
+          <div class="option-opt active" onclick="selectMaritime(this,'passenger')">
+            <div class="o-icon">&#128101;</div>
+            <div class="o-label" data-i18n="maritime_passenger">Pasaje</div>
+          </div>
+          <div class="option-opt" onclick="selectMaritime(this,'cargo')">
+            <div class="o-icon">&#128230;</div>
+            <div class="o-label" data-i18n="maritime_cargo">Kag&ograve;</div>
+          </div>
+          <div class="option-opt" onclick="selectMaritime(this,'both')">
+            <div class="o-icon">&#128674;</div>
+            <div class="o-label" data-i18n="maritime_both">Tou De</div>
+          </div>
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label class="form-label" data-i18n="lbl_date">Dat</label>
+          <input type="date" class="form-input" id="m-date">
+        </div>
+        <div class="form-group">
+          <label class="form-label" data-i18n="lbl_pax_cargo">Pasaje / Kantite</label>
+          <input type="text" class="form-input" id="m-qty" placeholder="Ex: 2 moun / 500 lbs" data-i18n-ph="ph_maritime_qty">
+        </div>
+      </div>
+      <button class="btn-book blue" onclick="bookMaritime()" data-i18n="btn_request_reservation">Mande Rez&egrave;vasyon</button>
+    </div>
+
+    <!-- CONCIERGE -->
+    <div class="book-form" id="form-concierge">
+      <div class="booking-title">&#128084; <span data-i18n="book_concierge_title">Conciergerie VIP</span></div>
+      <p class="booking-subtitle" data-i18n="book_concierge_sub">S&egrave;vis p&egrave;son&egrave;l pou vwayaj&egrave; ak pwofesyon&egrave;l. Akey&ograve;pò, chof&egrave;, rez&egrave;vasyon VIP.</p>
+      <div class="form-group">
+        <label class="form-label" data-i18n="lbl_service_type">Chwazi S&egrave;vis</label>
+        <div class="service-grid">
+          <div class="svc-card active" onclick="selectService(this,'airport')">
+            <span class="s-icon">&#9992;&#65039;</span>
+            <span class="s-label" data-i18n="svc_airport">Akey&ograve;p&ograve;</span>
+          </div>
+          <div class="svc-card" onclick="selectService(this,'chauffeur')">
+            <span class="s-icon">&#128663;</span>
+            <span class="s-label" data-i18n="svc_chauffeur">Chof&egrave;</span>
+          </div>
+          <div class="svc-card" onclick="selectService(this,'vip')">
+            <span class="s-icon">&#11088;</span>
+            <span class="s-label" data-i18n="svc_vip_res">VIP Rez&egrave;vasyon</span>
+          </div>
+          <div class="svc-card" onclick="selectService(this,'business')">
+            <span class="s-icon">&#128188;</span>
+            <span class="s-label" data-i18n="svc_business">Biznis</span>
+          </div>
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label class="form-label" data-i18n="lbl_date">Dat</label>
+          <input type="date" class="form-input" id="c-date">
+        </div>
+        <div class="form-group">
+          <label class="form-label" data-i18n="lbl_time">L&egrave;</label>
+          <input type="time" class="form-input" id="c-time">
+        </div>
       </div>
       <div class="form-group">
-        <label class="form-label" data-i18n="lbl_destination">Desitinasyon</label>
-        <input type="text" class="form-input" id="l-dest" placeholder="Ex: Delmas 25" data-i18n-ph="ph_l_dest">
+        <label class="form-label" data-i18n="lbl_details">Detay</label>
+        <textarea class="form-input" id="c-details" rows="3" placeholder="Dekri sa ou bezwen..." data-i18n-ph="ph_concierge_details" style="resize:vertical;min-height:80px"></textarea>
       </div>
-      <div class="form-group">
-        <label class="form-label" data-i18n="lbl_truck_type">Tip Kamyon</label>
-        <select class="form-input" id="l-truck">
-          <option value="flatbed" data-i18n="truck_flatbed">Flatbed / Plato</option>
-          <option value="semi" data-i18n="truck_semi">Semi-Truck</option>
-          <option value="container" data-i18n="truck_container">Kont&egrave;n&egrave;</option>
-          <option value="pickup" data-i18n="truck_pickup">Pickup</option>
-          <option value="van" data-i18n="truck_van">Van</option>
-        </select>
-      </div>
-      <button class="btn-book blue" onclick="bookLogistics()" data-i18n="btn_request_quote">Mande Estimasyon</button>
+      <button class="btn-book gold" onclick="bookConcierge()" data-i18n="btn_request_concierge">Mande S&egrave;vis VIP</button>
     </div>
 
   </div>
 </section>
 
-<!-- ═══ FEATURED SERVICES ═══ -->
+<!-- FEATURED SERVICES -->
 <section class="featured">
   <h3 class="section-title">&#11088; <span data-i18n="featured_title">S&egrave;vis Espesyal</span></h3>
   <div class="featured-grid">
@@ -688,25 +899,25 @@ footer{
     </div>
     <div class="feat-card" onclick="window.location.href='https://tikelakay.haitibiznis.com'">
       <span class="feat-icon">&#127915;</span>
-      <div class="feat-title" data-i18n="feat_events">Ev&egrave;nman k Ap Vini</div>
-      <div class="feat-sub" data-i18n="feat_events_sub">Kons&egrave;, f&egrave;t ak aktivite</div>
+      <div class="feat-title" data-i18n="feat_events">Ev&egrave;nman &amp; Tik&egrave;</div>
+      <div class="feat-sub" data-i18n="feat_events_sub">Via Tik&egrave; Lakay</div>
     </div>
-    <div class="feat-card" onclick="window.location.href='https://msouwout.com/logistics.html'">
-      <span class="feat-icon">&#128666;</span>
-      <div class="feat-title" data-i18n="feat_logistics">S&egrave;vis Lojistik</div>
-      <div class="feat-sub" data-i18n="feat_logistics_sub">Kamyon, fret ak maritim</div>
+    <div class="feat-card" onclick="selectCat('concierge')">
+      <span class="feat-icon">&#128084;</span>
+      <div class="feat-title" data-i18n="feat_concierge">Conciergerie VIP</div>
+      <div class="feat-sub" data-i18n="feat_concierge_sub">S&egrave;vis p&egrave;son&egrave;l total</div>
     </div>
   </div>
 </section>
 
-<!-- ═══ TRUST SECTION ═══ -->
+<!-- TRUST -->
 <section class="trust">
   <h3 class="section-title">&#128170; <span data-i18n="trust_title">Poukisa Chwazi Nou</span></h3>
   <div class="trust-list">
     <div class="trust-item">
       <div class="trust-icon t1">&#9989;</div>
       <div>
-        <div class="trust-text" data-i18n="trust_1">Patn&egrave; Verifye</div>
+        <div class="trust-text" data-i18n="trust_1">Operat&egrave; Verifye</div>
         <div class="trust-sub" data-i18n="trust_1_sub">Tout patn&egrave; nou verifye</div>
       </div>
     </div>
@@ -714,21 +925,21 @@ footer{
       <div class="trust-icon t2">&#128274;</div>
       <div>
         <div class="trust-text" data-i18n="trust_2">Rez&egrave;vasyon Sekirize</div>
-        <div class="trust-sub" data-i18n="trust_2_sub">Pwoteksyon pou ou</div>
+        <div class="trust-sub" data-i18n="trust_2_sub">Konfirmasyon PIN &amp; QR</div>
       </div>
     </div>
     <div class="trust-item">
       <div class="trust-icon t3">&#128205;</div>
       <div>
         <div class="trust-text" data-i18n="trust_3">Swivi GPS</div>
-        <div class="trust-sub" data-i18n="trust_3_sub">Swiv kous ou an dirèk</div>
+        <div class="trust-sub" data-i18n="trust_3_sub">Swiv transp&ograve; ou an dir&egrave;k</div>
       </div>
     </div>
     <div class="trust-item">
       <div class="trust-icon t4">&#128172;</div>
       <div>
         <div class="trust-text" data-i18n="trust_4">Sip&ograve; WhatsApp</div>
-        <div class="trust-sub" data-i18n="trust_4_sub">Rez&egrave;ve ak &egrave;d sou WhatsApp</div>
+        <div class="trust-sub" data-i18n="trust_4_sub">Rez&egrave;ve ak &egrave;d 24/7</div>
       </div>
     </div>
     <div class="trust-item">
@@ -741,30 +952,36 @@ footer{
   </div>
 </section>
 
-<!-- ═══ FOOTER ═══ -->
+<!-- FOOTER -->
 <footer>
   <div class="footer-inner">
-    <div class="footer-brand">HaitiBiznis<span>.</span></div>
-    <p class="footer-desc" data-i18n="footer_desc">Premye platf&ograve;m dijital Ayiti pou biznis, transp&ograve;, lojistik ak s&egrave;vis. Konekte, rez&egrave;ve, grandi.</p>
+    <div class="footer-brand">HaitiBiznis<span>.</span> Reservations</div>
+    <p class="footer-desc" data-i18n="footer_desc">Enfrastrikti Rez&egrave;vasyon Ayiti. Vwayaj, mobilite ay&egrave;, ospitalite, transp&ograve;, ijans ak ev&egrave;nman.</p>
     <div class="footer-links">
       <a href="https://msouwout.com">MsouWout</a>
-      <a href="https://msouwout.com/logistics.html">Logistics</a>
+      <a href="https://msouwout.com/logistics.html">HaitiBiznis Logistics</a>
       <a href="https://tikelakay.haitibiznis.com" data-i18n="menu_tikeLakay">Tik&egrave; Lakay</a>
       <a href="https://myplopplop.com">MyPlopPlop</a>
       <a href="https://prolakay.haitibiznis.com" data-i18n="menu_prolakay">Pwofesyon&egrave;l Lakay</a>
       <a href="https://48hoursready.com">48HoursReady</a>
     </div>
+    <div class="footer-socials">
+      <a href="#" aria-label="Facebook">f</a>
+      <a href="#" aria-label="Instagram">&#128247;</a>
+      <a href="#" aria-label="TikTok">&#9835;</a>
+      <a href="https://wa.me/50941902005" aria-label="WhatsApp">&#128172;</a>
+    </div>
     <div class="footer-copy">&copy; 2026 HaitiBiznis. <a href="https://haitibiznis.com">haitibiznis.com</a></div>
   </div>
 </footer>
 
-<!-- ═══ WHATSAPP BAR ═══ -->
+<!-- WHATSAPP BAR -->
 <div class="wa-bar">
   <div class="wa-bar-text">
     <span data-i18n="wa_help">Bezwen &Egrave;d pou Rez&egrave;ve?</span>
     <span data-i18n="wa_help_sub">Ekip nou la pou ou 24/7</span>
   </div>
-  <a href="https://wa.me/50941902005?text=Bonjou!%20M%20bezwen%20%C3%A8d%20pou%20rez%C3%A8ve%20sou%20HaitiBiznis." target="_blank" class="wa-bar-btn">
+  <a href="https://wa.me/50941902005?text=Bonjou!%20M%20bezwen%20%C3%A8d%20pou%20rez%C3%A8ve%20sou%20HaitiBiznis%20Reservations." target="_blank" class="wa-bar-btn">
     <svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
     WhatsApp
   </a>
@@ -773,197 +990,250 @@ footer{
 <script>
 var WA_NUM = '50941902005';
 var EMERGENCY_NUM = '+50941902005';
-var selectedVehicle = 'moto';
-var currentCat = 'transport';
+var selectedService = 'airport';
+var selectedMaritimeType = 'passenger';
+var currentCat = 'flight';
 
-/* ═══ i18n ═══ */
+/* i18n */
 var T = {
 ht:{
-  header_sub:"Rezèvasyon",
-  hero_flag:"Platfòm Ayisyen",
-  hero_title:'Rezève Vwayaj, Transpò & Sèvis nan tout <em>Ayiti</em>',
-  hero_sub:"Chwazi sa ou bezwen, ranpli fòm nan, epi rezève sou WhatsApp. Senp kon sa.",
-  cat_transport:"Transpò",cat_flight:"Avyon",cat_helicopter:"Elikoptè",cat_hotel:"Otèl",
-  cat_emergency:"Ijans",cat_events:"Evènman",cat_logistics:"Lojistik",
-  book_transport_title:"Rezève Transpò",book_transport_sub:"Chwazi moto oswa machin. Nou konekte ou ak yon chofè.",
-  lbl_pickup:"Kote pou vin chache ou",lbl_destination:"Desitinasyon",lbl_date:"Dat",lbl_time:"Lè",lbl_vehicle:"Tip Machin",
-  ph_pickup:"Ex: Delmas 33",ph_dest:"Ex: Petion-Ville",v_car:"Machin",
-  btn_book_now:"Rezève Kounye a",
-  book_flight_title:"Rezève Vòl",book_flight_sub:"Jwenn vòl avyon disponib nan Ayiti ak lòt peyi.",
-  lbl_from:"Soti",lbl_to:"Ale",lbl_passengers:"Pasaje",lbl_class:"Klas",
+  header_sub:"Rezèvasyon Premium",
+  hero_flag:"Enfrastrikti Rezèvasyon Ayiti",
+  hero_title:'Rezève Vwayaj, Otèl & Transpò Premium nan tout <em>Ayiti</em>',
+  hero_sub:"✈️ Avyon · 🚁 Elikoptè · 🏨 Otèl · 🚌 Bis · 🚑 Medikal · 🎫 Evènman",
+  cat_flight:"Avyon",cat_helicopter:"Elikoptè",cat_hotel:"Otèl",cat_bus:"Bis",
+  cat_emergency:"Hero",cat_events:"Evènman",cat_maritime:"Maritim",cat_concierge:"Conciergerie",
+  book_flight_title:"Rezève Vòl",book_flight_sub:"Jwenn vòl avyon nan Ayiti ak entènasyonal. Rezève dirèk.",
+  lbl_from:"Depa",lbl_to:"Desitinasyon",lbl_date:"Dat",lbl_time:"Lè",lbl_passengers:"Pasaje",lbl_class:"Klas",
   ph_from:"Port-au-Prince",ph_to:"Miami, Cap-Haitien...",
   class_economy:"Ekonomi",class_business:"Biznis",btn_search_flight:"Chèche Vòl",
   book_heli_title:"Elikoptè VIP",book_heli_sub:"Transpò prive pa elikoptè nan tout Ayiti. Rapid ak eksklizif.",
-  lbl_pickup_zone:"Zòn Ranmasaj",ph_heli_pickup:"Ex: Petion-Ville, Tabarre...",ph_heli_dest:"Ex: Cap-Haitien, Ile-a-Vache...",
-  btn_request_quote:"Mande Estimasyon",
+  lbl_pickup_zone:"Zòn Ranmasaj",lbl_destination:"Desitinasyon",
+  ph_heli_pickup:"Ex: Petion-Ville, Tabarre...",ph_heli_dest:"Ex: Cap-Haitien, Ile-a-Vache...",
+  lbl_purpose:"Rezon",purpose_vip:"VIP",purpose_tourism:"Touris",purpose_business:"Biznis",purpose_medical:"Medikal",purpose_emergency:"Ijans",
+  btn_request_quote:"Mande Devis",
   book_hotel_title:"Jwenn Otèl",book_hotel_sub:"Otèl ak mezon vakans nan tout Ayiti. Rezève fasil.",
   lbl_city:"Vil",lbl_checkin:"Antre",lbl_checkout:"Soti",lbl_guests:"Envite",btn_find_hotel:"Jwenn Otèl",
-  book_emergency_title:"Hero Ijans",book_emergency_sub:"Sèvis ijans medikal ak transpò lopital nan tout Ayiti.",
+  book_bus_title:"Rezèvasyon Bis",book_bus_sub:"Wout entènasyonal: Ayiti ↔ Dominikani. Rezève plas ou.",
+  lbl_route:"Wout",lbl_seats:"Plas",lbl_extra_luggage:"📎 Bagaj siplemantè",btn_reserve_seat:"Rezève Plas",
+  book_emergency_title:"Hero Medikal",book_emergency_sub:"Sèvis ijans medikal ak transpò lopital nan tout Ayiti.",
   btn_emergency_now:"IJANS KOUNYE A",btn_schedule_medical:"Pwograme Transpò Medikal",
+  lbl_em_pickup:"Kote pou vin chache",lbl_em_hospital:"Lopital",lbl_em_condition:"Kondisyon Pasyan",lbl_em_assistance:"Asistans Bezwen",
+  ph_em_pickup:"Ex: Delmas 33",ph_em_hospital:"Ex: HUEH, Bernard Mevs...",ph_em_condition:"Ex: blese, malad, ansent...",
+  assist_stretcher:"Branka (Stretcher)",assist_wheelchair:"Chèz Woulant",assist_ambulatory:"Ka mache",assist_oxygen:"Bezwen oksijèn",
+  btn_schedule_transport:"Pwograme Transpò",
   cb_title:"Nou rele ou touswit",ph_phone:"+509 XXXX XXXX",btn_call_me:"Rele Mwen",
-  book_events_title:"Evènman",book_events_sub:"Jwenn evènman, konsè ak aktivite nan tout Ayiti.",
-  lbl_event_type:"Tip Evènman",evt_music:"&#127925; Mizik",evt_sport:"&#9917; Espò",evt_culture:"&#127912; Kilti",evt_business:"&#128188; Biznis",
+  book_events_title:"Evènman & Pakè",book_events_sub:"Jwenn evènman, konsè ak aktivite. Rezève pakè konplè (tikè + otèl + transpò).",
+  lbl_event_type:"Tip Evènman",evt_music:"🎵 Mizik",evt_sport:"⚽ Espò",evt_culture:"🎨 Kilti",evt_business:"💼 Biznis",
+  lbl_package:"Pakè (opsyonèl)",
+  pkg_ticket:"🎫 Tikè Evènman",pkg_ticket_desc:"Via Tikè Lakay",
+  pkg_hotel:"🏨 Otèl",pkg_hotel_desc:"Akomodasyon tou pre",
+  pkg_transport:"🚗 Transpò",pkg_transport_desc:"Ale retounen",
+  pkg_vip:"⭐ Aksè VIP",pkg_vip_desc:"Eksperyans eksklizif",
   btn_see_events:"Wè Evènman",
-  book_logistics_title:"Lojistik & Fret",book_logistics_sub:"Transpò machandiz, kamyon, bato ak kontènè nan tout Ayiti.",
-  lbl_cargo_type:"Tip Machandiz",lbl_truck_type:"Tip Kamyon",
-  cargo_general:"&#128230; Machandiz Jeneral",cargo_rice:"&#127834; Diri",cargo_cement:"&#127959; Siman",
-  cargo_construction:"&#128296; Konstriksyon",cargo_food:"&#127869; Manje",cargo_fuel:"&#9981; Gaz",
-  truck_flatbed:"Flatbed / Plato",truck_semi:"Semi-Truck",truck_container:"Kontènè",truck_pickup:"Pickup",truck_van:"Van",
-  ph_l_pickup:"Ex: Port Lafito",ph_l_dest:"Ex: Delmas 25",
+  book_maritime_title:"Maritim",book_maritime_sub:"Rezèvasyon transpò maritim — pasaje ak kagò pa bato.",
+  lbl_port_from:"Pò Depa",lbl_port_to:"Desitinasyon",lbl_maritime_type:"Tip",
+  maritime_passenger:"Pasaje",maritime_cargo:"Kagò",maritime_both:"Tou De",
+  lbl_pax_cargo:"Pasaje / Kantite",ph_maritime_qty:"Ex: 2 moun / 500 lbs",
+  btn_request_reservation:"Mande Rezèvasyon",
+  book_concierge_title:"Conciergerie VIP",book_concierge_sub:"Sèvis pèsonèl pou vwayajè ak pwofesyonèl. Akeyòpò, chofè, rezèvasyon VIP.",
+  lbl_service_type:"Chwazi Sèvis",svc_airport:"Akeyòpò",svc_chauffeur:"Chofè",svc_vip_res:"VIP Rezèvasyon",svc_business:"Biznis",
+  lbl_details:"Detay",ph_concierge_details:"Dekri sa ou bezwen...",
+  btn_request_concierge:"Mande Sèvis VIP",
+  cross_ground:"🚗 Bezwen transpò tè tou?",cross_msouwout:"MsouWout — Transpò Lokal",
   featured_title:"Sèvis Espesyal",
   feat_hotels:"Otèl Espesyal",feat_hotels_sub:"Pi bon otèl nan Ayiti",
   feat_heli:"Elikoptè VIP",feat_heli_sub:"Vwayaj prive ak eksklizif",
-  feat_events:"Evènman k Ap Vini",feat_events_sub:"Konsè, fèt ak aktivite",
-  feat_logistics:"Sèvis Lojistik",feat_logistics_sub:"Kamyon, fret ak maritim",
+  feat_events:"Evènman & Tikè",feat_events_sub:"Via Tikè Lakay",
+  feat_concierge:"Conciergerie VIP",feat_concierge_sub:"Sèvis pèsonèl total",
   trust_title:"Poukisa Chwazi Nou",
-  trust_1:"Patnè Verifye",trust_1_sub:"Tout patnè nou verifye",
-  trust_2:"Rezèvasyon Sekirize",trust_2_sub:"Pwoteksyon pou ou",
-  trust_3:"Swivi GPS",trust_3_sub:"Swiv kous ou an dirèk",
-  trust_4:"Sipò WhatsApp",trust_4_sub:"Rezève ak èd sou WhatsApp",
+  trust_1:"Operatè Verifye",trust_1_sub:"Tout patnè nou verifye",
+  trust_2:"Rezèvasyon Sekirize",trust_2_sub:"Konfirmasyon PIN & QR",
+  trust_3:"Swivi GPS",trust_3_sub:"Swiv transpò ou an dirèk",
+  trust_4:"Sipò WhatsApp",trust_4_sub:"Rezève ak èd 24/7",
   trust_5:"Platfòm Ayisyen",trust_5_sub:"Fèt nan Ayiti pou Ayiti",
   wa_help:"Bezwen Èd pou Rezève?",wa_help_sub:"Ekip nou la pou ou 24/7",
-  footer_desc:"Premye platfòm dijital Ayiti pou biznis, transpò, lojistik ak sèvis. Konekte, rezève, grandi.",
+  footer_desc:"Enfrastrikti Rezèvasyon Ayiti. Vwayaj, mobilite ayè, ospitalite, transpò, ijans ak evènman.",
   menu_tikeLakay:"Tikè Lakay",menu_prolakay:"Pwofesyonèl Lakay"
 },
 fr:{
-  header_sub:"Reservations",
-  hero_flag:"Plateforme Haitienne",
-  hero_title:'Reservez Voyages, Transport & Services a travers <em>Haiti</em>',
-  hero_sub:"Choisissez ce dont vous avez besoin, remplissez le formulaire et reservez via WhatsApp. Simple.",
-  cat_transport:"Transport",cat_flight:"Vols",cat_helicopter:"Helicoptere",cat_hotel:"Hotel",
-  cat_emergency:"Urgence",cat_events:"Evenements",cat_logistics:"Logistique",
-  book_transport_title:"Reserver Transport",book_transport_sub:"Choisissez moto ou voiture. Nous vous connectons avec un chauffeur.",
-  lbl_pickup:"Lieu de prise en charge",lbl_destination:"Destination",lbl_date:"Date",lbl_time:"Heure",lbl_vehicle:"Type de vehicule",
-  ph_pickup:"Ex: Delmas 33",ph_dest:"Ex: Petion-Ville",v_car:"Voiture",
-  btn_book_now:"Reserver Maintenant",
-  book_flight_title:"Reserver un Vol",book_flight_sub:"Trouvez des vols disponibles en Haiti et a l'etranger.",
-  lbl_from:"Depart",lbl_to:"Arrivee",lbl_passengers:"Passagers",lbl_class:"Classe",
+  header_sub:"Reservations Premium",
+  hero_flag:"Infrastructure de Reservation pour Haiti",
+  hero_title:'Reservez Voyages, Hotels & Transport Premium a travers <em>Haiti</em>',
+  hero_sub:"✈️ Vols · 🚁 Helicoptere · 🏨 Hotels · 🚌 Bus · 🚑 Medical · 🎫 Evenements",
+  cat_flight:"Vols",cat_helicopter:"Helicoptere",cat_hotel:"Hotels",cat_bus:"Bus",
+  cat_emergency:"Hero",cat_events:"Evenements",cat_maritime:"Maritime",cat_concierge:"Concierge",
+  book_flight_title:"Reserver un Vol",book_flight_sub:"Trouvez des vols en Haiti et a l'international. Reservation directe.",
+  lbl_from:"Depart",lbl_to:"Destination",lbl_date:"Date",lbl_time:"Heure",lbl_passengers:"Passagers",lbl_class:"Classe",
   ph_from:"Port-au-Prince",ph_to:"Miami, Cap-Haitien...",
   class_economy:"Economique",class_business:"Affaires",btn_search_flight:"Chercher un Vol",
   book_heli_title:"Helicoptere VIP",book_heli_sub:"Transport prive en helicoptere a travers Haiti. Rapide et exclusif.",
-  lbl_pickup_zone:"Zone de prise en charge",ph_heli_pickup:"Ex: Petion-Ville, Tabarre...",ph_heli_dest:"Ex: Cap-Haitien, Ile-a-Vache...",
+  lbl_pickup_zone:"Zone de prise en charge",lbl_destination:"Destination",
+  ph_heli_pickup:"Ex: Petion-Ville, Tabarre...",ph_heli_dest:"Ex: Cap-Haitien, Ile-a-Vache...",
+  lbl_purpose:"Objectif",purpose_vip:"VIP",purpose_tourism:"Tourisme",purpose_business:"Affaires",purpose_medical:"Medical",purpose_emergency:"Urgence",
   btn_request_quote:"Demander un Devis",
   book_hotel_title:"Trouver un Hotel",book_hotel_sub:"Hotels et maisons de vacances a travers Haiti. Reservation facile.",
   lbl_city:"Ville",lbl_checkin:"Arrivee",lbl_checkout:"Depart",lbl_guests:"Personnes",btn_find_hotel:"Trouver un Hotel",
-  book_emergency_title:"Hero Urgence",book_emergency_sub:"Services d'urgence medicale et transport hospitalier dans toute Haiti.",
+  book_bus_title:"Reservation de Bus",book_bus_sub:"Routes internationales: Haiti ↔ Republique Dominicaine. Reservez votre place.",
+  lbl_route:"Route",lbl_seats:"Places",lbl_extra_luggage:"📎 Bagages supplementaires",btn_reserve_seat:"Reserver une Place",
+  book_emergency_title:"Hero Medical",book_emergency_sub:"Services d'urgence medicale et transport hospitalier dans toute Haiti.",
   btn_emergency_now:"URGENCE MAINTENANT",btn_schedule_medical:"Planifier Transport Medical",
+  lbl_em_pickup:"Lieu de prise en charge",lbl_em_hospital:"Hopital",lbl_em_condition:"Condition du patient",lbl_em_assistance:"Assistance requise",
+  ph_em_pickup:"Ex: Delmas 33",ph_em_hospital:"Ex: HUEH, Bernard Mevs...",ph_em_condition:"Ex: blesse, malade, enceinte...",
+  assist_stretcher:"Brancard",assist_wheelchair:"Fauteuil roulant",assist_ambulatory:"Peut marcher",assist_oxygen:"Besoin d'oxygene",
+  btn_schedule_transport:"Planifier le Transport",
   cb_title:"Nous vous rappelons immediatement",ph_phone:"+509 XXXX XXXX",btn_call_me:"Appelez-Moi",
-  book_events_title:"Evenements",book_events_sub:"Trouvez des evenements, concerts et activites a travers Haiti.",
-  lbl_event_type:"Type d'evenement",evt_music:"&#127925; Musique",evt_sport:"&#9917; Sport",evt_culture:"&#127912; Culture",evt_business:"&#128188; Business",
+  book_events_title:"Evenements & Forfaits",book_events_sub:"Trouvez des evenements, concerts et activites. Reservez des forfaits complets.",
+  lbl_event_type:"Type d'evenement",evt_music:"🎵 Musique",evt_sport:"⚽ Sport",evt_culture:"🎨 Culture",evt_business:"💼 Business",
+  lbl_package:"Forfait (optionnel)",
+  pkg_ticket:"🎫 Billet Evenement",pkg_ticket_desc:"Via Tike Lakay",
+  pkg_hotel:"🏨 Hotel",pkg_hotel_desc:"Hebergement a proximite",
+  pkg_transport:"🚗 Transport",pkg_transport_desc:"Aller-retour",
+  pkg_vip:"⭐ Acces VIP",pkg_vip_desc:"Experience exclusive",
   btn_see_events:"Voir les Evenements",
-  book_logistics_title:"Logistique & Fret",book_logistics_sub:"Transport de marchandises, camions, bateaux et conteneurs a travers Haiti.",
-  lbl_cargo_type:"Type de marchandise",lbl_truck_type:"Type de camion",
-  cargo_general:"&#128230; Marchandise Generale",cargo_rice:"&#127834; Riz",cargo_cement:"&#127959; Ciment",
-  cargo_construction:"&#128296; Construction",cargo_food:"&#127869; Nourriture",cargo_fuel:"&#9981; Carburant",
-  truck_flatbed:"Plateau",truck_semi:"Semi-Remorque",truck_container:"Conteneur",truck_pickup:"Pickup",truck_van:"Van",
-  ph_l_pickup:"Ex: Port Lafito",ph_l_dest:"Ex: Delmas 25",
+  book_maritime_title:"Maritime",book_maritime_sub:"Reservation de transport maritime — passagers et fret par bateau.",
+  lbl_port_from:"Port de Depart",lbl_port_to:"Destination",lbl_maritime_type:"Type",
+  maritime_passenger:"Passagers",maritime_cargo:"Fret",maritime_both:"Les Deux",
+  lbl_pax_cargo:"Passagers / Quantite",ph_maritime_qty:"Ex: 2 personnes / 500 lbs",
+  btn_request_reservation:"Demander une Reservation",
+  book_concierge_title:"Concierge VIP",book_concierge_sub:"Services personnels pour voyageurs et professionnels. Accueil aeroport, chauffeur, reservations VIP.",
+  lbl_service_type:"Choisir le Service",svc_airport:"Accueil Aeroport",svc_chauffeur:"Chauffeur",svc_vip_res:"Reservation VIP",svc_business:"Affaires",
+  lbl_details:"Details",ph_concierge_details:"Decrivez ce dont vous avez besoin...",
+  btn_request_concierge:"Demander un Service VIP",
+  cross_ground:"🚗 Besoin de transport terrestre aussi?",cross_msouwout:"MsouWout — Transport Local",
   featured_title:"Services Speciaux",
   feat_hotels:"Hotels en Vedette",feat_hotels_sub:"Les meilleurs hotels d'Haiti",
   feat_heli:"Helicoptere VIP",feat_heli_sub:"Voyages prives et exclusifs",
-  feat_events:"Evenements a Venir",feat_events_sub:"Concerts, fetes et activites",
-  feat_logistics:"Services Logistique",feat_logistics_sub:"Camions, fret et maritime",
+  feat_events:"Evenements & Billets",feat_events_sub:"Via Tike Lakay",
+  feat_concierge:"Concierge VIP",feat_concierge_sub:"Service personnel complet",
   trust_title:"Pourquoi Nous Choisir",
-  trust_1:"Partenaires Verifies",trust_1_sub:"Tous nos partenaires sont verifies",
-  trust_2:"Reservation Securisee",trust_2_sub:"Protection pour vous",
-  trust_3:"Suivi GPS",trust_3_sub:"Suivez votre trajet en direct",
-  trust_4:"Support WhatsApp",trust_4_sub:"Reservez et obtenez de l'aide sur WhatsApp",
+  trust_1:"Operateurs Verifies",trust_1_sub:"Tous nos partenaires sont verifies",
+  trust_2:"Reservation Securisee",trust_2_sub:"Confirmation PIN & QR",
+  trust_3:"Suivi GPS",trust_3_sub:"Suivez votre transport en direct",
+  trust_4:"Support WhatsApp",trust_4_sub:"Reservez et obtenez de l'aide 24/7",
   trust_5:"Plateforme Haitienne",trust_5_sub:"Fait en Haiti pour Haiti",
   wa_help:"Besoin d'aide pour reserver?",wa_help_sub:"Notre equipe est la 24/7",
-  footer_desc:"La premiere plateforme digitale d'Haiti pour le business, le transport, la logistique et les services.",
+  footer_desc:"Infrastructure de Reservation pour Haiti. Voyages, mobilite aerienne, hospitalite, transport, urgences et evenements.",
   menu_tikeLakay:"Tike Lakay",menu_prolakay:"Professionnel Lakay"
 },
 en:{
-  header_sub:"Reservations",
-  hero_flag:"Haitian Platform",
-  hero_title:'Book Travel, Transport & Services Across <em>Haiti</em>',
-  hero_sub:"Choose what you need, fill the form, and book via WhatsApp. Simple as that.",
-  cat_transport:"Transport",cat_flight:"Flights",cat_helicopter:"Helicopter",cat_hotel:"Hotels",
-  cat_emergency:"Emergency",cat_events:"Events",cat_logistics:"Logistics",
-  book_transport_title:"Book Transport",book_transport_sub:"Choose moto or car. We connect you with a driver.",
-  lbl_pickup:"Pickup Location",lbl_destination:"Destination",lbl_date:"Date",lbl_time:"Time",lbl_vehicle:"Vehicle Type",
-  ph_pickup:"e.g. Delmas 33",ph_dest:"e.g. Petion-Ville",v_car:"Car",
-  btn_book_now:"Book Now",
-  book_flight_title:"Book a Flight",book_flight_sub:"Find available flights in Haiti and internationally.",
-  lbl_from:"From",lbl_to:"To",lbl_passengers:"Passengers",lbl_class:"Class",
+  header_sub:"Premium Reservations",
+  hero_flag:"Haiti's Reservation Infrastructure",
+  hero_title:'Book Travel, Hotels & Premium Transportation Across <em>Haiti</em>',
+  hero_sub:"✈️ Flights · 🚁 Helicopters · 🏨 Hotels · 🚌 Buses · 🚑 Medical · 🎫 Events",
+  cat_flight:"Flights",cat_helicopter:"Helicopter",cat_hotel:"Hotels",cat_bus:"Buses",
+  cat_emergency:"Hero",cat_events:"Events",cat_maritime:"Maritime",cat_concierge:"Concierge",
+  book_flight_title:"Book a Flight",book_flight_sub:"Find flights in Haiti and internationally. Book directly.",
+  lbl_from:"Departure",lbl_to:"Destination",lbl_date:"Date",lbl_time:"Time",lbl_passengers:"Passengers",lbl_class:"Class",
   ph_from:"Port-au-Prince",ph_to:"Miami, Cap-Haitien...",
   class_economy:"Economy",class_business:"Business",btn_search_flight:"Search Flights",
   book_heli_title:"VIP Helicopter",book_heli_sub:"Private helicopter transport across Haiti. Fast and exclusive.",
-  lbl_pickup_zone:"Pickup Zone",ph_heli_pickup:"e.g. Petion-Ville, Tabarre...",ph_heli_dest:"e.g. Cap-Haitien, Ile-a-Vache...",
+  lbl_pickup_zone:"Pickup Zone",lbl_destination:"Destination",
+  ph_heli_pickup:"e.g. Petion-Ville, Tabarre...",ph_heli_dest:"e.g. Cap-Haitien, Ile-a-Vache...",
+  lbl_purpose:"Purpose",purpose_vip:"VIP",purpose_tourism:"Tourism",purpose_business:"Business",purpose_medical:"Medical",purpose_emergency:"Emergency",
   btn_request_quote:"Request Quote",
   book_hotel_title:"Find a Hotel",book_hotel_sub:"Hotels and vacation homes across Haiti. Easy booking.",
   lbl_city:"City",lbl_checkin:"Check-in",lbl_checkout:"Check-out",lbl_guests:"Guests",btn_find_hotel:"Find Hotels",
-  book_emergency_title:"Hero Emergency",book_emergency_sub:"Medical emergency services and hospital transport across Haiti.",
+  book_bus_title:"Bus Reservations",book_bus_sub:"International routes: Haiti ↔ Dominican Republic. Reserve your seat.",
+  lbl_route:"Route",lbl_seats:"Seats",lbl_extra_luggage:"📎 Extra luggage",btn_reserve_seat:"Reserve Seat",
+  book_emergency_title:"Hero Medical",book_emergency_sub:"Medical emergency services and hospital transport across Haiti.",
   btn_emergency_now:"EMERGENCY NOW",btn_schedule_medical:"Schedule Medical Transport",
+  lbl_em_pickup:"Pickup Location",lbl_em_hospital:"Hospital",lbl_em_condition:"Patient Condition",lbl_em_assistance:"Assistance Needed",
+  ph_em_pickup:"e.g. Delmas 33",ph_em_hospital:"e.g. HUEH, Bernard Mevs...",ph_em_condition:"e.g. injured, sick, pregnant...",
+  assist_stretcher:"Stretcher",assist_wheelchair:"Wheelchair",assist_ambulatory:"Can walk",assist_oxygen:"Needs oxygen",
+  btn_schedule_transport:"Schedule Transport",
   cb_title:"We call you right away",ph_phone:"+509 XXXX XXXX",btn_call_me:"Call Me",
-  book_events_title:"Events",book_events_sub:"Find events, concerts and activities across Haiti.",
-  lbl_event_type:"Event Type",evt_music:"&#127925; Music",evt_sport:"&#9917; Sports",evt_culture:"&#127912; Culture",evt_business:"&#128188; Business",
+  book_events_title:"Events & Packages",book_events_sub:"Find events, concerts and activities. Book complete packages (ticket + hotel + transport).",
+  lbl_event_type:"Event Type",evt_music:"🎵 Music",evt_sport:"⚽ Sports",evt_culture:"🎨 Culture",evt_business:"💼 Business",
+  lbl_package:"Package (optional)",
+  pkg_ticket:"🎫 Event Ticket",pkg_ticket_desc:"Via Tike Lakay",
+  pkg_hotel:"🏨 Hotel",pkg_hotel_desc:"Nearby accommodation",
+  pkg_transport:"🚗 Transport",pkg_transport_desc:"Round trip",
+  pkg_vip:"⭐ VIP Access",pkg_vip_desc:"Exclusive experience",
   btn_see_events:"See Events",
-  book_logistics_title:"Logistics & Freight",book_logistics_sub:"Cargo transport, trucks, boats and containers across Haiti.",
-  lbl_cargo_type:"Cargo Type",lbl_truck_type:"Truck Type",
-  cargo_general:"&#128230; General Cargo",cargo_rice:"&#127834; Rice",cargo_cement:"&#127959; Cement",
-  cargo_construction:"&#128296; Construction",cargo_food:"&#127869; Food",cargo_fuel:"&#9981; Fuel",
-  truck_flatbed:"Flatbed",truck_semi:"Semi-Truck",truck_container:"Container",truck_pickup:"Pickup",truck_van:"Van",
-  ph_l_pickup:"e.g. Port Lafito",ph_l_dest:"e.g. Delmas 25",
+  book_maritime_title:"Maritime",book_maritime_sub:"Maritime transport reservations — passengers and cargo by boat.",
+  lbl_port_from:"Departure Port",lbl_port_to:"Destination",lbl_maritime_type:"Type",
+  maritime_passenger:"Passengers",maritime_cargo:"Cargo",maritime_both:"Both",
+  lbl_pax_cargo:"Passengers / Quantity",ph_maritime_qty:"e.g. 2 people / 500 lbs",
+  btn_request_reservation:"Request Reservation",
+  book_concierge_title:"VIP Concierge",book_concierge_sub:"Personal services for travelers and professionals. Airport pickup, chauffeur, VIP reservations.",
+  lbl_service_type:"Choose Service",svc_airport:"Airport Pickup",svc_chauffeur:"Chauffeur",svc_vip_res:"VIP Reservations",svc_business:"Business",
+  lbl_details:"Details",ph_concierge_details:"Describe what you need...",
+  btn_request_concierge:"Request VIP Service",
+  cross_ground:"🚗 Need ground transportation too?",cross_msouwout:"MsouWout — Local Transport",
   featured_title:"Featured Services",
   feat_hotels:"Featured Hotels",feat_hotels_sub:"Best hotels in Haiti",
   feat_heli:"VIP Helicopter",feat_heli_sub:"Private and exclusive travel",
-  feat_events:"Upcoming Events",feat_events_sub:"Concerts, parties and activities",
-  feat_logistics:"Logistics Services",feat_logistics_sub:"Trucks, freight and maritime",
+  feat_events:"Events & Tickets",feat_events_sub:"Via Tike Lakay",
+  feat_concierge:"VIP Concierge",feat_concierge_sub:"Complete personal service",
   trust_title:"Why Choose Us",
-  trust_1:"Verified Partners",trust_1_sub:"All our partners are verified",
-  trust_2:"Secure Booking",trust_2_sub:"Protection for you",
-  trust_3:"GPS Tracking",trust_3_sub:"Track your ride live",
-  trust_4:"WhatsApp Support",trust_4_sub:"Book and get help on WhatsApp",
+  trust_1:"Verified Operators",trust_1_sub:"All our partners are verified",
+  trust_2:"Secure Booking",trust_2_sub:"PIN & QR confirmation",
+  trust_3:"GPS Tracking",trust_3_sub:"Track your transport live",
+  trust_4:"WhatsApp Support",trust_4_sub:"Book and get help 24/7",
   trust_5:"Haitian Platform",trust_5_sub:"Made in Haiti for Haiti",
   wa_help:"Need Help Booking?",wa_help_sub:"Our team is here 24/7",
-  footer_desc:"Haiti's first digital platform for business, transport, logistics and services. Connect, book, grow.",
+  footer_desc:"Haiti's Reservation Infrastructure. Travel, air mobility, hospitality, transport, emergencies and events.",
   menu_tikeLakay:"Tike Lakay",menu_prolakay:"Professional Lakay"
 },
 es:{
-  header_sub:"Reservaciones",
-  hero_flag:"Plataforma Haitiana",
-  hero_title:'Reserva Viajes, Transporte y Servicios en todo <em>Haiti</em>',
-  hero_sub:"Elige lo que necesitas, llena el formulario y reserva por WhatsApp. Asi de simple.",
-  cat_transport:"Transporte",cat_flight:"Vuelos",cat_helicopter:"Helicoptero",cat_hotel:"Hoteles",
-  cat_emergency:"Emergencia",cat_events:"Eventos",cat_logistics:"Logistica",
-  book_transport_title:"Reservar Transporte",book_transport_sub:"Elige moto o auto. Te conectamos con un conductor.",
-  lbl_pickup:"Lugar de recogida",lbl_destination:"Destino",lbl_date:"Fecha",lbl_time:"Hora",lbl_vehicle:"Tipo de vehiculo",
-  ph_pickup:"Ej: Delmas 33",ph_dest:"Ej: Petion-Ville",v_car:"Auto",
-  btn_book_now:"Reservar Ahora",
-  book_flight_title:"Reservar Vuelo",book_flight_sub:"Encuentra vuelos disponibles en Haiti e internacionalmente.",
-  lbl_from:"Desde",lbl_to:"Hasta",lbl_passengers:"Pasajeros",lbl_class:"Clase",
+  header_sub:"Reservaciones Premium",
+  hero_flag:"Infraestructura de Reservas de Haiti",
+  hero_title:'Reserva Viajes, Hoteles & Transporte Premium en todo <em>Haiti</em>',
+  hero_sub:"✈️ Vuelos · 🚁 Helicoptero · 🏨 Hoteles · 🚌 Buses · 🚑 Medico · 🎫 Eventos",
+  cat_flight:"Vuelos",cat_helicopter:"Helicoptero",cat_hotel:"Hoteles",cat_bus:"Buses",
+  cat_emergency:"Hero",cat_events:"Eventos",cat_maritime:"Maritimo",cat_concierge:"Concierge",
+  book_flight_title:"Reservar Vuelo",book_flight_sub:"Encuentra vuelos en Haiti e internacionalmente. Reserva directa.",
+  lbl_from:"Salida",lbl_to:"Destino",lbl_date:"Fecha",lbl_time:"Hora",lbl_passengers:"Pasajeros",lbl_class:"Clase",
   ph_from:"Port-au-Prince",ph_to:"Miami, Cap-Haitien...",
   class_economy:"Economica",class_business:"Negocios",btn_search_flight:"Buscar Vuelos",
   book_heli_title:"Helicoptero VIP",book_heli_sub:"Transporte privado en helicoptero por todo Haiti. Rapido y exclusivo.",
-  lbl_pickup_zone:"Zona de recogida",ph_heli_pickup:"Ej: Petion-Ville, Tabarre...",ph_heli_dest:"Ej: Cap-Haitien, Ile-a-Vache...",
+  lbl_pickup_zone:"Zona de recogida",lbl_destination:"Destino",
+  ph_heli_pickup:"Ej: Petion-Ville, Tabarre...",ph_heli_dest:"Ej: Cap-Haitien, Ile-a-Vache...",
+  lbl_purpose:"Proposito",purpose_vip:"VIP",purpose_tourism:"Turismo",purpose_business:"Negocios",purpose_medical:"Medico",purpose_emergency:"Emergencia",
   btn_request_quote:"Solicitar Cotizacion",
   book_hotel_title:"Buscar Hotel",book_hotel_sub:"Hoteles y casas de vacaciones en todo Haiti. Reserva facil.",
   lbl_city:"Ciudad",lbl_checkin:"Entrada",lbl_checkout:"Salida",lbl_guests:"Huespedes",btn_find_hotel:"Buscar Hoteles",
-  book_emergency_title:"Hero Emergencia",book_emergency_sub:"Servicios de emergencia medica y transporte hospitalario en todo Haiti.",
+  book_bus_title:"Reservas de Bus",book_bus_sub:"Rutas internacionales: Haiti ↔ Republica Dominicana. Reserva tu asiento.",
+  lbl_route:"Ruta",lbl_seats:"Asientos",lbl_extra_luggage:"📎 Equipaje extra",btn_reserve_seat:"Reservar Asiento",
+  book_emergency_title:"Hero Medico",book_emergency_sub:"Servicios de emergencia medica y transporte hospitalario en todo Haiti.",
   btn_emergency_now:"EMERGENCIA AHORA",btn_schedule_medical:"Programar Transporte Medico",
+  lbl_em_pickup:"Lugar de recogida",lbl_em_hospital:"Hospital",lbl_em_condition:"Condicion del paciente",lbl_em_assistance:"Asistencia necesaria",
+  ph_em_pickup:"Ej: Delmas 33",ph_em_hospital:"Ej: HUEH, Bernard Mevs...",ph_em_condition:"Ej: herido, enfermo, embarazada...",
+  assist_stretcher:"Camilla",assist_wheelchair:"Silla de ruedas",assist_ambulatory:"Puede caminar",assist_oxygen:"Necesita oxigeno",
+  btn_schedule_transport:"Programar Transporte",
   cb_title:"Te llamamos de inmediato",ph_phone:"+509 XXXX XXXX",btn_call_me:"Llamame",
-  book_events_title:"Eventos",book_events_sub:"Encuentra eventos, conciertos y actividades en todo Haiti.",
-  lbl_event_type:"Tipo de evento",evt_music:"&#127925; Musica",evt_sport:"&#9917; Deportes",evt_culture:"&#127912; Cultura",evt_business:"&#128188; Negocios",
+  book_events_title:"Eventos & Paquetes",book_events_sub:"Encuentra eventos, conciertos y actividades. Reserva paquetes completos.",
+  lbl_event_type:"Tipo de Evento",evt_music:"🎵 Musica",evt_sport:"⚽ Deportes",evt_culture:"🎨 Cultura",evt_business:"💼 Negocios",
+  lbl_package:"Paquete (opcional)",
+  pkg_ticket:"🎫 Boleto del Evento",pkg_ticket_desc:"Via Tike Lakay",
+  pkg_hotel:"🏨 Hotel",pkg_hotel_desc:"Alojamiento cercano",
+  pkg_transport:"🚗 Transporte",pkg_transport_desc:"Ida y vuelta",
+  pkg_vip:"⭐ Acceso VIP",pkg_vip_desc:"Experiencia exclusiva",
   btn_see_events:"Ver Eventos",
-  book_logistics_title:"Logistica y Carga",book_logistics_sub:"Transporte de mercancias, camiones, barcos y contenedores en todo Haiti.",
-  lbl_cargo_type:"Tipo de carga",lbl_truck_type:"Tipo de camion",
-  cargo_general:"&#128230; Carga General",cargo_rice:"&#127834; Arroz",cargo_cement:"&#127959; Cemento",
-  cargo_construction:"&#128296; Construccion",cargo_food:"&#127869; Comida",cargo_fuel:"&#9981; Combustible",
-  truck_flatbed:"Plataforma",truck_semi:"Semi-Remolque",truck_container:"Contenedor",truck_pickup:"Pickup",truck_van:"Van",
-  ph_l_pickup:"Ej: Port Lafito",ph_l_dest:"Ej: Delmas 25",
+  book_maritime_title:"Maritimo",book_maritime_sub:"Reservas de transporte maritimo — pasajeros y carga por barco.",
+  lbl_port_from:"Puerto de Salida",lbl_port_to:"Destino",lbl_maritime_type:"Tipo",
+  maritime_passenger:"Pasajeros",maritime_cargo:"Carga",maritime_both:"Ambos",
+  lbl_pax_cargo:"Pasajeros / Cantidad",ph_maritime_qty:"Ej: 2 personas / 500 lbs",
+  btn_request_reservation:"Solicitar Reserva",
+  book_concierge_title:"Concierge VIP",book_concierge_sub:"Servicios personales para viajeros y profesionales. Recogida en aeropuerto, chofer, reservas VIP.",
+  lbl_service_type:"Elegir Servicio",svc_airport:"Recogida Aeropuerto",svc_chauffeur:"Chofer",svc_vip_res:"Reservas VIP",svc_business:"Negocios",
+  lbl_details:"Detalles",ph_concierge_details:"Describe lo que necesitas...",
+  btn_request_concierge:"Solicitar Servicio VIP",
+  cross_ground:"🚗 Necesitas transporte terrestre tambien?",cross_msouwout:"MsouWout — Transporte Local",
   featured_title:"Servicios Especiales",
   feat_hotels:"Hoteles Destacados",feat_hotels_sub:"Los mejores hoteles de Haiti",
   feat_heli:"Helicoptero VIP",feat_heli_sub:"Viajes privados y exclusivos",
-  feat_events:"Proximos Eventos",feat_events_sub:"Conciertos, fiestas y actividades",
-  feat_logistics:"Servicios Logisticos",feat_logistics_sub:"Camiones, carga y maritimo",
+  feat_events:"Eventos & Boletos",feat_events_sub:"Via Tike Lakay",
+  feat_concierge:"Concierge VIP",feat_concierge_sub:"Servicio personal completo",
   trust_title:"Por Que Elegirnos",
-  trust_1:"Socios Verificados",trust_1_sub:"Todos nuestros socios estan verificados",
-  trust_2:"Reserva Segura",trust_2_sub:"Proteccion para ti",
-  trust_3:"Rastreo GPS",trust_3_sub:"Sigue tu viaje en vivo",
-  trust_4:"Soporte WhatsApp",trust_4_sub:"Reserva y obtener ayuda en WhatsApp",
+  trust_1:"Operadores Verificados",trust_1_sub:"Todos nuestros socios estan verificados",
+  trust_2:"Reserva Segura",trust_2_sub:"Confirmacion PIN & QR",
+  trust_3:"Rastreo GPS",trust_3_sub:"Sigue tu transporte en vivo",
+  trust_4:"Soporte WhatsApp",trust_4_sub:"Reserva y obtener ayuda 24/7",
   trust_5:"Plataforma Haitiana",trust_5_sub:"Hecho en Haiti para Haiti",
   wa_help:"Necesitas ayuda para reservar?",wa_help_sub:"Nuestro equipo esta disponible 24/7",
-  footer_desc:"La primera plataforma digital de Haiti para negocios, transporte, logistica y servicios.",
+  footer_desc:"Infraestructura de Reservas de Haiti. Viajes, movilidad aerea, hospitalidad, transporte, emergencias y eventos.",
   menu_tikeLakay:"Tike Lakay",menu_prolakay:"Profesional Lakay"
 }
 };
@@ -988,12 +1258,12 @@ function setLang(lang) {
 
 function tx(key) { return (T[currentLang] || T.ht)[key] || (T.ht)[key] || key; }
 
-/* ═══ MENU ═══ */
+/* MENU */
 function toggleMenu() {
   document.getElementById('mobileMenu').classList.toggle('open');
 }
 
-/* ═══ CATEGORY SELECTION ═══ */
+/* CATEGORY SELECTION */
 function selectCat(cat) {
   currentCat = cat;
   document.querySelectorAll('.cat-pill').forEach(function(p) { p.classList.remove('active'); });
@@ -1008,35 +1278,33 @@ function selectCat(cat) {
   document.querySelector('.booking-section').scrollIntoView({ behavior: 'smooth', block: 'start' });
 }
 
-/* ═══ VEHICLE SELECTOR ═══ */
-function selectVehicle(el, type) {
-  selectedVehicle = type;
-  document.querySelectorAll('.vehicle-opt').forEach(function(v) { v.classList.remove('active'); });
+/* MARITIME TYPE */
+function selectMaritime(el, type) {
+  selectedMaritimeType = type;
+  document.querySelectorAll('#form-maritime .option-opt').forEach(function(v) { v.classList.remove('active'); });
   el.classList.add('active');
 }
 
-/* ═══ WHATSAPP HELPER ═══ */
+/* CONCIERGE SERVICE */
+function selectService(el, type) {
+  selectedService = type;
+  document.querySelectorAll('.svc-card').forEach(function(v) { v.classList.remove('active'); });
+  el.classList.add('active');
+}
+
+/* SHOW EMERGENCY FIELDS */
+function showEmFields() {
+  document.getElementById('emFields').classList.add('show');
+  document.getElementById('em-pickup').focus();
+}
+
+/* WHATSAPP HELPER */
 function openWA(msg) {
   var url = 'https://wa.me/' + WA_NUM + '?text=' + encodeURIComponent(msg);
   window.open(url, '_blank');
 }
 
-/* ═══ BOOKING FUNCTIONS ═══ */
-function bookTransport() {
-  var pickup = document.getElementById('t-pickup').value.trim();
-  var dest = document.getElementById('t-dest').value.trim();
-  var date = document.getElementById('t-date').value;
-  var time = document.getElementById('t-time').value;
-  if (!pickup || !dest) { alert(tx('lbl_pickup') + ' & ' + tx('lbl_destination')); return; }
-  var msg = 'Bonjou! M bezwen yon ' + selectedVehicle.toUpperCase() + '.\n';
-  msg += 'Pickup: ' + pickup + '\n';
-  msg += 'Destination: ' + dest + '\n';
-  if (date) msg += 'Dat: ' + date + '\n';
-  if (time) msg += 'Lè: ' + time + '\n';
-  msg += '\n(via HaitiBiznis Reservations)';
-  openWA(msg);
-}
-
+/* BOOKING FUNCTIONS */
 function bookFlight() {
   var from = document.getElementById('f-from').value.trim();
   var to = document.getElementById('f-to').value.trim();
@@ -1045,26 +1313,31 @@ function bookFlight() {
   var cls = document.getElementById('f-class').value;
   if (!from || !to) { alert(tx('lbl_from') + ' & ' + tx('lbl_to')); return; }
   var msg = 'Bonjou! M ap chèche yon vòl.\n';
-  msg += 'Soti: ' + from + '\n';
-  msg += 'Ale: ' + to + '\n';
+  msg += 'Depa: ' + from + '\n';
+  msg += 'Desitinasyon: ' + to + '\n';
   if (date) msg += 'Dat: ' + date + '\n';
   msg += 'Pasaje: ' + pax + '\n';
   msg += 'Klas: ' + cls + '\n';
   msg += '\n(via HaitiBiznis Reservations)';
   openWA(msg);
+  document.getElementById('cross-flight').classList.add('show');
 }
 
 function bookHeli() {
   var pickup = document.getElementById('h-pickup').value.trim();
   var dest = document.getElementById('h-dest').value.trim();
-  var pax = document.getElementById('h-pax').value;
   var date = document.getElementById('h-date').value;
+  var time = document.getElementById('h-time').value;
+  var pax = document.getElementById('h-pax').value;
+  var purpose = document.getElementById('h-purpose').value;
   if (!pickup || !dest) { alert(tx('lbl_pickup_zone') + ' & ' + tx('lbl_destination')); return; }
-  var msg = 'Bonjou! M enterese nan yon elikoptè VIP.\n';
+  var msg = 'Bonjou! M enterese nan yon elikoptè.\n';
   msg += 'Zòn Ranmasaj: ' + pickup + '\n';
-  msg += 'Destination: ' + dest + '\n';
-  msg += 'Pasaje: ' + pax + '\n';
+  msg += 'Desitinasyon: ' + dest + '\n';
   if (date) msg += 'Dat: ' + date + '\n';
+  if (time) msg += 'Lè: ' + time + '\n';
+  msg += 'Pasaje: ' + pax + '\n';
+  msg += 'Rezon: ' + purpose.toUpperCase() + '\n';
   msg += '\n(via HaitiBiznis Reservations)';
   openWA(msg);
 }
@@ -1081,9 +1354,39 @@ function bookHotel() {
   msg += 'Envite: ' + guests + '\n';
   msg += '\n(via HaitiBiznis Reservations)';
   openWA(msg);
+  document.getElementById('cross-hotel').classList.add('show');
 }
 
-function bookEmergency() {
+function bookBus() {
+  var route = document.getElementById('b-route').value;
+  var routeText = document.getElementById('b-route').selectedOptions[0].text;
+  var date = document.getElementById('b-date').value;
+  var seats = document.getElementById('b-seats').value;
+  var luggage = document.getElementById('b-luggage').checked;
+  var msg = 'Bonjou! M vle rezève yon plas bis.\n';
+  msg += 'Wout: ' + routeText + '\n';
+  if (date) msg += 'Dat: ' + date + '\n';
+  msg += 'Plas: ' + seats + '\n';
+  if (luggage) msg += 'Bagaj siplemantè: Wi\n';
+  msg += '\n(via HaitiBiznis Reservations)';
+  openWA(msg);
+}
+
+function bookMedical() {
+  var pickup = document.getElementById('em-pickup').value.trim();
+  var hospital = document.getElementById('em-hospital').value.trim();
+  var condition = document.getElementById('em-condition').value.trim();
+  var assistance = document.getElementById('em-assistance').value;
+  var msg = 'HERO MEDIKAL — Pwograme Transpò\n';
+  if (pickup) msg += 'Kote: ' + pickup + '\n';
+  if (hospital) msg += 'Lopital: ' + hospital + '\n';
+  if (condition) msg += 'Kondisyon: ' + condition + '\n';
+  msg += 'Asistans: ' + assistance + '\n';
+  msg += '\n(via HaitiBiznis Reservations - HERO Medical)';
+  openWA(msg);
+}
+
+function bookEmergencyCallback() {
   var phone = document.getElementById('em-phone').value.trim();
   if (!phone) { alert(tx('ph_phone')); return; }
   var msg = 'IJANS - Bezwen èd medikal!\n';
@@ -1097,30 +1400,50 @@ function bookEvents() {
   var city = document.getElementById('ev-city').value;
   var date = document.getElementById('ev-date').value;
   var type = document.getElementById('ev-type').value;
+  var packages = [];
+  if (document.getElementById('pkg-ticket').checked) packages.push('Tikè');
+  if (document.getElementById('pkg-hotel').checked) packages.push('Otèl');
+  if (document.getElementById('pkg-transport').checked) packages.push('Transpò');
+  if (document.getElementById('pkg-vip').checked) packages.push('VIP');
   var msg = 'Bonjou! M ap chèche evènman.\n';
   msg += 'Vil: ' + city + '\n';
   if (date) msg += 'Dat: ' + date + '\n';
   msg += 'Tip: ' + type + '\n';
+  if (packages.length > 0) msg += 'Pakè: ' + packages.join(', ') + '\n';
   msg += '\n(via HaitiBiznis Reservations)';
   openWA(msg);
 }
 
-function bookLogistics() {
-  var cargo = document.getElementById('l-cargo').value;
-  var pickup = document.getElementById('l-pickup').value.trim();
-  var dest = document.getElementById('l-dest').value.trim();
-  var truck = document.getElementById('l-truck').value;
-  if (!pickup || !dest) { alert(tx('lbl_pickup') + ' & ' + tx('lbl_destination')); return; }
-  var msg = 'Bonjou! M bezwen sèvis lojistik.\n';
-  msg += 'Machandiz: ' + cargo + '\n';
-  msg += 'Pickup: ' + pickup + '\n';
-  msg += 'Destination: ' + dest + '\n';
-  msg += 'Kamyon: ' + truck + '\n';
+function bookMaritime() {
+  var from = document.getElementById('m-from').value;
+  var to = document.getElementById('m-to').value;
+  var date = document.getElementById('m-date').value;
+  var qty = document.getElementById('m-qty').value.trim();
+  var msg = 'Bonjou! M vle rezève transpò maritim.\n';
+  msg += 'Pò Depa: ' + from + '\n';
+  msg += 'Desitinasyon: ' + to + '\n';
+  msg += 'Tip: ' + selectedMaritimeType + '\n';
+  if (date) msg += 'Dat: ' + date + '\n';
+  if (qty) msg += 'Pasaje/Kantite: ' + qty + '\n';
   msg += '\n(via HaitiBiznis Reservations)';
   openWA(msg);
 }
 
-/* ═══ INIT ═══ */
+function bookConcierge() {
+  var date = document.getElementById('c-date').value;
+  var time = document.getElementById('c-time').value;
+  var details = document.getElementById('c-details').value.trim();
+  var svcNames = {airport:'Akeyòpò',chauffeur:'Chofè',vip:'VIP Rezèvasyon',business:'Biznis Kowòdinasyon'};
+  var msg = 'Bonjou! M enterese nan sèvis concierge.\n';
+  msg += 'Sèvis: ' + (svcNames[selectedService] || selectedService) + '\n';
+  if (date) msg += 'Dat: ' + date + '\n';
+  if (time) msg += 'Lè: ' + time + '\n';
+  if (details) msg += 'Detay: ' + details + '\n';
+  msg += '\n(via HaitiBiznis Reservations - Concierge VIP)';
+  openWA(msg);
+}
+
+/* INIT */
 (function() {
   setLang('ht');
   var today = new Date().toISOString().split('T')[0];
@@ -1129,8 +1452,9 @@ function bookLogistics() {
   });
   var now = new Date();
   var timeStr = ('0' + now.getHours()).slice(-2) + ':' + ('0' + now.getMinutes()).slice(-2);
-  var tTime = document.getElementById('t-time');
-  if (tTime && !tTime.value) tTime.value = timeStr;
+  document.querySelectorAll('input[type="time"]').forEach(function(el) {
+    if (!el.value) el.value = timeStr;
+  });
 })();
 </script>
 </body>
