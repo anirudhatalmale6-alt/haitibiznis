@@ -534,10 +534,6 @@ footer{
     <span class="cat-icon">&#128652;</span>
     <span class="cat-label" data-i18n="cat_bus">Bis</span>
   </div>
-  <div class="cat-pill" onclick="selectCat('emergency')" data-cat="emergency">
-    <span class="cat-icon">&#128657;</span>
-    <span class="cat-label" data-i18n="cat_emergency">Hero</span>
-  </div>
   <div class="cat-pill" onclick="selectCat('events')" data-cat="events">
     <span class="cat-icon">&#127915;</span>
     <span class="cat-label" data-i18n="cat_events">Ev&egrave;nman</span>
@@ -734,53 +730,6 @@ footer{
         <div class="trust-mini-item"><span>&#128274;</span> <span data-i18n="mini_secure">Sekirize</span></div>
         <div class="trust-mini-item"><span>&#9989;</span> <span data-i18n="mini_verified">Verifye</span></div>
         <div class="trust-mini-item"><span>&#128172;</span> <span data-i18n="mini_support">24/7</span></div>
-      </div>
-    </div>
-
-    <!-- HERO MEDICAL -->
-    <div class="book-form" id="form-emergency">
-      <div class="booking-title">&#128657; <span data-i18n="book_emergency_title">Hero Medikal</span></div>
-      <p class="booking-subtitle" data-i18n="book_emergency_sub">S&egrave;vis ijans medikal ak transp&ograve; lopital nan tout Ayiti.</p>
-      <div class="emergency-grid">
-        <a href="tel:+50941902005" class="btn-emergency panic">
-          <span class="e-icon">&#128680;</span>
-          <span data-i18n="btn_emergency_now">IJANS KOUNYE A</span>
-        </a>
-        <button class="btn-emergency schedule" onclick="showEmFields()">
-          <span class="e-icon">&#128197;</span>
-          <span data-i18n="btn_schedule_medical">Pwograme Transp&ograve; Medikal</span>
-        </button>
-      </div>
-      <div class="em-fields" id="emFields">
-        <div class="form-group">
-          <label class="form-label" data-i18n="lbl_em_pickup">Kote pou vin chache</label>
-          <input type="text" class="form-input" id="em-pickup" placeholder="Ex: Delmas 33" data-i18n-ph="ph_em_pickup">
-        </div>
-        <div class="form-group">
-          <label class="form-label" data-i18n="lbl_em_hospital">Lopital</label>
-          <input type="text" class="form-input" id="em-hospital" placeholder="Ex: HUEH, Bernard Mevs..." data-i18n-ph="ph_em_hospital">
-        </div>
-        <div class="form-group">
-          <label class="form-label" data-i18n="lbl_em_condition">Kondisyon Pasyan</label>
-          <input type="text" class="form-input" id="em-condition" placeholder="Ex: blese, malad, ansent..." data-i18n-ph="ph_em_condition">
-        </div>
-        <div class="form-group">
-          <label class="form-label" data-i18n="lbl_em_assistance">Asistans Bezwen</label>
-          <select class="form-input" id="em-assistance">
-            <option value="stretcher" data-i18n="assist_stretcher">Branka (Stretcher)</option>
-            <option value="wheelchair" data-i18n="assist_wheelchair">Chèz Woulant</option>
-            <option value="ambulatory" data-i18n="assist_ambulatory">Ka mache</option>
-            <option value="oxygen" data-i18n="assist_oxygen">Bezwen oksijèn</option>
-          </select>
-        </div>
-        <button class="btn-book green" onclick="bookMedical()" data-i18n="btn_schedule_transport">Pwograme Transpò</button>
-      </div>
-      <div class="callback-box">
-        <div class="cb-title" data-i18n="cb_title">Nou rele ou touswit</div>
-        <div class="callback-row">
-          <input type="tel" class="form-input" id="em-phone" placeholder="+509 XXXX XXXX" data-i18n-ph="ph_phone">
-          <button class="btn-book green" onclick="bookEmergencyCallback()" style="margin-top:0" data-i18n="btn_call_me">Rele Mwen</button>
-        </div>
       </div>
     </div>
 
