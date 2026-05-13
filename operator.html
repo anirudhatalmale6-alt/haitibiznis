@@ -1,0 +1,1123 @@
+<!DOCTYPE html>
+<html lang="ht">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no">
+<title>TouPaTou — Operator Dashboard</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --blue:#00209F;--blue-dark:#001566;--blue-deep:#000D4F;--blue-light:rgba(0,32,159,.06);
+  --red:#D21034;--red-dark:#B00D2C;--red-light:rgba(210,16,52,.08);
+  --gold:#D4A017;--gold-light:#E8B82E;--gold-bg:rgba(212,160,23,.08);
+  --white:#FFFFFF;--off-white:#FFF8F8;--cream:#F8F6F3;
+  --dark:#1A0C0C;--text:#2A1A1A;--text-light:#6A5A5A;--text-muted:#9A8A8A;
+  --green:#25D366;--green-dark:#1EBE5A;--green-light:rgba(37,211,102,.08);
+  --border:#E8E0E0;--border-light:#F0EAEA;
+  --body:'Plus Jakarta Sans',system-ui,sans-serif;
+  --display:'DM Serif Display',Georgia,serif;
+  --radius:16px;--radius-sm:12px;--radius-xs:8px;
+  --shadow-sm:0 2px 8px rgba(0,0,0,.04);
+  --shadow:0 4px 20px rgba(0,0,0,.06);
+  --shadow-lg:0 12px 40px rgba(0,0,0,.1);
+}
+html{scroll-behavior:smooth;-webkit-tap-highlight-color:transparent}
+body{font-family:var(--body);background:var(--cream);color:var(--text);overflow-x:hidden;-webkit-font-smoothing:antialiased;padding-top:60px;padding-bottom:20px}
+a{text-decoration:none;color:inherit}
+button{font-family:var(--body);cursor:pointer;border:none;background:none}
+input,select,textarea{font-family:var(--body);border:none;outline:none}
+@keyframes fadeUp{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:none}}
+@keyframes fadeIn{from{opacity:0}to{opacity:1}}
+@keyframes slideDown{from{opacity:0;transform:translateY(-8px)}to{opacity:1;transform:none}}
+@keyframes pulse{0%,100%{transform:scale(1)}50%{transform:scale(1.05)}}
+@keyframes spin{to{transform:rotate(360deg)}}
+@keyframes toastIn{from{transform:translateX(100%);opacity:0}to{transform:none;opacity:1}}
+@keyframes toastOut{to{transform:translateX(100%);opacity:0}}
+
+/* HEADER */
+.header{position:fixed;top:0;left:0;right:0;z-index:1000;background:var(--blue);height:60px;display:flex;align-items:center;justify-content:space-between;padding:0 16px;box-shadow:0 2px 20px rgba(0,13,79,.25)}
+.h-left{display:flex;align-items:center;gap:8px}
+.h-logo{font-family:var(--display);font-size:1.05rem;color:var(--white);line-height:1}
+.h-logo span{color:var(--red)}
+.h-badge{font-size:.5rem;font-weight:900;color:var(--gold);background:rgba(212,160,23,.15);padding:3px 8px;border-radius:100px;letter-spacing:.08em;text-transform:uppercase}
+.h-right{display:flex;align-items:center;gap:10px}
+.h-bell{position:relative;width:36px;height:36px;border-radius:10px;background:rgba(255,255,255,.1);display:flex;align-items:center;justify-content:center;color:var(--white);font-size:1.1rem;cursor:pointer}
+.h-bell .badge{position:absolute;top:2px;right:2px;width:16px;height:16px;border-radius:50%;background:var(--red);color:var(--white);font-size:.55rem;font-weight:900;display:flex;align-items:center;justify-content:center}
+.h-avatar{width:34px;height:34px;border-radius:10px;background:var(--gold);color:var(--white);display:flex;align-items:center;justify-content:center;font-size:.75rem;font-weight:900;cursor:pointer}
+.h-lang{display:flex;gap:2px;background:rgba(255,255,255,.08);border-radius:6px;padding:2px}
+.h-lang a{color:rgba(255,255,255,.4);font-size:.55rem;font-weight:800;padding:4px 6px;border-radius:4px;cursor:pointer;letter-spacing:.02em}
+.h-lang a.active{color:var(--blue);background:var(--white)}
+
+/* LOGIN VIEW */
+.login-view{max-width:420px;margin:40px auto;padding:0 16px;animation:fadeUp .5s ease both}
+.login-card{background:var(--white);border-radius:var(--radius);padding:32px 24px;box-shadow:var(--shadow-lg);text-align:center}
+.login-icon{font-size:3rem;margin-bottom:12px}
+.login-title{font-family:var(--display);font-size:1.4rem;color:var(--dark);margin-bottom:4px}
+.login-sub{font-size:.78rem;color:var(--text-light);margin-bottom:24px;line-height:1.5}
+.login-tabs{display:flex;margin-bottom:20px;background:var(--cream);border-radius:10px;padding:3px}
+.login-tab{flex:1;padding:10px;font-size:.75rem;font-weight:800;color:var(--text-muted);border-radius:8px;text-align:center;cursor:pointer;transition:all .2s}
+.login-tab.active{background:var(--white);color:var(--blue);box-shadow:var(--shadow-sm)}
+.login-form{display:none}
+.login-form.active{display:block;animation:fadeIn .3s ease}
+.l-group{margin-bottom:14px;text-align:left}
+.l-label{display:block;font-size:.65rem;font-weight:800;color:var(--text-light);text-transform:uppercase;letter-spacing:.08em;margin-bottom:6px}
+.l-input{width:100%;padding:14px 16px;border:1.5px solid var(--border);border-radius:14px;font-size:.88rem;font-weight:500;color:var(--dark);background:var(--white);transition:border-color .2s,box-shadow .2s}
+.l-input:focus{border-color:var(--blue);box-shadow:0 0 0 3px rgba(0,32,159,.06)}
+.l-input::placeholder{color:var(--text-muted)}
+select.l-input{color:var(--text);background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' fill='%236A5A5A' viewBox='0 0 16 16'%3E%3Cpath d='M8 11L3 6h10z'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 14px center;-webkit-appearance:none}
+.l-btn{width:100%;padding:16px;border-radius:14px;font-size:.95rem;font-weight:800;color:var(--white);background:linear-gradient(135deg,var(--blue),var(--blue-dark));box-shadow:0 6px 20px rgba(0,32,159,.25);margin-top:8px;transition:all .25s;cursor:pointer}
+.l-btn:hover{transform:translateY(-2px);box-shadow:0 10px 30px rgba(0,32,159,.35)}
+.demo-divider{display:flex;align-items:center;gap:12px;margin:20px 0;color:var(--text-muted);font-size:.7rem;font-weight:700}
+.demo-divider::before,.demo-divider::after{content:'';flex:1;height:1px;background:var(--border)}
+.demo-btn{width:100%;padding:14px;border-radius:14px;font-size:.82rem;font-weight:800;color:var(--gold);background:var(--gold-bg);border:1.5px solid rgba(212,160,23,.2);cursor:pointer;transition:all .2s}
+.demo-btn:hover{background:rgba(212,160,23,.15);transform:translateY(-1px)}
+.demo-profiles{display:flex;gap:8px;margin-top:10px}
+.demo-profile{flex:1;padding:10px 6px;border-radius:10px;background:var(--off-white);border:1.5px solid var(--border);text-align:center;cursor:pointer;transition:all .2s;font-size:.6rem;font-weight:700;color:var(--text-light)}
+.demo-profile:hover{border-color:var(--blue);color:var(--blue)}
+.demo-profile .dp-icon{font-size:1.2rem;display:block;margin-bottom:4px}
+
+/* DASHBOARD VIEW */
+.dashboard{display:none;animation:fadeUp .4s ease both}
+.dashboard.active{display:block}
+
+/* STATS */
+.stats{display:grid;grid-template-columns:1fr 1fr;gap:10px;padding:16px 16px 0}
+.stat-card{background:var(--white);border-radius:var(--radius-sm);padding:16px 14px;box-shadow:var(--shadow-sm);border:1px solid var(--border-light)}
+.stat-icon{font-size:1.3rem;margin-bottom:8px}
+.stat-val{font-size:1.5rem;font-weight:900;color:var(--dark);line-height:1;display:flex;align-items:baseline;gap:6px}
+.stat-trend{font-size:.6rem;font-weight:800;padding:2px 6px;border-radius:100px}
+.stat-trend.up{color:#16a34a;background:rgba(22,163,74,.1)}
+.stat-trend.down{color:var(--red);background:var(--red-light)}
+.stat-label{font-size:.6rem;font-weight:800;color:var(--text-muted);text-transform:uppercase;letter-spacing:.06em;margin-top:4px}
+.stat-bar{height:4px;border-radius:2px;background:var(--border-light);margin-top:8px;overflow:hidden}
+.stat-bar-fill{height:100%;border-radius:2px;transition:width .8s ease}
+
+/* TABS */
+.tabs{display:flex;gap:4px;overflow-x:auto;padding:16px 16px 0;scrollbar-width:none;-webkit-overflow-scrolling:touch}
+.tabs::-webkit-scrollbar{display:none}
+.tab{flex-shrink:0;padding:10px 14px;border-radius:10px;font-size:.68rem;font-weight:800;color:var(--text-muted);background:var(--white);border:1.5px solid var(--border-light);cursor:pointer;transition:all .2s;white-space:nowrap;letter-spacing:.01em}
+.tab:hover{color:var(--text);border-color:var(--border)}
+.tab.active{color:var(--blue);background:var(--blue-light);border-color:rgba(0,32,159,.15)}
+.tab .t-icon{margin-right:4px}
+
+/* TAB CONTENT */
+.tab-content{display:none;padding:16px;animation:fadeUp .3s ease both}
+.tab-content.active{display:block}
+
+/* FILTER BAR */
+.filter-bar{display:flex;gap:8px;margin-bottom:14px;flex-wrap:wrap}
+.filter-input{flex:1;min-width:120px;padding:10px 14px;border:1.5px solid var(--border);border-radius:10px;font-size:.78rem;font-weight:600;color:var(--dark);background:var(--white)}
+.filter-input:focus{border-color:var(--blue)}
+select.filter-input{min-width:100px;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='10' fill='%236A5A5A' viewBox='0 0 16 16'%3E%3Cpath d='M8 11L3 6h10z'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 12px center;-webkit-appearance:none;padding-right:30px}
+.bulk-btn{padding:10px 16px;border-radius:10px;font-size:.72rem;font-weight:800;color:var(--white);background:var(--green);cursor:pointer;white-space:nowrap;transition:all .2s}
+.bulk-btn:hover{background:var(--green-dark)}
+
+/* RESERVATION CARDS */
+.res-card{background:var(--white);border-radius:var(--radius-sm);padding:16px;margin-bottom:10px;box-shadow:var(--shadow-sm);border:1px solid var(--border-light);cursor:pointer;transition:all .2s}
+.res-card:hover{box-shadow:var(--shadow)}
+.res-top{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:10px}
+.res-ref{font-family:'Courier New',monospace;font-size:.82rem;font-weight:800;color:var(--dark)}
+.res-type-badge{font-size:.55rem;font-weight:800;padding:3px 8px;border-radius:100px;text-transform:uppercase;letter-spacing:.04em}
+.res-row{display:flex;justify-content:space-between;align-items:center;padding:4px 0;font-size:.78rem}
+.res-label{color:var(--text-light);font-weight:600}
+.res-val{font-weight:700;color:var(--dark)}
+.status{display:inline-flex;align-items:center;gap:4px;font-size:.65rem;font-weight:800;padding:4px 10px;border-radius:100px;letter-spacing:.02em}
+.status.pending{color:#b45309;background:rgba(180,83,9,.08)}
+.status.confirmed{color:var(--blue);background:var(--blue-light)}
+.status.completed{color:#16a34a;background:rgba(22,163,74,.08)}
+.status.cancelled{color:var(--red);background:var(--red-light)}
+.status::before{content:'';width:6px;height:6px;border-radius:50%;background:currentColor}
+.res-actions{display:flex;gap:6px;margin-top:12px;padding-top:12px;border-top:1px solid var(--border-light)}
+.res-act{flex:1;padding:10px;border-radius:10px;font-size:.7rem;font-weight:800;text-align:center;cursor:pointer;transition:all .2s}
+.res-act.approve{color:var(--white);background:var(--green)}
+.res-act.approve:hover{background:var(--green-dark)}
+.res-act.reject{color:var(--red);background:var(--red-light)}
+.res-act.reject:hover{background:rgba(210,16,52,.15)}
+.res-act.whatsapp{color:var(--green);background:var(--green-light)}
+.res-act.whatsapp:hover{background:rgba(37,211,102,.15)}
+.res-detail{display:none;margin-top:12px;padding-top:12px;border-top:1px dashed var(--border);animation:fadeIn .3s ease}
+.res-detail.show{display:block}
+
+/* SCHEDULE */
+.week-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:6px;margin-bottom:16px}
+.week-day{text-align:center;padding:10px 4px;border-radius:10px;background:var(--white);border:1px solid var(--border-light);font-size:.6rem}
+.week-day .wd-name{font-weight:800;color:var(--text-muted);text-transform:uppercase;letter-spacing:.04em;margin-bottom:4px}
+.week-day .wd-num{font-size:1.1rem;font-weight:900;color:var(--dark)}
+.week-day .wd-label{font-size:.5rem;color:var(--text-muted);margin-top:2px}
+.week-day.today{border-color:var(--blue);background:var(--blue-light)}
+.sched-card{background:var(--white);border-radius:var(--radius-sm);padding:14px;margin-bottom:8px;box-shadow:var(--shadow-sm);border-left:4px solid var(--blue);display:flex;align-items:center;gap:12px}
+.sched-card .sc-icon{font-size:1.3rem}
+.sched-card .sc-info{flex:1}
+.sched-card .sc-title{font-size:.82rem;font-weight:800;color:var(--dark)}
+.sched-card .sc-meta{font-size:.68rem;color:var(--text-light);margin-top:2px}
+.sched-card .sc-actions{display:flex;gap:4px}
+.sc-btn{width:30px;height:30px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:.8rem;cursor:pointer;transition:all .2s}
+.sc-btn.edit{background:var(--blue-light);color:var(--blue)}
+.sc-btn.edit:hover{background:rgba(0,32,159,.12)}
+.sc-btn.del{background:var(--red-light);color:var(--red)}
+.sc-btn.del:hover{background:rgba(210,16,52,.15)}
+
+/* INVENTORY */
+.inv-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.inv-card{background:var(--white);border-radius:var(--radius-sm);padding:16px;box-shadow:var(--shadow-sm);border:1px solid var(--border-light);text-align:center;position:relative}
+.inv-card .inv-icon{font-size:1.5rem;margin-bottom:6px}
+.inv-card .inv-name{font-size:.78rem;font-weight:800;color:var(--dark);margin-bottom:2px}
+.inv-card .inv-price{font-size:.68rem;color:var(--text-light);margin-bottom:8px}
+.inv-avail{display:flex;align-items:center;justify-content:center;gap:8px}
+.inv-count{font-size:1.3rem;font-weight:900;min-width:30px;text-align:center}
+.inv-count.ok{color:#16a34a}
+.inv-count.low{color:var(--gold)}
+.inv-count.out{color:var(--red)}
+.inv-adj{width:28px;height:28px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:1rem;font-weight:900;cursor:pointer;transition:all .15s;color:var(--text-light)}
+.inv-adj:hover{background:var(--blue-light);color:var(--blue)}
+.inv-status{position:absolute;top:8px;right:8px;width:8px;height:8px;border-radius:50%}
+
+/* PRICING */
+.price-row{display:flex;align-items:center;justify-content:space-between;padding:14px 16px;background:var(--white);border-radius:var(--radius-sm);margin-bottom:8px;box-shadow:var(--shadow-sm);border:1px solid var(--border-light)}
+.price-info{flex:1}
+.price-name{font-size:.82rem;font-weight:800;color:var(--dark)}
+.price-desc{font-size:.65rem;color:var(--text-light);margin-top:2px}
+.price-edit{display:flex;align-items:center;gap:6px}
+.price-val{font-size:1rem;font-weight:900;color:var(--blue);min-width:80px;text-align:right}
+.price-input{width:90px;padding:8px 10px;border:1.5px solid var(--border);border-radius:8px;font-size:.85rem;font-weight:700;text-align:right;color:var(--dark);display:none}
+.price-input.show{display:block}
+.price-val.editing{display:none}
+.price-save{padding:6px 12px;border-radius:8px;font-size:.65rem;font-weight:800;color:var(--white);background:var(--green);cursor:pointer;display:none}
+.price-save.show{display:block}
+
+/* MANIFEST */
+.manifest-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;flex-wrap:wrap;gap:8px}
+.manifest-select{padding:10px 14px;border:1.5px solid var(--border);border-radius:10px;font-size:.78rem;font-weight:600;background:var(--white);color:var(--dark);-webkit-appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='10' fill='%236A5A5A' viewBox='0 0 16 16'%3E%3Cpath d='M8 11L3 6h10z'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 12px center;padding-right:28px}
+.manifest-actions{display:flex;gap:6px}
+.m-btn{padding:8px 14px;border-radius:8px;font-size:.68rem;font-weight:800;cursor:pointer;transition:all .2s}
+.m-btn.print{color:var(--blue);background:var(--blue-light)}
+.m-btn.print:hover{background:rgba(0,32,159,.12)}
+.m-btn.share{color:var(--green);background:var(--green-light)}
+.m-btn.share:hover{background:rgba(37,211,102,.15)}
+.manifest-count{font-size:.78rem;font-weight:700;color:var(--text-light);margin-bottom:12px}
+.manifest-count b{color:var(--dark)}
+.pax-row{display:flex;align-items:center;gap:10px;padding:12px 14px;background:var(--white);border-radius:10px;margin-bottom:6px;box-shadow:var(--shadow-sm);border:1px solid var(--border-light)}
+.pax-num{width:24px;height:24px;border-radius:6px;background:var(--blue-light);color:var(--blue);font-size:.65rem;font-weight:900;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.pax-info{flex:1;min-width:0}
+.pax-name{font-size:.8rem;font-weight:800;color:var(--dark);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.pax-meta{font-size:.62rem;color:var(--text-light)}
+.pax-check{width:26px;height:26px;border-radius:8px;border:2px solid var(--border);display:flex;align-items:center;justify-content:center;cursor:pointer;transition:all .2s;flex-shrink:0;font-size:.8rem;color:transparent}
+.pax-check.checked{border-color:var(--green);background:var(--green);color:var(--white)}
+
+/* QR VALIDATION */
+.qr-section{text-align:center;padding:20px 0}
+.qr-icon{font-size:4rem;margin-bottom:12px;opacity:.8}
+.qr-title{font-family:var(--display);font-size:1.2rem;color:var(--dark);margin-bottom:16px}
+.qr-input-row{display:flex;gap:8px;max-width:360px;margin:0 auto 16px}
+.qr-input-row input{flex:1;padding:14px 16px;border:2px solid var(--border);border-radius:14px;font-size:.9rem;font-weight:600;text-align:center;letter-spacing:.1em;text-transform:uppercase}
+.qr-input-row input:focus{border-color:var(--blue)}
+.qr-input-row button{padding:14px 24px;border-radius:14px;font-size:.85rem;font-weight:800;color:var(--white);background:var(--blue);cursor:pointer;transition:all .2s;white-space:nowrap}
+.qr-input-row button:hover{background:var(--blue-dark)}
+.qr-result{max-width:360px;margin:16px auto;padding:20px;border-radius:var(--radius);animation:fadeUp .3s ease both;display:none}
+.qr-result.valid{display:block;background:#f0fdf4;border:2px solid #86efac}
+.qr-result.invalid{display:block;background:#fef2f2;border:2px solid #fca5a5}
+.qr-result .qr-r-icon{font-size:2rem;margin-bottom:8px}
+.qr-result .qr-r-title{font-size:.95rem;font-weight:800}
+.qr-result.valid .qr-r-title{color:#16a34a}
+.qr-result.invalid .qr-r-title{color:var(--red)}
+.qr-result .qr-r-details{font-size:.78rem;color:var(--text-light);margin-top:8px;line-height:1.6}
+.qr-history{margin-top:24px}
+.qr-history-title{font-size:.72rem;font-weight:800;color:var(--text-muted);text-transform:uppercase;letter-spacing:.06em;margin-bottom:10px}
+.qr-h-item{display:flex;align-items:center;gap:10px;padding:8px 12px;background:var(--white);border-radius:8px;margin-bottom:4px;font-size:.72rem}
+.qr-h-item .qr-h-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0}
+.qr-h-item .qr-h-ref{font-weight:800;color:var(--dark);font-family:monospace}
+.qr-h-item .qr-h-time{color:var(--text-muted);margin-left:auto;font-size:.62rem}
+
+/* SETTINGS */
+.settings-section{margin-bottom:20px}
+.settings-title{font-size:.72rem;font-weight:800;color:var(--text-muted);text-transform:uppercase;letter-spacing:.08em;margin-bottom:10px}
+.settings-card{background:var(--white);border-radius:var(--radius-sm);padding:18px 16px;box-shadow:var(--shadow-sm);border:1px solid var(--border-light)}
+.s-group{margin-bottom:14px}
+.s-group:last-child{margin-bottom:0}
+.s-label{display:block;font-size:.65rem;font-weight:800;color:var(--text-light);text-transform:uppercase;letter-spacing:.06em;margin-bottom:6px}
+.s-input{width:100%;padding:12px 14px;border:1.5px solid var(--border);border-radius:10px;font-size:.82rem;font-weight:500;color:var(--dark);background:var(--white);transition:border-color .2s}
+.s-input:focus{border-color:var(--blue)}
+textarea.s-input{resize:vertical;min-height:60px}
+.s-save{padding:14px 28px;border-radius:12px;font-size:.85rem;font-weight:800;color:var(--white);background:linear-gradient(135deg,var(--blue),var(--blue-dark));box-shadow:0 4px 16px rgba(0,32,159,.2);cursor:pointer;transition:all .2s;margin-top:8px}
+.s-save:hover{transform:translateY(-1px);box-shadow:0 8px 24px rgba(0,32,159,.3)}
+
+/* ADD BUTTON */
+.add-btn{display:flex;align-items:center;justify-content:center;gap:6px;width:100%;padding:14px;border-radius:var(--radius-sm);border:2px dashed var(--border);color:var(--text-muted);font-size:.78rem;font-weight:800;cursor:pointer;transition:all .2s;margin-top:12px}
+.add-btn:hover{border-color:var(--blue);color:var(--blue);background:var(--blue-light)}
+
+/* MODAL */
+.modal-overlay{display:none;position:fixed;inset:0;z-index:2000;background:rgba(0,0,0,.5);backdrop-filter:blur(4px);align-items:flex-end;justify-content:center}
+.modal-overlay.open{display:flex}
+.modal{background:var(--white);border-radius:var(--radius) var(--radius) 0 0;width:100%;max-width:500px;max-height:85vh;overflow-y:auto;padding:24px 20px;animation:slideDown .3s ease both}
+.modal-title{font-family:var(--display);font-size:1.1rem;color:var(--dark);margin-bottom:16px;display:flex;align-items:center;justify-content:space-between}
+.modal-close{width:32px;height:32px;border-radius:8px;background:var(--cream);display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:1rem;color:var(--text-light)}
+
+/* TOAST */
+.toast-container{position:fixed;top:70px;right:16px;z-index:3000;display:flex;flex-direction:column;gap:8px}
+.toast{padding:12px 18px;border-radius:10px;font-size:.78rem;font-weight:700;box-shadow:var(--shadow);animation:toastIn .3s ease both;display:flex;align-items:center;gap:8px;max-width:300px}
+.toast.success{background:#f0fdf4;color:#16a34a;border:1px solid #86efac}
+.toast.error{background:#fef2f2;color:var(--red);border:1px solid #fca5a5}
+.toast.info{background:var(--blue-light);color:var(--blue);border:1px solid rgba(0,32,159,.15)}
+.toast.removing{animation:toastOut .3s ease both}
+.toast .t-emoji{font-size:1rem}
+
+/* SPINNER */
+.spinner{width:20px;height:20px;border:3px solid var(--border);border-top-color:var(--blue);border-radius:50%;animation:spin .6s linear infinite;margin:20px auto}
+
+/* FOOTER */
+.op-footer{text-align:center;padding:24px 16px;font-size:.68rem;color:var(--text-muted)}
+.op-footer a{color:var(--blue);font-weight:700}
+
+/* EMPTY STATE */
+.empty-state{text-align:center;padding:40px 20px;color:var(--text-muted)}
+.empty-state .es-icon{font-size:2.5rem;margin-bottom:10px;opacity:.5}
+.empty-state .es-text{font-size:.85rem;font-weight:700}
+.empty-state .es-sub{font-size:.72rem;margin-top:4px}
+
+/* PRINT */
+@media print{.header,.tabs,.filter-bar,.res-actions,.manifest-actions,.op-footer,.toast-container,.add-btn{display:none!important}.stats{display:none!important}body{padding:0;background:white}.pax-row{box-shadow:none;border:1px solid #ccc}}
+
+/* RESPONSIVE */
+@media(min-width:600px){.stats{grid-template-columns:repeat(4,1fr)}.inv-grid{grid-template-columns:repeat(4,1fr)}.filter-bar{flex-wrap:nowrap}.modal{border-radius:var(--radius);margin:auto}}
+@media(min-width:900px){.tab-content{max-width:800px;margin:0 auto}.stats{max-width:800px;margin:16px auto 0}.tabs{max-width:800px;margin:0 auto;justify-content:center}}
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<header class="header">
+  <div class="h-left">
+    <div class="h-logo">Tou<span>Pa</span>Tou</div>
+    <div class="h-badge" data-i18n="h_badge">Operat&egrave;</div>
+  </div>
+  <div class="h-right">
+    <div class="h-lang">
+      <a onclick="setLang('ht')" id="lang-ht" class="active">HT</a>
+      <a onclick="setLang('fr')" id="lang-fr">FR</a>
+      <a onclick="setLang('en')" id="lang-en">EN</a>
+      <a onclick="setLang('es')" id="lang-es">ES</a>
+    </div>
+    <div class="h-bell" onclick="toast('3 nouvo rezèvasyon','info')" id="hBell">&#128276;<span class="badge" id="notifCount">3</span></div>
+    <div class="h-avatar" id="hAvatar" onclick="showTab('settings')">--</div>
+  </div>
+</header>
+
+<!-- TOAST CONTAINER -->
+<div class="toast-container" id="toastBox"></div>
+
+<!-- LOGIN VIEW -->
+<div class="login-view" id="loginView">
+  <div class="login-card">
+    <div class="login-icon">&#128274;</div>
+    <div class="login-title" data-i18n="login_title">Pano Operat&egrave;</div>
+    <div class="login-sub" data-i18n="login_sub">Konekte pou j&egrave;re rez&egrave;vasyon, envant&egrave; ak pri ou yo.</div>
+
+    <div class="login-tabs">
+      <div class="login-tab active" onclick="switchLoginTab('login')" data-i18n="tab_login">Konekte</div>
+      <div class="login-tab" onclick="switchLoginTab('register')" data-i18n="tab_register">Enskri</div>
+    </div>
+
+    <form class="login-form active" id="formLogin" onsubmit="return doLogin(event)">
+      <div class="l-group">
+        <label class="l-label" data-i18n="lbl_phone">Telef&ograve;n</label>
+        <input type="tel" class="l-input" id="loginPhone" placeholder="+509 XXXX XXXX">
+      </div>
+      <div class="l-group">
+        <label class="l-label" data-i18n="lbl_password">Modpas</label>
+        <input type="password" class="l-input" id="loginPass" placeholder="********">
+      </div>
+      <button type="submit" class="l-btn" data-i18n="btn_login">Konekte</button>
+    </form>
+
+    <form class="login-form" id="formRegister" onsubmit="return doRegister(event)">
+      <div class="l-group">
+        <label class="l-label" data-i18n="lbl_biz_name">Non Biznis</label>
+        <input type="text" class="l-input" id="regName" placeholder="Ex: Hotel Belle Vue">
+      </div>
+      <div class="l-group">
+        <label class="l-label" data-i18n="lbl_biz_type">Tip Biznis</label>
+        <select class="l-input" id="regType">
+          <option value="hotel" data-i18n="type_hotel">Ot&egrave;l</option>
+          <option value="bus" data-i18n="type_bus">Konpayi Bis</option>
+          <option value="helicopter" data-i18n="type_heli">Elikopt&egrave;</option>
+          <option value="airline" data-i18n="type_airline">Liy Ayeryen</option>
+          <option value="maritime" data-i18n="type_maritime">Maritim</option>
+          <option value="events" data-i18n="type_events">Ev&egrave;nman</option>
+          <option value="concierge" data-i18n="type_concierge">Conciergerie</option>
+        </select>
+      </div>
+      <div class="l-group">
+        <label class="l-label" data-i18n="lbl_phone">Telef&ograve;n</label>
+        <input type="tel" class="l-input" id="regPhone" placeholder="+509 XXXX XXXX">
+      </div>
+      <div class="l-group">
+        <label class="l-label" data-i18n="lbl_email">Imèl</label>
+        <input type="email" class="l-input" id="regEmail" placeholder="info@biznis.com">
+      </div>
+      <div class="l-group">
+        <label class="l-label" data-i18n="lbl_password">Modpas</label>
+        <input type="password" class="l-input" id="regPass" placeholder="********">
+      </div>
+      <button type="submit" class="l-btn" data-i18n="btn_register">Enskri</button>
+    </form>
+
+    <div class="demo-divider" data-i18n="or_demo">oswa eseye demo a</div>
+    <div class="demo-profiles">
+      <div class="demo-profile" onclick="demoLogin('hotel')"><span class="dp-icon">&#127976;</span>Hotel Belle Vue</div>
+      <div class="demo-profile" onclick="demoLogin('bus')"><span class="dp-icon">&#128652;</span>Transport Express</div>
+      <div class="demo-profile" onclick="demoLogin('helicopter')"><span class="dp-icon">&#128641;</span>Caribbean Heli</div>
+    </div>
+  </div>
+</div>
+
+<!-- DASHBOARD -->
+<div class="dashboard" id="dashView">
+
+  <!-- STATS -->
+  <div class="stats" id="statsRow">
+    <div class="stat-card">
+      <div class="stat-icon">&#128203;</div>
+      <div class="stat-val"><span id="statBookings">0</span><span class="stat-trend up" id="statBookTrend">+12%</span></div>
+      <div class="stat-label" data-i18n="stat_bookings">Rez&egrave;vasyon Jodi a</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-icon">&#128176;</div>
+      <div class="stat-val"><span id="statRevenue">0</span></div>
+      <div class="stat-label" data-i18n="stat_revenue">Revni Semèn Sa (HTG)</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-icon">&#128200;</div>
+      <div class="stat-val"><span id="statOccupancy">0%</span></div>
+      <div class="stat-label" data-i18n="stat_occupancy">Itilizasyon</div>
+      <div class="stat-bar"><div class="stat-bar-fill" id="statOccBar" style="width:0%;background:var(--green)"></div></div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-icon">&#9203;</div>
+      <div class="stat-val"><span id="statPending">0</span></div>
+      <div class="stat-label" data-i18n="stat_pending">An Atant</div>
+    </div>
+  </div>
+
+  <!-- TABS -->
+  <div class="tabs">
+    <div class="tab active" onclick="showTab('reservations')"><span class="t-icon">&#128203;</span> <span data-i18n="tab_res">Rez&egrave;vasyon</span></div>
+    <div class="tab" onclick="showTab('schedules')"><span class="t-icon">&#128197;</span> <span data-i18n="tab_sched">Or&egrave;</span></div>
+    <div class="tab" onclick="showTab('inventory')"><span class="t-icon">&#128230;</span> <span data-i18n="tab_inv">Envant&egrave;</span></div>
+    <div class="tab" onclick="showTab('pricing')"><span class="t-icon">&#128181;</span> <span data-i18n="tab_price">Pri</span></div>
+    <div class="tab" onclick="showTab('manifests')"><span class="t-icon">&#128196;</span> <span data-i18n="tab_manifest">Manif&egrave;s</span></div>
+    <div class="tab" onclick="showTab('qr')"><span class="t-icon">&#128274;</span> <span data-i18n="tab_qr">Validasyon QR</span></div>
+    <div class="tab" onclick="showTab('settings')"><span class="t-icon">&#9881;</span> <span data-i18n="tab_settings">Param&egrave;t</span></div>
+  </div>
+
+  <!-- TAB: RESERVATIONS -->
+  <div class="tab-content active" id="tc-reservations">
+    <div class="filter-bar">
+      <input type="text" class="filter-input" placeholder="Chache pa non, ref..." id="resSearch" oninput="filterRes()">
+      <select class="filter-input" id="resStatus" onchange="filterRes()">
+        <option value="all" data-i18n="filter_all">Tout</option>
+        <option value="pending" data-i18n="filter_pending">An Atant</option>
+        <option value="confirmed" data-i18n="filter_confirmed">Konfime</option>
+        <option value="completed" data-i18n="filter_completed">Fini</option>
+        <option value="cancelled" data-i18n="filter_cancelled">Anile</option>
+      </select>
+      <button class="bulk-btn" onclick="bulkApprove()" data-i18n="btn_bulk_approve">&#9989; Apwouve Tout</button>
+    </div>
+    <div id="resList"></div>
+  </div>
+
+  <!-- TAB: SCHEDULES -->
+  <div class="tab-content" id="tc-schedules">
+    <div class="week-grid" id="weekGrid"></div>
+    <div id="schedList"></div>
+    <div class="add-btn" onclick="openModal('schedule')">+ <span data-i18n="btn_add_schedule">Ajoute Or&egrave;</span></div>
+  </div>
+
+  <!-- TAB: INVENTORY -->
+  <div class="tab-content" id="tc-inventory">
+    <div class="inv-grid" id="invGrid"></div>
+    <div class="add-btn" onclick="openModal('inventory')">+ <span data-i18n="btn_add_inventory">Ajoute Envant&egrave;</span></div>
+  </div>
+
+  <!-- TAB: PRICING -->
+  <div class="tab-content" id="tc-pricing">
+    <div id="priceList"></div>
+  </div>
+
+  <!-- TAB: MANIFESTS -->
+  <div class="tab-content" id="tc-manifests">
+    <div class="manifest-header">
+      <select class="manifest-select" id="manifestSelect" onchange="renderManifest()"></select>
+      <div class="manifest-actions">
+        <button class="m-btn print" onclick="window.print()">&#128424; <span data-i18n="btn_print">Enprime</span></button>
+        <button class="m-btn share" onclick="shareManifest()">&#128172; <span data-i18n="btn_share">Pataje</span></button>
+      </div>
+    </div>
+    <div class="manifest-count" id="manifestCount"></div>
+    <div id="manifestList"></div>
+  </div>
+
+  <!-- TAB: QR VALIDATION -->
+  <div class="tab-content" id="tc-qr">
+    <div class="qr-section">
+      <div class="qr-icon">&#128274;</div>
+      <div class="qr-title" data-i18n="qr_title">Verifye Rez&egrave;vasyon</div>
+      <div class="qr-input-row">
+        <input type="text" id="qrRef" placeholder="REF-XXXXXX" oninput="this.value=this.value.toUpperCase()">
+        <button onclick="validateQR()" data-i18n="btn_verify">Verifye</button>
+      </div>
+      <div class="qr-result" id="qrResult"></div>
+      <div class="qr-history" id="qrHistory">
+        <div class="qr-history-title" data-i18n="qr_history">Ist&ograve;rik Validasyon</div>
+        <div id="qrHistoryList"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- TAB: SETTINGS -->
+  <div class="tab-content" id="tc-settings">
+    <div class="settings-section">
+      <div class="settings-title" data-i18n="set_profile">Pwofil Biznis</div>
+      <div class="settings-card">
+        <div class="s-group">
+          <label class="s-label" data-i18n="lbl_biz_name">Non Biznis</label>
+          <input type="text" class="s-input" id="setBizName">
+        </div>
+        <div class="s-group">
+          <label class="s-label" data-i18n="lbl_address">Adr&egrave;s</label>
+          <input type="text" class="s-input" id="setAddress" placeholder="Ex: Petion-Ville, Rue Faubert">
+        </div>
+        <div class="s-group">
+          <label class="s-label" data-i18n="lbl_phone">Telef&ograve;n</label>
+          <input type="tel" class="s-input" id="setPhone">
+        </div>
+        <div class="s-group">
+          <label class="s-label" data-i18n="lbl_desc">Deskripsyon</label>
+          <textarea class="s-input" id="setDesc" rows="3"></textarea>
+        </div>
+      </div>
+    </div>
+    <div class="settings-section">
+      <div class="settings-title" data-i18n="set_payment">Enf&ograve;masyon Peman</div>
+      <div class="settings-card">
+        <div class="s-group">
+          <label class="s-label">MonCash</label>
+          <input type="tel" class="s-input" id="setMoncash" placeholder="+509 XXXX XXXX">
+        </div>
+        <div class="s-group">
+          <label class="s-label" data-i18n="lbl_bank">Kont Bank</label>
+          <input type="text" class="s-input" id="setBank" placeholder="BUH / Sogebank / Unibank">
+        </div>
+      </div>
+    </div>
+    <button class="s-save" onclick="saveSettings()" data-i18n="btn_save">Anrejistre</button>
+    <div style="margin-top:20px;text-align:center">
+      <button style="padding:12px 24px;border-radius:10px;font-size:.78rem;font-weight:800;color:var(--red);background:var(--red-light);cursor:pointer" onclick="logout()" data-i18n="btn_logout">Dekonekte</button>
+    </div>
+  </div>
+
+</div>
+
+<!-- MODAL -->
+<div class="modal-overlay" id="modalOverlay" onclick="if(event.target===this)closeModal()">
+  <div class="modal" id="modalContent"></div>
+</div>
+
+<!-- FOOTER -->
+<div class="op-footer">
+  Powered by <a href="reservations.html">TouPaTou</a> &mdash; Yon Platf&ograve;m. Tout Rez&egrave;vasyon.
+</div>
+
+<script>
+var API_URL='https://toupatou-backend.onrender.com/api';
+var WA='50941902005';
+var OP=null;
+var qrLog=[];
+var currentLang='ht';
+
+/* ========== i18n ========== */
+var T={
+ht:{
+  h_badge:"Operatè",login_title:"Pano Operatè",login_sub:"Konekte pou jère rezèvasyon, envantè ak pri ou yo.",
+  tab_login:"Konekte",tab_register:"Enskri",lbl_phone:"Telefòn",lbl_password:"Modpas",lbl_email:"Imèl",
+  lbl_biz_name:"Non Biznis",lbl_biz_type:"Tip Biznis",btn_login:"Konekte",btn_register:"Enskri",
+  type_hotel:"Otèl",type_bus:"Konpayi Bis",type_heli:"Elikoptè",type_airline:"Liy Ayeryen",
+  type_maritime:"Maritim",type_events:"Evènman",type_concierge:"Conciergerie",
+  or_demo:"oswa eseye demo a",
+  stat_bookings:"Rezèvasyon Jodi a",stat_revenue:"Revni Semèn Sa (HTG)",stat_occupancy:"Itilizasyon",stat_pending:"An Atant",
+  tab_res:"Rezèvasyon",tab_sched:"Orè",tab_inv:"Envantè",tab_price:"Pri",tab_manifest:"Manifès",tab_qr:"Validasyon QR",tab_settings:"Paramèt",
+  filter_all:"Tout",filter_pending:"An Atant",filter_confirmed:"Konfime",filter_completed:"Fini",filter_cancelled:"Anile",
+  btn_bulk_approve:"Apwouve Tout",btn_add_schedule:"Ajoute Orè",btn_add_inventory:"Ajoute Envantè",
+  btn_print:"Enprime",btn_share:"Pataje",btn_verify:"Verifye",btn_save:"Anrejistre",btn_logout:"Dekonekte",
+  qr_title:"Verifye Rezèvasyon",qr_history:"Istòrik Validasyon",
+  set_profile:"Pwofil Biznis",set_payment:"Enfòmasyon Peman",lbl_address:"Adrès",lbl_desc:"Deskripsyon",lbl_bank:"Kont Bank",
+  s_pending:"An Atant",s_confirmed:"Konfime",s_completed:"Fini",s_cancelled:"Anile",
+  act_approve:"Apwouve",act_reject:"Rejte",act_contact:"WhatsApp",
+  toast_approved:"Rezèvasyon apwouve!",toast_rejected:"Rezèvasyon rejte.",toast_saved:"Anrejistre!",toast_bulk:"Tout an atant apwouve!",
+  qr_valid:"Valid! Rezèvasyon Konfime",qr_invalid:"Envalid! Pa jwenn rezèvasyon",
+  manifest_checked:"tcheke",manifest_of:"sou",
+  empty_no_res:"Pa gen rezèvasyon.",empty_search:"Pa jwenn rezilta.",
+  modal_add_sched:"Ajoute Orè",modal_add_inv:"Ajoute Envantè",
+  lbl_room_type:"Tip Chanm",lbl_capacity:"Kapasitè",lbl_date:"Dat",lbl_route:"Wout",
+  lbl_vehicle:"Machinn",lbl_driver:"Chofè",lbl_depart_time:"Lè Depa",lbl_aircraft:"Avyon",
+  lbl_max_pax:"Maks Pasaje",btn_add:"Ajoute",
+  available:"Disponib",lbl_price:"Pri (HTG)"
+},
+fr:{
+  h_badge:"Operateur",login_title:"Panneau Operateur",login_sub:"Connectez-vous pour gerer vos reservations, inventaire et tarifs.",
+  tab_login:"Connexion",tab_register:"Inscription",lbl_phone:"Telephone",lbl_password:"Mot de passe",lbl_email:"Email",
+  lbl_biz_name:"Nom de l'entreprise",lbl_biz_type:"Type d'entreprise",btn_login:"Connexion",btn_register:"Inscription",
+  type_hotel:"Hotel",type_bus:"Compagnie de Bus",type_heli:"Helicoptere",type_airline:"Compagnie Aerienne",
+  type_maritime:"Maritime",type_events:"Evenements",type_concierge:"Conciergerie",
+  or_demo:"ou essayez la demo",
+  stat_bookings:"Reservations Aujourd'hui",stat_revenue:"Revenus Cette Semaine (HTG)",stat_occupancy:"Utilisation",stat_pending:"En Attente",
+  tab_res:"Reservations",tab_sched:"Horaires",tab_inv:"Inventaire",tab_price:"Tarifs",tab_manifest:"Manifeste",tab_qr:"Validation QR",tab_settings:"Parametres",
+  filter_all:"Tous",filter_pending:"En Attente",filter_confirmed:"Confirme",filter_completed:"Termine",filter_cancelled:"Annule",
+  btn_bulk_approve:"Approuver Tous",btn_add_schedule:"Ajouter Horaire",btn_add_inventory:"Ajouter Inventaire",
+  btn_print:"Imprimer",btn_share:"Partager",btn_verify:"Verifier",btn_save:"Enregistrer",btn_logout:"Deconnexion",
+  qr_title:"Verifier Reservation",qr_history:"Historique de Validation",
+  set_profile:"Profil Entreprise",set_payment:"Informations de Paiement",lbl_address:"Adresse",lbl_desc:"Description",lbl_bank:"Compte Bancaire",
+  s_pending:"En Attente",s_confirmed:"Confirme",s_completed:"Termine",s_cancelled:"Annule",
+  act_approve:"Approuver",act_reject:"Rejeter",act_contact:"WhatsApp",
+  toast_approved:"Reservation approuvee!",toast_rejected:"Reservation rejetee.",toast_saved:"Enregistre!",toast_bulk:"Tous en attente approuves!",
+  qr_valid:"Valide! Reservation Confirmee",qr_invalid:"Invalide! Reservation non trouvee",
+  manifest_checked:"verifies",manifest_of:"sur",
+  empty_no_res:"Aucune reservation.",empty_search:"Aucun resultat.",
+  modal_add_sched:"Ajouter Horaire",modal_add_inv:"Ajouter Inventaire",
+  lbl_room_type:"Type de Chambre",lbl_capacity:"Capacite",lbl_date:"Date",lbl_route:"Route",
+  lbl_vehicle:"Vehicule",lbl_driver:"Chauffeur",lbl_depart_time:"Heure de Depart",lbl_aircraft:"Aeroplane",
+  lbl_max_pax:"Passagers Max",btn_add:"Ajouter",
+  available:"Disponible",lbl_price:"Prix (HTG)"
+},
+en:{
+  h_badge:"Operator",login_title:"Operator Panel",login_sub:"Sign in to manage your reservations, inventory and pricing.",
+  tab_login:"Sign In",tab_register:"Register",lbl_phone:"Phone",lbl_password:"Password",lbl_email:"Email",
+  lbl_biz_name:"Business Name",lbl_biz_type:"Business Type",btn_login:"Sign In",btn_register:"Register",
+  type_hotel:"Hotel",type_bus:"Bus Company",type_heli:"Helicopter",type_airline:"Airline",
+  type_maritime:"Maritime",type_events:"Events",type_concierge:"Concierge",
+  or_demo:"or try the demo",
+  stat_bookings:"Today's Bookings",stat_revenue:"Revenue This Week (HTG)",stat_occupancy:"Utilization",stat_pending:"Pending",
+  tab_res:"Reservations",tab_sched:"Schedules",tab_inv:"Inventory",tab_price:"Pricing",tab_manifest:"Manifests",tab_qr:"QR Validation",tab_settings:"Settings",
+  filter_all:"All",filter_pending:"Pending",filter_confirmed:"Confirmed",filter_completed:"Completed",filter_cancelled:"Cancelled",
+  btn_bulk_approve:"Approve All",btn_add_schedule:"Add Schedule",btn_add_inventory:"Add Inventory",
+  btn_print:"Print",btn_share:"Share",btn_verify:"Verify",btn_save:"Save",btn_logout:"Sign Out",
+  qr_title:"Verify Reservation",qr_history:"Validation History",
+  set_profile:"Business Profile",set_payment:"Payment Information",lbl_address:"Address",lbl_desc:"Description",lbl_bank:"Bank Account",
+  s_pending:"Pending",s_confirmed:"Confirmed",s_completed:"Completed",s_cancelled:"Cancelled",
+  act_approve:"Approve",act_reject:"Reject",act_contact:"WhatsApp",
+  toast_approved:"Reservation approved!",toast_rejected:"Reservation rejected.",toast_saved:"Saved!",toast_bulk:"All pending approved!",
+  qr_valid:"Valid! Reservation Confirmed",qr_invalid:"Invalid! Reservation not found",
+  manifest_checked:"checked in",manifest_of:"of",
+  empty_no_res:"No reservations.",empty_search:"No results found.",
+  modal_add_sched:"Add Schedule",modal_add_inv:"Add Inventory",
+  lbl_room_type:"Room Type",lbl_capacity:"Capacity",lbl_date:"Date",lbl_route:"Route",
+  lbl_vehicle:"Vehicle",lbl_driver:"Driver",lbl_depart_time:"Departure Time",lbl_aircraft:"Aircraft",
+  lbl_max_pax:"Max Passengers",btn_add:"Add",
+  available:"Available",lbl_price:"Price (HTG)"
+},
+es:{
+  h_badge:"Operador",login_title:"Panel de Operador",login_sub:"Inicie sesion para gestionar sus reservas, inventario y precios.",
+  tab_login:"Iniciar Sesion",tab_register:"Registrarse",lbl_phone:"Telefono",lbl_password:"Contrasena",lbl_email:"Correo",
+  lbl_biz_name:"Nombre del Negocio",lbl_biz_type:"Tipo de Negocio",btn_login:"Iniciar Sesion",btn_register:"Registrarse",
+  type_hotel:"Hotel",type_bus:"Empresa de Bus",type_heli:"Helicoptero",type_airline:"Aerolinea",
+  type_maritime:"Maritimo",type_events:"Eventos",type_concierge:"Concierge",
+  or_demo:"o prueba la demo",
+  stat_bookings:"Reservas Hoy",stat_revenue:"Ingresos Esta Semana (HTG)",stat_occupancy:"Utilizacion",stat_pending:"Pendientes",
+  tab_res:"Reservas",tab_sched:"Horarios",tab_inv:"Inventario",tab_price:"Precios",tab_manifest:"Manifiesto",tab_qr:"Validacion QR",tab_settings:"Ajustes",
+  filter_all:"Todos",filter_pending:"Pendiente",filter_confirmed:"Confirmado",filter_completed:"Completado",filter_cancelled:"Cancelado",
+  btn_bulk_approve:"Aprobar Todos",btn_add_schedule:"Agregar Horario",btn_add_inventory:"Agregar Inventario",
+  btn_print:"Imprimir",btn_share:"Compartir",btn_verify:"Verificar",btn_save:"Guardar",btn_logout:"Cerrar Sesion",
+  qr_title:"Verificar Reserva",qr_history:"Historial de Validacion",
+  set_profile:"Perfil del Negocio",set_payment:"Informacion de Pago",lbl_address:"Direccion",lbl_desc:"Descripcion",lbl_bank:"Cuenta Bancaria",
+  s_pending:"Pendiente",s_confirmed:"Confirmado",s_completed:"Completado",s_cancelled:"Cancelado",
+  act_approve:"Aprobar",act_reject:"Rechazar",act_contact:"WhatsApp",
+  toast_approved:"Reserva aprobada!",toast_rejected:"Reserva rechazada.",toast_saved:"Guardado!",toast_bulk:"Todos pendientes aprobados!",
+  qr_valid:"Valido! Reserva Confirmada",qr_invalid:"Invalido! Reserva no encontrada",
+  manifest_checked:"registrados",manifest_of:"de",
+  empty_no_res:"Sin reservas.",empty_search:"Sin resultados.",
+  modal_add_sched:"Agregar Horario",modal_add_inv:"Agregar Inventario",
+  lbl_room_type:"Tipo de Habitacion",lbl_capacity:"Capacidad",lbl_date:"Fecha",lbl_route:"Ruta",
+  lbl_vehicle:"Vehiculo",lbl_driver:"Chofer",lbl_depart_time:"Hora de Salida",lbl_aircraft:"Aeronave",
+  lbl_max_pax:"Pasajeros Max",btn_add:"Agregar",
+  available:"Disponible",lbl_price:"Precio (HTG)"
+}
+};
+
+function tx(k){return(T[currentLang]||T.ht)[k]||(T.ht)[k]||k}
+function setLang(l){
+  currentLang=l;
+  document.querySelectorAll('.h-lang a').forEach(function(a){a.classList.remove('active')});
+  var el=document.getElementById('lang-'+l);if(el)el.classList.add('active');
+  var tr=T[l]||T.ht;
+  document.querySelectorAll('[data-i18n]').forEach(function(el){var k=el.getAttribute('data-i18n');if(tr[k])el.innerHTML=tr[k]});
+  if(OP)renderAll();
+}
+
+/* ========== DEMO DATA ========== */
+var DEMOS={
+hotel:{
+  name:'Hotel Belle Vue',type:'hotel',phone:'+509 3412 5678',email:'info@bellevue.ht',
+  address:'Petion-Ville, Rue Faubert 42',desc:'Otèl boutik 4 etwal nan kè Petion-Ville.',
+  moncash:'+509 3412 5678',bank:'Sogebank #2847561',
+  stats:{bookings:8,revenue:87500,occupancy:72,pending:3},
+  reservations:[
+    {id:'TP-2026-101',ref:'HTL-K4M2R8',type:'hotel',customer:'Jean Pierre',phone:'+509 4812 1111',room:'Deluxe',checkin:'2026-05-14',checkout:'2026-05-16',guests:2,amount:9000,status:'pending',pin:'4521'},
+    {id:'TP-2026-102',ref:'HTL-N7B3X5',type:'hotel',customer:'Marie Claire',phone:'+509 4812 2222',room:'Suite',checkin:'2026-05-13',checkout:'2026-05-15',guests:2,amount:16000,status:'confirmed',pin:'8834'},
+    {id:'TP-2026-103',ref:'HTL-P9Q1V6',type:'hotel',customer:'Robert Desrosiers',phone:'+509 4812 3333',room:'Standard',checkin:'2026-05-15',checkout:'2026-05-17',guests:1,amount:5000,status:'pending',pin:'1267'},
+    {id:'TP-2026-104',ref:'HTL-T2W8M3',type:'hotel',customer:'Sophie Jean-Baptiste',phone:'+509 4812 4444',room:'Presidential',checkin:'2026-05-13',checkout:'2026-05-18',guests:2,amount:75000,status:'confirmed',pin:'3391'},
+    {id:'TP-2026-105',ref:'HTL-A5C9K7',type:'hotel',customer:'Pierre Louis',phone:'+509 4812 5555',room:'Standard',checkin:'2026-05-12',checkout:'2026-05-13',guests:1,amount:2500,status:'completed',pin:'5543'},
+    {id:'TP-2026-106',ref:'HTL-D8F2N4',type:'hotel',customer:'Nadine Celestin',phone:'+509 4812 6666',room:'Deluxe',checkin:'2026-05-11',checkout:'2026-05-13',guests:3,amount:9000,status:'completed',pin:'7712'},
+    {id:'TP-2026-107',ref:'HTL-G1H6R9',type:'hotel',customer:'Jacques Dumornay',phone:'+509 4812 7777',room:'Suite',checkin:'2026-05-16',checkout:'2026-05-18',guests:2,amount:16000,status:'pending',pin:'9945'},
+    {id:'TP-2026-108',ref:'HTL-J4L8T1',type:'hotel',customer:'Francine Moreau',phone:'+509 4812 8888',room:'Standard',checkin:'2026-05-10',checkout:'2026-05-11',guests:1,amount:2500,status:'cancelled',pin:'2218'}
+  ],
+  inventory:[
+    {name:'Standard',icon:'&#128719;',price:2500,available:6,total:10},
+    {name:'Deluxe',icon:'&#127775;',price:4500,available:3,total:6},
+    {name:'Suite',icon:'&#128081;',price:8000,available:1,total:3},
+    {name:'Presidential',icon:'&#11088;',price:15000,available:1,total:1}
+  ],
+  schedules:[
+    {title:'Chanm Standard Disponib',meta:'6 sou 10 disponib — Chak jou',icon:'&#128719;'},
+    {title:'Chanm Deluxe Disponib',meta:'3 sou 6 disponib — Chak jou',icon:'&#127775;'},
+    {title:'Suite Disponib',meta:'1 sou 3 disponib — Jounen espesyal sèlman',icon:'&#128081;'},
+    {title:'Presidential disponib',meta:'1 sou 1 — Rezèvasyon avans sèlman',icon:'&#11088;'}
+  ],
+  manifests:[
+    {label:'13 Me 2026',passengers:[
+      {name:'Marie Claire',phone:'+509 4812 2222',detail:'Suite #301',status:'confirmed',paid:true,checked:false},
+      {name:'Sophie Jean-Baptiste',phone:'+509 4812 4444',detail:'Presidential #PH1',status:'confirmed',paid:true,checked:false}
+    ]},
+    {label:'14 Me 2026',passengers:[
+      {name:'Jean Pierre',phone:'+509 4812 1111',detail:'Deluxe #204',status:'pending',paid:false,checked:false},
+      {name:'Marie Claire',phone:'+509 4812 2222',detail:'Suite #301',status:'confirmed',paid:true,checked:false}
+    ]},
+    {label:'15 Me 2026',passengers:[
+      {name:'Robert Desrosiers',phone:'+509 4812 3333',detail:'Standard #102',status:'pending',paid:false,checked:false},
+      {name:'Jean Pierre',phone:'+509 4812 1111',detail:'Deluxe #204',status:'pending',paid:false,checked:false}
+    ]}
+  ]
+},
+bus:{
+  name:'Transport Express',type:'bus',phone:'+509 3567 8901',email:'info@transportexpress.ht',
+  address:'Port-au-Prince, Rue Dessalines',desc:'Sèvis bis entènasyonal Ayiti-Dominikani.',
+  moncash:'+509 3567 8901',bank:'BUH #1934782',
+  stats:{bookings:14,revenue:42000,occupancy:85,pending:5},
+  reservations:[
+    {id:'TP-2026-201',ref:'BUS-M2K5P9',type:'bus',customer:'Carlos Rivera',phone:'+509 4921 1111',route:'PAP → SDQ',seat:'A3',date:'2026-05-14',amount:3500,status:'confirmed',pin:'6634'},
+    {id:'TP-2026-202',ref:'BUS-Q7N3R1',type:'bus',customer:'Ana Martinez',phone:'+509 4921 2222',route:'PAP → STI',seat:'B1',date:'2026-05-14',amount:3000,status:'pending',pin:'2287'},
+    {id:'TP-2026-203',ref:'BUS-V4X8L6',type:'bus',customer:'Emmanuel Joseph',phone:'+509 4921 3333',route:'CAP → SDQ',seat:'A1',date:'2026-05-15',amount:4000,status:'pending',pin:'5598'},
+    {id:'TP-2026-204',ref:'BUS-Y1A5H9',type:'bus',customer:'Rosa Sanchez',phone:'+509 4921 4444',route:'PAP → SDQ',seat:'C2',date:'2026-05-14',amount:3500,status:'confirmed',pin:'3312'},
+    {id:'TP-2026-205',ref:'BUS-B8D2K4',type:'bus',customer:'Fritz Duval',phone:'+509 4921 5555',route:'CAP → STI',seat:'A2',date:'2026-05-16',amount:3000,status:'pending',pin:'8843'}
+  ],
+  inventory:[
+    {name:'PAP → SDQ',icon:'&#128652;',price:3500,available:12,total:45},
+    {name:'PAP → STI',icon:'&#128652;',price:3000,available:8,total:45},
+    {name:'CAP → SDQ',icon:'&#128652;',price:4000,available:20,total:45},
+    {name:'CAP → STI',icon:'&#128652;',price:3000,available:15,total:45}
+  ],
+  schedules:[
+    {title:'PAP → Santo Domingo',meta:'Depa 6:00 AM — Chofè: Jean-Marc',icon:'&#128652;'},
+    {title:'PAP → Santiago',meta:'Depa 7:00 AM — Chofè: Pierre',icon:'&#128652;'},
+    {title:'CAP → Santo Domingo',meta:'Depa 5:30 AM — Chofè: Michel',icon:'&#128652;'},
+    {title:'CAP → Santiago',meta:'Depa 6:30 AM — Chofè: Andre',icon:'&#128652;'}
+  ],
+  manifests:[
+    {label:'PAP→SDQ 14 Me 6:00 AM',passengers:[
+      {name:'Carlos Rivera',phone:'+509 4921 1111',detail:'Seat A3',status:'confirmed',paid:true,checked:false},
+      {name:'Rosa Sanchez',phone:'+509 4921 4444',detail:'Seat C2',status:'confirmed',paid:true,checked:false}
+    ]},
+    {label:'PAP→STI 14 Me 7:00 AM',passengers:[
+      {name:'Ana Martinez',phone:'+509 4921 2222',detail:'Seat B1',status:'pending',paid:false,checked:false}
+    ]},
+    {label:'CAP→SDQ 15 Me 5:30 AM',passengers:[
+      {name:'Emmanuel Joseph',phone:'+509 4921 3333',detail:'Seat A1',status:'pending',paid:false,checked:false}
+    ]}
+  ]
+},
+helicopter:{
+  name:'Caribbean Helicopters',type:'helicopter',phone:'+509 3789 0123',email:'fly@caribbeanheli.ht',
+  address:'Tabarre, Heliport TouPaTou',desc:'Sèvis elikoptè VIP pou tout Ayiti.',
+  moncash:'+509 3789 0123',bank:'Unibank #5678234',
+  stats:{bookings:3,revenue:125000,occupancy:60,pending:1},
+  reservations:[
+    {id:'TP-2026-301',ref:'HEL-F3G7J2',type:'helicopter',customer:'Marc Antoine',phone:'+509 4831 1111',route:'PAP → Cap-Haitien',pax:4,date:'2026-05-14',amount:45000,status:'confirmed',pin:'1198'},
+    {id:'TP-2026-302',ref:'HEL-K9M1P5',type:'helicopter',customer:'Isabelle Dupont',phone:'+509 4831 2222',route:'PAP → Ile-a-Vache',pax:2,date:'2026-05-15',amount:55000,status:'pending',pin:'4476'},
+    {id:'TP-2026-303',ref:'HEL-N4Q8S6',type:'helicopter',customer:'Patrick Estimé',phone:'+509 4831 3333',route:'PAP → Jacmel',pax:3,date:'2026-05-13',amount:25000,status:'completed',pin:'6632'}
+  ],
+  inventory:[
+    {name:'Bell 407',icon:'&#128641;',price:45000,available:1,total:2},
+    {name:'AS350',icon:'&#128641;',price:55000,available:1,total:1},
+    {name:'Robinson R44',icon:'&#128641;',price:25000,available:1,total:2}
+  ],
+  schedules:[
+    {title:'Bell 407 — PAP → Nord',meta:'Disponib chak jou 6AM-6PM — 6 plas',icon:'&#128641;'},
+    {title:'AS350 — Vòl VIP',meta:'Sou demann — 5 plas',icon:'&#128641;'},
+    {title:'Robinson R44 — Touris',meta:'Vandredi-Dimanch — 3 plas',icon:'&#128641;'}
+  ],
+  manifests:[
+    {label:'Bell 407 — 14 Me 2026',passengers:[
+      {name:'Marc Antoine',phone:'+509 4831 1111',detail:'4 passagers',status:'confirmed',paid:true,checked:false},
+    ]},
+    {label:'AS350 — 15 Me 2026',passengers:[
+      {name:'Isabelle Dupont',phone:'+509 4831 2222',detail:'2 passagers VIP',status:'pending',paid:false,checked:false}
+    ]}
+  ]
+}
+};
+
+/* ========== AUTH ========== */
+function switchLoginTab(tab){
+  document.querySelectorAll('.login-tab').forEach(function(t){t.classList.remove('active')});
+  document.querySelectorAll('.login-form').forEach(function(f){f.classList.remove('active')});
+  if(tab==='login'){
+    document.querySelectorAll('.login-tab')[0].classList.add('active');
+    document.getElementById('formLogin').classList.add('active');
+  } else {
+    document.querySelectorAll('.login-tab')[1].classList.add('active');
+    document.getElementById('formRegister').classList.add('active');
+  }
+}
+
+function doLogin(e){e.preventDefault();demoLogin('hotel');return false}
+function doRegister(e){e.preventDefault();demoLogin('hotel');return false}
+
+function demoLogin(type){
+  OP=JSON.parse(JSON.stringify(DEMOS[type]));
+  localStorage.setItem('tp_operator',JSON.stringify(OP));
+  document.getElementById('loginView').style.display='none';
+  document.getElementById('dashView').classList.add('active');
+  document.getElementById('hAvatar').textContent=OP.name.substring(0,2).toUpperCase();
+  renderAll();
+  toast(OP.name+' — Demo Mode','info');
+}
+
+function logout(){
+  OP=null;localStorage.removeItem('tp_operator');
+  document.getElementById('dashView').classList.remove('active');
+  document.getElementById('loginView').style.display='block';
+}
+
+/* ========== TABS ========== */
+function showTab(name){
+  document.querySelectorAll('.tab').forEach(function(t){t.classList.remove('active')});
+  document.querySelectorAll('.tab-content').forEach(function(c){c.classList.remove('active')});
+  var tabs=document.querySelectorAll('.tab');
+  var names=['reservations','schedules','inventory','pricing','manifests','qr','settings'];
+  var idx=names.indexOf(name);
+  if(idx>=0&&tabs[idx])tabs[idx].classList.add('active');
+  var tc=document.getElementById('tc-'+name);
+  if(tc)tc.classList.add('active');
+  location.hash=name;
+}
+
+/* ========== RENDER ALL ========== */
+function renderAll(){
+  if(!OP)return;
+  renderStats();renderReservations();renderSchedules();renderInventory();renderPricing();renderManifests();renderSettings();
+}
+
+/* ========== STATS ========== */
+function renderStats(){
+  var s=OP.stats;
+  document.getElementById('statBookings').textContent=s.bookings;
+  document.getElementById('statRevenue').textContent=s.revenue.toLocaleString();
+  document.getElementById('statOccupancy').textContent=s.occupancy+'%';
+  document.getElementById('statPending').textContent=s.pending;
+  var bar=document.getElementById('statOccBar');
+  bar.style.width=s.occupancy+'%';
+  bar.style.background=s.occupancy>70?'var(--green)':s.occupancy>40?'var(--gold)':'var(--red)';
+}
+
+/* ========== RESERVATIONS ========== */
+function renderReservations(){
+  var list=document.getElementById('resList');
+  var res=OP.reservations;
+  var search=(document.getElementById('resSearch').value||'').toLowerCase();
+  var statusF=document.getElementById('resStatus').value;
+  var html='';
+  var filtered=res.filter(function(r){
+    var matchSearch=!search||r.customer.toLowerCase().indexOf(search)>=0||r.ref.toLowerCase().indexOf(search)>=0;
+    var matchStatus=statusF==='all'||r.status===statusF;
+    return matchSearch&&matchStatus;
+  });
+  if(filtered.length===0){
+    html='<div class="empty-state"><div class="es-icon">&#128270;</div><div class="es-text">'+tx('empty_search')+'</div></div>';
+  } else {
+    filtered.forEach(function(r,i){
+      var typeIcon=getTypeIcon(r.type);
+      var statusClass=r.status;
+      var statusText=tx('s_'+r.status);
+      var details='';
+      if(r.room)details+='<div class="res-row"><span class="res-label">'+tx('lbl_room_type')+'</span><span class="res-val">'+r.room+'</span></div>';
+      if(r.route)details+='<div class="res-row"><span class="res-label">'+tx('lbl_route')+'</span><span class="res-val">'+r.route+'</span></div>';
+      if(r.seat)details+='<div class="res-row"><span class="res-label">Seat</span><span class="res-val">'+r.seat+'</span></div>';
+      if(r.checkin)details+='<div class="res-row"><span class="res-label">Check-in</span><span class="res-val">'+r.checkin+'</span></div>';
+      if(r.checkout)details+='<div class="res-row"><span class="res-label">Check-out</span><span class="res-val">'+r.checkout+'</span></div>';
+      if(r.pax)details+='<div class="res-row"><span class="res-label">'+tx('lbl_max_pax')+'</span><span class="res-val">'+r.pax+'</span></div>';
+      details+='<div class="res-row"><span class="res-label">PIN</span><span class="res-val" style="font-family:monospace;letter-spacing:.1em">'+r.pin+'</span></div>';
+
+      html+='<div class="res-card" onclick="toggleDetail(this)">'+
+        '<div class="res-top"><span class="res-ref">'+r.ref+'</span><span class="res-type-badge" style="color:var(--blue);background:var(--blue-light)">'+typeIcon+' '+r.type+'</span></div>'+
+        '<div class="res-row"><span class="res-label">'+r.customer+'</span><span class="res-val"><span class="status '+statusClass+'">'+statusText+'</span></span></div>'+
+        '<div class="res-row"><span class="res-label">'+(r.date||r.checkin||'')+'</span><span class="res-val" style="font-weight:900">'+r.amount.toLocaleString()+' HTG</span></div>'+
+        '<div class="res-detail" id="det-'+i+'">'+details+'</div>'+
+        '<div class="res-actions">'+
+          (r.status==='pending'?'<button class="res-act approve" onclick="event.stopPropagation();approveRes('+i+')">&#9989; '+tx('act_approve')+'</button><button class="res-act reject" onclick="event.stopPropagation();rejectRes('+i+')">&#10060; '+tx('act_reject')+'</button>':'')+
+          '<button class="res-act whatsapp" onclick="event.stopPropagation();contactCustomer('+i+')">&#128172; '+tx('act_contact')+'</button>'+
+        '</div></div>';
+    });
+  }
+  list.innerHTML=html;
+}
+function filterRes(){renderReservations()}
+function toggleDetail(card){var d=card.querySelector('.res-detail');if(d)d.classList.toggle('show')}
+function approveRes(i){
+  OP.reservations[i].status='confirmed';OP.stats.pending=Math.max(0,OP.stats.pending-1);
+  localStorage.setItem('tp_operator',JSON.stringify(OP));
+  renderAll();toast(tx('toast_approved'),'success');
+}
+function rejectRes(i){
+  OP.reservations[i].status='cancelled';OP.stats.pending=Math.max(0,OP.stats.pending-1);
+  localStorage.setItem('tp_operator',JSON.stringify(OP));
+  renderAll();toast(tx('toast_rejected'),'error');
+}
+function bulkApprove(){
+  var changed=0;
+  OP.reservations.forEach(function(r){if(r.status==='pending'){r.status='confirmed';changed++}});
+  OP.stats.pending=0;
+  localStorage.setItem('tp_operator',JSON.stringify(OP));
+  renderAll();if(changed>0)toast(tx('toast_bulk'),'success');
+}
+function contactCustomer(i){
+  var r=OP.reservations[i];
+  var msg='Bonjou '+r.customer+'! Rezèvasyon ou '+r.ref+' konfime. Mèsi pou chwazi '+OP.name+'!\n(via TouPaTou)';
+  window.open('https://wa.me/'+r.phone.replace(/[^0-9]/g,'')+'?text='+encodeURIComponent(msg),'_blank');
+}
+function getTypeIcon(t){
+  var icons={hotel:'&#127976;',bus:'&#128652;',helicopter:'&#128641;',flight:'&#9992;&#65039;',maritime:'&#9973;',events:'&#127915;',concierge:'&#128084;'};
+  return icons[t]||'&#128203;';
+}
+
+/* ========== SCHEDULES ========== */
+function renderSchedules(){
+  var grid=document.getElementById('weekGrid');
+  var list=document.getElementById('schedList');
+  var today=new Date();
+  var dayNames=['DIM','LUN','MAD','MÈK','JED','VAN','SAM'];
+  var ghtml='';
+  for(var d=0;d<7;d++){
+    var dt=new Date(today);dt.setDate(today.getDate()-today.getDay()+d);
+    var isToday=dt.toDateString()===today.toDateString();
+    var bookCount=Math.floor(Math.random()*5)+1;
+    ghtml+='<div class="week-day'+(isToday?' today':'')+'"><div class="wd-name">'+dayNames[d]+'</div><div class="wd-num">'+dt.getDate()+'</div><div class="wd-label">'+bookCount+' rez.</div></div>';
+  }
+  grid.innerHTML=ghtml;
+  var shtml='';
+  OP.schedules.forEach(function(s,i){
+    shtml+='<div class="sched-card"><span class="sc-icon">'+s.icon+'</span><div class="sc-info"><div class="sc-title">'+s.title+'</div><div class="sc-meta">'+s.meta+'</div></div><div class="sc-actions"><button class="sc-btn edit" onclick="toast(\'Edit coming soon\',\'info\')">&#9998;</button><button class="sc-btn del" onclick="removeSched('+i+')">&#128465;</button></div></div>';
+  });
+  list.innerHTML=shtml;
+}
+function removeSched(i){OP.schedules.splice(i,1);localStorage.setItem('tp_operator',JSON.stringify(OP));renderSchedules();toast('Orè retire','error')}
+
+/* ========== INVENTORY ========== */
+function renderInventory(){
+  var grid=document.getElementById('invGrid');
+  var html='';
+  OP.inventory.forEach(function(inv,i){
+    var pct=inv.available/inv.total;
+    var cls=pct>0.3?'ok':pct>0?'low':'out';
+    var dotColor=pct>0.3?'#16a34a':pct>0?'var(--gold)':'var(--red)';
+    html+='<div class="inv-card"><div class="inv-status" style="background:'+dotColor+'"></div><div class="inv-icon">'+inv.icon+'</div><div class="inv-name">'+inv.name+'</div><div class="inv-price">'+inv.price.toLocaleString()+' HTG</div><div class="inv-avail"><button class="inv-adj" onclick="adjInv('+i+',-1)">-</button><span class="inv-count '+cls+'">'+inv.available+'</span><button class="inv-adj" onclick="adjInv('+i+',1)">+</button></div></div>';
+  });
+  grid.innerHTML=html;
+}
+function adjInv(i,delta){
+  var inv=OP.inventory[i];
+  inv.available=Math.max(0,Math.min(inv.total,inv.available+delta));
+  localStorage.setItem('tp_operator',JSON.stringify(OP));
+  renderInventory();
+}
+
+/* ========== PRICING ========== */
+function renderPricing(){
+  var list=document.getElementById('priceList');
+  var html='';
+  OP.inventory.forEach(function(inv,i){
+    html+='<div class="price-row"><div class="price-info"><div class="price-name">'+inv.icon+' '+inv.name+'</div><div class="price-desc">'+tx('available')+': '+inv.available+'/'+inv.total+'</div></div><div class="price-edit"><span class="price-val" id="pv-'+i+'" onclick="editPrice('+i+')">'+inv.price.toLocaleString()+' HTG</span><input type="number" class="price-input" id="pi-'+i+'" value="'+inv.price+'" onkeydown="if(event.key===\'Enter\')savePrice('+i+')"><button class="price-save" id="ps-'+i+'" onclick="savePrice('+i+')">&#9989;</button></div></div>';
+  });
+  list.innerHTML=html;
+}
+function editPrice(i){
+  document.getElementById('pv-'+i).classList.add('editing');
+  document.getElementById('pi-'+i).classList.add('show');
+  document.getElementById('ps-'+i).classList.add('show');
+  document.getElementById('pi-'+i).focus();
+}
+function savePrice(i){
+  var val=parseInt(document.getElementById('pi-'+i).value)||0;
+  OP.inventory[i].price=val;
+  localStorage.setItem('tp_operator',JSON.stringify(OP));
+  renderPricing();toast(tx('toast_saved'),'success');
+}
+
+/* ========== MANIFESTS ========== */
+function renderManifests(){
+  var sel=document.getElementById('manifestSelect');
+  var html='';
+  OP.manifests.forEach(function(m,i){html+='<option value="'+i+'">'+m.label+'</option>'});
+  sel.innerHTML=html;
+  renderManifest();
+}
+function renderManifest(){
+  var idx=document.getElementById('manifestSelect').value||0;
+  var m=OP.manifests[idx];
+  if(!m)return;
+  var list=document.getElementById('manifestList');
+  var count=document.getElementById('manifestCount');
+  var checked=m.passengers.filter(function(p){return p.checked}).length;
+  count.innerHTML='<b>'+checked+'</b> '+tx('manifest_checked')+' '+tx('manifest_of')+' <b>'+m.passengers.length+'</b>';
+  var html='';
+  m.passengers.forEach(function(p,i){
+    html+='<div class="pax-row"><span class="pax-num">'+(i+1)+'</span><div class="pax-info"><div class="pax-name">'+p.name+'</div><div class="pax-meta">'+p.detail+' &middot; '+(p.paid?'&#9989; Peye':'&#9203; Pa peye')+'</div></div><div class="pax-check'+(p.checked?' checked':'')+'" onclick="togglePax('+idx+','+i+')">&#10003;</div></div>';
+  });
+  list.innerHTML=html;
+}
+function togglePax(mi,pi){
+  OP.manifests[mi].passengers[pi].checked=!OP.manifests[mi].passengers[pi].checked;
+  localStorage.setItem('tp_operator',JSON.stringify(OP));
+  renderManifest();
+}
+function shareManifest(){
+  var idx=document.getElementById('manifestSelect').value||0;
+  var m=OP.manifests[idx];if(!m)return;
+  var msg='MANIFÈS — '+m.label+'\n'+OP.name+'\n\n';
+  m.passengers.forEach(function(p,i){
+    msg+=(i+1)+'. '+p.name+' — '+p.detail+(p.checked?' ✅':' ⏳')+'\n';
+  });
+  msg+='\n(via TouPaTou Operator)';
+  window.open('https://wa.me/?text='+encodeURIComponent(msg),'_blank');
+}
+
+/* ========== QR VALIDATION ========== */
+function validateQR(){
+  var ref=document.getElementById('qrRef').value.trim().toUpperCase();
+  if(!ref)return;
+  var found=null;
+  OP.reservations.forEach(function(r){if(r.ref===ref)found=r});
+  var result=document.getElementById('qrResult');
+  var now=new Date().toLocaleTimeString();
+  if(found){
+    result.className='qr-result valid';
+    result.innerHTML='<div class="qr-r-icon">&#9989;</div><div class="qr-r-title">'+tx('qr_valid')+'</div><div class="qr-r-details"><b>'+found.customer+'</b><br>'+found.ref+' &middot; '+(found.room||found.route||found.type)+'<br>'+(found.date||found.checkin)+'<br>'+found.amount.toLocaleString()+' HTG &middot; PIN: '+found.pin+'</div>';
+    qrLog.unshift({ref:ref,valid:true,time:now});
+  } else {
+    result.className='qr-result invalid';
+    result.innerHTML='<div class="qr-r-icon">&#10060;</div><div class="qr-r-title">'+tx('qr_invalid')+'</div>';
+    qrLog.unshift({ref:ref,valid:false,time:now});
+  }
+  if(qrLog.length>10)qrLog=qrLog.slice(0,10);
+  renderQRHistory();
+  document.getElementById('qrRef').value='';
+}
+function renderQRHistory(){
+  var list=document.getElementById('qrHistoryList');
+  var html='';
+  qrLog.forEach(function(l){
+    html+='<div class="qr-h-item"><div class="qr-h-dot" style="background:'+(l.valid?'#16a34a':'var(--red)')+'"></div><span class="qr-h-ref">'+l.ref+'</span><span style="font-size:.65rem;color:'+(l.valid?'#16a34a':'var(--red)')+';font-weight:700;margin-left:6px">'+(l.valid?'VALID':'INVALID')+'</span><span class="qr-h-time">'+l.time+'</span></div>';
+  });
+  list.innerHTML=html;
+}
+
+/* ========== SETTINGS ========== */
+function renderSettings(){
+  document.getElementById('setBizName').value=OP.name;
+  document.getElementById('setAddress').value=OP.address||'';
+  document.getElementById('setPhone').value=OP.phone||'';
+  document.getElementById('setDesc').value=OP.desc||'';
+  document.getElementById('setMoncash').value=OP.moncash||'';
+  document.getElementById('setBank').value=OP.bank||'';
+}
+function saveSettings(){
+  OP.name=document.getElementById('setBizName').value;
+  OP.address=document.getElementById('setAddress').value;
+  OP.phone=document.getElementById('setPhone').value;
+  OP.desc=document.getElementById('setDesc').value;
+  OP.moncash=document.getElementById('setMoncash').value;
+  OP.bank=document.getElementById('setBank').value;
+  localStorage.setItem('tp_operator',JSON.stringify(OP));
+  document.getElementById('hAvatar').textContent=OP.name.substring(0,2).toUpperCase();
+  toast(tx('toast_saved'),'success');
+}
+
+/* ========== MODAL ========== */
+function openModal(type){
+  var overlay=document.getElementById('modalOverlay');
+  var content=document.getElementById('modalContent');
+  var html='';
+  if(type==='schedule'){
+    html='<div class="modal-title"><span>'+tx('modal_add_sched')+'</span><div class="modal-close" onclick="closeModal()">&#10005;</div></div>';
+    html+='<div class="l-group"><label class="l-label">'+tx('lbl_room_type')+' / '+tx('lbl_route')+'</label><input type="text" class="l-input" id="modalSchedTitle" placeholder="Ex: Chanm Deluxe / PAP→SDQ"></div>';
+    html+='<div class="l-group"><label class="l-label">'+tx('lbl_depart_time')+' / Detay</label><input type="text" class="l-input" id="modalSchedMeta" placeholder="Ex: 6:00 AM — Chofè: Jean"></div>';
+    html+='<button class="l-btn" onclick="addSchedule()">'+tx('btn_add')+'</button>';
+  } else if(type==='inventory'){
+    html='<div class="modal-title"><span>'+tx('modal_add_inv')+'</span><div class="modal-close" onclick="closeModal()">&#10005;</div></div>';
+    html+='<div class="l-group"><label class="l-label">'+tx('lbl_biz_name')+'</label><input type="text" class="l-input" id="modalInvName" placeholder="Ex: Deluxe / PAP→SDQ"></div>';
+    html+='<div class="l-group"><label class="l-label">'+tx('lbl_price')+' (HTG)</label><input type="number" class="l-input" id="modalInvPrice" placeholder="5000"></div>';
+    html+='<div class="l-group"><label class="l-label">'+tx('lbl_capacity')+'</label><input type="number" class="l-input" id="modalInvTotal" placeholder="10"></div>';
+    html+='<button class="l-btn" onclick="addInventory()">'+tx('btn_add')+'</button>';
+  }
+  content.innerHTML=html;
+  overlay.classList.add('open');
+}
+function closeModal(){document.getElementById('modalOverlay').classList.remove('open')}
+function addSchedule(){
+  var title=document.getElementById('modalSchedTitle').value.trim();
+  var meta=document.getElementById('modalSchedMeta').value.trim();
+  if(!title)return;
+  OP.schedules.push({title:title,meta:meta||'-',icon:getTypeIcon(OP.type)});
+  localStorage.setItem('tp_operator',JSON.stringify(OP));
+  renderSchedules();closeModal();toast(tx('toast_saved'),'success');
+}
+function addInventory(){
+  var name=document.getElementById('modalInvName').value.trim();
+  var price=parseInt(document.getElementById('modalInvPrice').value)||0;
+  var total=parseInt(document.getElementById('modalInvTotal').value)||1;
+  if(!name)return;
+  OP.inventory.push({name:name,icon:getTypeIcon(OP.type),price:price,available:total,total:total});
+  localStorage.setItem('tp_operator',JSON.stringify(OP));
+  renderInventory();renderPricing();closeModal();toast(tx('toast_saved'),'success');
+}
+
+/* ========== TOAST ========== */
+function toast(msg,type){
+  var box=document.getElementById('toastBox');
+  var icons={success:'&#9989;',error:'&#10060;',info:'&#128161;'};
+  var el=document.createElement('div');
+  el.className='toast '+(type||'info');
+  el.innerHTML='<span class="t-emoji">'+(icons[type]||icons.info)+'</span>'+msg;
+  box.appendChild(el);
+  setTimeout(function(){el.classList.add('removing');setTimeout(function(){el.remove()},300)},3000);
+}
+
+/* ========== INIT ========== */
+(function(){
+  setLang('ht');
+  var saved=localStorage.getItem('tp_operator');
+  if(saved){
+    try{
+      OP=JSON.parse(saved);
+      document.getElementById('loginView').style.display='none';
+      document.getElementById('dashView').classList.add('active');
+      document.getElementById('hAvatar').textContent=OP.name.substring(0,2).toUpperCase();
+      renderAll();
+    }catch(e){localStorage.removeItem('tp_operator')}
+  }
+  var hash=location.hash.replace('#','');
+  if(hash)showTab(hash);
+})();
+</script>
+</body>
+</html>
