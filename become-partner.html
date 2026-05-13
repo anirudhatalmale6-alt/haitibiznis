@@ -1,0 +1,1286 @@
+<!DOCTYPE html>
+<html lang="ht">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no">
+<title>TouPaTou — Vin Patnè</title>
+<meta name="description" content="Enskri biznis ou epi kòmanse resevwa rezèvasyon jodi a. Vin yon patnè TouPaTou verifye.">
+<meta property="og:title" content="TouPaTou — Become a Partner">
+<meta property="og:description" content="Register your business and start receiving bookings today. 50+ verified operators across Haiti.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://haitibiznis.com/become-partner.html">
+<link rel="icon" type="image/x-icon" href="favicon.ico">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --blue:#00209F;--blue-dark:#001566;--blue-deep:#000D4F;--blue-light:rgba(0,32,159,.06);
+  --red:#D21034;--red-dark:#B00D2C;--red-light:rgba(210,16,52,.08);
+  --gold:#D4A017;--gold-light:#E8B82E;--gold-bg:rgba(212,160,23,.08);--gold-glow:rgba(212,160,23,.3);
+  --white:#FFFFFF;--off-white:#FFF8F8;--cream:#FFFAF5;
+  --dark:#1A0C0C;--text:#2A1A1A;--text-light:#6A5A5A;--text-muted:#9A8A8A;
+  --green:#25D366;--green-dark:#1EBE5A;--green-light:rgba(37,211,102,.08);
+  --border:#E8DEDE;--border-light:#F0EAEA;
+  --body:'Plus Jakarta Sans',system-ui,sans-serif;
+  --display:'DM Serif Display',Georgia,serif;
+  --radius:16px;--radius-sm:14px;--radius-lg:24px;
+  --shadow-sm:0 2px 8px rgba(0,0,0,.04);
+  --shadow:0 4px 20px rgba(0,0,0,.06);
+  --shadow-lg:0 12px 40px rgba(0,0,0,.1);
+}
+html{scroll-behavior:smooth;-webkit-tap-highlight-color:transparent}
+body{
+  font-family:var(--body);background:var(--off-white);color:var(--text);
+  overflow-x:hidden;-webkit-font-smoothing:antialiased;padding-top:60px;
+}
+a{text-decoration:none;color:inherit}
+button{font-family:var(--body);cursor:pointer;border:none;background:none}
+input,select,textarea{font-family:var(--body);border:none;outline:none}
+
+@keyframes fadeUp{from{opacity:0;transform:translateY(24px)}to{opacity:1;transform:none}}
+@keyframes fadeIn{from{opacity:0}to{opacity:1}}
+@keyframes slideLeft{from{opacity:0;transform:translateX(40px)}to{opacity:1;transform:none}}
+@keyframes slideRight{from{opacity:0;transform:translateX(-40px)}to{opacity:1;transform:none}}
+@keyframes scaleIn{from{opacity:0;transform:scale(.85)}to{opacity:1;transform:scale(1)}}
+@keyframes checkPop{0%{transform:scale(0) rotate(-45deg);opacity:0}50%{transform:scale(1.2) rotate(0deg);opacity:1}100%{transform:scale(1) rotate(0deg);opacity:1}}
+@keyframes progressFill{from{width:0}to{width:var(--target-width)}}
+@keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-6px)}}
+@keyframes pulse{0%,100%{transform:scale(1)}50%{transform:scale(1.05)}}
+@keyframes shimmer{0%{background-position:-200% 0}100%{background-position:200% 0}}
+@keyframes dotPulse{0%,80%,100%{opacity:.3}40%{opacity:1}}
+@keyframes ringGrow{from{transform:scale(.5);opacity:1}to{transform:scale(2.5);opacity:0}}
+@keyframes spin{to{transform:rotate(360deg)}}
+@keyframes slideDown{from{opacity:0;transform:translateY(-8px)}to{opacity:1;transform:none}}
+
+/* HEADER */
+.header{
+  position:fixed;top:0;left:0;right:0;z-index:1000;
+  background:var(--blue);height:60px;
+  display:flex;align-items:center;justify-content:space-between;
+  padding:0 16px;
+  box-shadow:0 2px 20px rgba(0,13,79,.3);
+}
+.h-left{display:flex;align-items:center;gap:10px}
+.h-back{
+  width:36px;height:36px;border-radius:10px;
+  background:rgba(255,255,255,.1);
+  display:flex;align-items:center;justify-content:center;
+  color:var(--white);font-size:1.1rem;cursor:pointer;
+  transition:background .2s;text-decoration:none;
+}
+.h-back:hover{background:rgba(255,255,255,.2)}
+.h-brand{display:flex;align-items:center;gap:8px}
+.h-logo{font-family:var(--display);font-size:1.05rem;color:var(--white);line-height:1}
+.h-logo span{color:var(--red)}
+.h-badge{
+  font-size:.5rem;font-weight:900;color:var(--gold);
+  background:rgba(212,160,23,.15);padding:3px 8px;
+  border-radius:100px;letter-spacing:.08em;text-transform:uppercase;
+}
+.h-right{display:flex;align-items:center;gap:10px}
+.lang-toggle{display:flex;gap:2px;background:rgba(255,255,255,.1);border-radius:8px;padding:2px}
+.lang-toggle a{
+  color:rgba(255,255,255,.5);font-size:.58rem;font-weight:700;
+  padding:5px 7px;border-radius:6px;cursor:pointer;
+  transition:all .2s;letter-spacing:.02em;
+}
+.lang-toggle a.active{color:var(--blue);background:var(--white)}
+.lang-toggle a:hover:not(.active){color:rgba(255,255,255,.9)}
+
+/* HERO */
+.hero{
+  padding:48px 20px 40px;text-align:center;
+  background:linear-gradient(175deg,var(--blue) 0%,var(--blue-dark) 55%,var(--blue-deep) 100%);
+  position:relative;overflow:hidden;
+}
+.hero::before{
+  content:'';position:absolute;top:-50%;right:-30%;width:500px;height:500px;
+  background:radial-gradient(circle,rgba(210,16,52,.1) 0%,transparent 70%);
+  pointer-events:none;
+}
+.hero::after{
+  content:'';position:absolute;bottom:0;left:0;right:0;height:48px;
+  background:linear-gradient(to top,var(--off-white),transparent);pointer-events:none;
+}
+.hero-content{position:relative;z-index:1}
+.hero-icon{font-size:3rem;margin-bottom:12px;animation:float 3s ease-in-out infinite}
+.hero h1{
+  font-family:var(--display);font-size:1.8rem;color:var(--white);
+  margin-bottom:8px;line-height:1.15;animation:fadeUp .5s ease both;
+}
+.hero h1 em{color:var(--gold);font-style:italic}
+.hero-sub{
+  font-size:.88rem;color:rgba(255,255,255,.7);line-height:1.5;
+  max-width:400px;margin:0 auto 28px;
+  animation:fadeUp .5s ease .1s both;
+}
+.hero-stats{
+  display:flex;justify-content:center;gap:24px;flex-wrap:wrap;
+  animation:fadeUp .5s ease .2s both;
+}
+.hero-stat{text-align:center}
+.hero-stat-num{
+  font-size:1.3rem;font-weight:900;color:var(--gold-light);
+  line-height:1;margin-bottom:2px;
+}
+.hero-stat-label{font-size:.6rem;color:rgba(255,255,255,.5);font-weight:600;letter-spacing:.04em}
+
+/* BENEFITS */
+.benefits{padding:32px 16px;max-width:600px;margin:0 auto}
+.benefits-title{
+  font-family:var(--display);font-size:1.3rem;color:var(--dark);
+  text-align:center;margin-bottom:20px;
+}
+.benefits-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.benefit-card{
+  background:var(--white);border-radius:var(--radius);padding:20px 16px;
+  text-align:center;box-shadow:var(--shadow-sm);border:1px solid var(--border-light);
+  transition:all .3s;
+}
+.benefit-card:hover{transform:translateY(-4px);box-shadow:var(--shadow)}
+.benefit-icon{
+  width:48px;height:48px;border-radius:14px;margin:0 auto 12px;
+  display:flex;align-items:center;justify-content:center;font-size:1.5rem;
+}
+.benefit-icon.clock{background:rgba(0,32,159,.08)}
+.benefit-icon.lock{background:rgba(210,16,52,.08)}
+.benefit-icon.dash{background:var(--gold-bg)}
+.benefit-icon.wa{background:var(--green-light)}
+.benefit-name{font-size:.82rem;font-weight:800;color:var(--dark);margin-bottom:4px}
+.benefit-desc{font-size:.68rem;color:var(--text-muted);line-height:1.4}
+
+/* FORM SECTION */
+.form-section{padding:8px 16px 48px;max-width:560px;margin:0 auto}
+.form-card{
+  background:var(--white);border-radius:var(--radius-lg);
+  padding:28px 20px 32px;box-shadow:var(--shadow-lg);
+  border:1px solid var(--border-light);position:relative;overflow:hidden;
+}
+.form-header{text-align:center;margin-bottom:24px}
+.form-header h2{
+  font-family:var(--display);font-size:1.3rem;color:var(--dark);margin-bottom:4px;
+}
+.form-header p{font-size:.75rem;color:var(--text-muted);font-weight:500}
+
+/* PROGRESS BAR */
+.progress-wrap{margin-bottom:28px}
+.progress-steps{display:flex;align-items:center;justify-content:center;gap:4px;margin-bottom:12px}
+.progress-step{
+  display:flex;align-items:center;gap:4px;font-size:.62rem;font-weight:800;
+  color:var(--text-muted);transition:color .3s;
+}
+.progress-step.active{color:var(--blue)}
+.progress-step.done{color:var(--green)}
+.progress-dot{
+  width:28px;height:28px;border-radius:50%;
+  border:2.5px solid var(--border);
+  display:flex;align-items:center;justify-content:center;
+  font-size:.65rem;font-weight:900;color:var(--text-muted);
+  transition:all .3s;background:var(--white);
+}
+.progress-step.active .progress-dot{
+  border-color:var(--blue);color:var(--blue);
+  background:var(--blue-light);
+  box-shadow:0 0 0 4px rgba(0,32,159,.1);
+}
+.progress-step.done .progress-dot{
+  border-color:var(--green);color:var(--white);
+  background:var(--green);
+}
+.progress-line{width:32px;height:2px;background:var(--border);border-radius:1px;transition:background .3s}
+.progress-line.done{background:var(--green)}
+.progress-bar-track{
+  height:6px;border-radius:3px;background:var(--border-light);overflow:hidden;
+}
+.progress-bar-fill{
+  height:100%;border-radius:3px;
+  background:linear-gradient(90deg,var(--blue),var(--blue-dark));
+  transition:width .5s cubic-bezier(.4,0,.2,1);
+  width:33%;
+}
+
+/* FORM STEPS */
+.form-step{display:none}
+.form-step.active{display:block;animation:slideLeft .4s ease both}
+.form-step.slide-out-left{animation:slideRight .3s ease both reverse}
+.form-step.slide-in-right{animation:slideLeft .4s ease both}
+
+.f-group{margin-bottom:16px}
+.f-label{
+  display:block;font-size:.65rem;font-weight:800;color:var(--text-light);
+  text-transform:uppercase;letter-spacing:.08em;margin-bottom:6px;
+}
+.f-required{color:var(--red)}
+.f-input{
+  width:100%;padding:14px 16px;border:1.5px solid var(--border);
+  border-radius:var(--radius-sm);font-size:.88rem;font-weight:500;
+  color:var(--dark);background:var(--white);transition:all .2s;
+}
+.f-input:focus{border-color:var(--blue);box-shadow:0 0 0 3px rgba(0,32,159,.06)}
+.f-input::placeholder{color:var(--text-muted)}
+.f-input.error{border-color:var(--red);box-shadow:0 0 0 3px rgba(210,16,52,.08)}
+.f-error{
+  font-size:.62rem;color:var(--red);font-weight:600;margin-top:4px;
+  display:none;padding-left:2px;
+}
+.f-error.show{display:block;animation:fadeIn .2s ease}
+select.f-input{
+  color:var(--text);-webkit-appearance:none;appearance:none;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' fill='%236A5A5A' viewBox='0 0 16 16'%3E%3Cpath d='M8 11L3 6h10z'/%3E%3C/svg%3E");
+  background-repeat:no-repeat;background-position:right 14px center;padding-right:36px;
+}
+textarea.f-input{resize:vertical;min-height:100px;line-height:1.5}
+
+.f-row{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+@media(max-width:400px){.f-row{grid-template-columns:1fr}}
+
+.f-phone-wrap{display:flex;gap:8px}
+.f-phone-prefix{
+  flex-shrink:0;width:80px;padding:14px 12px;
+  border:1.5px solid var(--border);border-radius:var(--radius-sm);
+  font-size:.88rem;font-weight:600;color:var(--text-light);
+  background:var(--off-white);text-align:center;
+}
+.f-phone-wrap .f-input{flex:1}
+
+/* FILE UPLOAD */
+.f-upload-area{
+  border:2px dashed var(--border);border-radius:var(--radius);
+  padding:24px 16px;text-align:center;cursor:pointer;
+  transition:all .3s;background:var(--off-white);
+  position:relative;
+}
+.f-upload-area:hover,.f-upload-area.dragover{
+  border-color:var(--blue);background:var(--blue-light);
+}
+.f-upload-area.has-file{
+  border-color:var(--green);border-style:solid;
+  background:var(--green-light);
+}
+.f-upload-area.error{border-color:var(--red)}
+.f-upload-icon{font-size:2rem;margin-bottom:8px;opacity:.6}
+.f-upload-text{font-size:.75rem;font-weight:600;color:var(--text-light);margin-bottom:4px}
+.f-upload-hint{font-size:.62rem;color:var(--text-muted)}
+.f-upload-file{
+  display:none;font-size:.72rem;font-weight:700;color:var(--green-dark);
+  margin-top:8px;
+}
+.f-upload-area.has-file .f-upload-file{display:block}
+.f-upload-area.has-file .f-upload-icon{opacity:1}
+.f-upload-area.has-file .f-upload-text{color:var(--green-dark)}
+input[type="file"]{display:none}
+
+/* CHECKBOX */
+.f-checkbox{
+  display:flex;align-items:flex-start;gap:10px;cursor:pointer;
+  padding:12px 14px;border-radius:12px;border:1.5px solid var(--border);
+  transition:all .2s;background:var(--white);
+}
+.f-checkbox:hover{border-color:var(--blue-dark);background:var(--blue-light)}
+.f-checkbox.error{border-color:var(--red)}
+.f-check-box{
+  flex-shrink:0;width:22px;height:22px;border-radius:6px;
+  border:2px solid var(--border);display:flex;align-items:center;
+  justify-content:center;transition:all .2s;margin-top:1px;
+}
+.f-checkbox.checked .f-check-box{
+  background:var(--blue);border-color:var(--blue);color:var(--white);
+}
+.f-check-label{font-size:.78rem;font-weight:600;color:var(--text);line-height:1.4}
+
+/* BUTTONS */
+.btn-row{display:flex;gap:10px;margin-top:24px}
+.btn-back{
+  flex:0 0 auto;padding:16px 20px;border-radius:var(--radius-sm);
+  font-size:.85rem;font-weight:800;color:var(--text-light);
+  background:var(--off-white);border:1.5px solid var(--border);
+  transition:all .2s;
+}
+.btn-back:hover{border-color:var(--text-muted);color:var(--text)}
+.btn-next{
+  flex:1;padding:16px;border-radius:var(--radius-sm);
+  font-size:.95rem;font-weight:800;color:var(--white);
+  background:linear-gradient(135deg,var(--blue),var(--blue-dark));
+  box-shadow:0 6px 20px rgba(0,32,159,.25);
+  transition:all .25s;
+}
+.btn-next:hover{transform:translateY(-2px);box-shadow:0 10px 30px rgba(0,32,159,.35)}
+.btn-submit{
+  flex:1;padding:16px;border-radius:var(--radius-sm);
+  font-size:.95rem;font-weight:800;color:var(--dark);
+  background:linear-gradient(135deg,var(--gold-light),var(--gold));
+  box-shadow:0 6px 20px var(--gold-glow);
+  transition:all .25s;
+}
+.btn-submit:hover{transform:translateY(-2px);box-shadow:0 10px 30px var(--gold-glow)}
+.btn-submit:disabled{opacity:.5;transform:none;cursor:not-allowed}
+
+/* SUCCESS STATE */
+.success-state{display:none;text-align:center;padding:40px 16px 60px;max-width:520px;margin:0 auto;animation:fadeUp .5s ease both}
+.success-state.active{display:block}
+.success-check-wrap{position:relative;width:100px;height:100px;margin:0 auto 24px}
+.success-ring{
+  position:absolute;inset:0;border-radius:50%;
+  border:3px solid var(--green);opacity:0;
+  animation:ringGrow 1.5s ease-out .3s forwards;
+}
+.success-ring:nth-child(2){animation-delay:.5s}
+.success-check{
+  width:100px;height:100px;border-radius:50%;
+  background:linear-gradient(135deg,var(--green),var(--green-dark));
+  display:flex;align-items:center;justify-content:center;
+  font-size:2.8rem;color:var(--white);
+  animation:checkPop .6s cubic-bezier(.175,.885,.32,1.275) both;
+  box-shadow:0 12px 40px rgba(37,211,102,.3);
+  position:relative;z-index:1;
+}
+.success-title{
+  font-family:var(--display);font-size:1.5rem;color:var(--dark);
+  margin-bottom:8px;
+}
+.success-msg{
+  font-size:.85rem;color:var(--text-light);line-height:1.6;
+  margin-bottom:32px;max-width:380px;margin-left:auto;margin-right:auto;
+}
+
+/* STATUS TRACKER */
+.status-tracker{
+  background:var(--white);border-radius:var(--radius);
+  padding:24px 20px;box-shadow:var(--shadow);margin-bottom:24px;
+  display:inline-block;width:100%;max-width:400px;
+}
+.status-tracker-title{font-size:.65rem;font-weight:800;color:var(--text-muted);text-transform:uppercase;letter-spacing:.08em;margin-bottom:16px}
+.status-steps{display:flex;align-items:center;justify-content:center;gap:0}
+.status-step{display:flex;flex-direction:column;align-items:center;gap:6px;flex:1}
+.status-dot{
+  width:32px;height:32px;border-radius:50%;
+  border:2.5px solid var(--border);
+  display:flex;align-items:center;justify-content:center;
+  font-size:.8rem;transition:all .3s;background:var(--white);
+}
+.status-step.active .status-dot{
+  border-color:var(--gold);background:var(--gold);
+  color:var(--white);box-shadow:0 0 0 4px rgba(212,160,23,.2);
+}
+.status-step.done .status-dot{
+  border-color:var(--green);background:var(--green);color:var(--white);
+}
+.status-label{font-size:.6rem;font-weight:700;color:var(--text-muted)}
+.status-step.active .status-label{color:var(--gold);font-weight:800}
+.status-step.done .status-label{color:var(--green)}
+.status-connector{width:40px;height:2px;background:var(--border);margin-bottom:22px}
+.status-connector.done{background:var(--green)}
+
+/* ACTION BUTTONS */
+.success-actions{display:flex;flex-direction:column;gap:10px;align-items:center;max-width:360px;margin:0 auto}
+.btn-wa{
+  width:100%;padding:16px;border-radius:var(--radius-sm);
+  font-size:.9rem;font-weight:800;color:var(--white);
+  background:linear-gradient(135deg,var(--green),var(--green-dark));
+  box-shadow:0 6px 20px rgba(37,211,102,.25);
+  display:flex;align-items:center;justify-content:center;gap:8px;
+  transition:all .25s;
+}
+.btn-wa:hover{transform:translateY(-2px);box-shadow:0 10px 30px rgba(37,211,102,.35)}
+.btn-dash{
+  width:100%;padding:14px;border-radius:var(--radius-sm);
+  font-size:.82rem;font-weight:800;color:var(--blue);
+  background:var(--blue-light);border:1.5px solid rgba(0,32,159,.12);
+  transition:all .2s;
+}
+.btn-dash:hover{background:rgba(0,32,159,.1)}
+
+/* ADMIN VIEW */
+.admin-view{display:none;padding:16px;max-width:700px;margin:0 auto}
+.admin-view.active{display:block;animation:fadeUp .4s ease both}
+.admin-header{
+  display:flex;align-items:center;justify-content:space-between;
+  margin-bottom:20px;flex-wrap:wrap;gap:12px;
+}
+.admin-title{font-family:var(--display);font-size:1.3rem;color:var(--dark)}
+.admin-count{
+  font-size:.68rem;font-weight:800;color:var(--blue);
+  background:var(--blue-light);padding:6px 12px;border-radius:100px;
+}
+.admin-filters{display:flex;gap:6px;margin-bottom:16px;flex-wrap:wrap}
+.admin-filter{
+  padding:8px 14px;border-radius:10px;font-size:.68rem;font-weight:800;
+  color:var(--text-muted);background:var(--white);border:1.5px solid var(--border-light);
+  cursor:pointer;transition:all .2s;
+}
+.admin-filter:hover{border-color:var(--border);color:var(--text)}
+.admin-filter.active{color:var(--blue);background:var(--blue-light);border-color:rgba(0,32,159,.15)}
+.app-card{
+  background:var(--white);border-radius:var(--radius);
+  padding:18px;margin-bottom:12px;box-shadow:var(--shadow-sm);
+  border:1px solid var(--border-light);transition:all .2s;
+}
+.app-card:hover{box-shadow:var(--shadow)}
+.app-top{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:12px}
+.app-biz{font-size:.92rem;font-weight:800;color:var(--dark)}
+.app-type{font-size:.68rem;color:var(--text-light);font-weight:600;margin-top:2px}
+.app-badge{
+  font-size:.58rem;font-weight:900;padding:4px 10px;border-radius:100px;
+  letter-spacing:.04em;text-transform:uppercase;flex-shrink:0;
+}
+.app-badge.pending{color:#b45309;background:rgba(180,83,9,.1)}
+.app-badge.verified{color:var(--green-dark);background:var(--green-light)}
+.app-badge.rejected{color:var(--red);background:var(--red-light)}
+.app-details{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:14px}
+.app-detail{font-size:.7rem;color:var(--text-light)}
+.app-detail strong{color:var(--text);font-weight:700}
+.app-actions{display:flex;gap:8px;flex-wrap:wrap}
+.app-btn{
+  padding:8px 14px;border-radius:8px;font-size:.68rem;
+  font-weight:800;cursor:pointer;transition:all .2s;
+}
+.app-btn.approve{color:var(--green-dark);background:var(--green-light);border:1px solid rgba(37,211,102,.15)}
+.app-btn.approve:hover{background:rgba(37,211,102,.15)}
+.app-btn.reject{color:var(--red);background:var(--red-light);border:1px solid rgba(210,16,52,.1)}
+.app-btn.reject:hover{background:rgba(210,16,52,.15)}
+.app-btn.contact{color:var(--white);background:var(--green);border:1px solid var(--green)}
+.app-btn.contact:hover{background:var(--green-dark)}
+
+/* FOOTER */
+.footer{
+  background:var(--dark);padding:40px 20px 24px;text-align:center;
+  margin-top:40px;
+}
+.footer-brand{
+  font-family:var(--display);font-size:1.1rem;color:var(--white);margin-bottom:4px;
+}
+.footer-brand span{color:var(--red)}
+.footer-sub{font-size:.65rem;color:rgba(255,255,255,.4);margin-bottom:20px}
+.footer-links{display:flex;justify-content:center;gap:20px;flex-wrap:wrap;margin-bottom:20px}
+.footer-links a{
+  font-size:.72rem;color:rgba(255,255,255,.6);font-weight:600;
+  transition:color .2s;
+}
+.footer-links a:hover{color:var(--gold)}
+.footer-copy{
+  font-size:.58rem;color:rgba(255,255,255,.3);
+  border-top:1px solid rgba(255,255,255,.08);
+  padding-top:16px;margin-top:8px;
+}
+
+/* RESPONSIVE */
+@media(min-width:640px){
+  .hero h1{font-size:2.2rem}
+  .hero-stats{gap:40px}
+  .benefits-grid{grid-template-columns:repeat(4,1fr)}
+  .form-card{padding:36px 32px 40px}
+  .f-row{grid-template-columns:1fr 1fr}
+}
+
+/* hide normal view in admin mode, hide admin view in normal mode */
+.main-view{display:block}
+body.admin-mode .main-view{display:none}
+body.admin-mode .admin-view{display:block}
+body.admin-mode .admin-view.active{display:block}
+
+/* Already submitted state */
+body.submitted .main-view .form-section{display:none}
+body.submitted .main-view .benefits{display:none}
+body.submitted .main-view .success-state{display:block}
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<div class="header">
+  <div class="h-left">
+    <a href="reservations.html" class="h-back" title="Back">&#8592;</a>
+    <div class="h-brand">
+      <div class="h-logo">TouPa<span>Tou</span></div>
+      <div class="h-badge" data-i18n="badge">Patn&#232;</div>
+    </div>
+  </div>
+  <div class="h-right">
+    <div class="lang-toggle">
+      <a class="active" onclick="setLang('ht')">HT</a>
+      <a onclick="setLang('fr')">FR</a>
+      <a onclick="setLang('en')">EN</a>
+      <a onclick="setLang('es')">ES</a>
+    </div>
+  </div>
+</div>
+
+<!-- MAIN VIEW (non-admin) -->
+<div class="main-view">
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-content">
+    <div class="hero-icon">&#129309;</div>
+    <h1 data-i18n="hero_title">Vin Patn&#232; <em>TouPaTou</em></h1>
+    <p class="hero-sub" data-i18n="hero_sub">Enskri biznis ou epi k&#242;manse resevwa rez&#232;vasyon jodi a.</p>
+    <div class="hero-stats">
+      <div class="hero-stat">
+        <div class="hero-stat-num">50+</div>
+        <div class="hero-stat-label" data-i18n="stat_operators">Operat&#232; Verifye</div>
+      </div>
+      <div class="hero-stat">
+        <div class="hero-stat-num">10,000+</div>
+        <div class="hero-stat-label" data-i18n="stat_bookings">Rez&#232;vasyon</div>
+      </div>
+      <div class="hero-stat">
+        <div class="hero-stat-num">8</div>
+        <div class="hero-stat-label" data-i18n="stat_categories">Kategori S&#232;vis</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- BENEFITS -->
+<section class="benefits">
+  <h2 class="benefits-title" data-i18n="benefits_title">Poukisa Vin Patn&#232;?</h2>
+  <div class="benefits-grid">
+    <div class="benefit-card">
+      <div class="benefit-icon clock">&#128336;</div>
+      <div class="benefit-name" data-i18n="b1_name">Resevwa Rez&#232;vasyon 24/7</div>
+      <div class="benefit-desc" data-i18n="b1_desc">Kliyan ka rez&#232;ve tout tan, jou ak nwit.</div>
+    </div>
+    <div class="benefit-card">
+      <div class="benefit-icon lock">&#128274;</div>
+      <div class="benefit-name" data-i18n="b2_name">Peman Sekirize</div>
+      <div class="benefit-desc" data-i18n="b2_desc">Peman pwoteje ak transfè rapid.</div>
+    </div>
+    <div class="benefit-card">
+      <div class="benefit-icon dash">&#128202;</div>
+      <div class="benefit-name" data-i18n="b3_name">Pano Operat&#232; Gratis</div>
+      <div class="benefit-desc" data-i18n="b3_desc">J&#232;re rez&#232;vasyon ou nan yon s&#232;l kote.</div>
+    </div>
+    <div class="benefit-card">
+      <div class="benefit-icon wa">&#128172;</div>
+      <div class="benefit-name" data-i18n="b4_name">Sip&#242; WhatsApp Dedye</div>
+      <div class="benefit-desc" data-i18n="b4_desc">Ekip nou toujou la pou ede ou.</div>
+    </div>
+  </div>
+</section>
+
+<!-- REGISTRATION FORM -->
+<section class="form-section">
+  <div class="form-card">
+    <div class="form-header">
+      <h2 data-i18n="form_title">Enskri Biznis Ou</h2>
+      <p data-i18n="form_sub">Ranpli f&#242;m nan pou aplike k&#242;m patn&#232;.</p>
+    </div>
+
+    <!-- PROGRESS -->
+    <div class="progress-wrap">
+      <div class="progress-steps">
+        <div class="progress-step active" id="ps1">
+          <div class="progress-dot">1</div>
+          <span data-i18n="step1_label">Biznis</span>
+        </div>
+        <div class="progress-line" id="pl1"></div>
+        <div class="progress-step" id="ps2">
+          <div class="progress-dot">2</div>
+          <span data-i18n="step2_label">Detay</span>
+        </div>
+        <div class="progress-line" id="pl2"></div>
+        <div class="progress-step" id="ps3">
+          <div class="progress-dot">3</div>
+          <span data-i18n="step3_label">Dokiman</span>
+        </div>
+      </div>
+      <div class="progress-bar-track">
+        <div class="progress-bar-fill" id="progressBar"></div>
+      </div>
+    </div>
+
+    <!-- STEP 1: Business Info -->
+    <div class="form-step active" id="step1">
+      <div class="f-group">
+        <label class="f-label"><span data-i18n="lbl_biz_name">Non Biznis</span> <span class="f-required">*</span></label>
+        <input type="text" class="f-input" id="bizName" placeholder="e.g. Transport Express Haiti" data-i18n-ph="ph_biz_name">
+        <div class="f-error" id="err-bizName" data-i18n="err_required">Champ sa a obligatwa.</div>
+      </div>
+
+      <div class="f-group">
+        <label class="f-label"><span data-i18n="lbl_biz_type">Tip Biznis</span> <span class="f-required">*</span></label>
+        <select class="f-input" id="bizType">
+          <option value="" data-i18n="ph_select">-- Chwazi --</option>
+          <option value="hotel">&#127976; Hotel</option>
+          <option value="bus">&#128652; Bus Operator</option>
+          <option value="helicopter">&#128641; Helicopter</option>
+          <option value="airline">&#9992;&#65039; Airline</option>
+          <option value="maritime">&#9973;&#65039; Maritime</option>
+          <option value="event">&#127914; Event Organizer</option>
+          <option value="concierge">&#128188; Concierge</option>
+        </select>
+        <div class="f-error" id="err-bizType" data-i18n="err_required">Champ sa a obligatwa.</div>
+      </div>
+
+      <div class="f-group">
+        <label class="f-label"><span data-i18n="lbl_contact">Non Kontak</span> <span class="f-required">*</span></label>
+        <input type="text" class="f-input" id="contactName" placeholder="e.g. Jean Pierre" data-i18n-ph="ph_contact">
+        <div class="f-error" id="err-contactName" data-i18n="err_required">Champ sa a obligatwa.</div>
+      </div>
+
+      <div class="f-group">
+        <label class="f-label"><span data-i18n="lbl_phone">Telefòn</span> <span class="f-required">*</span></label>
+        <div class="f-phone-wrap">
+          <div class="f-phone-prefix">+509</div>
+          <input type="tel" class="f-input" id="phone" placeholder="4190 2005" maxlength="9" data-i18n-ph="ph_phone">
+        </div>
+        <div class="f-error" id="err-phone" data-i18n="err_phone">Nimewo telefòn pa valid.</div>
+      </div>
+
+      <div class="f-group">
+        <label class="f-label" data-i18n="lbl_whatsapp">Nimewo WhatsApp</label>
+        <div class="f-phone-wrap">
+          <div class="f-phone-prefix">+509</div>
+          <input type="tel" class="f-input" id="whatsapp" placeholder="4190 2005" maxlength="9" data-i18n-ph="ph_phone">
+        </div>
+      </div>
+
+      <div class="f-group">
+        <label class="f-label" data-i18n="lbl_email">Im&#232;l</label>
+        <input type="email" class="f-input" id="email" placeholder="biznis@example.com">
+      </div>
+
+      <div class="btn-row">
+        <button class="btn-next" onclick="goStep(2)" data-i18n="btn_continue">Kontinye &#8594;</button>
+      </div>
+    </div>
+
+    <!-- STEP 2: Details -->
+    <div class="form-step" id="step2">
+      <div class="f-group">
+        <label class="f-label" data-i18n="lbl_address">Adr&#232;s Biznis</label>
+        <input type="text" class="f-input" id="address" placeholder="e.g. 12 Rue Capois" data-i18n-ph="ph_address">
+      </div>
+
+      <div class="f-group">
+        <label class="f-label" data-i18n="lbl_city">Vil</label>
+        <select class="f-input" id="city">
+          <option value="" data-i18n="ph_select">-- Chwazi --</option>
+          <option value="Port-au-Prince">Port-au-Prince</option>
+          <option value="Petion-Ville">P&#233;tion-Ville</option>
+          <option value="Cap-Haitien">Cap-Ha&#239;tien</option>
+          <option value="Jacmel">Jacmel</option>
+          <option value="Les Cayes">Les Cayes</option>
+          <option value="Jeremie">J&#233;r&#233;mie</option>
+          <option value="Gonaives">Gona&#239;ves</option>
+        </select>
+      </div>
+
+      <div class="f-row">
+        <div class="f-group">
+          <label class="f-label" data-i18n="lbl_years">Ane Operasyon</label>
+          <input type="number" class="f-input" id="years" placeholder="e.g. 5" min="0" max="100">
+        </div>
+        <div class="f-group">
+          <label class="f-label" data-i18n="lbl_capacity">Kapasit&#233; (Veyikil/Chanm)</label>
+          <input type="number" class="f-input" id="capacity" placeholder="e.g. 10" min="0">
+        </div>
+      </div>
+
+      <div class="f-group">
+        <label class="f-label" data-i18n="lbl_description">Deskripsyon S&#232;vis</label>
+        <textarea class="f-input" id="description" placeholder="Dekri sèvis ou ofri..." data-i18n-ph="ph_description"></textarea>
+      </div>
+
+      <div class="btn-row">
+        <button class="btn-back" onclick="goStep(1)" data-i18n="btn_back">&#8592; Retounen</button>
+        <button class="btn-next" onclick="goStep(3)" data-i18n="btn_continue">Kontinye &#8594;</button>
+      </div>
+    </div>
+
+    <!-- STEP 3: Documents & Submit -->
+    <div class="form-step" id="step3">
+      <div class="f-group">
+        <label class="f-label" data-i18n="lbl_license">Lisans Biznis</label>
+        <div class="f-upload-area" id="uploadLicense" onclick="document.getElementById('fileLicense').click()" data-target="fileLicense">
+          <div class="f-upload-icon">&#128196;</div>
+          <div class="f-upload-text" data-i18n="upload_text">Klike oswa trennen fichye a la</div>
+          <div class="f-upload-hint" data-i18n="upload_hint">PDF, JPG, PNG (max 5MB)</div>
+          <div class="f-upload-file" id="licenseName"></div>
+        </div>
+        <input type="file" id="fileLicense" accept=".pdf,.jpg,.jpeg,.png" onchange="handleFile(this,'uploadLicense','licenseName')">
+      </div>
+
+      <div class="f-group">
+        <label class="f-label" data-i18n="lbl_photo">Foto Biznis</label>
+        <div class="f-upload-area" id="uploadPhoto" onclick="document.getElementById('filePhoto').click()" data-target="filePhoto">
+          <div class="f-upload-icon">&#128247;</div>
+          <div class="f-upload-text" data-i18n="upload_photo_text">Klike oswa trennen foto a la</div>
+          <div class="f-upload-hint" data-i18n="upload_hint">PDF, JPG, PNG (max 5MB)</div>
+          <div class="f-upload-file" id="photoName"></div>
+        </div>
+        <input type="file" id="filePhoto" accept=".pdf,.jpg,.jpeg,.png" onchange="handleFile(this,'uploadPhoto','photoName')">
+      </div>
+
+      <div class="f-group">
+        <div class="f-checkbox" id="termsBox" onclick="toggleCheck(this)">
+          <div class="f-check-box"><span style="display:none">&#10003;</span></div>
+          <div class="f-check-label" data-i18n="terms_label">Mwen dak&#242; ak kondisyon TouPaTou yo</div>
+        </div>
+        <div class="f-error" id="err-terms" data-i18n="err_terms">Ou dwe aksepte kondisyon yo.</div>
+      </div>
+
+      <div class="btn-row">
+        <button class="btn-back" onclick="goStep(2)" data-i18n="btn_back">&#8592; Retounen</button>
+        <button class="btn-submit" onclick="submitApplication()" data-i18n="btn_submit">&#128640; Soum&#232;t Aplikasyon</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SUCCESS STATE -->
+<section class="success-state" id="successState">
+  <div class="success-check-wrap">
+    <div class="success-ring"></div>
+    <div class="success-ring"></div>
+    <div class="success-check">&#10003;</div>
+  </div>
+  <h2 class="success-title" data-i18n="success_title">M&#232;si! Aplikasyon ou resevwa.</h2>
+  <p class="success-msg" data-i18n="success_msg">Ekip nou ap revize aplikasyon ou nan 24-48 &#232;dtan. N ap kontakte ou sou WhatsApp.</p>
+
+  <div class="status-tracker">
+    <div class="status-tracker-title" data-i18n="tracker_title">Estati Aplikasyon</div>
+    <div class="status-steps">
+      <div class="status-step done">
+        <div class="status-dot">&#10003;</div>
+        <div class="status-label" data-i18n="status_submitted">Soum&#232;t</div>
+      </div>
+      <div class="status-connector"></div>
+      <div class="status-step active">
+        <div class="status-dot">&#128269;</div>
+        <div class="status-label" data-i18n="status_review">Revize</div>
+      </div>
+      <div class="status-connector"></div>
+      <div class="status-step">
+        <div class="status-dot">&#9989;</div>
+        <div class="status-label" data-i18n="status_verified">Verifye</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="success-actions">
+    <a href="https://wa.me/50941902005?text=Bonjou!%20Mwen%20gen%20yon%20kesyon%20sou%20aplikasyon%20patn%C3%A8%20mwen." class="btn-wa" target="_blank" rel="noopener">
+      &#128172; <span data-i18n="btn_wa_question">Kesyon? Kontakte nou</span>
+    </a>
+    <a href="operator.html" class="btn-dash" data-i18n="btn_dashboard">&#128202; Al nan Pano Operat&#232;</a>
+  </div>
+</section>
+
+</div><!-- /main-view -->
+
+<!-- ADMIN VIEW -->
+<div class="admin-view" id="adminView">
+  <div class="admin-header">
+    <div>
+      <h2 class="admin-title" data-i18n="admin_title">Aplikasyon Patn&#232;</h2>
+    </div>
+    <div class="admin-count" id="adminCount">5 aplikasyon</div>
+  </div>
+
+  <div class="admin-filters">
+    <button class="admin-filter active" onclick="filterApps('all',this)" data-i18n="filter_all">Tout</button>
+    <button class="admin-filter" onclick="filterApps('pending',this)" data-i18n="filter_pending">An Atant</button>
+    <button class="admin-filter" onclick="filterApps('verified',this)" data-i18n="filter_verified">Verifye</button>
+    <button class="admin-filter" onclick="filterApps('rejected',this)" data-i18n="filter_rejected">Rejte</button>
+  </div>
+
+  <div id="adminList"></div>
+</div>
+
+<!-- FOOTER -->
+<footer class="footer">
+  <div class="footer-brand">TouPa<span>Tou</span></div>
+  <div class="footer-sub">Yon Platf&#242;m. Tout Rez&#232;vasyon.</div>
+  <div class="footer-links">
+    <a href="reservations.html" data-i18n="footer_reservations">Rez&#232;vasyon</a>
+    <a href="operator.html" data-i18n="footer_operator">Pano Operat&#232;</a>
+    <a href="events.html" data-i18n="footer_events">Ev&#232;nman</a>
+    <a href="https://wa.me/50941902005" target="_blank" rel="noopener" data-i18n="footer_contact">Kontakte Nou</a>
+  </div>
+  <div class="footer-copy">&copy; 2026 TouPaTou. Tout dwa rezève.</div>
+</footer>
+
+<script>
+/* ========== i18n ========== */
+var currentLang = 'ht';
+var i18n = {
+  ht: {
+    badge:'Patnè',
+    hero_title:'Vin Patnè <em>TouPaTou</em>',
+    hero_sub:'Enskri biznis ou epi kòmanse resevwa rezèvasyon jodi a.',
+    stat_operators:'Operatè Verifye',stat_bookings:'Rezèvasyon',stat_categories:'Kategori Sèvis',
+    benefits_title:'Poukisa Vin Patnè?',
+    b1_name:'Resevwa Rezèvasyon 24/7',b1_desc:'Kliyan ka rezève tout tan, jou ak nwit.',
+    b2_name:'Peman Sekirize',b2_desc:'Peman pwoteje ak transfè rapid.',
+    b3_name:'Pano Operatè Gratis',b3_desc:'Jère rezèvasyon ou nan yon sèl kote.',
+    b4_name:'Sipò WhatsApp Dedye',b4_desc:'Ekip nou toujou la pou ede ou.',
+    form_title:'Enskri Biznis Ou',form_sub:'Ranpli fòm nan pou aplike kòm patnè.',
+    step1_label:'Biznis',step2_label:'Detay',step3_label:'Dokiman',
+    lbl_biz_name:'Non Biznis',lbl_biz_type:'Tip Biznis',lbl_contact:'Non Kontak',
+    lbl_phone:'Telefòn',lbl_whatsapp:'Nimewo WhatsApp',lbl_email:'Imèl',
+    lbl_address:'Adrès Biznis',lbl_city:'Vil',lbl_years:'Ane Operasyon',
+    lbl_capacity:'Kapasité (Veyikil/Chanm)',lbl_description:'Deskripsyon Sèvis',
+    lbl_license:'Lisans Biznis',lbl_photo:'Foto Biznis',
+    ph_biz_name:'e.g. Transport Express Haiti',ph_contact:'e.g. Jean Pierre',
+    ph_phone:'4190 2005',ph_select:'-- Chwazi --',ph_address:'e.g. 12 Rue Capois',
+    ph_description:'Dekri sèvis ou ofri...',
+    upload_text:'Klike oswa trennen fichye a la',upload_photo_text:'Klike oswa trennen foto a la',
+    upload_hint:'PDF, JPG, PNG (max 5MB)',
+    terms_label:'Mwen dakò ak kondisyon TouPaTou yo',
+    btn_continue:'Kontinye →',btn_back:'← Retounen',btn_submit:'🚀 Soumèt Aplikasyon',
+    err_required:'Champ sa a obligatwa.',err_phone:'Nimewo telefòn pa valid.',err_terms:'Ou dwe aksepte kondisyon yo.',
+    success_title:'Mèsi! Aplikasyon ou resevwa.',
+    success_msg:'Ekip nou ap revize aplikasyon ou nan 24-48 èdtan. N ap kontakte ou sou WhatsApp.',
+    tracker_title:'Estati Aplikasyon',
+    status_submitted:'Soumèt',status_review:'Revize',status_verified:'Verifye',
+    btn_wa_question:'Kesyon? Kontakte nou',btn_dashboard:'📊 Al nan Pano Operatè',
+    admin_title:'Aplikasyon Patnè',
+    filter_all:'Tout',filter_pending:'An Atant',filter_verified:'Verifye',filter_rejected:'Rejte',
+    footer_reservations:'Rezèvasyon',footer_operator:'Pano Operatè',footer_events:'Evènman',footer_contact:'Kontakte Nou',
+    admin_approve:'Apwouve',admin_reject:'Rejte',admin_contact_wa:'WhatsApp',
+    admin_date:'Dat',admin_phone_lbl:'Tel',admin_contact_lbl:'Kontak'
+  },
+  fr: {
+    badge:'Partenaire',
+    hero_title:'Devenez Partenaire <em>TouPaTou</em>',
+    hero_sub:'Inscrivez votre entreprise et commencez à recevoir des réservations dès aujourd’hui.',
+    stat_operators:'Opérateurs Vérifiés',stat_bookings:'Réservations',stat_categories:'Catégories de Services',
+    benefits_title:'Pourquoi Devenir Partenaire?',
+    b1_name:'Réservations 24h/24',b1_desc:'Les clients peuvent réserver à tout moment.',
+    b2_name:'Paiements Sécurisés',b2_desc:'Paiements protégés et transferts rapides.',
+    b3_name:'Tableau de Bord Gratuit',b3_desc:'Gérez vos réservations en un seul endroit.',
+    b4_name:'Support WhatsApp Dédié',b4_desc:'Notre équipe est toujours là pour vous aider.',
+    form_title:'Inscrivez Votre Entreprise',form_sub:'Remplissez le formulaire pour postuler comme partenaire.',
+    step1_label:'Entreprise',step2_label:'Détails',step3_label:'Documents',
+    lbl_biz_name:'Nom de l’Entreprise',lbl_biz_type:'Type d’Entreprise',lbl_contact:'Nom du Contact',
+    lbl_phone:'Téléphone',lbl_whatsapp:'Numéro WhatsApp',lbl_email:'Email',
+    lbl_address:'Adresse de l’Entreprise',lbl_city:'Ville',lbl_years:'Années d’Opération',
+    lbl_capacity:'Capacité (Véhicules/Chambres)',lbl_description:'Description des Services',
+    lbl_license:'Licence Commerciale',lbl_photo:'Photo de l’Entreprise',
+    ph_biz_name:'ex. Transport Express Haïti',ph_contact:'ex. Jean Pierre',
+    ph_phone:'4190 2005',ph_select:'-- Choisir --',ph_address:'ex. 12 Rue Capois',
+    ph_description:'Décrivez les services que vous offrez...',
+    upload_text:'Cliquez ou déposez le fichier ici',upload_photo_text:'Cliquez ou déposez la photo ici',
+    upload_hint:'PDF, JPG, PNG (max 5Mo)',
+    terms_label:'J’accepte les conditions de TouPaTou',
+    btn_continue:'Continuer →',btn_back:'← Retour',btn_submit:'🚀 Soumettre la Candidature',
+    err_required:'Ce champ est obligatoire.',err_phone:'Numéro de téléphone invalide.',err_terms:'Vous devez accepter les conditions.',
+    success_title:'Merci! Votre candidature est reçue.',
+    success_msg:'Notre équipe examinera votre candidature sous 24-48 heures. Nous vous contacterons via WhatsApp.',
+    tracker_title:'Statut de la Candidature',
+    status_submitted:'Soumis',status_review:'En Revue',status_verified:'Vérifié',
+    btn_wa_question:'Questions? Contactez-nous',btn_dashboard:'📊 Tableau de Bord Opérateur',
+    admin_title:'Candidatures Partenaires',
+    filter_all:'Tous',filter_pending:'En Attente',filter_verified:'Vérifié',filter_rejected:'Rejeté',
+    footer_reservations:'Réservations',footer_operator:'Tableau Opérateur',footer_events:'Événements',footer_contact:'Contactez-nous',
+    admin_approve:'Approuver',admin_reject:'Rejeter',admin_contact_wa:'WhatsApp',
+    admin_date:'Date',admin_phone_lbl:'Tél',admin_contact_lbl:'Contact'
+  },
+  en: {
+    badge:'Partner',
+    hero_title:'Become a <em>TouPaTou</em> Partner',
+    hero_sub:'Register your business and start receiving bookings today.',
+    stat_operators:'Verified Operators',stat_bookings:'Bookings',stat_categories:'Service Categories',
+    benefits_title:'Why Become a Partner?',
+    b1_name:'Receive Bookings 24/7',b1_desc:'Customers can book anytime, day or night.',
+    b2_name:'Secure Payments',b2_desc:'Protected payments and fast transfers.',
+    b3_name:'Free Operator Dashboard',b3_desc:'Manage all your bookings in one place.',
+    b4_name:'Dedicated WhatsApp Support',b4_desc:'Our team is always here to help you.',
+    form_title:'Register Your Business',form_sub:'Fill out the form to apply as a partner.',
+    step1_label:'Business',step2_label:'Details',step3_label:'Documents',
+    lbl_biz_name:'Business Name',lbl_biz_type:'Business Type',lbl_contact:'Contact Person',
+    lbl_phone:'Phone',lbl_whatsapp:'WhatsApp Number',lbl_email:'Email',
+    lbl_address:'Business Address',lbl_city:'City',lbl_years:'Years in Operation',
+    lbl_capacity:'Capacity (Vehicles/Rooms)',lbl_description:'Service Description',
+    lbl_license:'Business License',lbl_photo:'Business Photo',
+    ph_biz_name:'e.g. Transport Express Haiti',ph_contact:'e.g. Jean Pierre',
+    ph_phone:'4190 2005',ph_select:'-- Select --',ph_address:'e.g. 12 Rue Capois',
+    ph_description:'Describe the services you offer...',
+    upload_text:'Click or drag file here',upload_photo_text:'Click or drag photo here',
+    upload_hint:'PDF, JPG, PNG (max 5MB)',
+    terms_label:'I agree to TouPaTou\'s terms and conditions',
+    btn_continue:'Continue →',btn_back:'← Back',btn_submit:'🚀 Submit Application',
+    err_required:'This field is required.',err_phone:'Invalid phone number.',err_terms:'You must accept the terms.',
+    success_title:'Thank You! Application Received.',
+    success_msg:'Our team will review your application within 24-48 hours. We\'ll contact you via WhatsApp.',
+    tracker_title:'Application Status',
+    status_submitted:'Submitted',status_review:'In Review',status_verified:'Verified',
+    btn_wa_question:'Questions? Contact Us',btn_dashboard:'📊 Operator Dashboard',
+    admin_title:'Partner Applications',
+    filter_all:'All',filter_pending:'Pending',filter_verified:'Verified',filter_rejected:'Rejected',
+    footer_reservations:'Reservations',footer_operator:'Operator Dashboard',footer_events:'Events',footer_contact:'Contact Us',
+    admin_approve:'Approve',admin_reject:'Reject',admin_contact_wa:'WhatsApp',
+    admin_date:'Date',admin_phone_lbl:'Phone',admin_contact_lbl:'Contact'
+  },
+  es: {
+    badge:'Socio',
+    hero_title:'Conviértete en Socio <em>TouPaTou</em>',
+    hero_sub:'Registra tu negocio y empieza a recibir reservas hoy.',
+    stat_operators:'Operadores Verificados',stat_bookings:'Reservas',stat_categories:'Categorías de Servicios',
+    benefits_title:'¿Por Qué Ser Socio?',
+    b1_name:'Recibe Reservas 24/7',b1_desc:'Los clientes pueden reservar en cualquier momento.',
+    b2_name:'Pagos Seguros',b2_desc:'Pagos protegidos y transferencias rápidas.',
+    b3_name:'Panel de Operador Gratis',b3_desc:'Gestiona tus reservas en un solo lugar.',
+    b4_name:'Soporte WhatsApp Dedicado',b4_desc:'Nuestro equipo siempre está para ayudarte.',
+    form_title:'Registra Tu Negocio',form_sub:'Completa el formulario para aplicar como socio.',
+    step1_label:'Negocio',step2_label:'Detalles',step3_label:'Documentos',
+    lbl_biz_name:'Nombre del Negocio',lbl_biz_type:'Tipo de Negocio',lbl_contact:'Persona de Contacto',
+    lbl_phone:'Teléfono',lbl_whatsapp:'Número WhatsApp',lbl_email:'Correo',
+    lbl_address:'Dirección del Negocio',lbl_city:'Ciudad',lbl_years:'Años de Operación',
+    lbl_capacity:'Capacidad (Vehículos/Habitaciones)',lbl_description:'Descripción de Servicios',
+    lbl_license:'Licencia Comercial',lbl_photo:'Foto del Negocio',
+    ph_biz_name:'ej. Transport Express Haiti',ph_contact:'ej. Jean Pierre',
+    ph_phone:'4190 2005',ph_select:'-- Seleccionar --',ph_address:'ej. 12 Rue Capois',
+    ph_description:'Describe los servicios que ofreces...',
+    upload_text:'Haz clic o arrastra el archivo aquí',upload_photo_text:'Haz clic o arrastra la foto aquí',
+    upload_hint:'PDF, JPG, PNG (máx 5MB)',
+    terms_label:'Acepto los términos y condiciones de TouPaTou',
+    btn_continue:'Continuar →',btn_back:'← Volver',btn_submit:'🚀 Enviar Solicitud',
+    err_required:'Este campo es obligatorio.',err_phone:'Número de teléfono inválido.',err_terms:'Debes aceptar los términos.',
+    success_title:'¡Gracias! Solicitud Recibida.',
+    success_msg:'Nuestro equipo revisará tu solicitud en 24-48 horas. Te contactaremos por WhatsApp.',
+    tracker_title:'Estado de la Solicitud',
+    status_submitted:'Enviada',status_review:'En Revisión',status_verified:'Verificada',
+    btn_wa_question:'¿Preguntas? Contáctanos',btn_dashboard:'📊 Panel de Operador',
+    admin_title:'Solicitudes de Socios',
+    filter_all:'Todos',filter_pending:'Pendientes',filter_verified:'Verificados',filter_rejected:'Rechazados',
+    footer_reservations:'Reservas',footer_operator:'Panel Operador',footer_events:'Eventos',footer_contact:'Contáctanos',
+    admin_approve:'Aprobar',admin_reject:'Rechazar',admin_contact_wa:'WhatsApp',
+    admin_date:'Fecha',admin_phone_lbl:'Tel',admin_contact_lbl:'Contacto'
+  }
+};
+
+function tx(key) {
+  return (i18n[currentLang] && i18n[currentLang][key]) || (i18n.ht[key]) || key;
+}
+
+function setLang(lang) {
+  currentLang = lang;
+  document.querySelectorAll('.lang-toggle a').forEach(function(el) {
+    el.classList.toggle('active', el.textContent.trim().toLowerCase() === lang);
+  });
+  document.querySelectorAll('[data-i18n]').forEach(function(el) {
+    var key = el.getAttribute('data-i18n');
+    var val = tx(key);
+    if (val) el.innerHTML = val;
+  });
+  document.querySelectorAll('[data-i18n-ph]').forEach(function(el) {
+    var key = el.getAttribute('data-i18n-ph');
+    var val = tx(key);
+    if (val) el.placeholder = val;
+  });
+  document.documentElement.lang = lang === 'ht' ? 'ht' : lang;
+  renderAdminList();
+}
+
+/* ========== MULTI-STEP FORM ========== */
+var currentStep = 1;
+
+function goStep(target) {
+  if (target > currentStep) {
+    if (!validateStep(currentStep)) return;
+  }
+  var oldEl = document.getElementById('step' + currentStep);
+  var newEl = document.getElementById('step' + target);
+  if (!oldEl || !newEl) return;
+
+  oldEl.classList.remove('active');
+  oldEl.style.display = 'none';
+
+  newEl.style.display = 'block';
+  newEl.classList.add('active');
+  /* re-trigger animation */
+  newEl.style.animation = 'none';
+  newEl.offsetHeight; /* reflow */
+  newEl.style.animation = '';
+  if (target > currentStep) {
+    newEl.style.animation = 'slideLeft .4s ease both';
+  } else {
+    newEl.style.animation = 'slideRight .4s ease both reverse';
+    setTimeout(function(){ newEl.style.animation = 'slideLeft .4s ease both'; }, 10);
+  }
+
+  currentStep = target;
+  updateProgress();
+  /* scroll form into view */
+  document.querySelector('.form-card').scrollIntoView({ behavior: 'smooth', block: 'start' });
+}
+
+function updateProgress() {
+  var pct = currentStep === 1 ? 33 : currentStep === 2 ? 66 : 100;
+  document.getElementById('progressBar').style.width = pct + '%';
+
+  for (var i = 1; i <= 3; i++) {
+    var ps = document.getElementById('ps' + i);
+    ps.classList.remove('active', 'done');
+    if (i < currentStep) ps.classList.add('done');
+    else if (i === currentStep) ps.classList.add('active');
+  }
+  for (var j = 1; j <= 2; j++) {
+    var pl = document.getElementById('pl' + j);
+    pl.classList.toggle('done', j < currentStep);
+  }
+}
+
+/* ========== VALIDATION ========== */
+function validateStep(step) {
+  clearErrors();
+  var valid = true;
+
+  if (step === 1) {
+    if (!val('bizName')) { showErr('bizName'); valid = false; }
+    if (!document.getElementById('bizType').value) { showErr('bizType'); valid = false; }
+    if (!val('contactName')) { showErr('contactName'); valid = false; }
+    var ph = val('phone');
+    if (!ph || ph.replace(/\s/g,'').length < 7) { showErr('phone'); valid = false; }
+  }
+  if (step === 3) {
+    if (!document.getElementById('termsBox').classList.contains('checked')) {
+      document.getElementById('err-terms').classList.add('show');
+      document.getElementById('termsBox').classList.add('error');
+      valid = false;
+    }
+  }
+  return valid;
+}
+
+function val(id) { return document.getElementById(id).value.trim(); }
+
+function showErr(id) {
+  var input = document.getElementById(id);
+  var err = document.getElementById('err-' + id);
+  if (input) input.classList.add('error');
+  if (err) err.classList.add('show');
+}
+
+function clearErrors() {
+  document.querySelectorAll('.f-input.error').forEach(function(el) { el.classList.remove('error'); });
+  document.querySelectorAll('.f-error.show').forEach(function(el) { el.classList.remove('show'); });
+  document.querySelectorAll('.f-checkbox.error').forEach(function(el) { el.classList.remove('error'); });
+}
+
+/* clear error on input */
+document.addEventListener('input', function(e) {
+  if (e.target.classList.contains('f-input') && e.target.classList.contains('error')) {
+    e.target.classList.remove('error');
+    var errEl = document.getElementById('err-' + e.target.id);
+    if (errEl) errEl.classList.remove('show');
+  }
+});
+
+/* ========== FILE UPLOAD ========== */
+function handleFile(input, areaId, nameId) {
+  var area = document.getElementById(areaId);
+  var nameEl = document.getElementById(nameId);
+  if (input.files && input.files[0]) {
+    var file = input.files[0];
+    if (file.size > 5 * 1024 * 1024) {
+      alert('File too large. Max 5MB.');
+      input.value = '';
+      return;
+    }
+    area.classList.add('has-file');
+    area.classList.remove('error');
+    nameEl.textContent = '✅ ' + file.name;
+  } else {
+    area.classList.remove('has-file');
+    nameEl.textContent = '';
+  }
+}
+
+/* Drag and drop */
+document.querySelectorAll('.f-upload-area').forEach(function(area) {
+  area.addEventListener('dragover', function(e) {
+    e.preventDefault();
+    area.classList.add('dragover');
+  });
+  area.addEventListener('dragleave', function(e) {
+    e.preventDefault();
+    area.classList.remove('dragover');
+  });
+  area.addEventListener('drop', function(e) {
+    e.preventDefault();
+    area.classList.remove('dragover');
+    var targetId = area.getAttribute('data-target');
+    var fileInput = document.getElementById(targetId);
+    if (e.dataTransfer.files.length > 0) {
+      fileInput.files = e.dataTransfer.files;
+      var evt = new Event('change', { bubbles: true });
+      fileInput.dispatchEvent(evt);
+    }
+  });
+});
+
+/* ========== CHECKBOX ========== */
+function toggleCheck(el) {
+  el.classList.toggle('checked');
+  var icon = el.querySelector('.f-check-box span');
+  if (icon) icon.style.display = el.classList.contains('checked') ? 'inline' : 'none';
+  el.classList.remove('error');
+  var errEl = document.getElementById('err-terms');
+  if (errEl) errEl.classList.remove('show');
+}
+
+/* ========== SUBMIT ========== */
+function submitApplication() {
+  if (!validateStep(3)) return;
+
+  var data = {
+    bizName: val('bizName'),
+    bizType: document.getElementById('bizType').value,
+    contactName: val('contactName'),
+    phone: '+509 ' + val('phone'),
+    whatsapp: val('whatsapp') ? '+509 ' + val('whatsapp') : '',
+    email: val('email'),
+    address: val('address'),
+    city: document.getElementById('city').value,
+    years: val('years'),
+    capacity: val('capacity'),
+    description: val('description'),
+    submittedAt: new Date().toISOString(),
+    status: 'pending'
+  };
+
+  /* Save to localStorage */
+  localStorage.setItem('tpt_partner_app', JSON.stringify(data));
+
+  /* Also add to the admin demo list */
+  var apps = getApps();
+  data.id = 'app_' + Date.now();
+  apps.unshift(data);
+  localStorage.setItem('tpt_partner_apps', JSON.stringify(apps));
+
+  /* Show success */
+  showSuccess();
+}
+
+function showSuccess() {
+  document.querySelector('.form-section').style.display = 'none';
+  document.querySelector('.benefits').style.display = 'none';
+  var ss = document.getElementById('successState');
+  ss.style.display = 'block';
+  ss.classList.add('active');
+  ss.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  document.body.classList.add('submitted');
+}
+
+/* ========== ADMIN ========== */
+var demoApps = [
+  {id:'demo1',bizName:'Carib Hotel Boutique',bizType:'hotel',contactName:'Marie-Claire Dupont',phone:'+509 3422 5567',whatsapp:'+509 3422 5567',email:'info@caribhotel.ht',city:'Pétion-Ville',years:'8',capacity:'24',status:'verified',submittedAt:'2026-05-01T10:30:00Z'},
+  {id:'demo2',bizName:'Haiti Sky Tours',bizType:'helicopter',contactName:'Robert Jn-Baptiste',phone:'+509 4811 9032',whatsapp:'+509 4811 9032',email:'fly@haitiskytours.com',city:'Port-au-Prince',years:'3',capacity:'2',status:'verified',submittedAt:'2026-05-03T14:15:00Z'},
+  {id:'demo3',bizName:'Transport Lumiere SA',bizType:'bus',contactName:'Jacques Moreau',phone:'+509 3799 1245',whatsapp:'',email:'contact@transportlumiere.ht',city:'Cap-Haïtien',years:'12',capacity:'15',status:'pending',submittedAt:'2026-05-10T08:45:00Z'},
+  {id:'demo4',bizName:'Jacmel Maritime Express',bizType:'maritime',contactName:'Fabienne Charles',phone:'+509 4655 3301',whatsapp:'+509 4655 3301',email:'fabienne@jme.ht',city:'Jacmel',years:'5',capacity:'3',status:'pending',submittedAt:'2026-05-11T16:20:00Z'},
+  {id:'demo5',bizName:'Nightlife Events Haiti',bizType:'event',contactName:'Dieuleson Romain',phone:'+509 3901 7782',whatsapp:'+509 3901 7782',email:'events@nightlifehaiti.com',city:'Port-au-Prince',years:'2',capacity:'0',status:'rejected',submittedAt:'2026-05-06T11:00:00Z'}
+];
+
+function getApps() {
+  var stored = localStorage.getItem('tpt_partner_apps');
+  if (stored) {
+    try { return JSON.parse(stored); } catch(e) {}
+  }
+  /* Initialize with demo data */
+  localStorage.setItem('tpt_partner_apps', JSON.stringify(demoApps));
+  return JSON.parse(JSON.stringify(demoApps));
+}
+
+var adminFilter = 'all';
+
+function filterApps(status, btn) {
+  adminFilter = status;
+  document.querySelectorAll('.admin-filter').forEach(function(f) { f.classList.remove('active'); });
+  if (btn) btn.classList.add('active');
+  renderAdminList();
+}
+
+var bizTypeLabels = {
+  hotel:'🏨 Hotel',bus:'🚌 Bus',helicopter:'🚁 Helicopter',
+  airline:'✈️ Airline',maritime:'⛵️ Maritime',event:'🎢 Event',concierge:'💼 Concierge'
+};
+
+function renderAdminList() {
+  var list = document.getElementById('adminList');
+  if (!list) return;
+  var apps = getApps();
+  var filtered = adminFilter === 'all' ? apps : apps.filter(function(a) { return a.status === adminFilter; });
+
+  document.getElementById('adminCount').textContent = filtered.length + ' aplikasyon';
+
+  if (filtered.length === 0) {
+    list.innerHTML = '<div style="text-align:center;padding:40px 20px;color:var(--text-muted);font-size:.85rem;">No applications found.</div>';
+    return;
+  }
+
+  var html = '';
+  filtered.forEach(function(app, idx) {
+    var statusClass = app.status;
+    var statusLabel = app.status === 'pending' ? tx('filter_pending') : app.status === 'verified' ? tx('filter_verified') : tx('filter_rejected');
+    var dateStr = '';
+    try {
+      var d = new Date(app.submittedAt);
+      dateStr = d.toLocaleDateString('fr-HT', { day:'numeric', month:'short', year:'numeric' });
+    } catch(e) { dateStr = app.submittedAt; }
+
+    html += '<div class="app-card" data-idx="' + idx + '">';
+    html += '<div class="app-top">';
+    html += '<div><div class="app-biz">' + escHtml(app.bizName) + '</div>';
+    html += '<div class="app-type">' + (bizTypeLabels[app.bizType] || app.bizType) + '</div></div>';
+    html += '<div class="app-badge ' + statusClass + '">' + statusLabel + '</div>';
+    html += '</div>';
+    html += '<div class="app-details">';
+    html += '<div class="app-detail"><strong>' + tx('admin_contact_lbl') + ':</strong> ' + escHtml(app.contactName || '-') + '</div>';
+    html += '<div class="app-detail"><strong>' + tx('admin_phone_lbl') + ':</strong> ' + escHtml(app.phone || '-') + '</div>';
+    html += '<div class="app-detail"><strong>' + tx('lbl_city') + ':</strong> ' + escHtml(app.city || '-') + '</div>';
+    html += '<div class="app-detail"><strong>' + tx('admin_date') + ':</strong> ' + dateStr + '</div>';
+    html += '</div>';
+    html += '<div class="app-actions">';
+    if (app.status !== 'verified') {
+      html += '<button class="app-btn approve" onclick="adminAction(\'' + app.id + '\',\'verified\')">' + tx('admin_approve') + '</button>';
+    }
+    if (app.status !== 'rejected') {
+      html += '<button class="app-btn reject" onclick="adminAction(\'' + app.id + '\',\'rejected\')">' + tx('admin_reject') + '</button>';
+    }
+    var waNum = (app.whatsapp || app.phone || '').replace(/[^0-9+]/g, '');
+    html += '<a class="app-btn contact" href="https://wa.me/' + waNum.replace('+','') + '?text=Bonjou%20' + encodeURIComponent(app.contactName || '') + '!%20Nou%20kontakte%20ou%20konsènan%20aplikasyon%20patnè%20TouPaTou%20ou." target="_blank" rel="noopener">' + tx('admin_contact_wa') + '</a>';
+    html += '</div></div>';
+  });
+  list.innerHTML = html;
+}
+
+function adminAction(id, newStatus) {
+  var apps = getApps();
+  apps.forEach(function(a) { if (a.id === id) a.status = newStatus; });
+  localStorage.setItem('tpt_partner_apps', JSON.stringify(apps));
+  renderAdminList();
+}
+
+function escHtml(str) {
+  var div = document.createElement('div');
+  div.textContent = str || '';
+  return div.innerHTML;
+}
+
+/* ========== INIT ========== */
+(function() {
+  /* Check admin mode */
+  var params = new URLSearchParams(window.location.search);
+  if (params.get('admin') === 'true') {
+    document.body.classList.add('admin-mode');
+    document.getElementById('adminView').classList.add('active');
+    renderAdminList();
+  }
+
+  /* Check if already submitted */
+  var existing = localStorage.getItem('tpt_partner_app');
+  if (existing && !document.body.classList.contains('admin-mode')) {
+    showSuccess();
+  }
+
+  /* Set default language */
+  setLang('ht');
+  updateProgress();
+})();
+</script>
+</body>
+</html>
