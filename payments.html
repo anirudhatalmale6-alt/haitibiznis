@@ -1,0 +1,1680 @@
+<!DOCTYPE html>
+<html lang="ht">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no">
+<title>TouPaTou — Peman Sekirize</title>
+<meta name="description" content="TouPaTou — Peye rezèvasyon ou an sekirize. MonCash, NatCash, kat kredi, cash, oswa viman bankè.">
+<meta property="og:title" content="TouPaTou — Peman Sekirize">
+<meta property="og:type" content="website">
+<link rel="icon" type="image/x-icon" href="favicon.ico">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --blue:#00209F;--blue-dark:#001566;--blue-deep:#000D4F;
+  --red:#D21034;--red-dark:#B00D2C;
+  --gold:#D4A017;--gold-light:#E8B82E;
+  --white:#FFFFFF;--off-white:#FFF8F8;--cream:#FFFAF5;
+  --dark:#1A0C0C;--text:#2A1A1A;--text-light:#6A5A5A;--text-muted:#9A8A8A;
+  --green:#25D366;--green-dark:#1EBE5A;
+  --border:#E8DEDE;
+  --body:'Plus Jakarta Sans',system-ui,sans-serif;
+  --display:'DM Serif Display',Georgia,serif;
+  --radius:16px;--radius-lg:24px;--radius-input:14px;
+}
+html{scroll-behavior:smooth;-webkit-tap-highlight-color:transparent}
+body{
+  font-family:var(--body);background:var(--off-white);color:var(--text);
+  overflow-x:hidden;-webkit-font-smoothing:antialiased;
+  padding-bottom:40px;
+}
+a{text-decoration:none;color:inherit}
+button{font-family:var(--body);cursor:pointer;border:none;background:none}
+input,select,textarea{font-family:var(--body);border:none;outline:none}
+
+@keyframes fadeUp{from{opacity:0;transform:translateY(24px)}to{opacity:1;transform:none}}
+@keyframes fadeIn{from{opacity:0}to{opacity:1}}
+@keyframes slideIn{from{opacity:0;transform:translateX(20px)}to{opacity:1;transform:none}}
+@keyframes pulseGlow{0%,100%{box-shadow:0 0 0 0 rgba(210,16,52,.4)}50%{box-shadow:0 0 0 14px rgba(210,16,52,0)}}
+@keyframes pulse{0%,100%{transform:scale(1)}50%{transform:scale(1.05)}}
+@keyframes spin{to{transform:rotate(360deg)}}
+@keyframes shimmer{0%{background-position:-200% 0}100%{background-position:200% 0}}
+@keyframes countdownPulse{0%,100%{opacity:1}50%{opacity:.6}}
+@keyframes checkBounce{0%{transform:scale(0)}50%{transform:scale(1.2)}100%{transform:scale(1)}}
+@keyframes slideUp{from{opacity:0;transform:translateY(100%)}to{opacity:1;transform:translateY(0)}}
+@keyframes slideDown{from{opacity:1;transform:translateY(0)}to{opacity:0;transform:translateY(100%)}}
+
+/* HEADER */
+.header{
+  position:fixed;top:0;left:0;right:0;z-index:1000;
+  background:var(--blue);
+  height:60px;display:flex;align-items:center;justify-content:space-between;
+  padding:0 20px;
+  box-shadow:0 2px 20px rgba(0,13,79,.3);
+}
+.header-brand{display:flex;align-items:center;gap:10px}
+.header-brand h1{
+  font-family:var(--display);font-size:1.05rem;color:var(--white);
+  letter-spacing:-.01em;line-height:1;
+}
+.header-brand h1 span{color:var(--red);font-size:.7em}
+.header-brand .sub{font-size:.55rem;color:rgba(255,255,255,.55);font-weight:600;letter-spacing:.06em;text-transform:uppercase;margin-top:1px}
+.header-badge{
+  display:inline-flex;align-items:center;gap:5px;
+  background:rgba(255,255,255,.12);padding:4px 10px 4px 8px;border-radius:8px;
+  font-size:.65rem;font-weight:700;color:var(--gold-light);
+  letter-spacing:.03em;
+}
+.header-badge svg{width:14px;height:14px;fill:var(--gold-light)}
+.header-right{display:flex;align-items:center;gap:12px}
+.lang-toggle{
+  display:flex;gap:2px;background:rgba(255,255,255,.1);border-radius:8px;padding:2px;
+}
+.lang-toggle a{
+  color:rgba(255,255,255,.5);font-size:.6rem;font-weight:700;padding:5px 8px;
+  border-radius:6px;cursor:pointer;transition:all .2s;letter-spacing:.02em;
+}
+.lang-toggle a.active{color:var(--blue);background:var(--white)}
+.lang-toggle a:hover:not(.active){color:rgba(255,255,255,.9)}
+.back-link{
+  color:rgba(255,255,255,.6);font-size:.72rem;font-weight:700;
+  display:flex;align-items:center;gap:4px;transition:color .2s;
+}
+.back-link:hover{color:var(--white)}
+.back-link svg{width:16px;height:16px;fill:currentColor}
+
+/* CONTAINER */
+.container{max-width:520px;margin:0 auto;padding:72px 16px 20px}
+.admin-container{max-width:900px;margin:0 auto;padding:72px 16px 20px}
+
+/* SECURE BANNER */
+.secure-banner{
+  display:flex;align-items:center;justify-content:center;gap:8px;
+  padding:10px 16px;
+  background:linear-gradient(135deg,rgba(0,32,159,.04),rgba(0,32,159,.08));
+  border:1px solid rgba(0,32,159,.1);border-radius:var(--radius);
+  margin-bottom:20px;animation:fadeUp .4s ease both;
+}
+.secure-banner svg{width:16px;height:16px;fill:var(--blue);flex-shrink:0}
+.secure-banner span{font-size:.72rem;font-weight:700;color:var(--blue);letter-spacing:.02em}
+
+/* RESERVATION LOOKUP */
+.lookup-section{animation:fadeUp .4s .05s ease both}
+.lookup-card{
+  background:var(--white);border-radius:var(--radius-lg);
+  padding:24px 20px;
+  box-shadow:0 8px 40px rgba(0,0,0,.06),0 1px 3px rgba(0,0,0,.03);
+  border:1px solid rgba(0,0,0,.04);
+}
+.lookup-title{
+  font-family:var(--display);font-size:1.1rem;color:var(--dark);
+  margin-bottom:4px;display:flex;align-items:center;gap:8px;
+}
+.lookup-sub{font-size:.78rem;color:var(--text-light);margin-bottom:18px;line-height:1.5}
+.lookup-row{display:flex;gap:10px}
+.lookup-row input{
+  flex:1;padding:15px 18px;border:1.5px solid var(--border);border-radius:var(--radius);
+  font-size:.95rem;font-weight:600;color:var(--dark);letter-spacing:.06em;
+  text-transform:uppercase;
+  background:linear-gradient(180deg,var(--white) 0%,#FAFAFA 100%);
+  transition:border-color .2s,box-shadow .2s;
+}
+.lookup-row input:focus{border-color:var(--blue);box-shadow:0 0 0 4px rgba(0,32,159,.06)}
+.lookup-row input::placeholder{color:var(--text-muted);font-weight:400;text-transform:none;letter-spacing:0}
+.btn{
+  padding:15px 24px;border:none;border-radius:var(--radius-input);
+  font-size:.88rem;font-weight:800;cursor:pointer;
+  display:inline-flex;align-items:center;justify-content:center;gap:8px;
+  transition:all .25s;-webkit-tap-highlight-color:transparent;white-space:nowrap;
+}
+.btn-blue{
+  background:linear-gradient(135deg,var(--blue),var(--blue-dark));color:var(--white);
+  box-shadow:0 6px 24px rgba(0,32,159,.3);
+}
+.btn-blue:hover{transform:translateY(-2px);box-shadow:0 10px 36px rgba(0,32,159,.4)}
+.btn-blue:active{transform:translateY(0)}
+.btn-red{
+  background:linear-gradient(135deg,var(--red),var(--red-dark));color:var(--white);
+  box-shadow:0 6px 24px rgba(210,16,52,.3);
+}
+.btn-red:hover{transform:translateY(-2px);box-shadow:0 10px 36px rgba(210,16,52,.4)}
+.btn-green{
+  background:linear-gradient(135deg,var(--green),var(--green-dark));color:var(--white);
+  box-shadow:0 6px 24px rgba(37,211,102,.3);
+}
+.btn-green:hover{transform:translateY(-2px);box-shadow:0 10px 36px rgba(37,211,102,.4)}
+.btn-gold{
+  background:linear-gradient(135deg,var(--gold),#B8860B);color:var(--white);
+  box-shadow:0 6px 24px rgba(212,160,23,.3);
+}
+.btn-gold:hover{transform:translateY(-2px);box-shadow:0 10px 36px rgba(212,160,23,.4)}
+.btn-dark{
+  background:linear-gradient(135deg,var(--dark),#0D0606);color:var(--white);
+  box-shadow:0 6px 24px rgba(26,12,12,.3);
+}
+.btn-dark:hover{transform:translateY(-2px);box-shadow:0 10px 36px rgba(26,12,12,.4)}
+.btn-outline{
+  background:var(--white);color:var(--text);
+  border:2px solid var(--border);box-shadow:none;
+}
+.btn-outline:hover{border-color:var(--blue);color:var(--blue)}
+.btn-full{width:100%}
+.btn-sm{padding:10px 18px;font-size:.78rem}
+.btn-loading{pointer-events:none;opacity:.7}
+.btn-loading::after{
+  content:'';width:18px;height:18px;border:2px solid rgba(255,255,255,.3);
+  border-top-color:#fff;border-radius:50%;animation:spin .6s linear infinite;
+}
+
+/* RESERVATION SUMMARY */
+.res-summary{
+  display:none;margin-top:18px;padding:18px;
+  background:linear-gradient(135deg,rgba(0,32,159,.03),rgba(0,32,159,.06));
+  border:1px solid rgba(0,32,159,.1);border-radius:var(--radius);
+  animation:fadeUp .3s ease both;
+}
+.res-summary.show{display:block}
+.res-row{display:flex;justify-content:space-between;align-items:center;padding:6px 0}
+.res-label{font-size:.72rem;font-weight:700;color:var(--text-light);text-transform:uppercase;letter-spacing:.06em}
+.res-value{font-size:.88rem;font-weight:700;color:var(--dark)}
+.res-ref{font-family:monospace;font-size:1rem;font-weight:900;color:var(--blue);letter-spacing:.08em}
+.res-amount{font-family:var(--display);font-size:1.3rem;color:var(--red)}
+.res-status{
+  display:inline-flex;align-items:center;gap:4px;
+  padding:4px 12px;border-radius:100px;font-size:.68rem;font-weight:800;
+  letter-spacing:.03em;text-transform:uppercase;
+}
+.res-status.pending{background:rgba(212,160,23,.12);color:#9A7B0A}
+.res-status.confirmed{background:rgba(37,211,102,.12);color:#1A8C3D}
+.res-status.cancelled{background:rgba(210,16,52,.12);color:var(--red)}
+
+/* COUNTDOWN TIMER */
+.countdown-section{
+  display:none;margin-top:24px;text-align:center;
+  animation:fadeUp .4s .1s ease both;
+}
+.countdown-section.show{display:block}
+.countdown-label{font-size:.78rem;font-weight:700;color:var(--text-light);margin-bottom:14px}
+.countdown-circle{
+  position:relative;width:160px;height:160px;margin:0 auto 14px;
+}
+.countdown-circle svg{width:160px;height:160px;transform:rotate(-90deg)}
+.countdown-circle .track{fill:none;stroke:var(--border);stroke-width:8}
+.countdown-circle .progress{
+  fill:none;stroke:var(--gold);stroke-width:8;
+  stroke-linecap:round;
+  transition:stroke-dashoffset 1s linear,stroke .3s;
+}
+.countdown-circle.urgent .progress{stroke:var(--red)}
+.countdown-circle.urgent .countdown-time{color:var(--red);animation:countdownPulse 1s infinite}
+.countdown-time{
+  position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);
+  font-family:var(--display);font-size:2.2rem;color:var(--gold);
+  font-weight:700;letter-spacing:.02em;
+}
+.countdown-expired{
+  display:none;text-align:center;padding:24px;
+  background:rgba(210,16,52,.06);border:1px solid rgba(210,16,52,.15);
+  border-radius:var(--radius);margin-top:16px;
+}
+.countdown-expired.show{display:block;animation:fadeUp .3s ease both}
+.countdown-expired .exp-icon{font-size:2.4rem;margin-bottom:8px;display:block}
+.countdown-expired .exp-text{font-size:.92rem;font-weight:700;color:var(--red);margin-bottom:12px}
+
+/* PAYMENT METHOD SELECTION */
+.methods-section{
+  display:none;margin-top:28px;
+  animation:fadeUp .4s .15s ease both;
+}
+.methods-section.show{display:block}
+.section-title{
+  font-family:var(--display);font-size:1.1rem;color:var(--dark);
+  margin-bottom:16px;display:flex;align-items:center;gap:8px;
+}
+.methods-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.method-card{
+  background:var(--white);border-radius:var(--radius);padding:20px 14px;
+  box-shadow:0 4px 20px rgba(0,0,0,.05);border:2px solid transparent;
+  cursor:pointer;transition:all .25s;text-align:center;
+  -webkit-tap-highlight-color:transparent;position:relative;overflow:hidden;
+}
+.method-card::before{
+  content:'';position:absolute;top:0;left:0;right:0;height:3px;
+  transition:background .2s;
+}
+.method-card:hover{transform:translateY(-3px);box-shadow:0 8px 32px rgba(0,0,0,.1)}
+.method-card:active{transform:translateY(-1px)}
+.method-card.active{border-color:var(--blue);box-shadow:0 4px 24px rgba(0,32,159,.15)}
+.method-card.active::after{
+  content:'\2713';position:absolute;top:8px;right:8px;
+  width:20px;height:20px;background:var(--blue);color:#fff;
+  border-radius:50%;font-size:.65rem;font-weight:900;
+  display:flex;align-items:center;justify-content:center;
+  animation:checkBounce .3s ease both;
+}
+.method-card[data-method="moncash"]::before{background:var(--green)}
+.method-card[data-method="natcash"]::before{background:var(--blue)}
+.method-card[data-method="card"]::before{background:var(--gold)}
+.method-card[data-method="cash"]::before{background:var(--dark)}
+.method-card[data-method="bank"]::before{background:#1976D2}
+.method-icon{
+  width:48px;height:48px;border-radius:14px;
+  display:flex;align-items:center;justify-content:center;
+  margin:0 auto 10px;font-size:1.6rem;
+}
+.method-card[data-method="moncash"] .method-icon{background:rgba(37,211,102,.1);color:var(--green)}
+.method-card[data-method="natcash"] .method-icon{background:rgba(0,32,159,.08);color:var(--blue)}
+.method-card[data-method="card"] .method-icon{background:rgba(212,160,23,.1);color:var(--gold)}
+.method-card[data-method="cash"] .method-icon{background:rgba(26,12,12,.08);color:var(--dark)}
+.method-card[data-method="bank"] .method-icon{background:rgba(25,118,210,.08);color:#1976D2}
+.method-name{font-size:.82rem;font-weight:800;color:var(--dark);margin-bottom:3px}
+.method-desc{font-size:.62rem;color:var(--text-light);line-height:1.3}
+.method-card.span-full{grid-column:1 / -1}
+
+/* PAYMENT FORMS */
+.payment-form-section{
+  display:none;margin-top:24px;
+  animation:fadeUp .35s ease both;
+}
+.payment-form-section.show{display:block}
+.pay-card{
+  background:var(--white);border-radius:var(--radius-lg);
+  padding:24px 20px;
+  box-shadow:0 8px 40px rgba(0,0,0,.06),0 1px 3px rgba(0,0,0,.03);
+  border:1px solid rgba(0,0,0,.04);
+}
+.pay-card-title{
+  font-size:.92rem;font-weight:800;color:var(--dark);margin-bottom:6px;
+  display:flex;align-items:center;gap:8px;
+}
+.pay-card-sub{font-size:.75rem;color:var(--text-light);margin-bottom:20px;line-height:1.5}
+.form-group{margin-bottom:16px}
+.form-label{
+  display:block;font-size:.68rem;font-weight:800;color:var(--text-light);
+  text-transform:uppercase;letter-spacing:.08em;margin-bottom:8px;
+}
+.form-input{
+  width:100%;padding:15px 18px;border:1.5px solid var(--border);border-radius:var(--radius-input);
+  font-size:.9rem;font-weight:500;color:var(--dark);
+  background:linear-gradient(180deg,var(--white) 0%,#FAFAFA 100%);
+  transition:border-color .2s,box-shadow .2s,background .2s;
+  -webkit-appearance:none;
+}
+.form-input:focus{border-color:var(--blue);box-shadow:0 0 0 4px rgba(0,32,159,.06);background:var(--white)}
+.form-input::placeholder{color:var(--text-muted);font-weight:400}
+select.form-input{
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' fill='%236A5A5A' viewBox='0 0 16 16'%3E%3Cpath d='M8 11L3 6h10z'/%3E%3C/svg%3E");
+  background-repeat:no-repeat;background-position:right 16px center;
+  color:var(--text);
+}
+.form-row{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.instructions-box{
+  padding:14px 16px;border-radius:12px;
+  background:rgba(212,160,23,.06);border:1px solid rgba(212,160,23,.15);
+  margin-bottom:18px;
+}
+.instructions-box p{font-size:.78rem;color:var(--text);line-height:1.6;font-weight:500}
+.instructions-box strong{font-weight:800;color:var(--dark)}
+.bank-details{
+  padding:16px;border-radius:12px;background:#F8FAFC;
+  border:1px solid var(--border);margin-bottom:18px;
+}
+.bank-row{display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid rgba(0,0,0,.04)}
+.bank-row:last-child{border-bottom:none}
+.bank-row .b-label{font-size:.72rem;font-weight:700;color:var(--text-light)}
+.bank-row .b-value{font-size:.82rem;font-weight:800;color:var(--dark);font-family:monospace}
+.file-upload{
+  position:relative;
+  padding:24px 16px;border:2px dashed var(--border);border-radius:var(--radius);
+  text-align:center;cursor:pointer;transition:all .2s;
+  margin-bottom:18px;
+}
+.file-upload:hover{border-color:var(--blue);background:rgba(0,32,159,.02)}
+.file-upload.has-file{border-color:var(--green);background:rgba(37,211,102,.04)}
+.file-upload input{position:absolute;inset:0;opacity:0;cursor:pointer}
+.file-upload .fu-icon{font-size:2rem;display:block;margin-bottom:6px}
+.file-upload .fu-text{font-size:.78rem;font-weight:700;color:var(--text-light)}
+.file-upload .fu-hint{font-size:.65rem;color:var(--text-muted);margin-top:4px}
+.file-upload .fu-name{display:none;font-size:.78rem;font-weight:700;color:var(--green)}
+.file-upload.has-file .fu-name{display:block}
+.file-upload.has-file .fu-text,
+.file-upload.has-file .fu-hint{display:none}
+
+.secure-note{
+  display:flex;align-items:center;justify-content:center;gap:6px;
+  padding:10px;font-size:.68rem;color:var(--text-muted);font-weight:600;
+  margin-bottom:14px;
+}
+.secure-note svg{width:14px;height:14px;fill:var(--green)}
+
+.cash-confirm-box{
+  text-align:center;padding:20px 16px;
+  background:rgba(26,12,12,.03);border-radius:var(--radius);
+  margin-bottom:18px;
+}
+.cash-confirm-box .cc-icon{font-size:2.4rem;display:block;margin-bottom:8px}
+.cash-confirm-box .cc-text{font-size:.85rem;font-weight:600;color:var(--text);line-height:1.6}
+
+/* PAYMENT STATUS */
+.status-section{
+  display:none;margin-top:24px;
+  animation:fadeUp .4s ease both;
+}
+.status-section.show{display:block}
+.status-card{
+  text-align:center;padding:32px 20px;
+  background:var(--white);border-radius:var(--radius-lg);
+  box-shadow:0 8px 40px rgba(0,0,0,.06);
+}
+.status-icon{
+  width:72px;height:72px;border-radius:50%;
+  display:flex;align-items:center;justify-content:center;
+  margin:0 auto 16px;font-size:2rem;
+}
+.status-icon.pending{background:rgba(212,160,23,.12);color:var(--gold)}
+.status-icon.verified{background:rgba(37,211,102,.12);color:var(--green)}
+.status-icon.rejected{background:rgba(210,16,52,.12);color:var(--red)}
+.status-title{font-family:var(--display);font-size:1.15rem;color:var(--dark);margin-bottom:6px}
+.status-sub{font-size:.82rem;color:var(--text-light);margin-bottom:20px;line-height:1.5}
+.status-ref{
+  display:inline-block;padding:10px 20px;
+  background:#F8FAFC;border:1px solid var(--border);border-radius:10px;
+  font-family:monospace;font-size:1.1rem;font-weight:900;color:var(--blue);
+  letter-spacing:.1em;margin-bottom:8px;
+}
+.status-pin{font-size:.72rem;color:var(--text-muted);font-weight:600;margin-bottom:20px}
+.btn-wa{
+  display:inline-flex;align-items:center;gap:8px;
+  padding:14px 28px;border-radius:100px;
+  background:var(--green);color:var(--white);
+  font-size:.85rem;font-weight:800;
+  box-shadow:0 6px 24px rgba(37,211,102,.3);
+  transition:all .25s;
+}
+.btn-wa:hover{transform:translateY(-2px);box-shadow:0 10px 36px rgba(37,211,102,.4)}
+.btn-wa svg{width:20px;height:20px;fill:var(--white)}
+
+/* TOAST */
+.toast-container{
+  position:fixed;bottom:24px;left:50%;transform:translateX(-50%);
+  z-index:9999;display:flex;flex-direction:column;gap:8px;
+  width:calc(100% - 32px);max-width:400px;pointer-events:none;
+}
+.toast{
+  padding:14px 18px;border-radius:12px;
+  background:var(--dark);color:var(--white);
+  font-size:.82rem;font-weight:600;
+  display:flex;align-items:center;gap:10px;
+  pointer-events:auto;
+  animation:slideUp .3s ease both;
+  box-shadow:0 8px 32px rgba(0,0,0,.2);
+}
+.toast.success{background:#1A8C3D}
+.toast.error{background:var(--red)}
+.toast.info{background:var(--blue)}
+.toast.hiding{animation:slideDown .3s ease both}
+.toast-icon{font-size:1.1rem;flex-shrink:0}
+
+/* ADMIN PANEL */
+.admin-view{display:none}
+.admin-view.show{display:block}
+.user-view{display:block}
+.user-view.hidden{display:none}
+
+.admin-header{
+  text-align:center;padding:20px 0 24px;
+  animation:fadeUp .4s ease both;
+}
+.admin-header h2{font-family:var(--display);font-size:1.3rem;color:var(--dark);margin-bottom:4px}
+.admin-header p{font-size:.78rem;color:var(--text-light)}
+
+.stats-row{
+  display:grid;grid-template-columns:repeat(2,1fr);gap:12px;
+  margin-bottom:24px;animation:fadeUp .4s .05s ease both;
+}
+@media(min-width:600px){.stats-row{grid-template-columns:repeat(4,1fr)}}
+.stat-card{
+  background:var(--white);border-radius:var(--radius);padding:18px 16px;
+  text-align:center;box-shadow:0 4px 20px rgba(0,0,0,.05);
+  border:1px solid rgba(0,0,0,.04);
+}
+.stat-card .s-num{font-family:var(--display);font-size:1.4rem;color:var(--dark);line-height:1}
+.stat-card .s-label{font-size:.62rem;font-weight:700;color:var(--text-muted);text-transform:uppercase;letter-spacing:.06em;margin-top:4px}
+.stat-card:nth-child(1) .s-num{color:var(--blue)}
+.stat-card:nth-child(2) .s-num{color:var(--gold)}
+.stat-card:nth-child(3) .s-num{color:var(--green)}
+.stat-card:nth-child(4) .s-num{color:var(--red)}
+
+.filter-bar{
+  display:flex;gap:10px;flex-wrap:wrap;margin-bottom:20px;
+  animation:fadeUp .4s .1s ease both;
+}
+.filter-bar select,.filter-bar input{
+  flex:1;min-width:120px;padding:12px 14px;
+  border:1.5px solid var(--border);border-radius:12px;
+  font-size:.8rem;font-weight:600;color:var(--text);
+  background:var(--white);
+}
+.filter-bar select:focus,.filter-bar input:focus{border-color:var(--blue);outline:none}
+
+.payment-list{animation:fadeUp .4s .15s ease both}
+.pay-row{
+  background:var(--white);border-radius:var(--radius);
+  padding:16px;margin-bottom:12px;
+  box-shadow:0 2px 12px rgba(0,0,0,.04);
+  border:1px solid rgba(0,0,0,.04);
+  transition:box-shadow .2s;
+}
+.pay-row:hover{box-shadow:0 6px 24px rgba(0,0,0,.08)}
+.pay-row-top{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:10px}
+.pay-row-ref{font-family:monospace;font-size:.85rem;font-weight:900;color:var(--blue)}
+.pay-row-method{
+  display:inline-flex;align-items:center;gap:4px;
+  padding:3px 10px;border-radius:100px;font-size:.62rem;font-weight:800;
+  text-transform:uppercase;letter-spacing:.03em;
+}
+.pay-row-method.moncash{background:rgba(37,211,102,.1);color:var(--green)}
+.pay-row-method.natcash{background:rgba(0,32,159,.08);color:var(--blue)}
+.pay-row-method.card{background:rgba(212,160,23,.1);color:#9A7B0A}
+.pay-row-method.cash{background:rgba(26,12,12,.08);color:var(--dark)}
+.pay-row-method.bank{background:rgba(25,118,210,.08);color:#1976D2}
+.pay-row-info{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px}
+.pay-row-customer{font-size:.82rem;font-weight:700;color:var(--dark)}
+.pay-row-phone{font-size:.72rem;color:var(--text-muted)}
+.pay-row-amount{font-family:var(--display);font-size:1.05rem;color:var(--dark)}
+.pay-row-bottom{display:flex;justify-content:space-between;align-items:center;gap:8px}
+.pay-status-badge{
+  display:inline-flex;align-items:center;gap:4px;
+  padding:4px 12px;border-radius:100px;font-size:.65rem;font-weight:800;
+  letter-spacing:.03em;text-transform:uppercase;
+}
+.pay-status-badge.pending{background:rgba(212,160,23,.12);color:#9A7B0A}
+.pay-status-badge.verified{background:rgba(37,211,102,.12);color:#1A8C3D}
+.pay-status-badge.rejected{background:rgba(210,16,52,.12);color:var(--red)}
+.pay-status-badge.refunded{background:rgba(25,118,210,.1);color:#1976D2}
+.pay-row-actions{display:flex;gap:6px}
+.act-btn{
+  padding:7px 14px;border-radius:8px;font-size:.68rem;font-weight:800;
+  cursor:pointer;transition:all .2s;border:none;letter-spacing:.02em;
+}
+.act-btn.verify{background:rgba(37,211,102,.12);color:#1A8C3D}
+.act-btn.verify:hover{background:var(--green);color:var(--white)}
+.act-btn.reject{background:rgba(210,16,52,.1);color:var(--red)}
+.act-btn.reject:hover{background:var(--red);color:var(--white)}
+.act-btn.refund{background:rgba(212,160,23,.1);color:#9A7B0A}
+.act-btn.refund:hover{background:var(--gold);color:var(--white)}
+
+.admin-toggle{
+  position:fixed;bottom:20px;right:20px;z-index:900;
+  width:48px;height:48px;border-radius:14px;
+  background:var(--dark);color:var(--white);
+  display:flex;align-items:center;justify-content:center;
+  font-size:1.2rem;cursor:pointer;
+  box-shadow:0 6px 24px rgba(0,0,0,.2);
+  transition:all .2s;
+}
+.admin-toggle:hover{transform:scale(1.08)}
+
+.proof-thumb{
+  width:36px;height:36px;border-radius:6px;object-fit:cover;
+  border:1px solid var(--border);cursor:pointer;
+}
+
+/* HIDE/SHOW HELPERS */
+.hidden{display:none!important}
+
+/* RESPONSIVE */
+@media(min-width:600px){
+  .methods-grid{grid-template-columns:repeat(3,1fr)}
+  .method-card.span-full{grid-column:auto}
+}
+@media(max-width:360px){
+  .methods-grid{grid-template-columns:1fr 1fr;gap:8px}
+  .method-card{padding:16px 10px}
+  .method-name{font-size:.75rem}
+  .countdown-circle{width:130px;height:130px}
+  .countdown-circle svg{width:130px;height:130px}
+  .countdown-time{font-size:1.8rem}
+}
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<header class="header">
+  <div class="header-brand">
+    <a href="reservations.html" class="back-link">
+      <svg viewBox="0 0 24 24"><path d="M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z"/></svg>
+    </a>
+    <div>
+      <h1>TouPaTou <span>&#9679;</span></h1>
+      <div class="sub" data-i18n="header_sub">Peman Sekirize</div>
+    </div>
+    <div class="header-badge">
+      <svg viewBox="0 0 24 24"><path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4zm-2 16l-4-4 1.41-1.41L10 14.17l6.59-6.59L18 9l-8 8z"/></svg>
+      <span data-i18n="badge_payment">Peman</span>
+    </div>
+  </div>
+  <div class="header-right">
+    <div class="lang-toggle">
+      <a onclick="setLang('ht')" id="lang-ht" class="active">HT</a>
+      <a onclick="setLang('fr')" id="lang-fr">FR</a>
+      <a onclick="setLang('en')" id="lang-en">EN</a>
+      <a onclick="setLang('es')" id="lang-es">ES</a>
+    </div>
+  </div>
+</header>
+
+<!-- USER VIEW -->
+<div class="user-view" id="userView">
+<div class="container">
+
+  <!-- SECURE BANNER -->
+  <div class="secure-banner">
+    <svg viewBox="0 0 24 24"><path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4zm-2 16l-4-4 1.41-1.41L10 14.17l6.59-6.59L18 9l-8 8z"/></svg>
+    <span data-i18n="secure_banner">Peman ou sekirize ak TouPaTou</span>
+  </div>
+
+  <!-- RESERVATION LOOKUP -->
+  <div class="lookup-section">
+    <div class="lookup-card">
+      <div class="lookup-title">&#128269; <span data-i18n="lookup_title">Jwenn Rezèvasyon Ou</span></div>
+      <p class="lookup-sub" data-i18n="lookup_sub">Antre kòd referans rezèvasyon ou pou kontinye ak peman an.</p>
+      <div class="lookup-row" id="lookupRow">
+        <input type="text" class="form-input" id="refInput" placeholder="FLT-X4K9M2" maxlength="20" data-i18n-ph="ph_ref">
+        <button class="btn btn-blue" onclick="lookupReservation()" id="lookupBtn">
+          <span data-i18n="btn_lookup">Chache</span>
+        </button>
+      </div>
+      <div class="res-summary" id="resSummary">
+        <div class="res-row">
+          <span class="res-label" data-i18n="lbl_ref">Referans</span>
+          <span class="res-ref" id="resRef">---</span>
+        </div>
+        <div class="res-row">
+          <span class="res-label" data-i18n="lbl_type">Tip</span>
+          <span class="res-value" id="resType">---</span>
+        </div>
+        <div class="res-row">
+          <span class="res-label" data-i18n="lbl_details">Detay</span>
+          <span class="res-value" id="resDetails">---</span>
+        </div>
+        <div class="res-row">
+          <span class="res-label" data-i18n="lbl_date">Dat</span>
+          <span class="res-value" id="resDate">---</span>
+        </div>
+        <div class="res-row">
+          <span class="res-label" data-i18n="lbl_amount">Montan</span>
+          <span class="res-amount" id="resAmount">---</span>
+        </div>
+        <div class="res-row">
+          <span class="res-label">Status</span>
+          <span class="res-status pending" id="resStatus">---</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- COUNTDOWN TIMER -->
+  <div class="countdown-section" id="countdownSection">
+    <p class="countdown-label" data-i18n="countdown_label">Plas ou rezève pou 30 minit</p>
+    <div class="countdown-circle" id="countdownCircle">
+      <svg viewBox="0 0 160 160">
+        <circle class="track" cx="80" cy="80" r="72"/>
+        <circle class="progress" id="countdownProgress" cx="80" cy="80" r="72"
+          stroke-dasharray="452.39" stroke-dashoffset="0"/>
+      </svg>
+      <div class="countdown-time" id="countdownTime">30:00</div>
+    </div>
+  </div>
+  <div class="countdown-expired" id="countdownExpired">
+    <span class="exp-icon">&#9203;</span>
+    <p class="exp-text" data-i18n="expired_text">Tan fini. Tanpri rezève ankò.</p>
+    <a href="reservations.html" class="btn btn-red" data-i18n="btn_rebook">Rezève Ankò</a>
+  </div>
+
+  <!-- PAYMENT METHOD SELECTION -->
+  <div class="methods-section" id="methodsSection">
+    <div class="section-title">&#128179; <span data-i18n="methods_title">Chwazi Metòd Peman</span></div>
+    <div class="methods-grid">
+      <div class="method-card" data-method="moncash" onclick="selectMethod('moncash')">
+        <div class="method-icon">&#128241;</div>
+        <div class="method-name">MonCash</div>
+        <div class="method-desc" data-i18n="method_moncash_desc">Peye ak MonCash</div>
+      </div>
+      <div class="method-card" data-method="natcash" onclick="selectMethod('natcash')">
+        <div class="method-icon">&#128242;</div>
+        <div class="method-name">NatCash</div>
+        <div class="method-desc" data-i18n="method_natcash_desc">Peye ak NatCash</div>
+      </div>
+      <div class="method-card" data-method="card" onclick="selectMethod('card')">
+        <div class="method-icon">&#128179;</div>
+        <div class="method-name" data-i18n="method_card_name">Kat Kredi</div>
+        <div class="method-desc" data-i18n="method_card_desc">Visa / Mastercard</div>
+      </div>
+      <div class="method-card" data-method="cash" onclick="selectMethod('cash')">
+        <div class="method-icon">&#128181;</div>
+        <div class="method-name" data-i18n="method_cash_name">Cash</div>
+        <div class="method-desc" data-i18n="method_cash_desc">Peye nan biwo</div>
+      </div>
+      <div class="method-card span-full" data-method="bank" onclick="selectMethod('bank')">
+        <div class="method-icon">&#127974;</div>
+        <div class="method-name" data-i18n="method_bank_name">Viman Bankè</div>
+        <div class="method-desc" data-i18n="method_bank_desc">Transfè dirèk nan bank</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- PAYMENT FORMS -->
+  <div class="payment-form-section" id="payFormSection">
+
+    <!-- MONCASH FORM -->
+    <div class="pay-card" id="form-moncash" style="display:none">
+      <div class="pay-card-title">&#128241; MonCash</div>
+      <p class="pay-card-sub" data-i18n="moncash_sub">Voye lajan epi antre nimewo tranzaksyon an.</p>
+      <div class="instructions-box">
+        <p data-i18n="moncash_instructions">Voye lajan nan MonCash <strong>+509 4190 2005</strong>, answit antre nimewo tranzaksyon an anba a.</p>
+      </div>
+      <div class="form-group">
+        <label class="form-label" data-i18n="lbl_phone">Nimewo Telefòn</label>
+        <input type="tel" class="form-input" id="mc-phone" placeholder="+509 XXXX XXXX">
+      </div>
+      <div class="form-group">
+        <label class="form-label" data-i18n="lbl_tx_id">Nimewo Tranzaksyon</label>
+        <input type="text" class="form-input" id="mc-txid" placeholder="MP240513..." data-i18n-ph="ph_tx_id">
+      </div>
+      <button class="btn btn-green btn-full" onclick="submitPayment('moncash')">
+        <span data-i18n="btn_confirm_payment">Konfime Peman</span> &#10003;
+      </button>
+    </div>
+
+    <!-- NATCASH FORM -->
+    <div class="pay-card" id="form-natcash" style="display:none">
+      <div class="pay-card-title">&#128242; NatCash</div>
+      <p class="pay-card-sub" data-i18n="natcash_sub">Voye lajan epi antre nimewo tranzaksyon an.</p>
+      <div class="instructions-box">
+        <p data-i18n="natcash_instructions">Voye lajan nan NatCash <strong>+509 4190 2005</strong>, answit antre nimewo tranzaksyon an anba a.</p>
+      </div>
+      <div class="form-group">
+        <label class="form-label" data-i18n="lbl_phone">Nimewo Telefòn</label>
+        <input type="tel" class="form-input" id="nc-phone" placeholder="+509 XXXX XXXX">
+      </div>
+      <div class="form-group">
+        <label class="form-label" data-i18n="lbl_tx_id">Nimewo Tranzaksyon</label>
+        <input type="text" class="form-input" id="nc-txid" placeholder="NC240513..." data-i18n-ph="ph_tx_id">
+      </div>
+      <button class="btn btn-blue btn-full" onclick="submitPayment('natcash')">
+        <span data-i18n="btn_confirm_payment">Konfime Peman</span> &#10003;
+      </button>
+    </div>
+
+    <!-- CREDIT CARD FORM -->
+    <div class="pay-card" id="form-card" style="display:none">
+      <div class="pay-card-title">&#128179; <span data-i18n="card_title">Kat Kredi / Debi</span></div>
+      <p class="pay-card-sub" data-i18n="card_sub">Antre enfòmasyon kat ou pou peye dirèk.</p>
+      <div class="secure-note">
+        <svg viewBox="0 0 24 24"><path d="M18 8h-1V6c0-2.76-2.24-5-5-5S7 3.24 7 6v2H6c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V10c0-1.1-.9-2-2-2zm-6 9c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2zm3.1-9H8.9V6c0-1.71 1.39-3.1 3.1-3.1s3.1 1.39 3.1 3.1v2z"/></svg>
+        <span data-i18n="card_secure">Peman sekirize via SSL</span>
+      </div>
+      <div class="form-group">
+        <label class="form-label" data-i18n="lbl_card_number">Nimewo Kat</label>
+        <input type="text" class="form-input" id="cc-number" placeholder="0000 0000 0000 0000" maxlength="19" inputmode="numeric" autocomplete="cc-number">
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label class="form-label" data-i18n="lbl_expiry">Ekspirasyon</label>
+          <input type="text" class="form-input" id="cc-expiry" placeholder="MM/YY" maxlength="5" inputmode="numeric" autocomplete="cc-exp">
+        </div>
+        <div class="form-group">
+          <label class="form-label">CVV</label>
+          <input type="text" class="form-input" id="cc-cvv" placeholder="123" maxlength="4" inputmode="numeric" autocomplete="cc-csc">
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="form-label" data-i18n="lbl_cardholder">Non sou Kat la</label>
+        <input type="text" class="form-input" id="cc-name" placeholder="JEAN BAPTISTE" autocomplete="cc-name" data-i18n-ph="ph_cardholder">
+      </div>
+      <button class="btn btn-gold btn-full" onclick="submitPayment('card')">
+        <span data-i18n="btn_pay_now">Peye Kounye a</span> &#128274;
+      </button>
+    </div>
+
+    <!-- CASH RESERVATION FORM -->
+    <div class="pay-card" id="form-cash" style="display:none">
+      <div class="pay-card-title">&#128181; <span data-i18n="cash_title">Rezèvasyon Cash</span></div>
+      <p class="pay-card-sub" data-i18n="cash_sub">Kenbe rezèvasyon an epi peye nan biwo TouPaTou.</p>
+      <div class="cash-confirm-box">
+        <span class="cc-icon">&#127970;</span>
+        <p class="cc-text" data-i18n="cash_confirm_text">Rezèvasyon ou ap kenbe pou 24h. Peye cash nan biwo TouPaTou oswa bay operatè a.</p>
+      </div>
+      <div class="form-group">
+        <label class="form-label" data-i18n="lbl_office">Biwo</label>
+        <select class="form-input" id="cash-office">
+          <option value="pap">Port-au-Prince</option>
+          <option value="cap">Cap-Haitien</option>
+          <option value="ptv">Petion-Ville</option>
+        </select>
+      </div>
+      <button class="btn btn-dark btn-full" onclick="submitPayment('cash')">
+        <span data-i18n="btn_confirm_cash">Konfime Cash Reservation</span> &#10003;
+      </button>
+    </div>
+
+    <!-- BANK TRANSFER FORM -->
+    <div class="pay-card" id="form-bank" style="display:none">
+      <div class="pay-card-title">&#127974; <span data-i18n="bank_title">Viman Bankè</span></div>
+      <p class="pay-card-sub" data-i18n="bank_sub">Fè transfè epi soumèt prèv la.</p>
+      <div class="bank-details">
+        <div class="bank-row">
+          <span class="b-label">Sogebank</span>
+          <span class="b-value">1120-4478-901</span>
+        </div>
+        <div class="bank-row">
+          <span class="b-label">BUH</span>
+          <span class="b-value">8804-2251-637</span>
+        </div>
+        <div class="bank-row">
+          <span class="b-label" data-i18n="lbl_ref">Referans</span>
+          <span class="b-value" id="bankRefCode">---</span>
+        </div>
+      </div>
+      <div class="instructions-box">
+        <p data-i18n="bank_instructions">Mete kòd referans rezèvasyon an kòm nòt nan transfè a. Apre sa, telechaje prèv peman an anba a.</p>
+      </div>
+      <div class="file-upload" id="fileUpload">
+        <input type="file" accept="image/*,.pdf" onchange="handleFileUpload(this)">
+        <span class="fu-icon">&#128247;</span>
+        <span class="fu-text" data-i18n="fu_text">Klike oswa trennen prèv peman</span>
+        <span class="fu-hint" data-i18n="fu_hint">JPG, PNG oswa PDF</span>
+        <span class="fu-name" id="fileName"></span>
+      </div>
+      <button class="btn btn-blue btn-full" onclick="submitPayment('bank')">
+        <span data-i18n="btn_submit_proof">Soumèt Prèv Peman</span> &#10003;
+      </button>
+    </div>
+  </div>
+
+  <!-- PAYMENT STATUS -->
+  <div class="status-section" id="statusSection">
+    <div class="status-card">
+      <div class="status-icon" id="statusIcon"><span id="statusEmoji">&#9203;</span></div>
+      <h3 class="status-title" id="statusTitle" data-i18n="status_pending_title">Peman an Atant</h3>
+      <p class="status-sub" id="statusSub" data-i18n="status_pending_sub">Peman an atant verifikasyon. Nou pral kontakte ou tousuit.</p>
+      <div class="status-ref" id="statusRef">---</div>
+      <div class="status-pin" id="statusPin"></div>
+      <a class="btn-wa" id="waSupport" href="#" target="_blank">
+        <svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+        <span data-i18n="btn_wa_support">Bezwen èd? WhatsApp</span>
+      </a>
+    </div>
+  </div>
+
+</div>
+</div>
+
+<!-- ADMIN VIEW -->
+<div class="admin-view" id="adminView">
+<div class="admin-container">
+
+  <div class="admin-header">
+    <h2 data-i18n="admin_title">&#128202; Pano Admin Peman</h2>
+    <p data-i18n="admin_sub">Jere ak verifye tout peman yo</p>
+  </div>
+
+  <div class="stats-row">
+    <div class="stat-card">
+      <div class="s-num" id="statTotal">0</div>
+      <div class="s-label" data-i18n="stat_total">Total Peman</div>
+    </div>
+    <div class="stat-card">
+      <div class="s-num" id="statPending">0</div>
+      <div class="s-label" data-i18n="stat_pending">An Atant</div>
+    </div>
+    <div class="stat-card">
+      <div class="s-num" id="statVerified">0</div>
+      <div class="s-label" data-i18n="stat_verified">Verifye Jodi a</div>
+    </div>
+    <div class="stat-card">
+      <div class="s-num" id="statRevenue">0</div>
+      <div class="s-label" data-i18n="stat_revenue">Revni (HTG)</div>
+    </div>
+  </div>
+
+  <div class="filter-bar">
+    <select id="filterStatus" onchange="filterPayments()">
+      <option value="all" data-i18n="filter_all">Tout</option>
+      <option value="pending" data-i18n="filter_pending">An Atant</option>
+      <option value="verified" data-i18n="filter_verified">Verifye</option>
+      <option value="rejected" data-i18n="filter_rejected">Rejte</option>
+      <option value="refunded" data-i18n="filter_refunded">Ranbouse</option>
+    </select>
+    <input type="date" id="filterDateFrom" onchange="filterPayments()">
+    <input type="date" id="filterDateTo" onchange="filterPayments()">
+    <input type="text" id="filterSearch" placeholder="Chache ref..." oninput="filterPayments()" data-i18n-ph="ph_search_ref">
+  </div>
+
+  <div class="payment-list" id="paymentList"></div>
+
+</div>
+</div>
+
+<!-- ADMIN TOGGLE -->
+<div class="admin-toggle" id="adminToggle" onclick="toggleAdmin()" title="Admin Panel">
+  <span id="adminToggleIcon">&#9881;</span>
+</div>
+
+<!-- TOAST CONTAINER -->
+<div class="toast-container" id="toastContainer"></div>
+
+<script>
+/* ====================== CONFIGURATION ====================== */
+var API_URL = 'https://toupatou-backend.onrender.com/api';
+var WA_NUM = '50941902005';
+var DEMO_MODE = true;
+var COUNTDOWN_SECONDS = 30 * 60;
+
+/* ====================== i18n TRANSLATIONS ====================== */
+var T = {
+ht: {
+  header_sub:"Peman Sekirize",
+  badge_payment:"Peman",
+  secure_banner:"Peman ou sekirize ak TouPaTou",
+  lookup_title:"Jwenn Rezèvasyon Ou",
+  lookup_sub:"Antre kòd referans rezèvasyon ou pou kontinye ak peman an.",
+  btn_lookup:"Chache",
+  ph_ref:"FLT-X4K9M2",
+  lbl_ref:"Referans",lbl_type:"Tip",lbl_details:"Detay",lbl_date:"Dat",lbl_amount:"Montan",
+  countdown_label:"Plas ou rezève pou 30 minit",
+  expired_text:"Tan fini. Tanpri rezèvè ankò.",
+  btn_rebook:"Rezèvè Ankò",
+  methods_title:"Chwazi Metòd Peman",
+  method_moncash_desc:"Peye ak MonCash",
+  method_natcash_desc:"Peye ak NatCash",
+  method_card_name:"Kat Kredi",
+  method_card_desc:"Visa / Mastercard",
+  method_cash_name:"Cash",
+  method_cash_desc:"Peye nan biwo",
+  method_bank_name:"Viman Bankè",
+  method_bank_desc:"Transfè dirèk nan bank",
+  moncash_sub:"Voye lajan epi antre nimewo tranzaksyon an.",
+  moncash_instructions:"Voye lajan nan MonCash <strong>+509 4190 2005</strong>, answit antre nimewo tranzaksyon an anba a.",
+  natcash_sub:"Voye lajan epi antre nimewo tranzaksyon an.",
+  natcash_instructions:"Voye lajan nan NatCash <strong>+509 4190 2005</strong>, answit antre nimewo tranzaksyon an anba a.",
+  lbl_phone:"Nimewo Telefòn",
+  lbl_tx_id:"Nimewo Tranzaksyon",
+  ph_tx_id:"MP240513...",
+  btn_confirm_payment:"Konfime Peman",
+  card_title:"Kat Kredi / Debi",
+  card_sub:"Antre enfòmasyon kat ou pou peye dirèk.",
+  card_secure:"Peman sekirize via SSL",
+  lbl_card_number:"Nimewo Kat",
+  lbl_expiry:"Ekspirasyon",
+  lbl_cardholder:"Non sou Kat la",
+  ph_cardholder:"JEAN BAPTISTE",
+  btn_pay_now:"Peye Kounye a",
+  cash_title:"Rezèvasyon Cash",
+  cash_sub:"Kenbe rezèvasyon an epi peye nan biwo TouPaTou.",
+  cash_confirm_text:"Rezèvasyon ou ap kenbe pou 24h. Peye cash nan biwo TouPaTou oswa bay operatè a.",
+  lbl_office:"Biwo",
+  btn_confirm_cash:"Konfime Cash Reservation",
+  bank_title:"Viman Bankè",
+  bank_sub:"Fè transfè epi soumèt prèv la.",
+  bank_instructions:"Mete kòd referans rezèvasyon an kòm nòt nan transfè a. Apre sa, telechaje prèv peman an anba a.",
+  fu_text:"Klike oswa trennen prèv peman",
+  fu_hint:"JPG, PNG oswa PDF",
+  btn_submit_proof:"Soumèt Prèv Peman",
+  status_pending_title:"Peman an Atant",
+  status_pending_sub:"Peman an atant verifikasyon. Nou pral kontakte ou tousuit.",
+  status_verified_title:"Peman Verifye!",
+  status_verified_sub:"Rezèvasyon ou konfime. Ou pral resevwa yon konfimasyon sou WhatsApp.",
+  status_rejected_title:"Peman Rejte",
+  status_rejected_sub:"Peman an rejte. Tanpri eseye ankò oswa kontakte sipò.",
+  btn_wa_support:"Bezwen èd? WhatsApp",
+  admin_title:"📊 Pano Admin Peman",
+  admin_sub:"Jere ak verifye tout peman yo",
+  stat_total:"Total Peman",stat_pending:"An Atant",stat_verified:"Verifye Jodi a",stat_revenue:"Revni (HTG)",
+  filter_all:"Tout",filter_pending:"An Atant",filter_verified:"Verifye",filter_rejected:"Rejte",filter_refunded:"Ranbouse",
+  ph_search_ref:"Chache ref...",
+  toast_lookup_fail:"Rezèvasyon pa jwenn. Verifye kòd la.",
+  toast_payment_sent:"Peman soumèt ak siksè!",
+  toast_fill_fields:"Tanpri ranpli tout chan yo.",
+  toast_verified:"Peman verifye!",
+  toast_rejected:"Peman rejte.",
+  toast_refunded:"Peman ranbouse.",
+  type_flight:"Vòl Avyon",type_hotel:"Otèl",type_bus:"Bis",type_heli:"Elikoptè",type_maritime:"Maritim",type_event:"Evènman",
+  pin_label:"PIN"
+},
+fr: {
+  header_sub:"Paiement Sécurisé",
+  badge_payment:"Paiement",
+  secure_banner:"Votre paiement est sécurisé avec TouPaTou",
+  lookup_title:"Trouver Votre Réservation",
+  lookup_sub:"Entrez votre code de référence pour continuer le paiement.",
+  btn_lookup:"Rechercher",
+  ph_ref:"FLT-X4K9M2",
+  lbl_ref:"Référence",lbl_type:"Type",lbl_details:"Détails",lbl_date:"Date",lbl_amount:"Montant",
+  countdown_label:"Votre place est réservée pour 30 minutes",
+  expired_text:"Le temps est écoulé. Veuillez réserver à nouveau.",
+  btn_rebook:"Réserver à Nouveau",
+  methods_title:"Choisir le Mode de Paiement",
+  method_moncash_desc:"Payer via MonCash",
+  method_natcash_desc:"Payer via NatCash",
+  method_card_name:"Carte de Crédit",
+  method_card_desc:"Visa / Mastercard",
+  method_cash_name:"Espèces",
+  method_cash_desc:"Payer au bureau",
+  method_bank_name:"Virement Bancaire",
+  method_bank_desc:"Transfert direct en banque",
+  moncash_sub:"Envoyez l'argent et entrez le numéro de transaction.",
+  moncash_instructions:"Envoyez l'argent via MonCash au <strong>+509 4190 2005</strong>, puis entrez le numéro de transaction ci-dessous.",
+  natcash_sub:"Envoyez l'argent et entrez le numéro de transaction.",
+  natcash_instructions:"Envoyez l'argent via NatCash au <strong>+509 4190 2005</strong>, puis entrez le numéro de transaction ci-dessous.",
+  lbl_phone:"Numéro de Téléphone",
+  lbl_tx_id:"Numéro de Transaction",
+  ph_tx_id:"MP240513...",
+  btn_confirm_payment:"Confirmer le Paiement",
+  card_title:"Carte de Crédit / Débit",
+  card_sub:"Entrez les informations de votre carte pour payer.",
+  card_secure:"Paiement sécurisé via SSL",
+  lbl_card_number:"Numéro de Carte",
+  lbl_expiry:"Expiration",
+  lbl_cardholder:"Nom sur la Carte",
+  ph_cardholder:"JEAN BAPTISTE",
+  btn_pay_now:"Payer Maintenant",
+  cash_title:"Réservation Espèces",
+  cash_sub:"Réservez et payez au bureau TouPaTou.",
+  cash_confirm_text:"Votre réservation sera maintenue 24h. Payez en espèces au bureau TouPaTou ou auprès de l'opérateur.",
+  lbl_office:"Bureau",
+  btn_confirm_cash:"Confirmer Réservation Espèces",
+  bank_title:"Virement Bancaire",
+  bank_sub:"Effectuez le transfert et soumettez la preuve.",
+  bank_instructions:"Incluez le code de référence dans la note du transfert. Ensuite, téléchargez la preuve de paiement.",
+  fu_text:"Cliquez ou glissez la preuve de paiement",
+  fu_hint:"JPG, PNG ou PDF",
+  btn_submit_proof:"Soumettre la Preuve",
+  status_pending_title:"Paiement en Attente",
+  status_pending_sub:"Paiement en attente de vérification. Nous vous contacterons très bientôt.",
+  status_verified_title:"Paiement Vérifié!",
+  status_verified_sub:"Réservation confirmée. Vous recevrez une confirmation sur WhatsApp.",
+  status_rejected_title:"Paiement Rejeté",
+  status_rejected_sub:"Le paiement a été rejeté. Veuillez réessayer ou contacter le support.",
+  btn_wa_support:"Besoin d'aide? WhatsApp",
+  admin_title:"📊 Panneau Admin Paiements",
+  admin_sub:"Gérer et vérifier tous les paiements",
+  stat_total:"Total Paiements",stat_pending:"En Attente",stat_verified:"Vérifiés Aujourd'hui",stat_revenue:"Revenu (HTG)",
+  filter_all:"Tous",filter_pending:"En Attente",filter_verified:"Vérifié",filter_rejected:"Rejeté",filter_refunded:"Remboursé",
+  ph_search_ref:"Rechercher ref...",
+  toast_lookup_fail:"Réservation non trouvée. Vérifiez le code.",
+  toast_payment_sent:"Paiement soumis avec succès!",
+  toast_fill_fields:"Veuillez remplir tous les champs.",
+  toast_verified:"Paiement vérifié!",
+  toast_rejected:"Paiement rejeté.",
+  toast_refunded:"Paiement remboursé.",
+  type_flight:"Vol",type_hotel:"Hôtel",type_bus:"Bus",type_heli:"Hélicoptère",type_maritime:"Maritime",type_event:"Événement",
+  pin_label:"PIN"
+},
+en: {
+  header_sub:"Secure Payment",
+  badge_payment:"Payment",
+  secure_banner:"Your payment is secured with TouPaTou",
+  lookup_title:"Find Your Reservation",
+  lookup_sub:"Enter your reservation reference code to proceed with payment.",
+  btn_lookup:"Search",
+  ph_ref:"FLT-X4K9M2",
+  lbl_ref:"Reference",lbl_type:"Type",lbl_details:"Details",lbl_date:"Date",lbl_amount:"Amount",
+  countdown_label:"Your spot is reserved for 30 minutes",
+  expired_text:"Time expired. Please book again.",
+  btn_rebook:"Book Again",
+  methods_title:"Choose Payment Method",
+  method_moncash_desc:"Pay with MonCash",
+  method_natcash_desc:"Pay with NatCash",
+  method_card_name:"Credit Card",
+  method_card_desc:"Visa / Mastercard",
+  method_cash_name:"Cash",
+  method_cash_desc:"Pay at office",
+  method_bank_name:"Bank Transfer",
+  method_bank_desc:"Direct bank transfer",
+  moncash_sub:"Send the money and enter the transaction number.",
+  moncash_instructions:"Send money via MonCash to <strong>+509 4190 2005</strong>, then enter the transaction number below.",
+  natcash_sub:"Send the money and enter the transaction number.",
+  natcash_instructions:"Send money via NatCash to <strong>+509 4190 2005</strong>, then enter the transaction number below.",
+  lbl_phone:"Phone Number",
+  lbl_tx_id:"Transaction Number",
+  ph_tx_id:"MP240513...",
+  btn_confirm_payment:"Confirm Payment",
+  card_title:"Credit / Debit Card",
+  card_sub:"Enter your card details to pay directly.",
+  card_secure:"Secure payment via SSL",
+  lbl_card_number:"Card Number",
+  lbl_expiry:"Expiry",
+  lbl_cardholder:"Cardholder Name",
+  ph_cardholder:"JEAN BAPTISTE",
+  btn_pay_now:"Pay Now",
+  cash_title:"Cash Reservation",
+  cash_sub:"Reserve now and pay at a TouPaTou office.",
+  cash_confirm_text:"Your reservation will be held for 24h. Pay cash at a TouPaTou office or to the operator.",
+  lbl_office:"Office",
+  btn_confirm_cash:"Confirm Cash Reservation",
+  bank_title:"Bank Transfer",
+  bank_sub:"Make the transfer and submit the proof.",
+  bank_instructions:"Include the reservation reference code in the transfer note. Then upload your proof of payment below.",
+  fu_text:"Click or drag proof of payment",
+  fu_hint:"JPG, PNG or PDF",
+  btn_submit_proof:"Submit Payment Proof",
+  status_pending_title:"Payment Pending",
+  status_pending_sub:"Payment awaiting verification. We will contact you shortly.",
+  status_verified_title:"Payment Verified!",
+  status_verified_sub:"Reservation confirmed. You will receive a confirmation on WhatsApp.",
+  status_rejected_title:"Payment Rejected",
+  status_rejected_sub:"Payment was rejected. Please try again or contact support.",
+  btn_wa_support:"Need help? WhatsApp",
+  admin_title:"📊 Payment Admin Panel",
+  admin_sub:"Manage and verify all payments",
+  stat_total:"Total Payments",stat_pending:"Pending",stat_verified:"Verified Today",stat_revenue:"Revenue (HTG)",
+  filter_all:"All",filter_pending:"Pending",filter_verified:"Verified",filter_rejected:"Rejected",filter_refunded:"Refunded",
+  ph_search_ref:"Search ref...",
+  toast_lookup_fail:"Reservation not found. Check the code.",
+  toast_payment_sent:"Payment submitted successfully!",
+  toast_fill_fields:"Please fill in all fields.",
+  toast_verified:"Payment verified!",
+  toast_rejected:"Payment rejected.",
+  toast_refunded:"Payment refunded.",
+  type_flight:"Flight",type_hotel:"Hotel",type_bus:"Bus",type_heli:"Helicopter",type_maritime:"Maritime",type_event:"Event",
+  pin_label:"PIN"
+},
+es: {
+  header_sub:"Pago Seguro",
+  badge_payment:"Pago",
+  secure_banner:"Su pago está asegurado con TouPaTou",
+  lookup_title:"Buscar Su Reservación",
+  lookup_sub:"Ingrese su código de referencia para continuar con el pago.",
+  btn_lookup:"Buscar",
+  ph_ref:"FLT-X4K9M2",
+  lbl_ref:"Referencia",lbl_type:"Tipo",lbl_details:"Detalles",lbl_date:"Fecha",lbl_amount:"Monto",
+  countdown_label:"Su lugar está reservado por 30 minutos",
+  expired_text:"Tiempo expirado. Por favor reserve de nuevo.",
+  btn_rebook:"Reservar de Nuevo",
+  methods_title:"Elegir Método de Pago",
+  method_moncash_desc:"Pagar con MonCash",
+  method_natcash_desc:"Pagar con NatCash",
+  method_card_name:"Tarjeta de Crédito",
+  method_card_desc:"Visa / Mastercard",
+  method_cash_name:"Efectivo",
+  method_cash_desc:"Pagar en oficina",
+  method_bank_name:"Transferencia Bancaria",
+  method_bank_desc:"Transferencia directa",
+  moncash_sub:"Envíe el dinero e ingrese el número de transacción.",
+  moncash_instructions:"Envíe dinero por MonCash al <strong>+509 4190 2005</strong>, luego ingrese el número de transacción abajo.",
+  natcash_sub:"Envíe el dinero e ingrese el número de transacción.",
+  natcash_instructions:"Envíe dinero por NatCash al <strong>+509 4190 2005</strong>, luego ingrese el número de transacción abajo.",
+  lbl_phone:"Número de Teléfono",
+  lbl_tx_id:"Número de Transacción",
+  ph_tx_id:"MP240513...",
+  btn_confirm_payment:"Confirmar Pago",
+  card_title:"Tarjeta de Crédito / Débito",
+  card_sub:"Ingrese los datos de su tarjeta para pagar.",
+  card_secure:"Pago seguro vía SSL",
+  lbl_card_number:"Número de Tarjeta",
+  lbl_expiry:"Vencimiento",
+  lbl_cardholder:"Nombre en la Tarjeta",
+  ph_cardholder:"JEAN BAPTISTE",
+  btn_pay_now:"Pagar Ahora",
+  cash_title:"Reserva en Efectivo",
+  cash_sub:"Reserve ahora y pague en una oficina TouPaTou.",
+  cash_confirm_text:"Su reserva se mantendrá por 24h. Pague en efectivo en una oficina TouPaTou o al operador.",
+  lbl_office:"Oficina",
+  btn_confirm_cash:"Confirmar Reserva en Efectivo",
+  bank_title:"Transferencia Bancaria",
+  bank_sub:"Realice la transferencia y envíe el comprobante.",
+  bank_instructions:"Incluya el código de referencia en la nota de transferencia. Luego suba su comprobante de pago.",
+  fu_text:"Haga clic o arrastre el comprobante",
+  fu_hint:"JPG, PNG o PDF",
+  btn_submit_proof:"Enviar Comprobante",
+  status_pending_title:"Pago Pendiente",
+  status_pending_sub:"Pago en espera de verificación. Le contactaremos pronto.",
+  status_verified_title:"¡Pago Verificado!",
+  status_verified_sub:"Reserva confirmada. Recibirá una confirmación por WhatsApp.",
+  status_rejected_title:"Pago Rechazado",
+  status_rejected_sub:"El pago fue rechazado. Intente de nuevo o contacte soporte.",
+  btn_wa_support:"¿Necesita ayuda? WhatsApp",
+  admin_title:"📊 Panel Admin de Pagos",
+  admin_sub:"Gestionar y verificar todos los pagos",
+  stat_total:"Total Pagos",stat_pending:"Pendientes",stat_verified:"Verificados Hoy",stat_revenue:"Ingresos (HTG)",
+  filter_all:"Todos",filter_pending:"Pendiente",filter_verified:"Verificado",filter_rejected:"Rechazado",filter_refunded:"Reembolsado",
+  ph_search_ref:"Buscar ref...",
+  toast_lookup_fail:"Reserva no encontrada. Verifique el código.",
+  toast_payment_sent:"¡Pago enviado exitosamente!",
+  toast_fill_fields:"Por favor complete todos los campos.",
+  toast_verified:"¡Pago verificado!",
+  toast_rejected:"Pago rechazado.",
+  toast_refunded:"Pago reembolsado.",
+  type_flight:"Vuelo",type_hotel:"Hotel",type_bus:"Bus",type_heli:"Helicóptero",type_maritime:"Marítimo",type_event:"Evento",
+  pin_label:"PIN"
+}
+};
+
+/* ====================== DEMO DATA ====================== */
+var DEMO_RESERVATIONS = {
+  'FLT-X4K9M2': {
+    ref:'FLT-X4K9M2', type:'flight', details:'PAP → Miami (AA 1547)',
+    date:'2026-05-20', amount:12500, currency:'HTG', status:'pending',
+    customer:'Jean-Pierre Moreau', phone:'+509 3456 7890'
+  },
+  'HTL-R8B2P4': {
+    ref:'HTL-R8B2P4', type:'hotel', details:'Marriott PAP, 3 nwit',
+    date:'2026-05-18', amount:45000, currency:'HTG', status:'pending',
+    customer:'Marie Duval', phone:'+509 2345 6789'
+  },
+  'BUS-K3M7N1': {
+    ref:'BUS-K3M7N1', type:'bus', details:'PAP → Cap-Haïtien (Transpò Chili)',
+    date:'2026-05-15', amount:2500, currency:'HTG', status:'pending',
+    customer:'Robert Charles', phone:'+509 4567 8901'
+  }
+};
+
+var DEMO_PAYMENTS = [
+  {id:1,ref:'FLT-X4K9M2',customer:'Jean-Pierre Moreau',phone:'+509 3456 7890',amount:12500,method:'moncash',status:'pending',date:'2026-05-13',proof:null,txId:'MP2605130091'},
+  {id:2,ref:'HTL-R8B2P4',customer:'Marie Duval',phone:'+509 2345 6789',amount:45000,method:'card',status:'verified',date:'2026-05-13',proof:null,txId:'CC-4521'},
+  {id:3,ref:'BUS-K3M7N1',customer:'Robert Charles',phone:'+509 4567 8901',amount:2500,method:'natcash',status:'pending',date:'2026-05-13',proof:null,txId:'NC260513007'},
+  {id:4,ref:'FLT-A2C8D5',customer:'Sophia Laurent',phone:'+509 3789 0123',amount:18750,method:'bank',status:'verified',date:'2026-05-12',proof:'proof-receipt.jpg',txId:null},
+  {id:5,ref:'EVT-M4N6P2',customer:'Pierre Alexandre',phone:'+509 4012 3456',amount:5000,method:'moncash',status:'rejected',date:'2026-05-12',proof:null,txId:'MP260512004'},
+  {id:6,ref:'HTL-B7C1D9',customer:'Carline Joseph',phone:'+509 3234 5678',amount:32000,method:'cash',status:'verified',date:'2026-05-11',proof:null,txId:null},
+  {id:7,ref:'FLT-G5H8J3',customer:'Wilner Desir',phone:'+509 4678 9012',amount:15200,method:'card',status:'refunded',date:'2026-05-11',proof:null,txId:'CC-9812'},
+  {id:8,ref:'MAR-Q9R2S6',customer:'Nadege Beaubrun',phone:'+509 3890 1234',amount:8500,method:'natcash',status:'pending',date:'2026-05-13',proof:null,txId:'NC260513012'}
+];
+
+/* ====================== STATE ====================== */
+var currentLang = 'ht';
+var currentReservation = null;
+var selectedMethod = null;
+var countdownInterval = null;
+var countdownRemaining = COUNTDOWN_SECONDS;
+var uploadedFile = null;
+var isAdmin = false;
+var payments = JSON.parse(JSON.stringify(DEMO_PAYMENTS));
+
+/* ====================== INIT ====================== */
+document.addEventListener('DOMContentLoaded', function() {
+  var params = new URLSearchParams(window.location.search);
+
+  // Check admin mode
+  if (params.get('admin') === 'true') {
+    toggleAdmin(true);
+  }
+
+  // Check ref param
+  var refParam = params.get('ref');
+  if (refParam) {
+    document.getElementById('refInput').value = refParam.toUpperCase();
+    lookupReservation();
+  }
+
+  // Credit card formatting
+  setupCardFormatting();
+});
+
+/* ====================== LANGUAGE ====================== */
+function setLang(lang) {
+  currentLang = lang;
+  document.querySelectorAll('.lang-toggle a').forEach(function(a){ a.classList.remove('active') });
+  var el = document.getElementById('lang-' + lang);
+  if (el) el.classList.add('active');
+  var tr = T[lang] || T.ht;
+  document.querySelectorAll('[data-i18n]').forEach(function(el) {
+    var key = el.getAttribute('data-i18n');
+    if (tr[key]) el.innerHTML = tr[key];
+  });
+  document.querySelectorAll('[data-i18n-ph]').forEach(function(el) {
+    var key = el.getAttribute('data-i18n-ph');
+    if (tr[key]) el.placeholder = tr[key];
+  });
+  // Re-render admin if visible
+  if (isAdmin) renderAdminPayments();
+}
+
+function tx(key) { return (T[currentLang] || T.ht)[key] || (T.ht)[key] || key; }
+
+/* ====================== TOAST NOTIFICATIONS ====================== */
+function showToast(message, type) {
+  type = type || 'info';
+  var container = document.getElementById('toastContainer');
+  var toast = document.createElement('div');
+  toast.className = 'toast ' + type;
+  var icons = { success: '✅', error: '❌', info: 'ℹ️' };
+  toast.innerHTML = '<span class="toast-icon">' + (icons[type] || icons.info) + '</span>' + message;
+  container.appendChild(toast);
+  setTimeout(function() {
+    toast.classList.add('hiding');
+    setTimeout(function() { toast.remove(); }, 300);
+  }, 3500);
+}
+
+/* ====================== RESERVATION LOOKUP ====================== */
+function lookupReservation() {
+  var ref = document.getElementById('refInput').value.trim().toUpperCase();
+  if (!ref) return;
+
+  var btn = document.getElementById('lookupBtn');
+  btn.classList.add('btn-loading');
+  btn.disabled = true;
+
+  // Try API first, fall back to demo
+  if (!DEMO_MODE) {
+    fetch(API_URL + '/reservations/' + ref)
+      .then(function(r) { return r.json(); })
+      .then(function(data) {
+        btn.classList.remove('btn-loading');
+        btn.disabled = false;
+        if (data && data.ref) {
+          showReservation(data);
+        } else {
+          showToast(tx('toast_lookup_fail'), 'error');
+        }
+      })
+      .catch(function() {
+        btn.classList.remove('btn-loading');
+        btn.disabled = false;
+        // Fallback to demo
+        lookupDemo(ref);
+      });
+  } else {
+    setTimeout(function() {
+      btn.classList.remove('btn-loading');
+      btn.disabled = false;
+      lookupDemo(ref);
+    }, 600);
+  }
+}
+
+function lookupDemo(ref) {
+  var res = DEMO_RESERVATIONS[ref];
+  if (res) {
+    showReservation(res);
+  } else {
+    showToast(tx('toast_lookup_fail'), 'error');
+  }
+}
+
+function showReservation(res) {
+  currentReservation = res;
+  document.getElementById('resRef').textContent = res.ref;
+  document.getElementById('resType').textContent = tx('type_' + res.type) || res.type;
+  document.getElementById('resDetails').textContent = res.details;
+  document.getElementById('resDate').textContent = formatDate(res.date);
+  document.getElementById('resAmount').textContent = formatMoney(res.amount) + ' ' + (res.currency || 'HTG');
+  var statusEl = document.getElementById('resStatus');
+  statusEl.textContent = res.status;
+  statusEl.className = 'res-status ' + res.status;
+  document.getElementById('resSummary').classList.add('show');
+  document.getElementById('bankRefCode').textContent = res.ref;
+
+  // Show countdown and methods
+  document.getElementById('countdownSection').classList.add('show');
+  document.getElementById('methodsSection').classList.add('show');
+  startCountdown();
+
+  // Scroll to summary
+  setTimeout(function() {
+    document.getElementById('resSummary').scrollIntoView({ behavior: 'smooth', block: 'center' });
+  }, 200);
+}
+
+/* ====================== COUNTDOWN TIMER ====================== */
+function startCountdown() {
+  if (countdownInterval) clearInterval(countdownInterval);
+  countdownRemaining = COUNTDOWN_SECONDS;
+  var circumference = 2 * Math.PI * 72;
+  var progress = document.getElementById('countdownProgress');
+  var timeDisplay = document.getElementById('countdownTime');
+  var circle = document.getElementById('countdownCircle');
+
+  progress.style.strokeDasharray = circumference;
+  progress.style.strokeDashoffset = '0';
+
+  function updateTimer() {
+    countdownRemaining--;
+    if (countdownRemaining <= 0) {
+      clearInterval(countdownInterval);
+      document.getElementById('countdownSection').classList.remove('show');
+      document.getElementById('countdownExpired').classList.add('show');
+      document.getElementById('methodsSection').classList.remove('show');
+      document.getElementById('payFormSection').classList.remove('show');
+      return;
+    }
+    var min = Math.floor(countdownRemaining / 60);
+    var sec = countdownRemaining % 60;
+    timeDisplay.textContent = (min < 10 ? '0' : '') + min + ':' + (sec < 10 ? '0' : '') + sec;
+
+    var pct = 1 - (countdownRemaining / COUNTDOWN_SECONDS);
+    progress.style.strokeDashoffset = (pct * circumference).toFixed(2);
+
+    // Urgent state under 5 minutes
+    if (countdownRemaining <= 300) {
+      circle.classList.add('urgent');
+    } else {
+      circle.classList.remove('urgent');
+    }
+  }
+
+  countdownInterval = setInterval(updateTimer, 1000);
+}
+
+/* ====================== PAYMENT METHOD SELECTION ====================== */
+function selectMethod(method) {
+  selectedMethod = method;
+  document.querySelectorAll('.method-card').forEach(function(c) { c.classList.remove('active'); });
+  var card = document.querySelector('.method-card[data-method="' + method + '"]');
+  if (card) card.classList.add('active');
+
+  // Show relevant form
+  var formSection = document.getElementById('payFormSection');
+  formSection.classList.add('show');
+  ['moncash','natcash','card','cash','bank'].forEach(function(m) {
+    var f = document.getElementById('form-' + m);
+    if (f) f.style.display = (m === method) ? 'block' : 'none';
+  });
+
+  // Scroll to form
+  setTimeout(function() {
+    formSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }, 150);
+}
+
+/* ====================== CREDIT CARD FORMATTING ====================== */
+function setupCardFormatting() {
+  var ccNum = document.getElementById('cc-number');
+  if (ccNum) {
+    ccNum.addEventListener('input', function(e) {
+      var v = e.target.value.replace(/\D/g, '').substring(0, 16);
+      var formatted = '';
+      for (var i = 0; i < v.length; i++) {
+        if (i > 0 && i % 4 === 0) formatted += ' ';
+        formatted += v[i];
+      }
+      e.target.value = formatted;
+    });
+  }
+
+  var ccExp = document.getElementById('cc-expiry');
+  if (ccExp) {
+    ccExp.addEventListener('input', function(e) {
+      var v = e.target.value.replace(/\D/g, '').substring(0, 4);
+      if (v.length >= 3) {
+        e.target.value = v.substring(0, 2) + '/' + v.substring(2);
+      } else {
+        e.target.value = v;
+      }
+    });
+  }
+
+  var ccCvv = document.getElementById('cc-cvv');
+  if (ccCvv) {
+    ccCvv.addEventListener('input', function(e) {
+      e.target.value = e.target.value.replace(/\D/g, '').substring(0, 4);
+    });
+  }
+}
+
+/* ====================== FILE UPLOAD ====================== */
+function handleFileUpload(input) {
+  if (input.files && input.files[0]) {
+    uploadedFile = input.files[0];
+    var el = document.getElementById('fileUpload');
+    el.classList.add('has-file');
+    document.getElementById('fileName').textContent = '✅ ' + uploadedFile.name;
+  }
+}
+
+/* ====================== SUBMIT PAYMENT ====================== */
+function submitPayment(method) {
+  if (!currentReservation) return;
+
+  // Validate based on method
+  if (method === 'moncash') {
+    var phone = document.getElementById('mc-phone').value.trim();
+    var txid = document.getElementById('mc-txid').value.trim();
+    if (!phone || !txid) { showToast(tx('toast_fill_fields'), 'error'); return; }
+  } else if (method === 'natcash') {
+    var phone = document.getElementById('nc-phone').value.trim();
+    var txid = document.getElementById('nc-txid').value.trim();
+    if (!phone || !txid) { showToast(tx('toast_fill_fields'), 'error'); return; }
+  } else if (method === 'card') {
+    var num = document.getElementById('cc-number').value.replace(/\s/g,'');
+    var exp = document.getElementById('cc-expiry').value.trim();
+    var cvv = document.getElementById('cc-cvv').value.trim();
+    var name = document.getElementById('cc-name').value.trim();
+    if (!num || num.length < 13 || !exp || !cvv || !name) { showToast(tx('toast_fill_fields'), 'error'); return; }
+  } else if (method === 'bank') {
+    if (!uploadedFile) { showToast(tx('toast_fill_fields'), 'error'); return; }
+  }
+
+  // Show loading on button
+  var formEl = document.getElementById('form-' + method);
+  var btn = formEl.querySelector('.btn');
+  btn.classList.add('btn-loading');
+
+  // Submit to API or demo
+  if (!DEMO_MODE) {
+    var payload = {
+      ref: currentReservation.ref,
+      method: method,
+      amount: currentReservation.amount
+    };
+    fetch(API_URL + '/payments', {
+      method: 'POST',
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify(payload)
+    })
+    .then(function(r) { return r.json(); })
+    .then(function(data) {
+      btn.classList.remove('btn-loading');
+      showPaymentStatus('pending', data);
+    })
+    .catch(function() {
+      btn.classList.remove('btn-loading');
+      showPaymentStatusDemo(method);
+    });
+  } else {
+    setTimeout(function() {
+      btn.classList.remove('btn-loading');
+      showPaymentStatusDemo(method);
+    }, 1200);
+  }
+}
+
+function showPaymentStatusDemo(method) {
+  showToast(tx('toast_payment_sent'), 'success');
+
+  // Stop countdown
+  if (countdownInterval) clearInterval(countdownInterval);
+
+  // Generate PIN
+  var pin = Math.floor(1000 + Math.random() * 9000);
+
+  // Determine initial status (card is auto-verified, others pending)
+  var status = (method === 'card') ? 'verified' : 'pending';
+
+  showPaymentStatus(status, { pin: pin });
+}
+
+function showPaymentStatus(status, data) {
+  // Hide other sections
+  document.getElementById('countdownSection').classList.remove('show');
+  document.getElementById('methodsSection').classList.remove('show');
+  document.getElementById('payFormSection').classList.remove('show');
+
+  // Show status section
+  var section = document.getElementById('statusSection');
+  section.classList.add('show');
+
+  var iconEl = document.getElementById('statusIcon');
+  var emojiEl = document.getElementById('statusEmoji');
+  var titleEl = document.getElementById('statusTitle');
+  var subEl = document.getElementById('statusSub');
+
+  iconEl.className = 'status-icon ' + status;
+
+  if (status === 'verified') {
+    emojiEl.textContent = '✅';
+    titleEl.textContent = tx('status_verified_title');
+    subEl.textContent = tx('status_verified_sub');
+  } else if (status === 'rejected') {
+    emojiEl.textContent = '❌';
+    titleEl.textContent = tx('status_rejected_title');
+    subEl.textContent = tx('status_rejected_sub');
+  } else {
+    emojiEl.textContent = '⏳';
+    titleEl.textContent = tx('status_pending_title');
+    subEl.textContent = tx('status_pending_sub');
+  }
+
+  document.getElementById('statusRef').textContent = currentReservation.ref;
+  if (data && data.pin) {
+    document.getElementById('statusPin').textContent = tx('pin_label') + ': ' + data.pin;
+  }
+
+  // WhatsApp link
+  var waMsg = 'Bonjou! M soumèt yon peman pou rezèvasyon ' + currentReservation.ref + '. Montan: ' + formatMoney(currentReservation.amount) + ' HTG.';
+  document.getElementById('waSupport').href = 'https://wa.me/' + WA_NUM + '?text=' + encodeURIComponent(waMsg);
+
+  // Scroll to status
+  setTimeout(function() {
+    section.scrollIntoView({ behavior: 'smooth', block: 'center' });
+  }, 200);
+}
+
+/* ====================== ADMIN PANEL ====================== */
+function toggleAdmin(forceOn) {
+  if (typeof forceOn === 'boolean') {
+    isAdmin = forceOn;
+  } else {
+    isAdmin = !isAdmin;
+  }
+
+  document.getElementById('userView').className = isAdmin ? 'user-view hidden' : 'user-view';
+  document.getElementById('adminView').className = isAdmin ? 'admin-view show' : 'admin-view';
+  document.getElementById('adminToggleIcon').textContent = isAdmin ? '←' : '⚙';
+
+  if (isAdmin) {
+    renderAdminStats();
+    renderAdminPayments();
+  }
+}
+
+function renderAdminStats() {
+  var total = payments.length;
+  var pending = payments.filter(function(p) { return p.status === 'pending'; }).length;
+  var verified = payments.filter(function(p) { return p.status === 'verified'; }).length;
+  var revenue = payments.filter(function(p) { return p.status === 'verified'; }).reduce(function(s, p) { return s + p.amount; }, 0);
+
+  document.getElementById('statTotal').textContent = total;
+  document.getElementById('statPending').textContent = pending;
+  document.getElementById('statVerified').textContent = verified;
+  document.getElementById('statRevenue').textContent = formatMoney(revenue);
+}
+
+function renderAdminPayments() {
+  var list = document.getElementById('paymentList');
+  var filtered = getFilteredPayments();
+  var html = '';
+
+  if (filtered.length === 0) {
+    html = '<div style="text-align:center;padding:40px;color:var(--text-muted);font-size:.88rem;">No payments found</div>';
+  }
+
+  filtered.forEach(function(p) {
+    var methodNames = {moncash:'MonCash',natcash:'NatCash',card:'Card',cash:'Cash',bank:'Bank'};
+    var statusLabels = {pending:tx('filter_pending'),verified:tx('filter_verified'),rejected:tx('filter_rejected'),refunded:tx('filter_refunded')};
+
+    html += '<div class="pay-row" id="pay-row-' + p.id + '">';
+    html += '<div class="pay-row-top">';
+    html += '<span class="pay-row-ref">' + p.ref + '</span>';
+    html += '<span class="pay-row-method ' + p.method + '">' + (methodNames[p.method] || p.method) + '</span>';
+    html += '</div>';
+    html += '<div class="pay-row-info">';
+    html += '<div><div class="pay-row-customer">' + p.customer + '</div><div class="pay-row-phone">' + p.phone + '</div></div>';
+    html += '<div class="pay-row-amount">' + formatMoney(p.amount) + ' <small style="font-family:var(--body);font-size:.6rem;color:var(--text-muted)">HTG</small></div>';
+    html += '</div>';
+    html += '<div class="pay-row-bottom">';
+    html += '<div style="display:flex;align-items:center;gap:8px">';
+    html += '<span class="pay-status-badge ' + p.status + '">' + (statusLabels[p.status] || p.status) + '</span>';
+    if (p.proof) {
+      html += '<img class="proof-thumb" src="data:image/svg+xml,%3Csvg xmlns=\'http://www.w3.org/2000/svg\' width=\'36\' height=\'36\' fill=\'%239A8A8A\' viewBox=\'0 0 24 24\'%3E%3Cpath d=\'M21 19V5c0-1.1-.9-2-2-2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2zM8.5 13.5l2.5 3.01L14.5 12l4.5 6H5l3.5-4.5z\'/%3E%3C/svg%3E" alt="proof" title="' + p.proof + '">';
+    }
+    html += '</div>';
+    html += '<div class="pay-row-actions">';
+    if (p.status === 'pending') {
+      html += '<button class="act-btn verify" onclick="adminAction(' + p.id + ',\'verified\')">✓</button>';
+      html += '<button class="act-btn reject" onclick="adminAction(' + p.id + ',\'rejected\')">✗</button>';
+    }
+    if (p.status === 'verified') {
+      html += '<button class="act-btn refund" onclick="adminAction(' + p.id + ',\'refunded\')">↩</button>';
+    }
+    html += '</div>';
+    html += '</div>';
+    html += '</div>';
+  });
+
+  list.innerHTML = html;
+}
+
+function getFilteredPayments() {
+  var status = document.getElementById('filterStatus').value;
+  var dateFrom = document.getElementById('filterDateFrom').value;
+  var dateTo = document.getElementById('filterDateTo').value;
+  var search = document.getElementById('filterSearch').value.trim().toUpperCase();
+
+  return payments.filter(function(p) {
+    if (status !== 'all' && p.status !== status) return false;
+    if (dateFrom && p.date < dateFrom) return false;
+    if (dateTo && p.date > dateTo) return false;
+    if (search && p.ref.toUpperCase().indexOf(search) === -1) return false;
+    return true;
+  });
+}
+
+function filterPayments() {
+  renderAdminPayments();
+}
+
+function adminAction(id, newStatus) {
+  var payment = payments.find(function(p) { return p.id === id; });
+  if (!payment) return;
+
+  payment.status = newStatus;
+
+  if (newStatus === 'verified') {
+    showToast(tx('toast_verified'), 'success');
+    // WhatsApp confirmation link
+    var waMsg = 'TouPaTou: Peman ou pou ' + payment.ref + ' verifye! Montan: ' + formatMoney(payment.amount) + ' HTG. Mèsi!';
+    window.open('https://wa.me/' + payment.phone.replace(/[^0-9]/g,'') + '?text=' + encodeURIComponent(waMsg), '_blank');
+  } else if (newStatus === 'rejected') {
+    showToast(tx('toast_rejected'), 'error');
+  } else if (newStatus === 'refunded') {
+    showToast(tx('toast_refunded'), 'info');
+  }
+
+  renderAdminStats();
+  renderAdminPayments();
+}
+
+/* ====================== HELPERS ====================== */
+function formatMoney(n) {
+  if (typeof n !== 'number') return '0';
+  return n.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+}
+
+function formatDate(dateStr) {
+  if (!dateStr) return '---';
+  try {
+    var d = new Date(dateStr + 'T00:00:00');
+    var months = ['Jan','Fev','Mas','Avr','Me','Jen','Jiy','Out','Sep','Okt','Nov','Des'];
+    return d.getDate() + ' ' + months[d.getMonth()] + ' ' + d.getFullYear();
+  } catch(e) { return dateStr; }
+}
+</script>
+</body>
+</html>
