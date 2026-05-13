@@ -1,0 +1,496 @@
+<!DOCTYPE html>
+<html lang="ht">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no">
+<title>TouPaTou — QR Scanner</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --blue:#00209F;--blue-dark:#001566;--blue-light:rgba(0,32,159,.06);
+  --red:#D21034;--red-light:rgba(210,16,52,.08);
+  --gold:#D4A017;--gold-bg:rgba(212,160,23,.08);
+  --white:#FFFFFF;--off-white:#FFF8F8;--cream:#F8F6F3;
+  --dark:#1A0C0C;--text:#2A1A1A;--text-light:#6A5A5A;--text-muted:#9A8A8A;
+  --green:#25D366;--green-light:rgba(37,211,102,.08);
+  --border:#E8E0E0;
+  --body:'Plus Jakarta Sans',system-ui,sans-serif;
+  --display:'DM Serif Display',Georgia,serif;
+  --radius:16px;--radius-sm:12px;
+}
+html{scroll-behavior:smooth;-webkit-tap-highlight-color:transparent}
+body{font-family:var(--body);background:var(--dark);color:var(--white);overflow-x:hidden;-webkit-font-smoothing:antialiased;min-height:100vh;display:flex;flex-direction:column}
+a{text-decoration:none;color:inherit}
+button{font-family:var(--body);cursor:pointer;border:none;background:none}
+input{font-family:var(--body);border:none;outline:none}
+@keyframes fadeUp{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:none}}
+@keyframes fadeIn{from{opacity:0}to{opacity:1}}
+@keyframes pulseGreen{0%,100%{box-shadow:0 0 0 0 rgba(37,211,102,.4)}50%{box-shadow:0 0 0 20px rgba(37,211,102,0)}}
+@keyframes pulseRed{0%,100%{box-shadow:0 0 0 0 rgba(210,16,52,.4)}50%{box-shadow:0 0 0 20px rgba(210,16,52,0)}}
+@keyframes scanLine{0%{top:10%}100%{top:85%}}
+@keyframes bounceIn{0%{transform:scale(0);opacity:0}50%{transform:scale(1.15)}100%{transform:scale(1);opacity:1}}
+@keyframes slideUp{from{transform:translateY(100%);opacity:0}to{transform:none;opacity:1}}
+
+/* HEADER */
+.header{padding:16px 20px;display:flex;align-items:center;justify-content:space-between}
+.h-left{display:flex;align-items:center;gap:8px}
+.h-logo{font-family:var(--display);font-size:1.05rem;color:var(--white)}
+.h-logo span{color:var(--red)}
+.h-badge{font-size:.5rem;font-weight:900;color:var(--gold);background:rgba(212,160,23,.15);padding:3px 8px;border-radius:100px;letter-spacing:.08em;text-transform:uppercase}
+.h-right{display:flex;align-items:center;gap:8px}
+.h-lang{display:flex;gap:2px;background:rgba(255,255,255,.08);border-radius:6px;padding:2px}
+.h-lang a{color:rgba(255,255,255,.3);font-size:.55rem;font-weight:800;padding:4px 6px;border-radius:4px;cursor:pointer}
+.h-lang a.active{color:var(--dark);background:var(--white)}
+.h-back{font-size:.7rem;font-weight:700;color:rgba(255,255,255,.5);padding:6px 12px;border-radius:8px;border:1px solid rgba(255,255,255,.1);transition:all .2s}
+.h-back:hover{color:var(--white);border-color:rgba(255,255,255,.3)}
+
+/* MAIN */
+.main{flex:1;display:flex;flex-direction:column;align-items:center;padding:0 20px}
+
+/* SCANNER VIEW */
+.scanner-area{width:100%;max-width:340px;aspect-ratio:1;border-radius:24px;position:relative;overflow:hidden;background:#111;border:3px solid rgba(255,255,255,.1);margin-bottom:24px}
+.scanner-corners{position:absolute;inset:0;pointer-events:none}
+.scanner-corners::before,.scanner-corners::after{content:'';position:absolute;width:40px;height:40px;border-color:var(--gold);border-style:solid;border-width:0}
+.scanner-corners::before{top:16px;left:16px;border-top-width:3px;border-left-width:3px;border-radius:4px 0 0 0}
+.scanner-corners::after{top:16px;right:16px;border-top-width:3px;border-right-width:3px;border-radius:0 4px 0 0}
+.scanner-corners2{position:absolute;inset:0;pointer-events:none}
+.scanner-corners2::before,.scanner-corners2::after{content:'';position:absolute;width:40px;height:40px;border-color:var(--gold);border-style:solid;border-width:0}
+.scanner-corners2::before{bottom:16px;left:16px;border-bottom-width:3px;border-left-width:3px;border-radius:0 0 0 4px}
+.scanner-corners2::after{bottom:16px;right:16px;border-bottom-width:3px;border-right-width:3px;border-radius:0 0 4px 0}
+.scan-line{position:absolute;left:16px;right:16px;height:2px;background:linear-gradient(90deg,transparent,var(--gold),transparent);animation:scanLine 2s ease-in-out infinite alternate;pointer-events:none}
+.camera-feed{width:100%;height:100%;object-fit:cover;display:none}
+.camera-feed.active{display:block}
+.camera-placeholder{width:100%;height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px;color:rgba(255,255,255,.3)}
+.camera-placeholder .cp-icon{font-size:3rem}
+.camera-placeholder .cp-text{font-size:.78rem;font-weight:700;text-align:center;line-height:1.5}
+.camera-placeholder.hide{display:none}
+.camera-btn{padding:14px 28px;border-radius:14px;font-size:.85rem;font-weight:800;color:var(--dark);background:var(--gold);box-shadow:0 4px 20px rgba(212,160,23,.3);transition:all .2s}
+.camera-btn:hover{transform:translateY(-2px);box-shadow:0 8px 30px rgba(212,160,23,.4)}
+
+/* MODE TABS */
+.mode-tabs{display:flex;gap:6px;margin-bottom:20px;background:rgba(255,255,255,.06);border-radius:12px;padding:4px}
+.mode-tab{flex:1;padding:12px 8px;border-radius:10px;font-size:.68rem;font-weight:800;color:rgba(255,255,255,.4);text-align:center;cursor:pointer;transition:all .2s;letter-spacing:.02em}
+.mode-tab.active{color:var(--white);background:rgba(255,255,255,.12)}
+.mode-tab .mt-icon{display:block;font-size:1.2rem;margin-bottom:4px}
+
+/* MANUAL ENTRY */
+.manual-section{width:100%;max-width:340px;margin-bottom:24px}
+.manual-title{font-size:.72rem;font-weight:800;color:rgba(255,255,255,.4);text-transform:uppercase;letter-spacing:.08em;margin-bottom:10px;text-align:center}
+.manual-row{display:flex;gap:8px}
+.manual-input{flex:1;padding:16px 18px;border-radius:14px;font-size:1rem;font-weight:700;color:var(--white);background:rgba(255,255,255,.08);border:1.5px solid rgba(255,255,255,.1);text-align:center;letter-spacing:.15em;text-transform:uppercase;transition:border-color .2s}
+.manual-input:focus{border-color:var(--gold);background:rgba(255,255,255,.12)}
+.manual-input::placeholder{color:rgba(255,255,255,.2);letter-spacing:.1em;text-transform:none;font-weight:500}
+.manual-btn{padding:16px 24px;border-radius:14px;font-size:.9rem;font-weight:800;color:var(--dark);background:var(--gold);transition:all .2s;white-space:nowrap}
+.manual-btn:hover{background:var(--gold);transform:translateY(-1px)}
+
+/* RESULT OVERLAY */
+.result-overlay{display:none;position:fixed;inset:0;z-index:100;align-items:flex-end;justify-content:center;background:rgba(0,0,0,.7);backdrop-filter:blur(8px)}
+.result-overlay.show{display:flex}
+.result-card{width:100%;max-width:440px;border-radius:24px 24px 0 0;padding:32px 24px 40px;animation:slideUp .4s ease both;position:relative}
+.result-card.valid{background:#f0fdf4}
+.result-card.invalid{background:#fef2f2}
+.result-card.checked{background:#fffbeb}
+.result-close{position:absolute;top:16px;right:16px;width:36px;height:36px;border-radius:10px;background:rgba(0,0,0,.06);display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:1rem;color:var(--text-light)}
+.result-icon{width:80px;height:80px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:2.5rem;margin:0 auto 16px;animation:bounceIn .5s ease both}
+.result-card.valid .result-icon{background:#dcfce7;color:#16a34a}
+.result-card.invalid .result-icon{background:#fee2e2;color:var(--red)}
+.result-card.checked .result-icon{background:#fef3c7;color:#b45309}
+.result-title{font-family:var(--display);font-size:1.3rem;text-align:center;margin-bottom:4px}
+.result-card.valid .result-title{color:#16a34a}
+.result-card.invalid .result-title{color:var(--red)}
+.result-card.checked .result-title{color:#b45309}
+.result-subtitle{font-size:.78rem;color:var(--text-light);text-align:center;margin-bottom:20px}
+.result-details{background:var(--white);border-radius:var(--radius-sm);padding:16px;margin-bottom:16px;border:1px solid rgba(0,0,0,.06)}
+.rd-row{display:flex;justify-content:space-between;align-items:center;padding:6px 0;font-size:.82rem}
+.rd-row:not(:last-child){border-bottom:1px solid rgba(0,0,0,.04)}
+.rd-label{color:var(--text-light);font-weight:600}
+.rd-val{font-weight:800;color:var(--dark)}
+.rd-val.mono{font-family:'Courier New',monospace;letter-spacing:.08em}
+.result-badge{display:inline-flex;align-items:center;gap:4px;font-size:.65rem;font-weight:800;padding:4px 10px;border-radius:100px;letter-spacing:.02em}
+.badge-confirmed{color:var(--blue);background:var(--blue-light)}
+.badge-pending{color:#b45309;background:rgba(180,83,9,.08)}
+.badge-paid{color:#16a34a;background:rgba(22,163,74,.08)}
+.badge-unpaid{color:var(--red);background:var(--red-light)}
+.result-actions{display:flex;gap:8px}
+.ra-btn{flex:1;padding:14px;border-radius:14px;font-size:.82rem;font-weight:800;text-align:center;cursor:pointer;transition:all .2s}
+.ra-btn.checkin{color:var(--white);background:var(--green);box-shadow:0 4px 16px rgba(37,211,102,.25)}
+.ra-btn.checkin:hover{box-shadow:0 8px 24px rgba(37,211,102,.35)}
+.ra-btn.whatsapp{color:var(--green);background:var(--green-light);border:1.5px solid rgba(37,211,102,.15)}
+.ra-btn.close-btn{color:var(--text-light);background:rgba(0,0,0,.04)}
+
+/* SCAN HISTORY */
+.history{width:100%;max-width:340px;margin-bottom:40px}
+.history-title{font-size:.68rem;font-weight:800;color:rgba(255,255,255,.3);text-transform:uppercase;letter-spacing:.08em;margin-bottom:10px}
+.history-item{display:flex;align-items:center;gap:10px;padding:10px 14px;border-radius:10px;background:rgba(255,255,255,.04);margin-bottom:4px;border:1px solid rgba(255,255,255,.04)}
+.hi-dot{width:10px;height:10px;border-radius:50%;flex-shrink:0}
+.hi-dot.valid{background:#16a34a}
+.hi-dot.invalid{background:var(--red)}
+.hi-dot.checked{background:#b45309}
+.hi-ref{font-family:monospace;font-size:.78rem;font-weight:800;color:var(--white)}
+.hi-status{font-size:.6rem;font-weight:800;margin-left:4px}
+.hi-status.valid{color:#16a34a}
+.hi-status.invalid{color:var(--red)}
+.hi-status.checked{color:#b45309}
+.hi-time{font-size:.6rem;color:rgba(255,255,255,.25);margin-left:auto}
+.hi-mode{font-size:.55rem;color:rgba(255,255,255,.2);background:rgba(255,255,255,.06);padding:2px 6px;border-radius:4px;margin-left:6px}
+.empty-hist{text-align:center;padding:20px;color:rgba(255,255,255,.2);font-size:.78rem}
+
+/* FOOTER */
+.scan-footer{text-align:center;padding:20px;font-size:.65rem;color:rgba(255,255,255,.2)}
+.scan-footer a{color:var(--gold)}
+
+@media(min-width:600px){
+  .scanner-area{max-width:380px}
+  .manual-section,.history{max-width:380px}
+}
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<div class="header">
+  <div class="h-left">
+    <div class="h-logo">Tou<span>Pa</span>Tou</div>
+    <div class="h-badge">Scanner</div>
+  </div>
+  <div class="h-right">
+    <div class="h-lang">
+      <a onclick="setLang('ht')" id="lang-ht" class="active">HT</a>
+      <a onclick="setLang('fr')" id="lang-fr">FR</a>
+      <a onclick="setLang('en')" id="lang-en">EN</a>
+      <a onclick="setLang('es')" id="lang-es">ES</a>
+    </div>
+    <a href="operator.html" class="h-back" data-i18n="back">&#8592; Pano</a>
+  </div>
+</div>
+
+<!-- MAIN -->
+<div class="main">
+
+  <!-- MODE TABS -->
+  <div class="mode-tabs">
+    <div class="mode-tab active" onclick="setMode('boarding')" data-mode="boarding">
+      <span class="mt-icon">&#128652;</span>
+      <span data-i18n="mode_boarding">Boarding</span>
+    </div>
+    <div class="mode-tab" onclick="setMode('checkin')" data-mode="checkin">
+      <span class="mt-icon">&#127976;</span>
+      <span data-i18n="mode_checkin">Check-in</span>
+    </div>
+    <div class="mode-tab" onclick="setMode('event')" data-mode="event">
+      <span class="mt-icon">&#127915;</span>
+      <span data-i18n="mode_event">Ev&egrave;nman</span>
+    </div>
+    <div class="mode-tab" onclick="setMode('general')" data-mode="general">
+      <span class="mt-icon">&#128274;</span>
+      <span data-i18n="mode_general">Jeneral</span>
+    </div>
+  </div>
+
+  <!-- SCANNER AREA -->
+  <div class="scanner-area" id="scannerArea">
+    <video class="camera-feed" id="cameraFeed" autoplay playsinline></video>
+    <div class="camera-placeholder" id="cameraPlaceholder">
+      <div class="cp-icon">&#128247;</div>
+      <div class="cp-text" data-i18n="cam_text">Klike pou aktive kamera a<br>epi eskane QR kòd la</div>
+      <button class="camera-btn" onclick="startCamera()" data-i18n="cam_btn">&#128247; Aktive Kamera</button>
+    </div>
+    <div class="scanner-corners"></div>
+    <div class="scanner-corners2"></div>
+    <div class="scan-line" id="scanLine" style="display:none"></div>
+  </div>
+
+  <!-- MANUAL ENTRY -->
+  <div class="manual-section">
+    <div class="manual-title" data-i18n="manual_title">Oswa antre kòd la manyèlman</div>
+    <div class="manual-row">
+      <input type="text" class="manual-input" id="manualRef" placeholder="REF-XXXXXX" oninput="this.value=this.value.toUpperCase()" onkeydown="if(event.key==='Enter')validateRef()">
+      <button class="manual-btn" onclick="validateRef()" data-i18n="btn_verify">Verifye</button>
+    </div>
+  </div>
+
+  <!-- SCAN HISTORY -->
+  <div class="history">
+    <div class="history-title" data-i18n="history_title">Ist&ograve;rik Eskanaj</div>
+    <div id="historyList"><div class="empty-hist" data-i18n="empty_hist">Pa gen eskanaj ank&ograve;</div></div>
+  </div>
+
+</div>
+
+<!-- RESULT OVERLAY -->
+<div class="result-overlay" id="resultOverlay" onclick="if(event.target===this)closeResult()">
+  <div class="result-card" id="resultCard"></div>
+</div>
+
+<!-- FOOTER -->
+<div class="scan-footer">
+  <a href="operator.html">TouPaTou Operator</a> &middot; <a href="reservations.html">Rez&egrave;vasyon</a>
+</div>
+
+<script>
+var API_URL='https://toupatou-backend.onrender.com/api';
+var WA='50941902005';
+var scanMode='boarding';
+var scanHistory=[];
+var currentLang='ht';
+var cameraStream=null;
+
+var DEMO_RESERVATIONS={
+  'FLT-X4K9M2':{ref:'FLT-X4K9M2',type:'flight',customer:'Jean Pierre',phone:'+509 4812 1111',route:'PAP → Miami',date:'2026-05-14',seat:'12A',amount:12500,status:'confirmed',paid:true,pin:'4521',operator:'TouPaTou Air',checkedIn:false},
+  'HTL-R7B3N8':{ref:'HTL-R7B3N8',type:'hotel',customer:'Marie Claire',phone:'+509 4812 2222',hotel:'Hotel Belle Vue',room:'Suite #301',checkin:'2026-05-13',checkout:'2026-05-15',amount:16000,status:'confirmed',paid:true,pin:'8834',operator:'Hotel Belle Vue',checkedIn:false},
+  'BUS-M2K5P9':{ref:'BUS-M2K5P9',type:'bus',customer:'Carlos Rivera',phone:'+509 4921 1111',route:'PAP → SDQ',date:'2026-05-14',seat:'A3',amount:3500,status:'confirmed',paid:true,pin:'6634',operator:'Transport Express',checkedIn:false},
+  'HEL-F3G7J2':{ref:'HEL-F3G7J2',type:'helicopter',customer:'Marc Antoine',phone:'+509 4831 1111',route:'PAP → Cap-Haitien',date:'2026-05-14',pax:4,amount:45000,status:'confirmed',paid:true,pin:'1198',operator:'Caribbean Helicopters',checkedIn:false},
+  'EVT-W5Y9C3':{ref:'EVT-W5Y9C3',type:'events',customer:'Sophie Jean-Baptiste',phone:'+509 4812 4444',event:'Carnival VIP',venue:'Champ de Mars',date:'2026-05-20',amount:5000,status:'confirmed',paid:true,pin:'3391',operator:'Tikè Lakay',checkedIn:false},
+  'MAR-L8N2Q6':{ref:'MAR-L8N2Q6',type:'maritime',customer:'Pierre Louis',phone:'+509 4812 5555',route:'PAP → Ile de la Gonave',date:'2026-05-16',pax:2,amount:3000,status:'pending',paid:false,pin:'5543',operator:'Maritime Express',checkedIn:false},
+  'CON-H4K8M1':{ref:'CON-H4K8M1',type:'concierge',customer:'Nadine Celestin',phone:'+509 4812 6666',service:'Airport Pickup',date:'2026-05-15',amount:8000,status:'confirmed',paid:true,pin:'7712',operator:'TouPaTou VIP',checkedIn:false},
+  'BUS-Q7N3R1':{ref:'BUS-Q7N3R1',type:'bus',customer:'Ana Martinez',phone:'+509 4921 2222',route:'PAP → STI',date:'2026-05-14',seat:'B1',amount:3000,status:'cancelled',paid:false,pin:'2287',operator:'Transport Express',checkedIn:false}
+};
+
+/* i18n */
+var T={
+ht:{
+  back:"← Pano",
+  mode_boarding:"Boarding",mode_checkin:"Check-in",mode_event:"Evènman",mode_general:"Jeneral",
+  cam_text:"Klike pou aktive kamera a<br>epi eskane QR kòd la",cam_btn:"Aktive Kamera",
+  manual_title:"Oswa antre kòd la manyèlman",btn_verify:"Verifye",
+  history_title:"Istòrik Eskanaj",empty_hist:"Pa gen eskanaj ankò",
+  valid_title:"Valid! Rezèvasyon Konfime",
+  invalid_title:"Envalid!",invalid_sub:"Pa jwenn rezèvasyon sa a nan sistèm nan.",
+  expired_title:"Anile",expired_sub:"Rezèvasyon sa a anile.",
+  already_title:"Deja Tcheke!",already_sub:"Pasajè sa a deja tcheke.",
+  lbl_passenger:"Pasajè",lbl_phone:"Telefòn",lbl_route:"Wout",lbl_date:"Dat",
+  lbl_seat:"Plas",lbl_room:"Chanm",lbl_hotel:"Otèl",lbl_event:"Evènman",
+  lbl_venue:"Kote",lbl_service:"Sèvis",lbl_amount:"Montan",lbl_status:"Estati",
+  lbl_payment:"Peman",lbl_operator:"Operatè",lbl_pin:"PIN",lbl_pax:"Pasaje",
+  paid:"Peye",unpaid:"Pa Peye",
+  btn_checkin:"Tcheke Antre",btn_board:"Mak Abòde",btn_admit:"Admèt",btn_validate:"Valide",
+  btn_whatsapp:"WhatsApp",btn_close:"Fèmen",
+  toast_checkin:"Pasajè tcheke!",toast_boarded:"Pasajè abòde!",
+  s_confirmed:"Konfime",s_pending:"An Atant",s_cancelled:"Anile",s_completed:"Fini"
+},
+fr:{
+  back:"← Panneau",
+  mode_boarding:"Embarquement",mode_checkin:"Enregistrement",mode_event:"Evenement",mode_general:"General",
+  cam_text:"Cliquez pour activer la camera<br>et scanner le code QR",cam_btn:"Activer Camera",
+  manual_title:"Ou entrez le code manuellement",btn_verify:"Verifier",
+  history_title:"Historique de Scan",empty_hist:"Aucun scan encore",
+  valid_title:"Valide! Reservation Confirmee",
+  invalid_title:"Invalide!",invalid_sub:"Reservation non trouvee dans le systeme.",
+  expired_title:"Annulee",expired_sub:"Cette reservation est annulee.",
+  already_title:"Deja Enregistre!",already_sub:"Ce passager est deja enregistre.",
+  lbl_passenger:"Passager",lbl_phone:"Telephone",lbl_route:"Route",lbl_date:"Date",
+  lbl_seat:"Siege",lbl_room:"Chambre",lbl_hotel:"Hotel",lbl_event:"Evenement",
+  lbl_venue:"Lieu",lbl_service:"Service",lbl_amount:"Montant",lbl_status:"Statut",
+  lbl_payment:"Paiement",lbl_operator:"Operateur",lbl_pin:"PIN",lbl_pax:"Passagers",
+  paid:"Paye",unpaid:"Non Paye",
+  btn_checkin:"Enregistrer",btn_board:"Marquer Embarque",btn_admit:"Admettre",btn_validate:"Valider",
+  btn_whatsapp:"WhatsApp",btn_close:"Fermer",
+  toast_checkin:"Passager enregistre!",toast_boarded:"Passager embarque!",
+  s_confirmed:"Confirme",s_pending:"En Attente",s_cancelled:"Annule",s_completed:"Termine"
+},
+en:{
+  back:"← Panel",
+  mode_boarding:"Boarding",mode_checkin:"Check-in",mode_event:"Events",mode_general:"General",
+  cam_text:"Click to activate camera<br>and scan the QR code",cam_btn:"Activate Camera",
+  manual_title:"Or enter the code manually",btn_verify:"Verify",
+  history_title:"Scan History",empty_hist:"No scans yet",
+  valid_title:"Valid! Reservation Confirmed",
+  invalid_title:"Invalid!",invalid_sub:"Reservation not found in the system.",
+  expired_title:"Cancelled",expired_sub:"This reservation has been cancelled.",
+  already_title:"Already Checked In!",already_sub:"This passenger is already checked in.",
+  lbl_passenger:"Passenger",lbl_phone:"Phone",lbl_route:"Route",lbl_date:"Date",
+  lbl_seat:"Seat",lbl_room:"Room",lbl_hotel:"Hotel",lbl_event:"Event",
+  lbl_venue:"Venue",lbl_service:"Service",lbl_amount:"Amount",lbl_status:"Status",
+  lbl_payment:"Payment",lbl_operator:"Operator",lbl_pin:"PIN",lbl_pax:"Passengers",
+  paid:"Paid",unpaid:"Unpaid",
+  btn_checkin:"Check In",btn_board:"Mark Boarded",btn_admit:"Admit",btn_validate:"Validate",
+  btn_whatsapp:"WhatsApp",btn_close:"Close",
+  toast_checkin:"Passenger checked in!",toast_boarded:"Passenger boarded!",
+  s_confirmed:"Confirmed",s_pending:"Pending",s_cancelled:"Cancelled",s_completed:"Completed"
+},
+es:{
+  back:"← Panel",
+  mode_boarding:"Embarque",mode_checkin:"Registro",mode_event:"Eventos",mode_general:"General",
+  cam_text:"Haga clic para activar la camara<br>y escanear el codigo QR",cam_btn:"Activar Camara",
+  manual_title:"O ingrese el codigo manualmente",btn_verify:"Verificar",
+  history_title:"Historial de Escaneo",empty_hist:"Sin escaneos aun",
+  valid_title:"Valido! Reserva Confirmada",
+  invalid_title:"Invalido!",invalid_sub:"Reserva no encontrada en el sistema.",
+  expired_title:"Cancelada",expired_sub:"Esta reserva ha sido cancelada.",
+  already_title:"Ya Registrado!",already_sub:"Este pasajero ya esta registrado.",
+  lbl_passenger:"Pasajero",lbl_phone:"Telefono",lbl_route:"Ruta",lbl_date:"Fecha",
+  lbl_seat:"Asiento",lbl_room:"Habitacion",lbl_hotel:"Hotel",lbl_event:"Evento",
+  lbl_venue:"Lugar",lbl_service:"Servicio",lbl_amount:"Monto",lbl_status:"Estado",
+  lbl_payment:"Pago",lbl_operator:"Operador",lbl_pin:"PIN",lbl_pax:"Pasajeros",
+  paid:"Pagado",unpaid:"No Pagado",
+  btn_checkin:"Registrar",btn_board:"Marcar Embarcado",btn_admit:"Admitir",btn_validate:"Validar",
+  btn_whatsapp:"WhatsApp",btn_close:"Cerrar",
+  toast_checkin:"Pasajero registrado!",toast_boarded:"Pasajero embarcado!",
+  s_confirmed:"Confirmado",s_pending:"Pendiente",s_cancelled:"Cancelado",s_completed:"Completado"
+}
+};
+function tx(k){return(T[currentLang]||T.ht)[k]||(T.ht)[k]||k}
+function setLang(l){
+  currentLang=l;
+  document.querySelectorAll('.h-lang a').forEach(function(a){a.classList.remove('active')});
+  var el=document.getElementById('lang-'+l);if(el)el.classList.add('active');
+  var tr=T[l]||T.ht;
+  document.querySelectorAll('[data-i18n]').forEach(function(el){var k=el.getAttribute('data-i18n');if(tr[k])el.innerHTML=tr[k]});
+}
+
+/* MODE */
+function setMode(m){
+  scanMode=m;
+  document.querySelectorAll('.mode-tab').forEach(function(t){t.classList.remove('active')});
+  document.querySelector('.mode-tab[data-mode="'+m+'"]').classList.add('active');
+}
+
+/* CAMERA */
+function startCamera(){
+  if(navigator.mediaDevices&&navigator.mediaDevices.getUserMedia){
+    navigator.mediaDevices.getUserMedia({video:{facingMode:'environment'}}).then(function(stream){
+      cameraStream=stream;
+      var video=document.getElementById('cameraFeed');
+      video.srcObject=stream;
+      video.classList.add('active');
+      document.getElementById('cameraPlaceholder').classList.add('hide');
+      document.getElementById('scanLine').style.display='block';
+    }).catch(function(){
+      alert('Kamera pa disponib. Sèvi ak antre manyèl.');
+    });
+  } else {
+    alert('Kamera pa sipòte nan navigatè sa a.');
+  }
+}
+
+/* VALIDATE */
+function validateRef(){
+  var ref=document.getElementById('manualRef').value.trim().toUpperCase();
+  if(!ref)return;
+  var res=DEMO_RESERVATIONS[ref];
+  showResult(ref,res);
+  document.getElementById('manualRef').value='';
+}
+
+function showResult(ref,res){
+  var card=document.getElementById('resultCard');
+  var overlay=document.getElementById('resultOverlay');
+  var now=new Date().toLocaleTimeString();
+  var html='';
+
+  if(!res){
+    card.className='result-card invalid';
+    html+='<div class="result-close" onclick="closeResult()">&#10005;</div>';
+    html+='<div class="result-icon">&#10060;</div>';
+    html+='<div class="result-title">'+tx('invalid_title')+'</div>';
+    html+='<div class="result-subtitle">'+tx('invalid_sub')+'</div>';
+    html+='<div class="result-details"><div class="rd-row"><span class="rd-label">REF</span><span class="rd-val mono">'+ref+'</span></div></div>';
+    html+='<div class="result-actions"><button class="ra-btn close-btn" onclick="closeResult()">'+tx('btn_close')+'</button></div>';
+    addHistory(ref,'invalid',now);
+  } else if(res.status==='cancelled'){
+    card.className='result-card invalid';
+    html+='<div class="result-close" onclick="closeResult()">&#10005;</div>';
+    html+='<div class="result-icon">&#128683;</div>';
+    html+='<div class="result-title">'+tx('expired_title')+'</div>';
+    html+='<div class="result-subtitle">'+tx('expired_sub')+'</div>';
+    html+='<div class="result-details">'+buildDetails(res)+'</div>';
+    html+='<div class="result-actions"><button class="ra-btn close-btn" onclick="closeResult()">'+tx('btn_close')+'</button></div>';
+    addHistory(ref,'invalid',now);
+  } else if(res.checkedIn){
+    card.className='result-card checked';
+    html+='<div class="result-close" onclick="closeResult()">&#10005;</div>';
+    html+='<div class="result-icon">&#9888;&#65039;</div>';
+    html+='<div class="result-title">'+tx('already_title')+'</div>';
+    html+='<div class="result-subtitle">'+tx('already_sub')+'</div>';
+    html+='<div class="result-details">'+buildDetails(res)+'</div>';
+    html+='<div class="result-actions"><button class="ra-btn close-btn" onclick="closeResult()">'+tx('btn_close')+'</button></div>';
+    addHistory(ref,'checked',now);
+  } else {
+    card.className='result-card valid';
+    var actionLabel=tx('btn_validate');
+    if(scanMode==='boarding')actionLabel=tx('btn_board');
+    else if(scanMode==='checkin')actionLabel=tx('btn_checkin');
+    else if(scanMode==='event')actionLabel=tx('btn_admit');
+
+    html+='<div class="result-close" onclick="closeResult()">&#10005;</div>';
+    html+='<div class="result-icon">&#9989;</div>';
+    html+='<div class="result-title">'+tx('valid_title')+'</div>';
+    html+='<div class="result-subtitle">'+res.operator+'</div>';
+    html+='<div class="result-details">'+buildDetails(res)+'</div>';
+    html+='<div class="result-actions">';
+    html+='<button class="ra-btn checkin" onclick="markCheckedIn(\''+ref+'\')">&#9989; '+actionLabel+'</button>';
+    html+='<button class="ra-btn whatsapp" onclick="waContact(\''+ref+'\')">&#128172; '+tx('btn_whatsapp')+'</button>';
+    html+='</div>';
+    addHistory(ref,'valid',now);
+  }
+
+  card.innerHTML=html;
+  overlay.classList.add('show');
+}
+
+function buildDetails(res){
+  var h='';
+  h+='<div class="rd-row"><span class="rd-label">REF</span><span class="rd-val mono">'+res.ref+'</span></div>';
+  h+='<div class="rd-row"><span class="rd-label">'+tx('lbl_passenger')+'</span><span class="rd-val">'+res.customer+'</span></div>';
+  h+='<div class="rd-row"><span class="rd-label">'+tx('lbl_phone')+'</span><span class="rd-val">'+res.phone+'</span></div>';
+  if(res.route)h+='<div class="rd-row"><span class="rd-label">'+tx('lbl_route')+'</span><span class="rd-val">'+res.route+'</span></div>';
+  if(res.seat)h+='<div class="rd-row"><span class="rd-label">'+tx('lbl_seat')+'</span><span class="rd-val" style="font-size:1.1rem;font-weight:900">'+res.seat+'</span></div>';
+  if(res.room)h+='<div class="rd-row"><span class="rd-label">'+tx('lbl_room')+'</span><span class="rd-val">'+res.room+'</span></div>';
+  if(res.hotel)h+='<div class="rd-row"><span class="rd-label">'+tx('lbl_hotel')+'</span><span class="rd-val">'+res.hotel+'</span></div>';
+  if(res.event)h+='<div class="rd-row"><span class="rd-label">'+tx('lbl_event')+'</span><span class="rd-val">'+res.event+'</span></div>';
+  if(res.venue)h+='<div class="rd-row"><span class="rd-label">'+tx('lbl_venue')+'</span><span class="rd-val">'+res.venue+'</span></div>';
+  if(res.service)h+='<div class="rd-row"><span class="rd-label">'+tx('lbl_service')+'</span><span class="rd-val">'+res.service+'</span></div>';
+  if(res.pax)h+='<div class="rd-row"><span class="rd-label">'+tx('lbl_pax')+'</span><span class="rd-val">'+res.pax+'</span></div>';
+  h+='<div class="rd-row"><span class="rd-label">'+tx('lbl_date')+'</span><span class="rd-val">'+(res.date||res.checkin||'-')+'</span></div>';
+  h+='<div class="rd-row"><span class="rd-label">'+tx('lbl_amount')+'</span><span class="rd-val" style="font-weight:900">'+res.amount.toLocaleString()+' HTG</span></div>';
+  h+='<div class="rd-row"><span class="rd-label">'+tx('lbl_status')+'</span><span class="rd-val"><span class="result-badge '+(res.status==='confirmed'?'badge-confirmed':'badge-pending')+'">'+tx('s_'+res.status)+'</span></span></div>';
+  h+='<div class="rd-row"><span class="rd-label">'+tx('lbl_payment')+'</span><span class="rd-val"><span class="result-badge '+(res.paid?'badge-paid':'badge-unpaid')+'">'+(res.paid?tx('paid'):tx('unpaid'))+'</span></span></div>';
+  h+='<div class="rd-row"><span class="rd-label">'+tx('lbl_pin')+'</span><span class="rd-val mono" style="font-size:1.2rem">'+res.pin+'</span></div>';
+  return h;
+}
+
+function markCheckedIn(ref){
+  if(DEMO_RESERVATIONS[ref]){
+    DEMO_RESERVATIONS[ref].checkedIn=true;
+    DEMO_RESERVATIONS[ref].status='completed';
+  }
+  closeResult();
+  var idx=scanHistory.findIndex(function(h){return h.ref===ref&&h.status==='valid'});
+  if(idx>=0)scanHistory[idx].status='checked';
+  renderHistory();
+}
+
+function waContact(ref){
+  var res=DEMO_RESERVATIONS[ref];
+  if(!res)return;
+  var msg='Bonjou '+res.customer+'! Rezèvasyon ou '+res.ref+' verifye. Mèsi!\n(via TouPaTou)';
+  window.open('https://wa.me/'+res.phone.replace(/[^0-9]/g,'')+'?text='+encodeURIComponent(msg),'_blank');
+}
+
+function closeResult(){document.getElementById('resultOverlay').classList.remove('show')}
+
+/* HISTORY */
+function addHistory(ref,status,time){
+  scanHistory.unshift({ref:ref,status:status,time:time,mode:scanMode});
+  if(scanHistory.length>15)scanHistory=scanHistory.slice(0,15);
+  renderHistory();
+}
+function renderHistory(){
+  var list=document.getElementById('historyList');
+  if(scanHistory.length===0){list.innerHTML='<div class="empty-hist">'+tx('empty_hist')+'</div>';return}
+  var html='';
+  scanHistory.forEach(function(h){
+    var label=h.status==='valid'?'VALID':h.status==='checked'?'CHECKED':'INVALID';
+    html+='<div class="history-item"><div class="hi-dot '+h.status+'"></div><span class="hi-ref">'+h.ref+'</span><span class="hi-status '+h.status+'">'+label+'</span><span class="hi-mode">'+h.mode+'</span><span class="hi-time">'+h.time+'</span></div>';
+  });
+  list.innerHTML=html;
+}
+
+/* INIT */
+(function(){setLang('ht')})();
+</script>
+</body>
+</html>

@@ -1,0 +1,455 @@
+<!DOCTYPE html>
+<html lang="ht">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no">
+<title>TouPaTou — Bus Terminal</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --blue:#00209F;--blue-dark:#001566;--blue-light:rgba(0,32,159,.06);
+  --red:#D21034;--red-light:rgba(210,16,52,.08);
+  --gold:#D4A017;--gold-bg:rgba(212,160,23,.08);
+  --white:#FFFFFF;--off-white:#FFF8F8;--cream:#F8F6F3;
+  --dark:#1A0C0C;--text:#2A1A1A;--text-light:#6A5A5A;--text-muted:#9A8A8A;
+  --green:#25D366;--green-light:rgba(37,211,102,.08);
+  --border:#E8E0E0;
+  --body:'Plus Jakarta Sans',system-ui,sans-serif;
+  --display:'DM Serif Display',Georgia,serif;
+  --radius:16px;--radius-sm:12px;
+}
+html{-webkit-tap-highlight-color:transparent}
+body{font-family:var(--body);background:var(--cream);color:var(--text);overflow-x:hidden;-webkit-font-smoothing:antialiased;padding-bottom:20px}
+a{text-decoration:none;color:inherit}
+button{font-family:var(--body);cursor:pointer;border:none;background:none}
+input,select{font-family:var(--body);border:none;outline:none}
+@keyframes fadeUp{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:none}}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.5}}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:0}}
+
+/* HEADER */
+.header{background:var(--blue);padding:16px 20px;display:flex;align-items:center;justify-content:space-between}
+.h-left{display:flex;align-items:center;gap:10px}
+.h-logo{font-family:var(--display);font-size:1.1rem;color:var(--white)}
+.h-logo span{color:var(--red)}
+.h-badge{font-size:.5rem;font-weight:900;color:var(--gold);background:rgba(212,160,23,.15);padding:3px 10px;border-radius:100px;letter-spacing:.08em;text-transform:uppercase}
+.h-right{display:flex;align-items:center;gap:8px}
+.h-lang{display:flex;gap:2px;background:rgba(255,255,255,.08);border-radius:6px;padding:2px}
+.h-lang a{color:rgba(255,255,255,.3);font-size:.55rem;font-weight:800;padding:4px 6px;border-radius:4px;cursor:pointer}
+.h-lang a.active{color:var(--blue);background:var(--white)}
+.h-time{font-family:monospace;font-size:.85rem;font-weight:700;color:var(--gold);letter-spacing:.05em}
+
+/* DEPARTURES BOARD */
+.board{background:var(--dark);padding:16px;border-radius:0 0 20px 20px;margin-bottom:16px}
+.board-title{font-size:.65rem;font-weight:900;color:var(--gold);text-transform:uppercase;letter-spacing:.12em;margin-bottom:12px;display:flex;align-items:center;gap:8px}
+.board-title .live-dot{width:8px;height:8px;border-radius:50%;background:var(--green);animation:blink 1.5s infinite}
+.dep-table{width:100%;border-collapse:collapse}
+.dep-table th{font-size:.55rem;font-weight:800;color:rgba(255,255,255,.3);text-transform:uppercase;letter-spacing:.08em;padding:6px 8px;text-align:left;border-bottom:1px solid rgba(255,255,255,.06)}
+.dep-table td{font-size:.75rem;font-weight:700;color:var(--white);padding:10px 8px;border-bottom:1px solid rgba(255,255,255,.04)}
+.dep-table tr:last-child td{border-bottom:none}
+.dep-route{font-weight:900;white-space:nowrap}
+.dep-time{font-family:monospace;color:var(--gold);font-weight:800;letter-spacing:.05em}
+.dep-seats{font-weight:900}
+.dep-seats.low{color:var(--gold)}
+.dep-seats.full{color:var(--red)}
+.dep-status{font-size:.6rem;font-weight:800;padding:3px 8px;border-radius:100px;white-space:nowrap}
+.dep-status.boarding{color:var(--green);background:rgba(37,211,102,.12)}
+.dep-status.scheduled{color:var(--gold);background:rgba(212,160,23,.1)}
+.dep-status.departed{color:rgba(255,255,255,.3);background:rgba(255,255,255,.05)}
+.dep-status.delayed{color:var(--red);background:rgba(210,16,52,.1)}
+
+/* VIEW TABS */
+.view-tabs{display:flex;gap:6px;padding:0 16px;margin-bottom:14px}
+.view-tab{flex:1;padding:12px 8px;border-radius:12px;background:var(--white);border:1.5px solid var(--border);text-align:center;cursor:pointer;transition:all .2s}
+.view-tab.active{border-color:var(--blue);background:var(--blue-light)}
+.view-tab .vt-icon{font-size:1.2rem;display:block;margin-bottom:4px}
+.view-tab .vt-label{font-size:.62rem;font-weight:800;color:var(--text-muted);text-transform:uppercase;letter-spacing:.03em}
+.view-tab.active .vt-label{color:var(--blue)}
+
+/* VIEW CONTENT */
+.view-content{display:none;padding:0 16px;animation:fadeUp .3s ease both}
+.view-content.active{display:block}
+
+/* MANIFEST */
+.manifest-sel{display:flex;gap:8px;margin-bottom:14px;overflow-x:auto;scrollbar-width:none;-webkit-overflow-scrolling:touch}
+.manifest-sel::-webkit-scrollbar{display:none}
+.ms-chip{flex-shrink:0;padding:10px 16px;border-radius:10px;background:var(--white);border:1.5px solid var(--border);font-size:.72rem;font-weight:800;color:var(--text-light);cursor:pointer;transition:all .2s;white-space:nowrap}
+.ms-chip.active{border-color:var(--blue);color:var(--blue);background:var(--blue-light)}
+.manifest-stats{display:flex;gap:8px;margin-bottom:14px}
+.ms-stat{flex:1;padding:12px;border-radius:10px;background:var(--white);border:1px solid var(--border);text-align:center}
+.ms-stat .ms-val{font-size:1.2rem;font-weight:900;color:var(--dark)}
+.ms-stat .ms-lbl{font-size:.55rem;font-weight:800;color:var(--text-muted);text-transform:uppercase;letter-spacing:.04em;margin-top:2px}
+.manifest-actions{display:flex;gap:6px;margin-bottom:14px}
+.ma-btn{flex:1;padding:10px;border-radius:10px;font-size:.7rem;font-weight:800;text-align:center;cursor:pointer;transition:all .2s}
+.ma-btn.print{color:var(--blue);background:var(--blue-light)}
+.ma-btn.share{color:var(--green);background:var(--green-light)}
+.ma-btn.scan{color:var(--gold);background:var(--gold-bg)}
+.pax-card{display:flex;align-items:center;gap:10px;padding:12px 14px;background:var(--white);border-radius:10px;margin-bottom:6px;border:1px solid var(--border);transition:all .2s}
+.pax-card.boarded{border-left:3px solid var(--green);background:#f8fdf8}
+.pax-num{width:26px;height:26px;border-radius:8px;background:var(--blue-light);color:var(--blue);font-size:.65rem;font-weight:900;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.pax-card.boarded .pax-num{background:var(--green-light);color:var(--green)}
+.pax-info{flex:1;min-width:0}
+.pax-name{font-size:.8rem;font-weight:800;color:var(--dark);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.pax-meta{font-size:.62rem;color:var(--text-light);margin-top:1px}
+.pax-seat{font-size:.75rem;font-weight:900;color:var(--blue);min-width:28px;text-align:center}
+.pax-check{width:30px;height:30px;border-radius:8px;border:2px solid var(--border);display:flex;align-items:center;justify-content:center;cursor:pointer;transition:all .15s;font-size:.85rem;color:transparent;flex-shrink:0}
+.pax-check.checked{border-color:var(--green);background:var(--green);color:var(--white)}
+.pax-paid{font-size:.55rem;font-weight:800;padding:2px 6px;border-radius:4px}
+.pax-paid.yes{color:#16a34a;background:rgba(22,163,74,.08)}
+.pax-paid.no{color:var(--red);background:var(--red-light)}
+.pax-luggage{font-size:.7rem;margin-left:4px}
+
+/* DRIVER PANEL */
+.driver-card{background:var(--white);border-radius:var(--radius);padding:20px;margin-bottom:12px;border:1px solid var(--border)}
+.driver-title{font-family:var(--display);font-size:1rem;color:var(--dark);margin-bottom:12px;display:flex;align-items:center;gap:8px}
+.d-row{display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid var(--border);font-size:.82rem}
+.d-row:last-child{border-bottom:none}
+.d-label{color:var(--text-light);font-weight:600}
+.d-val{font-weight:800;color:var(--dark)}
+.checkpoint-list{margin-top:16px}
+.cp-item{display:flex;align-items:center;gap:10px;padding:10px 0;border-bottom:1px solid var(--border)}
+.cp-item:last-child{border-bottom:none}
+.cp-dot{width:12px;height:12px;border-radius:50%;border:2px solid var(--border);flex-shrink:0}
+.cp-dot.done{background:var(--green);border-color:var(--green)}
+.cp-dot.current{background:var(--gold);border-color:var(--gold);animation:pulse 1.5s infinite}
+.cp-text{font-size:.78rem;font-weight:700;color:var(--dark)}
+.cp-time{font-size:.62rem;color:var(--text-muted);margin-left:auto;font-family:monospace}
+.emergency-card{background:var(--red-light);border:1.5px solid rgba(210,16,52,.15);border-radius:var(--radius);padding:16px;text-align:center;margin-top:12px}
+.emergency-card .ec-title{font-size:.78rem;font-weight:800;color:var(--red);margin-bottom:8px}
+.emergency-card a{display:inline-flex;align-items:center;gap:6px;padding:10px 20px;border-radius:10px;background:var(--red);color:var(--white);font-size:.78rem;font-weight:800;transition:all .2s}
+
+/* SEAT MAP */
+.seatmap{max-width:300px;margin:0 auto 16px}
+.seatmap-title{font-size:.68rem;font-weight:800;color:var(--text-muted);text-transform:uppercase;letter-spacing:.06em;margin-bottom:10px;text-align:center}
+.bus-outline{background:var(--white);border:2px solid var(--border);border-radius:16px 16px 8px 8px;padding:16px 12px;position:relative}
+.bus-front{text-align:center;font-size:.6rem;font-weight:800;color:var(--text-muted);margin-bottom:10px;padding-bottom:8px;border-bottom:2px solid var(--border);letter-spacing:.06em;text-transform:uppercase}
+.seat-grid{display:grid;grid-template-columns:1fr 1fr 20px 1fr 1fr;gap:6px;align-items:center}
+.seat{width:100%;aspect-ratio:1;border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:.55rem;font-weight:900;cursor:default;transition:all .2s}
+.seat.available{background:var(--green-light);color:var(--green);border:1px solid rgba(37,211,102,.2)}
+.seat.sold{background:var(--blue-light);color:var(--blue);border:1px solid rgba(0,32,159,.15)}
+.seat.blocked{background:rgba(0,0,0,.04);color:var(--text-muted);border:1px solid var(--border)}
+.seat.boarded{background:var(--green);color:var(--white);border:1px solid var(--green)}
+.aisle{display:block}
+.seat-legend{display:flex;justify-content:center;gap:12px;margin-top:10px;font-size:.55rem;font-weight:700;color:var(--text-muted)}
+.seat-legend span{display:flex;align-items:center;gap:4px}
+.seat-legend .sl-dot{width:10px;height:10px;border-radius:3px}
+
+/* FOOTER */
+.t-footer{text-align:center;padding:20px 16px;font-size:.65rem;color:var(--text-muted)}
+.t-footer a{color:var(--blue);font-weight:700}
+
+@media print{.header,.view-tabs,.manifest-actions,.t-footer{display:none!important}.board{border-radius:0}body{background:white}}
+@media(min-width:600px){.dep-table td,.dep-table th{padding:10px 12px;font-size:.82rem}.view-content{max-width:700px;margin:0 auto}}
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<div class="header">
+  <div class="h-left">
+    <div class="h-logo">Tou<span>Pa</span>Tou</div>
+    <div class="h-badge">Terminal</div>
+  </div>
+  <div class="h-right">
+    <div class="h-time" id="clock"></div>
+    <div class="h-lang">
+      <a onclick="setLang('ht')" id="lang-ht" class="active">HT</a>
+      <a onclick="setLang('fr')" id="lang-fr">FR</a>
+      <a onclick="setLang('en')" id="lang-en">EN</a>
+      <a onclick="setLang('es')" id="lang-es">ES</a>
+    </div>
+  </div>
+</div>
+
+<!-- DEPARTURES BOARD -->
+<div class="board">
+  <div class="board-title"><span class="live-dot"></span> <span data-i18n="board_title">DEPA K AP VINI</span></div>
+  <table class="dep-table">
+    <thead><tr><th data-i18n="th_route">WOT</th><th data-i18n="th_time">L&Egrave;</th><th data-i18n="th_operator">OP</th><th data-i18n="th_seats">PLAS</th><th data-i18n="th_status">ESTATI</th></tr></thead>
+    <tbody id="depBody"></tbody>
+  </table>
+</div>
+
+<!-- VIEW TABS -->
+<div class="view-tabs">
+  <div class="view-tab active" onclick="showView('manifest')">
+    <span class="vt-icon">&#128196;</span>
+    <span class="vt-label" data-i18n="vt_manifest">Manif&egrave;s</span>
+  </div>
+  <div class="view-tab" onclick="showView('seatmap')">
+    <span class="vt-icon">&#128186;</span>
+    <span class="vt-label" data-i18n="vt_seatmap">Plas</span>
+  </div>
+  <div class="view-tab" onclick="showView('driver')">
+    <span class="vt-icon">&#128663;</span>
+    <span class="vt-label" data-i18n="vt_driver">Chof&egrave;</span>
+  </div>
+</div>
+
+<!-- MANIFEST VIEW -->
+<div class="view-content active" id="vc-manifest">
+  <div class="manifest-sel" id="manifestSel"></div>
+  <div class="manifest-stats" id="manifestStats"></div>
+  <div class="manifest-actions">
+    <button class="ma-btn print" onclick="window.print()">&#128424; <span data-i18n="btn_print">Enprime</span></button>
+    <button class="ma-btn share" onclick="shareManifest()">&#128172; <span data-i18n="btn_share">Pataje</span></button>
+    <button class="ma-btn scan" onclick="window.location.href='scan.html'">&#128274; <span data-i18n="btn_scan">Eskane</span></button>
+  </div>
+  <div id="manifestList"></div>
+</div>
+
+<!-- SEAT MAP VIEW -->
+<div class="view-content" id="vc-seatmap">
+  <div class="seatmap">
+    <div class="seatmap-title" data-i18n="seatmap_title">Kat Plas — Bis</div>
+    <div class="bus-outline">
+      <div class="bus-front" data-i18n="bus_front">&#128663; CHOF&Egrave;</div>
+      <div class="seat-grid" id="seatGrid"></div>
+    </div>
+    <div class="seat-legend">
+      <span><div class="sl-dot" style="background:var(--green-light);border:1px solid rgba(37,211,102,.2)"></div> <span data-i18n="leg_avail">Disponib</span></span>
+      <span><div class="sl-dot" style="background:var(--blue-light);border:1px solid rgba(0,32,159,.15)"></div> <span data-i18n="leg_sold">Vann</span></span>
+      <span><div class="sl-dot" style="background:var(--green);border:1px solid var(--green)"></div> <span data-i18n="leg_boarded">Ab&ograve;de</span></span>
+      <span><div class="sl-dot" style="background:rgba(0,0,0,.04);border:1px solid var(--border)"></div> <span data-i18n="leg_blocked">Bloke</span></span>
+    </div>
+  </div>
+</div>
+
+<!-- DRIVER VIEW -->
+<div class="view-content" id="vc-driver">
+  <div id="driverPanel"></div>
+</div>
+
+<!-- FOOTER -->
+<div class="t-footer">
+  <a href="operator.html">Operator Dashboard</a> &middot; <a href="reservations.html">TouPaTou</a>
+</div>
+
+<script>
+var currentLang='ht';
+var selectedDep=0;
+
+var DEPARTURES=[
+  {route:'PAP → SDQ',flag:'&#127469;&#127481; → &#127465;&#127476;',time:'06:00',operator:'Transport Express',totalSeats:45,soldSeats:38,boardedSeats:12,status:'boarding',driver:'Jean-Marc Duval',phone:'+509 3567 8901',vehicle:'Mercedes Sprinter #TX-201',
+    checkpoints:[
+      {name:'Terminal PAP',time:'06:00',status:'done'},
+      {name:'Jimani (Frontye)',time:'08:30',status:'current'},
+      {name:'Barahona',time:'10:00',status:'pending'},
+      {name:'Santo Domingo',time:'12:30',status:'pending'}
+    ],
+    passengers:[
+      {name:'Carlos Rivera',phone:'+509 4921 1111',seat:'A3',paid:true,boarded:true,luggage:2},
+      {name:'Rosa Sanchez',phone:'+509 4921 4444',seat:'C2',paid:true,boarded:true,luggage:1},
+      {name:'Jean Dupont',phone:'+509 4921 5000',seat:'A4',paid:true,boarded:false,luggage:1},
+      {name:'Maria Lopez',phone:'+509 4921 5001',seat:'B1',paid:true,boarded:false,luggage:2},
+      {name:'Fritz Duval',phone:'+509 4921 5555',seat:'B3',paid:false,boarded:false,luggage:0},
+      {name:'Sophie Marc',phone:'+509 4921 5002',seat:'C1',paid:true,boarded:true,luggage:1},
+      {name:'Pierre Noel',phone:'+509 4921 5003',seat:'D2',paid:true,boarded:false,luggage:1}
+    ],
+    seatmap:['sold','sold','aisle','boarded','sold','boarded','sold','aisle','sold','available','sold','available','aisle','sold','sold','available','sold','aisle','sold','available','blocked','blocked','aisle','sold','sold','sold','available','aisle','available','available','available','available','aisle','available','available','available','available','aisle','available','available','available','available','aisle','available','available']
+  },
+  {route:'PAP → STI',flag:'&#127469;&#127481; → &#127465;&#127476;',time:'07:00',operator:'Transport Express',totalSeats:45,soldSeats:22,boardedSeats:0,status:'scheduled',driver:'Pierre Baptiste',phone:'+509 3567 9012',vehicle:'Hyundai County #TX-305',
+    checkpoints:[
+      {name:'Terminal PAP',time:'07:00',status:'pending'},
+      {name:'Jimani (Frontye)',time:'09:30',status:'pending'},
+      {name:'Santiago',time:'12:00',status:'pending'}
+    ],
+    passengers:[
+      {name:'Ana Martinez',phone:'+509 4921 2222',seat:'B1',paid:false,boarded:false,luggage:1},
+      {name:'Emmanuel Joseph',phone:'+509 4921 3333',seat:'A1',paid:true,boarded:false,luggage:2},
+      {name:'Luc Francois',phone:'+509 4921 6000',seat:'A2',paid:true,boarded:false,luggage:1}
+    ],
+    seatmap:['sold','sold','aisle','sold','available','available','available','aisle','sold','available','sold','available','aisle','available','sold','available','available','aisle','available','available','available','available','aisle','sold','available','sold','available','aisle','available','available','available','available','aisle','available','available','available','available','aisle','available','available','available','available','aisle','available','available']
+  },
+  {route:'CAP → SDQ',flag:'&#127469;&#127481; → &#127465;&#127476;',time:'05:30',operator:'Nord Transport',totalSeats:45,soldSeats:45,boardedSeats:45,status:'departed',driver:'Michel Alcide',phone:'+509 3567 0123',vehicle:'Volvo B7R #NT-108',checkpoints:[],passengers:[],seatmap:[]},
+  {route:'CAP → STI',flag:'&#127469;&#127481; → &#127465;&#127476;',time:'09:00',operator:'Nord Transport',totalSeats:45,soldSeats:15,boardedSeats:0,status:'delayed',driver:'Andre Petit',phone:'+509 3567 1234',vehicle:'Toyota Coaster #NT-205',checkpoints:[],passengers:[],seatmap:[]}
+];
+
+var T={
+ht:{board_title:"DEPA K AP VINI",th_route:"WOT",th_time:"LÈ",th_operator:"OP",th_seats:"PLAS",th_status:"ESTATI",
+  vt_manifest:"Manifès",vt_seatmap:"Plas",vt_driver:"Chofè",
+  btn_print:"Enprime",btn_share:"Pataje",btn_scan:"Eskane",
+  seatmap_title:"Kat Plas — Bis",bus_front:"CHOFÈ",
+  leg_avail:"Disponib",leg_sold:"Vann",leg_boarded:"Abòde",leg_blocked:"Bloke",
+  st_boarding:"Boarding",st_scheduled:"Planifye",st_departed:"Pati",st_delayed:"Reta",
+  lbl_boarded:"Abòde",lbl_total:"Total",lbl_luggage:"Bagaj",lbl_paid:"Peye",lbl_unpaid:"Pa Peye",
+  drv_title:"Panel Chofè",drv_driver:"Chofè",drv_phone:"Telefòn",drv_vehicle:"Machin",drv_route:"Wout",
+  drv_pax:"Pasajè",drv_checkpoints:"Pwen Kontwòl",drv_emergency:"Nimewo Ijans",
+  back:"← Pano"
+},
+fr:{board_title:"DEPARTS A VENIR",th_route:"ROUTE",th_time:"HEURE",th_operator:"OP",th_seats:"PLACES",th_status:"STATUT",
+  vt_manifest:"Manifeste",vt_seatmap:"Places",vt_driver:"Chauffeur",
+  btn_print:"Imprimer",btn_share:"Partager",btn_scan:"Scanner",
+  seatmap_title:"Plan des Places — Bus",bus_front:"CHAUFFEUR",
+  leg_avail:"Disponible",leg_sold:"Vendu",leg_boarded:"Embarque",leg_blocked:"Bloque",
+  st_boarding:"Embarquement",st_scheduled:"Planifie",st_departed:"Parti",st_delayed:"Retarde",
+  lbl_boarded:"Embarques",lbl_total:"Total",lbl_luggage:"Bagages",lbl_paid:"Paye",lbl_unpaid:"Non Paye",
+  drv_title:"Panel Chauffeur",drv_driver:"Chauffeur",drv_phone:"Telephone",drv_vehicle:"Vehicule",drv_route:"Route",
+  drv_pax:"Passagers",drv_checkpoints:"Points de Controle",drv_emergency:"Numeros d'Urgence",
+  back:"← Panneau"
+},
+en:{board_title:"UPCOMING DEPARTURES",th_route:"ROUTE",th_time:"TIME",th_operator:"OP",th_seats:"SEATS",th_status:"STATUS",
+  vt_manifest:"Manifest",vt_seatmap:"Seats",vt_driver:"Driver",
+  btn_print:"Print",btn_share:"Share",btn_scan:"Scan",
+  seatmap_title:"Seat Map — Bus",bus_front:"DRIVER",
+  leg_avail:"Available",leg_sold:"Sold",leg_boarded:"Boarded",leg_blocked:"Blocked",
+  st_boarding:"Boarding",st_scheduled:"Scheduled",st_departed:"Departed",st_delayed:"Delayed",
+  lbl_boarded:"Boarded",lbl_total:"Total",lbl_luggage:"Luggage",lbl_paid:"Paid",lbl_unpaid:"Unpaid",
+  drv_title:"Driver Panel",drv_driver:"Driver",drv_phone:"Phone",drv_vehicle:"Vehicle",drv_route:"Route",
+  drv_pax:"Passengers",drv_checkpoints:"Checkpoints",drv_emergency:"Emergency Numbers",
+  back:"← Panel"
+},
+es:{board_title:"SALIDAS PROXIMAS",th_route:"RUTA",th_time:"HORA",th_operator:"OP",th_seats:"ASIENTOS",th_status:"ESTADO",
+  vt_manifest:"Manifiesto",vt_seatmap:"Asientos",vt_driver:"Chofer",
+  btn_print:"Imprimir",btn_share:"Compartir",btn_scan:"Escanear",
+  seatmap_title:"Mapa de Asientos — Bus",bus_front:"CHOFER",
+  leg_avail:"Disponible",leg_sold:"Vendido",leg_boarded:"Embarcado",leg_blocked:"Bloqueado",
+  st_boarding:"Embarque",st_scheduled:"Programado",st_departed:"Partido",st_delayed:"Retrasado",
+  lbl_boarded:"Embarcados",lbl_total:"Total",lbl_luggage:"Equipaje",lbl_paid:"Pagado",lbl_unpaid:"No Pagado",
+  drv_title:"Panel del Chofer",drv_driver:"Chofer",drv_phone:"Telefono",drv_vehicle:"Vehiculo",drv_route:"Ruta",
+  drv_pax:"Pasajeros",drv_checkpoints:"Puntos de Control",drv_emergency:"Numeros de Emergencia",
+  back:"← Panel"
+}
+};
+function tx(k){return(T[currentLang]||T.ht)[k]||(T.ht)[k]||k}
+function setLang(l){
+  currentLang=l;
+  document.querySelectorAll('.h-lang a').forEach(function(a){a.classList.remove('active')});
+  var el=document.getElementById('lang-'+l);if(el)el.classList.add('active');
+  var tr=T[l]||T.ht;
+  document.querySelectorAll('[data-i18n]').forEach(function(el){var k=el.getAttribute('data-i18n');if(tr[k])el.innerHTML=tr[k]});
+  renderAll();
+}
+
+function showView(v){
+  document.querySelectorAll('.view-tab').forEach(function(t){t.classList.remove('active')});
+  document.querySelectorAll('.view-content').forEach(function(c){c.classList.remove('active')});
+  var tabs=document.querySelectorAll('.view-tab');
+  var names=['manifest','seatmap','driver'];
+  var idx=names.indexOf(v);
+  if(idx>=0)tabs[idx].classList.add('active');
+  var vc=document.getElementById('vc-'+v);
+  if(vc)vc.classList.add('active');
+}
+
+function renderAll(){renderBoard();renderManifestSel();renderManifest();renderSeatmap();renderDriver()}
+
+function renderBoard(){
+  var body=document.getElementById('depBody');
+  var html='';
+  DEPARTURES.forEach(function(d,i){
+    var remaining=d.totalSeats-d.soldSeats;
+    var seatsClass=remaining<=5?remaining<=0?'full':'low':'';
+    var stClass=d.status;
+    var stText=tx('st_'+d.status);
+    html+='<tr style="cursor:pointer" onclick="selectDeparture('+i+')"><td class="dep-route">'+d.flag+' '+d.route+'</td><td class="dep-time">'+d.time+'</td><td>'+d.operator.split(' ')[0]+'</td><td class="dep-seats '+seatsClass+'">'+remaining+'/'+d.totalSeats+'</td><td><span class="dep-status '+stClass+'">'+stText+'</span></td></tr>';
+  });
+  body.innerHTML=html;
+}
+
+function selectDeparture(i){selectedDep=i;renderManifestSel();renderManifest();renderSeatmap();renderDriver()}
+
+function renderManifestSel(){
+  var sel=document.getElementById('manifestSel');
+  var html='';
+  DEPARTURES.forEach(function(d,i){
+    html+='<div class="ms-chip'+(i===selectedDep?' active':'')+'" onclick="selectDeparture('+i+')">'+d.time+' '+d.route+'</div>';
+  });
+  sel.innerHTML=html;
+}
+
+function renderManifest(){
+  var d=DEPARTURES[selectedDep];
+  var stats=document.getElementById('manifestStats');
+  var list=document.getElementById('manifestList');
+  var boarded=d.passengers.filter(function(p){return p.boarded}).length;
+  var totalLuggage=d.passengers.reduce(function(s,p){return s+p.luggage},0);
+  var paid=d.passengers.filter(function(p){return p.paid}).length;
+
+  stats.innerHTML='<div class="ms-stat"><div class="ms-val">'+boarded+'/'+d.passengers.length+'</div><div class="ms-lbl">'+tx('lbl_boarded')+'</div></div><div class="ms-stat"><div class="ms-val">'+d.soldSeats+'</div><div class="ms-lbl">'+tx('lbl_total')+'</div></div><div class="ms-stat"><div class="ms-val">'+totalLuggage+'</div><div class="ms-lbl">'+tx('lbl_luggage')+'</div></div>';
+
+  if(d.passengers.length===0){list.innerHTML='<div style="text-align:center;padding:30px;color:var(--text-muted);font-size:.82rem">Pa gen done pou depa sa a.</div>';return}
+  var html='';
+  d.passengers.forEach(function(p,i){
+    html+='<div class="pax-card'+(p.boarded?' boarded':'')+'"><span class="pax-num">'+(i+1)+'</span><div class="pax-info"><div class="pax-name">'+p.name+'</div><div class="pax-meta">'+p.phone+' &middot; <span class="pax-paid '+(p.paid?'yes':'no')+'">'+(p.paid?tx('lbl_paid'):tx('lbl_unpaid'))+'</span><span class="pax-luggage">&#128188;'+p.luggage+'</span></div></div><span class="pax-seat">'+p.seat+'</span><div class="pax-check'+(p.boarded?' checked':'')+'" onclick="toggleBoard('+i+')">&#10003;</div></div>';
+  });
+  list.innerHTML=html;
+}
+
+function toggleBoard(i){
+  var d=DEPARTURES[selectedDep];
+  d.passengers[i].boarded=!d.passengers[i].boarded;
+  d.boardedSeats=d.passengers.filter(function(p){return p.boarded}).length;
+  renderManifest();
+}
+
+function shareManifest(){
+  var d=DEPARTURES[selectedDep];
+  var msg='MANIFÈS — '+d.route+' '+d.time+'\n'+d.operator+' — '+d.vehicle+'\nChofè: '+d.driver+'\n\n';
+  d.passengers.forEach(function(p,i){
+    msg+=(i+1)+'. '+p.name+' ['+p.seat+'] '+(p.boarded?'✅':'⏳')+(p.paid?' $':' ❌$')+' 📎'+p.luggage+'\n';
+  });
+  var boarded=d.passengers.filter(function(p){return p.boarded}).length;
+  msg+='\nAbòde: '+boarded+'/'+d.passengers.length+'\n(via TouPaTou Terminal)';
+  window.open('https://wa.me/?text='+encodeURIComponent(msg),'_blank');
+}
+
+function renderSeatmap(){
+  var d=DEPARTURES[selectedDep];
+  var grid=document.getElementById('seatGrid');
+  if(!d.seatmap||d.seatmap.length===0){grid.innerHTML='<div style="grid-column:1/-1;text-align:center;padding:20px;color:var(--text-muted);font-size:.78rem">Pa gen kat plas disponib.</div>';return}
+  var html='';var seatNum=1;
+  d.seatmap.forEach(function(s){
+    if(s==='aisle'){html+='<div class="aisle"></div>';return}
+    var label='';
+    var row=String.fromCharCode(65+Math.floor((seatNum-1)/4));
+    var col=((seatNum-1)%4)+1;
+    label=row+col;
+    html+='<div class="seat '+s+'" title="'+label+'">'+label+'</div>';
+    seatNum++;
+  });
+  grid.innerHTML=html;
+}
+
+function renderDriver(){
+  var d=DEPARTURES[selectedDep];
+  var panel=document.getElementById('driverPanel');
+  var html='<div class="driver-card"><div class="driver-title">&#128663; '+tx('drv_title')+'</div>';
+  html+='<div class="d-row"><span class="d-label">'+tx('drv_route')+'</span><span class="d-val">'+d.route+'</span></div>';
+  html+='<div class="d-row"><span class="d-label">'+tx('drv_driver')+'</span><span class="d-val">'+d.driver+'</span></div>';
+  html+='<div class="d-row"><span class="d-label">'+tx('drv_phone')+'</span><span class="d-val">'+d.phone+'</span></div>';
+  html+='<div class="d-row"><span class="d-label">'+tx('drv_vehicle')+'</span><span class="d-val">'+d.vehicle+'</span></div>';
+  html+='<div class="d-row"><span class="d-label">'+tx('drv_pax')+'</span><span class="d-val">'+d.soldSeats+'/'+d.totalSeats+'</span></div>';
+  html+='</div>';
+
+  if(d.checkpoints&&d.checkpoints.length>0){
+    html+='<div class="driver-card"><div class="driver-title">&#128205; '+tx('drv_checkpoints')+'</div><div class="checkpoint-list">';
+    d.checkpoints.forEach(function(cp){
+      html+='<div class="cp-item"><div class="cp-dot '+cp.status+'"></div><span class="cp-text">'+cp.name+'</span><span class="cp-time">'+cp.time+'</span></div>';
+    });
+    html+='</div></div>';
+  }
+
+  html+='<div class="emergency-card"><div class="ec-title">'+tx('drv_emergency')+'</div><a href="tel:+50941902005">&#128680; +509 4190 2005 (TouPaTou)</a></div>';
+  panel.innerHTML=html;
+}
+
+function updateClock(){
+  var now=new Date();
+  var h=('0'+now.getHours()).slice(-2);
+  var m=('0'+now.getMinutes()).slice(-2);
+  var s=('0'+now.getSeconds()).slice(-2);
+  document.getElementById('clock').textContent=h+':'+m+':'+s;
+}
+
+(function(){
+  setLang('ht');
+  updateClock();setInterval(updateClock,1000);
+  renderAll();
+})();
+</script>
+</body>
+</html>
