@@ -687,7 +687,7 @@ img{max-width:100%;display:block}
   </div>
 
   <div class="btn-bar" style="flex-direction:column;align-items:stretch">
-    <button class="btn btn-red" style="height:52px;font-size:1rem" onclick="publishEvent()">
+    <button class="btn btn-red" id="publishBtn" style="height:52px;font-size:1rem" onclick="publishEvent()">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M22 2L11 13M22 2l-7 20-4-9-9-4z"/></svg>
       <span data-i18n="publish_event">Pibliye Evènman</span>
     </button>
@@ -1618,6 +1618,9 @@ var typeConfig = {
 
 /* ═══ PUBLISH ═══ */
 function publishEvent() {
+  var pubBtn = document.getElementById('publishBtn');
+  if (pubBtn) { pubBtn.disabled = true; pubBtn.style.opacity = '0.6'; pubBtn.querySelector('span').textContent = 'Ap pibliye...'; }
+
   var evId = 'evt_' + Date.now();
   var evType = document.getElementById('evType').value;
   var cfg = typeConfig[evType] || typeConfig['lòt'];
@@ -1672,53 +1675,61 @@ function publishEvent() {
     createdAt: new Date().toISOString()
   };
 
-  // Save to localStorage (offline fallback)
-  var events = [];
-  try { events = JSON.parse(localStorage.getItem('tl_events') || '[]'); } catch(e) { events = []; }
-  events.unshift(eventObj);
-  try { localStorage.setItem('tl_events', JSON.stringify(events)); } catch(e) {}
+  function showSuccessOverlay(eventId, shareUrl) {
+    if (pubBtn) { pubBtn.disabled = false; pubBtn.style.opacity = ''; }
+    var viewBtn = document.querySelector('#successOverlay .btn-blue');
+    if (viewBtn) viewBtn.href = 'event.html?id=' + eventId;
+    window._publishedEventId = eventId;
+    window._publishedEventUrl = shareUrl;
 
-  // Save to backend API
+    var overlay = document.getElementById('successOverlay');
+    overlay.classList.add('open');
+    var confetti = document.getElementById('successConfetti');
+    confetti.innerHTML = '';
+    var colors = ['#D21034','#D4A017','#00209F','#1B8C3D','#FF6B8A','#FFD700'];
+    for (var i = 0; i < 40; i++) {
+      var dot = document.createElement('div');
+      var size = 4 + Math.random() * 8;
+      dot.style.cssText = 'position:absolute;width:' + size + 'px;height:' + size + 'px;' +
+        'background:' + colors[Math.floor(Math.random() * colors.length)] + ';' +
+        'border-radius:' + (Math.random() > 0.5 ? '50%' : '2px') + ';' +
+        'left:' + (Math.random() * 100) + '%;top:-10px;' +
+        'animation:confettiFall ' + (2 + Math.random() * 3) + 's ease ' + (Math.random() * 0.5) + 's forwards;';
+      confetti.appendChild(dot);
+    }
+  }
+
+  // Save to backend API first, then show success
   fetch(API_URL + '/api/events', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(eventObj)
   }).then(function(r) { return r.json(); }).then(function(saved) {
     if (saved._id) {
-      var shareUrl = API_URL + '/api/events/' + saved._id + '/share';
-      var viewBtn = document.querySelector('#successOverlay .btn-blue');
-      if (viewBtn) viewBtn.href = 'event.html?id=' + saved._id;
-      window._publishedEventUrl = shareUrl;
-      window._publishedEventId = saved._id;
-      // Update localStorage with API id
       eventObj._id = saved._id;
-      events[0] = eventObj;
+      var shareUrl = API_URL + '/api/events/' + saved._id + '/share';
+      // Save to localStorage with API id
+      var events = [];
+      try { events = JSON.parse(localStorage.getItem('tl_events') || '[]'); } catch(e) { events = []; }
+      events.unshift(eventObj);
       try { localStorage.setItem('tl_events', JSON.stringify(events)); } catch(e) {}
+      showSuccessOverlay(saved._id, shareUrl);
+    } else {
+      // API returned but no _id, use local fallback
+      var events = [];
+      try { events = JSON.parse(localStorage.getItem('tl_events') || '[]'); } catch(e) { events = []; }
+      events.unshift(eventObj);
+      try { localStorage.setItem('tl_events', JSON.stringify(events)); } catch(e) {}
+      showSuccessOverlay(evId, 'https://haitibiznis.com/event.html?id=' + evId);
     }
-  }).catch(function() {});
-
-  var evUrl = 'https://haitibiznis.com/event.html?id=' + evId;
-  var viewBtn = document.querySelector('#successOverlay .btn-blue');
-  if (viewBtn) { viewBtn.href = 'event.html?id=' + evId; }
-
-  window._publishedEventId = evId;
-  window._publishedEventUrl = evUrl;
-
-  var overlay = document.getElementById('successOverlay');
-  overlay.classList.add('open');
-  var confetti = document.getElementById('successConfetti');
-  confetti.innerHTML = '';
-  var colors = ['#D21034','#D4A017','#00209F','#1B8C3D','#FF6B8A','#FFD700'];
-  for (var i = 0; i < 40; i++) {
-    var dot = document.createElement('div');
-    var size = 4 + Math.random() * 8;
-    dot.style.cssText = 'position:absolute;width:' + size + 'px;height:' + size + 'px;' +
-      'background:' + colors[Math.floor(Math.random() * colors.length)] + ';' +
-      'border-radius:' + (Math.random() > 0.5 ? '50%' : '2px') + ';' +
-      'left:' + (Math.random() * 100) + '%;top:-10px;' +
-      'animation:confettiFall ' + (2 + Math.random() * 3) + 's ease ' + (Math.random() * 0.5) + 's forwards;';
-    confetti.appendChild(dot);
-  }
+  }).catch(function() {
+    // API failed, use localStorage fallback
+    var events = [];
+    try { events = JSON.parse(localStorage.getItem('tl_events') || '[]'); } catch(e) { events = []; }
+    events.unshift(eventObj);
+    try { localStorage.setItem('tl_events', JSON.stringify(events)); } catch(e) {}
+    showSuccessOverlay(evId, 'https://haitibiznis.com/event.html?id=' + evId);
+  });
 }
 
 function shareWhatsApp() {

@@ -583,6 +583,7 @@ var demoEvent = {
 
 var API_URL = 'https://haitibiznis-api.onrender.com';
 var event = demoEvent;
+var needsAsyncLoad = false;
 
 (function loadEventFromUrl() {
   var params = new URLSearchParams(window.location.search);
@@ -610,20 +611,24 @@ var event = demoEvent;
     return;
   }
 
-  // Try backend API (for shared links)
-  var xhr = new XMLHttpRequest();
-  xhr.open('GET', API_URL + '/api/events/' + evId, false);
-  try {
-    xhr.send();
-    if (xhr.status === 200) {
-      event = JSON.parse(xhr.responseText);
+  needsAsyncLoad = evId;
+})();
+
+function loadEventFromAPI(evId) {
+  fetch(API_URL + '/api/events/' + evId)
+    .then(function(r) { if (!r.ok) throw new Error('not found'); return r.json(); })
+    .then(function(data) {
+      event = data;
       if (!event.typeEmoji) event.typeEmoji = '📌';
       if (!event.typeLabel) event.typeLabel = event.type || 'Lòt';
       if (!event.koutyeEnabled) event.koutyeEnabled = false;
       if (event.tickets) event.tickets.forEach(function(t) { if (!t.sold) t.sold = 0; });
-    }
-  } catch(e) {}
-})();
+      ticketQty = [];
+      event.tickets.forEach(function() { ticketQty.push(0); });
+      renderPage();
+    })
+    .catch(function() {});
+}
 
 /* Similar events demo */
 var similarEvents = [
@@ -1186,6 +1191,8 @@ document.querySelectorAll('.reveal').forEach(function(el) { observer.observe(el)
 /* ═══ INIT ═══ */
 /* Set initial language from localStorage (or default ht) */
 setLang(currentLang);
+
+if (needsAsyncLoad) loadEventFromAPI(needsAsyncLoad);
 </script>
 </body>
 </html>
