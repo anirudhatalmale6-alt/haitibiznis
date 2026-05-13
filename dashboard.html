@@ -1,0 +1,1423 @@
+<!DOCTYPE html>
+<html lang="ht">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no">
+<title>TouPaTou — Tcheke Rezèvasyon Ou</title>
+<meta name="description" content="TouPaTou — Check your reservation status, verify with PIN, and manage your bookings across Haiti.">
+<meta property="og:title" content="TouPaTou — Dashboard Rezèvasyon">
+<meta property="og:description" content="Tcheke estati rezèvasyon ou, verifye ak PIN, epi jere tout booking ou yo.">
+<meta property="og:type" content="website">
+<link rel="icon" type="image/x-icon" href="favicon.ico">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --blue:#00209F;--blue-dark:#001566;--blue-deep:#000D4F;
+  --red:#D21034;--red-dark:#B00D2C;
+  --gold:#D4A017;--gold-light:#E8B82E;
+  --white:#FFFFFF;--off-white:#FFF8F8;--cream:#FFFAF5;
+  --dark:#1A0C0C;--text:#2A1A1A;--text-light:#6A5A5A;--text-muted:#9A8A8A;
+  --green:#25D366;--green-dark:#1EBE5A;
+  --border:#E8DEDE;
+  --body:'Plus Jakarta Sans',system-ui,sans-serif;
+  --display:'DM Serif Display',Georgia,serif;
+  --radius:16px;--radius-lg:24px;
+}
+html{scroll-behavior:smooth;-webkit-tap-highlight-color:transparent}
+body{
+  font-family:var(--body);background:var(--off-white);color:var(--text);
+  overflow-x:hidden;-webkit-font-smoothing:antialiased;
+  padding-bottom:80px;
+}
+a{text-decoration:none;color:inherit}
+button{font-family:var(--body);cursor:pointer;border:none;background:none}
+input,select,textarea{font-family:var(--body);border:none;outline:none}
+
+@keyframes fadeUp{from{opacity:0;transform:translateY(24px)}to{opacity:1;transform:none}}
+@keyframes slideIn{from{opacity:0;transform:translateX(20px)}to{opacity:1;transform:none}}
+@keyframes spin{to{transform:rotate(360deg)}}
+@keyframes pulseGlow{0%,100%{box-shadow:0 0 0 0 rgba(37,211,102,.4)}50%{box-shadow:0 0 0 14px rgba(37,211,102,0)}}
+@keyframes shimmer{0%{background-position:-200% 0}100%{background-position:200% 0}}
+
+/* HEADER */
+.header{
+  position:fixed;top:0;left:0;right:0;z-index:1000;
+  background:var(--blue);
+  height:60px;display:flex;align-items:center;justify-content:space-between;
+  padding:0 20px;
+  box-shadow:0 2px 20px rgba(0,13,79,.3);
+}
+.header-brand{display:flex;align-items:center;gap:10px}
+.header-brand img{height:36px;width:36px;border-radius:8px;object-fit:contain;background:var(--white);padding:2px}
+.header-brand h1{
+  font-family:var(--display);font-size:1.05rem;color:var(--white);
+  letter-spacing:-.01em;line-height:1;
+}
+.header-brand h1 span{color:var(--red);font-size:.7em}
+.header-brand .sub{font-size:.55rem;color:rgba(255,255,255,.55);font-weight:600;letter-spacing:.06em;text-transform:uppercase;margin-top:1px}
+.header-right{display:flex;align-items:center;gap:12px}
+.lang-toggle{
+  display:flex;gap:2px;background:rgba(255,255,255,.1);border-radius:8px;padding:2px;
+}
+.lang-toggle a{
+  color:rgba(255,255,255,.5);font-size:.6rem;font-weight:700;padding:5px 8px;
+  border-radius:6px;cursor:pointer;transition:all .2s;letter-spacing:.02em;
+}
+.lang-toggle a.active{color:var(--blue);background:var(--white)}
+.lang-toggle a:hover:not(.active){color:rgba(255,255,255,.9)}
+.header-link{
+  display:flex;align-items:center;gap:5px;
+  color:rgba(255,255,255,.7);font-size:.7rem;font-weight:700;
+  padding:6px 12px;border-radius:8px;
+  background:rgba(255,255,255,.08);transition:all .2s;
+}
+.header-link:hover{background:rgba(255,255,255,.15);color:var(--white)}
+
+/* HERO LOOKUP */
+.hero-lookup{
+  padding:84px 20px 32px;text-align:center;
+  background:linear-gradient(175deg,var(--blue) 0%,var(--blue-dark) 55%,var(--blue-deep) 100%);
+  position:relative;overflow:hidden;
+}
+.hero-lookup::before{
+  content:'';position:absolute;top:-50%;right:-30%;width:500px;height:500px;
+  background:radial-gradient(circle,rgba(212,160,23,.08) 0%,transparent 70%);
+  pointer-events:none;
+}
+.hero-lookup::after{
+  content:'';position:absolute;bottom:0;left:0;right:0;height:48px;
+  background:linear-gradient(to top,var(--off-white),transparent);pointer-events:none;
+}
+.hero-icon{font-size:3rem;margin-bottom:16px;animation:fadeUp .5s ease both}
+.hero-lookup h2{
+  font-family:var(--display);font-size:clamp(1.4rem,5vw,2.2rem);
+  color:var(--white);line-height:1.15;letter-spacing:-.02em;
+  max-width:420px;margin:0 auto 8px;position:relative;z-index:1;
+  animation:fadeUp .5s .06s ease both;
+}
+.hero-lookup .hero-sub{
+  font-size:.82rem;color:rgba(255,255,255,.5);font-weight:500;
+  max-width:340px;margin:0 auto;line-height:1.5;
+  animation:fadeUp .5s .12s ease both;
+}
+
+/* LOOKUP CARD */
+.lookup-section{padding:0 20px;margin-top:-20px;position:relative;z-index:2}
+.lookup-card{
+  background:var(--white);border-radius:var(--radius-lg);
+  padding:28px 22px;
+  box-shadow:0 8px 40px rgba(0,0,0,.08),0 1px 3px rgba(0,0,0,.03);
+  border:1px solid rgba(0,0,0,.04);
+  animation:fadeUp .5s .15s ease both;
+  max-width:520px;margin:0 auto;
+}
+
+/* TABS */
+.lookup-tabs{
+  display:flex;gap:4px;background:rgba(0,32,159,.04);border-radius:14px;
+  padding:4px;margin-bottom:22px;
+}
+.lookup-tab{
+  flex:1;padding:13px 10px;border-radius:11px;
+  text-align:center;font-size:.78rem;font-weight:700;
+  color:var(--text-light);cursor:pointer;transition:all .25s;
+  display:flex;align-items:center;justify-content:center;gap:6px;
+}
+.lookup-tab.active{
+  background:var(--blue);color:var(--white);
+  box-shadow:0 4px 16px rgba(0,32,159,.25);
+}
+.lookup-tab:hover:not(.active){background:rgba(0,32,159,.06)}
+.lookup-tab .tab-icon{font-size:1rem}
+
+/* FORM */
+.lookup-form{display:none}
+.lookup-form.active{display:block;animation:fadeUp .3s ease both}
+.form-label{
+  display:block;font-size:.68rem;font-weight:800;color:var(--text-light);
+  text-transform:uppercase;letter-spacing:.08em;margin-bottom:8px;
+}
+.form-input{
+  width:100%;padding:16px 18px;border:1.5px solid var(--border);border-radius:16px;
+  font-size:1rem;font-weight:500;color:var(--dark);
+  background:linear-gradient(180deg,var(--white) 0%,#FAFAFA 100%);
+  transition:border-color .2s,box-shadow .2s,background .2s;
+  -webkit-appearance:none;
+}
+.form-input:focus{border-color:var(--blue);box-shadow:0 0 0 4px rgba(0,32,159,.06);background:var(--white)}
+.form-input::placeholder{color:var(--text-muted);font-weight:400}
+.form-input.large{font-size:1.15rem;letter-spacing:.08em;font-weight:700;text-align:center;text-transform:uppercase}
+.input-group{margin-bottom:16px}
+
+.btn-search{
+  width:100%;padding:18px;border:none;border-radius:14px;
+  font-size:1rem;font-weight:800;cursor:pointer;
+  display:flex;align-items:center;justify-content:center;gap:10px;
+  transition:all .25s;margin-top:8px;
+  background:linear-gradient(135deg,var(--red),var(--red-dark));color:var(--white);
+  box-shadow:0 6px 24px rgba(210,16,52,.3);
+  -webkit-tap-highlight-color:transparent;
+}
+.btn-search:hover{transform:translateY(-2px);box-shadow:0 10px 36px rgba(210,16,52,.4)}
+.btn-search:active{transform:translateY(0);box-shadow:0 4px 16px rgba(210,16,52,.3)}
+.btn-search:disabled{opacity:.6;transform:none;cursor:not-allowed}
+.btn-search .btn-icon{font-size:1.1rem}
+
+/* DEMO MODE BANNER */
+.demo-banner{
+  display:none;max-width:520px;margin:16px auto 0;padding:12px 18px;
+  border-radius:12px;background:rgba(212,160,23,.1);border:1px dashed var(--gold);
+  text-align:center;font-size:.75rem;font-weight:600;color:var(--gold);
+}
+.demo-banner.show{display:block;animation:fadeUp .3s ease both}
+
+/* LOADING */
+.loading-overlay{
+  display:none;padding:48px 20px;text-align:center;
+  max-width:520px;margin:0 auto;
+}
+.loading-overlay.show{display:block;animation:fadeUp .3s ease both}
+.spinner{
+  width:44px;height:44px;border:3px solid var(--border);border-top-color:var(--blue);
+  border-radius:50%;animation:spin .7s linear infinite;
+  margin:0 auto 16px;
+}
+.loading-text{font-size:.88rem;color:var(--text-light);font-weight:600}
+
+/* RESULTS */
+.results-section{
+  display:none;padding:24px 20px;max-width:520px;margin:0 auto;
+}
+.results-section.show{display:block}
+.results-header{
+  display:flex;align-items:center;justify-content:space-between;
+  margin-bottom:18px;
+}
+.results-title{
+  font-family:var(--display);font-size:1.1rem;color:var(--dark);
+  display:flex;align-items:center;gap:8px;
+}
+.results-count{
+  font-size:.72rem;font-weight:700;color:var(--text-muted);
+  background:rgba(0,0,0,.04);padding:4px 10px;border-radius:100px;
+}
+
+/* RESERVATION CARD */
+.res-card{
+  background:var(--white);border-radius:var(--radius);
+  box-shadow:0 4px 20px rgba(0,0,0,.05);border:1px solid rgba(0,0,0,.04);
+  margin-bottom:14px;overflow:hidden;
+  transition:all .25s;
+  animation:fadeUp .4s ease both;
+}
+.res-card:nth-child(2){animation-delay:.08s}
+.res-card:nth-child(3){animation-delay:.16s}
+.res-card:hover{box-shadow:0 8px 32px rgba(0,0,0,.08)}
+
+.res-card-header{
+  padding:18px 18px 16px;cursor:pointer;
+  display:flex;align-items:flex-start;gap:14px;
+  -webkit-tap-highlight-color:transparent;
+}
+.res-type-icon{
+  width:48px;height:48px;border-radius:14px;
+  display:flex;align-items:center;justify-content:center;
+  font-size:1.5rem;flex-shrink:0;
+}
+.res-type-icon.flight{background:rgba(0,32,159,.08)}
+.res-type-icon.helicopter{background:rgba(210,16,52,.08)}
+.res-type-icon.hotel{background:rgba(212,160,23,.08)}
+.res-type-icon.bus{background:rgba(37,211,102,.08)}
+.res-type-icon.ambulance{background:rgba(210,16,52,.08)}
+.res-type-icon.ticket{background:rgba(156,39,176,.08)}
+.res-type-icon.boat{background:rgba(0,32,159,.08)}
+.res-type-icon.concierge{background:rgba(212,160,23,.08)}
+
+.res-info{flex:1;min-width:0}
+.res-ref{
+  font-family:'Courier New',monospace;font-size:.82rem;font-weight:700;
+  color:var(--blue);letter-spacing:.04em;margin-bottom:3px;
+}
+.res-service{font-size:.88rem;font-weight:700;color:var(--dark);margin-bottom:3px}
+.res-date{font-size:.75rem;color:var(--text-light);font-weight:500}
+
+.res-right{display:flex;flex-direction:column;align-items:flex-end;gap:8px;flex-shrink:0}
+
+/* STATUS BADGES */
+.status-badge{
+  display:inline-flex;align-items:center;gap:5px;
+  padding:5px 12px;border-radius:100px;
+  font-size:.65rem;font-weight:800;letter-spacing:.03em;text-transform:uppercase;
+}
+.status-badge.pending{background:rgba(212,160,23,.12);color:#9A7700}
+.status-badge.confirmed{background:rgba(0,32,159,.1);color:var(--blue)}
+.status-badge.completed{background:rgba(37,211,102,.1);color:#1A8C4E}
+.status-badge.cancelled{background:rgba(210,16,52,.1);color:var(--red)}
+.status-dot{width:6px;height:6px;border-radius:50%}
+.status-badge.pending .status-dot{background:var(--gold)}
+.status-badge.confirmed .status-dot{background:var(--blue)}
+.status-badge.completed .status-dot{background:var(--green)}
+.status-badge.cancelled .status-dot{background:var(--red)}
+
+.expand-arrow{
+  font-size:.75rem;color:var(--text-muted);
+  transition:transform .25s;
+}
+.res-card.expanded .expand-arrow{transform:rotate(180deg)}
+
+/* EXPANDED DETAIL */
+.res-detail{
+  display:none;padding:0 18px 20px;
+  border-top:1px solid var(--border);
+}
+.res-card.expanded .res-detail{display:block;animation:fadeUp .3s ease both}
+
+.detail-grid{
+  display:grid;grid-template-columns:1fr 1fr;gap:14px;
+  padding-top:16px;margin-bottom:18px;
+}
+.detail-item{}
+.detail-label{
+  font-size:.62rem;font-weight:800;color:var(--text-muted);
+  text-transform:uppercase;letter-spacing:.08em;margin-bottom:3px;
+}
+.detail-value{font-size:.85rem;font-weight:700;color:var(--dark)}
+
+/* QR / REF CODE DISPLAY */
+.ref-display{
+  background:linear-gradient(135deg,rgba(0,32,159,.03),rgba(0,32,159,.06));
+  border:2px dashed rgba(0,32,159,.15);
+  border-radius:14px;padding:20px;text-align:center;margin-bottom:16px;
+}
+.ref-display-label{font-size:.62rem;font-weight:800;color:var(--text-muted);text-transform:uppercase;letter-spacing:.1em;margin-bottom:6px}
+.ref-display-code{
+  font-family:'Courier New',monospace;font-size:1.6rem;font-weight:900;
+  color:var(--blue);letter-spacing:.12em;margin-bottom:6px;
+}
+.ref-display-pin{
+  display:inline-flex;align-items:center;gap:6px;
+  font-size:.82rem;font-weight:700;color:var(--dark);
+  background:rgba(212,160,23,.1);padding:6px 16px;border-radius:100px;
+}
+.ref-display-pin .pin-icon{font-size:.9rem}
+
+/* Payment status */
+.payment-row{
+  display:flex;align-items:center;justify-content:space-between;
+  padding:12px 16px;border-radius:12px;
+  background:rgba(0,0,0,.02);margin-bottom:14px;
+}
+.payment-label{font-size:.75rem;font-weight:700;color:var(--text-light)}
+.payment-value{font-size:.82rem;font-weight:800}
+.payment-value.paid{color:#1A8C4E}
+.payment-value.unpaid{color:var(--gold)}
+
+/* WhatsApp button */
+.btn-wa{
+  width:100%;padding:15px;border:none;border-radius:14px;
+  font-size:.88rem;font-weight:800;cursor:pointer;
+  display:flex;align-items:center;justify-content:center;gap:10px;
+  background:var(--green);color:var(--white);
+  box-shadow:0 4px 16px rgba(37,211,102,.3);
+  transition:all .25s;
+  -webkit-tap-highlight-color:transparent;
+}
+.btn-wa:hover{background:var(--green-dark);transform:translateY(-1px);box-shadow:0 8px 24px rgba(37,211,102,.4)}
+.btn-wa svg{width:20px;height:20px;fill:currentColor}
+
+/* ERROR STATE */
+.error-state{
+  display:none;text-align:center;padding:48px 20px;
+  max-width:520px;margin:0 auto;
+}
+.error-state.show{display:block;animation:fadeUp .4s ease both}
+.error-icon{font-size:3.5rem;margin-bottom:16px;opacity:.7}
+.error-title{font-size:1.1rem;font-weight:800;color:var(--dark);margin-bottom:8px}
+.error-sub{font-size:.85rem;color:var(--text-light);line-height:1.6;margin-bottom:20px}
+.btn-retry{
+  display:inline-flex;align-items:center;gap:8px;
+  padding:14px 28px;border-radius:14px;
+  background:var(--blue);color:var(--white);
+  font-size:.88rem;font-weight:700;
+  box-shadow:0 4px 16px rgba(0,32,159,.25);
+  transition:all .2s;
+}
+.btn-retry:hover{transform:translateY(-2px);box-shadow:0 8px 24px rgba(0,32,159,.35)}
+
+/* VERIFY SECTION */
+.verify-section{
+  padding:32px 20px;max-width:520px;margin:0 auto;
+}
+.verify-card{
+  background:var(--white);border-radius:var(--radius-lg);
+  padding:28px 22px;
+  box-shadow:0 4px 20px rgba(0,0,0,.05);border:1px solid rgba(0,0,0,.04);
+}
+.verify-title{
+  font-family:var(--display);font-size:1.05rem;color:var(--dark);
+  margin-bottom:4px;display:flex;align-items:center;gap:8px;
+}
+.verify-subtitle{font-size:.78rem;color:var(--text-light);margin-bottom:20px;line-height:1.5}
+.verify-row{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:12px}
+.btn-verify{
+  width:100%;padding:16px;border:none;border-radius:14px;
+  font-size:.92rem;font-weight:800;cursor:pointer;
+  display:flex;align-items:center;justify-content:center;gap:8px;
+  background:linear-gradient(135deg,var(--blue),var(--blue-dark));color:var(--white);
+  box-shadow:0 6px 24px rgba(0,32,159,.25);
+  transition:all .25s;
+  -webkit-tap-highlight-color:transparent;
+}
+.btn-verify:hover{transform:translateY(-2px);box-shadow:0 10px 36px rgba(0,32,159,.35)}
+.btn-verify:disabled{opacity:.6;transform:none;cursor:not-allowed}
+
+.verify-result{
+  display:none;margin-top:16px;padding:16px;border-radius:14px;
+  text-align:center;font-size:.88rem;font-weight:700;
+}
+.verify-result.success{
+  display:block;background:rgba(37,211,102,.08);color:#1A8C4E;
+  border:1px solid rgba(37,211,102,.2);animation:fadeUp .3s ease both;
+}
+.verify-result.fail{
+  display:block;background:rgba(210,16,52,.06);color:var(--red);
+  border:1px solid rgba(210,16,52,.15);animation:fadeUp .3s ease both;
+}
+
+/* BOTTOM ACTIONS */
+.bottom-actions{
+  padding:12px 20px 24px;max-width:520px;margin:0 auto;
+  display:flex;flex-direction:column;gap:12px;
+}
+.btn-new-res{
+  width:100%;padding:16px;border:none;border-radius:14px;
+  font-size:.92rem;font-weight:800;cursor:pointer;
+  display:flex;align-items:center;justify-content:center;gap:10px;
+  background:linear-gradient(135deg,var(--gold),#B8860B);color:var(--white);
+  box-shadow:0 6px 24px rgba(212,160,23,.3);
+  transition:all .25s;
+  -webkit-tap-highlight-color:transparent;
+}
+.btn-new-res:hover{transform:translateY(-2px);box-shadow:0 10px 36px rgba(212,160,23,.4)}
+
+/* WHATSAPP BAR */
+.wa-bar{
+  position:fixed;bottom:0;left:0;right:0;z-index:999;
+  background:var(--white);border-top:1px solid var(--border);
+  box-shadow:0 -4px 20px rgba(0,0,0,.06);
+  padding:12px 20px;display:flex;align-items:center;justify-content:space-between;gap:12px;
+}
+.wa-bar-text{font-size:.78rem;font-weight:700;color:var(--text);line-height:1.3}
+.wa-bar-text span{display:block;font-size:.65rem;color:var(--text-light);font-weight:500;margin-top:1px}
+.wa-bar-btn{
+  flex-shrink:0;display:flex;align-items:center;gap:8px;
+  padding:12px 22px;border-radius:100px;
+  background:var(--green);color:var(--white);
+  font-size:.85rem;font-weight:800;
+  box-shadow:0 4px 16px rgba(37,211,102,.3);
+  transition:all .25s;animation:pulseGlow 3s infinite;
+}
+.wa-bar-btn:hover{background:var(--green-dark);transform:translateY(-1px);box-shadow:0 8px 24px rgba(37,211,102,.4)}
+.wa-bar-btn svg{width:20px;height:20px;fill:currentColor}
+
+/* FOOTER */
+footer{
+  background:var(--dark);padding:40px 20px 100px;
+}
+.footer-inner{max-width:520px;margin:0 auto;text-align:center}
+.footer-brand{
+  font-family:var(--display);font-size:1.2rem;color:var(--white);
+  margin-bottom:6px;
+}
+.footer-brand span{color:var(--red)}
+.footer-desc{font-size:.78rem;color:rgba(255,255,255,.4);line-height:1.6;margin-bottom:24px}
+.footer-links{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:24px;justify-content:center}
+.footer-links a{
+  font-size:.75rem;color:rgba(255,255,255,.5);font-weight:600;
+  padding:6px 14px;border-radius:100px;
+  border:1px solid rgba(255,255,255,.1);
+  transition:all .2s;
+}
+.footer-links a:hover{color:var(--white);border-color:rgba(255,255,255,.3)}
+.footer-copy{
+  font-size:.68rem;color:rgba(255,255,255,.25);
+  padding-top:20px;border-top:1px solid rgba(255,255,255,.06);
+}
+.footer-copy a{color:var(--red)}
+
+/* RESPONSIVE */
+@media(min-width:600px){
+  .hero-lookup h2{font-size:2rem}
+  .lookup-card{padding:36px 32px}
+  .verify-card{padding:36px 32px}
+  .detail-grid{grid-template-columns:1fr 1fr 1fr}
+}
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<header class="header">
+  <a href="reservations.html" class="header-brand">
+    <img src="toupatou-logo.jpg" alt="TouPaTou" onerror="this.style.display='none'">
+    <div>
+      <h1>Tou<span>Pa</span>Tou</h1>
+      <div class="sub" data-i18n="header_sub">Dashboard Rezèvasyon</div>
+    </div>
+  </a>
+  <div class="header-right">
+    <div class="lang-toggle">
+      <a onclick="setLang('ht')" id="lang-ht" class="active">HT</a>
+      <a onclick="setLang('fr')" id="lang-fr">FR</a>
+      <a onclick="setLang('en')" id="lang-en">EN</a>
+      <a onclick="setLang('es')" id="lang-es">ES</a>
+    </div>
+    <a href="reservations.html" class="header-link" data-i18n="nav_book">Rezève</a>
+  </div>
+</header>
+
+<!-- HERO LOOKUP -->
+<section class="hero-lookup">
+  <div class="hero-icon">&#128270;</div>
+  <h2 data-i18n="hero_title">Tcheke Rezèvasyon Ou</h2>
+  <p class="hero-sub" data-i18n="hero_sub">Antre nimewo telefòn ou oswa kòd referans pou wè estati rezèvasyon ou.</p>
+</section>
+
+<!-- LOOKUP CARD -->
+<section class="lookup-section">
+  <div class="lookup-card">
+    <div class="lookup-tabs">
+      <div class="lookup-tab active" onclick="switchTab('phone')" id="tab-phone">
+        <span class="tab-icon">&#128222;</span>
+        <span data-i18n="tab_phone">Pa Telefòn</span>
+      </div>
+      <div class="lookup-tab" onclick="switchTab('ref')" id="tab-ref">
+        <span class="tab-icon">&#128196;</span>
+        <span data-i18n="tab_ref">Pa Kòd Ref</span>
+      </div>
+    </div>
+
+    <!-- Phone lookup -->
+    <div class="lookup-form active" id="form-phone">
+      <div class="input-group">
+        <label class="form-label" data-i18n="lbl_phone">Nimewo Telefòn</label>
+        <input type="tel" class="form-input" id="inp-phone" placeholder="+509 XXXX XXXX" data-i18n-ph="ph_phone" autocomplete="tel">
+      </div>
+      <button class="btn-search" onclick="searchByPhone()" id="btn-phone">
+        <span class="btn-icon">&#128269;</span>
+        <span data-i18n="btn_search">Chèche</span>
+      </button>
+    </div>
+
+    <!-- Reference code lookup -->
+    <div class="lookup-form" id="form-ref">
+      <div class="input-group">
+        <label class="form-label" data-i18n="lbl_ref">Kòd Referans</label>
+        <input type="text" class="form-input large" id="inp-ref" placeholder="FLT-X4K9M2" data-i18n-ph="ph_ref" autocomplete="off">
+      </div>
+      <button class="btn-search" onclick="searchByRef()" id="btn-ref">
+        <span class="btn-icon">&#128269;</span>
+        <span data-i18n="btn_search">Chèche</span>
+      </button>
+    </div>
+  </div>
+
+  <!-- Demo mode banner -->
+  <div class="demo-banner" id="demoBanner" data-i18n="demo_msg">&#9888;&#65039; Mòd Demo — Done pa reyèl. Sèvi ak +509 4812 3456 pou tès.</div>
+</section>
+
+<!-- LOADING -->
+<div class="loading-overlay" id="loadingState">
+  <div class="spinner"></div>
+  <div class="loading-text" data-i18n="loading">Ap chèche...</div>
+</div>
+
+<!-- ERROR STATE -->
+<div class="error-state" id="errorState">
+  <div class="error-icon">&#128533;</div>
+  <div class="error-title" data-i18n="err_title">Pa Jwenn Rezèvasyon</div>
+  <div class="error-sub" data-i18n="err_sub">Nou pa jwenn okenn rezèvasyon ak enfòmasyon sa a. Tcheke nimewo telefòn ou oswa kòd referans ou epi eseye ankò.</div>
+  <button class="btn-retry" onclick="resetSearch()">
+    <span>&#8592;</span>
+    <span data-i18n="btn_try_again">Eseye Ankò</span>
+  </button>
+</div>
+
+<!-- RESULTS -->
+<div class="results-section" id="resultsSection">
+  <div class="results-header">
+    <div class="results-title" data-i18n="results_title">&#128203; Rezèvasyon Ou Yo</div>
+    <div class="results-count" id="resultsCount"></div>
+  </div>
+  <div id="resultsContainer"></div>
+</div>
+
+<!-- VERIFY BY PIN -->
+<section class="verify-section">
+  <div class="verify-card">
+    <div class="verify-title">&#128274; <span data-i18n="verify_title">Verifye ak PIN</span></div>
+    <p class="verify-subtitle" data-i18n="verify_sub">Antre kòd referans ak PIN 4 chif ou pou verifye rezèvasyon ou.</p>
+    <div class="verify-row">
+      <div class="input-group">
+        <label class="form-label" data-i18n="lbl_ref">Kòd Ref</label>
+        <input type="text" class="form-input" id="inp-verify-ref" placeholder="FLT-XXXXX" style="text-transform:uppercase;letter-spacing:.04em" autocomplete="off">
+      </div>
+      <div class="input-group">
+        <label class="form-label">PIN</label>
+        <input type="text" class="form-input" id="inp-verify-pin" placeholder="1234" maxlength="4" inputmode="numeric" pattern="[0-9]*" style="text-align:center;letter-spacing:.15em;font-weight:800" autocomplete="off">
+      </div>
+    </div>
+    <button class="btn-verify" onclick="verifyPIN()" id="btn-verify">
+      <span>&#128274;</span>
+      <span data-i18n="btn_verify">Verifye</span>
+    </button>
+    <div class="verify-result" id="verifyResult"></div>
+  </div>
+</section>
+
+<!-- BOTTOM ACTIONS -->
+<div class="bottom-actions">
+  <a href="reservations.html" class="btn-new-res">
+    <span>&#10024;</span>
+    <span data-i18n="btn_new_res">Fè Yon Nouvo Rezèvasyon</span>
+  </a>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-inner">
+    <div class="footer-brand">Tou<span>Pa</span>Tou</div>
+    <p class="footer-desc" data-i18n="footer_desc">Yon Platfòm. Tout Rezèvasyon. Vwayaj, elikoptè, otèl, bis, maritim, ijans medikal ak evènman.</p>
+    <div class="footer-links">
+      <a href="reservations.html" data-i18n="nav_book">Rezève</a>
+      <a href="index.html" data-i18n="nav_home">Akèy</a>
+      <a href="events.html" data-i18n="nav_events">Evènman</a>
+    </div>
+    <div class="footer-copy">&copy; 2025 TouPaTou. <a href="index.html">HaitiBiznis</a></div>
+  </div>
+</footer>
+
+<!-- WHATSAPP BAR -->
+<a href="https://wa.me/50941902005?text=Bonjou!%20M%20bezwen%20%C3%A8d%20ak%20rez%C3%A8vasyon%20mwen." class="wa-bar" target="_blank" rel="noopener">
+  <div class="wa-bar-text">
+    <span data-i18n="wa_help">Bezwen Èd?</span>
+    <span data-i18n="wa_help_sub">Ekip nou la 24/7 sou WhatsApp</span>
+  </div>
+  <div class="wa-bar-btn">
+    <svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 2C6.477 2 2 6.477 2 12c0 1.89.525 3.66 1.438 5.168L2 22l4.832-1.438A9.955 9.955 0 0012 22c5.523 0 10-4.477 10-10S17.523 2 12 2zm0 18a8 8 0 01-4.243-1.214l-.252-.149-2.868.852.852-2.868-.168-.268A8 8 0 1112 20z"/></svg>
+    WhatsApp
+  </div>
+</a>
+
+<script>
+/* ============================================================
+   TouPaTou Dashboard — Configuration
+   ============================================================ */
+var API_URL = 'https://toupatou-backend.onrender.com/api';
+// var API_URL = 'http://localhost:3001/api'; // dev
+var WA_NUM = '50941902005';
+var DEMO_MODE = false;
+
+/* ============================================================
+   DEMO DATA
+   ============================================================ */
+var DEMO_PHONE = '+509 4812 3456';
+var DEMO_RESERVATIONS = [
+  {
+    ref_code: 'FLT-X4K9M2',
+    type: 'flight',
+    service_label: { ht:'Vòl PAP → Miami', fr:'Vol PAP → Miami', en:'Flight PAP → Miami', es:'Vuelo PAP → Miami' },
+    date: '2025-08-15',
+    time: '08:30',
+    status: 'confirmed',
+    pin: '4521',
+    payment_status: 'paid',
+    details: {
+      departure: { ht:'Port-au-Prince (PAP)', fr:'Port-au-Prince (PAP)', en:'Port-au-Prince (PAP)', es:'Puerto Príncipe (PAP)' },
+      destination: { ht:'Miami (MIA)', fr:'Miami (MIA)', en:'Miami (MIA)', es:'Miami (MIA)' },
+      passengers: '2',
+      class: { ht:'Ekonomi', fr:'Économique', en:'Economy', es:'Económica' },
+      airline: 'American Airlines',
+      seat: '14A, 14B'
+    }
+  },
+  {
+    ref_code: 'HTL-R7B3N8',
+    type: 'hotel',
+    service_label: { ht:'Otèl Petion-Ville', fr:'Hôtel Pétion-Ville', en:'Hotel Petion-Ville', es:'Hotel Pétion-Ville' },
+    date: '2025-08-15',
+    time: '14:00',
+    status: 'pending',
+    pin: '8834',
+    payment_status: 'unpaid',
+    details: {
+      hotel_name: 'Marriott Port-au-Prince',
+      checkin: { ht:'15 Dawout 2025', fr:'15 Août 2025', en:'Aug 15, 2025', es:'15 Ago 2025' },
+      checkout: { ht:'20 Dawout 2025', fr:'20 Août 2025', en:'Aug 20, 2025', es:'20 Ago 2025' },
+      guests: '2',
+      room: { ht:'Chanm Deluxe', fr:'Chambre Deluxe', en:'Deluxe Room', es:'Habitación Deluxe' },
+      nights: '5'
+    }
+  },
+  {
+    ref_code: 'BUS-M2K5P9',
+    type: 'bus',
+    service_label: { ht:'Bis PAP → Santo Domingo', fr:'Bus PAP → Santo Domingo', en:'Bus PAP → Santo Domingo', es:'Bus PAP → Santo Domingo' },
+    date: '2025-07-28',
+    time: '06:00',
+    status: 'completed',
+    pin: '1267',
+    payment_status: 'paid',
+    details: {
+      route: 'Port-au-Prince → Santo Domingo',
+      seats: '1',
+      departure_time: '06:00 AM',
+      operator: 'Caribe Tours',
+      luggage: { ht:'Wi, bagaj siplemantè', fr:'Oui, bagages supplémentaires', en:'Yes, extra luggage', es:'Sí, equipaje extra' }
+    }
+  }
+];
+
+/* ============================================================
+   i18n TRANSLATIONS
+   ============================================================ */
+var T = {
+ht: {
+  header_sub: "Dashboard Rezèvasyon",
+  nav_book: "Rezève",
+  nav_home: "Akèy",
+  nav_events: "Evènman",
+  hero_title: "Tcheke Rezèvasyon Ou",
+  hero_sub: "Antre nimewo telefòn ou oswa kòd referans pou wè estati rezèvasyon ou.",
+  tab_phone: "Pa Telefòn",
+  tab_ref: "Pa Kòd Ref",
+  lbl_phone: "Nimewo Telefòn",
+  ph_phone: "+509 XXXX XXXX",
+  lbl_ref: "Kòd Referans",
+  ph_ref: "FLT-X4K9M2",
+  btn_search: "Chèche",
+  loading: "Ap chèche...",
+  demo_msg: "Mòd Demo — Done pa reyèl. Sèvi ak +509 4812 3456 pou tès.",
+  results_title: "Rezèvasyon Ou Yo",
+  results_count: "{n} rezèvasyon",
+  results_count_1: "1 rezèvasyon",
+  err_title: "Pa Jwenn Rezèvasyon",
+  err_sub: "Nou pa jwenn okenn rezèvasyon ak enfòmasyon sa a. Tcheke nimewo telefòn ou oswa kòd referans ou epi eseye ankò.",
+  btn_try_again: "Eseye Ankò",
+  verify_title: "Verifye ak PIN",
+  verify_sub: "Antre kòd referans ak PIN 4 chif ou pou verifye rezèvasyon ou.",
+  btn_verify: "Verifye",
+  verify_success: "Rezèvasyon verifye! Tout bagay kòrèk.",
+  verify_fail: "PIN pa kòrèk. Tanpri tcheke epi eseye ankò.",
+  btn_new_res: "Fè Yon Nouvo Rezèvasyon",
+  wa_help: "Bezwen Èd?",
+  wa_help_sub: "Ekip nou la 24/7 sou WhatsApp",
+  footer_desc: "Yon Platfòm. Tout Rezèvasyon. Vwayaj, elikoptè, otèl, bis, maritim, ijans medikal ak evènman.",
+  status_pending: "An Atant",
+  status_confirmed: "Konfime",
+  status_completed: "Fini",
+  status_cancelled: "Anile",
+  type_flight: "Vòl",
+  type_helicopter: "Elikoptè",
+  type_hotel: "Otèl",
+  type_bus: "Bis",
+  type_ambulance: "Anbilans",
+  type_ticket: "Tikè",
+  type_boat: "Bato",
+  type_concierge: "Konsyèj",
+  lbl_departure: "Depa",
+  lbl_destination: "Desitinasyon",
+  lbl_passengers: "Pasaje",
+  lbl_class: "Klas",
+  lbl_airline: "Liy Avyon",
+  lbl_seat: "Plas",
+  lbl_hotel_name: "Non Otèl",
+  lbl_checkin: "Antre",
+  lbl_checkout: "Soti",
+  lbl_guests: "Envite",
+  lbl_room: "Chanm",
+  lbl_nights: "Nwit",
+  lbl_route: "Wout",
+  lbl_seats: "Plas",
+  lbl_dep_time: "Lè Depa",
+  lbl_operator: "Operatè",
+  lbl_luggage: "Bagaj",
+  lbl_payment: "Peman",
+  payment_paid: "Peye",
+  payment_unpaid: "Poko Peye",
+  lbl_your_ref: "Kòd Referans Ou",
+  lbl_your_pin: "PIN Ou",
+  btn_wa_help: "WhatsApp Sipò",
+  wa_res_msg: "Bonjou! M bezwen èd ak rezèvasyon {ref}."
+},
+fr: {
+  header_sub: "Tableau de Bord",
+  nav_book: "Réserver",
+  nav_home: "Accueil",
+  nav_events: "Événements",
+  hero_title: "Vérifiez Votre Réservation",
+  hero_sub: "Entrez votre numéro de téléphone ou code de référence pour voir le statut de votre réservation.",
+  tab_phone: "Par Téléphone",
+  tab_ref: "Par Code Réf",
+  lbl_phone: "Numéro de Téléphone",
+  ph_phone: "+509 XXXX XXXX",
+  lbl_ref: "Code de Référence",
+  ph_ref: "FLT-X4K9M2",
+  btn_search: "Chercher",
+  loading: "Recherche en cours...",
+  demo_msg: "Mode Démo — Données fictives. Utilisez +509 4812 3456 pour tester.",
+  results_title: "Vos Réservations",
+  results_count: "{n} réservations",
+  results_count_1: "1 réservation",
+  err_title: "Aucune Réservation Trouvée",
+  err_sub: "Aucune réservation trouvée avec ces informations. Vérifiez votre numéro de téléphone ou code de référence et réessayez.",
+  btn_try_again: "Réessayer",
+  verify_title: "Vérifier avec PIN",
+  verify_sub: "Entrez le code de référence et votre PIN à 4 chiffres pour vérifier votre réservation.",
+  btn_verify: "Vérifier",
+  verify_success: "Réservation vérifiée! Tout est correct.",
+  verify_fail: "PIN incorrect. Veuillez vérifier et réessayer.",
+  btn_new_res: "Faire une Nouvelle Réservation",
+  wa_help: "Besoin d'Aide?",
+  wa_help_sub: "Notre équipe est disponible 24/7 sur WhatsApp",
+  footer_desc: "Une Plateforme. Toutes les Réservations. Vols, hélicoptères, hôtels, bus, maritime, urgences médicales et événements.",
+  status_pending: "En Attente",
+  status_confirmed: "Confirmée",
+  status_completed: "Terminée",
+  status_cancelled: "Annulée",
+  type_flight: "Vol",
+  type_helicopter: "Hélicoptère",
+  type_hotel: "Hôtel",
+  type_bus: "Bus",
+  type_ambulance: "Ambulance",
+  type_ticket: "Billet",
+  type_boat: "Bateau",
+  type_concierge: "Concierge",
+  lbl_departure: "Départ",
+  lbl_destination: "Destination",
+  lbl_passengers: "Passagers",
+  lbl_class: "Classe",
+  lbl_airline: "Compagnie",
+  lbl_seat: "Siège",
+  lbl_hotel_name: "Nom de l'Hôtel",
+  lbl_checkin: "Arrivée",
+  lbl_checkout: "Départ",
+  lbl_guests: "Personnes",
+  lbl_room: "Chambre",
+  lbl_nights: "Nuits",
+  lbl_route: "Route",
+  lbl_seats: "Places",
+  lbl_dep_time: "Heure de Départ",
+  lbl_operator: "Opérateur",
+  lbl_luggage: "Bagages",
+  lbl_payment: "Paiement",
+  payment_paid: "Payé",
+  payment_unpaid: "Non Payé",
+  lbl_your_ref: "Votre Code de Référence",
+  lbl_your_pin: "Votre PIN",
+  btn_wa_help: "WhatsApp Support",
+  wa_res_msg: "Bonjour! J'ai besoin d'aide avec la réservation {ref}."
+},
+en: {
+  header_sub: "Reservation Dashboard",
+  nav_book: "Book Now",
+  nav_home: "Home",
+  nav_events: "Events",
+  hero_title: "Check Your Reservation",
+  hero_sub: "Enter your phone number or reference code to see your reservation status.",
+  tab_phone: "By Phone",
+  tab_ref: "By Ref Code",
+  lbl_phone: "Phone Number",
+  ph_phone: "+509 XXXX XXXX",
+  lbl_ref: "Reference Code",
+  ph_ref: "FLT-X4K9M2",
+  btn_search: "Search",
+  loading: "Searching...",
+  demo_msg: "Demo Mode — Not real data. Use +509 4812 3456 to test.",
+  results_title: "Your Reservations",
+  results_count: "{n} reservations",
+  results_count_1: "1 reservation",
+  err_title: "No Reservations Found",
+  err_sub: "We couldn't find any reservations with that information. Please check your phone number or reference code and try again.",
+  btn_try_again: "Try Again",
+  verify_title: "Verify with PIN",
+  verify_sub: "Enter the reference code and your 4-digit PIN to verify your reservation.",
+  btn_verify: "Verify",
+  verify_success: "Reservation verified! Everything checks out.",
+  verify_fail: "Incorrect PIN. Please check and try again.",
+  btn_new_res: "Make a New Reservation",
+  wa_help: "Need Help?",
+  wa_help_sub: "Our team is available 24/7 on WhatsApp",
+  footer_desc: "One Platform. All Reservations. Flights, helicopters, hotels, buses, maritime, medical emergencies and events.",
+  status_pending: "Pending",
+  status_confirmed: "Confirmed",
+  status_completed: "Completed",
+  status_cancelled: "Cancelled",
+  type_flight: "Flight",
+  type_helicopter: "Helicopter",
+  type_hotel: "Hotel",
+  type_bus: "Bus",
+  type_ambulance: "Ambulance",
+  type_ticket: "Ticket",
+  type_boat: "Boat",
+  type_concierge: "Concierge",
+  lbl_departure: "Departure",
+  lbl_destination: "Destination",
+  lbl_passengers: "Passengers",
+  lbl_class: "Class",
+  lbl_airline: "Airline",
+  lbl_seat: "Seat",
+  lbl_hotel_name: "Hotel Name",
+  lbl_checkin: "Check-in",
+  lbl_checkout: "Check-out",
+  lbl_guests: "Guests",
+  lbl_room: "Room",
+  lbl_nights: "Nights",
+  lbl_route: "Route",
+  lbl_seats: "Seats",
+  lbl_dep_time: "Departure Time",
+  lbl_operator: "Operator",
+  lbl_luggage: "Luggage",
+  lbl_payment: "Payment",
+  payment_paid: "Paid",
+  payment_unpaid: "Unpaid",
+  lbl_your_ref: "Your Reference Code",
+  lbl_your_pin: "Your PIN",
+  btn_wa_help: "WhatsApp Support",
+  wa_res_msg: "Hello! I need help with reservation {ref}."
+},
+es: {
+  header_sub: "Panel de Reservas",
+  nav_book: "Reservar",
+  nav_home: "Inicio",
+  nav_events: "Eventos",
+  hero_title: "Verifica Tu Reserva",
+  hero_sub: "Ingresa tu número de teléfono o código de referencia para ver el estado de tu reserva.",
+  tab_phone: "Por Teléfono",
+  tab_ref: "Por Código Ref",
+  lbl_phone: "Número de Teléfono",
+  ph_phone: "+509 XXXX XXXX",
+  lbl_ref: "Código de Referencia",
+  ph_ref: "FLT-X4K9M2",
+  btn_search: "Buscar",
+  loading: "Buscando...",
+  demo_msg: "Modo Demo — Datos ficticios. Usa +509 4812 3456 para probar.",
+  results_title: "Tus Reservas",
+  results_count: "{n} reservas",
+  results_count_1: "1 reserva",
+  err_title: "No Se Encontraron Reservas",
+  err_sub: "No encontramos reservas con esa información. Verifica tu número de teléfono o código de referencia e inténtalo de nuevo.",
+  btn_try_again: "Intentar de Nuevo",
+  verify_title: "Verificar con PIN",
+  verify_sub: "Ingresa el código de referencia y tu PIN de 4 dígitos para verificar tu reserva.",
+  btn_verify: "Verificar",
+  verify_success: "Reserva verificada! Todo está correcto.",
+  verify_fail: "PIN incorrecto. Verifica e inténtalo de nuevo.",
+  btn_new_res: "Hacer una Nueva Reserva",
+  wa_help: "Necesitas Ayuda?",
+  wa_help_sub: "Nuestro equipo está disponible 24/7 en WhatsApp",
+  footer_desc: "Una Plataforma. Todas las Reservas. Vuelos, helicópteros, hoteles, buses, marítimo, emergencias médicas y eventos.",
+  status_pending: "Pendiente",
+  status_confirmed: "Confirmada",
+  status_completed: "Completada",
+  status_cancelled: "Cancelada",
+  type_flight: "Vuelo",
+  type_helicopter: "Helicóptero",
+  type_hotel: "Hotel",
+  type_bus: "Bus",
+  type_ambulance: "Ambulancia",
+  type_ticket: "Boleto",
+  type_boat: "Barco",
+  type_concierge: "Concierge",
+  lbl_departure: "Salida",
+  lbl_destination: "Destino",
+  lbl_passengers: "Pasajeros",
+  lbl_class: "Clase",
+  lbl_airline: "Aerolínea",
+  lbl_seat: "Asiento",
+  lbl_hotel_name: "Nombre del Hotel",
+  lbl_checkin: "Entrada",
+  lbl_checkout: "Salida",
+  lbl_guests: "Huéspedes",
+  lbl_room: "Habitación",
+  lbl_nights: "Noches",
+  lbl_route: "Ruta",
+  lbl_seats: "Asientos",
+  lbl_dep_time: "Hora de Salida",
+  lbl_operator: "Operador",
+  lbl_luggage: "Equipaje",
+  lbl_payment: "Pago",
+  payment_paid: "Pagado",
+  payment_unpaid: "No Pagado",
+  lbl_your_ref: "Tu Código de Referencia",
+  lbl_your_pin: "Tu PIN",
+  btn_wa_help: "WhatsApp Soporte",
+  wa_res_msg: "Hola! Necesito ayuda con la reserva {ref}."
+}
+};
+
+var currentLang = 'ht';
+
+/* ============================================================
+   i18n FUNCTIONS
+   ============================================================ */
+function setLang(lang) {
+  currentLang = lang;
+  document.querySelectorAll('.lang-toggle a').forEach(function(a) { a.classList.remove('active'); });
+  var el = document.getElementById('lang-' + lang);
+  if (el) el.classList.add('active');
+  var tr = T[lang] || T.ht;
+  document.querySelectorAll('[data-i18n]').forEach(function(el) {
+    var key = el.getAttribute('data-i18n');
+    if (tr[key]) el.innerHTML = tr[key];
+  });
+  document.querySelectorAll('[data-i18n-ph]').forEach(function(el) {
+    var key = el.getAttribute('data-i18n-ph');
+    if (tr[key]) el.placeholder = tr[key];
+  });
+  // Re-render results if visible
+  if (document.getElementById('resultsSection').classList.contains('show') && lastResults) {
+    renderResults(lastResults);
+  }
+}
+
+function tx(key) { return (T[currentLang] || T.ht)[key] || (T.ht)[key] || key; }
+
+/* ============================================================
+   TYPE ICONS & HELPERS
+   ============================================================ */
+var TYPE_ICONS = {
+  flight: '&#9992;&#65039;',
+  helicopter: '&#128641;',
+  hotel: '&#127976;',
+  bus: '&#128652;',
+  ambulance: '&#128657;',
+  ticket: '&#127915;',
+  boat: '&#9973;',
+  concierge: '&#128084;'
+};
+
+function getTypeIcon(type) { return TYPE_ICONS[type] || '&#128196;'; }
+
+function getLocalizedValue(obj) {
+  if (!obj) return '';
+  if (typeof obj === 'string') return obj;
+  return obj[currentLang] || obj.ht || obj.en || '';
+}
+
+function formatDate(dateStr) {
+  if (!dateStr) return '';
+  try {
+    var d = new Date(dateStr + 'T00:00:00');
+    var opts = { year: 'numeric', month: 'short', day: 'numeric' };
+    var locale = currentLang === 'ht' ? 'fr-HT' : currentLang === 'fr' ? 'fr-FR' : currentLang === 'es' ? 'es-ES' : 'en-US';
+    return d.toLocaleDateString(locale, opts);
+  } catch(e) { return dateStr; }
+}
+
+/* ============================================================
+   TAB SWITCHING
+   ============================================================ */
+function switchTab(tab) {
+  document.querySelectorAll('.lookup-tab').forEach(function(t) { t.classList.remove('active'); });
+  document.getElementById('tab-' + tab).classList.add('active');
+  document.querySelectorAll('.lookup-form').forEach(function(f) { f.classList.remove('active'); });
+  document.getElementById('form-' + tab).classList.add('active');
+}
+
+/* ============================================================
+   PHONE INPUT AUTO-FORMAT
+   ============================================================ */
+(function() {
+  var phoneInput = document.getElementById('inp-phone');
+  phoneInput.addEventListener('focus', function() {
+    if (!this.value) this.value = '+509 ';
+  });
+  phoneInput.addEventListener('input', function() {
+    var raw = this.value.replace(/[^\d+]/g, '');
+    if (!raw.startsWith('+509')) raw = '+509' + raw.replace('+', '');
+    var digits = raw.substring(4);
+    if (digits.length > 8) digits = digits.substring(0, 8);
+    var formatted = '+509';
+    if (digits.length > 0) formatted += ' ' + digits.substring(0, 4);
+    if (digits.length > 4) formatted += ' ' + digits.substring(4);
+    this.value = formatted;
+  });
+})();
+
+/* ============================================================
+   REF INPUT AUTO-FORMAT
+   ============================================================ */
+document.getElementById('inp-ref').addEventListener('input', function() {
+  this.value = this.value.toUpperCase();
+});
+
+/* ============================================================
+   STATE
+   ============================================================ */
+var lastResults = null;
+
+function hideAll() {
+  document.getElementById('loadingState').classList.remove('show');
+  document.getElementById('errorState').classList.remove('show');
+  document.getElementById('resultsSection').classList.remove('show');
+}
+
+function showLoading() {
+  hideAll();
+  document.getElementById('loadingState').classList.add('show');
+}
+
+function showError() {
+  hideAll();
+  document.getElementById('errorState').classList.add('show');
+}
+
+function showResults(data) {
+  hideAll();
+  lastResults = data;
+  renderResults(data);
+  document.getElementById('resultsSection').classList.add('show');
+  document.getElementById('resultsSection').scrollIntoView({ behavior: 'smooth', block: 'start' });
+}
+
+function resetSearch() {
+  hideAll();
+  document.querySelector('.lookup-section').scrollIntoView({ behavior: 'smooth', block: 'start' });
+}
+
+/* ============================================================
+   API CALLS
+   ============================================================ */
+function tryAPI(url, callback) {
+  showLoading();
+  var controller = typeof AbortController !== 'undefined' ? new AbortController() : null;
+  var timeoutId = setTimeout(function() {
+    if (controller) controller.abort();
+    // API unreachable, activate demo mode
+    activateDemo();
+    callback(null);
+  }, 6000);
+
+  fetch(url, { signal: controller ? controller.signal : undefined })
+    .then(function(res) {
+      clearTimeout(timeoutId);
+      if (!res.ok) throw new Error('HTTP ' + res.status);
+      return res.json();
+    })
+    .then(function(data) {
+      callback(data);
+    })
+    .catch(function(err) {
+      clearTimeout(timeoutId);
+      if (err.name === 'AbortError') return;
+      activateDemo();
+      callback(null);
+    });
+}
+
+function activateDemo() {
+  DEMO_MODE = true;
+  document.getElementById('demoBanner').classList.add('show');
+}
+
+/* ============================================================
+   SEARCH BY PHONE
+   ============================================================ */
+function searchByPhone() {
+  var phone = document.getElementById('inp-phone').value.trim();
+  if (!phone || phone === '+509' || phone === '+509 ') {
+    document.getElementById('inp-phone').focus();
+    return;
+  }
+  var cleanPhone = phone.replace(/\s/g, '');
+
+  if (DEMO_MODE) {
+    handleDemoPhoneSearch(phone);
+    return;
+  }
+
+  tryAPI(API_URL + '/reservations/user/' + encodeURIComponent(cleanPhone), function(data) {
+    if (data === null) {
+      // Demo mode activated by tryAPI
+      handleDemoPhoneSearch(phone);
+      return;
+    }
+    var reservations = data.reservations || data.data || data;
+    if (!Array.isArray(reservations)) reservations = [reservations];
+    if (reservations.length === 0) {
+      showError();
+    } else {
+      showResults(reservations);
+    }
+  });
+}
+
+function handleDemoPhoneSearch(phone) {
+  var normalizedInput = phone.replace(/\s/g, '').replace(/-/g, '');
+  var normalizedDemo = DEMO_PHONE.replace(/\s/g, '').replace(/-/g, '');
+  setTimeout(function() {
+    if (normalizedInput === normalizedDemo) {
+      showResults(DEMO_RESERVATIONS);
+    } else {
+      showError();
+    }
+  }, 800);
+}
+
+/* ============================================================
+   SEARCH BY REF CODE
+   ============================================================ */
+function searchByRef() {
+  var ref = document.getElementById('inp-ref').value.trim().toUpperCase();
+  if (!ref) {
+    document.getElementById('inp-ref').focus();
+    return;
+  }
+
+  if (DEMO_MODE) {
+    handleDemoRefSearch(ref);
+    return;
+  }
+
+  tryAPI(API_URL + '/reservations/ref/' + encodeURIComponent(ref), function(data) {
+    if (data === null) {
+      handleDemoRefSearch(ref);
+      return;
+    }
+    var reservation = data.reservation || data.data || data;
+    if (!reservation || (Array.isArray(reservation) && reservation.length === 0)) {
+      showError();
+    } else {
+      showResults(Array.isArray(reservation) ? reservation : [reservation]);
+    }
+  });
+}
+
+function handleDemoRefSearch(ref) {
+  setTimeout(function() {
+    var found = DEMO_RESERVATIONS.filter(function(r) { return r.ref_code === ref; });
+    if (found.length > 0) {
+      showResults(found);
+    } else {
+      showError();
+    }
+  }, 800);
+}
+
+/* ============================================================
+   RENDER RESULTS
+   ============================================================ */
+function renderResults(reservations) {
+  var container = document.getElementById('resultsContainer');
+  container.innerHTML = '';
+
+  var countEl = document.getElementById('resultsCount');
+  if (reservations.length === 1) {
+    countEl.textContent = tx('results_count_1');
+  } else {
+    countEl.textContent = tx('results_count').replace('{n}', reservations.length);
+  }
+
+  reservations.forEach(function(res, idx) {
+    var card = document.createElement('div');
+    card.className = 'res-card';
+    card.style.animationDelay = (idx * 0.08) + 's';
+
+    var statusClass = res.status || 'pending';
+    var statusText = tx('status_' + statusClass);
+
+    var serviceLabel = getLocalizedValue(res.service_label) || tx('type_' + res.type) || res.type;
+    var typeIconClass = res.type || 'flight';
+
+    card.innerHTML = '<div class="res-card-header" onclick="toggleCard(this)">' +
+      '<div class="res-type-icon ' + typeIconClass + '">' + getTypeIcon(res.type) + '</div>' +
+      '<div class="res-info">' +
+        '<div class="res-ref">' + (res.ref_code || '') + '</div>' +
+        '<div class="res-service">' + serviceLabel + '</div>' +
+        '<div class="res-date">' + formatDate(res.date) + (res.time ? ' &middot; ' + res.time : '') + '</div>' +
+      '</div>' +
+      '<div class="res-right">' +
+        '<div class="status-badge ' + statusClass + '"><span class="status-dot"></span>' + statusText + '</div>' +
+        '<span class="expand-arrow">&#9660;</span>' +
+      '</div>' +
+    '</div>' +
+    '<div class="res-detail">' + buildDetailHTML(res) + '</div>';
+
+    container.appendChild(card);
+  });
+
+  // If single result, auto-expand
+  if (reservations.length === 1) {
+    var firstCard = container.querySelector('.res-card');
+    if (firstCard) firstCard.classList.add('expanded');
+  }
+}
+
+function buildDetailHTML(res) {
+  var html = '';
+
+  // Detail grid based on type
+  html += '<div class="detail-grid">';
+  if (res.details) {
+    var d = res.details;
+    if (res.type === 'flight') {
+      html += detailItem(tx('lbl_departure'), getLocalizedValue(d.departure));
+      html += detailItem(tx('lbl_destination'), getLocalizedValue(d.destination));
+      html += detailItem(tx('lbl_passengers'), d.passengers);
+      html += detailItem(tx('lbl_class'), getLocalizedValue(d.class));
+      html += detailItem(tx('lbl_airline'), d.airline);
+      html += detailItem(tx('lbl_seat'), d.seat);
+    } else if (res.type === 'hotel') {
+      html += detailItem(tx('lbl_hotel_name'), d.hotel_name);
+      html += detailItem(tx('lbl_checkin'), getLocalizedValue(d.checkin));
+      html += detailItem(tx('lbl_checkout'), getLocalizedValue(d.checkout));
+      html += detailItem(tx('lbl_guests'), d.guests);
+      html += detailItem(tx('lbl_room'), getLocalizedValue(d.room));
+      html += detailItem(tx('lbl_nights'), d.nights);
+    } else if (res.type === 'bus') {
+      html += detailItem(tx('lbl_route'), d.route);
+      html += detailItem(tx('lbl_seats'), d.seats);
+      html += detailItem(tx('lbl_dep_time'), d.departure_time);
+      html += detailItem(tx('lbl_operator'), d.operator);
+      html += detailItem(tx('lbl_luggage'), getLocalizedValue(d.luggage));
+    } else {
+      // Generic: show all details
+      Object.keys(d).forEach(function(key) {
+        html += detailItem(key.replace(/_/g, ' '), getLocalizedValue(d[key]));
+      });
+    }
+  }
+  html += '</div>';
+
+  // Ref code + PIN display
+  html += '<div class="ref-display">';
+  html += '<div class="ref-display-label">' + tx('lbl_your_ref') + '</div>';
+  html += '<div class="ref-display-code">' + (res.ref_code || '') + '</div>';
+  if (res.pin) {
+    html += '<div class="ref-display-pin"><span class="pin-icon">&#128272;</span> PIN: ' + res.pin + '</div>';
+  }
+  html += '</div>';
+
+  // Payment status
+  var isPaid = res.payment_status === 'paid';
+  html += '<div class="payment-row">';
+  html += '<span class="payment-label">' + tx('lbl_payment') + '</span>';
+  html += '<span class="payment-value ' + (isPaid ? 'paid' : 'unpaid') + '">' + (isPaid ? tx('payment_paid') : tx('payment_unpaid')) + '</span>';
+  html += '</div>';
+
+  // WhatsApp support button
+  var waMsg = tx('wa_res_msg').replace('{ref}', res.ref_code || '');
+  html += '<a href="https://wa.me/' + WA_NUM + '?text=' + encodeURIComponent(waMsg) + '" target="_blank" rel="noopener" class="btn-wa">';
+  html += '<svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 2C6.477 2 2 6.477 2 12c0 1.89.525 3.66 1.438 5.168L2 22l4.832-1.438A9.955 9.955 0 0012 22c5.523 0 10-4.477 10-10S17.523 2 12 2zm0 18a8 8 0 01-4.243-1.214l-.252-.149-2.868.852.852-2.868-.168-.268A8 8 0 1112 20z"/></svg>';
+  html += tx('btn_wa_help');
+  html += '</a>';
+
+  return html;
+}
+
+function detailItem(label, value) {
+  if (!value) return '';
+  return '<div class="detail-item"><div class="detail-label">' + label + '</div><div class="detail-value">' + value + '</div></div>';
+}
+
+/* ============================================================
+   TOGGLE CARD EXPAND
+   ============================================================ */
+function toggleCard(header) {
+  var card = header.parentElement;
+  card.classList.toggle('expanded');
+}
+
+/* ============================================================
+   VERIFY BY PIN
+   ============================================================ */
+function verifyPIN() {
+  var ref = document.getElementById('inp-verify-ref').value.trim().toUpperCase();
+  var pin = document.getElementById('inp-verify-pin').value.trim();
+  var resultEl = document.getElementById('verifyResult');
+
+  resultEl.className = 'verify-result';
+  resultEl.style.display = 'none';
+
+  if (!ref || !pin || pin.length !== 4) {
+    document.getElementById(ref ? 'inp-verify-pin' : 'inp-verify-ref').focus();
+    return;
+  }
+
+  var btn = document.getElementById('btn-verify');
+  btn.disabled = true;
+
+  if (DEMO_MODE) {
+    handleDemoVerify(ref, pin, resultEl, btn);
+    return;
+  }
+
+  fetch(API_URL + '/reservations/verify', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ ref_code: ref, pin: pin })
+  })
+  .then(function(res) { return res.json(); })
+  .then(function(data) {
+    btn.disabled = false;
+    if (data.verified || data.success) {
+      resultEl.className = 'verify-result success';
+      resultEl.textContent = tx('verify_success');
+    } else {
+      resultEl.className = 'verify-result fail';
+      resultEl.textContent = tx('verify_fail');
+    }
+  })
+  .catch(function() {
+    activateDemo();
+    handleDemoVerify(ref, pin, resultEl, btn);
+  });
+}
+
+function handleDemoVerify(ref, pin, resultEl, btn) {
+  setTimeout(function() {
+    btn.disabled = false;
+    var match = DEMO_RESERVATIONS.find(function(r) { return r.ref_code === ref && r.pin === pin; });
+    if (match) {
+      resultEl.className = 'verify-result success';
+      resultEl.textContent = tx('verify_success');
+    } else {
+      resultEl.className = 'verify-result fail';
+      resultEl.textContent = tx('verify_fail');
+    }
+  }, 600);
+}
+
+/* ============================================================
+   ENTER KEY HANDLERS
+   ============================================================ */
+document.getElementById('inp-phone').addEventListener('keydown', function(e) {
+  if (e.key === 'Enter') searchByPhone();
+});
+document.getElementById('inp-ref').addEventListener('keydown', function(e) {
+  if (e.key === 'Enter') searchByRef();
+});
+document.getElementById('inp-verify-ref').addEventListener('keydown', function(e) {
+  if (e.key === 'Enter') document.getElementById('inp-verify-pin').focus();
+});
+document.getElementById('inp-verify-pin').addEventListener('keydown', function(e) {
+  if (e.key === 'Enter') verifyPIN();
+});
+
+/* ============================================================
+   INIT
+   ============================================================ */
+(function() {
+  setLang('ht');
+  // Quick API connectivity check
+  fetch(API_URL + '/health', { method: 'GET' })
+    .then(function(res) { if (!res.ok) throw new Error(); })
+    .catch(function() { activateDemo(); });
+})();
+</script>
+</body>
+</html>
