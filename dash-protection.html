@@ -1,0 +1,939 @@
+<!DOCTYPE html>
+<html lang="ht">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DASH Protection Medikal — MsouWout | HaitiBiznis</title>
+<meta name="description" content="Pwoteksyon medikal pou pasaje MsouWout. Yon pwogram patnè ak klinik DASH.">
+<meta name="theme-color" content="#00209F">
+<meta property="og:title" content="DASH Protection Medikal — MsouWout">
+<meta property="og:description" content="Pwoteksyon medikal pou pasaje MsouWout. Yon pwogram patnè ak klinik DASH.">
+<meta property="og:url" content="https://haitibiznis.com/dash-protection.html">
+<meta property="og:type" content="website">
+<meta property="og:image" content="https://haitibiznis.com/assets/og-msouwout.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://haitibiznis.com/assets/og-msouwout.jpg">
+<link rel="icon" type="image/x-icon" href="favicon.ico">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --blue:#00209F;--blue-light:#0A3BBF;--blue-dark:#001566;
+  --red:#D21034;--red-light:#E8274A;--red-dark:#B00D2C;
+  --gold:#D4A017;--green:#1B8C3D;--whatsapp:#25D366;
+  --white:#FFFFFF;--off-white:#F5F7FA;--light-gray:#E8ECF2;
+  --dark:#0C1B3A;--darker:#060E20;--text:#1A2A4A;--text-light:#5A6B8A;--text-muted:#8A95AA;
+  --border:#E2E8F0;
+  --body:'Plus Jakarta Sans',system-ui,sans-serif;
+  --display:'DM Serif Display',Georgia,serif;
+  --radius:12px;--radius-lg:20px;
+  --shadow:0 4px 24px rgba(12,27,58,.08);
+  --shadow-lg:0 12px 48px rgba(12,27,58,.12);
+}
+html{scroll-behavior:smooth}
+body{font-family:var(--body);background:var(--off-white);color:var(--text);overflow-x:hidden;-webkit-font-smoothing:antialiased}
+button{font-family:var(--body);cursor:pointer;border:none;background:none}
+a{text-decoration:none;color:inherit}
+img{max-width:100%;display:block}
+.container{max-width:1100px;margin:0 auto;padding:0 20px}
+
+/* ═══ FLAG STRIPE ═══ */
+.flag-stripe{height:4px;background:linear-gradient(90deg,var(--blue) 50%,var(--red) 50%);position:relative;z-index:1002}
+
+/* ═══ LANG BAR ═══ */
+.lang-bar{
+  background:var(--darker);padding:6px 20px;display:flex;align-items:center;justify-content:center;gap:4px;
+  position:relative;z-index:1001;
+}
+.lang-bar a{
+  color:rgba(255,255,255,.55);padding:3px 12px;border-radius:100px;
+  font-size:.68rem;font-weight:600;cursor:pointer;transition:all .2s;letter-spacing:.3px;
+}
+.lang-bar a:hover{color:#fff;background:rgba(255,255,255,.08)}
+.lang-bar a.active{color:var(--gold);background:rgba(212,160,23,.12)}
+
+/* ═══ NAVIGATION ═══ */
+.nav{
+  position:sticky;top:0;z-index:100;
+  background:rgba(255,255,255,.97);backdrop-filter:blur(12px);
+  border-bottom:1px solid var(--light-gray);
+  transition:box-shadow .3s;
+}
+.nav.scrolled{box-shadow:0 2px 20px rgba(0,0,0,.06)}
+.nav-inner{
+  max-width:1100px;margin:0 auto;padding:14px 20px;
+  display:flex;align-items:center;justify-content:space-between;
+}
+.nav-brand{display:flex;align-items:center;gap:10px}
+.nav-logo{
+  width:44px;height:44px;border-radius:10px;overflow:hidden;
+  background:var(--blue);display:flex;align-items:center;justify-content:center;
+}
+.nav-logo-text{font-size:.65rem;font-weight:900;color:var(--white);line-height:1;text-align:center;letter-spacing:.3px}
+.nav-info h1{font-size:.95rem;font-weight:800;color:var(--dark);line-height:1.2}
+.nav-info span{font-size:.65rem;font-weight:600;color:var(--text-muted);letter-spacing:.3px;text-transform:uppercase}
+.nav-actions{display:flex;align-items:center;gap:8px}
+.share-btn{
+  width:40px;height:40px;border-radius:10px;display:flex;align-items:center;justify-content:center;
+  background:var(--off-white);border:1px solid var(--border);transition:all .2s;
+}
+.share-btn:hover{background:var(--white);border-color:var(--blue)}
+
+/* ═══ HERO ═══ */
+.hero{
+  background:linear-gradient(135deg,var(--blue) 0%,var(--blue-dark) 40%,#0A1833 100%);
+  padding:60px 20px 56px;text-align:center;position:relative;overflow:hidden;
+}
+.hero::before{
+  content:'';position:absolute;top:-60%;right:-30%;width:600px;height:600px;
+  background:radial-gradient(circle,rgba(212,160,23,.08) 0%,transparent 70%);
+  border-radius:50%;pointer-events:none;
+}
+.hero::after{
+  content:'';position:absolute;bottom:-40%;left:-20%;width:500px;height:500px;
+  background:radial-gradient(circle,rgba(210,16,52,.06) 0%,transparent 70%);
+  border-radius:50%;pointer-events:none;
+}
+.hero-icon{
+  width:80px;height:80px;margin:0 auto 24px;border-radius:50%;
+  background:rgba(255,255,255,.08);border:2px solid rgba(255,255,255,.12);
+  display:flex;align-items:center;justify-content:center;
+  backdrop-filter:blur(8px);
+}
+.hero h2{
+  font-family:var(--display);font-size:clamp(2rem,5vw,3rem);color:var(--white);
+  line-height:1.15;margin-bottom:12px;position:relative;
+}
+.hero p{
+  color:rgba(255,255,255,.7);font-size:1.05rem;font-weight:500;max-width:520px;
+  margin:0 auto 24px;line-height:1.5;position:relative;
+}
+.hero-badge{
+  display:inline-flex;align-items:center;gap:8px;
+  background:rgba(212,160,23,.12);border:1px solid rgba(212,160,23,.25);
+  border-radius:100px;padding:8px 20px;font-size:.78rem;font-weight:700;
+  color:var(--gold);letter-spacing:.3px;position:relative;
+}
+
+/* ═══ SECTIONS ═══ */
+.section{padding:64px 20px}
+.section:nth-child(even){background:var(--white)}
+.section-label{
+  font-size:.7rem;font-weight:700;text-transform:uppercase;letter-spacing:1.5px;
+  color:var(--blue);margin-bottom:8px;
+}
+.section-title{
+  font-family:var(--display);font-size:clamp(1.5rem,4vw,2.2rem);
+  color:var(--dark);line-height:1.2;margin-bottom:8px;
+}
+.section-subtitle{
+  font-size:.95rem;color:var(--text-light);line-height:1.6;max-width:600px;margin-bottom:32px;
+}
+.section-inner{max-width:1100px;margin:0 auto}
+
+/* ═══ HOW IT WORKS ═══ */
+.steps-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:20px}
+.step-card{
+  background:var(--white);border:1px solid var(--border);border-radius:var(--radius-lg);
+  padding:28px 24px;position:relative;transition:all .3s;
+}
+.section:nth-child(even) .step-card{background:var(--off-white)}
+.step-card:hover{transform:translateY(-3px);box-shadow:var(--shadow)}
+.step-num{
+  width:36px;height:36px;border-radius:10px;background:var(--blue);color:var(--white);
+  font-size:.85rem;font-weight:800;display:flex;align-items:center;justify-content:center;
+  margin-bottom:14px;
+}
+.step-card h4{font-size:.95rem;font-weight:700;color:var(--dark);margin-bottom:6px}
+.step-card p{font-size:.82rem;color:var(--text-light);line-height:1.55}
+
+/* ═══ FEE TABLE ═══ */
+.fee-cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:20px}
+.fee-card{
+  background:var(--white);border:1px solid var(--border);border-radius:var(--radius-lg);
+  padding:28px;position:relative;overflow:hidden;transition:all .3s;
+}
+.section:nth-child(even) .fee-card{background:var(--off-white)}
+.fee-card:hover{transform:translateY(-3px);box-shadow:var(--shadow)}
+.fee-card-header{
+  font-size:.7rem;font-weight:700;text-transform:uppercase;letter-spacing:1px;
+  color:var(--blue);margin-bottom:12px;padding-bottom:12px;border-bottom:1px solid var(--border);
+}
+.fee-row{display:flex;justify-content:space-between;align-items:center;padding:10px 0;border-bottom:1px solid rgba(0,0,0,.04)}
+.fee-row:last-child{border-bottom:none}
+.fee-label{font-size:.82rem;color:var(--text-light);font-weight:500}
+.fee-value{font-size:.88rem;font-weight:700;color:var(--dark)}
+.fee-value.dash{color:var(--blue)}
+.fee-value.msw{color:var(--red)}
+.fee-highlight{
+  margin-top:16px;padding:12px 16px;border-radius:var(--radius);
+  background:rgba(0,32,159,.04);border:1px solid rgba(0,32,159,.1);
+  font-size:.78rem;font-weight:600;color:var(--blue);text-align:center;
+}
+
+/* ═══ BENEFITS GRID ═══ */
+.benefits-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:16px}
+.benefit-card{
+  background:var(--white);border:1px solid var(--border);border-radius:var(--radius);
+  padding:24px;display:flex;gap:14px;align-items:flex-start;transition:all .3s;
+}
+.section:nth-child(even) .benefit-card{background:var(--off-white)}
+.benefit-card:hover{transform:translateY(-2px);box-shadow:var(--shadow)}
+.benefit-icon{
+  width:44px;height:44px;border-radius:12px;flex-shrink:0;
+  display:flex;align-items:center;justify-content:center;
+  font-size:1.2rem;
+}
+.benefit-icon.blue{background:rgba(0,32,159,.08);color:var(--blue)}
+.benefit-icon.red{background:rgba(210,16,52,.08);color:var(--red)}
+.benefit-icon.gold{background:rgba(212,160,23,.08);color:var(--gold)}
+.benefit-icon.green{background:rgba(27,140,61,.08);color:var(--green)}
+.benefit-text h4{font-size:.88rem;font-weight:700;color:var(--dark);margin-bottom:4px}
+.benefit-text p{font-size:.78rem;color:var(--text-light);line-height:1.5}
+
+/* ═══ CLAIMS PROCESS ═══ */
+.claims-timeline{max-width:600px}
+.claim-step{display:flex;gap:16px;position:relative;padding-bottom:28px}
+.claim-step:last-child{padding-bottom:0}
+.claim-step:not(:last-child)::after{
+  content:'';position:absolute;left:19px;top:44px;bottom:0;width:2px;
+  background:linear-gradient(180deg,var(--blue),var(--border));
+}
+.claim-dot{
+  width:40px;height:40px;border-radius:50%;flex-shrink:0;
+  display:flex;align-items:center;justify-content:center;
+  font-size:.82rem;font-weight:800;color:var(--white);
+  position:relative;z-index:1;
+}
+.claim-dot.s1{background:var(--red)}
+.claim-dot.s2{background:var(--blue)}
+.claim-dot.s3{background:var(--gold)}
+.claim-dot.s4{background:var(--green)}
+.claim-content h4{font-size:.9rem;font-weight:700;color:var(--dark);margin-bottom:4px;padding-top:2px}
+.claim-content p{font-size:.8rem;color:var(--text-light);line-height:1.5}
+
+/* ═══ DASHBOARD PREVIEW ═══ */
+.dash-preview{
+  background:var(--dark);border-radius:var(--radius-lg);overflow:hidden;
+  box-shadow:var(--shadow-lg);
+}
+.dash-titlebar{
+  padding:12px 16px;background:var(--darker);display:flex;align-items:center;gap:8px;
+}
+.dash-dot{width:10px;height:10px;border-radius:50%}
+.dash-dot.r{background:#FF5F56}.dash-dot.y{background:#FFBD2E}.dash-dot.g{background:#27C93F}
+.dash-titlebar span{color:rgba(255,255,255,.4);font-size:.7rem;font-weight:600;margin-left:8px}
+.dash-body{padding:24px;display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:14px}
+.dash-stat{
+  background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.08);
+  border-radius:var(--radius);padding:16px;text-align:center;
+}
+.dash-stat-value{font-size:1.3rem;font-weight:800;color:var(--white);margin-bottom:2px}
+.dash-stat-value.gold{color:var(--gold)}
+.dash-stat-value.green{color:var(--green)}
+.dash-stat-value.red{color:var(--red-light)}
+.dash-stat-label{font-size:.65rem;color:rgba(255,255,255,.45);font-weight:600;text-transform:uppercase;letter-spacing:.5px}
+.dash-chart{
+  grid-column:1/-1;background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.06);
+  border-radius:var(--radius);padding:16px;
+}
+.dash-chart-title{font-size:.72rem;color:rgba(255,255,255,.5);font-weight:700;margin-bottom:12px;text-transform:uppercase;letter-spacing:.5px}
+.dash-bars{display:flex;align-items:flex-end;gap:8px;height:80px}
+.dash-bar{
+  flex:1;border-radius:4px 4px 0 0;position:relative;min-width:0;
+}
+.dash-bar .b1{background:var(--blue);border-radius:4px 4px 0 0;position:absolute;bottom:0;left:0;right:50%;margin-right:1px}
+.dash-bar .b2{background:var(--red);border-radius:4px 4px 0 0;position:absolute;bottom:0;left:50%;right:0;margin-left:1px}
+.dash-bar-label{
+  position:absolute;bottom:-18px;left:50%;transform:translateX(-50%);
+  font-size:.55rem;color:rgba(255,255,255,.3);font-weight:600;white-space:nowrap;
+}
+.dash-legend{
+  display:flex;gap:16px;justify-content:center;margin-top:28px;
+}
+.dash-legend-item{display:flex;align-items:center;gap:6px;font-size:.65rem;color:rgba(255,255,255,.5);font-weight:600}
+.dash-legend-dot{width:8px;height:8px;border-radius:2px}
+.dash-legend-dot.blue{background:var(--blue)}
+.dash-legend-dot.red{background:var(--red)}
+.dash-claim-row{
+  grid-column:1/-1;display:grid;grid-template-columns:repeat(3,1fr);gap:10px;
+}
+.dash-claim{
+  background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.06);
+  border-radius:var(--radius);padding:12px;text-align:center;
+}
+.dash-claim-val{font-size:1.1rem;font-weight:800;margin-bottom:2px}
+.dash-claim-lbl{font-size:.6rem;color:rgba(255,255,255,.4);font-weight:600;text-transform:uppercase;letter-spacing:.5px}
+
+/* ═══ CTA / CONTACT ═══ */
+.cta{
+  background:linear-gradient(135deg,var(--blue) 0%,var(--blue-dark) 100%);
+  padding:64px 20px;text-align:center;
+}
+.cta h2{font-family:var(--display);font-size:clamp(1.5rem,4vw,2.2rem);color:var(--white);margin-bottom:8px}
+.cta p{color:rgba(255,255,255,.65);font-size:.95rem;margin-bottom:28px;max-width:500px;margin-left:auto;margin-right:auto;line-height:1.5}
+.wa-btn{
+  display:inline-flex;align-items:center;gap:10px;
+  background:var(--whatsapp);color:var(--white);padding:16px 32px;
+  border-radius:var(--radius);font-size:1rem;font-weight:700;
+  transition:all .3s;box-shadow:0 4px 20px rgba(37,211,102,.3);
+}
+.wa-btn:hover{transform:translateY(-2px);box-shadow:0 6px 28px rgba(37,211,102,.45)}
+.cta-brand{
+  display:flex;align-items:center;justify-content:center;gap:16px;margin-top:32px;
+  font-size:.75rem;color:rgba(255,255,255,.4);font-weight:600;
+}
+.cta-brand span{opacity:.3}
+
+/* ═══ FOOTER ═══ */
+.footer{
+  background:var(--darker);padding:32px 20px;text-align:center;
+  border-top:1px solid rgba(255,255,255,.06);
+}
+.footer-brand{
+  display:flex;align-items:center;justify-content:center;gap:8px;margin-bottom:8px;
+}
+.footer-logo{
+  width:28px;height:28px;border-radius:6px;background:var(--blue);
+  display:flex;align-items:center;justify-content:center;
+  font-size:.5rem;font-weight:900;color:var(--white);line-height:1;text-align:center;
+}
+.footer-brand-name{color:rgba(255,255,255,.6);font-size:.82rem;font-weight:700}
+.footer-tagline{color:rgba(255,255,255,.25);font-size:.7rem;margin-bottom:16px}
+.footer-links{display:flex;align-items:center;justify-content:center;gap:16px;flex-wrap:wrap;margin-bottom:16px}
+.footer-links a{color:rgba(255,255,255,.35);font-size:.72rem;font-weight:600;transition:color .2s}
+.footer-links a:hover{color:var(--gold)}
+.footer-copy{color:rgba(255,255,255,.2);font-size:.65rem}
+
+/* ═══ SCROLL REVEAL ═══ */
+.reveal{opacity:0;transform:translateY(24px);transition:all .6s cubic-bezier(.22,1,.36,1)}
+.reveal.visible{opacity:1;transform:translateY(0)}
+
+/* ═══ RESPONSIVE ═══ */
+@media(max-width:600px){
+  .hero{padding:48px 16px 44px}
+  .hero-icon{width:64px;height:64px;margin-bottom:20px}
+  .section{padding:48px 16px}
+  .dash-body{grid-template-columns:repeat(2,1fr);gap:10px;padding:16px}
+  .dash-claim-row{grid-template-columns:repeat(3,1fr)}
+  .fee-cards{grid-template-columns:1fr}
+  .benefits-grid{grid-template-columns:1fr}
+  .steps-grid{grid-template-columns:1fr}
+}
+@media(min-width:768px){
+  .steps-grid{grid-template-columns:repeat(4,1fr)}
+  .benefits-grid{grid-template-columns:repeat(2,1fr)}
+  .dash-body{grid-template-columns:repeat(4,1fr)}
+}
+@media(min-width:1024px){
+  .benefits-grid{grid-template-columns:repeat(3,1fr)}
+}
+</style>
+</head>
+<body>
+
+<!-- FLAG STRIPE -->
+<div class="flag-stripe"></div>
+
+<!-- LANG BAR -->
+<div class="lang-bar">
+  <a data-lang="ht" class="active">Kreyol</a>
+  <a data-lang="fr">Francais</a>
+  <a data-lang="en">English</a>
+</div>
+
+<!-- NAVIGATION -->
+<nav class="nav" id="nav">
+  <div class="nav-inner">
+    <a href="msouwout.html" class="nav-brand">
+      <div class="nav-logo">
+        <div class="nav-logo-text">M<br>SW</div>
+      </div>
+      <div class="nav-info">
+        <h1>MsouWout</h1>
+        <span data-i18n="nav.sub">DASH Protection</span>
+      </div>
+    </a>
+    <div class="nav-actions">
+      <button class="share-btn" id="shareBtn" aria-label="Share">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--text)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg>
+      </button>
+    </div>
+  </div>
+</nav>
+
+<!-- ═══ HERO ═══ -->
+<section class="hero">
+  <div class="hero-icon">
+    <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#FFFFFF" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M12 2l2.09 6.26L20.18 9l-5 4.36L16.82 20 12 16.77 7.18 20l1.64-6.64-5-4.36 6.09-.74z" fill="rgba(255,255,255,.12)"/>
+      <path d="M9 12h6M12 9v6" stroke="#FFFFFF" stroke-width="2.2"/>
+    </svg>
+  </div>
+  <h2 data-i18n="hero.title">Pwoteksyon Medikal DASH</h2>
+  <p data-i18n="hero.subtitle">Sekirite pou chak pasaje MsouWout</p>
+  <div class="hero-badge" data-i18n="hero.badge">
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+    Pwogram Patne Ofisyel
+  </div>
+</section>
+
+<!-- ═══ HOW IT WORKS ═══ -->
+<section class="section">
+  <div class="section-inner reveal">
+    <div class="section-label" data-i18n="how.label">KIJAN LI FONKSYONE</div>
+    <div class="section-title" data-i18n="how.title">Yon Pwosesis Senp, Sekirite Total</div>
+    <div class="section-subtitle" data-i18n="how.subtitle">Nan kat etap, chak pasaje MsouWout ka jwenn pwoteksyon medikal nan klinik DASH.</div>
+    <div class="steps-grid">
+      <div class="step-card">
+        <div class="step-num">1</div>
+        <h4 data-i18n="how.s1.title">Mande yon Kous</h4>
+        <p data-i18n="how.s1.desc">Le yon pasaje mande yon kous sou MsouWout, li kapab chwazi opsyon DASH Medical Protection.</p>
+      </div>
+      <div class="step-card">
+        <div class="step-num">2</div>
+        <h4 data-i18n="how.s2.title">Frè 5% Ajoute</h4>
+        <p data-i18n="how.s2.desc">Yon ti frè 5% ajoute sou pri kous la pou kouvri pwoteksyon medikal la.</p>
+      </div>
+      <div class="step-card">
+        <div class="step-num">3</div>
+        <h4 data-i18n="how.s3.title">Aksidan Rive</h4>
+        <p data-i18n="how.s3.desc">Si yon aksidan rive pandan kous la, klinik DASH bay swen medikal touswit.</p>
+      </div>
+      <div class="step-card">
+        <div class="step-num">4</div>
+        <h4 data-i18n="how.s4.title">Reklamasyon Revize</h4>
+        <p data-i18n="how.s4.desc">Reklamasyon yo fèt sou platfom MsouWout epi DASH revize yo pou apwobasyon.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ FEE STRUCTURE ═══ -->
+<section class="section">
+  <div class="section-inner reveal">
+    <div class="section-label" data-i18n="fee.label">ESTRIKTI FRÈ YO</div>
+    <div class="section-title" data-i18n="fee.title">Pataj Revni ki Klè</div>
+    <div class="section-subtitle" data-i18n="fee.subtitle">Yon estrikti transparan ki bay DASH yon sous revni estab e previzib.</div>
+    <div class="fee-cards">
+      <div class="fee-card">
+        <div class="fee-card-header" data-i18n="fee.under.header">Kous anba 500 GDES</div>
+        <div class="fee-row">
+          <span class="fee-label" data-i18n="fee.total">Frè Total</span>
+          <span class="fee-value">5% sou pri kous</span>
+        </div>
+        <div class="fee-row">
+          <span class="fee-label" data-i18n="fee.dash.share">Pa DASH</span>
+          <span class="fee-value dash">3.5%</span>
+        </div>
+        <div class="fee-row">
+          <span class="fee-label" data-i18n="fee.msw.share">Pa MsouWout (Operasyon)</span>
+          <span class="fee-value msw">1.5%</span>
+        </div>
+        <div class="fee-highlight" data-i18n="fee.under.example">Egzanp: Kous 400 GDES = 20 GDES frè total &rarr; 14 GDES DASH + 6 GDES MsouWout</div>
+      </div>
+      <div class="fee-card">
+        <div class="fee-card-header" data-i18n="fee.over.header">Kous depase 500 GDES</div>
+        <div class="fee-row">
+          <span class="fee-label" data-i18n="fee.total">Frè Total</span>
+          <span class="fee-value">5% sou pri kous</span>
+        </div>
+        <div class="fee-row">
+          <span class="fee-label" data-i18n="fee.dash.share">Pa DASH</span>
+          <span class="fee-value dash" data-i18n="fee.over.dash">Fiks 13 GDES</span>
+        </div>
+        <div class="fee-row">
+          <span class="fee-label" data-i18n="fee.msw.share">Pa MsouWout (Operasyon)</span>
+          <span class="fee-value msw" data-i18n="fee.over.msw">Rès la</span>
+        </div>
+        <div class="fee-highlight" data-i18n="fee.over.example">Egzanp: Kous 1000 GDES = 50 GDES frè total &rarr; 13 GDES DASH + 37 GDES MsouWout</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ BENEFITS FOR DASH ═══ -->
+<section class="section">
+  <div class="section-inner reveal">
+    <div class="section-label" data-i18n="bdash.label">AVANTAJ POU DASH</div>
+    <div class="section-title" data-i18n="bdash.title">Poukisa Patnè ak MsouWout?</div>
+    <div class="section-subtitle" data-i18n="bdash.subtitle">Yon pwogram ki bay DASH revni garanti, vizibilite, ak teknoloji modèn.</div>
+    <div class="benefits-grid">
+      <div class="benefit-card">
+        <div class="benefit-icon blue">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 000 7h5a3.5 3.5 0 010 7H6"/></svg>
+        </div>
+        <div class="benefit-text">
+          <h4 data-i18n="bdash.revenue.t">Revni Estab</h4>
+          <p data-i18n="bdash.revenue.d">Yon sous lajan ki stab, ki vin dirèkteman nan chak kous ki gen pwoteksyon.</p>
+        </div>
+      </div>
+      <div class="benefit-card">
+        <div class="benefit-icon green">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4-4v-2"/><path d="M16 3.13a4 4 0 010 7.75"/><path d="M23 21v-2a4 4 0 00-3-3.87"/><path d="M1 21v-2a4 4 0 014-4h6a4 4 0 014 4v2"/><circle cx="9" cy="7" r="4"/></svg>
+        </div>
+        <div class="benefit-text">
+          <h4 data-i18n="bdash.patients.t">Plis Pasyan</h4>
+          <p data-i18n="bdash.patients.d">Ogmante volim pasyan gras a kouvèti aksidan nan kous MsouWout yo.</p>
+        </div>
+      </div>
+      <div class="benefit-card">
+        <div class="benefit-icon gold">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
+        </div>
+        <div class="benefit-text">
+          <h4 data-i18n="bdash.digital.t">Jesyon Dijital</h4>
+          <p data-i18n="bdash.digital.d">Systèm reklamasyon dijital — pa gen papye. Tout sou platfom nan.</p>
+        </div>
+      </div>
+      <div class="benefit-card">
+        <div class="benefit-icon blue">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21.21 15.89A10 10 0 118 2.83"/><polyline points="22 12 12 12 12 2"/></svg>
+        </div>
+        <div class="benefit-text">
+          <h4 data-i18n="bdash.reports.t">Rapò Chak Mwa</h4>
+          <p data-i18n="bdash.reports.d">Dashboard ak rapò mansyèl: revni, reklamasyon, estatistik konplè.</p>
+        </div>
+      </div>
+      <div class="benefit-card">
+        <div class="benefit-icon red">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+        </div>
+        <div class="benefit-text">
+          <h4 data-i18n="bdash.visibility.t">Vizibilite Mak</h4>
+          <p data-i18n="bdash.visibility.d">Logo DASH parèt sou chak kous pwoteje — vizibilite nan tout rezo MsouWout la.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ BENEFITS FOR PASSENGERS ═══ -->
+<section class="section">
+  <div class="section-inner reveal">
+    <div class="section-label" data-i18n="bpass.label">AVANTAJ POU PASAJE</div>
+    <div class="section-title" data-i18n="bpass.title">Pwoteksyon ki Abodab pou Chak Kous</div>
+    <div class="section-subtitle" data-i18n="bpass.subtitle">Pasaje yo jwenn lapè ak sekirite pou yon ti pri anplis.</div>
+    <div class="benefits-grid">
+      <div class="benefit-card">
+        <div class="benefit-icon green">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+        </div>
+        <div class="benefit-text">
+          <h4 data-i18n="bpass.affordable.t">Pwoteksyon Abodab</h4>
+          <p data-i18n="bpass.affordable.d">Kouvèti medikal pou chak kous, pou yon ti frè 5% sèlman.</p>
+        </div>
+      </div>
+      <div class="benefit-card">
+        <div class="benefit-icon blue">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>
+        </div>
+        <div class="benefit-text">
+          <h4 data-i18n="bpass.access.t">Aksè Imedya nan DASH</h4>
+          <p data-i18n="bpass.access.d">Aksè dirèk nan tout rezo klinik DASH pou swen rapid.</p>
+        </div>
+      </div>
+      <div class="benefit-card">
+        <div class="benefit-icon gold">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0110 0v4"/></svg>
+        </div>
+        <div class="benefit-text">
+          <h4 data-i18n="bpass.simple.t">Pwosesis Senp</h4>
+          <p data-i18n="bpass.simple.d">Fè reklamasyon dirèkteman nan app MsouWout la — rapid e fasil.</p>
+        </div>
+      </div>
+      <div class="benefit-card">
+        <div class="benefit-icon red">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/></svg>
+        </div>
+        <div class="benefit-text">
+          <h4 data-i18n="bpass.peace.t">Lapè nan Lespri</h4>
+          <p data-i18n="bpass.peace.d">Vwayaje san enkyetid — ou konnen ou pwoteje pandan chak kous.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ CLAIMS PROCESS ═══ -->
+<section class="section">
+  <div class="section-inner reveal">
+    <div class="section-label" data-i18n="claims.label">PWOSESIS REKLAMASYON</div>
+    <div class="section-title" data-i18n="claims.title">Kijan yon Reklamasyon Fonksyone</div>
+    <div class="section-subtitle" data-i18n="claims.subtitle">Kat etap senp depi aksidan an rive jiska swen medikal nan klinik DASH.</div>
+    <div class="claims-timeline">
+      <div class="claim-step">
+        <div class="claim-dot s1">1</div>
+        <div class="claim-content">
+          <h4 data-i18n="claims.s1.t">Aksidan Rive pandan yon Kous Pwoteje</h4>
+          <p data-i18n="claims.s1.d">Yon aksidan rive pandan yon kous ki gen DASH Medical Protection aktive.</p>
+        </div>
+      </div>
+      <div class="claim-step">
+        <div class="claim-dot s2">2</div>
+        <div class="claim-content">
+          <h4 data-i18n="claims.s2.t">Depoze Reklamasyon nan MsouWout</h4>
+          <p data-i18n="claims.s2.d">Pasaje oswa chofè a depoze yon reklamasyon nan app MsouWout la — ak foto ak deskripsyon.</p>
+        </div>
+      </div>
+      <div class="claim-step">
+        <div class="claim-dot s3">3</div>
+        <div class="claim-content">
+          <h4 data-i18n="claims.s3.t">DASH Revize Reklamasyon an</h4>
+          <p data-i18n="claims.s3.d">Ekip DASH revize reklamasyon an epi deside si li apwouve oswa refize.</p>
+        </div>
+      </div>
+      <div class="claim-step">
+        <div class="claim-dot s4">4</div>
+        <div class="claim-content">
+          <h4 data-i18n="claims.s4.t">Swen Medikal Imedya</h4>
+          <p data-i18n="claims.s4.d">Reklamasyon apwouve yo jwenn swen medikal touswit nan klinik DASH yo.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ DASHBOARD PREVIEW ═══ -->
+<section class="section">
+  <div class="section-inner reveal">
+    <div class="section-label" data-i18n="dash.label">DASHBOARD ADMIN</div>
+    <div class="section-title" data-i18n="dash.title">Sa Admin Dashboard la Swiv</div>
+    <div class="section-subtitle" data-i18n="dash.subtitle">Yon apèsi sou done ak estatistik ki disponib nan dashboard admin DASH la.</div>
+    <div class="dash-preview">
+      <div class="dash-titlebar">
+        <div class="dash-dot r"></div><div class="dash-dot y"></div><div class="dash-dot g"></div>
+        <span>DASH Protection — Admin Dashboard</span>
+      </div>
+      <div class="dash-body">
+        <div class="dash-stat">
+          <div class="dash-stat-value gold">12,847</div>
+          <div class="dash-stat-label" data-i18n="dash.rides">Kous Pwoteje</div>
+        </div>
+        <div class="dash-stat">
+          <div class="dash-stat-value">G 289,450</div>
+          <div class="dash-stat-label" data-i18n="dash.totalfees">Total Frè Medikal</div>
+        </div>
+        <div class="dash-stat">
+          <div class="dash-stat-value dash">G 198,200</div>
+          <div class="dash-stat-label" data-i18n="dash.dashcut">Pa DASH</div>
+        </div>
+        <div class="dash-stat">
+          <div class="dash-stat-value red">G 91,250</div>
+          <div class="dash-stat-label" data-i18n="dash.mswcut">Pa MsouWout</div>
+        </div>
+        <div class="dash-chart">
+          <div class="dash-chart-title" data-i18n="dash.monthly">Revni Mansyèl — DASH vs MsouWout</div>
+          <div class="dash-bars">
+            <div class="dash-bar" style="height:100%;position:relative"><div class="b1" style="height:68%"></div><div class="b2" style="height:32%"></div><div class="dash-bar-label">Jan</div></div>
+            <div class="dash-bar" style="height:100%;position:relative"><div class="b1" style="height:72%"></div><div class="b2" style="height:28%"></div><div class="dash-bar-label">Fev</div></div>
+            <div class="dash-bar" style="height:100%;position:relative"><div class="b1" style="height:65%"></div><div class="b2" style="height:35%"></div><div class="dash-bar-label">Mas</div></div>
+            <div class="dash-bar" style="height:100%;position:relative"><div class="b1" style="height:70%"></div><div class="b2" style="height:30%"></div><div class="dash-bar-label">Avr</div></div>
+            <div class="dash-bar" style="height:100%;position:relative"><div class="b1" style="height:75%"></div><div class="b2" style="height:25%"></div><div class="dash-bar-label">Me</div></div>
+            <div class="dash-bar" style="height:100%;position:relative"><div class="b1" style="height:68%"></div><div class="b2" style="height:32%"></div><div class="dash-bar-label">Jen</div></div>
+          </div>
+          <div class="dash-legend">
+            <div class="dash-legend-item"><div class="dash-legend-dot blue"></div> DASH</div>
+            <div class="dash-legend-item"><div class="dash-legend-dot red"></div> MsouWout</div>
+          </div>
+        </div>
+        <div class="dash-claim-row">
+          <div class="dash-claim">
+            <div class="dash-claim-val" style="color:var(--gold)">23</div>
+            <div class="dash-claim-lbl" data-i18n="dash.pending">An Atant</div>
+          </div>
+          <div class="dash-claim">
+            <div class="dash-claim-val" style="color:var(--green)">187</div>
+            <div class="dash-claim-lbl" data-i18n="dash.approved">Apwouve</div>
+          </div>
+          <div class="dash-claim">
+            <div class="dash-claim-val" style="color:var(--red-light)">12</div>
+            <div class="dash-claim-lbl" data-i18n="dash.rejected">Refize</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ CTA / CONTACT ═══ -->
+<section class="cta">
+  <div class="section-inner">
+    <h2 data-i18n="cta.title">Kontakte Nou pou Komanse Patnaryat la</h2>
+    <p data-i18n="cta.subtitle">Nou prè pou travay ansanm ak DASH. Kontakte ekip MsouWout la pou diskite detay yo.</p>
+    <a href="https://wa.me/50941902005?text=Bonjou%2C%20mwen%20enterese%20nan%20pwogram%20DASH%20Protection%20MsouWout%20la." class="wa-btn" target="_blank" rel="noopener">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+      <span data-i18n="cta.wa">Ekri nou sou WhatsApp</span>
+    </a>
+    <div class="cta-brand">
+      <span>MsouWout</span> <span>&bull;</span> <span>HaitiBiznis</span>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ FOOTER ═══ -->
+<footer class="footer">
+  <div class="footer-brand">
+    <div class="footer-logo">M<br>SW</div>
+    <span class="footer-brand-name">MsouWout</span>
+  </div>
+  <div class="footer-tagline">Powered by HaitiBiznis</div>
+  <div class="footer-links">
+    <a href="index.html" data-i18n="footer.home">Akèy</a>
+    <a href="msouwout.html" data-i18n="footer.msw">MsouWout</a>
+    <a href="koutye.html" data-i18n="footer.koutye">Koutye</a>
+    <a href="prolakay.html" data-i18n="footer.prolakay">Profesyonèl Lakay</a>
+  </div>
+  <div class="footer-copy">&copy; 2026 MsouWout / HaitiBiznis. <span data-i18n="footer.rights">Tout dwa rezève.</span></div>
+</footer>
+
+<script>
+/* ═══ TRANSLATIONS ═══ */
+const T = {
+  fr: {
+    'nav.sub':'DASH Protection',
+    'hero.title':'Protection Medicale DASH',
+    'hero.subtitle':'Securite pour chaque passager MsouWout',
+    'hero.badge':'<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg> Programme Partenaire Officiel',
+    'how.label':'COMMENT CA FONCTIONNE',
+    'how.title':'Un Processus Simple, Securite Totale',
+    'how.subtitle':'En quatre etapes, chaque passager MsouWout peut obtenir une protection medicale dans les cliniques DASH.',
+    'how.s1.title':'Demander une Course',
+    'how.s1.desc':'Quand un passager demande une course sur MsouWout, il peut choisir l\'option DASH Medical Protection.',
+    'how.s2.title':'Frais de 5% Ajoutes',
+    'how.s2.desc':'Un petit frais de 5% est ajoute au prix de la course pour couvrir la protection medicale.',
+    'how.s3.title':'Accident Survient',
+    'how.s3.desc':'Si un accident survient pendant la course, les cliniques DASH fournissent des soins medicaux immediats.',
+    'how.s4.title':'Reclamation Examinee',
+    'how.s4.desc':'Les reclamations sont deposees sur la plateforme MsouWout et examinees par DASH pour approbation.',
+    'fee.label':'STRUCTURE DES FRAIS',
+    'fee.title':'Partage de Revenus Clair',
+    'fee.subtitle':'Une structure transparente qui offre a DASH une source de revenus stable et previsible.',
+    'fee.under.header':'Courses sous 500 GDES',
+    'fee.total':'Frais Total',
+    'fee.dash.share':'Part DASH',
+    'fee.msw.share':'Part MsouWout (Operations)',
+    'fee.under.example':'Exemple: Course 400 GDES = 20 GDES frais total &rarr; 14 GDES DASH + 6 GDES MsouWout',
+    'fee.over.header':'Courses au-dessus de 500 GDES',
+    'fee.over.dash':'Fixe 13 GDES',
+    'fee.over.msw':'Le reste',
+    'fee.over.example':'Exemple: Course 1000 GDES = 50 GDES frais total &rarr; 13 GDES DASH + 37 GDES MsouWout',
+    'bdash.label':'AVANTAGES POUR DASH',
+    'bdash.title':'Pourquoi un Partenariat avec MsouWout?',
+    'bdash.subtitle':'Un programme qui offre a DASH des revenus garantis, de la visibilite et une technologie moderne.',
+    'bdash.revenue.t':'Revenus Stables',
+    'bdash.revenue.d':'Une source de revenus stable, provenant directement de chaque course protegee.',
+    'bdash.patients.t':'Plus de Patients',
+    'bdash.patients.d':'Augmentez le volume de patients grace a la couverture accidents des courses MsouWout.',
+    'bdash.digital.t':'Gestion Digitale',
+    'bdash.digital.d':'Systeme de reclamations digital — zero papier. Tout sur la plateforme.',
+    'bdash.reports.t':'Rapports Mensuels',
+    'bdash.reports.d':'Tableau de bord et rapports mensuels: revenus, reclamations, statistiques completes.',
+    'bdash.visibility.t':'Visibilite de Marque',
+    'bdash.visibility.d':'Le logo DASH apparait sur chaque course protegee — visibilite dans tout le reseau MsouWout.',
+    'bpass.label':'AVANTAGES POUR PASSAGERS',
+    'bpass.title':'Protection Abordable pour Chaque Course',
+    'bpass.subtitle':'Les passagers beneficient de tranquillite et de securite pour un petit supplement.',
+    'bpass.affordable.t':'Protection Abordable',
+    'bpass.affordable.d':'Couverture medicale par course, pour seulement 5% de frais.',
+    'bpass.access.t':'Acces Immediat a DASH',
+    'bpass.access.d':'Acces direct a tout le reseau de cliniques DASH pour des soins rapides.',
+    'bpass.simple.t':'Processus Simple',
+    'bpass.simple.d':'Deposez une reclamation directement dans l\'app MsouWout — rapide et facile.',
+    'bpass.peace.t':'Tranquillite d\'Esprit',
+    'bpass.peace.d':'Voyagez sans inquietude — vous savez que vous etes protege pendant chaque course.',
+    'claims.label':'PROCESSUS DE RECLAMATION',
+    'claims.title':'Comment une Reclamation Fonctionne',
+    'claims.subtitle':'Quatre etapes simples de l\'accident aux soins medicaux dans les cliniques DASH.',
+    'claims.s1.t':'Accident pendant une Course Protegee',
+    'claims.s1.d':'Un accident survient pendant une course avec DASH Medical Protection active.',
+    'claims.s2.t':'Deposer une Reclamation sur MsouWout',
+    'claims.s2.d':'Le passager ou le chauffeur depose une reclamation dans l\'app MsouWout — avec photos et description.',
+    'claims.s3.t':'DASH Examine la Reclamation',
+    'claims.s3.d':'L\'equipe DASH examine la reclamation et decide de l\'approuver ou de la refuser.',
+    'claims.s4.t':'Soins Medicaux Immediats',
+    'claims.s4.d':'Les reclamations approuvees recoivent des soins medicaux immediats dans les cliniques DASH.',
+    'dash.label':'TABLEAU DE BORD ADMIN',
+    'dash.title':'Ce que le Dashboard Admin Suit',
+    'dash.subtitle':'Un apercu des donnees et statistiques disponibles dans le tableau de bord admin DASH.',
+    'dash.rides':'Courses Protegees',
+    'dash.totalfees':'Total Frais Medicaux',
+    'dash.dashcut':'Part DASH',
+    'dash.mswcut':'Part MsouWout',
+    'dash.monthly':'Revenus Mensuels — DASH vs MsouWout',
+    'dash.pending':'En Attente',
+    'dash.approved':'Approuvees',
+    'dash.rejected':'Refusees',
+    'cta.title':'Contactez-nous pour Demarrer le Partenariat',
+    'cta.subtitle':'Nous sommes prets a travailler avec DASH. Contactez l\'equipe MsouWout pour discuter des details.',
+    'cta.wa':'Ecrivez-nous sur WhatsApp',
+    'footer.home':'Accueil',
+    'footer.msw':'MsouWout',
+    'footer.koutye':'Koutye',
+    'footer.prolakay':'Profesyonel Lakay',
+    'footer.rights':'Tous droits reserves.'
+  },
+  en: {
+    'nav.sub':'DASH Protection',
+    'hero.title':'DASH Medical Protection',
+    'hero.subtitle':'Safety for every MsouWout passenger',
+    'hero.badge':'<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg> Official Partner Program',
+    'how.label':'HOW IT WORKS',
+    'how.title':'A Simple Process, Total Security',
+    'how.subtitle':'In four steps, every MsouWout passenger can get medical protection at DASH clinics.',
+    'how.s1.title':'Request a Ride',
+    'how.s1.desc':'When a passenger requests a ride on MsouWout, they can opt into DASH Medical Protection.',
+    'how.s2.title':'5% Fee Added',
+    'how.s2.desc':'A small 5% fee is added to the ride cost to cover the medical protection.',
+    'how.s3.title':'Accident Occurs',
+    'how.s3.desc':'If an accident occurs during the ride, DASH clinics provide immediate medical care.',
+    'how.s4.title':'Claim Reviewed',
+    'how.s4.desc':'Claims are filed through the MsouWout platform and reviewed by DASH for approval.',
+    'fee.label':'FEE STRUCTURE',
+    'fee.title':'Clear Revenue Sharing',
+    'fee.subtitle':'A transparent structure that gives DASH a stable and predictable revenue source.',
+    'fee.under.header':'Rides under 500 GDES',
+    'fee.total':'Total Fee',
+    'fee.dash.share':'DASH Share',
+    'fee.msw.share':'MsouWout Share (Operations)',
+    'fee.under.example':'Example: 400 GDES ride = 20 GDES total fee &rarr; 14 GDES DASH + 6 GDES MsouWout',
+    'fee.over.header':'Rides over 500 GDES',
+    'fee.over.dash':'Flat 13 GDES',
+    'fee.over.msw':'Remainder',
+    'fee.over.example':'Example: 1000 GDES ride = 50 GDES total fee &rarr; 13 GDES DASH + 37 GDES MsouWout',
+    'bdash.label':'BENEFITS FOR DASH',
+    'bdash.title':'Why Partner with MsouWout?',
+    'bdash.subtitle':'A program that gives DASH guaranteed revenue, visibility, and modern technology.',
+    'bdash.revenue.t':'Steady Revenue',
+    'bdash.revenue.d':'A stable income stream coming directly from every protected ride.',
+    'bdash.patients.t':'More Patients',
+    'bdash.patients.d':'Increase patient volume through ride accident coverage from MsouWout rides.',
+    'bdash.digital.t':'Digital Management',
+    'bdash.digital.d':'Digital claims management system — zero paper. Everything on the platform.',
+    'bdash.reports.t':'Monthly Reports',
+    'bdash.reports.d':'Dashboard and monthly reports: revenue, claims, complete statistics.',
+    'bdash.visibility.t':'Brand Visibility',
+    'bdash.visibility.d':'DASH logo appears on every protected ride — visibility across the entire MsouWout network.',
+    'bpass.label':'BENEFITS FOR PASSENGERS',
+    'bpass.title':'Affordable Protection for Every Ride',
+    'bpass.subtitle':'Passengers get peace of mind and safety for a small additional fee.',
+    'bpass.affordable.t':'Affordable Protection',
+    'bpass.affordable.d':'Medical coverage per ride, for only a 5% fee.',
+    'bpass.access.t':'Immediate DASH Access',
+    'bpass.access.d':'Direct access to the entire DASH clinic network for quick care.',
+    'bpass.simple.t':'Simple Process',
+    'bpass.simple.d':'File a claim directly in the MsouWout app — fast and easy.',
+    'bpass.peace.t':'Peace of Mind',
+    'bpass.peace.d':'Travel worry-free — you know you\'re protected during every ride.',
+    'claims.label':'CLAIMS PROCESS',
+    'claims.title':'How a Claim Works',
+    'claims.subtitle':'Four simple steps from accident to medical care at DASH clinics.',
+    'claims.s1.t':'Accident During a Protected Ride',
+    'claims.s1.d':'An accident occurs during a ride with DASH Medical Protection active.',
+    'claims.s2.t':'File a Claim on MsouWout',
+    'claims.s2.d':'The passenger or driver files a claim in the MsouWout app — with photos and description.',
+    'claims.s3.t':'DASH Reviews the Claim',
+    'claims.s3.d':'The DASH team reviews the claim and decides whether to approve or reject it.',
+    'claims.s4.t':'Immediate Medical Care',
+    'claims.s4.d':'Approved claims receive immediate medical care at DASH clinics.',
+    'dash.label':'ADMIN DASHBOARD',
+    'dash.title':'What the Admin Dashboard Tracks',
+    'dash.subtitle':'A preview of the data and statistics available in the DASH admin dashboard.',
+    'dash.rides':'Protected Rides',
+    'dash.totalfees':'Total Medical Fees',
+    'dash.dashcut':'DASH Share',
+    'dash.mswcut':'MsouWout Share',
+    'dash.monthly':'Monthly Revenue — DASH vs MsouWout',
+    'dash.pending':'Pending',
+    'dash.approved':'Approved',
+    'dash.rejected':'Rejected',
+    'cta.title':'Contact Us to Start the Partnership',
+    'cta.subtitle':'We\'re ready to work with DASH. Contact the MsouWout team to discuss the details.',
+    'cta.wa':'Message us on WhatsApp',
+    'footer.home':'Home',
+    'footer.msw':'MsouWout',
+    'footer.koutye':'Koutye',
+    'footer.prolakay':'Profesyonel Lakay',
+    'footer.rights':'All rights reserved.'
+  }
+};
+
+let currentLang = 'ht';
+
+function applyLang(lang) {
+  currentLang = lang;
+  document.querySelectorAll('.lang-bar a').forEach(a => a.classList.toggle('active', a.dataset.lang === lang));
+  if (lang === 'ht') {
+    document.querySelectorAll('[data-i18n]').forEach(el => {
+      if (el._origHTML) {
+        if (el.tagName === 'OPTION' || el.tagName === 'INPUT') {
+          el.textContent = el._origText || el.textContent;
+        } else {
+          el.innerHTML = el._origHTML;
+        }
+      }
+    });
+    return;
+  }
+  const dict = T[lang] || {};
+  document.querySelectorAll('[data-i18n]').forEach(el => {
+    const key = el.dataset.i18n;
+    if (!el._origHTML) {
+      el._origHTML = el.innerHTML;
+      el._origText = el.textContent;
+    }
+    if (dict[key]) {
+      if (el.tagName === 'OPTION' || el.tagName === 'INPUT') {
+        el.textContent = dict[key];
+      } else {
+        el.innerHTML = dict[key];
+      }
+    }
+  });
+}
+
+document.querySelectorAll('.lang-bar a').forEach(a => {
+  a.addEventListener('click', () => applyLang(a.dataset.lang));
+});
+
+/* ═══ NAV SCROLL ═══ */
+const nav = document.getElementById('nav');
+window.addEventListener('scroll', () => {
+  nav.classList.toggle('scrolled', window.scrollY > 10);
+}, {passive: true});
+
+/* ═══ SHARE BUTTON ═══ */
+document.getElementById('shareBtn').addEventListener('click', async () => {
+  const url = 'https://haitibiznis.com/dash-protection.html';
+  const title = 'DASH Protection Medikal — MsouWout';
+  if (navigator.share) {
+    try { await navigator.share({title, url}); } catch(e) {}
+  } else {
+    try {
+      await navigator.clipboard.writeText(url);
+      const btn = document.getElementById('shareBtn');
+      btn.innerHTML = '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#1B8C3D" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>';
+      setTimeout(() => {
+        btn.innerHTML = '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--text)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg>';
+      }, 2000);
+    } catch(e) { prompt('Copy this link:', url); }
+  }
+});
+
+/* ═══ SCROLL REVEAL ═══ */
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      e.target.classList.add('visible');
+      observer.unobserve(e.target);
+    }
+  });
+}, {threshold: 0.15, rootMargin: '0px 0px -40px 0px'});
+document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+</script>
+</body>
+</html>
