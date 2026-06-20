@@ -484,7 +484,8 @@ function updateDashboard() {
     { val: (mp.totalStores || 0), label: 'Magazen', color: 'green', src: 'MyPlopPlop' },
     { val: (mp.totalOrders || 0), label: 'Komand MP', color: 'blue', src: 'MyPlopPlop' },
     { val: (mp.totalRides || 0) + (hb.totalRides || 0), label: 'Kous Total', color: 'blue', src: 'Tout' },
-    { val: (mp.drivers || 0) + (hb.totalDrivers || 0), label: 'Chofe Total', color: 'green', src: 'Tout' },
+    { val: (mp.drivers || 0), label: 'Chofe MP', color: 'green', src: 'MyPlopPlop' },
+    { val: (hb.totalDrivers || 0), label: 'Chofe MsouWout', color: 'green', src: 'MsouWout' },
     { val: (hb.totalTickets || 0), label: 'Tike Total', color: 'blue', src: 'HaitiBiznis' },
     { val: (hb.todayTickets || 0), label: 'Tike Jodi a', color: 'gold', src: 'HaitiBiznis' },
     { val: (hb.totalEvents || 0), label: 'Evenman', color: 'green', src: 'HaitiBiznis' },
@@ -501,7 +502,7 @@ function updateDashboard() {
   var kpiSectionMap = {
     'Itilizate Total': 'mp-users', 'Nouvo Jodi a': 'mp-users', 'Kliyan': 'mp-users', 'Machann': 'mp-users',
     'Magazen': 'mp-stores', 'Komand MP': 'mp-orders',
-    'Kous Total': 'mp-rides', 'Chofe Total': 'mp-drivers',
+    'Kous Total': 'mp-rides', 'Chofe MP': 'mp-drivers', 'Chofe MsouWout': 'hb-drivers',
     'Tike Total': 'hb-tickets', 'Tike Jodi a': 'hb-tickets',
     'Evenman': 'hb-tickets', 'Reveni Platfom': 'mp-orders',
     'Parenaj Biznis': 'mp-koutye', 'Referans': 'mp-koutye',
