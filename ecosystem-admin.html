@@ -56,7 +56,9 @@ body{font-family:var(--body);background:var(--off-white);color:var(--text);-webk
 .admin-content{max-width:1200px;margin:0 auto;padding:20px}
 
 .kpi-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:10px;margin-bottom:20px}
-.kpi-card{background:var(--white);border-radius:14px;padding:14px;border:1px solid var(--light-gray)}
+.kpi-card{background:var(--white);border-radius:14px;padding:14px;border:1px solid var(--light-gray);cursor:pointer;transition:all .2s}
+.kpi-card:hover{border-color:var(--blue);transform:translateY(-2px);box-shadow:0 4px 12px rgba(0,32,159,.1)}
+.kpi-card:active{transform:translateY(0)}
 .kpi-card .val{font-family:var(--display);font-size:1.4rem;color:var(--dark);line-height:1}
 .kpi-card .val.blue{color:var(--blue)}
 .kpi-card .val.green{color:var(--green)}
@@ -496,13 +498,25 @@ function updateDashboard() {
     { val: (window._vStats || {}).suspended || 0, label: 'Sispann', color: 'red', src: 'Verified' }
   ];
 
+  var kpiSectionMap = {
+    'Itilizate Total': 'mp-users', 'Nouvo Jodi a': 'mp-users', 'Kliyan': 'mp-users', 'Machann': 'mp-users',
+    'Magazen': 'mp-stores', 'Komand MP': 'mp-orders',
+    'Kous Total': 'mp-rides', 'Chofe Total': 'mp-drivers',
+    'Tike Total': 'hb-tickets', 'Tike Jodi a': 'hb-tickets',
+    'Evenman': 'hb-tickets', 'Reveni Platfom': 'mp-orders',
+    'Parenaj Biznis': 'mp-koutye', 'Referans': 'mp-koutye',
+    'Ranbousman': 'hb-refunds', 'Komand Kenbe': 'mp-orders',
+    'Pwofil Verifye': 'hb-verify', 'An Atant Verif.': 'hb-verify', 'Sispann': 'hb-verify'
+  };
+
   var html = '';
   for (var i = 0; i < kpis.length; i++) {
     var k = kpis[i];
     var valStr = k.isCurrency ? k.val : (typeof k.val === 'number' ? k.val.toLocaleString() : k.val);
-    html += '<div class="kpi-card"><div class="val ' + k.color + '">' + valStr + '</div>';
+    var target = kpiSectionMap[k.label] || 'overview';
+    html += '<div class="kpi-card" onclick="switchSection(\'' + target + '\')" title="Klike pou wè detay"><div class="val ' + k.color + '">' + valStr + '</div>';
     html += '<div class="label">' + k.label + '</div>';
-    html += '<div class="src">' + k.src + '</div></div>';
+    html += '<div class="src">' + k.src + ' &#8250;</div></div>';
   }
   document.getElementById('kpiGrid').innerHTML = html;
 
