@@ -3,25 +3,25 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>About HaitiBiznis Technologies — Building Haiti's Digital Bridge to the World</title>
-<meta name="description" content="HaitiBiznis Technologies empowers entrepreneurs, strengthens businesses, and connects Haiti with global opportunities through MyPlopPlop, MsouWout, 48HoursReady, and more.">
-<meta property="og:title" content="About HaitiBiznis Technologies — Building Haiti's Digital Bridge to the World">
-<meta property="og:description" content="A Haitian technology company empowering entrepreneurs and connecting Haiti, Africa, and the world. Connect Businesses. Create Opportunities. Empower Communities.">
+<title>Leadership Team — HaitiBiznis Technologies</title>
+<meta name="description" content="Meet the leadership team behind HaitiBiznis Technologies — the founders, strategists, and partners building Haiti's Digital Bridge to the World.">
+<meta property="og:title" content="Leadership Team — HaitiBiznis Technologies">
+<meta property="og:description" content="Meet the founders, strategists, and partners building Haiti's Digital Bridge to the World.">
 <meta property="og:image" content="https://haitibiznis.com/assets/og-haitibiznis.jpg?v=2">
 <meta property="og:image:type" content="image/jpeg">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
 <meta property="og:type" content="website">
-<meta property="og:url" content="https://haitibiznis.com/about.html">
+<meta property="og:url" content="https://haitibiznis.com/leadership.html">
 <meta property="og:locale" content="ht_HT">
 <meta property="og:locale:alternate" content="en_US">
 <meta property="og:locale:alternate" content="fr_FR">
 <meta property="og:locale:alternate" content="es_ES">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="About HaitiBiznis Technologies">
-<meta name="twitter:description" content="Building Haiti's Digital Bridge to the World. Connect Businesses. Create Opportunities. Empower Communities.">
+<meta name="twitter:title" content="Leadership Team — HaitiBiznis Technologies">
+<meta name="twitter:description" content="Meet the founders, strategists, and partners building Haiti's Digital Bridge to the World.">
 <meta name="twitter:image" content="https://haitibiznis.com/assets/og-haitibiznis.jpg">
-<link rel="canonical" href="https://haitibiznis.com/about.html">
+<link rel="canonical" href="https://haitibiznis.com/leadership.html">
 <script type="application/ld+json">
 {"@context":"https://schema.org","@type":"Organization","name":"HaitiBiznis","url":"https://haitibiznis.com","logo":"https://haitibiznis.com/assets/og-haitibiznis.jpg","description":"Premye platfom dijital Ayiti pou evenman, transpotasyon, livrezon, ak sevis pwofesyonel.","sameAs":["https://msouwout.com","https://myplopplop.com"]}
 </script>
@@ -762,6 +762,81 @@ footer{padding:40px 20px 24px;background:var(--dark);color:var(--white)}
 @media(max-width:420px){
   .sdg-grid{grid-template-columns:repeat(2,1fr)}
 }
+
+/* ═══ LEADERSHIP PAGE ═══ */
+.lead-hero{
+  padding:64px 20px 52px;text-align:center;
+  background:linear-gradient(135deg,var(--dark) 0%,#0a1a3a 45%,var(--blue-dark) 100%);
+  color:var(--white);position:relative;overflow:hidden;
+}
+.lead-hero::before{
+  content:'';position:absolute;inset:0;
+  background:radial-gradient(circle at 25% 20%,rgba(210,16,52,.16) 0%,transparent 50%),
+             radial-gradient(circle at 78% 78%,rgba(0,32,159,.28) 0%,transparent 50%);
+}
+.lead-hero::after{
+  content:'';position:absolute;inset:0;
+  background-image:linear-gradient(rgba(255,255,255,.025) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.025) 1px,transparent 1px);
+  background-size:44px 44px;mask-image:radial-gradient(circle at 50% 40%,#000 0%,transparent 75%);
+}
+.lead-hero>*{position:relative;z-index:1}
+.lead-kicker{
+  display:inline-block;font-size:.72rem;font-weight:800;letter-spacing:.16em;text-transform:uppercase;
+  color:var(--gold);background:rgba(212,160,23,.14);border:1px solid rgba(212,160,23,.35);
+  padding:7px 18px;border-radius:100px;margin-bottom:18px;
+}
+.lead-hero h1{font-family:var(--display);font-size:clamp(1.9rem,5.5vw,3.2rem);line-height:1.12;letter-spacing:-.02em;max-width:760px;margin:0 auto}
+.lead-hero .lh-sub{font-size:clamp(.95rem,2vw,1.1rem);color:rgba(255,255,255,.72);max-width:600px;margin:16px auto 0;line-height:1.6}
+
+.leaders{max-width:1040px;margin:0 auto;padding:56px 20px 20px}
+.leader{
+  display:grid;grid-template-columns:320px 1fr;gap:36px;align-items:center;
+  margin-bottom:56px;padding-bottom:56px;border-bottom:1px solid var(--light-gray);
+}
+.leader:last-child{border-bottom:none}
+.leader-photo{position:relative}
+.leader-photo img{
+  width:100%;aspect-ratio:4/5;object-fit:cover;object-position:center 12%;
+  border-radius:20px;box-shadow:0 18px 44px rgba(12,27,58,.18);
+  border:1px solid var(--light-gray);display:block;background:var(--light-gray);
+}
+.leader-photo::after{
+  content:'';position:absolute;left:-8px;bottom:-8px;width:70px;height:70px;border-radius:0 0 0 20px;z-index:-1;
+}
+.leader-body{min-width:0}
+.leader-role{
+  display:inline-block;font-size:.66rem;font-weight:800;letter-spacing:.1em;text-transform:uppercase;
+  color:#fff;padding:5px 14px;border-radius:100px;margin-bottom:12px;
+}
+.leader-name{font-family:var(--display);font-size:clamp(1.5rem,3.5vw,2.1rem);color:var(--dark);line-height:1.1}
+.leader-cred{font-size:.78rem;font-weight:700;color:var(--text-light);letter-spacing:.02em;margin-top:2px}
+.leader-title{font-size:.95rem;font-weight:700;margin:6px 0 16px}
+.leader-bio p{font-size:.95rem;line-height:1.75;color:var(--text);margin-bottom:12px}
+.leader-bio p:last-child{margin-bottom:0}
+.leader-bio strong{color:var(--dark);font-weight:700}
+.leader-quote{
+  margin-top:18px;padding:12px 18px;border-left:3px solid;border-radius:0 10px 10px 0;
+  font-family:var(--display);font-size:1.05rem;font-style:italic;line-height:1.4;
+  background:var(--off-white);
+}
+/* per-leader accent */
+.lead-red   .leader-role{background:var(--red)}      .lead-red   .leader-title{color:var(--red)}      .lead-red   .leader-quote{border-color:var(--red)}
+.lead-blue  .leader-role{background:var(--blue)}     .lead-blue  .leader-title{color:var(--blue)}     .lead-blue  .leader-quote{border-color:var(--blue)}
+.lead-green .leader-role{background:var(--green)}    .lead-green .leader-title{color:var(--green)}    .lead-green .leader-quote{border-color:var(--green)}
+.lead-purple .leader-role{background:#6D28D9}        .lead-purple .leader-title{color:#6D28D9}        .lead-purple .leader-quote{border-color:#6D28D9}
+.lead-gold  .leader-role{background:#B8860B}         .lead-gold  .leader-title{color:#9A6B00}         .lead-gold  .leader-quote{border-color:#B8860B}
+
+@media(max-width:760px){
+  .leader{grid-template-columns:1fr;gap:20px;text-align:center}
+  .leader-photo{max-width:300px;margin:0 auto}
+  .leader-role{margin-left:auto;margin-right:auto}
+  .leader-bio p{text-align:left}
+  .leader-quote{text-align:left}
+}
+@media(min-width:761px){
+  .leader:nth-child(even) .leader-photo{order:2}
+  .leader:nth-child(even) .leader-body{order:1}
+}
 </style>
 
 <!-- LANGUAGE BAR -->
@@ -783,8 +858,8 @@ footer{padding:40px 20px 24px;background:var(--dark);color:var(--white)}
     </a>
     <div class="nav-links">
       <a href="/" data-i18n="nav_home">Akèy</a>
-      <a href="about.html" style="color:var(--blue)" data-i18n="nav_about">Sou Nou</a>
-      <a href="leadership.html" data-i18n="nav_team">Ekip</a>
+      <a href="about.html" data-i18n="nav_about">Sou Nou</a>
+      <a href="leadership.html" style="color:var(--blue)" data-i18n="nav_team">Ekip</a>
       <a href="/#how" data-i18n="nav_how">Kijan Li Mache</a>
       <a href="/#contact" data-i18n="nav_contact">Kontak</a>
       <a href="koutye.html" class="nav-koutye-link" data-i18n="nav_koutye">Parenaj Biznis</a>
@@ -803,87 +878,107 @@ footer{padding:40px 20px 24px;background:var(--dark);color:var(--white)}
 </div>
 
 <!-- HERO -->
-<section class="about-hero">
-  <img src="assets/about-hero-logo.jpg" alt="HaitiBiznis Technologies" class="ah-logo">
-  <div class="ah-kicker">HaitiBiznis Technologies</div>
-  <h1 data-i18n="ab_h1">N ap Bati Pon Dijital Ayiti Rive nan Lemond</h1>
-  <p class="ah-sub" data-i18n="ab_sub">Konekte Biznis. Kreye Opòtinite. Bay Kominote Plis Pouvwa.</p>
+<section class="lead-hero">
+  <div class="lead-kicker">HaitiBiznis Technologies</div>
+  <h1 data-i18n="lead_h1">Ekip Dirijan Nou</h1>
+  <p class="lh-sub" data-i18n="lead_sub">Moun ki dèyè vizyon an — fondatè, estratèj, ak patnè k ap bati Pon Dijital Ayiti rive nan lemond.</p>
 </section>
 
-<!-- PROSE -->
-<div class="prose-wrap">
-  <div class="prose-block reveal">
-    <p data-i18n="ab_intro"><span class="accent-b">HaitiBiznis Technologies</span> se yon konpayi teknoloji ayisyen ki dedye pou bay antreprenè plis pouvwa, ranfòse biznis, epi konekte Ayiti ak opòtinite atravè lemond gras a solisyon dijital inovatè. Nou kwè teknoloji pa sèlman sou lojisyèl — li sou kreye djòb, elaji mache, epi bati kominote ki pi solid e pi rezistan.</p>
-  </div>
+<!-- LEADERS -->
+<div class="leaders">
 
-  <div class="prose-block reveal">
-    <div class="prose-label" data-i18n="ab_s1_label">Ekosistèm Nou</div>
-    <h2 data-i18n="ab_s1_h">Platfòm Prensipal Nou — MyPlopPlop</h2>
-    <p data-i18n="ab_s1_p">Platfòm prensipal nou, <span class="accent">MyPlopPlop</span>, reyini komès elektwonik, mobilite ki an sekirite, lojistik, lojistik agrikòl, maketing afilyasyon, ak devlopman biznis nan yon sèl ekosistèm dijital entegre. Lè nou konekte achtè, vandè, chofè, kiltivatè, antreprenè, ak patnè estratejik, nou fè li pi fasil pou moun patisipe nan ekonomi dijital la epi fè biznis yo grandi.</p>
-  </div>
-
-  <div class="prose-block reveal">
-    <div class="prose-label" data-i18n="ab_s2_label">PME & Antreprenè</div>
-    <h2 data-i18n="ab_s2_h">Bay Ti ak Mwayen Biznis Plis Pouvwa</h2>
-    <p data-i18n="ab_s2_p">Nan HaitiBiznis Technologies, nou angaje pou ede ti ak mwayen antrepriz (PME) fòmalize, dijitalize, epi jwenn aksè nan mache lokal ak entènasyonal. Atravè <span class="accent">48HoursReady</span>, nou ede antreprenè lanse biznis ki pare pou envestisè — nou bay branding, dokiman biznis, rezime egzekitif, pitch deck, ak onbòding dijital nan sèlman 48 èdtan.</p>
-  </div>
-
-  <div class="prose-block reveal">
-    <div class="prose-label" data-i18n="ab_s3_label">Vizyon Global</div>
-    <h2 data-i18n="ab_s3_h">Pi Lwen pase Ayiti</h2>
-    <p data-i18n="ab_s3_p">Vizyon nou depase Ayiti. N ap bati patenarya estratejik atravè <span class="accent-b">Lafrik, Karayib la, Amerik di Nò</span>, ak pi lwen — k ap kreye nouvo opòtinite pou komès, kolaborasyon nan sante, otonòmi ekonomik fanm, transfè teknoloji, ak devlopman dirab. Nou kwè Ayiti ak Lafrik pataje menm lespri antreprenè a, e ke patenarya Sid–Sid ki pi solid ka debloke gwo potansyèl ekonomik.</p>
-  </div>
-</div>
-
-<!-- SDG -->
-<section class="sdg-section">
-  <div class="sdg-inner">
-    <div class="prose-label" data-i18n="ab_sdg_label">Enpak</div>
-    <h2 data-i18n="ab_sdg_h">Angajman Nou pou Objektif Mondyal yo</h2>
-    <p class="sdg-intro" data-i18n="ab_sdg_intro">Tout sa nou bati gide pa angajman nou pou inovasyon, enklizyon, ak enpak mezirab. Travay nou sipòte Objektif Devlopman Dirab Nasyonzini yo (ODD):</p>
-    <div class="sdg-grid">
-      <div class="sdg-card sdg-3"><div class="sdg-num">3</div><div class="sdg-emoji">&#127973;</div><div class="sdg-name" data-i18n="ab_sdg3">Bon Sante ak Byennèt</div></div>
-      <div class="sdg-card sdg-5"><div class="sdg-num">5</div><div class="sdg-emoji">&#9878;&#65039;</div><div class="sdg-name" data-i18n="ab_sdg5">Egalite Sèks</div></div>
-      <div class="sdg-card sdg-8"><div class="sdg-num">8</div><div class="sdg-emoji">&#128200;</div><div class="sdg-name" data-i18n="ab_sdg8">Travay Diy ak Kwasans Ekonomik</div></div>
-      <div class="sdg-card sdg-9"><div class="sdg-num">9</div><div class="sdg-emoji">&#127981;</div><div class="sdg-name" data-i18n="ab_sdg9">Endistri, Inovasyon ak Enfrastrikti</div></div>
-      <div class="sdg-card sdg-17"><div class="sdg-num">17</div><div class="sdg-emoji">&#129309;</div><div class="sdg-name" data-i18n="ab_sdg17">Patenarya pou Objektif yo</div></div>
+  <!-- Jeffery Boyard -->
+  <div class="leader lead-red reveal">
+    <div class="leader-photo"><img src="assets/team-jeffery-boyard.jpg" alt="Jeffery Boyard"></div>
+    <div class="leader-body">
+      <span class="leader-role" data-i18n="l1_role">Fondatè & Direktè Jeneral (CEO)</span>
+      <h2 class="leader-name">Jeffery Boyard</h2>
+      <div class="leader-title" data-i18n="l1_title">Vizyonè Medya & Teknoloji</div>
+      <div class="leader-bio">
+        <p data-i18n="l1_b1">Jeffery Boyard se yon antreprenè ayisyen, egzekitif medya, ak inovatè teknoloji ki gen plis pase 20 ane eksperyans nan biznis entènasyonal. Anvan li te fonde HaitiBiznis Technologies, li te bati yon karyè medya ki gen siksè an bay lisans pou fotografi ak kontni eksklizif bay gwo medya tankou <strong>TMZ, Page Six, New York Daily News, Access Hollywood, ak Extra</strong>. Travay li te enkli figi piblik entènasyonal tankou Denzel Washington, Jennifer Lopez, Tom Cruise, Taylor Swift, ak Oprah — sa ki ba li anpil eksperyans nan branding, devlopman biznis, ak patenarya global.</p>
+        <p data-i18n="l1_b2">Jodi a, Jeffery dirije <strong>HaitiBiznis Technologies</strong>, yon konpayi ki dedye pou bati Pon Dijital Ayiti rive nan lemond. Atravè platfòm prensipal li a, <strong>MyPlopPlop</strong>, l ap devlope yon ekosistèm dijital entegre ki reyini komès elektwonik, mobilite ki an sekirite, lojistik, lojistik agrikòl, devlopman biznis, ak antreprenarya pou kreye djòb epi elaji opòtinite ekonomik atravè Ayiti, Lafrik, ak Karayib la.</p>
+        <p data-i18n="l1_b3">Pasyone pou inovasyon, otonòmi ekonomik fanm, ak devlopman dirab, Jeffery angaje pou sèvi ak teknoloji pou ede antreprenè, ranfòse ekonomi lokal, epi bati patenarya estratejik ki sipòte Objektif Devlopman Dirab Nasyonzini yo (ODD).</p>
+      </div>
+      <div class="leader-quote" data-i18n="l1_quote">"Teknoloji bati platfòm. Patenarya bati nasyon."</div>
     </div>
   </div>
-</section>
 
-<!-- MISSION -->
-<section class="mission-band">
-  <p class="m-pre" data-i18n="ab_m_pre">Nan HaitiBiznis Technologies, misyon nou senp:</p>
-  <div class="m-line">
-    <span class="a1" data-i18n="ab_m1">Konekte Biznis.</span>
-    <span class="a2" data-i18n="ab_m2">Kreye Opòtinite.</span>
-    <span class="a3" data-i18n="ab_m3">Bay Kominote Plis Pouvwa.</span>
+  <!-- Gilbert Hippolyte -->
+  <div class="leader lead-blue reveal">
+    <div class="leader-photo"><img src="assets/team-gilbert-hippolyte.jpg" alt="Gilbert Hippolyte"></div>
+    <div class="leader-body">
+      <span class="leader-role" data-i18n="l2_role">Direktè Koneksyon (CCO)</span>
+      <h2 class="leader-name">Gilbert Hippolyte</h2>
+      <div class="leader-title" data-i18n="l2_title">Estratèj Entènasyonal & Batisè Relasyon</div>
+      <div class="leader-bio">
+        <p data-i18n="l2_b1">Gilbert Hippolyte se yon achitèk, estratèj entènasyonal, ak batisè relasyon ki gen pasyon pou konsevwa koneksyon ki kreye enpak ekonomik dirab. An konbine lespri achitekti li ak devlopman biznis global, li espesyalize nan reyini gouvènman, envestisè, lidè sektè prive, chanm komès, ak òganizasyon devlopman pou transfòme lide an opòtinite dirab.</p>
+        <p data-i18n="l2_b2">Kòm Direktè Koneksyon (CCO) nan <strong>HaitiBiznis Technologies</strong>, Gilbert dirije patenarya estratejik ak inisyativ ekspansyon entènasyonal konpayi an, e li ede pozisyone HaitiBiznis kòm Pon Dijital Ayiti rive nan lemond. Li jwe yon wòl kle nan bati alyans atravè Ayiti, Lafrik, Karayib la, ak pi lwen pou sipòte deplwaman <strong>MyPlopPlop</strong>, yon ekosistèm dijital entegre ki konekte komès elektwonik, mobilite ki an sekirite, lojistik, lojistik agrikòl, maketing afilyasyon, ak devlopman PME.</p>
+        <p data-i18n="l2_b3">Gilbert kwè gwo enfrastrikti pa bati sèlman ak beton ak asye, men tou atravè patenarya solid, vizyon pataje, ak relasyon ki gen konfyans. Kapasite li pou konekte moun, òganizasyon, ak opòtinite ede pouse misyon HaitiBiznis Technologies pou bay antreprenè plis pouvwa, ranfòse kominote, epi akselere devlopman ekonomik dirab.</p>
+      </div>
+      <div class="leader-quote" data-i18n="l2_quote">"Bati koneksyon. Kreye opòtinite. Bay lavni fòm."</div>
+    </div>
   </div>
-</section>
 
-<!-- ECOSYSTEM ROW -->
-<section class="eco-row-section">
-  <div class="eco-row-head">
-    <div class="prose-label" data-i18n="ab_eco_label">Yon Sèl Ekosistèm</div>
-    <h2 data-i18n="ab_eco_h">Tout bagay konekte</h2>
-    <p data-i18n="ab_eco_p">Senk sèvis, yon sèl platfòm dijital entegre.</p>
+  <!-- Gloria Kamira -->
+  <div class="leader lead-green reveal">
+    <div class="leader-photo"><img src="assets/team-gloria-kamira.jpg" alt="Gloria Kamira"></div>
+    <div class="leader-body">
+      <span class="leader-role" data-i18n="l3_role">Direktè Patenarya Lafrik</span>
+      <h2 class="leader-name">Gloria Kamira</h2>
+      <div class="leader-cred">BSN, RN, CAN</div>
+      <div class="leader-title" data-i18n="l3_title">Enfimyè & Estratèj Sante Global</div>
+      <div class="leader-bio">
+        <p data-i18n="l3_b1">Gloria Kamira se yon enfimyè anrejistre, antreprenè, ak estratèj sante global ki gen pasyon pou bati patenarya ki kreye enpak sosyal ak ekonomik dirab. Ak anpil eksperyans nan sante, teknoloji, ak devlopman dirab, li te travay ak gouvènman, lidè sektè prive, envestisè, ak òganizasyon san bi likratif pou avanse solisyon inovatè ki amelyore lavi epi ranfòse kominote.</p>
+        <p data-i18n="l3_b2">Kòm Direktè Patenarya Lafrik nan <strong>HaitiBiznis Technologies</strong>, Gloria dirije angajman estratejik òganizasyon an atravè Lafrik, an ankouraje kolaborasyon ak founisè swen sante, òganizasyon fanm, ajans devlopman, ak lidè biznis. Li jwe yon wòl kle nan elaji rezo entènasyonal HaitiBiznis Technologies, an konekte Lafrik ak Karayib la atravè teknoloji, antreprenarya, komès dijital, ak devlopman ekonomik dirab.</p>
+        <p data-i18n="l3_b3">Yon defansè solid pou otonòmi ekonomik fanm, Gloria defann inisyativ ki ogmante aksè a antreprenarya, konpetans dijital, sante, ak opòtinite finansye pou fanm ak kominote ki pa gen ase sèvis. Travay li sipòte dirèkteman Objektif Devlopman Dirab Nasyonzini yo, sitou ODD 3 (Bon Sante ak Byennèt), ODD 5 (Egalite Sèks), ODD 8 (Travay Diy ak Kwasans Ekonomik), ak ODD 17 (Patenarya pou Objektif yo).</p>
+        <p data-i18n="l3_b4">Konbinezon inik Gloria nan ekspètiz sante, lidèchip estratejik, ak devlopman patenarya global ranfòse misyon HaitiBiznis Technologies pou bati Pon Dijital Ayiti rive nan lemond. Atravè inovasyon kolaboratif ak patenarya enklizif, l ap ede kreye nouvo opòtinite ki pouse kwasans dirab, amelyore aksè a sante, epi bay antreprenè plis pouvwa atravè Lafrik, Karayib la, ak pi lwen.</p>
+      </div>
+    </div>
   </div>
-  <div class="eco-row">
-    <div class="eco-tile et-blue"><div class="et-ico">&#128663;</div><h3>MsouWout</h3><div class="et-tag" data-i18n="ab_e1_tag">Mobilite</div><p data-i18n="ab_e1_p">Kous ak livrezon ki an sekirite atravè Ayiti.</p></div>
-    <div class="eco-tile et-red"><div class="et-ico">&#128717;&#65039;</div><h3>MyPlopPlop</h3><div class="et-tag" data-i18n="ab_e2_tag">Komès Elektwonik</div><p data-i18n="ab_e2_p">Achte ak vann pwodwi sou entènèt.</p></div>
-    <div class="eco-tile et-green"><div class="et-ico">&#127806;</div><h3>MsouWout Agro</h3><div class="et-tag" data-i18n="ab_e3_tag">Lojistik Agrikòl</div><p data-i18n="ab_e3_p">Konekte kiltivatè ak mache.</p></div>
-    <div class="eco-tile et-purple"><div class="et-ico">&#128101;</div><h3>Parènaj Biznis</h3><div class="et-tag" data-i18n="ab_e4_tag">Sistèm Afilyasyon</div><p data-i18n="ab_e4_p">Refere biznis, touche komisyon.</p></div>
-    <div class="eco-tile et-gold"><div class="et-ico">&#9203;</div><h3>48HoursReady</h3><div class="et-tag" data-i18n="ab_e5_tag">Preparasyon Biznis</div><p data-i18n="ab_e5_p">Lanse yon biznis ki pare pou envestisè nan 48 èdtan.</p></div>
+
+  <!-- Marie-Anne Boyard Maignan -->
+  <div class="leader lead-purple reveal">
+    <div class="leader-photo"><img src="assets/team-marie-anne-maignan.jpg" alt="Marie-Anne Boyard Maignan"></div>
+    <div class="leader-body">
+      <span class="leader-role" data-i18n="l4_role">Estratèj Sante an Chèf</span>
+      <h2 class="leader-name">Marie-Anne Boyard Maignan</h2>
+      <div class="leader-cred">CPB, CPC, CPMA, CPCO</div>
+      <div class="leader-title" data-i18n="l4_title">Egzekitif Sante</div>
+      <div class="leader-bio">
+        <p data-i18n="l4_b1">Marie-Anne Boyard Maignan se yon egzekitif sante akonpli ki gen plis pase 30 ane eksperyans nan lidèchip sante, jesyon operasyon, optimizasyon sik revni, konfòmite, ak planifikasyon estratejik. Pandan tout karyè li, li te dirije ekip miltidisiplinè ak siksè, amelyore operasyon sante, epi mete an plas solisyon inovatè ki amelyore swen pasyan pandan y ap ranfòse pèfòmans òganizasyonèl.</p>
+        <p data-i18n="l4_b2">Kòm Estratèj Sante an Chèf nan <strong>HaitiBiznis Technologies</strong>, Marie-Anne dirije estrateji sante ak inisyativ patenarya konpayi an, an ede konekte teknoloji ak sante atravè Ayiti, Lafrik, ak Karayib la. Li travay pou devlope kolaborasyon ak lopital, founisè swen sante, gouvènman, konpayi asirans, ak òganizasyon devlopman pou elaji aksè a solisyon sante dijital inovatè epi ranfòse sistèm sante kominotè.</p>
+        <p data-i18n="l4_b3">Ak ekspètiz ki kouvri newoloji, sèvis transplantasyon, chiriji, kadyoloji, pedyatri, sikoloji, reyabilitasyon, ak medsin entèn, Marie-Anne pote yon pèspektiv inik ki sipòte misyon HaitiBiznis Technologies pou bati Pon Dijital Ayiti rive nan lemond atravè inovasyon, patenarya estratejik, ak solisyon sante dirab.</p>
+      </div>
+      <div class="leader-quote" data-i18n="l4_quote">"Kominote ki an sante kreye ekonomi ki pi solid."</div>
+    </div>
   </div>
-</section>
+
+  <!-- Wendell Theodore -->
+  <div class="leader lead-gold reveal">
+    <div class="leader-photo"><img src="assets/team-wendell-theodore.jpg" alt="Wendell Theodore"></div>
+    <div class="leader-body">
+      <span class="leader-role" data-i18n="l5_role">Konsiltan Medya an Chèf</span>
+      <h2 class="leader-name">Wendell Theodore</h2>
+      <div class="leader-title" data-i18n="l5_title">Jounalis & Estratèj Kominikasyon</div>
+      <div class="leader-bio">
+        <p data-i18n="l5_b1">Wendell Theodore se yon jounalis ayisyen respekte, konsiltan medya, ak estratèj kominikasyon ki gen anpil eksperyans nan jounalis emisyon, afè piblik, ak kominikasyon estratejik. Kòm animatè <strong>Le Point</strong> sou <strong>Radio Métropole</strong>, youn nan pwogram nouvèl ki gen plis enfliyans an Ayiti, li te genyen yon repitasyon pou entèvyou pwofon, analiz ekilibre, ak diskisyon ki angaje sou pwoblèm k ap fòme Ayiti ak kominote entènasyonal la.</p>
+        <p data-i18n="l5_b2">Kòm Konsiltan Medya an Chèf nan <strong>HaitiBiznis Technologies</strong>, Wendell bay konsèy estratejik sou relasyon medya, kominikasyon piblik, pozisyònman mak, ak angajman patnè. Li konseye ekip dirijan an sou mesaj efikas, jesyon repitasyon, ak estrateji kominikasyon ki ranfòse vizibilite ak kredibilite konpayi an ak gouvènman, patnè devlopman, envestisè, ak sektè prive.</p>
+        <p data-i18n="l5_b3">Ekspètiz li ede HaitiBiznis Technologies kominike misyon li pou bati Pon Dijital Ayiti rive nan lemond, an pwomouvwa inovasyon, antreprenarya, enklizyon dijital, ak patenarya estratejik atravè Ayiti, Lafrik, ak Karayib la.</p>
+        <p data-i18n="l5_b4">Atravè konpreyansyon pwofon li sou medya ak angajman piblik, Wendell ede asire vizyon HaitiBiznis Technologies rive jwenn odyans ak moun k ap pran desizyon ki ka transfòme lide an enpak reyèl.</p>
+      </div>
+      <div class="leader-quote" data-i18n="l5_quote">"Gwo lide merite gwo kominikasyon."</div>
+    </div>
+  </div>
+
+</div>
 
 <!-- CTA -->
 <section class="about-cta-band">
-  <h2 data-i18n="ab_cta_h">Eksplore Ekosistèm nan</h2>
-  <p data-i18n="ab_cta_p">Yon platfòm pou tout bezwen dijital ou yo.</p>
+  <h2 data-i18n="lead_cta_h">Ann bati lavni an ansanm</h2>
+  <p data-i18n="lead_cta_p">Aprann plis sou HaitiBiznis Technologies ak ekosistèm nou an.</p>
   <div class="acb-btns">
-    <a href="https://myplopplop.com" target="_blank" class="btn btn-red" data-i18n="ab_cta_b1">Vizite MyPlopPlop</a>
-    <a href="/" class="btn" style="background:var(--dark);color:#fff;border-color:var(--dark)" data-i18n="ab_cta_b2">Tounen nan Akèy</a>
+    <a href="about.html" class="btn btn-red" data-i18n="lead_cta_b1">Sou Nou</a>
+    <a href="/" class="btn" style="background:var(--dark);color:#fff;border-color:var(--dark)" data-i18n="lead_cta_b2">Tounen nan Akèy</a>
   </div>
 </section>
 
@@ -896,7 +991,7 @@ footer{padding:40px 20px 24px;background:var(--dark);color:var(--white)}
       <div class="footer-logo"><img src="assets/haitibiznis-icon.png" alt=""><span>Haiti<em>Biznis</em></span></div>
       <p data-i18n="ab_foot_p">Yon hub ki konekte komès, mobilite, talan, ak kwasans biznis an Ayiti. Pouvwa Biznis. Opòtinite Pou Tout.</p>
     </div>
-    <div class="footer-col"><h4 data-i18n="ab_foot_links">Lyen Rapid</h4><a href="/" data-i18n="nav_home">Akèy</a><a href="about.html" data-i18n="nav_about">Sou Nou</a><a href="/#how" data-i18n="nav_how">Kijan Li Mache</a><a href="/#contact" data-i18n="nav_contact">Kontak</a></div>
+    <div class="footer-col"><h4 data-i18n="ab_foot_links">Lyen Rapid</h4><a href="/" data-i18n="nav_home">Akèy</a><a href="about.html" data-i18n="nav_about">Sou Nou</a><a href="leadership.html" data-i18n="nav_team">Ekip Dirijan</a><a href="/#how" data-i18n="nav_how">Kijan Li Mache</a><a href="/#contact" data-i18n="nav_contact">Kontak</a></div>
     <div class="footer-col"><h4 data-i18n="ab_foot_plat">Platfòm</h4><a href="https://myplopplop.com" target="_blank">MyPlopPlop</a><a href="https://msouwout.com" target="_blank">MsouWout</a><a href="prolakay.html" target="_blank">Pwofesyonèl Lakay</a><a href="https://48hoursready.com" target="_blank">48HoursReady</a><a href="koutye.html">Parenaj Biznis</a></div>
     <div class="footer-col"><h4 data-i18n="ab_foot_more">Plis</h4><a href="https://boxetoboxe.com" target="_blank">BoxeToBoxe</a><a href="https://billionorth.com" target="_blank">Billionorth</a></div>
   </div>
@@ -912,6 +1007,35 @@ document.querySelectorAll('.reveal').forEach(el=>obs.observe(el));
 const translations={
   ht:{
     nav_home:'Akèy',nav_about:'Sou Nou',nav_team:'Ekip',nav_how:'Kijan Li Mache',nav_contact:'Kontak',nav_koutye:'Parenaj Biznis',
+    lead_h1:'Ekip Dirijan Nou',
+    lead_sub:'Moun ki dèyè vizyon an — fondatè, estratèj, ak patnè k ap bati Pon Dijital Ayiti rive nan lemond.',
+    l1_role:'Fondatè & Direktè Jeneral (CEO)',l1_title:'Vizyonè Medya & Teknoloji',
+    l1_b1:'Jeffery Boyard se yon antreprenè ayisyen, egzekitif medya, ak inovatè teknoloji ki gen plis pase 20 ane eksperyans nan biznis entènasyonal. Anvan li te fonde HaitiBiznis Technologies, li te bati yon karyè medya ki gen siksè an bay lisans pou fotografi ak kontni eksklizif bay gwo medya tankou <strong>TMZ, Page Six, New York Daily News, Access Hollywood, ak Extra</strong>. Travay li te enkli figi piblik entènasyonal tankou Denzel Washington, Jennifer Lopez, Tom Cruise, Taylor Swift, ak Oprah — sa ki ba li anpil eksperyans nan branding, devlopman biznis, ak patenarya global.',
+    l1_b2:'Jodi a, Jeffery dirije <strong>HaitiBiznis Technologies</strong>, yon konpayi ki dedye pou bati Pon Dijital Ayiti rive nan lemond. Atravè platfòm prensipal li a, <strong>MyPlopPlop</strong>, l ap devlope yon ekosistèm dijital entegre ki reyini komès elektwonik, mobilite ki an sekirite, lojistik, lojistik agrikòl, devlopman biznis, ak antreprenarya pou kreye djòb epi elaji opòtinite ekonomik atravè Ayiti, Lafrik, ak Karayib la.',
+    l1_b3:'Pasyone pou inovasyon, otonòmi ekonomik fanm, ak devlopman dirab, Jeffery angaje pou sèvi ak teknoloji pou ede antreprenè, ranfòse ekonomi lokal, epi bati patenarya estratejik ki sipòte Objektif Devlopman Dirab Nasyonzini yo (ODD).',
+    l1_quote:'"Teknoloji bati platfòm. Patenarya bati nasyon."',
+    l2_role:'Direktè Koneksyon (CCO)',l2_title:'Estratèj Entènasyonal & Batisè Relasyon',
+    l2_b1:'Gilbert Hippolyte se yon achitèk, estratèj entènasyonal, ak batisè relasyon ki gen pasyon pou konsevwa koneksyon ki kreye enpak ekonomik dirab. An konbine lespri achitekti li ak devlopman biznis global, li espesyalize nan reyini gouvènman, envestisè, lidè sektè prive, chanm komès, ak òganizasyon devlopman pou transfòme lide an opòtinite dirab.',
+    l2_b2:'Kòm Direktè Koneksyon (CCO) nan <strong>HaitiBiznis Technologies</strong>, Gilbert dirije patenarya estratejik ak inisyativ ekspansyon entènasyonal konpayi an, e li ede pozisyone HaitiBiznis kòm Pon Dijital Ayiti rive nan lemond. Li jwe yon wòl kle nan bati alyans atravè Ayiti, Lafrik, Karayib la, ak pi lwen pou sipòte deplwaman <strong>MyPlopPlop</strong>, yon ekosistèm dijital entegre ki konekte komès elektwonik, mobilite ki an sekirite, lojistik, lojistik agrikòl, maketing afilyasyon, ak devlopman PME.',
+    l2_b3:'Gilbert kwè gwo enfrastrikti pa bati sèlman ak beton ak asye, men tou atravè patenarya solid, vizyon pataje, ak relasyon ki gen konfyans. Kapasite li pou konekte moun, òganizasyon, ak opòtinite ede pouse misyon HaitiBiznis Technologies pou bay antreprenè plis pouvwa, ranfòse kominote, epi akselere devlopman ekonomik dirab.',
+    l2_quote:'"Bati koneksyon. Kreye opòtinite. Bay lavni fòm."',
+    l3_role:'Direktè Patenarya Lafrik',l3_title:'Enfimyè & Estratèj Sante Global',
+    l3_b1:'Gloria Kamira se yon enfimyè anrejistre, antreprenè, ak estratèj sante global ki gen pasyon pou bati patenarya ki kreye enpak sosyal ak ekonomik dirab. Ak anpil eksperyans nan sante, teknoloji, ak devlopman dirab, li te travay ak gouvènman, lidè sektè prive, envestisè, ak òganizasyon san bi likratif pou avanse solisyon inovatè ki amelyore lavi epi ranfòse kominote.',
+    l3_b2:'Kòm Direktè Patenarya Lafrik nan <strong>HaitiBiznis Technologies</strong>, Gloria dirije angajman estratejik òganizasyon an atravè Lafrik, an ankouraje kolaborasyon ak founisè swen sante, òganizasyon fanm, ajans devlopman, ak lidè biznis. Li jwe yon wòl kle nan elaji rezo entènasyonal HaitiBiznis Technologies, an konekte Lafrik ak Karayib la atravè teknoloji, antreprenarya, komès dijital, ak devlopman ekonomik dirab.',
+    l3_b3:'Yon defansè solid pou otonòmi ekonomik fanm, Gloria defann inisyativ ki ogmante aksè a antreprenarya, konpetans dijital, sante, ak opòtinite finansye pou fanm ak kominote ki pa gen ase sèvis. Travay li sipòte dirèkteman Objektif Devlopman Dirab Nasyonzini yo, sitou ODD 3 (Bon Sante ak Byennèt), ODD 5 (Egalite Sèks), ODD 8 (Travay Diy ak Kwasans Ekonomik), ak ODD 17 (Patenarya pou Objektif yo).',
+    l3_b4:'Konbinezon inik Gloria nan ekspètiz sante, lidèchip estratejik, ak devlopman patenarya global ranfòse misyon HaitiBiznis Technologies pou bati Pon Dijital Ayiti rive nan lemond. Atravè inovasyon kolaboratif ak patenarya enklizif, l ap ede kreye nouvo opòtinite ki pouse kwasans dirab, amelyore aksè a sante, epi bay antreprenè plis pouvwa atravè Lafrik, Karayib la, ak pi lwen.',
+    l4_role:'Estratèj Sante an Chèf',l4_title:'Egzekitif Sante',
+    l4_b1:'Marie-Anne Boyard Maignan se yon egzekitif sante akonpli ki gen plis pase 30 ane eksperyans nan lidèchip sante, jesyon operasyon, optimizasyon sik revni, konfòmite, ak planifikasyon estratejik. Pandan tout karyè li, li te dirije ekip miltidisiplinè ak siksè, amelyore operasyon sante, epi mete an plas solisyon inovatè ki amelyore swen pasyan pandan y ap ranfòse pèfòmans òganizasyonèl.',
+    l4_b2:'Kòm Estratèj Sante an Chèf nan <strong>HaitiBiznis Technologies</strong>, Marie-Anne dirije estrateji sante ak inisyativ patenarya konpayi an, an ede konekte teknoloji ak sante atravè Ayiti, Lafrik, ak Karayib la. Li travay pou devlope kolaborasyon ak lopital, founisè swen sante, gouvènman, konpayi asirans, ak òganizasyon devlopman pou elaji aksè a solisyon sante dijital inovatè epi ranfòse sistèm sante kominotè.',
+    l4_b3:'Ak ekspètiz ki kouvri newoloji, sèvis transplantasyon, chiriji, kadyoloji, pedyatri, sikoloji, reyabilitasyon, ak medsin entèn, Marie-Anne pote yon pèspektiv inik ki sipòte misyon HaitiBiznis Technologies pou bati Pon Dijital Ayiti rive nan lemond atravè inovasyon, patenarya estratejik, ak solisyon sante dirab.',
+    l4_quote:'"Kominote ki an sante kreye ekonomi ki pi solid."',
+    l5_role:'Konsiltan Medya an Chèf',l5_title:'Jounalis & Estratèj Kominikasyon',
+    l5_b1:'Wendell Theodore se yon jounalis ayisyen respekte, konsiltan medya, ak estratèj kominikasyon ki gen anpil eksperyans nan jounalis emisyon, afè piblik, ak kominikasyon estratejik. Kòm animatè <strong>Le Point</strong> sou <strong>Radio Métropole</strong>, youn nan pwogram nouvèl ki gen plis enfliyans an Ayiti, li te genyen yon repitasyon pou entèvyou pwofon, analiz ekilibre, ak diskisyon ki angaje sou pwoblèm k ap fòme Ayiti ak kominote entènasyonal la.',
+    l5_b2:'Kòm Konsiltan Medya an Chèf nan <strong>HaitiBiznis Technologies</strong>, Wendell bay konsèy estratejik sou relasyon medya, kominikasyon piblik, pozisyònman mak, ak angajman patnè. Li konseye ekip dirijan an sou mesaj efikas, jesyon repitasyon, ak estrateji kominikasyon ki ranfòse vizibilite ak kredibilite konpayi an ak gouvènman, patnè devlopman, envestisè, ak sektè prive.',
+    l5_b3:'Ekspètiz li ede HaitiBiznis Technologies kominike misyon li pou bati Pon Dijital Ayiti rive nan lemond, an pwomouvwa inovasyon, antreprenarya, enklizyon dijital, ak patenarya estratejik atravè Ayiti, Lafrik, ak Karayib la.',
+    l5_b4:'Atravè konpreyansyon pwofon li sou medya ak angajman piblik, Wendell ede asire vizyon HaitiBiznis Technologies rive jwenn odyans ak moun k ap pran desizyon ki ka transfòme lide an enpak reyèl.',
+    l5_quote:'"Gwo lide merite gwo kominikasyon."',
+    lead_cta_h:'Ann bati lavni an ansanm',lead_cta_p:'Aprann plis sou HaitiBiznis Technologies ak ekosistèm nou an.',lead_cta_b1:'Sou Nou',lead_cta_b2:'Tounen nan Akèy',
     ab_h1:'N ap Bati Pon Dijital Ayiti Rive nan Lemond',
     ab_sub:'Konekte Biznis. Kreye Opòtinite. Bay Kominote Plis Pouvwa.',
     ab_intro:'<span class="accent-b">HaitiBiznis Technologies</span> se yon konpayi teknoloji ayisyen ki dedye pou bay antreprenè plis pouvwa, ranfòse biznis, epi konekte Ayiti ak opòtinite atravè lemond gras a solisyon dijital inovatè. Nou kwè teknoloji pa sèlman sou lojisyèl — li sou kreye djòb, elaji mache, epi bati kominote ki pi solid e pi rezistan.',
@@ -938,6 +1062,35 @@ const translations={
   },
   fr:{
     nav_home:'Accueil',nav_about:'À propos',nav_team:'Équipe',nav_how:'Comment ça marche',nav_contact:'Contact',nav_koutye:'Parrainage Business',
+    lead_h1:'Notre équipe de direction',
+    lead_sub:'Les personnes derrière la vision — fondateurs, stratèges et partenaires qui bâtissent le pont numérique entre Haïti et le monde.',
+    l1_role:'Fondateur & Directeur Général (CEO)',l1_title:'Visionnaire des médias et de la technologie',
+    l1_b1:'Jeffery Boyard est un entrepreneur haïtien, cadre des médias et innovateur technologique fort de plus de 20 ans d\'expérience en affaires internationales. Avant de fonder HaitiBiznis Technologies, il a bâti une carrière médiatique florissante en concédant sous licence des photographies et des contenus exclusifs à de grands médias tels que <strong>TMZ, Page Six, New York Daily News, Access Hollywood et Extra</strong>. Son travail a mis en scène des personnalités publiques mondialement reconnues comme Denzel Washington, Jennifer Lopez, Tom Cruise, Taylor Swift et Oprah — lui procurant une vaste expérience en image de marque, développement des affaires et partenariats mondiaux.',
+    l1_b2:'Aujourd\'hui, Jeffery dirige <strong>HaitiBiznis Technologies</strong>, une entreprise dédiée à bâtir le pont numérique entre Haïti et le monde. À travers sa plateforme phare, <strong>MyPlopPlop</strong>, il développe un écosystème numérique intégré qui combine le commerce électronique, la mobilité sécurisée, la logistique, la logistique agricole, le développement des affaires et l\'entrepreneuriat pour créer des emplois et élargir les opportunités économiques à travers Haïti, l\'Afrique et les Caraïbes.',
+    l1_b3:'Passionné par l\'innovation, l\'autonomisation économique des femmes et le développement durable, Jeffery s\'engage à utiliser la technologie pour aider les entrepreneurs, renforcer les économies locales et bâtir des partenariats stratégiques qui soutiennent les Objectifs de Développement Durable des Nations Unies (ODD).',
+    l1_quote:'« La technologie bâtit des plateformes. Les partenariats bâtissent des nations. »',
+    l2_role:'Directeur des Connexions (CCO)',l2_title:'Stratège international & bâtisseur de relations',
+    l2_b1:'Gilbert Hippolyte est un architecte, stratège international et bâtisseur de relations passionné par la conception de connexions qui créent un impact économique durable. Alliant son esprit d\'architecte au développement des affaires à l\'échelle mondiale, il se spécialise dans le rapprochement des gouvernements, des investisseurs, des dirigeants du secteur privé, des chambres de commerce et des organisations de développement pour transformer les idées en opportunités durables.',
+    l2_b2:'En tant que Directeur des Connexions (CCO) chez <strong>HaitiBiznis Technologies</strong>, Gilbert dirige les partenariats stratégiques et les initiatives d\'expansion internationale de l\'entreprise, contribuant à positionner HaitiBiznis comme le pont numérique entre Haïti et le monde. Il joue un rôle clé dans la création d\'alliances à travers Haïti, l\'Afrique, les Caraïbes et au-delà pour soutenir le déploiement de <strong>MyPlopPlop</strong>, un écosystème numérique intégré qui relie le commerce électronique, la mobilité sécurisée, la logistique, la logistique agricole, le marketing d\'affiliation et le développement des PME.',
+    l2_b3:'Gilbert croit que les grandes infrastructures ne se construisent pas seulement avec du béton et de l\'acier, mais aussi grâce à des partenariats solides, une vision partagée et des relations de confiance. Sa capacité à relier les personnes, les organisations et les opportunités contribue à faire avancer la mission de HaitiBiznis Technologies : autonomiser les entrepreneurs, renforcer les communautés et accélérer le développement économique durable.',
+    l2_quote:'« Bâtir des connexions. Créer des opportunités. Façonner l\'avenir. »',
+    l3_role:'Directrice des Partenariats Afrique',l3_title:'Infirmière & stratège en santé mondiale',
+    l3_b1:'Gloria Kamira est une infirmière diplômée, entrepreneure et stratège en santé mondiale passionnée par la création de partenariats générant un impact social et économique durable. Forte d\'une vaste expérience en santé, en technologie et en développement durable, elle a travaillé avec des gouvernements, des dirigeants du secteur privé, des investisseurs et des organisations à but non lucratif pour faire progresser des solutions innovantes qui améliorent des vies et renforcent les communautés.',
+    l3_b2:'En tant que Directrice des Partenariats Afrique chez <strong>HaitiBiznis Technologies</strong>, Gloria dirige l\'engagement stratégique de l\'organisation à travers l\'Afrique, en favorisant les collaborations avec les prestataires de soins de santé, les organisations de femmes, les agences de développement et les chefs d\'entreprise. Elle joue un rôle clé dans l\'expansion du réseau international de HaitiBiznis Technologies, reliant l\'Afrique et les Caraïbes par la technologie, l\'entrepreneuriat, le commerce numérique et le développement économique durable.',
+    l3_b3:'Fervente défenseuse de l\'autonomisation économique des femmes, Gloria promeut des initiatives qui accroissent l\'accès à l\'entrepreneuriat, aux compétences numériques, aux soins de santé et aux opportunités financières pour les femmes et les communautés mal desservies. Son travail soutient directement les Objectifs de Développement Durable des Nations Unies, notamment l\'ODD 3 (Bonne santé et bien-être), l\'ODD 5 (Égalité entre les sexes), l\'ODD 8 (Travail décent et croissance économique) et l\'ODD 17 (Partenariats pour les objectifs).',
+    l3_b4:'La combinaison unique d\'expertise en santé, de leadership stratégique et de développement de partenariats mondiaux de Gloria renforce la mission de HaitiBiznis Technologies de bâtir le pont numérique entre Haïti et le monde. Grâce à l\'innovation collaborative et aux partenariats inclusifs, elle contribue à créer de nouvelles opportunités qui stimulent une croissance durable, améliorent l\'accès aux soins et autonomisent les entrepreneurs à travers l\'Afrique, les Caraïbes et au-delà.',
+    l4_role:'Stratège en Chef de la Santé',l4_title:'Cadre de la santé',
+    l4_b1:'Marie-Anne Boyard Maignan est une dirigeante de la santé accomplie, forte de plus de 30 ans d\'expérience en leadership de la santé, gestion des opérations, optimisation du cycle des revenus, conformité et planification stratégique. Tout au long de sa carrière, elle a dirigé avec succès des équipes multidisciplinaires, amélioré les opérations de santé et mis en œuvre des solutions innovantes qui améliorent les soins aux patients tout en renforçant la performance organisationnelle.',
+    l4_b2:'En tant que Stratège en Chef de la Santé chez <strong>HaitiBiznis Technologies</strong>, Marie-Anne dirige la stratégie de santé et les initiatives de partenariat de l\'entreprise, contribuant à relier la technologie et la santé à travers Haïti, l\'Afrique et les Caraïbes. Elle œuvre à développer des collaborations avec les hôpitaux, les prestataires de soins, les gouvernements, les assureurs et les organisations de développement afin d\'élargir l\'accès à des solutions de santé numériques innovantes et de renforcer les systèmes de santé communautaires.',
+    l4_b3:'Avec une expertise couvrant la neurologie, les services de transplantation, la chirurgie, la cardiologie, la pédiatrie, la psychologie, la réadaptation et la médecine interne, Marie-Anne apporte une perspective unique qui soutient la mission de HaitiBiznis Technologies de bâtir le pont numérique entre Haïti et le monde grâce à l\'innovation, aux partenariats stratégiques et à des solutions de santé durables.',
+    l4_quote:'« Des communautés en meilleure santé créent des économies plus fortes. »',
+    l5_role:'Consultant Média en Chef',l5_title:'Journaliste & stratège en communication',
+    l5_b1:'Wendell Theodore est un journaliste haïtien respecté, consultant média et stratège en communication doté d\'une vaste expérience en journalisme audiovisuel, affaires publiques et communication stratégique. En tant qu\'animateur de <strong>Le Point</strong> sur <strong>Radio Métropole</strong>, l\'un des programmes d\'information les plus influents d\'Haïti, il s\'est forgé une réputation d\'entretiens perspicaces, d\'analyses équilibrées et de discussions engageantes sur les enjeux qui façonnent Haïti et la communauté internationale.',
+    l5_b2:'En tant que Consultant Média en Chef chez <strong>HaitiBiznis Technologies</strong>, Wendell fournit des conseils stratégiques en relations médias, communication publique, positionnement de marque et engagement des parties prenantes. Il conseille l\'équipe de direction sur les messages efficaces, la gestion de la réputation et les stratégies de communication qui renforcent la visibilité et la crédibilité de l\'entreprise auprès des gouvernements, des partenaires de développement, des investisseurs et du secteur privé.',
+    l5_b3:'Son expertise aide HaitiBiznis Technologies à communiquer sa mission de bâtir le pont numérique entre Haïti et le monde, tout en promouvant l\'innovation, l\'entrepreneuriat, l\'inclusion numérique et les partenariats stratégiques à travers Haïti, l\'Afrique et les Caraïbes.',
+    l5_b4:'Grâce à sa compréhension approfondie des médias et de l\'engagement public, Wendell contribue à faire en sorte que la vision de HaitiBiznis Technologies atteigne les publics et les décideurs capables de transformer les idées en impact concret.',
+    l5_quote:'« Les idées puissantes méritent une communication puissante. »',
+    lead_cta_h:'Bâtissons l\'avenir ensemble',lead_cta_p:'En savoir plus sur HaitiBiznis Technologies et notre écosystème.',lead_cta_b1:'À propos',lead_cta_b2:'Retour à l\'accueil',
     ab_h1:'Bâtir le pont numérique entre Haïti et le monde',
     ab_sub:'Connecter les entreprises. Créer des opportunités. Autonomiser les communautés.',
     ab_intro:'<span class="accent-b">HaitiBiznis Technologies</span> est une entreprise technologique haïtienne dédiée à autonomiser les entrepreneurs, renforcer les entreprises et connecter Haïti aux opportunités mondiales grâce à des solutions numériques innovantes. Nous croyons que la technologie ne se limite pas au logiciel — elle crée des emplois, élargit les marchés et bâtit des communautés plus fortes et plus résilientes.',
@@ -964,6 +1117,35 @@ const translations={
   },
   en:{
     nav_home:'Home',nav_about:'About',nav_team:'Leadership',nav_how:'How It Works',nav_contact:'Contact',nav_koutye:'Business Referral',
+    lead_h1:'Our Leadership Team',
+    lead_sub:'The people behind the vision — the founders, strategists, and partners building Haiti\'s Digital Bridge to the World.',
+    l1_role:'Founder & Chief Executive Officer (CEO)',l1_title:'Media & Tech Visionary',
+    l1_b1:'Jeffery Boyard is a Haitian entrepreneur, media executive, and technology innovator with more than 20 years of international business experience. Before founding HaitiBiznis Technologies, he built a successful media career licensing exclusive photography and content to major outlets including <strong>TMZ, Page Six, New York Daily News, Access Hollywood, and Extra</strong>. His work included internationally recognized public figures such as Denzel Washington, Jennifer Lopez, Tom Cruise, Taylor Swift, and Oprah — providing him with extensive experience in branding, business development, and global partnerships.',
+    l1_b2:'Today, Jeffery leads <strong>HaitiBiznis Technologies</strong>, a company dedicated to building Haiti\'s Digital Bridge to the World. Through its flagship platform, <strong>MyPlopPlop</strong>, he is developing an integrated digital ecosystem that combines e-commerce, secure mobility, logistics, agro logistics, business development, and entrepreneurship to create jobs and expand economic opportunities across Haiti, Africa, and the Caribbean.',
+    l1_b3:'Passionate about innovation, women\'s economic empowerment, and sustainable development, Jeffery is committed to using technology to help entrepreneurs, strengthen local economies, and build strategic partnerships that support the United Nations Sustainable Development Goals (SDGs).',
+    l1_quote:'"Technology Builds Platforms. Partnerships Build Nations."',
+    l2_role:'Chief Connector Officer (CCO)',l2_title:'International Strategist & Relationship Builder',
+    l2_b1:'Gilbert Hippolyte is an architect, international strategist, and relationship builder with a passion for designing connections that create lasting economic impact. Combining his architectural mindset with global business development, he specializes in bringing together governments, investors, private-sector leaders, chambers of commerce, and development organizations to transform ideas into sustainable opportunities.',
+    l2_b2:'As Chief Connector Officer (CCO) at <strong>HaitiBiznis Technologies</strong>, Gilbert leads the company\'s strategic partnerships and international expansion initiatives, helping position HaitiBiznis as Haiti\'s Digital Bridge to the World. He plays a key role in building alliances across Haiti, Africa, the Caribbean, and beyond to support the deployment of <strong>MyPlopPlop</strong>, an integrated digital ecosystem that connects e-commerce, secure mobility, logistics, agro logistics, affiliate marketing, and SME development.',
+    l2_b3:'Gilbert believes that great infrastructure is built not only with concrete and steel, but also through strong partnerships, shared vision, and trusted relationships. His ability to connect people, organizations, and opportunities helps drive HaitiBiznis Technologies\' mission of empowering entrepreneurs, strengthening communities, and accelerating sustainable economic development.',
+    l2_quote:'"Building Connections. Creating Opportunities. Shaping the Future."',
+    l3_role:'Director of Africa Partnerships',l3_title:'Registered Nurse & Global Healthcare Strategist',
+    l3_b1:'Gloria Kamira is a registered nurse, entrepreneur, and global healthcare strategist with a passion for building partnerships that create lasting social and economic impact. With extensive experience across healthcare, technology, and sustainable development, she has worked with governments, private-sector leaders, investors, and nonprofit organizations to advance innovative solutions that improve lives and strengthen communities.',
+    l3_b2:'As Director of Africa Partnerships at <strong>HaitiBiznis Technologies</strong>, Gloria leads the organization\'s strategic engagement across Africa, fostering collaborations with healthcare providers, women\'s organizations, development agencies, and business leaders. She plays a key role in expanding HaitiBiznis Technologies\' international network, connecting Africa and the Caribbean through technology, entrepreneurship, digital commerce, and sustainable economic development.',
+    l3_b3:'A strong advocate for women\'s economic empowerment, Gloria champions initiatives that increase access to entrepreneurship, digital skills, healthcare, and financial opportunities for women and underserved communities. Her work directly supports the United Nations Sustainable Development Goals, particularly SDG 3 (Good Health and Well-being), SDG 5 (Gender Equality), SDG 8 (Decent Work and Economic Growth), and SDG 17 (Partnerships for the Goals).',
+    l3_b4:'Gloria\'s unique combination of healthcare expertise, strategic leadership, and global partnership development strengthens HaitiBiznis Technologies\' mission of building Haiti\'s Digital Bridge to the World. Through collaborative innovation and inclusive partnerships, she is helping create new opportunities that drive sustainable growth, improve healthcare access, and empower entrepreneurs across Africa, the Caribbean, and beyond.',
+    l4_role:'Chief Healthcare Strategist',l4_title:'Healthcare Executive',
+    l4_b1:'Marie-Anne Boyard Maignan is an accomplished healthcare executive with more than 30 years of experience in healthcare leadership, operations management, revenue cycle optimization, compliance, and strategic planning. Throughout her career, she has successfully led multidisciplinary teams, improved healthcare operations, and implemented innovative solutions that enhance patient care while strengthening organizational performance.',
+    l4_b2:'As Chief Healthcare Strategist at <strong>HaitiBiznis Technologies</strong>, Marie-Anne leads the company\'s healthcare strategy and partnership initiatives, helping bridge technology with healthcare across Haiti, Africa, and the Caribbean. She works to develop collaborations with hospitals, healthcare providers, governments, insurers, and development organizations to expand access to innovative digital health solutions and strengthen community healthcare systems.',
+    l4_b3:'With expertise spanning neurology, transplant services, surgery, cardiology, pediatrics, psychology, rehabilitation, and internal medicine, Marie-Anne brings a unique perspective that supports HaitiBiznis Technologies\' mission of building Haiti\'s Digital Bridge to the World through innovation, strategic partnerships, and sustainable healthcare solutions.',
+    l4_quote:'"Healthier communities create stronger economies."',
+    l5_role:'Chief Media Consultant',l5_title:'Journalist & Communications Strategist',
+    l5_b1:'Wendell Theodore is a respected Haitian journalist, media consultant, and communications strategist with extensive experience in broadcast journalism, public affairs, and strategic communications. As the host of <strong>Le Point</strong> on <strong>Radio Métropole</strong>, one of Haiti\'s most influential news programs, he has earned a reputation for insightful interviews, balanced analysis, and engaging discussions on issues shaping Haiti and the international community.',
+    l5_b2:'As Chief Media Consultant at <strong>HaitiBiznis Technologies</strong>, Wendell provides strategic guidance on media relations, public communications, brand positioning, and stakeholder engagement. He advises the leadership team on effective messaging, reputation management, and communication strategies that strengthen the company\'s visibility and credibility with governments, development partners, investors, and the private sector.',
+    l5_b3:'His expertise helps HaitiBiznis Technologies communicate its mission of building Haiti\'s Digital Bridge to the World, while promoting innovation, entrepreneurship, digital inclusion, and strategic partnerships across Haiti, Africa, and the Caribbean.',
+    l5_b4:'Through his deep understanding of media and public engagement, Wendell helps ensure that HaitiBiznis Technologies\' vision reaches the audiences and decision-makers who can transform ideas into meaningful impact.',
+    l5_quote:'"Powerful ideas deserve powerful communication."',
+    lead_cta_h:'Let\'s build the future together',lead_cta_p:'Learn more about HaitiBiznis Technologies and our ecosystem.',lead_cta_b1:'About Us',lead_cta_b2:'Back to Home',
     ab_h1:'Building Haiti\'s Digital Bridge to the World',
     ab_sub:'Connect Businesses. Create Opportunities. Empower Communities.',
     ab_intro:'<span class="accent-b">HaitiBiznis Technologies</span> is a Haitian technology company dedicated to empowering entrepreneurs, strengthening businesses, and connecting Haiti with global opportunities through innovative digital solutions. We believe that technology is not just about software — it\'s about creating jobs, expanding markets, and building stronger, more resilient communities.',
@@ -990,6 +1172,35 @@ const translations={
   },
   es:{
     nav_home:'Inicio',nav_about:'Acerca de',nav_team:'Liderazgo',nav_how:'Cómo Funciona',nav_contact:'Contacto',nav_koutye:'Referido de Negocios',
+    lead_h1:'Nuestro Equipo de Liderazgo',
+    lead_sub:'Las personas detrás de la visión — los fundadores, estrategas y socios que construyen el Puente Digital de Haití hacia el Mundo.',
+    l1_role:'Fundador & Director Ejecutivo (CEO)',l1_title:'Visionario de Medios y Tecnología',
+    l1_b1:'Jeffery Boyard es un emprendedor haitiano, ejecutivo de medios e innovador tecnológico con más de 20 años de experiencia en negocios internacionales. Antes de fundar HaitiBiznis Technologies, construyó una exitosa carrera en los medios licenciando fotografía y contenido exclusivo a grandes medios como <strong>TMZ, Page Six, New York Daily News, Access Hollywood y Extra</strong>. Su trabajo incluyó figuras públicas reconocidas internacionalmente como Denzel Washington, Jennifer Lopez, Tom Cruise, Taylor Swift y Oprah — brindándole una amplia experiencia en marca, desarrollo de negocios y alianzas globales.',
+    l1_b2:'Hoy, Jeffery lidera <strong>HaitiBiznis Technologies</strong>, una empresa dedicada a construir el Puente Digital de Haití hacia el Mundo. A través de su plataforma insignia, <strong>MyPlopPlop</strong>, está desarrollando un ecosistema digital integrado que combina el comercio electrónico, la movilidad segura, la logística, la logística agrícola, el desarrollo de negocios y el emprendimiento para crear empleos y ampliar las oportunidades económicas en Haití, África y el Caribe.',
+    l1_b3:'Apasionado por la innovación, el empoderamiento económico de las mujeres y el desarrollo sostenible, Jeffery está comprometido a usar la tecnología para ayudar a los emprendedores, fortalecer las economías locales y construir alianzas estratégicas que apoyen los Objetivos de Desarrollo Sostenible de las Naciones Unidas (ODS).',
+    l1_quote:'«La tecnología construye plataformas. Las alianzas construyen naciones.»',
+    l2_role:'Director de Conexiones (CCO)',l2_title:'Estratega Internacional & Constructor de Relaciones',
+    l2_b1:'Gilbert Hippolyte es arquitecto, estratega internacional y constructor de relaciones con pasión por diseñar conexiones que crean un impacto económico duradero. Combinando su mentalidad arquitectónica con el desarrollo de negocios global, se especializa en reunir a gobiernos, inversionistas, líderes del sector privado, cámaras de comercio y organizaciones de desarrollo para transformar ideas en oportunidades sostenibles.',
+    l2_b2:'Como Director de Conexiones (CCO) en <strong>HaitiBiznis Technologies</strong>, Gilbert lidera las alianzas estratégicas y las iniciativas de expansión internacional de la empresa, ayudando a posicionar a HaitiBiznis como el Puente Digital de Haití hacia el Mundo. Desempeña un papel clave en la creación de alianzas en Haití, África, el Caribe y más allá para apoyar el despliegue de <strong>MyPlopPlop</strong>, un ecosistema digital integrado que conecta el comercio electrónico, la movilidad segura, la logística, la logística agrícola, el marketing de afiliación y el desarrollo de las PYMES.',
+    l2_b3:'Gilbert cree que la gran infraestructura no se construye solo con concreto y acero, sino también a través de alianzas sólidas, una visión compartida y relaciones de confianza. Su capacidad para conectar personas, organizaciones y oportunidades impulsa la misión de HaitiBiznis Technologies de empoderar a los emprendedores, fortalecer las comunidades y acelerar el desarrollo económico sostenible.',
+    l2_quote:'«Construir conexiones. Crear oportunidades. Dar forma al futuro.»',
+    l3_role:'Directora de Alianzas de África',l3_title:'Enfermera & Estratega de Salud Global',
+    l3_b1:'Gloria Kamira es enfermera titulada, emprendedora y estratega de salud global con pasión por construir alianzas que crean un impacto social y económico duradero. Con amplia experiencia en salud, tecnología y desarrollo sostenible, ha trabajado con gobiernos, líderes del sector privado, inversionistas y organizaciones sin fines de lucro para impulsar soluciones innovadoras que mejoran vidas y fortalecen comunidades.',
+    l3_b2:'Como Directora de Alianzas de África en <strong>HaitiBiznis Technologies</strong>, Gloria lidera el compromiso estratégico de la organización en toda África, fomentando colaboraciones con proveedores de salud, organizaciones de mujeres, agencias de desarrollo y líderes empresariales. Desempeña un papel clave en la expansión de la red internacional de HaitiBiznis Technologies, conectando a África y el Caribe a través de la tecnología, el emprendimiento, el comercio digital y el desarrollo económico sostenible.',
+    l3_b3:'Firme defensora del empoderamiento económico de las mujeres, Gloria promueve iniciativas que aumentan el acceso al emprendimiento, las habilidades digitales, la salud y las oportunidades financieras para las mujeres y las comunidades desatendidas. Su trabajo apoya directamente los Objetivos de Desarrollo Sostenible de las Naciones Unidas, en particular el ODS 3 (Salud y Bienestar), el ODS 5 (Igualdad de Género), el ODS 8 (Trabajo Decente y Crecimiento Económico) y el ODS 17 (Alianzas para Lograr los Objetivos).',
+    l3_b4:'La combinación única de experiencia en salud, liderazgo estratégico y desarrollo de alianzas globales de Gloria fortalece la misión de HaitiBiznis Technologies de construir el Puente Digital de Haití hacia el Mundo. A través de la innovación colaborativa y las alianzas inclusivas, está ayudando a crear nuevas oportunidades que impulsan un crecimiento sostenible, mejoran el acceso a la salud y empoderan a los emprendedores en África, el Caribe y más allá.',
+    l4_role:'Estratega Principal de Salud',l4_title:'Ejecutiva de Salud',
+    l4_b1:'Marie-Anne Boyard Maignan es una consumada ejecutiva de salud con más de 30 años de experiencia en liderazgo de salud, gestión de operaciones, optimización del ciclo de ingresos, cumplimiento y planificación estratégica. A lo largo de su carrera, ha liderado con éxito equipos multidisciplinarios, mejorado las operaciones de salud e implementado soluciones innovadoras que mejoran la atención al paciente al tiempo que fortalecen el desempeño organizacional.',
+    l4_b2:'Como Estratega Principal de Salud en <strong>HaitiBiznis Technologies</strong>, Marie-Anne lidera la estrategia de salud y las iniciativas de alianzas de la empresa, ayudando a conectar la tecnología con la salud en Haití, África y el Caribe. Trabaja para desarrollar colaboraciones con hospitales, proveedores de salud, gobiernos, aseguradoras y organizaciones de desarrollo para ampliar el acceso a soluciones de salud digital innovadoras y fortalecer los sistemas de salud comunitarios.',
+    l4_b3:'Con experiencia que abarca neurología, servicios de trasplante, cirugía, cardiología, pediatría, psicología, rehabilitación y medicina interna, Marie-Anne aporta una perspectiva única que apoya la misión de HaitiBiznis Technologies de construir el Puente Digital de Haití hacia el Mundo a través de la innovación, las alianzas estratégicas y soluciones de salud sostenibles.',
+    l4_quote:'«Las comunidades más saludables crean economías más fuertes.»',
+    l5_role:'Consultor Principal de Medios',l5_title:'Periodista & Estratega de Comunicación',
+    l5_b1:'Wendell Theodore es un respetado periodista haitiano, consultor de medios y estratega de comunicación con amplia experiencia en periodismo audiovisual, asuntos públicos y comunicación estratégica. Como presentador de <strong>Le Point</strong> en <strong>Radio Métropole</strong>, uno de los programas de noticias más influyentes de Haití, se ha ganado una reputación por sus entrevistas perspicaces, análisis equilibrados y discusiones atractivas sobre los temas que dan forma a Haití y a la comunidad internacional.',
+    l5_b2:'Como Consultor Principal de Medios en <strong>HaitiBiznis Technologies</strong>, Wendell brinda orientación estratégica sobre relaciones con los medios, comunicación pública, posicionamiento de marca y compromiso con las partes interesadas. Asesora al equipo de liderazgo sobre mensajes efectivos, gestión de la reputación y estrategias de comunicación que fortalecen la visibilidad y la credibilidad de la empresa ante gobiernos, socios de desarrollo, inversionistas y el sector privado.',
+    l5_b3:'Su experiencia ayuda a HaitiBiznis Technologies a comunicar su misión de construir el Puente Digital de Haití hacia el Mundo, al tiempo que promueve la innovación, el emprendimiento, la inclusión digital y las alianzas estratégicas en Haití, África y el Caribe.',
+    l5_b4:'Gracias a su profundo conocimiento de los medios y del compromiso público, Wendell ayuda a garantizar que la visión de HaitiBiznis Technologies llegue a las audiencias y a los responsables de la toma de decisiones que pueden transformar las ideas en un impacto significativo.',
+    l5_quote:'«Las ideas poderosas merecen una comunicación poderosa.»',
+    lead_cta_h:'Construyamos el futuro juntos',lead_cta_p:'Conoce más sobre HaitiBiznis Technologies y nuestro ecosistema.',lead_cta_b1:'Acerca de',lead_cta_b2:'Volver al Inicio',
     ab_h1:'Construyendo el Puente Digital de Haití hacia el Mundo',
     ab_sub:'Conectar Negocios. Crear Oportunidades. Empoderar Comunidades.',
     ab_intro:'<span class="accent-b">HaitiBiznis Technologies</span> es una empresa tecnológica haitiana dedicada a empoderar a los emprendedores, fortalecer las empresas y conectar a Haití con oportunidades globales a través de soluciones digitales innovadoras. Creemos que la tecnología no se trata solo de software — se trata de crear empleos, expandir mercados y construir comunidades más fuertes y resilientes.',
