@@ -103,16 +103,6 @@ img{max-width:100%;display:block}
 .pcard .go{display:inline-flex;align-items:center;gap:6px;margin-top:14px;font-weight:800;font-size:.9rem;
   background:rgba(255,255,255,.16);border:1px solid rgba(255,255,255,.3);padding:8px 16px;border-radius:999px}
 
-/* ============ STATS ============ */
-.stats-band{background:var(--grad-blue);border-radius:var(--r-xl);padding:26px 20px;color:#fff;box-shadow:var(--sh)}
-.stats-band h2{font-family:var(--display);font-size:1.35rem;text-align:center;margin-bottom:4px}
-.stats-note{text-align:center;font-size:.72rem;color:rgba(255,255,255,.55);margin-bottom:18px}
-.stats-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:16px 8px}
-.stat{text-align:center}
-.stat .ico{font-size:1.3rem}
-.stat .val{font-family:var(--display);font-size:1.7rem;line-height:1.1;margin-top:2px}
-.stat .lbl{font-size:.68rem;font-weight:700;color:rgba(255,255,255,.7);text-transform:uppercase;letter-spacing:.04em;margin-top:2px}
-
 /* ============ FEATURED ============ */
 .featured{background:var(--card);border:1.5px solid var(--gold);border-radius:var(--r-lg);
   padding:20px 22px;box-shadow:var(--sh);position:relative;overflow:hidden}
@@ -257,15 +247,6 @@ img{max-width:100%;display:block}
       </a>
     </div>
 
-    <!-- STATS -->
-    <div class="section reveal">
-      <div class="stats-band">
-        <h2 data-i18n="stats_h">Join Haiti's Growing Digital Ecosystem</h2>
-        <div class="stats-note" data-i18n="stats_note">Founding figures — updated as the ecosystem grows</div>
-        <div class="stats-grid" id="statsGrid"></div>
-      </div>
-    </div>
-
     <!-- FEATURED -->
     <div class="section reveal">
       <div class="featured" id="featured"></div>
@@ -397,16 +378,6 @@ var FEATURED_COPY = {
   'Parenaj Biznis':{ico:'💰'}, 'MsouWout':{ico:'🚕'}, '48HoursReady':{ico:'🚀'},
   'MyPlopPlop':{ico:'🛒'}, 'Tikè Lakay':{ico:'🎟️'}
 };
-/* STATS — placeholder founding figures. Replace with real values or a live feed. */
-var STATS = [
-  {ico:'👥', key:'members',   val:1200,    fmt:'plus'},
-  {ico:'🏪', key:'businesses',val:180,     fmt:'plus'},
-  {ico:'🛵', key:'drivers',   val:90,      fmt:'plus'},
-  {ico:'💰', key:'commissions',val:250000, fmt:'htg'},
-  {ico:'📦', key:'orders',    val:2600,    fmt:'plus'},
-  {ico:'🎟', key:'tickets',   val:640,     fmt:'plus'}
-];
-
 /* ==================== i18n ==================== */
 var T = {
   ht:{
@@ -418,9 +389,6 @@ var T = {
     pa2_t:'Louvri yon Biznis', pa2_d:'Lanse biznis ou ak 48HoursReady.',
     pa3_t:'Achte & Vann', pa3_d:'Achte, vann epi kreye boutik anliy ou.',
     get_started:'Kòmanse →',
-    stats_h:'Antre nan Ekosistèm Dijital k ap grandi an Ayiti',
-    stats_note:'Chif fondasyon — y ap mete ajou pandan ekosistèm nan grandi',
-    st_members:'Manm', st_businesses:'Biznis', st_drivers:'Chofè', st_commissions:'Komisyon Peye', st_orders:'Kòmann Fini', st_tickets:'Tikè Vann',
     featured_tag:'An Vedèt Semèn Nan', learn:'Aprann Plis',
     eco_h:'Ekosistèm Nan', eco_sub:'Yon sèl kont, tout sèvis yo',
     explore:'Eksplore', no_results:'Pa gen rezilta. Eseye yon lòt mo.',
@@ -440,9 +408,6 @@ var T = {
     pa2_t:'Lancer une entreprise', pa2_d:'Lancez votre entreprise avec 48HoursReady.',
     pa3_t:'Acheter & Vendre', pa3_d:'Achetez, vendez et créez votre boutique en ligne.',
     get_started:'Commencer →',
-    stats_h:'Rejoignez l’écosystème numérique grandissant d’Haïti',
-    stats_note:'Chiffres de lancement — mis à jour au fil de la croissance',
-    st_members:'Membres', st_businesses:'Entreprises', st_drivers:'Chauffeurs', st_commissions:'Commissions payées', st_orders:'Commandes', st_tickets:'Billets vendus',
     featured_tag:'À la une cette semaine', learn:'En savoir plus',
     eco_h:'L’écosystème', eco_sub:'Un login, tous les services',
     explore:'Explorer', no_results:'Aucun résultat. Essayez un autre mot.',
@@ -462,9 +427,6 @@ var T = {
     pa2_t:'Start a Business', pa2_d:'Launch your business with 48HoursReady.',
     pa3_t:'Shop & Sell', pa3_d:'Buy, sell and create your online store.',
     get_started:'Get Started →',
-    stats_h:'Join Haiti’s Growing Digital Ecosystem',
-    stats_note:'Founding figures — updated as the ecosystem grows',
-    st_members:'Members', st_businesses:'Businesses', st_drivers:'Drivers', st_commissions:'Commissions Paid', st_orders:'Orders Completed', st_tickets:'Tickets Sold',
     featured_tag:'Featured This Week', learn:'Learn More',
     eco_h:'The Ecosystem', eco_sub:'One login, every service',
     explore:'Explore', no_results:'No matches. Try another word.',
@@ -484,9 +446,6 @@ var T = {
     pa2_t:'Inicia un negocio', pa2_d:'Lanza tu negocio con 48HoursReady.',
     pa3_t:'Compra y vende', pa3_d:'Compra, vende y crea tu tienda online.',
     get_started:'Empezar →',
-    stats_h:'Únete al creciente ecosistema digital de Haití',
-    stats_note:'Cifras iniciales — se actualizan a medida que crece el ecosistema',
-    st_members:'Miembros', st_businesses:'Negocios', st_drivers:'Conductores', st_commissions:'Comisiones pagadas', st_orders:'Pedidos', st_tickets:'Boletos vendidos',
     featured_tag:'Destacado esta semana', learn:'Saber más',
     eco_h:'El ecosistema', eco_sub:'Un acceso, todos los servicios',
     explore:'Explorar', no_results:'Sin resultados. Prueba otra palabra.',
@@ -510,28 +469,6 @@ function renderHeroSub(){
   document.getElementById('heroSub').innerHTML = items.map(function(it,i){
     return (i>0?'<span class="d">•</span>':'')+'<span>'+it[0]+' '+t(it[1])+'</span>';
   }).join('');
-}
-
-function renderStats(){
-  document.getElementById('statsGrid').innerHTML = STATS.map(function(s){
-    return '<div class="stat"><div class="ico">'+s.ico+'</div>'+
-      '<div class="val" data-target="'+s.val+'" data-fmt="'+s.fmt+'">0</div>'+
-      '<div class="lbl">'+t('st_'+s.key)+'</div></div>';
-  }).join('');
-}
-function fmtNum(n,fmt){
-  var s = n>=1000 ? Math.round(n).toLocaleString('en-US') : String(Math.round(n));
-  if(fmt==='plus') return s+'+';
-  if(fmt==='htg') return (n>=1000? Math.round(n).toLocaleString('en-US'):s)+' G';
-  return s;
-}
-function animateStats(){
-  document.querySelectorAll('.stat .val').forEach(function(el){
-    var target=+el.getAttribute('data-target'), fmt=el.getAttribute('data-fmt'), start=null, dur=1300;
-    function step(ts){ if(!start)start=ts; var p=Math.min((ts-start)/dur,1);
-      var e=1-Math.pow(1-p,3); el.textContent=fmtNum(target*e,fmt); if(p<1)requestAnimationFrame(step); }
-    requestAnimationFrame(step);
-  });
 }
 
 function weekIndex(){
@@ -583,12 +520,12 @@ function applyI18n(){
   document.querySelectorAll('.lang button').forEach(function(b){ b.classList.toggle('on',b.getAttribute('data-lang')===lang); });
 }
 
-function renderAll(){ applyI18n(); renderHeroSub(); renderStats(); renderFeatured(); renderEco(); }
+function renderAll(){ applyI18n(); renderHeroSub(); renderFeatured(); renderEco(); }
 
 /* language switch */
 document.querySelectorAll('.lang button').forEach(function(b){
   b.addEventListener('click',function(){ lang=b.getAttribute('data-lang'); localStorage.setItem('hb_lang',lang);
-    renderAll(); if(statsSeen) animateStats(); });
+    renderAll(); });
 });
 
 /* ==================== SEARCH ==================== */
@@ -607,7 +544,7 @@ function runSearch(){
   });
   // hide non-ecosystem sections while searching
   var searching=!!q;
-  document.querySelectorAll('#primaryGrid, .stats-band, .featured').forEach(function(el){
+  document.querySelectorAll('#primaryGrid, .featured').forEach(function(el){
     var host=el.closest('.section')||el; host.style.display=searching?'none':'';
   });
   document.querySelector('.hero').style.display=searching?'none':'';
@@ -621,11 +558,9 @@ var fab=document.getElementById('fab');
 document.getElementById('fabMain').addEventListener('click',function(e){ e.stopPropagation(); fab.classList.toggle('open'); });
 document.addEventListener('click',function(e){ if(!fab.contains(e.target)) fab.classList.remove('open'); });
 
-/* ==================== REVEAL + STATS TRIGGER ==================== */
-var statsSeen=false;
+/* ==================== REVEAL ==================== */
 var io=new IntersectionObserver(function(es){ es.forEach(function(en){
   if(en.isIntersecting){ en.target.classList.add('in');
-    if(en.target.querySelector&&en.target.querySelector('.stats-band')&&!statsSeen){ statsSeen=true; animateStats(); }
     io.unobserve(en.target);
   }
 });},{threshold:.18});
