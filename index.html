@@ -2,1345 +2,636 @@
 <html lang="ht">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>HaitiBiznis - Fe Lajan ak Telefon Ou Jodi a</title>
-<meta name="description" content="Chofe, biznis, pwofesyonel - jwenn kliyan, fe kous, vann pwodwi. Komanse fe lajan ak HaitiBiznis jodi a.">
-<meta property="og:title" content="HaitiBiznis - Fe Lajan ak Telefon Ou | Make Money With Your Phone | Gana Dinero con Tu Teléfono">
-<meta property="og:description" content="Chofe, Biznis, Pwofesyonèl — Drivers, Businesses, Professionals — Conductores, Negocios, Profesionales. Komanse fe lajan jodi a! Start earning today! ¡Comienza a ganar hoy!">
-<meta property="og:image" content="https://haitibiznis.com/assets/og-haitibiznis.jpg?v=2">
-<meta property="og:image:type" content="image/jpeg">
-<meta property="og:image:width" content="1200">
-<meta property="og:image:height" content="630">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="theme-color" content="#00209F">
+<title>HaitiBiznis — Haiti's Digital Super App</title>
+<meta name="description" content="One account. Nine powerful platforms. Earn money, grow your business, shop, ride, travel and pay bills — all in one Haitian super app.">
+<meta property="og:title" content="HaitiBiznis — Haiti's Digital Super App">
+<meta property="og:description" content="Earn Money • Grow Your Business • Shop • Ride • Travel • Pay Bills. One account, nine platforms.">
+<meta property="og:image" content="https://haitibiznis.com/assets/haitibiznis-logo-new.png">
+<meta property="og:url" content="https://haitibiznis.com/">
 <meta property="og:type" content="website">
-<meta property="og:url" content="https://haitibiznis.com">
-<meta property="og:locale" content="ht_HT">
-<meta property="og:locale:alternate" content="en_US">
-<meta property="og:locale:alternate" content="fr_FR">
-<meta property="og:locale:alternate" content="es_ES">
-<meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="HaitiBiznis - Fe Lajan ak Telefon Ou | Make Money With Your Phone">
-<meta name="twitter:description" content="Chofe, Biznis, Pwofesyonèl — Drivers, Businesses, Professionals. Komanse fe lajan jodi a!">
-<meta name="twitter:image" content="https://haitibiznis.com/assets/og-haitibiznis.jpg">
-<link rel="canonical" href="https://haitibiznis.com/index.html">
-<script type="application/ld+json">
-{"@context":"https://schema.org","@type":"Organization","name":"HaitiBiznis","url":"https://haitibiznis.com","logo":"https://haitibiznis.com/assets/og-haitibiznis.jpg","description":"Premye platfom dijital Ayiti pou evenman, transpotasyon, livrezon, ak sevis pwofesyonel.","sameAs":["https://msouwout.com","https://myplopplop.com"]}
-</script>
+<link rel="canonical" href="https://haitibiznis.com/">
+<link rel="manifest" href="manifest.json">
 <link rel="icon" type="image/png" sizes="32x32" href="assets/favicon-32.png">
 <link rel="icon" type="image/png" sizes="16x16" href="assets/favicon-16.png">
-<link rel="icon" type="image/x-icon" href="favicon.ico">
-<link rel="manifest" href="manifest.json">
-<meta name="theme-color" content="#00209F">
-<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-<meta name="apple-mobile-web-app-title" content="HaitiBiznis">
-<link rel="apple-touch-icon" sizes="180x180" href="assets/apple-touch-icon.png">
+<link rel="apple-touch-icon" href="assets/apple-touch-icon.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
 <style>
-*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
 :root{
-  --blue:#00209F;--blue-light:#0033CC;--blue-dark:#001566;
-  --red:#D21034;--red-light:#E8274A;--red-dark:#B00D2C;
-  --white:#FFFFFF;--off-white:#F5F7FA;--light-gray:#E8ECF2;
-  --dark:#0C1B3A;--text:#1A2A4A;--text-light:#5A6B8A;
-  --gold:#D4A017;--green:#1B8C3D;
+  --blue:#00209F;--blue-deep:#001566;--blue-light:#2547D0;
+  --red:#D21034;--red-dark:#B00D2C;
+  --gold:#D4A017;--gold-light:#F0C33C;
+  --green:#128A4A;--green-light:#E7F6EE;
+  --white:#fff;--off:#F4F6FC;--card:#fff;
+  --ink:#0C1330;--text:#1C2647;--muted:#6B769A;--faint:#9AA4C2;
+  --line:#E7EBF5;
   --body:'Plus Jakarta Sans',system-ui,sans-serif;
   --display:'DM Serif Display',Georgia,serif;
+  --r:16px;--r-lg:24px;--r-xl:30px;
+  --sh-sm:0 2px 10px rgba(12,19,48,.05);
+  --sh:0 10px 30px rgba(12,19,48,.08);
+  --sh-lg:0 20px 55px rgba(12,19,48,.14);
+  --grad-blue:linear-gradient(150deg,#0A2AA8 0%,#00155F 100%);
+  --grad-gold:linear-gradient(150deg,#F0C33C,#D4A017);
 }
 html{scroll-behavior:smooth}
-body{font-family:var(--body);background:var(--off-white);color:var(--text);overflow-x:hidden;-webkit-font-smoothing:antialiased;padding-bottom:52px}
-a{text-decoration:none}
+body{font-family:var(--body);background:var(--off);color:var(--text);line-height:1.5;
+  overflow-x:hidden;padding-bottom:calc(72px + env(safe-area-inset-bottom));-webkit-font-smoothing:antialiased}
+a{text-decoration:none;color:inherit}
+img{max-width:100%;display:block}
+.wrap{max-width:1080px;margin:0 auto;padding:0 18px}
 
-.flag-stripe{height:4px;background:linear-gradient(90deg, var(--blue) 50%, var(--red) 50%)}
+/* ============ TOP BAR ============ */
+.flag-stripe{height:4px;background:linear-gradient(90deg,var(--blue) 50%,var(--red) 50%)}
+.topbar{position:sticky;top:0;z-index:60;background:rgba(255,255,255,.92);backdrop-filter:blur(12px);
+  border-bottom:1px solid var(--line);padding:10px 0}
+.topbar-inner{max-width:1080px;margin:0 auto;padding:0 18px;display:flex;align-items:center;gap:12px}
+.brand{display:flex;align-items:center;gap:9px;flex:0 0 auto}
+.brand img{height:30px;width:30px;border-radius:9px}
+.brand b{font-family:var(--display);font-size:1.12rem;color:var(--ink)}
+.brand b em{color:var(--red);font-style:italic}
+.lang{margin-left:auto;display:flex;gap:2px;background:var(--off);border-radius:999px;padding:3px;flex:0 0 auto}
+.lang button{border:0;background:transparent;font:700 11.5px var(--body);color:var(--muted);padding:5px 9px;border-radius:999px;cursor:pointer}
+.lang button.on{background:var(--blue);color:#fff}
 
-/* LANG BAR */
-.lang-bar{
-  background:var(--dark);color:#fff;font-size:.7rem;
-  padding:5px 20px;display:flex;align-items:center;justify-content:center;gap:4px;
-  position:fixed;top:0;left:0;right:0;z-index:1001;height:32px;
-}
-.lang-bar a{
-  color:rgba(255,255,255,.7);padding:3px 10px;border-radius:100px;
-  font-size:.68rem;font-weight:600;cursor:pointer;transition:all .15s;white-space:nowrap;
-}
-.lang-bar a:hover{color:#fff;background:rgba(255,255,255,.08)}
-.lang-bar a.active{color:var(--gold);background:rgba(212,160,23,.15)}
+/* ============ SEARCH ============ */
+.searchwrap{padding:14px 0 4px}
+.search{display:flex;align-items:center;gap:10px;background:var(--card);border:1.5px solid var(--line);
+  border-radius:999px;padding:13px 18px;box-shadow:var(--sh-sm);transition:.2s}
+.search:focus-within{border-color:var(--blue);box-shadow:0 0 0 4px rgba(0,32,159,.08)}
+.search svg{width:20px;height:20px;flex:0 0 auto;stroke:var(--muted)}
+.search input{border:0;outline:0;flex:1;font:600 15px var(--body);background:transparent;color:var(--ink)}
+.search input::placeholder{color:var(--faint);font-weight:500}
+.search .clr{display:none;border:0;background:var(--off);color:var(--muted);width:26px;height:26px;border-radius:999px;cursor:pointer;font-size:15px;flex:0 0 auto}
+.search-empty{display:none;text-align:center;color:var(--muted);font-size:.9rem;padding:24px 10px}
 
-/* HEADER */
-nav{
-  position:sticky;top:32px;z-index:100;
-  padding:12px 20px;background:var(--white);
-  border-bottom:1px solid var(--light-gray);
-  box-shadow:0 1px 8px rgba(0,0,0,.04);
-}
-.nav-inner{max-width:1200px;margin:0 auto;display:flex;align-items:center;justify-content:space-between}
-.nav-logo{display:flex;align-items:center;gap:10px}
-.nav-logo img{height:38px;border-radius:6px}
-.nav-logo span{font-family:var(--display);font-size:1.3rem;color:var(--dark)}
-.nav-logo span em{color:var(--red);font-style:italic}
-.nav-links{display:flex;align-items:center;gap:4px}
-.nav-links a{color:var(--text-light);font-size:.82rem;font-weight:600;padding:8px 14px;border-radius:8px;transition:all .3s}
-.nav-links a:hover{color:var(--blue);background:rgba(0,32,159,.05)}
-.nav-cta{background:var(--red)!important;color:var(--white)!important;padding:10px 22px!important;border-radius:100px!important}
-.nav-cta:hover{background:var(--red-dark)!important}
-.mobile-menu{display:none;background:none;border:none;color:var(--dark);font-size:1.5rem;cursor:pointer;padding:8px}
-.nav-mobile{
-  position:fixed;top:0;left:0;right:0;bottom:0;z-index:200;
-  background:var(--white);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:16px;
-  opacity:0;pointer-events:none;transition:opacity .3s;
-}
-.nav-mobile.open{opacity:1;pointer-events:auto}
-.nav-mobile a{color:var(--dark);font-size:1.2rem;font-weight:600;padding:12px 24px;border-radius:12px}
-.nav-mobile .close-menu{position:absolute;top:20px;right:24px;background:none;border:none;color:var(--dark);font-size:2rem;cursor:pointer}
+/* ============ HERO ============ */
+.hero{position:relative;padding:26px 0 8px;text-align:center;overflow:hidden}
+.hero .flag{font-size:1.6rem}
+.hero h1{font-family:var(--display);font-size:clamp(2rem,7vw,3rem);line-height:1.05;color:var(--ink);margin:6px 0 10px}
+.hero h1 em{font-style:italic;color:var(--blue)}
+.hero .sub{display:flex;flex-wrap:wrap;gap:6px 10px;justify-content:center;font-size:.86rem;font-weight:700;color:var(--text);margin-bottom:12px}
+.hero .sub span{display:inline-flex;align-items:center;gap:5px}
+.hero .sub .d{color:var(--gold)}
+.hero .desc{font-size:1rem;color:var(--muted);max-width:520px;margin:0 auto;font-weight:500}
+.hero .desc b{color:var(--blue);font-weight:800}
 
-/* HERO */
-.hero{
-  padding:70px 20px 50px;text-align:center;
-  background:linear-gradient(135deg,var(--dark) 0%,#0a1a3a 40%,var(--blue-dark) 100%);
-  color:var(--white);position:relative;overflow:hidden;
-}
-.hero::before{
-  content:'';position:absolute;inset:0;
-  background:radial-gradient(circle at 30% 20%,rgba(210,16,52,.15) 0%,transparent 50%),
-             radial-gradient(circle at 70% 80%,rgba(0,32,159,.2) 0%,transparent 50%);
-}
-.hero>*{position:relative;z-index:1}
-.hero-moto{width:100%;max-width:520px;border-radius:16px;margin-top:32px;box-shadow:0 16px 48px rgba(0,0,0,.4);border:3px solid rgba(255,255,255,.12)}
-.hero-logo{
-  width:200px;height:auto;border-radius:20px;object-fit:contain;
-  margin-bottom:24px;box-shadow:0 16px 48px rgba(0,0,0,.35);
-  border:3px solid rgba(255,255,255,.12);background:rgba(255,255,255,.95);
-  padding:12px;
-}
-.hero h1{
-  font-family:var(--display);font-size:clamp(2rem,6vw,3.5rem);
-  line-height:1.1;letter-spacing:-.02em;margin-bottom:14px;
-}
-.hero-sub{
-  font-size:clamp(.95rem,2vw,1.15rem);color:rgba(255,255,255,.7);
-  max-width:420px;margin:0 auto 32px;line-height:1.5;
-}
-.hero-sub strong{color:var(--white);font-weight:700}
-.hero-actions{display:flex;gap:12px;justify-content:center;flex-wrap:wrap}
-.btn{
-  display:inline-flex;align-items:center;gap:8px;
-  padding:16px 32px;border-radius:100px;font-size:.95rem;font-weight:800;
-  transition:all .3s;border:2px solid transparent;cursor:pointer;
-  letter-spacing:.01em;
-}
-.btn-red{background:var(--red);color:var(--white);border-color:var(--red)}
-.btn-red:hover{background:var(--red-dark);border-color:var(--red-dark);transform:translateY(-2px);box-shadow:0 8px 24px rgba(210,16,52,.3)}
-.btn-white{background:var(--white);color:var(--dark);border-color:var(--white)}
-.btn-white:hover{transform:translateY(-2px);box-shadow:0 8px 24px rgba(255,255,255,.2)}
-.btn-ghost{background:transparent;color:#fff;border-color:rgba(255,255,255,.4)}
-.btn-ghost:hover{background:rgba(255,255,255,.1)}
-.btn-outline{background:transparent;color:var(--white);border-color:rgba(255,255,255,.35)}
-.btn-outline:hover{background:rgba(255,255,255,.1);transform:translateY(-2px)}
+/* ============ PRIMARY ACTIONS ============ */
+.section{padding:22px 0}
+.section-head{display:flex;align-items:baseline;justify-content:space-between;margin-bottom:14px;gap:10px}
+.section-head h2{font-family:var(--display);font-size:1.4rem;color:var(--ink)}
+.section-head .cat-ico{margin-right:6px}
+.section-head p{font-size:.82rem;color:var(--muted);font-weight:600}
 
-/* ENTRY CARDS */
-.entry-section{padding:48px 20px 20px;max-width:1000px;margin:0 auto}
-.entry-section-title{
-  text-align:center;font-family:var(--display);
-  font-size:clamp(1.4rem,3.5vw,2.2rem);color:var(--dark);margin-bottom:8px;
-}
-.entry-section-sub{text-align:center;color:var(--text-light);font-size:.9rem;margin-bottom:32px}
-.entry-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
+.primary-grid{display:grid;grid-template-columns:1fr;gap:14px}
+@media(min-width:720px){.primary-grid{grid-template-columns:1fr 1fr 1fr}}
+.pcard{position:relative;border-radius:var(--r-lg);padding:24px 22px;color:#fff;overflow:hidden;
+  box-shadow:var(--sh);transition:transform .2s,box-shadow .2s;isolation:isolate}
+.pcard:hover{transform:translateY(-4px);box-shadow:var(--sh-lg)}
+.pcard::after{content:'';position:absolute;inset:0;z-index:-1;opacity:.5;
+  background:radial-gradient(circle at 80% 10%,rgba(255,255,255,.25),transparent 45%)}
+.pcard.earn{background:var(--grad-blue)}
+.pcard.biz{background:linear-gradient(150deg,#E8274A,#B00D2C)}
+.pcard.shop{background:linear-gradient(150deg,#12A85A,#0A6E3A)}
+.pcard .ico{font-size:2.4rem;line-height:1}
+.pcard h3{font-family:var(--display);font-size:1.5rem;margin:12px 0 4px}
+.pcard p{font-size:.9rem;opacity:.92;font-weight:500;line-height:1.4}
+.pcard .go{display:inline-flex;align-items:center;gap:6px;margin-top:14px;font-weight:800;font-size:.9rem;
+  background:rgba(255,255,255,.16);border:1px solid rgba(255,255,255,.3);padding:8px 16px;border-radius:999px}
 
-.entry-card{
-  border-radius:24px;padding:32px 24px;position:relative;overflow:hidden;
-  color:var(--white);transition:transform .3s,box-shadow .3s;
-}
-.entry-card:hover{transform:translateY(-6px);box-shadow:0 20px 50px rgba(0,0,0,.2)}
+/* ============ STATS ============ */
+.stats-band{background:var(--grad-blue);border-radius:var(--r-xl);padding:26px 20px;color:#fff;box-shadow:var(--sh)}
+.stats-band h2{font-family:var(--display);font-size:1.35rem;text-align:center;margin-bottom:4px}
+.stats-note{text-align:center;font-size:.72rem;color:rgba(255,255,255,.55);margin-bottom:18px}
+.stats-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:16px 8px}
+.stat{text-align:center}
+.stat .ico{font-size:1.3rem}
+.stat .val{font-family:var(--display);font-size:1.7rem;line-height:1.1;margin-top:2px}
+.stat .lbl{font-size:.68rem;font-weight:700;color:rgba(255,255,255,.7);text-transform:uppercase;letter-spacing:.04em;margin-top:2px}
 
-.entry-card.card-blue{background:linear-gradient(160deg,#1A4FD4 0%,var(--blue) 50%,var(--blue-dark) 100%)}
-.entry-card.card-red{background:linear-gradient(160deg,var(--red-light) 0%,var(--red) 50%,var(--red-dark) 100%)}
-.entry-card.card-gold{background:linear-gradient(160deg,#E8B830 0%,var(--gold) 50%,#A07510 100%)}
+/* ============ FEATURED ============ */
+.featured{background:var(--card);border:1.5px solid var(--gold);border-radius:var(--r-lg);
+  padding:20px 22px;box-shadow:var(--sh);position:relative;overflow:hidden}
+.featured::before{content:'';position:absolute;top:-30%;right:-10%;width:200px;height:200px;
+  background:radial-gradient(circle,rgba(212,160,23,.14),transparent 70%)}
+.featured .tag{display:inline-flex;align-items:center;gap:6px;background:var(--grad-gold);color:#3a2a00;
+  font-weight:800;font-size:.68rem;text-transform:uppercase;letter-spacing:.08em;padding:5px 12px;border-radius:999px}
+.featured .row{display:flex;align-items:center;gap:16px;margin-top:14px}
+.featured .fico{font-size:2.6rem;flex:0 0 auto}
+.featured h3{font-family:var(--display);font-size:1.5rem;color:var(--ink)}
+.featured p{font-size:.9rem;color:var(--muted);font-weight:500;margin-top:2px}
+.featured .learn{margin-left:auto;flex:0 0 auto;background:var(--blue);color:#fff;font-weight:800;font-size:.86rem;
+  padding:11px 18px;border-radius:999px;white-space:nowrap;transition:.2s}
+.featured .learn:hover{background:var(--blue-light)}
+@media(max-width:540px){.featured .row{flex-wrap:wrap}.featured .learn{margin-left:0;width:100%;text-align:center}}
 
-.entry-badge{
-  display:inline-flex;align-items:center;gap:6px;
-  font-size:.65rem;font-weight:800;letter-spacing:.1em;text-transform:uppercase;
-  padding:5px 14px;border-radius:100px;
-  background:rgba(255,255,255,.2);color:#fff;
-  margin-bottom:14px;
-}
-.entry-logo{
-  width:100px;height:100px;border-radius:20px;background:#fff;
-  display:flex;align-items:center;justify-content:center;
-  margin-bottom:18px;overflow:hidden;
-  box-shadow:0 6px 24px rgba(0,0,0,.2);
-  border:2px solid rgba(255,255,255,.4);
-}
-.entry-logo img{width:100%;height:100%;object-fit:contain;padding:6px}
-.entry-card h3{
-  font-family:var(--display);font-size:1.35rem;margin-bottom:8px;
-  line-height:1.2;
-}
-.entry-hook{font-size:.85rem;color:rgba(255,255,255,.85);margin-bottom:18px;line-height:1.4}
-.entry-cta{
-  display:inline-flex;align-items:center;gap:8px;
-  padding:14px 28px;border-radius:100px;font-size:.9rem;font-weight:800;
-  background:#fff;border:none;cursor:pointer;transition:all .3s;
-  box-shadow:0 4px 16px rgba(0,0,0,.2);letter-spacing:.01em;
-  margin-bottom:16px;
-}
-.entry-card.card-blue .entry-cta{color:var(--blue)}
-.entry-card.card-red .entry-cta{color:var(--red)}
-.entry-card.card-gold .entry-cta{color:#8B6914}
-.entry-cta:hover{transform:scale(1.05);box-shadow:0 8px 24px rgba(0,0,0,.25)}
+/* ============ ECOSYSTEM ============ */
+.cat{margin-bottom:26px}
+.cat-title{display:flex;align-items:center;gap:8px;font-family:var(--display);font-size:1.25rem;color:var(--ink);margin-bottom:12px}
+.cat-title .c-ico{font-size:1.3rem}
+.eco-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+@media(min-width:720px){.eco-grid{grid-template-columns:1fr 1fr 1fr}}
+.eco-card{background:var(--card);border:1.5px solid var(--line);border-radius:var(--r-lg);padding:18px;
+  box-shadow:var(--sh-sm);transition:transform .18s,box-shadow .18s,border-color .18s;display:flex;flex-direction:column;min-height:150px}
+.eco-card:hover{transform:translateY(-4px);box-shadow:var(--sh);border-color:transparent}
+.eco-card .e-ico{width:52px;height:52px;border-radius:15px;display:flex;align-items:center;justify-content:center;
+  font-size:1.7rem;background:var(--off)}
+.eco-card h4{font-size:1.02rem;font-weight:800;color:var(--ink);margin-top:12px}
+.eco-card p{font-size:.8rem;color:var(--muted);font-weight:500;margin-top:3px;flex:1}
+.eco-card .go{display:inline-flex;align-items:center;gap:5px;margin-top:10px;font-weight:800;font-size:.82rem;color:var(--blue)}
+.eco-card .go svg{width:14px;height:14px;stroke:var(--blue);transition:transform .18s}
+.eco-card:hover .go svg{transform:translateX(3px)}
+.tint-earn .e-ico{background:rgba(0,32,159,.09)}
+.tint-ride .e-ico{background:rgba(212,16,52,.09)}
+.tint-shop .e-ico{background:rgba(18,138,74,.1)}
+.tint-life .e-ico{background:rgba(212,160,23,.14)}
+.tint-comm .e-ico{background:rgba(155,60,200,.12)}
+.tint-pay .e-ico{background:rgba(255,140,0,.12)}
 
-.entry-bullets{list-style:none;margin-bottom:16px}
-.entry-bullets li{
-  font-size:.78rem;font-weight:600;color:rgba(255,255,255,.9);
-  padding:3px 0;display:flex;align-items:center;gap:6px;
-}
-.entry-bullets li::before{content:'\2714';font-size:.65rem;color:rgba(255,255,255,.7)}
-.entry-social{
-  display:flex;align-items:center;gap:8px;
-  padding-top:12px;border-top:1px solid rgba(255,255,255,.15);
-}
-.entry-avatars{display:flex}
-.entry-avatars span{
-  width:22px;height:22px;border-radius:50%;
-  border:2px solid rgba(255,255,255,.3);margin-left:-5px;
-  background:linear-gradient(135deg,rgba(255,255,255,.3),rgba(255,255,255,.15));
-  font-size:.5rem;line-height:22px;text-align:center;color:#fff;font-weight:700;
-}
-.entry-avatars span:first-child{margin-left:0}
-.entry-social-text{font-size:.68rem;color:rgba(255,255,255,.7);font-weight:600}
+/* ============ BOTTOM NAV ============ */
+.botnav{position:fixed;left:0;right:0;bottom:0;z-index:70;background:rgba(255,255,255,.96);backdrop-filter:blur(14px);
+  border-top:1px solid var(--line);display:flex;justify-content:space-around;align-items:center;
+  padding:8px 6px calc(8px + env(safe-area-inset-bottom))}
+.botnav a{display:flex;flex-direction:column;align-items:center;gap:2px;font-size:.64rem;font-weight:700;color:var(--muted);flex:1;padding:2px}
+.botnav a .bi{font-size:1.25rem;line-height:1}
+.botnav a.center{margin-top:-22px}
+.botnav a.center .bi{width:52px;height:52px;border-radius:50%;background:var(--grad-blue);color:#fff;
+  display:flex;align-items:center;justify-content:center;font-size:1.4rem;box-shadow:0 8px 20px rgba(0,32,159,.4);border:3px solid #fff}
+.botnav a.center span{color:var(--blue)}
+.botnav a.active{color:var(--blue)}
 
-/* QUICK ACTIONS */
-.actions-section{padding:48px 20px;background:var(--dark);text-align:center}
-.actions-section h2{
-  font-family:var(--display);font-size:clamp(1.4rem,3.5vw,2.2rem);
-  color:var(--white);margin-bottom:28px;
-}
-.action-buttons{
-  display:flex;gap:12px;justify-content:center;flex-wrap:wrap;
-  max-width:600px;margin:0 auto;
-}
-.action-btn{
-  display:flex;align-items:center;gap:8px;
-  padding:14px 28px;border-radius:100px;font-size:.9rem;font-weight:800;
-  border:none;cursor:pointer;transition:all .3s;color:#fff;
-}
-.action-btn:hover{transform:translateY(-3px);box-shadow:0 8px 20px rgba(0,0,0,.3)}
-.action-btn.ab-red{background:var(--red)}
-.action-btn.ab-blue{background:var(--blue)}
-.action-btn.ab-gold{background:var(--gold)}
-.action-btn.ab-green{background:var(--green)}
+/* ============ FAB ============ */
+.fab-wrap{position:fixed;right:16px;bottom:calc(84px + env(safe-area-inset-bottom));z-index:80;display:flex;flex-direction:column;align-items:flex-end;gap:10px}
+.fab-menu{display:flex;flex-direction:column;gap:10px;align-items:flex-end;opacity:0;transform:translateY(10px) scale(.96);
+  pointer-events:none;transition:.22s}
+.fab-wrap.open .fab-menu{opacity:1;transform:none;pointer-events:auto}
+.fab-item{display:flex;align-items:center;gap:9px;background:#fff;box-shadow:var(--sh);border:1px solid var(--line);
+  border-radius:999px;padding:9px 15px;font-weight:700;font-size:.82rem;color:var(--ink)}
+.fab-item .fi{font-size:1.05rem}
+.fab-main{width:58px;height:58px;border-radius:50%;background:var(--grad-blue);color:#fff;border:0;cursor:pointer;
+  box-shadow:0 10px 26px rgba(0,32,159,.42);font-size:1.5rem;display:flex;align-items:center;justify-content:center;transition:transform .25s}
+.fab-wrap.open .fab-main{transform:rotate(45deg)}
 
-/* TRUST BAR */
-.trust-section{
-  padding:32px 20px;background:var(--white);
-  border-top:1px solid var(--light-gray);border-bottom:1px solid var(--light-gray);
-}
-.trust-row{
-  display:flex;justify-content:center;gap:32px;flex-wrap:wrap;
-  max-width:800px;margin:0 auto;
-}
-.trust-item{display:flex;align-items:center;gap:8px;font-size:.85rem;font-weight:700;color:var(--text)}
-.trust-icon{font-size:1.2rem}
-.trust-item.t-blue .trust-icon{color:var(--blue)}
-.trust-item.t-red .trust-icon{color:var(--red)}
-.trust-item.t-green .trust-icon{color:var(--green)}
-
-/* HOW IT WORKS */
-.how-section{padding:60px 20px;background:var(--off-white);text-align:center}
-.section-label{font-size:.7rem;font-weight:800;letter-spacing:.15em;text-transform:uppercase;color:var(--blue);margin-bottom:10px}
-.section-title{font-family:var(--display);font-size:clamp(1.4rem,3.5vw,2.2rem);color:var(--dark);margin-bottom:12px}
-.section-desc{color:var(--text-light);max-width:440px;margin:0 auto 40px;font-size:.9rem;line-height:1.6}
-.steps-row{
-  display:flex;gap:24px;justify-content:center;flex-wrap:wrap;
-  max-width:800px;margin:0 auto;
-}
-.step-card{
-  flex:1;min-width:200px;max-width:260px;
-  padding:28px 20px;border-radius:20px;
-  background:var(--white);border:1px solid var(--light-gray);
-  text-align:center;position:relative;transition:all .3s;
-}
-.step-card:hover{transform:translateY(-4px);box-shadow:0 8px 24px rgba(0,32,159,.08)}
-.step-num{
-  width:44px;height:44px;border-radius:50%;
-  background:var(--blue);color:#fff;
-  font-family:var(--display);font-size:1.2rem;
-  display:flex;align-items:center;justify-content:center;
-  margin:0 auto 14px;
-}
-.step-card h4{font-weight:800;font-size:.95rem;margin-bottom:6px;color:var(--dark)}
-.step-card p{font-size:.8rem;color:var(--text-light);line-height:1.5}
-
-/* DIASPORA */
-.diaspora-section{
-  padding:60px 20px;text-align:center;
-  background:linear-gradient(135deg,var(--blue) 0%,var(--blue-dark) 60%,#0a1230 100%);
-  color:var(--white);position:relative;overflow:hidden;
-}
-.diaspora-section::before{
-  content:'';position:absolute;inset:0;
-  background-image:linear-gradient(rgba(255,255,255,.02) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.02) 1px,transparent 1px);
-  background-size:40px 40px;
-}
-.diaspora-section>*{position:relative}
-.diaspora-section h2{font-family:var(--display);font-size:clamp(1.5rem,4vw,2.4rem);margin-bottom:12px}
-.diaspora-section p{color:rgba(255,255,255,.75);max-width:420px;margin:0 auto 28px;font-size:.95rem;line-height:1.6}
-
-/* ABOUT / ECOSYSTEM */
-#about-haitibiznis{padding:70px 20px;background:var(--dark);color:#fff;position:relative;overflow:hidden}
-#about-haitibiznis::before{
-  content:'';position:absolute;inset:0;
-  background:radial-gradient(circle at 20% 30%,rgba(0,32,159,.25) 0%,transparent 50%),
-             radial-gradient(circle at 80% 70%,rgba(210,16,52,.12) 0%,transparent 50%);
-}
-#about-haitibiznis>*{position:relative;z-index:1}
-.about-header{text-align:center;margin-bottom:12px}
-.about-header h2{font-family:var(--display);font-size:clamp(1.6rem,4vw,2.6rem);margin-bottom:10px}
-.about-intro{text-align:center;max-width:560px;margin:0 auto 44px;font-size:1rem;line-height:1.7;color:rgba(255,255,255,.75)}
-.about-intro .highlight{color:var(--gold);font-weight:700;font-size:1.05rem;margin-top:8px}
-
-.eco-cards{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;max-width:960px;margin:0 auto 48px}
-.eco-card{
-  border-radius:20px;padding:28px 22px;position:relative;overflow:hidden;
-  transition:transform .35s,box-shadow .35s;
-}
-.eco-card:hover{transform:translateY(-6px);box-shadow:0 16px 40px rgba(0,0,0,.25)}
-.eco-card.ec-red{background:linear-gradient(160deg,#E8274A 0%,var(--red) 60%,var(--red-dark) 100%)}
-.eco-card.ec-blue{background:linear-gradient(160deg,#1A4FD4 0%,var(--blue) 60%,var(--blue-dark) 100%)}
-.eco-card.ec-dark{background:linear-gradient(160deg,#1E293B 0%,#111827 60%,#0C1222 100%);border:1px solid rgba(255,255,255,.08)}
-.eco-card.ec-green{background:linear-gradient(160deg,#2CA855 0%,var(--green) 60%,#126B2A 100%)}
-.eco-card.ec-gold{background:linear-gradient(160deg,#E8B830 0%,var(--gold) 60%,#A07510 100%)}
-.eco-card.ec-flag{background:linear-gradient(160deg,var(--blue) 0%,#001A80 50%,var(--red-dark) 100%);border:1px solid rgba(210,16,52,.3)}
-
-.eco-card h3{font-family:var(--display);font-size:1.25rem;margin-bottom:6px;color:#fff}
-.eco-card p{font-size:.85rem;color:rgba(255,255,255,.85);line-height:1.5;margin-bottom:12px}
-.eco-card-tag{
-  display:inline-block;font-size:.65rem;font-weight:800;letter-spacing:.08em;text-transform:uppercase;
-  padding:4px 12px;border-radius:100px;background:rgba(255,255,255,.18);color:#fff;margin-bottom:14px;
-}
-.eco-card-link{
-  display:inline-flex;align-items:center;gap:6px;
-  font-size:.85rem;font-weight:700;color:#fff;
-  padding:10px 20px;border-radius:100px;
-  background:rgba(255,255,255,.15);border:1px solid rgba(255,255,255,.2);
-  transition:all .25s;
-}
-.eco-card-link:hover{background:rgba(255,255,255,.25)}
-
-.eco-cards-bottom{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;max-width:960px;margin:0 auto 48px}
-
-.impact-strip{
-  display:flex;justify-content:center;gap:32px;flex-wrap:wrap;
-  max-width:800px;margin:0 auto 48px;
-  padding:24px 20px;border-radius:16px;
-  background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);
-}
-.impact-item{display:flex;align-items:center;gap:8px;font-size:.88rem;font-weight:700;color:rgba(255,255,255,.9)}
-.impact-icon{font-size:1.1rem}
-
-.about-why{text-align:center;max-width:520px;margin:0 auto 44px}
-.about-why h3{font-family:var(--display);font-size:1.3rem;margin-bottom:10px;color:#fff}
-.about-why p{font-size:.92rem;color:rgba(255,255,255,.7);line-height:1.7}
-
-.about-cta{text-align:center}
-.about-cta h3{font-family:var(--display);font-size:1.6rem;margin-bottom:8px}
-.about-cta p{color:rgba(255,255,255,.7);margin-bottom:24px;font-size:.95rem}
-.about-cta-btns{display:flex;gap:14px;justify-content:center;flex-wrap:wrap}
-
-/* CONTACT */
-.contact{padding:60px 20px;background:var(--off-white)}
-.contact-grid{display:grid;grid-template-columns:1fr 1fr;gap:32px;max-width:900px;margin:0 auto}
-.contact-info{display:flex;flex-direction:column;gap:12px}
-.contact-card{
-  padding:16px 18px;border-radius:14px;background:var(--white);
-  border:1px solid var(--light-gray);display:flex;align-items:center;gap:12px;transition:all .3s;
-}
-.contact-card:hover{transform:translateY(-2px);box-shadow:0 6px 20px rgba(0,32,159,.06)}
-.contact-card-icon{
-  width:40px;height:40px;border-radius:10px;display:flex;align-items:center;justify-content:center;
-  font-size:1rem;flex-shrink:0;
-}
-.contact-card-icon.red{background:rgba(210,16,52,.1);color:var(--red)}
-.contact-card-icon.blue{background:rgba(0,32,159,.1);color:var(--blue)}
-.contact-card-title{font-weight:700;font-size:.82rem;color:var(--dark)}
-.contact-card-email{font-size:.72rem;color:var(--text-light)}
-.contact-form{
-  background:var(--white);border-radius:18px;padding:28px;
-  border:1px solid var(--light-gray);box-shadow:0 4px 20px rgba(0,0,0,.04);
-}
-.contact-form h3{font-family:var(--display);font-size:1.2rem;color:var(--dark);margin-bottom:6px}
-.contact-form .form-sub{font-size:.82rem;color:var(--text-light);margin-bottom:18px}
-.form-group{margin-bottom:12px}
-.form-group label{display:block;font-size:.75rem;font-weight:700;color:var(--text);margin-bottom:4px}
-.form-group input,.form-group select,.form-group textarea{
-  width:100%;padding:10px 14px;border:1px solid var(--light-gray);border-radius:10px;
-  font-family:var(--body);font-size:.85rem;color:var(--text);background:var(--off-white);
-  transition:border-color .2s;outline:none;
-}
-.form-group input:focus,.form-group select:focus,.form-group textarea:focus{border-color:var(--blue)}
-.form-group textarea{resize:vertical;min-height:80px}
-.form-submit{
-  width:100%;padding:12px;border:none;border-radius:100px;
-  background:var(--red);color:#fff;font-family:var(--body);
-  font-size:.88rem;font-weight:700;cursor:pointer;transition:all .3s;
-}
-.form-submit:hover{background:var(--red-dark);transform:translateY(-1px)}
-.form-success{display:none;text-align:center;padding:40px 20px}
-.form-success .check{font-size:2.5rem;margin-bottom:10px}
-.form-success h4{font-family:var(--display);font-size:1.2rem;color:var(--dark);margin-bottom:6px}
-.form-success p{font-size:.85rem;color:var(--text-light)}
-
-/* FINAL CTA */
-.final-cta{
-  padding:70px 20px;text-align:center;
-  background:linear-gradient(135deg, var(--red) 0%, var(--red-dark) 40%, var(--blue) 100%);
-  color:var(--white);position:relative;overflow:hidden;
-}
-.final-cta::before{content:'';position:absolute;inset:0;background-image:linear-gradient(rgba(255,255,255,.03) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.03) 1px,transparent 1px);background-size:40px 40px}
-.final-cta>*{position:relative}
-.final-cta h2{font-family:var(--display);font-size:clamp(1.8rem,4vw,2.8rem);margin-bottom:12px}
-.final-cta p{color:rgba(255,255,255,.8);margin-bottom:28px;font-size:1rem;max-width:420px;margin-left:auto;margin-right:auto;line-height:1.6}
-.final-cta .cta-btns{display:flex;gap:12px;justify-content:center;flex-wrap:wrap}
-
-/* FOOTER */
-footer{padding:40px 20px 24px;background:var(--dark);color:var(--white)}
-.footer-top{
-  max-width:1000px;margin:0 auto;
-  display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:32px;
-  padding-bottom:28px;border-bottom:1px solid rgba(255,255,255,.08);margin-bottom:16px;
-}
-.footer-brand-col .footer-logo{display:flex;align-items:center;gap:8px;margin-bottom:8px}
-.footer-brand-col .footer-logo img{height:32px;border-radius:5px}
-.footer-brand-col .footer-logo span{font-family:var(--display);font-size:1.1rem}
-.footer-brand-col .footer-logo span em{color:var(--red);font-style:italic}
-.footer-brand-col p{font-size:.75rem;color:rgba(255,255,255,.35);line-height:1.6;max-width:260px}
-.footer-col h4{font-size:.65rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:rgba(255,255,255,.3);margin-bottom:12px}
-.footer-col a{display:block;color:rgba(255,255,255,.5);font-size:.8rem;margin-bottom:7px;transition:color .3s}
+/* ============ FOOTER ============ */
+.footer{background:var(--ink);color:#fff;padding:32px 0 26px;margin-top:10px}
+.footer-top{display:flex;flex-wrap:wrap;gap:26px;justify-content:space-between}
+.footer-brand{max-width:260px}
+.footer-brand .fb-logo{display:flex;align-items:center;gap:9px;margin-bottom:10px}
+.footer-brand .fb-logo img{height:30px;width:30px;border-radius:8px}
+.footer-brand .fb-logo b{font-family:var(--display);font-size:1.15rem}
+.footer-brand .fb-logo b em{color:var(--gold);font-style:italic}
+.footer-brand p{font-size:.82rem;color:rgba(255,255,255,.5);line-height:1.6}
+.footer-col h5{font-size:.72rem;text-transform:uppercase;letter-spacing:.1em;color:var(--gold);margin-bottom:12px}
+.footer-col a{display:block;font-size:.85rem;color:rgba(255,255,255,.62);padding:4px 0;transition:.15s}
 .footer-col a:hover{color:#fff}
-.footer-bottom{text-align:center;color:rgba(255,255,255,.2);font-size:.68rem;max-width:1000px;margin:0 auto}
+.footer-bottom{border-top:1px solid rgba(255,255,255,.1);margin-top:24px;padding-top:16px;text-align:center;
+  font-size:.74rem;color:rgba(255,255,255,.4)}
 
-/* WHATSAPP FLOAT */
-.wa-float{
-  position:fixed;bottom:80px;right:20px;z-index:900;
-  width:56px;height:56px;border-radius:50%;
-  background:#25D366;color:#fff;font-size:1.6rem;
-  display:flex;align-items:center;justify-content:center;
-  box-shadow:0 4px 16px rgba(37,211,102,.4);
-  transition:all .3s;cursor:pointer;
-}
-.wa-float:hover{transform:scale(1.1);box-shadow:0 6px 24px rgba(37,211,102,.5)}
-.wa-tooltip{
-  position:absolute;right:64px;top:50%;transform:translateY(-50%);
-  background:var(--dark);color:#fff;padding:8px 14px;border-radius:10px;
-  font-size:.72rem;font-weight:600;white-space:nowrap;
-  opacity:0;pointer-events:none;transition:opacity .3s;
-}
-.wa-float:hover .wa-tooltip{opacity:1}
-
-/* STICKY MOBILE FOOTER (replaced by koutye bar) */
-
-/* INSTALL BANNER */
-.install-banner{
-  display:none;position:fixed;bottom:0;left:0;right:0;z-index:999;
-  background:linear-gradient(135deg, var(--blue) 0%, var(--red) 100%);
-  color:#fff;padding:14px 20px;
-  box-shadow:0 -4px 20px rgba(0,0,0,.15);
-  align-items:center;gap:12px;
-}
-.install-banner.show{display:flex}
-.install-banner-text{flex:1;font-size:.82rem;font-weight:600}
-.install-banner-text small{display:block;font-size:.7rem;font-weight:400;opacity:.8;margin-top:2px}
-.install-banner-btn{
-  background:#fff;color:var(--blue);border:none;padding:10px 22px;
-  border-radius:100px;font-weight:700;font-size:.82rem;cursor:pointer;
-  font-family:var(--body);white-space:nowrap;
-}
-.install-banner-close{background:none;border:none;color:rgba(255,255,255,.7);font-size:1.2rem;cursor:pointer;padding:4px}
-
-/* KOUTYE STICKY BAR */
-.koutye-sticky-bar{
-  position:fixed;bottom:0;left:0;right:0;z-index:999;
-  background:#D21034;text-align:center;padding:14px;
-}
-.koutye-sticky-bar a{
-  display:block;color:#fff;font-weight:800;font-size:.95rem;
-  letter-spacing:.02em;
-}
-
-/* KOUTYE NAV HIGHLIGHT */
-.nav-koutye-link{
-  background:linear-gradient(135deg,var(--red),var(--gold))!important;
-  color:#fff!important;padding:8px 16px!important;border-radius:100px!important;
-  font-weight:800!important;font-size:.82rem!important;
-  box-shadow:0 2px 8px rgba(210,16,52,.25);
-  animation:koutyePulse 2s ease-in-out infinite;
-}
-.nav-koutye-link:hover{
-  transform:translateY(-1px);box-shadow:0 4px 16px rgba(210,16,52,.35)!important;
-  background:linear-gradient(135deg,var(--red-dark),#b8880f)!important;
-}
-@keyframes koutyePulse{0%,100%{box-shadow:0 2px 8px rgba(210,16,52,.25)}50%{box-shadow:0 2px 16px rgba(210,16,52,.45)}}
-
-/* KOUTYE HERO BADGE */
-.hero-badge{
-  display:inline-flex;align-items:center;gap:8px;
-  background:rgba(212,160,23,.2);border:1px solid rgba(212,160,23,.4);
-  color:var(--gold);font-size:.75rem;font-weight:800;letter-spacing:.12em;text-transform:uppercase;
-  padding:8px 20px;border-radius:100px;margin-bottom:20px;
-}
-.hero-trust{font-size:.82rem;color:rgba(255,255,255,.55);margin-top:20px;font-weight:600}
-
-/* KOUTYE SECTION */
-.koutye-section{padding:48px 20px;max-width:900px;margin:0 auto}
-.koutye-card{
-  border-radius:24px;padding:36px 28px;text-align:center;
-  background:linear-gradient(160deg,var(--blue) 0%,#001A80 50%,var(--red-dark) 100%);
-  color:#fff;border:1px solid rgba(210,16,52,.3);
-  position:relative;overflow:hidden;
-}
-.koutye-card::before{
-  content:'';position:absolute;inset:0;
-  background:radial-gradient(circle at 30% 20%,rgba(212,160,23,.15) 0%,transparent 50%);
-}
-.koutye-card>*{position:relative}
-.koutye-card h3{font-family:var(--display);font-size:1.5rem;margin-bottom:8px}
-.koutye-card p{font-size:.9rem;color:rgba(255,255,255,.85);margin-bottom:20px;line-height:1.5}
-.koutye-card .entry-cta{color:var(--red);font-size:.95rem}
-
-/* WAYS TO EARN */
-.earn-section{padding:20px 20px 48px;max-width:1000px;margin:0 auto}
-.earn-section h2{
-  text-align:center;font-family:var(--display);
-  font-size:clamp(1.4rem,3.5vw,2.2rem);color:var(--dark);margin-bottom:8px;
-}
-.earn-section .section-desc{text-align:center;margin-bottom:32px}
-.earn-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:16px}
-.earn-card{
-  border-radius:18px;padding:24px 20px;color:#fff;
-  position:relative;overflow:hidden;transition:transform .3s,box-shadow .3s;
-}
-.earn-card:hover{transform:translateY(-4px);box-shadow:0 12px 32px rgba(0,0,0,.2)}
-.earn-card.ec-blue{background:linear-gradient(160deg,#1A4FD4 0%,var(--blue) 60%,var(--blue-dark) 100%)}
-.earn-card.ec-green{background:linear-gradient(160deg,#2CA855 0%,var(--green) 60%,#126B2A 100%)}
-.earn-card.ec-red{background:linear-gradient(160deg,var(--red-light) 0%,var(--red) 60%,var(--red-dark) 100%)}
-.earn-card.ec-gold{background:linear-gradient(160deg,#E8B830 0%,var(--gold) 60%,#A07510 100%)}
-.earn-card h4{font-family:var(--display);font-size:1.1rem;margin-bottom:6px}
-.earn-card p{font-size:.82rem;color:rgba(255,255,255,.85);line-height:1.4}
-
-@media(max-width:600px){
-  .earn-grid{grid-template-columns:1fr}
-}
-
-/* CHOOSE SECTION - 6 cards */
-.choose-section{padding:48px 20px;max-width:1000px;margin:0 auto}
-.choose-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}
-.choose-card{
-  border-radius:14px;padding:14px 12px;color:#fff;cursor:pointer;
-  position:relative;overflow:hidden;transition:transform .3s,box-shadow .3s;
-}
-.choose-card:hover{transform:translateY(-4px);box-shadow:0 12px 32px rgba(0,0,0,.2)}
-.choose-card h4{font-family:var(--display);font-size:.88rem;margin-bottom:4px}
-.choose-card p{font-size:.7rem;color:rgba(255,255,255,.85);line-height:1.35}
-.choose-card .cc-logo{height:30px;border-radius:6px;margin-bottom:6px;object-fit:contain}
-.choose-card.cc-flag{background:linear-gradient(160deg,var(--blue) 0%,#001A80 50%,var(--red-dark) 100%);border:1px solid rgba(210,16,52,.3)}
-.choose-card.cc-blue{background:linear-gradient(160deg,#1A4FD4 0%,var(--blue) 60%,var(--blue-dark) 100%)}
-.choose-card.cc-green{background:linear-gradient(160deg,#2CA855 0%,var(--green) 60%,#126B2A 100%)}
-.choose-card.cc-gold{background:linear-gradient(160deg,#E8B830 0%,var(--gold) 60%,#A07510 100%)}
-.choose-card.cc-red{background:linear-gradient(160deg,var(--red-light) 0%,var(--red) 60%,var(--red-dark) 100%)}
-.choose-card.cc-dark{background:linear-gradient(160deg,#1E293B 0%,#111827 60%,#0C1222 100%);border:1px solid rgba(255,255,255,.08)}
-.choose-card.cc-toupatou{background:linear-gradient(160deg,#00209F 0%,#001570 100%);border:2px solid var(--gold);box-shadow:0 4px 16px rgba(0,32,159,.35)}
-.choose-card.cc-toupatou h4{font-size:1rem;color:#FFD54F;text-shadow:0 1px 3px rgba(0,0,0,.4)}
-.choose-card.cc-toupatou p{color:#fff;font-size:.75rem}
-@media(max-width:360px){.choose-grid{gap:8px}.choose-card{padding:12px 10px}.choose-card h4{font-size:.82rem}.choose-card p{font-size:.65rem}}
-
-/* COMMISSION TABLE */
-.commission-section{padding:48px 20px;background:var(--white)}
-.commission-table{max-width:600px;margin:0 auto;border-radius:16px;overflow:hidden;border:1px solid var(--light-gray)}
-.commission-table table{width:100%;border-collapse:collapse}
-.commission-table th{background:var(--dark);color:#fff;text-align:left;padding:14px 18px;font-size:.82rem;font-weight:700}
-.commission-table td{padding:12px 18px;font-size:.85rem;border-bottom:1px solid var(--light-gray)}
-.commission-table tr:last-child td{border-bottom:none}
-.commission-table td:last-child{font-weight:700;color:var(--blue);text-align:right}
-.commission-table tr:nth-child(even){background:var(--off-white)}
-
-/* DASHBOARD PREVIEW */
-.dash-section{padding:48px 20px;background:var(--off-white)}
-.dash-card{
-  max-width:400px;margin:0 auto;border-radius:20px;
-  background:var(--white);border:1px solid var(--light-gray);
-  box-shadow:0 8px 32px rgba(0,32,159,.06);overflow:hidden;
-}
-.dash-header{background:var(--dark);color:#fff;padding:18px 22px;display:flex;align-items:center;justify-content:space-between}
-.dash-header h4{font-family:var(--display);font-size:1.1rem}
-.dash-header span{font-size:.7rem;color:rgba(255,255,255,.5)}
-.dash-stats{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--light-gray)}
-.dash-stat{background:var(--white);padding:18px 16px;text-align:center}
-.dash-stat .val{font-family:var(--display);font-size:1.4rem;color:var(--dark);margin-bottom:2px}
-.dash-stat .label{font-size:.7rem;color:var(--text-light);font-weight:600;text-transform:uppercase;letter-spacing:.05em}
-.dash-link{padding:16px 22px;background:var(--off-white);font-size:.8rem;color:var(--text-light)}
-.dash-link code{
-  display:block;padding:8px 12px;margin-top:6px;border-radius:8px;
-  background:var(--white);border:1px solid var(--light-gray);
-  font-size:.75rem;color:var(--blue);font-weight:700;word-break:break-all;
-}
-.dash-actions{padding:16px 22px;display:flex;gap:10px}
-.dash-btn{
-  flex:1;padding:12px;border:none;border-radius:100px;
-  font-family:var(--body);font-size:.82rem;font-weight:700;cursor:pointer;
-  text-align:center;transition:all .3s;
-}
-.dash-btn.primary{background:var(--red);color:#fff}
-.dash-btn.primary:hover{background:var(--red-dark)}
-.dash-btn.secondary{background:var(--off-white);color:var(--text);border:1px solid var(--light-gray)}
-.dash-payout{padding:0 22px 18px;display:flex;gap:8px;justify-content:center}
-.dash-payout span{
-  font-size:.7rem;font-weight:700;color:var(--text-light);
-  padding:6px 14px;border-radius:100px;background:var(--off-white);
-  border:1px solid var(--light-gray);
-}
-
-/* REVEAL */
-.reveal{opacity:0;transform:translateY(20px);transition:all .5s cubic-bezier(.4,0,.2,1)}
-.reveal.visible{opacity:1;transform:translateY(0)}
-.reveal-d1{transition-delay:.1s}.reveal-d2{transition-delay:.2s}.reveal-d3{transition-delay:.3s}
-
-/* RESPONSIVE */
-@media(max-width:900px){
-  .entry-grid{grid-template-columns:1fr}
-  .eco-cards{grid-template-columns:1fr}
-  .eco-cards-bottom{grid-template-columns:1fr}
-  .footer-top{grid-template-columns:1fr 1fr}
-}
-@media(max-width:960px){
-  .nav-links{display:none}.mobile-menu{display:block}
-}
-@media(max-width:768px){
-  .contact-grid{grid-template-columns:1fr}
-  .wa-float{bottom:80px}
-}
-@media(max-width:480px){
-  .impact-strip{gap:16px;flex-direction:column;align-items:center}
-  .footer-top{grid-template-columns:1fr;text-align:center}
-  .footer-brand-col p{margin:0 auto}
-  .footer-brand-col .footer-logo{justify-content:center}
-  .action-buttons{flex-direction:column;align-items:center}
-  .action-btn{width:100%;max-width:280px;justify-content:center}
-  .trust-row{gap:16px}
-  .steps-row{flex-direction:column;align-items:center}
-}
-
-/* ═══ TABLET LANDSCAPE ═══ */
-@media(min-width:700px){
-  .hero{
-    display:grid;grid-template-columns:1fr 1fr;align-items:center;
-    text-align:left;padding:48px 40px 40px;gap:0 32px;
-  }
-  .hero-logo,.hero-badge,.hero h1,.hero-sub,.hero-actions,.hero-trust{grid-column:1}
-  .hero-moto{
-    grid-column:2;grid-row:1/-1;justify-self:center;align-self:center;
-    margin-top:0;max-width:100%;
-  }
-  .hero-sub{margin:0 0 32px}
-  .hero-actions{justify-content:flex-start}
-  .hero-badge{align-self:start}
-  .hero-logo{justify-self:start}
-}
-@media(min-width:1024px){
-  .hero{padding:56px 48px 48px;gap:0 48px}
-  .hero h1{font-size:3rem}
-}
+.reveal{opacity:0;transform:translateY(18px);transition:opacity .6s,transform .6s}
+.reveal.in{opacity:1;transform:none}
 </style>
 </head>
 <body>
 
-<!-- LANGUAGE BAR -->
-<div class="lang-bar">
-  <a data-lang="ht" class="active">Kreyòl</a>
-  <a data-lang="fr">Français</a>
-  <a data-lang="en">English</a>
-  <a data-lang="es">Español</a>
-</div>
+<div class="flag-stripe"></div>
 
-<div class="flag-stripe" style="margin-top:32px"></div>
-
-<!-- HEADER -->
-<nav>
-  <div class="nav-inner">
-    <a href="/" class="nav-logo">
+<!-- TOP BAR -->
+<header class="topbar">
+  <div class="topbar-inner">
+    <a href="/" class="brand">
       <img src="assets/haitibiznis-icon.png" alt="HaitiBiznis">
-      <span>Haiti<em>Biznis</em></span>
+      <b>Haiti<em>Biznis</em></b>
     </a>
-    <div class="nav-links">
-      <a href="/" data-i18n="nav_home">Ak&egrave;y</a>
-      <a href="about.html" data-i18n="nav_about">Sou Nou</a>
-      <a href="leadership.html" data-i18n="nav_team">Ekip</a>
-      <a href="#entry" data-i18n="nav_join">Rejwenn Nou</a>
-      <a href="#how" data-i18n="nav_how">Kijan Li Mache</a>
-      <a href="#contact" data-i18n="nav_contact">Kontak</a>
-      <a href="koutye.html" class="nav-koutye-link" data-i18n="nav_koutye">Parenaj Biznis</a>
-      <a href="#entry" class="nav-cta" data-i18n="nav_cta">Komanse F&egrave; Lajan</a>
-    </div>
-    <button class="mobile-menu" onclick="document.querySelector('.nav-mobile').classList.add('open')" aria-label="Menu">&#9776;</button>
-  </div>
-</nav>
-<div class="nav-mobile" id="mobileNav">
-  <button class="close-menu" onclick="this.parentElement.classList.remove('open')">&times;</button>
-  <a href="/" onclick="closeMobile()" data-i18n="nav_home">Ak&egrave;y</a>
-  <a href="about.html" onclick="closeMobile()" data-i18n="nav_about">Sou Nou</a>
-  <a href="leadership.html" onclick="closeMobile()" data-i18n="nav_team">Ekip</a>
-  <a href="#entry" onclick="closeMobile()" data-i18n="nav_join">Rejwenn Nou</a>
-  <a href="#how" onclick="closeMobile()" data-i18n="nav_how">Kijan Li Mache</a>
-  <a href="#contact" onclick="closeMobile()" data-i18n="nav_contact">Kontak</a>
-  <a href="koutye.html" onclick="closeMobile()" class="nav-koutye-link" data-i18n="nav_koutye">Parenaj Biznis</a>
-</div>
-
-<!-- HERO -->
-<section class="hero">
-  <img src="assets/haitibiznis-logo-new.png" alt="HaitiBiznis" class="hero-logo" style="max-width:220px;width:180px;padding:10px">
-  <div class="hero-badge" data-i18n="hero_badge">&#128176; PARENAJ BIZNIS</div>
-  <h1 data-i18n="hero_title">F&egrave; Lajan Chak Jou<br>ak Telef&ograve;n Ou</h1>
-  <p class="hero-sub" data-i18n="hero_sub">Ref&egrave;re moun. Konekte biznis. Touche komisyon sou chak tranzaksyon.</p>
-  <div class="hero-actions">
-    <a href="koutye.html" class="btn btn-red" data-i18n="hero_cta">&#128176; Vin yon Parenaj Biznis &mdash; F&egrave; Lajan</a>
-    <a href="#how" class="btn btn-outline" data-i18n="hero_how">Gade kijan li mache</a>
-  </div>
-  <p class="hero-trust" data-i18n="hero_trust">+100 moun deja ap f&egrave; lajan sou HaitiBiznis</p>
-  <img src="assets/hero-moto.jpg" alt="MyPlopPlop delivery driver and customer" class="hero-moto">
-</section>
-
-<!-- TRUST BAR -->
-<section class="trust-section reveal">
-  <div class="trust-row">
-    <div class="trust-item t-blue"><span class="trust-icon">&#9989;</span><span data-i18n="tr1">Chof&egrave; Verifye</span></div>
-    <div class="trust-item t-red"><span class="trust-icon">&#128274;</span><span data-i18n="tr2">Tranzaksyon Sekirize</span></div>
-    <div class="trust-item t-green"><span class="trust-icon">&#128172;</span><span data-i18n="tr3">Sip&ograve; WhatsApp</span></div>
-    <div class="trust-item t-blue"><span class="trust-icon">&#127463;&#127481;</span><span data-i18n="tr4">Platf&ograve;m Ayisyen</span></div>
-  </div>
-</section>
-
-<!-- 4. CHOOSE HOW TO EARN -->
-<section class="choose-section" id="entry">
-  <div class="entry-section-title reveal" data-i18n="choose_title">Chwazi kijan ou vle f&egrave; lajan</div>
-  <p class="entry-section-sub reveal" data-i18n="choose_sub">11 platf&ograve;m nan ekosist&egrave;m HaitiBiznis</p>
-  <div class="choose-grid">
-    <a href="https://haitibiznis.com/koutye.html" target="_blank" class="choose-card cc-flag reveal">
-      <img src="assets/koutye-biznis-logo.jpg" alt="Parenaj Biznis" class="cc-logo">
-      <h4>Parenaj Biznis</h4>
-      <p data-i18n="cc_koutye">Konekte biznis. Touche komisyon.</p>
-    </a>
-    <a href="https://msouwout.com" target="_blank" rel="noreferrer noopener" class="choose-card cc-blue reveal reveal-d1">
-      <img src="assets/msouwout-logo-new.png" alt="MsouWout" class="cc-logo">
-      <h4>MsouWout</h4>
-      <p data-i18n="cc_msou">Ou gen moto oswa machin? F&egrave; kous ak livrezon.</p>
-    </a>
-    <a href="https://msouwout.com/logistics.html" target="_blank" rel="noreferrer noopener" class="choose-card cc-blue reveal reveal-d2">
-      <img src="assets/msouwout-logo-new.png" alt="MsouWout Logistics" class="cc-logo">
-      <h4>MsouWout Logistics</h4>
-      <p data-i18n="cc_logistics">Kamyon, konten&egrave;, otobis. Poste chajman, jere fl&ograve;t, swiv livrezon.</p>
-    </a>
-    <a href="https://haitibiznis.com/events.html" target="_blank" class="choose-card cc-flag reveal reveal-d2">
-      <img src="assets/tike-lakay-logo.png" alt="Tik&egrave; Lakay" class="cc-logo">
-      <h4>Tik&egrave; Lakay</h4>
-      <p data-i18n="cc_events">Kreye ev&egrave;nman, vann tik&egrave;, desine envitasyon. Touche komisyon.</p>
-    </a>
-    <a href="https://myplopplop.com" target="_blank" rel="noreferrer noopener" class="choose-card cc-red reveal reveal-d3">
-      <img src="assets/myplopplop-logo-new.png" alt="MyPlopPlop" class="cc-logo">
-      <h4>MyPlopPlop</h4>
-      <p data-i18n="cc_plop">Vann pwodwi. Jwenn plis kliyan.</p>
-    </a>
-    <a href="https://48hoursready.com" target="_blank" rel="noreferrer noopener" class="choose-card cc-green reveal">
-      <img src="assets/48hoursready-logo.jpg" alt="48HoursReady" class="cc-logo">
-      <h4>48HoursReady</h4>
-      <p data-i18n="cc_48hr">Ref&egrave;re biznis. Touche 10% sou chak pake.</p>
-    </a>
-    <a href="https://haitibiznis.com/prolakay.html" target="_blank" class="choose-card cc-gold reveal reveal-d1">
-      <img src="assets/prolakay-logo-full.png" alt="Pwofesyonèl Lakay" class="cc-logo">
-      <h4>Pwofesyonèl Lakay</h4>
-      <p data-i18n="cc_pro">Ou gen talan oswa metye? Jwenn kliyan.</p>
-    </a>
-    <a href="https://haitibiznis.com/utility-hub.html" target="_blank" class="choose-card cc-dark reveal reveal-d2">
-      <img src="assets/utility-hub-logo.jpg" alt="Utility Hub" class="cc-logo">
-      <h4>Utility Payment Hub</h4>
-      <p data-i18n="cc_utility">Ref&egrave;re peman EDH/DINEPA. Touche sou tranzaksyon.</p>
-    </a>
-    <a href="https://anirudhatalmale6-alt.github.io/haitibiznis/reservations.html" target="_blank" class="choose-card cc-toupatou reveal reveal-d3">
-      <img src="toupatou-logo.jpg" alt="TouPaTou" class="cc-logo">
-      <h4>&#9992; TouPaTou</h4>
-      <p data-i18n="cc_toupatou">Rez&egrave;ve vwayaj, transp&ograve;, ot&egrave;l, ev&egrave;nman. Tout Ayiti.</p>
-    </a>
-    <a href="https://anirudhatalmale6-alt.github.io/shalom-site/" target="_blank" class="choose-card reveal" style="background:linear-gradient(160deg,#003DA5 0%,#002B75 100%);">
-      <div class="cc-logo" style="width:40px;height:40px;border-radius:50%;background:#fff;display:flex;align-items:center;justify-content:center;font-size:1.3rem;margin-bottom:8px;">&#128330;</div>
-      <h4>Shalom</h4>
-      <p>Legliz, don, manm, agrikilti. Bati lafwa ak kominote.</p>
-    </a>
-    <a href="https://billionorth.com" target="_blank" class="choose-card reveal reveal-d1" style="background:linear-gradient(160deg,#2D2D2D 0%,#1a1a1a 100%);">
-      <div class="cc-logo" style="width:40px;height:40px;border-radius:50%;background:linear-gradient(135deg,#D4A843,#B8922E);display:flex;align-items:center;justify-content:center;font-size:1rem;font-weight:800;color:#fff;margin-bottom:8px;">B</div>
-      <h4>Billionorth</h4>
-      <p>Boutik an liy. Achte pwodwi sipòte vizyon Shalom.</p>
-    </a>
-  </div>
-</section>
-
-<!-- HOW IT WORKS -->
-<section class="how-section" id="how">
-  <div class="section-label reveal" data-i18n="how_label">Kijan Li Mache</div>
-  <h2 class="section-title reveal" data-i18n="how_title">4 Etap Senp</h2>
-  <p class="section-desc reveal" data-i18n="how_desc">Enskri gratis epi komanse touche komisyon jodi a.</p>
-  <div class="steps-row">
-    <div class="step-card reveal">
-      <div class="step-num">1</div>
-      <h4 data-i18n="step1">Enskri gratis</h4>
-      <p data-i18n="step1_sub">Kreye kont Parenaj Biznis ou an 2 minit</p>
-    </div>
-    <div class="step-card reveal reveal-d1">
-      <div class="step-num">2</div>
-      <h4 data-i18n="step2">Jwenn link referral ou</h4>
-      <p data-i18n="step2_sub">Chak Parenaj Biznis gen yon k&ograve;d inik</p>
-    </div>
-    <div class="step-card reveal reveal-d2">
-      <div class="step-num">3</div>
-      <h4 data-i18n="step3">Pataje s&egrave;vis yo</h4>
-      <p data-i18n="step3_sub">Voye link ou bay zanmi, fanmi, biznis</p>
-    </div>
-    <div class="step-card reveal reveal-d3">
-      <div class="step-num">4</div>
-      <h4 data-i18n="step4">Touche komisyon</h4>
-      <p data-i18n="step4_sub">Chak tranzaksyon = lajan nan poch ou</p>
+    <div class="lang" id="langBar">
+      <button data-lang="ht" class="on">HT</button>
+      <button data-lang="fr">FR</button>
+      <button data-lang="en">EN</button>
+      <button data-lang="es">ES</button>
     </div>
   </div>
-</section>
+</header>
 
-<!-- 5. COMMISSION TABLE -->
-<section class="commission-section" id="commissions">
-  <div class="section-label reveal" style="text-align:center" data-i18n="com_label">Komisyon</div>
-  <h2 class="section-title reveal" style="text-align:center" data-i18n="com_title">Kijan ou touche?</h2>
-  <p class="section-desc reveal" style="text-align:center" data-i18n="com_desc">Chak tranzaksyon = komisyon pou ou</p>
-  <div class="commission-table reveal">
-    <table>
-      <tr><th data-i18n="com_th_service">S&egrave;vis</th><th style="text-align:right" data-i18n="com_th_rate">Komisyon</th></tr>
-      <tr><td>48HoursReady</td><td>10% (yon fwa)</td></tr>
-      <tr><td>MsouWout</td><td>10% &rarr; 5% (12 mwa)</td></tr>
-      <tr><td>MyPlopPlop</td><td>8% &rarr; 4% (12 mwa)</td></tr>
-      <tr><td>Pwofesyonèl Lakay</td><td>12% &rarr; 6% (12 mwa)</td></tr>
-      <tr><td>Utility payments</td><td data-i18n="com_per_tx">pa tranzaksyon</td></tr>
-      <tr><td>S&ograve;l groups</td><td data-i18n="com_per_act">pa aktivite</td></tr>
-    </table>
-    <p style="font-size:.7rem;color:var(--text-light);margin-top:8px;text-align:center">+2% bonus sou s&egrave;vis ki depase $100</p>
-  </div>
-</section>
+<div class="wrap" id="top">
 
-<!-- 6. DASHBOARD PREVIEW -->
-<section class="dash-section">
-  <div class="section-label reveal" style="text-align:center" data-i18n="dash_label">Dashboard</div>
-  <h2 class="section-title reveal" style="text-align:center" data-i18n="dash_title">Tablo Parenaj Biznis Ou</h2>
-  <p class="section-desc reveal" style="text-align:center" data-i18n="dash_desc">Suiv lajan ou an tan reyèl</p>
-  <div class="dash-card reveal">
-    <div class="dash-header">
-      <h4>Parenaj Biznis Dashboard</h4>
-      <span>KB-28391</span>
+  <!-- SEARCH -->
+  <div class="searchwrap">
+    <div class="search">
+      <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/></svg>
+      <input id="searchInput" type="search" data-i18n-ph="search_ph" placeholder="What are you looking for today?">
+      <button class="clr" id="searchClr" aria-label="clear">&times;</button>
     </div>
-    <div class="dash-stats">
-      <div class="dash-stat">
-        <div class="val">12,450 G</div>
-        <div class="label" data-i18n="dash_total">Total Earnings</div>
-      </div>
-      <div class="dash-stat">
-        <div class="val">3,200 G</div>
-        <div class="label" data-i18n="dash_pending">Pending</div>
+  </div>
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="flag">🇭🇹</div>
+    <h1 data-i18n="hero_h1">Haiti's Digital <em>Super App</em></h1>
+    <div class="sub" id="heroSub"></div>
+    <p class="desc" data-i18n="hero_desc"><b>One Account.</b> Nine Powerful Platforms. Unlimited Opportunities.</p>
+  </section>
+
+  <!-- PRIMARY ACTIONS -->
+  <section class="section" id="searchScope">
+    <div class="primary-grid" id="primaryGrid">
+      <a class="pcard earn" href="koutye.html">
+        <span class="ico">💰</span>
+        <h3 data-i18n="pa1_t">Earn Money</h3>
+        <p data-i18n="pa1_d">Join Parenaj Biznis and earn commissions.</p>
+        <span class="go" data-i18n="get_started">Get Started →</span>
+      </a>
+      <a class="pcard biz" href="https://48hoursready.com" target="_blank" rel="noopener">
+        <span class="ico">🚀</span>
+        <h3 data-i18n="pa2_t">Start a Business</h3>
+        <p data-i18n="pa2_d">Launch your business with 48HoursReady.</p>
+        <span class="go" data-i18n="get_started">Get Started →</span>
+      </a>
+      <a class="pcard shop" href="https://myplopplop.com" target="_blank" rel="noopener">
+        <span class="ico">🛒</span>
+        <h3 data-i18n="pa3_t">Shop & Sell</h3>
+        <p data-i18n="pa3_d">Buy, sell and create your online store.</p>
+        <span class="go" data-i18n="get_started">Get Started →</span>
+      </a>
+    </div>
+
+    <!-- STATS -->
+    <div class="section reveal">
+      <div class="stats-band">
+        <h2 data-i18n="stats_h">Join Haiti's Growing Digital Ecosystem</h2>
+        <div class="stats-note" data-i18n="stats_note">Founding figures — updated as the ecosystem grows</div>
+        <div class="stats-grid" id="statsGrid"></div>
       </div>
     </div>
-    <div class="dash-link">
-      <span data-i18n="dash_ref_label">Referral link:</span>
-      <code>haitibiznis.com/r/KB-28391</code>
+
+    <!-- FEATURED -->
+    <div class="section reveal">
+      <div class="featured" id="featured"></div>
     </div>
-    <div class="dash-actions">
-      <button class="dash-btn primary" data-i18n="dash_withdraw">Retire Lajan</button>
-      <button class="dash-btn secondary" data-i18n="dash_share">Pataje Link</button>
+
+    <!-- ECOSYSTEM -->
+    <div class="section">
+      <div class="section-head">
+        <h2 data-i18n="eco_h">The Ecosystem</h2>
+        <p data-i18n="eco_sub">One login, every service</p>
+      </div>
+      <div id="ecoRoot"></div>
+      <div class="search-empty" id="searchEmpty" data-i18n="no_results">No matches. Try another word.</div>
     </div>
-    <div class="dash-payout">
-      <span>MonCash</span>
-      <span>NatCash</span>
-    </div>
-  </div>
-</section>
-
-
-<!-- CONTACT -->
-<section class="contact" id="contact">
-  <div class="section-label reveal" data-i18n="contact_label">Kontakte Nou</div>
-  <h2 class="section-title reveal" data-i18n="contact_title">Kontakte Ekip HaitiBiznis la</h2>
-  <p class="section-desc reveal" data-i18n="contact_desc">Jwenn bon ekip la dir&egrave;kteman. Nou reponn nan 12 &egrave;dtan.</p>
-  <div class="contact-grid">
-    <div class="contact-info reveal">
-      <div class="contact-card">
-        <div class="contact-card-icon red">&#128722;</div>
-        <div><div class="contact-card-title">MyPlopPlop</div><div class="contact-card-email">marketplace@haitibiznis.com</div></div>
-      </div>
-      <div class="contact-card">
-        <div class="contact-card-icon blue">&#128663;</div>
-        <div><div class="contact-card-title">MsouWout</div><div class="contact-card-email">mobility@haitibiznis.com</div></div>
-      </div>
-      <div class="contact-card">
-        <div class="contact-card-icon blue">&#11088;</div>
-        <div><div class="contact-card-title">Pwofesyonèl Lakay</div><div class="contact-card-email">talent@haitibiznis.com</div></div>
-      </div>
-      <div class="contact-card">
-        <div class="contact-card-icon red">&#128640;</div>
-        <div><div class="contact-card-title">48HoursReady</div><div class="contact-card-email">business@haitibiznis.com</div></div>
-      </div>
-      <div class="contact-card">
-        <div class="contact-card-icon blue">&#129309;</div>
-        <div><div class="contact-card-title" data-i18n="contact_partners">Patenariat &amp; Medya</div><div class="contact-card-email">partners@haitibiznis.com</div></div>
-      </div>
-    </div>
-    <div class="contact-form reveal" id="contactForm">
-      <h3 data-i18n="form_title">Voye yon Mesaj</h3>
-      <p class="form-sub" data-i18n="form_sub">Chwazi depatman ou epi n ap voye mesaj ou bay bon ekip la.</p>
-      <form id="hbForm" onsubmit="return submitForm(event)">
-        <div class="form-group">
-          <label data-i18n="form_name">Non Ou</label>
-          <input type="text" name="name" required placeholder="Non konpl&egrave;">
-        </div>
-        <div class="form-group">
-          <label data-i18n="form_email">Imel Ou</label>
-          <input type="email" name="email" required placeholder="ou@egzamp.com">
-        </div>
-        <div class="form-group">
-          <label data-i18n="form_dept">Depatman</label>
-          <select name="department" id="deptSelect">
-            <option value="General" data-i18n="dept_general">Kesyon Jeneral</option>
-            <option value="MyPlopPlop - Marketplace">MyPlopPlop - Marketplace</option>
-            <option value="MsouWout - Mobility">MsouWout - Mobilite</option>
-            <option value="Pwofesyonèl Lakay - Talent">Pwofesyonèl Lakay - Talan</option>
-            <option value="Parenaj Biznis - Ambassador">Parenaj Biznis - Anbasadè</option>
-            <option value="48HoursReady - Business">48HoursReady - Biznis</option>
-            <option value="Partnerships" data-i18n="dept_partners">Patenariat &amp; Medya</option>
-          </select>
-        </div>
-        <div class="form-group">
-          <label data-i18n="form_message">Mesaj</label>
-          <textarea name="message" required placeholder="Kijan nou ka ede w?"></textarea>
-        </div>
-        <button type="submit" class="form-submit" data-i18n="form_send">Voye Mesaj</button>
-      </form>
-      <div class="form-success" id="formSuccess">
-        <div class="check">&#10003;</div>
-        <h4 data-i18n="form_thanks">Mesaj Voye!</h4>
-        <p data-i18n="form_confirm">M&egrave;si paske ou kontakte nou. Ekip nou ap reponn nan 12 &egrave;dtan.</p>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- FINAL CTA -->
-<section class="final-cta">
-  <h2 data-i18n="cta_title">Konekte Biznis. F&egrave; Lajan.</h2>
-  <p data-i18n="cta_desc">Vin yon Parenaj Biznis. Ref&egrave;re moun. Touche komisyon. Senp kon sa.</p>
-  <div class="cta-btns">
-    <a href="koutye.html" class="btn btn-white" data-i18n="cta_start">&#128176; Vin yon Parenaj Biznis kounye a</a>
-  </div>
-</section>
-
-<!-- WHATSAPP FLOAT -->
-<a href="https://wa.me/50946859702" target="_blank" class="wa-float" aria-label="WhatsApp">
-  <span class="wa-tooltip" data-i18n="wa_tip">Bezwen &Egrave;d? Chat ak nou</span>
-  &#128172;
-</a>
-
-<!-- STICKY MOBILE FOOTER (replaced by Koutye bar) -->
-
-<!-- INSTALL BANNER -->
-<div class="install-banner" id="installBanner">
-  <div class="install-banner-text" data-i18n="install_text">Enstale HaitiBiznis<small>Mete sou ekran lakay ou pou aks&egrave; rapid</small></div>
-  <button class="install-banner-btn" id="installBtn" data-i18n="install_btn">Enstale</button>
-  <button class="install-banner-close" id="installClose">&times;</button>
+  </section>
 </div>
 
 <!-- FOOTER -->
-<footer>
-  <div class="footer-top">
-    <div class="footer-brand-col">
-      <div class="footer-logo"><img src="assets/haitibiznis-icon.png" alt=""><span>Haiti<em>Biznis</em></span></div>
-      <p>Yon hub ki konekte kom&egrave;s, mobilite, talan, ak kwasans biznis an Ayiti. Pouvwa Biznis. Op&ograve;tinite Pou Tout.</p>
+<footer class="footer">
+  <div class="wrap">
+    <div class="footer-top">
+      <div class="footer-brand">
+        <div class="fb-logo"><img src="assets/haitibiznis-icon.png" alt=""><b>Haiti<em>Biznis</em></b></div>
+        <p data-i18n="foot_tag">Haiti's Digital Super App. One account, nine platforms, one ecosystem.</p>
+      </div>
+      <div class="footer-col">
+        <h5 data-i18n="foot_platforms">Platforms</h5>
+        <a href="koutye.html">Parenaj Biznis</a>
+        <a href="https://48hoursready.com" target="_blank" rel="noopener">48HoursReady</a>
+        <a href="prolakay.html">Pwofesyonèl Lakay</a>
+        <a href="https://msouwout.com" target="_blank" rel="noopener">MsouWout</a>
+        <a href="https://msouwout.com/logistics.html" target="_blank" rel="noopener">MsouWout Logistics</a>
+        <a href="https://myplopplop.com" target="_blank" rel="noopener">MyPlopPlop</a>
+      </div>
+      <div class="footer-col">
+        <h5 data-i18n="foot_more_plat">More</h5>
+        <a href="https://billionorth.com" target="_blank" rel="noopener">Billionorth</a>
+        <a href="events.html">Tikè Lakay</a>
+        <a href="reservations.html">TouPaTou</a>
+        <a href="utility-hub.html">Utility Payment Hub</a>
+        <a href="https://anirudhatalmale6-alt.github.io/shalom-site/" target="_blank" rel="noopener">Shalom</a>
+        <a href="https://boxetoboxe.com" target="_blank" rel="noopener">BoxeToBoxe</a>
+      </div>
+      <div class="footer-col">
+        <h5 data-i18n="foot_company">Company</h5>
+        <a href="about.html">About</a>
+        <a href="leadership.html">Leadership</a>
+        <a href="koutye-dashboard.html" data-i18n="foot_dash">Tablo A Bò</a>
+        <a href="#" data-i18n="foot_privacy">Privacy Policy</a>
+        <a href="#" data-i18n="foot_terms">Terms of Service</a>
+        <a href="ecosystem-admin.html" style="opacity:.35;font-size:.75rem">Admin</a>
+      </div>
     </div>
-    <div class="footer-col"><h4>Lyen Rapid</h4><a href="/">Ak&egrave;y</a><a href="#entry">Rejwenn Nou</a><a href="#how">Kijan Li Mache</a><a href="#contact">Kontak</a></div>
-    <div class="footer-col"><h4>Platf&ograve;m</h4><a href="https://myplopplop.com" target="_blank">MyPlopPlop</a><a href="https://msouwout.com" target="_blank">MsouWout</a><a href="https://msouwout.com/logistics.html" target="_blank">MsouWout Logistics</a><a href="prolakay.html" target="_blank">Pwofesyonèl Lakay</a><a href="https://48hoursready.com" target="_blank">48HoursReady</a><a href="koutye.html">Parenaj Biznis</a><a href="https://anirudhatalmale6-alt.github.io/shalom-site/" target="_blank">Shalom</a><a href="https://billionorth.com" target="_blank">Billionorth</a></div>
-    <div class="footer-col"><h4>Plis</h4><a href="https://boxetoboxe.com" target="_blank">BoxeToBoxe</a><a href="#">Privacy Policy</a><a href="#">Terms of Service</a><a href="ecosystem-admin.html" style="opacity:.3;font-size:.75rem">Admin</a></div>
+    <div class="footer-bottom">&copy; 2026 HaitiBiznis. <span data-i18n="foot_rights">All Haiti, one ecosystem. All rights reserved.</span></div>
   </div>
-  <div class="footer-bottom">&copy; 2026 HaitiBiznis. Tout Haiti, yon ekosist&egrave;m. All rights reserved.</div>
 </footer>
-<div class="flag-stripe"></div>
 
-<!-- KOUTYE STICKY BAR -->
-<div class="koutye-sticky-bar">
-  <a href="koutye.html">
-    <span data-i18n="sticky_koutye">&#128176; Vin yon Parenaj Biznis &mdash; F&egrave; Lajan</span>
-  </a>
+<!-- BOTTOM NAV -->
+<nav class="botnav" id="botnav">
+  <a href="#top" class="active" data-nav="home"><span class="bi">🏠</span><span data-i18n="nav_home">Home</span></a>
+  <a href="koutye.html" data-nav="earn"><span class="bi">💰</span><span data-i18n="nav_earn">Earn</span></a>
+  <a href="https://msouwout.com" class="center" target="_blank" rel="noopener"><span class="bi">🚕</span><span data-i18n="nav_ride">Ride</span></a>
+  <a href="https://myplopplop.com" target="_blank" rel="noopener" data-nav="market"><span class="bi">🛒</span><span data-i18n="nav_market">Market</span></a>
+  <a href="koutye-dashboard.html" data-nav="profile"><span class="bi">👤</span><span data-i18n="nav_profile">Profile</span></a>
+</nav>
+
+<!-- FAB -->
+<div class="fab-wrap" id="fab">
+  <div class="fab-menu">
+    <a class="fab-item" href="https://wa.me/50946859702" target="_blank" rel="noopener"><span class="fi">💬</span><span data-i18n="fab_wa">WhatsApp</span></a>
+    <a class="fab-item" href="tel:+50946859702"><span class="fi">📞</span><span data-i18n="fab_call">Call Us</span></a>
+    <a class="fab-item" href="https://maps.google.com/?q=Port-au-Prince,Haiti" target="_blank" rel="noopener"><span class="fi">📍</span><span data-i18n="fab_dir">Directions</span></a>
+    <a class="fab-item" href="https://play.google.com/store/apps/details?id=com.haitibiznis.msouwout" target="_blank" rel="noopener"><span class="fi">📱</span><span data-i18n="fab_app">Download App</span></a>
+  </div>
+  <button class="fab-main" id="fabMain" aria-label="menu">+</button>
 </div>
 
 <script>
-function closeMobile(){document.getElementById('mobileNav').classList.remove('open')}
-const obs=new IntersectionObserver(e=>{e.forEach(el=>{if(el.isIntersecting){el.target.classList.add('visible');obs.unobserve(el.target)}})},{threshold:.1,rootMargin:'0px 0px -30px 0px'});
-document.querySelectorAll('.reveal').forEach(el=>obs.observe(el));
-document.querySelectorAll('a[href^="#"]').forEach(a=>{a.addEventListener('click',e=>{const t=document.querySelector(a.getAttribute('href'));if(t){e.preventDefault();t.scrollIntoView({behavior:'smooth',block:'start'})}})});
-if('serviceWorker' in navigator){navigator.serviceWorker.register('sw.js').catch(()=>{})}
+/* ==================== DATA ==================== */
+var CATS = [
+  {id:'earn', ico:'💰', tint:'tint-earn', title:{ht:'Fè Lajan',fr:'Gagner de l’argent',en:'Earn Money',es:'Gana dinero'}},
+  {id:'ride', ico:'🚕', tint:'tint-ride', title:{ht:'Transpò',fr:'Transport',en:'Transportation',es:'Transporte'}},
+  {id:'shop', ico:'🛒', tint:'tint-shop', title:{ht:'Komès',fr:'Commerce',en:'Commerce',es:'Comercio'}},
+  {id:'life', ico:'🎟️', tint:'tint-life', title:{ht:'Lwazi',fr:'Loisirs',en:'Lifestyle',es:'Estilo de vida'}},
+  {id:'pay',  ico:'⚡', tint:'tint-pay', title:{ht:'Peye Bòdwo',fr:'Payer les factures',en:'Pay Bills',es:'Pagar facturas'}},
+  {id:'comm', ico:'❤️', tint:'tint-comm', title:{ht:'Kominote',fr:'Communauté',en:'Community',es:'Comunidad'}}
+];
+var PLATFORMS = [
+  {cat:'earn', ico:'🤝', name:'Parenaj Biznis', url:'koutye.html',
+    tag:{ht:'Refere moun, touche komisyon sou chak tranzaksyon.',fr:'Référez des gens et gagnez une commission.',en:'Refer people and earn commission on every deal.',es:'Refiere personas y gana comisión.'}},
+  {cat:'earn', ico:'🚀', name:'48HoursReady', url:'https://48hoursready.com', ext:1,
+    tag:{ht:'Lanse biznis ou an 48 èdtan.',fr:'Lancez votre entreprise en 48 heures.',en:'Launch your business in 48 hours.',es:'Lanza tu negocio en 48 horas.'}},
+  {cat:'earn', ico:'🧰', name:'Pwofesyonèl Lakay', url:'prolakay.html',
+    tag:{ht:'Jwenn bon pwofesyonèl, oswa ofri sèvis ou.',fr:'Trouvez des pros de confiance ou offrez vos services.',en:'Find trusted pros, or offer your skills.',es:'Encuentra profesionales o ofrece tus servicios.'}},
+  {cat:'ride', ico:'🛵', name:'MsouWout', url:'https://msouwout.com', ext:1,
+    tag:{ht:'Vwayaje an sekirite tout kote an Ayiti.',fr:'Déplacez-vous en toute sécurité partout en Haïti.',en:'Ride safely anywhere in Haiti.',es:'Viaja seguro por todo Haití.'}},
+  {cat:'ride', ico:'📦', name:'MsouWout Logistics', url:'https://msouwout.com/logistics.html', ext:1,
+    tag:{ht:'Voye pakè ak livrezon rapid.',fr:'Envoyez colis et livraisons rapidement.',en:'Send packages and deliveries fast.',es:'Envía paquetes y entregas rápido.'}},
+  {cat:'shop', ico:'🛍️', name:'MyPlopPlop', url:'https://myplopplop.com', ext:1,
+    tag:{ht:'Achte, vann epi louvri boutik anliy ou.',fr:'Achetez, vendez et ouvrez votre boutique en ligne.',en:'Buy, sell and open your online store.',es:'Compra, vende y abre tu tienda online.'}},
+  {cat:'shop', ico:'🏢', name:'Billionorth', url:'https://billionorth.com', ext:1,
+    tag:{ht:'Pwodwi an gwo ak enpòtasyon pou biznis ou.',fr:'Grossiste et import pour votre entreprise.',en:'Wholesale and import for your business.',es:'Mayoreo e importación para tu negocio.'}},
+  {cat:'life', ico:'🎟️', name:'Tikè Lakay', url:'events.html',
+    tag:{ht:'Kreye evènman epi vann tikè.',fr:'Créez des événements et vendez des billets.',en:'Create events and sell tickets.',es:'Crea eventos y vende boletos.'}},
+  {cat:'life', ico:'✈️', name:'TouPaTou', url:'reservations.html',
+    tag:{ht:'Rezève otèl, vwayaj ak eksperyans.',fr:'Réservez hôtels, voyages et expériences.',en:'Book hotels, travel and experiences.',es:'Reserva hoteles, viajes y experiencias.'}},
+  {cat:'pay', ico:'⚡', name:'Utility Payment Hub', url:'utility-hub.html',
+    tag:{ht:'Peye EDH epi rechaje, tout nan yon sèl kote.',fr:'Payez l’EDH et rechargez, tout au même endroit.',en:'Pay EDH and top up, all in one place.',es:'Paga EDH y recarga, todo en un lugar.'}},
+  {cat:'comm', ico:'⛪', name:'Shalom', url:'https://anirudhatalmale6-alt.github.io/shalom-site/', ext:1,
+    tag:{ht:'Lafwa, evènman ak kominote.',fr:'Foi, événements et communauté.',en:'Faith, events and community.',es:'Fe, eventos y comunidad.'}}
+];
+/* cross-language search keywords per platform (so search works in any language) */
+var KW = {
+  'Parenaj Biznis':'referral refer affiliate commission koutye parenaj earn money lajan komisyon gagner comision',
+  '48HoursReady':'business start launch company biznis entreprise negocio startup register',
+  'Pwofesyonèl Lakay':'professional pro service handyman plumber electrician prolakay sevis metye pwofesyonel servicio',
+  'MsouWout':'ride taxi moto motorcycle car transport woulib chofe driver trajet viaje transporte',
+  'MsouWout Logistics':'delivery package courier logistics send parcel livrezon pake livraison envio colis',
+  'MyPlopPlop':'shop store marketplace buy sell ecommerce boutik achte vann tienda comprar vender',
+  'Billionorth':'wholesale import supplier gwo enpotasyon grossiste mayoreo importacion',
+  'Tikè Lakay':'ticket event concert party tikè evenman billet boleto entrada evento',
+  'TouPaTou':'travel hotel trip tourism reservation vwayaj otel voyage hotel viaje reserva',
+  'Utility Payment Hub':'bill pay electricity edh topup recharge bodwo fakti facture factura peye pay bills',
+  'Shalom':'church faith community religion legliz kominote eglise iglesia comunidad'
+};
+/* Featured rotation pool (by platform name) */
+var FEATURED_POOL = ['Parenaj Biznis','MsouWout','48HoursReady','MyPlopPlop','Tikè Lakay'];
+var FEATURED_COPY = {
+  'Parenaj Biznis':{ico:'💰'}, 'MsouWout':{ico:'🚕'}, '48HoursReady':{ico:'🚀'},
+  'MyPlopPlop':{ico:'🛒'}, 'Tikè Lakay':{ico:'🎟️'}
+};
+/* STATS — placeholder founding figures. Replace with real values or a live feed. */
+var STATS = [
+  {ico:'👥', key:'members',   val:1200,    fmt:'plus'},
+  {ico:'🏪', key:'businesses',val:180,     fmt:'plus'},
+  {ico:'🛵', key:'drivers',   val:90,      fmt:'plus'},
+  {ico:'💰', key:'commissions',val:250000, fmt:'htg'},
+  {ico:'📦', key:'orders',    val:2600,    fmt:'plus'},
+  {ico:'🎟', key:'tickets',   val:640,     fmt:'plus'}
+];
 
-/* Force external links to open in real browser when in PWA standalone mode */
-if(window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone){
-  document.addEventListener('click',function(e){
-    var a=e.target.closest('a[href]');
-    if(!a)return;
-    var href=a.getAttribute('href');
-    if(href && (href.indexOf('http')===0) && a.hostname!==location.hostname){
-      e.preventDefault();
-      window.open(href,'_system');
-    }
-  });
-}
-
-/* TRANSLATIONS */
-const translations={
+/* ==================== i18n ==================== */
+var T = {
   ht:{
-    hero_badge:'💰 PARENAJ BIZNIS',
-    hero_title:'Fè Lajan Chak Jou<br>ak Telefòn Ou',
-    hero_sub:'Refère moun. Konekte biznis. Touche komisyon sou chak tranzaksyon.',
-    hero_cta:'💰 Vin yon Parenaj Biznis — Fè Lajan',hero_how:'Gade kijan li mache',
-    hero_trust:'+100 moun deja ap fè lajan sou HaitiBiznis',
-    nav_home:'Akèy',nav_about:'Sou Nou',nav_team:'Ekip',nav_join:'Rejwenn Nou',nav_how:'Kijan Li Mache',nav_contact:'Kontak',nav_cta:'Komanse Fè Lajan',
-    koutye_card_title:'Konekte Biznis. Fè Lajan.',
-    koutye_card_desc:'Touche komisyon sou chak tranzaksyon nan ekosistèm HaitiBiznis la. Kous, livrezon, pake biznis, marketplace.',
-    koutye_card_cta:'Vin yon Parenaj Biznis →',
-    earn_title:'Kijan Ou Ka Touche',earn_desc:'4 fason pou fè lajan atravè ekosistèm nan',
-    join_title:'Rejwenn Ekosistèm nan',join_sub:'Chwazi kijan ou vle fè lajan oswa jwenn sèvis',
-    drv_title:'Ou Gen Moto oswa Machin?',drv_hook:'Fè kous. Fè livrezon. Fè lajan chak jou.',
-    drv_cta:'Enskri kòm Chofè →',drv_b1:'Travay sou pwòp orè ou',drv_b2:'Peman rapid',drv_b3:'Kliyan garanti',
-    biz_title:'Ou Gen Biznis?',biz_hook:'Vann pwodwi ou. Resevwa kòmann fasil.',
-    biz_cta:'Vann sou Platfòm nan →',biz_b1:'Vann 24/7',biz_b2:'Resevwa kòmann otomatik',biz_b3:'Diaspora achte pou Ayiti',
-    pro_title:'Ou Gen Talan oswa Metye?',pro_hook:'Jwenn kliyan. Travay sou pwòp orè ou.',
-    pro_cta:'Jwenn Kliyan →',pro_b1:'Jwenn kliyan fasil',pro_b2:'Rezèvasyon otomatik',pro_b3:'Profil verifye',
-    launch_title:'Kòmanse Biznis Ou Jodi a',launch_hook:'Nou mete ou pare pou fè lajan nan 48 èdtan.',
-    launch_cta:'Kòmanse Gratis →',launch_b1:'Logo + Site + Pitch',launch_b2:'Pare pou vann rapid',launch_b3:'Sipò biznis',
-    earn_msou:'Enskri chofè, touche sou kous ak livrezon.',
-    earn_48hr:'Touche 10% sou chak pake biznis ou vann.',
-    earn_plop:'Refère machann, touche sou tranzaksyon marketplace.',
-    earn_prolakay:'Refère pwofesyonèl, touche sou chak rezèvasyon.',
-    act_title:'Kisa Ou Vle Fè Jodi a?',act_koutye:'💰 Vin yon Parenaj Biznis',act_ride:'🚗 Mande Kous',act_find:'⭐ Chèche Pwofesyonèl',act_launch:'🚀 Lanse Biznis',
-    tr1:'Chofè Verifye',tr2:'Tranzaksyon Sekirize',tr3:'Sipò WhatsApp',tr4:'Platfòm Ayisyen',
-    how_label:'Kijan Li Mache',how_title:'4 Etap Senp',how_desc:'Enskri gratis epi komanse touche komisyon jodi a.',
-    step1:'Enskri gratis',step1_sub:'Kreye kont Parenaj Biznis ou an 2 minit',
-    step2:'Jwenn link referral ou',step2_sub:'Chak Parenaj Biznis gen yon kòd inik',
-    step3:'Pataje sèvis yo',step3_sub:'Voye link ou bay zanmi, fanmi, biznis',
-    step4:'Touche komisyon',step4_sub:'Chak tranzaksyon = lajan nan poch ou',
-    dia_title:'Sipòte Fanmi w an Ayiti',dia_desc:'Achte, voye sèvis, oswa peye pou fanmi ou fasil.',dia_cta:'Komanse Kounye a →',
-    about_label:'Ekosistèm',about_title:'Yon Ekosistèm Pou Ekonomi Ayiti',
-    about_intro:'HaitiBiznis se yon sistèm dijital ki fèt pou ede Ayiti travay, vann, deplase ak grandi.',
-    about_highlight:'Nou pa sèlman yon platfòm — nou se enfrastrikti pou opòtinite.',
-    about_cards_label:'Konekte moun, biznis ak opòtinite',
-    about_plop:'Achte, vann epi livrezon nan tout Ayiti.',
-    about_msou:'Transpò ak livrezon an sekirite ak chofè verifye.',
-    about_prolakay:'Jwenn pwofesyonèl ou ka fè konfyans.',
-    about_48hr:'Kreye ak lanse biznis ou rapid.',
-    about_sol:'Sistèm ekonomi kominote pou sove ak grandi ansanm.',
-    about_tag_mobility:'Mobilite & Sekirite',about_tag_talent:'Travay & Talan',about_tag_finance:'Finans Kominote',about_tag_koutye:'Rezo Anbasadè',
-    about_koutye:'Refère biznis, chofè, kliyan — touche komisyon.',
-    about_explore:'Eksplore →',
-    impact_1:'Opòtinite Ekonomik',impact_2:'Sekirite & Konfyans',impact_3:'Travay & Revni',impact_4:'Diaspora Konekte',
-    about_why_title:'Poukisa HaitiBiznis?',
-    about_why_text:'Nou ede rezòd pwoblèm ekonomi enfòmèl la, mank konfyans ak aksè limite ak sèvis — atravè yon sistèm konekte ki bay plis opòtinite pou tout moun.',
-    about_cta_title:'Kòmanse Jodi a',about_cta_desc:'Antre nan ekosistèm ki ap chanje ekonomi Ayiti.',
-    about_cta_signup:'Kreye Kont',about_cta_explore:'Eksplore Platfòm yo',
-    contact_label:'Kontakte Nou',contact_title:'Kontakte Ekip HaitiBiznis la',contact_desc:'Jwenn bon ekip la dirèkteman. Nou reponn nan 12 èdtan.',
-    contact_partners:'Patenariat & Medya',
-    form_title:'Voye yon Mesaj',form_sub:'Chwazi depatman ou epi n ap voye mesaj ou bay bon ekip la.',
-    form_name:'Non Ou',form_email:'Imel Ou',form_dept:'Depatman',form_message:'Mesaj',form_send:'Voye Mesaj',
-    form_thanks:'Mesaj Voye!',form_confirm:'Mèsi paske ou kontakte nou. Ekip nou ap reponn nan 12 èdtan.',
-    dept_general:'Kesyon Jeneral',dept_partners:'Patenariat & Medya',
-    cta_title:'Konekte Biznis. Fè Lajan.',cta_desc:'Vin yon Parenaj Biznis. Refère moun. Touche komisyon. Senp kon sa.',
-    cta_start:'💰 Vin yon Parenaj Biznis kounye a',
-    wa_tip:'Bezwen Èd? Chat ak nou',sticky_cta:'💰 Komanse Fè Lajan',
-    install_text:'Enstale HaitiBiznis<small>Mete sou ekran lakay ou pou aksè rapid</small>',install_btn:'Enstale',
-    sticky_koutye:'💰 Vin yon Parenaj Biznis — Fè Lajan',
-    nav_koutye:'Parenaj Biznis',
-    choose_title:'Chwazi kijan ou vle fè lajan',choose_sub:'9 platfòm nan ekosistèm HaitiBiznis',
-    cc_koutye:'Konekte biznis. Touche komisyon.',cc_msou:'Ou gen moto oswa machin? Fè kous ak livrezon.',
-    cc_48hr:'Refère biznis. Touche 10% sou chak pake.',cc_pro:'Ou gen talan oswa metye? Jwenn kliyan.',
-    cc_plop:'Vann pwodwi. Jwenn plis kliyan.',cc_utility:'Refère peman EDH/DINEPA. Touche sou tranzaksyon.',cc_toupatou:'Rezève vwayaj, transpò, otèl, evènman. Tout Ayiti.',
-    com_label:'Komisyon',com_title:'Kijan ou touche?',com_desc:'Chak tranzaksyon = komisyon pou ou',
-    com_th_service:'Sèvis',com_th_rate:'Komisyon',com_12mo:'jiska 12 mwa',com_per_tx:'pa tranzaksyon',com_per_act:'pa aktivite',
-    dash_label:'Dashboard',dash_title:'Tablo Parenaj Biznis Ou',dash_desc:'Suiv lajan ou an tan reyèl',
-    dash_total:'Total Touche',dash_pending:'An Atant',dash_ref_label:'Link referral:',
-    dash_withdraw:'Retire Lajan',dash_share:'Pataje Link'
-  },
-  en:{
-    hero_badge:'💰 PARENAJ BIZNIS',
-    hero_title:'Earn Money Every Day<br>With Your Phone',
-    hero_sub:'Refer people. Connect businesses. Earn commission on every transaction.',
-    hero_cta:'💰 Become a Parenaj Biznis — Earn Money',hero_how:'See how it works',
-    hero_trust:'+100 people already earning on HaitiBiznis',
-    nav_home:'Home',nav_about:'About',nav_team:'Leadership',nav_join:'Join Us',nav_how:'How It Works',nav_contact:'Contact',nav_cta:'Start Earning',
-    koutye_card_title:'Connect Businesses. Earn Money.',
-    koutye_card_desc:'Earn commission on every transaction in the HaitiBiznis ecosystem. Rides, deliveries, business packages, marketplace.',
-    koutye_card_cta:'Become a Parenaj Biznis →',
-    earn_title:'How You Can Earn',earn_desc:'4 ways to make money across the ecosystem',
-    join_title:'Join the Ecosystem',join_sub:'Choose how you want to earn or find services',
-    drv_title:'Got a Car or Motorcycle?',drv_hook:'Drive rides. Make deliveries. Earn every day.',
-    drv_cta:'Sign Up as Driver →',drv_b1:'Work on your own schedule',drv_b2:'Fast payments',drv_b3:'Guaranteed clients',
-    biz_title:'Got a Business?',biz_hook:'Sell your products. Receive orders easily.',
-    biz_cta:'Sell on the Platform →',biz_b1:'Sell 24/7',biz_b2:'Automatic order notifications',biz_b3:'Diaspora buys for Haiti',
-    pro_title:'Got Talent or a Skill?',pro_hook:'Get clients. Work on your own schedule.',
-    pro_cta:'Get Clients →',pro_b1:'Find clients easily',pro_b2:'Automatic bookings',pro_b3:'Verified profile',
-    launch_title:'Start Your Business Today',launch_hook:'We get you ready to earn in 48 hours.',
-    launch_cta:'Start Free →',launch_b1:'Logo + Website + Pitch',launch_b2:'Ready to sell fast',launch_b3:'Business support',
-    earn_msou:'Refer drivers, earn on rides and deliveries.',
-    earn_48hr:'Earn 10% on every business package you sell.',
-    earn_plop:'Refer sellers, earn on marketplace transactions.',
-    earn_prolakay:'Refer professionals, earn on each booking.',
-    act_title:'What Do You Want to Do Today?',act_koutye:'💰 Become a Parenaj Biznis',act_ride:'🚗 Request Ride',act_find:'⭐ Find Professional',act_launch:'🚀 Launch Business',
-    tr1:'Verified Drivers',tr2:'Secure Transactions',tr3:'WhatsApp Support',tr4:'Haitian Platform',
-    how_label:'How It Works',how_title:'4 Simple Steps',how_desc:'Sign up free and start earning commissions today.',
-    step1:'Sign up free',step1_sub:'Create your Parenaj Biznis account in 2 minutes',
-    step2:'Get your referral link',step2_sub:'Every Parenaj Biznis gets a unique code',
-    step3:'Share the services',step3_sub:'Send your link to friends, family, businesses',
-    step4:'Earn commissions',step4_sub:'Every transaction = money in your pocket',
-    dia_title:'Support Your Family in Haiti',dia_desc:'Buy, send services, or pay for your family easily.',dia_cta:'Get Started →',
-    about_label:'Ecosystem',about_title:'An Ecosystem for Haiti\'s Economy',
-    about_intro:'HaitiBiznis is a digital system built to help Haiti work, sell, move, and grow.',
-    about_highlight:'We\'re not just a platform — we\'re infrastructure for opportunity.',
-    about_cards_label:'Connecting people, businesses, and opportunities',
-    about_plop:'Buy, sell, and deliver across Haiti.',
-    about_msou:'Safe transport and delivery with verified drivers.',
-    about_prolakay:'Find professionals you can trust.',
-    about_48hr:'Create and launch your business fast.',
-    about_sol:'Community savings system to save and grow together.',
-    about_tag_mobility:'Mobility & Security',about_tag_talent:'Work & Talent',about_tag_finance:'Community Finance',about_tag_koutye:'Ambassador Network',
-    about_koutye:'Refer businesses, drivers, clients — earn commissions.',
-    about_explore:'Explore →',
-    impact_1:'Economic Opportunity',impact_2:'Security & Trust',impact_3:'Work & Income',impact_4:'Diaspora Connected',
-    about_why_title:'Why HaitiBiznis?',
-    about_why_text:'We help solve the informal economy, lack of trust, and limited access to services — through a connected system that creates more opportunity for everyone.',
-    about_cta_title:'Start Today',about_cta_desc:'Join the ecosystem that\'s changing Haiti\'s economy.',
-    about_cta_signup:'Create Account',about_cta_explore:'Explore Platforms',
-    contact_label:'Contact Us',contact_title:'Contact the HaitiBiznis Team',contact_desc:'Reach the right team directly. We respond within 12 hours.',
-    contact_partners:'Partnerships & Media',
-    form_title:'Send a Message',form_sub:'Choose your department and we\'ll route your message.',
-    form_name:'Your Name',form_email:'Your Email',form_dept:'Department',form_message:'Message',form_send:'Send Message',
-    form_thanks:'Message Sent!',form_confirm:'Thank you! Our team will respond within 12 hours.',
-    dept_general:'General Inquiry',dept_partners:'Partnerships & Media',
-    cta_title:'Connect Businesses. Earn Money.',cta_desc:'Become a Parenaj Biznis. Refer people. Earn commissions. Simple as that.',
-    cta_start:'💰 Become a Parenaj Biznis Now',
-    wa_tip:'Need Help? Chat with us',sticky_cta:'💰 Start Earning Money',
-    install_text:'Install HaitiBiznis<small>Add to your home screen for quick access</small>',install_btn:'Install',
-    sticky_koutye:'💰 Become a Parenaj Biznis — Earn Money',
-    nav_koutye:'Parenaj Biznis',
-    choose_title:'Choose how you want to earn',choose_sub:'9 platforms in the HaitiBiznis ecosystem',
-    cc_koutye:'Connect businesses. Earn commissions.',cc_msou:'Got a car or motorcycle? Do rides and deliveries.',
-    cc_48hr:'Refer businesses. Earn 10% on each package.',cc_pro:'Got a skill or trade? Find clients.',
-    cc_plop:'Sell products. Reach more customers.',cc_utility:'Refer EDH/DINEPA payments. Earn per transaction.',cc_toupatou:'Book trips, transport, hotels, events. All of Haiti.',
-    com_label:'Commissions',com_title:'How do you earn?',com_desc:'Every transaction = commission for you',
-    com_th_service:'Service',com_th_rate:'Commission',com_12mo:'up to 12 months',com_per_tx:'per transaction',com_per_act:'per activity',
-    dash_label:'Dashboard',dash_title:'Your Parenaj Biznis Dashboard',dash_desc:'Track your earnings in real time',
-    dash_total:'Total Earnings',dash_pending:'Pending',dash_ref_label:'Referral link:',
-    dash_withdraw:'Withdraw Funds',dash_share:'Share Link'
+    search_ph:'Kisa w ap chèche jodi a?',
+    hero_h1:'Super App Dijital <em>Ayiti a</em>',
+    hero_desc:'<b>Yon sèl kont.</b> Nèf platfòm pwisan. Opòtinite san limit.',
+    sub1:'Fè Lajan', sub2:'Devlope Biznis', sub3:'Achte', sub4:'Vwayaje', sub5:'Woulib', sub6:'Peye Bòdwo',
+    pa1_t:'Fè Lajan', pa1_d:'Antre nan Parenaj Biznis epi touche komisyon.',
+    pa2_t:'Louvri yon Biznis', pa2_d:'Lanse biznis ou ak 48HoursReady.',
+    pa3_t:'Achte & Vann', pa3_d:'Achte, vann epi kreye boutik anliy ou.',
+    get_started:'Kòmanse →',
+    stats_h:'Antre nan Ekosistèm Dijital k ap grandi an Ayiti',
+    stats_note:'Chif fondasyon — y ap mete ajou pandan ekosistèm nan grandi',
+    st_members:'Manm', st_businesses:'Biznis', st_drivers:'Chofè', st_commissions:'Komisyon Peye', st_orders:'Kòmann Fini', st_tickets:'Tikè Vann',
+    featured_tag:'An Vedèt Semèn Nan', learn:'Aprann Plis',
+    eco_h:'Ekosistèm Nan', eco_sub:'Yon sèl kont, tout sèvis yo',
+    explore:'Eksplore', no_results:'Pa gen rezilta. Eseye yon lòt mo.',
+    nav_home:'Akèy', nav_earn:'Lajan', nav_ride:'Woulib', nav_market:'Mache', nav_profile:'Pwofil',
+    fab_wa:'WhatsApp', fab_call:'Rele Nou', fab_dir:'Direksyon', fab_app:'Telechaje App',
+    foot_tag:'Super App Dijital Ayiti a. Yon sèl kont, nèf platfòm, yon ekosistèm.',
+    foot_platforms:'Platfòm', foot_more_plat:'Plis', foot_company:'Konpayi',
+    foot_dash:'Tablo A Bò', foot_privacy:'Règleman Konfidansyalite', foot_terms:'Kondisyon Sèvis',
+    foot_rights:'Tout Ayiti, yon ekosistèm. Tout dwa rezève.'
   },
   fr:{
-    hero_badge:'💰 PARENAJ BIZNIS',
-    hero_title:'Gagnez de l\'Argent Chaque Jour<br>avec Votre Téléphone',
-    hero_sub:'Référez des gens. Connectez des entreprises. Gagnez une commission sur chaque transaction.',
-    hero_cta:'💰 Devenir Parenaj Biznis — Gagnez',hero_how:'Voir comment ça marche',
-    hero_trust:'+100 personnes gagnent déjà sur HaitiBiznis',
-    nav_home:'Accueil',nav_about:'À propos',nav_team:'Équipe',nav_join:'Nous Rejoindre',nav_how:'Comment Ça Marche',nav_contact:'Contact',nav_cta:'Commencer à Gagner',
-    koutye_card_title:'Connectez des Entreprises. Gagnez.',
-    koutye_card_desc:'Gagnez une commission sur chaque transaction de l\'écosystème HaitiBiznis. Courses, livraisons, paquets business, marketplace.',
-    koutye_card_cta:'Devenir Parenaj Biznis →',
-    earn_title:'Comment Gagner',earn_desc:'4 façons de gagner à travers l\'écosystème',
-    join_title:'Rejoignez l\'Écosystème',join_sub:'Choisissez comment gagner ou trouver des services',
-    drv_title:'Vous avez une voiture ou moto ?',drv_hook:'Faites des courses. Livrez. Gagnez chaque jour.',
-    drv_cta:'S\'inscrire comme Chauffeur →',drv_b1:'Travaillez à votre rythme',drv_b2:'Paiements rapides',drv_b3:'Clients garantis',
-    biz_title:'Vous avez un commerce ?',biz_hook:'Vendez vos produits. Recevez des commandes facilement.',
-    biz_cta:'Vendre sur la Plateforme →',biz_b1:'Vendez 24/7',biz_b2:'Commandes automatiques',biz_b3:'La diaspora achète pour Haïti',
-    pro_title:'Vous avez un talent ou métier ?',pro_hook:'Trouvez des clients. Travaillez à votre rythme.',
-    pro_cta:'Trouver des Clients →',pro_b1:'Trouvez des clients facilement',pro_b2:'Réservations automatiques',pro_b3:'Profil vérifié',
-    launch_title:'Lancez Votre Business Aujourd\'hui',launch_hook:'On vous prépare à gagner en 48 heures.',
-    launch_cta:'Commencer Gratuitement →',launch_b1:'Logo + Site + Pitch',launch_b2:'Prêt à vendre rapidement',launch_b3:'Support business',
-    earn_msou:'Inscrivez des chauffeurs, gagnez sur les courses et livraisons.',
-    earn_48hr:'Gagnez 10% sur chaque paquet business vendu.',
-    earn_plop:'Référez des vendeurs, gagnez sur les transactions marketplace.',
-    earn_prolakay:'Référez des professionnels, gagnez sur chaque réservation.',
-    act_title:'Que voulez-vous faire aujourd\'hui ?',act_koutye:'💰 Devenir Parenaj Biznis',act_ride:'🚗 Demander une Course',act_find:'⭐ Chercher un Pro',act_launch:'🚀 Lancer Business',
-    tr1:'Chauffeurs Vérifiés',tr2:'Transactions Sécurisées',tr3:'Support WhatsApp',tr4:'Plateforme Haïtienne',
-    how_label:'Comment Ça Marche',how_title:'4 Étapes Simples',how_desc:'Inscrivez-vous gratuitement et commencez à gagner des commissions.',
-    step1:'Inscrivez-vous gratuitement',step1_sub:'Créez votre compte Parenaj Biznis en 2 minutes',
-    step2:'Obtenez votre lien de parrainage',step2_sub:'Chaque Parenaj Biznis a un code unique',
-    step3:'Partagez les services',step3_sub:'Envoyez votre lien à vos amis, famille, entreprises',
-    step4:'Gagnez des commissions',step4_sub:'Chaque transaction = argent dans votre poche',
-    dia_title:'Soutenez Votre Famille en Haïti',dia_desc:'Achetez, envoyez des services, ou payez pour votre famille facilement.',dia_cta:'Commencer →',
-    about_label:'Écosystème',about_title:'Un Écosystème pour l\'Économie d\'Haïti',
-    about_intro:'HaitiBiznis est un système numérique conçu pour aider Haïti à travailler, vendre, se déplacer et grandir.',
-    about_highlight:'Nous ne sommes pas qu\'une plateforme — nous sommes l\'infrastructure de l\'opportunité.',
-    about_cards_label:'Connecter les gens, les entreprises et les opportunités',
-    about_plop:'Achetez, vendez et livrez dans tout Haïti.',
-    about_msou:'Transport et livraison sécurisés avec des chauffeurs vérifiés.',
-    about_prolakay:'Trouvez des professionnels de confiance.',
-    about_48hr:'Créez et lancez votre business rapidement.',
-    about_sol:'Système d\'épargne communautaire pour économiser et grandir ensemble.',
-    about_tag_mobility:'Mobilité & Sécurité',about_tag_talent:'Travail & Talent',about_tag_finance:'Finance Communautaire',about_tag_koutye:'Réseau Ambassadeur',
-    about_koutye:'Référez entreprises, chauffeurs, clients — gagnez des commissions.',
-    about_explore:'Explorer →',
-    impact_1:'Opportunité Économique',impact_2:'Sécurité & Confiance',impact_3:'Travail & Revenus',impact_4:'Diaspora Connectée',
-    about_why_title:'Pourquoi HaitiBiznis ?',
-    about_why_text:'Nous aidons à résoudre l\'économie informelle, le manque de confiance et l\'accès limité aux services — grâce à un système connecté qui crée plus d\'opportunités pour tous.',
-    about_cta_title:'Commencez Aujourd\'hui',about_cta_desc:'Rejoignez l\'écosystème qui transforme l\'économie d\'Haïti.',
-    about_cta_signup:'Créer un Compte',about_cta_explore:'Explorer les Plateformes',
-    contact_label:'Nous Contacter',contact_title:'Contactez l\'équipe HaitiBiznis',contact_desc:'Joignez la bonne équipe. Nous répondons sous 12 heures.',
-    contact_partners:'Partenariats & Médias',
-    form_title:'Envoyez un Message',form_sub:'Choisissez votre département et nous transmettrons votre message.',
-    form_name:'Votre Nom',form_email:'Votre Email',form_dept:'Département',form_message:'Message',form_send:'Envoyer',
-    form_thanks:'Message Envoyé !',form_confirm:'Merci ! Notre équipe répondra sous 12 heures.',
-    dept_general:'Demande Générale',dept_partners:'Partenariats & Médias',
-    cta_title:'Connectez des Entreprises. Gagnez.',cta_desc:'Devenez Parenaj Biznis. Référez des gens. Gagnez des commissions. Simple.',
-    cta_start:'💰 Devenir Parenaj Biznis maintenant',
-    wa_tip:'Besoin d\'aide ? Chattez avec nous',sticky_cta:'💰 Commencer à Gagner',
-    install_text:'Installer HaitiBiznis<small>Ajoutez à votre écran d\'accueil</small>',install_btn:'Installer',
-    sticky_koutye:'💰 Devenir Parenaj Biznis — Gagnez',
-    nav_koutye:'Parenaj Biznis',
-    choose_title:'Choisissez comment gagner',choose_sub:'9 plateformes dans l\'écosystème HaitiBiznis',
-    cc_koutye:'Connectez des entreprises. Gagnez des commissions.',cc_msou:'Vous avez une voiture ou moto ? Faites des courses et livraisons.',
-    cc_48hr:'Référez des entreprises. Gagnez 10% sur chaque paquet.',cc_pro:'Vous avez un talent ou métier ? Trouvez des clients.',
-    cc_plop:'Vendez des produits. Touchez plus de clients.',cc_utility:'Référez des paiements EDH/DINEPA. Gagnez par transaction.',cc_toupatou:'Réservez voyages, transport, hôtels, événements. Tout Haïti.',
-    com_label:'Commissions',com_title:'Comment gagnez-vous ?',com_desc:'Chaque transaction = commission pour vous',
-    com_th_service:'Service',com_th_rate:'Commission',com_12mo:'jusqu\'à 12 mois',com_per_tx:'par transaction',com_per_act:'par activité',
-    dash_label:'Tableau de bord',dash_title:'Votre Tableau Parenaj Biznis',dash_desc:'Suivez vos gains en temps réel',
-    dash_total:'Total Gagné',dash_pending:'En Attente',dash_ref_label:'Lien de parrainage :',
-    dash_withdraw:'Retirer les Fonds',dash_share:'Partager le Lien'
+    search_ph:'Que cherchez-vous aujourd’hui ?',
+    hero_h1:'La Super App Numérique <em>d’Haïti</em>',
+    hero_desc:'<b>Un seul compte.</b> Neuf plateformes puissantes. Opportunités illimitées.',
+    sub1:'Gagner', sub2:'Développer', sub3:'Acheter', sub4:'Voyager', sub5:'Rouler', sub6:'Payer',
+    pa1_t:'Gagner de l’argent', pa1_d:'Rejoignez Parenaj Biznis et gagnez des commissions.',
+    pa2_t:'Lancer une entreprise', pa2_d:'Lancez votre entreprise avec 48HoursReady.',
+    pa3_t:'Acheter & Vendre', pa3_d:'Achetez, vendez et créez votre boutique en ligne.',
+    get_started:'Commencer →',
+    stats_h:'Rejoignez l’écosystème numérique grandissant d’Haïti',
+    stats_note:'Chiffres de lancement — mis à jour au fil de la croissance',
+    st_members:'Membres', st_businesses:'Entreprises', st_drivers:'Chauffeurs', st_commissions:'Commissions payées', st_orders:'Commandes', st_tickets:'Billets vendus',
+    featured_tag:'À la une cette semaine', learn:'En savoir plus',
+    eco_h:'L’écosystème', eco_sub:'Un login, tous les services',
+    explore:'Explorer', no_results:'Aucun résultat. Essayez un autre mot.',
+    nav_home:'Accueil', nav_earn:'Gagner', nav_ride:'Trajet', nav_market:'Marché', nav_profile:'Profil',
+    fab_wa:'WhatsApp', fab_call:'Appeler', fab_dir:'Itinéraire', fab_app:'Télécharger',
+    foot_tag:'La super app numérique d’Haïti. Un compte, neuf plateformes, un écosystème.',
+    foot_platforms:'Plateformes', foot_more_plat:'Plus', foot_company:'Entreprise',
+    foot_dash:'Tablo A Bò', foot_privacy:'Confidentialité', foot_terms:'Conditions',
+    foot_rights:'Tout Haïti, un écosystème. Tous droits réservés.'
+  },
+  en:{
+    search_ph:'What are you looking for today?',
+    hero_h1:'Haiti’s Digital <em>Super App</em>',
+    hero_desc:'<b>One Account.</b> Nine Powerful Platforms. Unlimited Opportunities.',
+    sub1:'Earn Money', sub2:'Grow Your Business', sub3:'Shop', sub4:'Travel', sub5:'Ride', sub6:'Pay Bills',
+    pa1_t:'Earn Money', pa1_d:'Join Parenaj Biznis and earn commissions.',
+    pa2_t:'Start a Business', pa2_d:'Launch your business with 48HoursReady.',
+    pa3_t:'Shop & Sell', pa3_d:'Buy, sell and create your online store.',
+    get_started:'Get Started →',
+    stats_h:'Join Haiti’s Growing Digital Ecosystem',
+    stats_note:'Founding figures — updated as the ecosystem grows',
+    st_members:'Members', st_businesses:'Businesses', st_drivers:'Drivers', st_commissions:'Commissions Paid', st_orders:'Orders Completed', st_tickets:'Tickets Sold',
+    featured_tag:'Featured This Week', learn:'Learn More',
+    eco_h:'The Ecosystem', eco_sub:'One login, every service',
+    explore:'Explore', no_results:'No matches. Try another word.',
+    nav_home:'Home', nav_earn:'Earn', nav_ride:'Ride', nav_market:'Market', nav_profile:'Profile',
+    fab_wa:'WhatsApp', fab_call:'Call Us', fab_dir:'Directions', fab_app:'Download App',
+    foot_tag:'Haiti’s Digital Super App. One account, nine platforms, one ecosystem.',
+    foot_platforms:'Platforms', foot_more_plat:'More', foot_company:'Company',
+    foot_dash:'Tablo A Bò', foot_privacy:'Privacy Policy', foot_terms:'Terms of Service',
+    foot_rights:'All Haiti, one ecosystem. All rights reserved.'
   },
   es:{
-    hero_badge:'💰 PARENAJ BIZNIS',
-    hero_title:'Gana Dinero Cada Día<br>con Tu Teléfono',
-    hero_sub:'Refiere personas. Conecta negocios. Gana comisión en cada transacción.',
-    hero_cta:'💰 Ser Parenaj Biznis — Gana Dinero',hero_how:'Ver cómo funciona',
-    hero_trust:'+100 personas ya ganando en HaitiBiznis',
-    nav_home:'Inicio',nav_about:'Acerca de',nav_team:'Liderazgo',nav_join:'Únete',nav_how:'Cómo Funciona',nav_contact:'Contacto',nav_cta:'Empieza a Ganar',
-    koutye_card_title:'Conecta Negocios. Gana Dinero.',
-    koutye_card_desc:'Gana comisión en cada transacción del ecosistema HaitiBiznis. Viajes, entregas, paquetes de negocio, marketplace.',
-    koutye_card_cta:'Ser Parenaj Biznis →',
-    earn_title:'Cómo Puedes Ganar',earn_desc:'4 formas de ganar dinero en el ecosistema',
-    join_title:'Únete al Ecosistema',join_sub:'Elige cómo ganar dinero o encontrar servicios',
-    drv_title:'¿Tienes auto o moto?',drv_hook:'Haz viajes. Haz entregas. Gana cada día.',
-    drv_cta:'Regístrate como Conductor →',drv_b1:'Trabaja a tu ritmo',drv_b2:'Pagos rápidos',drv_b3:'Clientes garantizados',
-    biz_title:'¿Tienes un negocio?',biz_hook:'Vende tus productos. Recibe pedidos fácilmente.',
-    biz_cta:'Vender en la Plataforma →',biz_b1:'Vende 24/7',biz_b2:'Pedidos automáticos',biz_b3:'La diáspora compra para Haití',
-    pro_title:'¿Tienes talento o oficio?',pro_hook:'Consigue clientes. Trabaja a tu ritmo.',
-    pro_cta:'Conseguir Clientes →',pro_b1:'Encuentra clientes fácil',pro_b2:'Reservas automáticas',pro_b3:'Perfil verificado',
-    launch_title:'Lanza Tu Negocio Hoy',launch_hook:'Te preparamos para ganar en 48 horas.',
-    launch_cta:'Comenzar Gratis →',launch_b1:'Logo + Sitio + Pitch',launch_b2:'Listo para vender rápido',launch_b3:'Soporte de negocio',
-    earn_msou:'Inscribe conductores, gana en viajes y entregas.',
-    earn_48hr:'Gana 10% en cada paquete de negocio que vendas.',
-    earn_plop:'Refiere vendedores, gana en transacciones del marketplace.',
-    earn_prolakay:'Refiere profesionales, gana en cada reserva.',
-    act_title:'¿Qué quieres hacer hoy?',act_koutye:'💰 Ser Parenaj Biznis',act_ride:'🚗 Pedir Viaje',act_find:'⭐ Buscar Profesional',act_launch:'🚀 Lanzar Negocio',
-    tr1:'Conductores Verificados',tr2:'Transacciones Seguras',tr3:'Soporte WhatsApp',tr4:'Plataforma Haitiana',
-    how_label:'C��mo Funciona',how_title:'4 Pasos Simples',how_desc:'Regístrate gratis y empieza a ganar comisiones hoy.',
-    step1:'Regístrate gratis',step1_sub:'Crea tu cuenta de Parenaj Biznis en 2 minutos',
-    step2:'Obtén tu enlace de referido',step2_sub:'Cada Parenaj Biznis tiene un código único',
-    step3:'Comparte los servicios',step3_sub:'Envía tu enlace a amigos, familia, negocios',
-    step4:'Gana comisiones',step4_sub:'Cada transacción = dinero en tu bolsillo',
-    dia_title:'Apoya a Tu Familia en Haití',dia_desc:'Compra, envía servicios, o paga para tu familia fácilmente.',dia_cta:'Comenzar →',
-    about_label:'Ecosistema',about_title:'Un Ecosistema para la Economía de Haití',
-    about_intro:'HaitiBiznis es un sistema digital creado para ayudar a Haití a trabajar, vender, moverse y crecer.',
-    about_highlight:'No somos solo una plataforma — somos infraestructura para la oportunidad.',
-    about_cards_label:'Conectando personas, negocios y oportunidades',
-    about_plop:'Compra, vende y entrega en todo Haití.',
-    about_msou:'Transporte y entregas seguras con conductores verificados.',
-    about_prolakay:'Encuentra profesionales de confianza.',
-    about_48hr:'Crea y lanza tu negocio rápido.',
-    about_sol:'Sistema de ahorro comunitario para ahorrar y crecer juntos.',
-    about_tag_mobility:'Movilidad & Seguridad',about_tag_talent:'Trabajo & Talento',about_tag_finance:'Finanzas Comunitarias',about_tag_koutye:'Red de Embajadores',
-    about_koutye:'Refiere negocios, conductores, clientes — gana comisiones.',
-    about_explore:'Explorar →',
-    impact_1:'Oportunidad Económica',impact_2:'Seguridad & Confianza',impact_3:'Trabajo & Ingresos',impact_4:'Diáspora Conectada',
-    about_why_title:'¿Por Qué HaitiBiznis?',
-    about_why_text:'Ayudamos a resolver la economía informal, la falta de confianza y el acceso limitado a servicios — a través de un sistema conectado que crea más oportunidades para todos.',
-    about_cta_title:'Comienza Hoy',about_cta_desc:'Únete al ecosistema que está cambiando la economía de Haití.',
-    about_cta_signup:'Crear Cuenta',about_cta_explore:'Explorar Plataformas',
-    contact_label:'Contáctanos',contact_title:'Contacta al equipo HaitiBiznis',contact_desc:'Llega al equipo correcto. Respondemos en 12 horas.',
-    contact_partners:'Alianzas & Medios',
-    form_title:'Envía un Mensaje',form_sub:'Elige tu departamento y enviaremos tu mensaje.',
-    form_name:'Tu Nombre',form_email:'Tu Email',form_dept:'Departamento',form_message:'Mensaje',form_send:'Enviar',
-    form_thanks:'¡Mensaje Enviado!',form_confirm:'¡Gracias! Nuestro equipo responderá en 12 horas.',
-    dept_general:'Consulta General',dept_partners:'Alianzas & Medios',
-    cta_title:'Conecta Negocios. Gana Dinero.',cta_desc:'Sé un Parenaj Biznis. Refiere personas. Gana comisiones. Así de simple.',
-    cta_start:'💰 Ser Parenaj Biznis ahora',
-    wa_tip:'¿Necesitas ayuda? Chatea con nosotros',sticky_cta:'💰 Empieza a Ganar',
-    install_text:'Instalar HaitiBiznis<small>Añade a tu pantalla de inicio</small>',install_btn:'Instalar',
-    sticky_koutye:'💰 Ser Parenaj Biznis — Gana Dinero',
-    nav_koutye:'Parenaj Biznis',
-    choose_title:'Elige cómo quieres ganar',choose_sub:'9 plataformas en el ecosistema HaitiBiznis',
-    cc_koutye:'Conecta negocios. Gana comisiones.',cc_msou:'¿Tienes auto o moto? Haz viajes y entregas.',
-    cc_48hr:'Refiere negocios. Gana 10% en cada paquete.',cc_pro:'¿Tienes talento u oficio? Encuentra clientes.',
-    cc_plop:'Vende productos. Alcanza más clientes.',cc_utility:'Refiere pagos EDH/DINEPA. Gana por transacción.',cc_toupatou:'Reserva viajes, transporte, hoteles, eventos. Todo Haití.',
-    com_label:'Comisiones',com_title:'¿Cómo ganas?',com_desc:'Cada transacción = comisión para ti',
-    com_th_service:'Servicio',com_th_rate:'Comisión',com_12mo:'hasta 12 meses',com_per_tx:'por transacción',com_per_act:'por actividad',
-    dash_label:'Panel',dash_title:'Tu Panel de Parenaj Biznis',dash_desc:'Sigue tus ganancias en tiempo real',
-    dash_total:'Total Ganado',dash_pending:'Pendiente',dash_ref_label:'Enlace de referido:',
-    dash_withdraw:'Retirar Fondos',dash_share:'Compartir Enlace'
+    search_ph:'¿Qué buscas hoy?',
+    hero_h1:'La Súper App Digital <em>de Haití</em>',
+    hero_desc:'<b>Una sola cuenta.</b> Nueve plataformas potentes. Oportunidades ilimitadas.',
+    sub1:'Gana dinero', sub2:'Haz crecer tu negocio', sub3:'Compra', sub4:'Viaja', sub5:'Viaja en moto', sub6:'Paga facturas',
+    pa1_t:'Gana dinero', pa1_d:'Únete a Parenaj Biznis y gana comisiones.',
+    pa2_t:'Inicia un negocio', pa2_d:'Lanza tu negocio con 48HoursReady.',
+    pa3_t:'Compra y vende', pa3_d:'Compra, vende y crea tu tienda online.',
+    get_started:'Empezar →',
+    stats_h:'Únete al creciente ecosistema digital de Haití',
+    stats_note:'Cifras iniciales — se actualizan a medida que crece el ecosistema',
+    st_members:'Miembros', st_businesses:'Negocios', st_drivers:'Conductores', st_commissions:'Comisiones pagadas', st_orders:'Pedidos', st_tickets:'Boletos vendidos',
+    featured_tag:'Destacado esta semana', learn:'Saber más',
+    eco_h:'El ecosistema', eco_sub:'Un acceso, todos los servicios',
+    explore:'Explorar', no_results:'Sin resultados. Prueba otra palabra.',
+    nav_home:'Inicio', nav_earn:'Ganar', nav_ride:'Viaje', nav_market:'Mercado', nav_profile:'Perfil',
+    fab_wa:'WhatsApp', fab_call:'Llámanos', fab_dir:'Cómo llegar', fab_app:'Descargar app',
+    foot_tag:'La súper app digital de Haití. Una cuenta, nueve plataformas, un ecosistema.',
+    foot_platforms:'Plataformas', foot_more_plat:'Más', foot_company:'Empresa',
+    foot_dash:'Tablo A Bò', foot_privacy:'Privacidad', foot_terms:'Términos',
+    foot_rights:'Todo Haití, un ecosistema. Todos los derechos reservados.'
   }
 };
+var lang = localStorage.getItem('hb_lang') || 'ht';
 
-let currentLang='ht';
-function setLang(lang){
-  currentLang=lang;
-  localStorage.setItem('hb_lang',lang);
-  document.documentElement.lang=lang==='ht'?'ht':lang;
-  document.querySelectorAll('.lang-bar a').forEach(a=>{
-    a.classList.toggle('active',a.getAttribute('data-lang')===lang);
-  });
-  const t=translations[lang]||translations.ht;
-  document.querySelectorAll('[data-i18n]').forEach(el=>{
-    const key=el.getAttribute('data-i18n');
-    if(t[key])el.innerHTML=t[key];
+/* ==================== RENDER ==================== */
+var ARROW = '<svg viewBox="0 0 24 24" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>';
+
+function t(k){ return (T[lang] && T[lang][k]) || T.en[k] || k; }
+
+function renderHeroSub(){
+  var items=[['🇭🇹','sub1'],['📈','sub2'],['🛒','sub3'],['✈️','sub4'],['🛵','sub5'],['⚡','sub6']];
+  document.getElementById('heroSub').innerHTML = items.map(function(it,i){
+    return (i>0?'<span class="d">•</span>':'')+'<span>'+it[0]+' '+t(it[1])+'</span>';
+  }).join('');
+}
+
+function renderStats(){
+  document.getElementById('statsGrid').innerHTML = STATS.map(function(s){
+    return '<div class="stat"><div class="ico">'+s.ico+'</div>'+
+      '<div class="val" data-target="'+s.val+'" data-fmt="'+s.fmt+'">0</div>'+
+      '<div class="lbl">'+t('st_'+s.key)+'</div></div>';
+  }).join('');
+}
+function fmtNum(n,fmt){
+  var s = n>=1000 ? Math.round(n).toLocaleString('en-US') : String(Math.round(n));
+  if(fmt==='plus') return s+'+';
+  if(fmt==='htg') return (n>=1000? Math.round(n).toLocaleString('en-US'):s)+' G';
+  return s;
+}
+function animateStats(){
+  document.querySelectorAll('.stat .val').forEach(function(el){
+    var target=+el.getAttribute('data-target'), fmt=el.getAttribute('data-fmt'), start=null, dur=1300;
+    function step(ts){ if(!start)start=ts; var p=Math.min((ts-start)/dur,1);
+      var e=1-Math.pow(1-p,3); el.textContent=fmtNum(target*e,fmt); if(p<1)requestAnimationFrame(step); }
+    requestAnimationFrame(step);
   });
 }
-document.querySelectorAll('.lang-bar a').forEach(a=>{
-  a.addEventListener('click',function(){setLang(this.getAttribute('data-lang'));});
+
+function weekIndex(){
+  var d=new Date(); var oneJan=new Date(d.getFullYear(),0,1);
+  var week=Math.ceil((((d-oneJan)/86400000)+oneJan.getDay()+1)/7);
+  return week;
+}
+function renderFeatured(){
+  var name=FEATURED_POOL[weekIndex()%FEATURED_POOL.length];
+  var pf=PLATFORMS.filter(function(p){return p.name===name;})[0]||PLATFORMS[0];
+  var ico=(FEATURED_COPY[name]||{}).ico||pf.ico;
+  document.getElementById('featured').innerHTML =
+    '<span class="tag">⭐ '+t('featured_tag')+'</span>'+
+    '<div class="row"><span class="fico">'+ico+'</span>'+
+      '<div><h3>'+pf.name+'</h3><p>'+pf.tag[lang]+'</p></div>'+
+      '<a class="learn" href="'+pf.url+'"'+(pf.ext?' target="_blank" rel="noopener"':'')+'>'+t('learn')+'</a>'+
+    '</div>';
+}
+
+function renderEco(){
+  var root=document.getElementById('ecoRoot'); var html='';
+  CATS.forEach(function(c){
+    var items=PLATFORMS.filter(function(p){return p.cat===c.id;});
+    if(!items.length) return;
+    html+='<div class="cat" data-cat="'+c.id+'">'+
+      '<div class="cat-title"><span class="c-ico">'+c.ico+'</span>'+c.title[lang]+'</div>'+
+      '<div class="eco-grid">'+
+      items.map(function(p){
+        var searchable=(p.name+' '+p.tag[lang]+' '+(KW[p.name]||'')).toLowerCase();
+        return '<a class="eco-card '+c.tint+'" data-name="'+p.name.toLowerCase()+'" data-tag="'+searchable+'" href="'+p.url+'"'+(p.ext?' target="_blank" rel="noopener"':'')+'>'+
+          '<div class="e-ico">'+p.ico+'</div>'+
+          '<h4>'+p.name+'</h4>'+
+          '<p>'+p.tag[lang]+'</p>'+
+          '<span class="go">'+t('explore')+' '+ARROW+'</span>'+
+        '</a>';
+      }).join('')+'</div></div>';
+  });
+  root.innerHTML=html;
+}
+
+function applyI18n(){
+  document.documentElement.lang=lang;
+  document.querySelectorAll('[data-i18n]').forEach(function(el){
+    var k=el.getAttribute('data-i18n'); if(T[lang]&&T[lang][k]!=null) el.innerHTML=T[lang][k];
+  });
+  document.querySelectorAll('[data-i18n-ph]').forEach(function(el){
+    var k=el.getAttribute('data-i18n-ph'); if(T[lang]&&T[lang][k]!=null) el.setAttribute('placeholder',T[lang][k]);
+  });
+  document.querySelectorAll('.lang button').forEach(function(b){ b.classList.toggle('on',b.getAttribute('data-lang')===lang); });
+}
+
+function renderAll(){ applyI18n(); renderHeroSub(); renderStats(); renderFeatured(); renderEco(); }
+
+/* language switch */
+document.querySelectorAll('.lang button').forEach(function(b){
+  b.addEventListener('click',function(){ lang=b.getAttribute('data-lang'); localStorage.setItem('hb_lang',lang);
+    renderAll(); if(statsSeen) animateStats(); });
 });
-const savedLang=localStorage.getItem('hb_lang');
-if(savedLang)setLang(savedLang); else setLang('ht');
 
-/* CONTACT FORM */
-function submitForm(e){
-  e.preventDefault();
-  const form=document.getElementById('hbForm');
-  const dept=document.getElementById('deptSelect').value;
-  const name=form.querySelector('[name="name"]').value;
-  const email=form.querySelector('[name="email"]').value;
-  const msg=form.querySelector('[name="message"]').value;
-  const subject=encodeURIComponent('HaitiBiznis Contact ['+dept+']: '+name);
-  const body=encodeURIComponent('Name: '+name+'\nEmail: '+email+'\nDepartment: '+dept+'\n\n'+msg);
-  window.open('mailto:hello@haitibiznis.com?subject='+subject+'&body='+body,'_self');
-  form.style.display='none';
-  document.getElementById('formSuccess').style.display='block';
-  return false;
+/* ==================== SEARCH ==================== */
+var searchInput=document.getElementById('searchInput'), searchClr=document.getElementById('searchClr');
+function runSearch(){
+  var q=searchInput.value.trim().toLowerCase();
+  searchClr.style.display=q?'block':'none';
+  var cards=document.querySelectorAll('.eco-card'), any=false;
+  cards.forEach(function(card){
+    var hit=!q || card.getAttribute('data-name').indexOf(q)>-1 || card.getAttribute('data-tag').indexOf(q)>-1;
+    card.style.display=hit?'':'none'; if(hit)any=true;
+  });
+  document.querySelectorAll('.cat').forEach(function(cat){
+    var visible=cat.querySelectorAll('.eco-card:not([style*="display: none"])').length;
+    cat.style.display=visible?'':'none';
+  });
+  // hide non-ecosystem sections while searching
+  var searching=!!q;
+  document.querySelectorAll('#primaryGrid, .stats-band, .featured').forEach(function(el){
+    var host=el.closest('.section')||el; host.style.display=searching?'none':'';
+  });
+  document.querySelector('.hero').style.display=searching?'none':'';
+  document.getElementById('searchEmpty').style.display=(searching&&!any)?'block':'none';
 }
+searchInput.addEventListener('input',runSearch);
+searchClr.addEventListener('click',function(){ searchInput.value=''; runSearch(); searchInput.focus(); });
 
-/* PWA INSTALL */
-let deferredPrompt;
-const iBanner=document.getElementById('installBanner');
-const iBtn=document.getElementById('installBtn');
-const iClose=document.getElementById('installClose');
-window.addEventListener('beforeinstallprompt',e=>{e.preventDefault();deferredPrompt=e;iBanner.classList.add('show')});
-iBtn.addEventListener('click',()=>{if(deferredPrompt){deferredPrompt.prompt();deferredPrompt.userChoice.then(()=>{iBanner.classList.remove('show');deferredPrompt=null})}});
-iClose.addEventListener('click',()=>{iBanner.classList.remove('show');sessionStorage.setItem('hb_install_dismissed','1')});
-setTimeout(()=>{
-  if(!deferredPrompt&&!sessionStorage.getItem('hb_install_dismissed')&&!window.matchMedia('(display-mode: standalone)').matches){
-    iBanner.classList.add('show');
-    iBtn.addEventListener('click',()=>{
-      const isIOS=/iPad|iPhone|iPod/.test(navigator.userAgent);
-      if(isIOS){alert(currentLang==='fr'?'Appuyez sur Partager, puis "Sur l’écran d’accueil"':currentLang==='es'?'Pulsa Compartir, luego "Añadir a pantalla de inicio"':currentLang==='en'?'Tap Share, then "Add to Home Screen"':'Peze Pataje a, epi "Sou Ekran Lakay"')}
-      else{alert(currentLang==='fr'?'Menu (⋮), puis "Installer l\'application"':currentLang==='es'?'Menú (⋮), luego "Instalar aplicación"':currentLang==='en'?'Menu (⋮), then "Install app"':'Meni (⋮), epi "Enstale aplikasyon an"')}
-      iBanner.classList.remove('show');
-    },{once:true});
+/* ==================== FAB ==================== */
+var fab=document.getElementById('fab');
+document.getElementById('fabMain').addEventListener('click',function(e){ e.stopPropagation(); fab.classList.toggle('open'); });
+document.addEventListener('click',function(e){ if(!fab.contains(e.target)) fab.classList.remove('open'); });
+
+/* ==================== REVEAL + STATS TRIGGER ==================== */
+var statsSeen=false;
+var io=new IntersectionObserver(function(es){ es.forEach(function(en){
+  if(en.isIntersecting){ en.target.classList.add('in');
+    if(en.target.querySelector&&en.target.querySelector('.stats-band')&&!statsSeen){ statsSeen=true; animateStats(); }
+    io.unobserve(en.target);
   }
-},3000);
-window.addEventListener('appinstalled',()=>{iBanner.classList.remove('show')});
+});},{threshold:.18});
+setTimeout(function(){ document.querySelectorAll('.reveal').forEach(function(el){ io.observe(el); }); },60);
+
+renderAll();
 </script>
 </body>
 </html>
