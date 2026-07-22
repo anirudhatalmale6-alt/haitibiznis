@@ -3,9 +3,9 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Parenaj Biznis Dashboard - HaitiBiznis</title>
-<meta name="description" content="Dashboard Parenaj Biznis - suiv komisyon ou, referral ou, ak lajan ou.">
-<meta property="og:title" content="Parenaj Biznis - Dashboard">
+<title>Parenaj Biznis Tablo A Bò - HaitiBiznis</title>
+<meta name="description" content="Tablo A Bò Parenaj Biznis - suiv komisyon ou, referral ou, ak lajan ou.">
+<meta property="og:title" content="Parenaj Biznis - Tablo A Bò">
 <meta property="og:description" content="Jere referans ou, we komisyon ou, pataje lyen ou.">
 <meta property="og:image" content="https://haitibiznis.com/assets/og-koutye.jpg?v=2">
 <meta property="og:image:width" content="1200">
@@ -94,6 +94,22 @@ body{font-family:var(--body);background:var(--off-white);color:var(--text);-webk
 .earn-item .name{font-size:.85rem;font-weight:600}
 .earn-item .rate{font-size:.82rem;font-weight:700;color:var(--blue)}
 
+/* commission category BLOCKS */
+.earn-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.earn-block{
+  background:var(--off-white);border:1px solid var(--light-gray);border-radius:12px;
+  padding:14px 14px 12px;display:flex;flex-direction:column;gap:3px;position:relative;overflow:hidden;
+}
+.earn-block .eb-ico{font-size:1.35rem;line-height:1}
+.earn-block .eb-rate{font-family:var(--display);font-size:1.55rem;color:var(--blue);line-height:1;margin-top:2px}
+.earn-block .eb-name{font-size:.82rem;font-weight:800;color:var(--text);line-height:1.2}
+.earn-block .eb-sub{font-size:.66rem;color:var(--text-light);line-height:1.3}
+.earn-block.gold .eb-rate{color:var(--gold)}
+.earn-block.highlight{border-color:var(--blue);background:rgba(0,32,159,.05)}
+.earn-block.highlight::after{
+  content:'';position:absolute;top:0;left:0;bottom:0;width:4px;background:var(--red);
+}
+
 .activity-empty{text-align:center;padding:24px 0;color:var(--text-light);font-size:.85rem}
 .activity-empty span{font-size:2rem;display:block;margin-bottom:8px}
 
@@ -176,7 +192,7 @@ body{font-family:var(--body);background:var(--off-white);color:var(--text);-webk
 <div class="not-signed-up" id="notSignedUp" style="display:none">
   <span style="font-size:3rem;margin-bottom:16px">&#128274;</span>
   <h2 id="nsu_title">Ou poko enskri</h2>
-  <p id="nsu_desc">Enskri kom Parenaj Biznis pou jwenn dashboard ou.</p>
+  <p id="nsu_desc">Enskri kom Parenaj Biznis pou jwenn tablo a bò ou.</p>
   <a href="koutye.html#signup" id="nsu_btn">&#128640; Vin yon Parenaj Biznis</a>
 </div>
 
@@ -236,13 +252,33 @@ body{font-family:var(--body);background:var(--off-white);color:var(--text);-webk
   <!-- COMMISSIONS -->
   <div class="card">
     <div class="card-title" id="lbl_commissions">Komisyon Pa Kategori</div>
-    <ul class="earn-list">
-      <li class="earn-item"><span class="name">&#128100; Kliyan (tike, kous, komannd)</span><span class="rate">3%</span></li>
-      <li class="earn-item"><span class="name">&#128663; Chofe (MsouWout)</span><span class="rate">2%</span></li>
-      <li class="earn-item"><span class="name">&#127978; Biznis (machann, pwofesyonel)</span><span class="rate">3%</span></li>
-      <li class="earn-item"><span class="name">&#128188; 48HoursReady</span><span class="rate">10%</span></li>
-    </ul>
-    <div style="font-size:.72rem;color:var(--text-light);margin-top:8px;text-align:center">Komisyon kalkile otomatikman sou chak tranzaksyon</div>
+    <div class="earn-grid">
+      <div class="earn-block">
+        <span class="eb-ico">&#128100;</span>
+        <span class="eb-rate">3%</span>
+        <span class="eb-name">Kliyan</span>
+        <span class="eb-sub">tike, kous, komannd</span>
+      </div>
+      <div class="earn-block highlight">
+        <span class="eb-ico">&#128663;</span>
+        <span class="eb-rate">3%</span>
+        <span class="eb-name">Chofe (MsouWout)</span>
+        <span class="eb-sub">~7.50 G / kous (min 250 G)</span>
+      </div>
+      <div class="earn-block">
+        <span class="eb-ico">&#127978;</span>
+        <span class="eb-rate">3%</span>
+        <span class="eb-name">Biznis</span>
+        <span class="eb-sub">machann, pwofesyonel</span>
+      </div>
+      <div class="earn-block gold">
+        <span class="eb-ico">&#128188;</span>
+        <span class="eb-rate">10%</span>
+        <span class="eb-name">48HoursReady</span>
+        <span class="eb-sub">sèvis pwofesyonèl</span>
+      </div>
+    </div>
+    <div style="font-size:.72rem;color:var(--text-light);margin-top:10px;text-align:center">Komisyon kalkile otomatikman sou chak tranzaksyon</div>
   </div>
 
   <!-- RECENT ACTIVITY -->
