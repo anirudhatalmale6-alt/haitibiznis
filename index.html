@@ -70,8 +70,8 @@ img{max-width:100%;display:block}
 .search-empty{display:none;text-align:center;color:var(--muted);font-size:.9rem;padding:24px 10px}
 
 /* ============ HERO ============ */
-.hero{position:relative;padding:26px 0 8px;text-align:center;overflow:hidden}
-.hero .flag{font-size:1.6rem}
+.hero{position:relative;padding:8px 0 4px;text-align:center;overflow:hidden}
+.hero .flag{font-size:1.5rem}
 .hero h1{font-family:var(--display);font-size:clamp(2rem,7vw,3rem);line-height:1.05;color:var(--ink);margin:6px 0 10px}
 .hero h1 em{font-style:italic;color:var(--blue)}
 .hero .sub{display:flex;flex-wrap:wrap;gap:6px 10px;justify-content:center;font-size:.86rem;font-weight:700;color:var(--text);margin-bottom:12px}
@@ -81,27 +81,35 @@ img{max-width:100%;display:block}
 .hero .desc b{color:var(--blue);font-weight:800}
 
 /* ============ PRIMARY ACTIONS ============ */
-.section{padding:22px 0}
+.section{padding:16px 0}
 .section-head{display:flex;align-items:baseline;justify-content:space-between;margin-bottom:14px;gap:10px}
 .section-head h2{font-family:var(--display);font-size:1.4rem;color:var(--ink)}
 .section-head .cat-ico{margin-right:6px}
 .section-head p{font-size:.82rem;color:var(--muted);font-weight:600}
 
-.primary-grid{display:grid;grid-template-columns:1fr;gap:14px}
+.primary-grid{display:grid;grid-template-columns:1fr;gap:12px}
 @media(min-width:720px){.primary-grid{grid-template-columns:1fr 1fr 1fr}}
-.pcard{position:relative;border-radius:var(--r-lg);padding:24px 22px;color:#fff;overflow:hidden;
-  box-shadow:var(--sh);transition:transform .2s,box-shadow .2s;isolation:isolate}
+.pcard{position:relative;display:flex;align-items:center;gap:16px;border-radius:var(--r-lg);
+  padding:16px 18px;color:#fff;overflow:hidden;box-shadow:var(--sh);transition:transform .2s,box-shadow .2s;isolation:isolate}
 .pcard:hover{transform:translateY(-4px);box-shadow:var(--sh-lg)}
-.pcard::after{content:'';position:absolute;inset:0;z-index:-1;opacity:.5;
-  background:radial-gradient(circle at 80% 10%,rgba(255,255,255,.25),transparent 45%)}
+.pcard::after{content:'';position:absolute;inset:0;z-index:-1;opacity:.55;
+  background:radial-gradient(circle at 85% 0%,rgba(255,255,255,.28),transparent 48%)}
 .pcard.earn{background:var(--grad-blue)}
 .pcard.biz{background:linear-gradient(150deg,#E8274A,#B00D2C)}
 .pcard.shop{background:linear-gradient(150deg,#12A85A,#0A6E3A)}
-.pcard .ico{font-size:2.4rem;line-height:1}
-.pcard h3{font-family:var(--display);font-size:1.5rem;margin:12px 0 4px}
-.pcard p{font-size:.9rem;opacity:.92;font-weight:500;line-height:1.4}
-.pcard .go{display:inline-flex;align-items:center;gap:6px;margin-top:14px;font-weight:800;font-size:.9rem;
-  background:rgba(255,255,255,.16);border:1px solid rgba(255,255,255,.3);padding:8px 16px;border-radius:999px}
+.pcard .ico{flex:0 0 auto;width:72px;height:72px;border-radius:20px;display:flex;align-items:center;justify-content:center;
+  font-size:2.7rem;line-height:1;background:rgba(255,255,255,.18);border:1px solid rgba(255,255,255,.28);
+  box-shadow:inset 0 1px 6px rgba(255,255,255,.2)}
+.pcard .body{flex:1;min-width:0}
+.pcard h3{font-family:var(--display);font-size:1.42rem;margin:0 0 3px;line-height:1.05}
+.pcard p{font-size:.86rem;opacity:.94;font-weight:500;line-height:1.35;margin-bottom:12px}
+.pcard .go{display:inline-flex;align-items:center;gap:7px;font-weight:800;font-size:1rem;
+  background:#fff;padding:11px 22px;border-radius:999px;box-shadow:0 4px 14px rgba(0,0,0,.18)}
+.pcard.earn .go{color:var(--blue)}
+.pcard.biz .go{color:var(--red-dark)}
+.pcard.shop .go{color:#0A6E3A}
+@media(min-width:720px){.pcard{flex-direction:column;text-align:center;align-items:center;padding:24px 20px}
+  .pcard .go{margin:0 auto}}
 
 /* ============ FEATURED ============ */
 .featured{background:var(--card);border:1.5px solid var(--gold);border-radius:var(--r-lg);
@@ -229,21 +237,27 @@ img{max-width:100%;display:block}
     <div class="primary-grid" id="primaryGrid">
       <a class="pcard earn" href="koutye.html">
         <span class="ico">💰</span>
-        <h3 data-i18n="pa1_t">Earn Money</h3>
-        <p data-i18n="pa1_d">Join Parenaj Biznis and earn commissions.</p>
-        <span class="go" data-i18n="get_started">Get Started →</span>
+        <div class="body">
+          <h3 data-i18n="pa1_t">Earn Money</h3>
+          <p data-i18n="pa1_d">Join Parenaj Biznis and earn commissions.</p>
+          <span class="go" data-i18n="get_started">Get Started →</span>
+        </div>
       </a>
       <a class="pcard biz" href="https://48hoursready.com" target="_blank" rel="noopener">
         <span class="ico">🚀</span>
-        <h3 data-i18n="pa2_t">Start a Business</h3>
-        <p data-i18n="pa2_d">Launch your business with 48HoursReady.</p>
-        <span class="go" data-i18n="get_started">Get Started →</span>
+        <div class="body">
+          <h3 data-i18n="pa2_t">Start a Business</h3>
+          <p data-i18n="pa2_d">Launch your business with 48HoursReady.</p>
+          <span class="go" data-i18n="get_started">Get Started →</span>
+        </div>
       </a>
       <a class="pcard shop" href="https://myplopplop.com" target="_blank" rel="noopener">
         <span class="ico">🛒</span>
-        <h3 data-i18n="pa3_t">Shop & Sell</h3>
-        <p data-i18n="pa3_d">Buy, sell and create your online store.</p>
-        <span class="go" data-i18n="get_started">Get Started →</span>
+        <div class="body">
+          <h3 data-i18n="pa3_t">Shop & Sell</h3>
+          <p data-i18n="pa3_d">Buy, sell and create your online store.</p>
+          <span class="go" data-i18n="get_started">Get Started →</span>
+        </div>
       </a>
     </div>
 
@@ -316,10 +330,10 @@ img{max-width:100%;display:block}
 <!-- FAB -->
 <div class="fab-wrap" id="fab">
   <div class="fab-menu">
-    <a class="fab-item" href="https://wa.me/50946859702" target="_blank" rel="noopener"><span class="fi">💬</span><span data-i18n="fab_wa">WhatsApp</span></a>
-    <a class="fab-item" href="tel:+50946859702"><span class="fi">📞</span><span data-i18n="fab_call">Call Us</span></a>
-    <a class="fab-item" href="https://maps.google.com/?q=Port-au-Prince,Haiti" target="_blank" rel="noopener"><span class="fi">📍</span><span data-i18n="fab_dir">Directions</span></a>
-    <a class="fab-item" href="https://play.google.com/store/apps/details?id=com.haitibiznis.msouwout" target="_blank" rel="noopener"><span class="fi">📱</span><span data-i18n="fab_app">Download App</span></a>
+    <a class="fab-item" href="https://msouwout.com/driver-register.html" target="_blank" rel="noopener"><span class="fi">🚕</span><span data-i18n="fab_driver">Become a Driver</span></a>
+    <a class="fab-item" href="https://myplopplop.com" target="_blank" rel="noopener"><span class="fi">🛒</span><span data-i18n="fab_store">Create a Store</span></a>
+    <a class="fab-item" href="koutye.html"><span class="fi">💰</span><span data-i18n="fab_parenaj">Join Parenaj Biznis</span></a>
+    <a class="fab-item" href="https://wa.me/50946859702" target="_blank" rel="noopener"><span class="fi">💬</span><span data-i18n="fab_contact">Contact Us</span></a>
   </div>
   <button class="fab-main" id="fabMain" aria-label="menu">+</button>
 </div>
@@ -393,7 +407,7 @@ var T = {
     eco_h:'Ekosistèm Nan', eco_sub:'Yon sèl kont, tout sèvis yo',
     explore:'Eksplore', no_results:'Pa gen rezilta. Eseye yon lòt mo.',
     nav_home:'Akèy', nav_earn:'Lajan', nav_ride:'Woulib', nav_market:'Mache', nav_profile:'Pwofil',
-    fab_wa:'WhatsApp', fab_call:'Rele Nou', fab_dir:'Direksyon', fab_app:'Telechaje App',
+    fab_driver:'Vin yon Chofè', fab_store:'Kreye yon Magazen', fab_parenaj:'Antre nan Parenaj Biznis', fab_contact:'Kontakte Nou',
     foot_tag:'Super App Dijital Ayiti a. Yon sèl kont, nèf platfòm, yon ekosistèm.',
     foot_platforms:'Platfòm', foot_more_plat:'Plis', foot_company:'Konpayi',
     foot_dash:'Tablo A Bò', foot_privacy:'Règleman Konfidansyalite', foot_terms:'Kondisyon Sèvis',
@@ -412,7 +426,7 @@ var T = {
     eco_h:'L’écosystème', eco_sub:'Un login, tous les services',
     explore:'Explorer', no_results:'Aucun résultat. Essayez un autre mot.',
     nav_home:'Accueil', nav_earn:'Gagner', nav_ride:'Trajet', nav_market:'Marché', nav_profile:'Profil',
-    fab_wa:'WhatsApp', fab_call:'Appeler', fab_dir:'Itinéraire', fab_app:'Télécharger',
+    fab_driver:'Devenir chauffeur', fab_store:'Créer une boutique', fab_parenaj:'Rejoindre Parenaj Biznis', fab_contact:'Nous contacter',
     foot_tag:'La super app numérique d’Haïti. Un compte, neuf plateformes, un écosystème.',
     foot_platforms:'Plateformes', foot_more_plat:'Plus', foot_company:'Entreprise',
     foot_dash:'Tablo A Bò', foot_privacy:'Confidentialité', foot_terms:'Conditions',
@@ -431,7 +445,7 @@ var T = {
     eco_h:'The Ecosystem', eco_sub:'One login, every service',
     explore:'Explore', no_results:'No matches. Try another word.',
     nav_home:'Home', nav_earn:'Earn', nav_ride:'Ride', nav_market:'Market', nav_profile:'Profile',
-    fab_wa:'WhatsApp', fab_call:'Call Us', fab_dir:'Directions', fab_app:'Download App',
+    fab_driver:'Become a Driver', fab_store:'Create a Store', fab_parenaj:'Join Parenaj Biznis', fab_contact:'Contact Us',
     foot_tag:'Haiti’s Digital Super App. One account, nine platforms, one ecosystem.',
     foot_platforms:'Platforms', foot_more_plat:'More', foot_company:'Company',
     foot_dash:'Tablo A Bò', foot_privacy:'Privacy Policy', foot_terms:'Terms of Service',
@@ -450,7 +464,7 @@ var T = {
     eco_h:'El ecosistema', eco_sub:'Un acceso, todos los servicios',
     explore:'Explorar', no_results:'Sin resultados. Prueba otra palabra.',
     nav_home:'Inicio', nav_earn:'Ganar', nav_ride:'Viaje', nav_market:'Mercado', nav_profile:'Perfil',
-    fab_wa:'WhatsApp', fab_call:'Llámanos', fab_dir:'Cómo llegar', fab_app:'Descargar app',
+    fab_driver:'Conviértete en chofer', fab_store:'Crear una tienda', fab_parenaj:'Únete a Parenaj Biznis', fab_contact:'Contáctanos',
     foot_tag:'La súper app digital de Haití. Una cuenta, nueve plataformas, un ecosistema.',
     foot_platforms:'Plataformas', foot_more_plat:'Más', foot_company:'Empresa',
     foot_dash:'Tablo A Bò', foot_privacy:'Privacidad', foot_terms:'Términos',
