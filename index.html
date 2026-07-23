@@ -88,7 +88,8 @@ img{max-width:100%;display:block}
 .section-head p{font-size:.82rem;color:var(--muted);font-weight:600}
 
 .primary-grid{display:grid;grid-template-columns:1fr;gap:12px}
-@media(min-width:720px){.primary-grid{grid-template-columns:1fr 1fr 1fr}}
+@media(min-width:720px){.primary-grid{grid-template-columns:1fr 1fr}}
+@media(min-width:1000px){.primary-grid{grid-template-columns:1fr 1fr 1fr 1fr}}
 .pcard{position:relative;display:flex;align-items:center;gap:16px;border-radius:var(--r-lg);
   padding:16px 18px;color:#fff;overflow:hidden;box-shadow:var(--sh);transition:transform .2s,box-shadow .2s;isolation:isolate}
 .pcard:hover{transform:translateY(-4px);box-shadow:var(--sh-lg)}
@@ -97,6 +98,7 @@ img{max-width:100%;display:block}
 .pcard.earn{background:var(--grad-blue)}
 .pcard.biz{background:linear-gradient(150deg,#E8274A,#B00D2C)}
 .pcard.shop{background:linear-gradient(150deg,#12A85A,#0A6E3A)}
+.pcard.ride{background:linear-gradient(150deg,#F0A81E,#C67E00)}
 .pcard .ico{flex:0 0 auto;width:72px;height:72px;border-radius:20px;display:flex;align-items:center;justify-content:center;
   font-size:2.7rem;line-height:1;background:rgba(255,255,255,.18);border:1px solid rgba(255,255,255,.28);
   box-shadow:inset 0 1px 6px rgba(255,255,255,.2)}
@@ -108,6 +110,7 @@ img{max-width:100%;display:block}
 .pcard.earn .go{color:var(--blue)}
 .pcard.biz .go{color:var(--red-dark)}
 .pcard.shop .go{color:#0A6E3A}
+.pcard.ride .go{color:#9A6200}
 @media(min-width:720px){.pcard{flex-direction:column;text-align:center;align-items:center;padding:24px 20px}
   .pcard .go{margin:0 auto}}
 
@@ -259,6 +262,14 @@ img{max-width:100%;display:block}
           <span class="go" data-i18n="get_started">Get Started →</span>
         </div>
       </a>
+      <a class="pcard ride" href="https://msouwout.com" target="_blank" rel="noopener">
+        <span class="ico">🚕</span>
+        <div class="body">
+          <h3 data-i18n="pa4_t">Ride or Drive</h3>
+          <p data-i18n="pa4_d">Become a moto or car driver, or request a ride.</p>
+          <span class="go" data-i18n="get_started">Get Started →</span>
+        </div>
+      </a>
     </div>
 
     <!-- FEATURED -->
@@ -331,7 +342,8 @@ img{max-width:100%;display:block}
 <div class="fab-wrap" id="fab">
   <div class="fab-menu">
     <a class="fab-item" href="https://msouwout.com/driver-register.html" target="_blank" rel="noopener"><span class="fi">🚕</span><span data-i18n="fab_driver">Become a Driver</span></a>
-    <a class="fab-item" href="https://myplopplop.com" target="_blank" rel="noopener"><span class="fi">🛒</span><span data-i18n="fab_store">Create a Store</span></a>
+    <a class="fab-item" href="https://msouwout.com" target="_blank" rel="noopener"><span class="fi">👤</span><span data-i18n="fab_ride">Request a Ride</span></a>
+    <a class="fab-item" href="https://myplopplop.com" target="_blank" rel="noopener"><span class="fi">🏪</span><span data-i18n="fab_store">Create a Store</span></a>
     <a class="fab-item" href="koutye.html"><span class="fi">💰</span><span data-i18n="fab_parenaj">Join Parenaj Biznis</span></a>
     <a class="fab-item" href="https://wa.me/50946859702" target="_blank" rel="noopener"><span class="fi">💬</span><span data-i18n="fab_contact">Contact Us</span></a>
   </div>
@@ -402,12 +414,13 @@ var T = {
     pa1_t:'Fè Lajan', pa1_d:'Antre nan Parenaj Biznis epi touche komisyon.',
     pa2_t:'Louvri yon Biznis', pa2_d:'Lanse biznis ou ak 48HoursReady.',
     pa3_t:'Achte & Vann', pa3_d:'Achte, vann epi kreye boutik anliy ou.',
+    pa4_t:'Vwayaje ou Kondi', pa4_d:'Vin chofè moto oswa machin, oswa mande yon woulib.',
     get_started:'Kòmanse →',
     featured_tag:'An Vedèt Semèn Nan', learn:'Aprann Plis',
     eco_h:'Ekosistèm Nan', eco_sub:'Yon sèl kont, tout sèvis yo',
     explore:'Eksplore', no_results:'Pa gen rezilta. Eseye yon lòt mo.',
     nav_home:'Akèy', nav_earn:'Lajan', nav_ride:'Woulib', nav_market:'Mache', nav_profile:'Pwofil',
-    fab_driver:'Vin yon Chofè', fab_store:'Kreye yon Magazen', fab_parenaj:'Antre nan Parenaj Biznis', fab_contact:'Kontakte Nou',
+    fab_driver:'Vin yon Chofè', fab_ride:'Mande yon Woulib', fab_store:'Kreye yon Magazen', fab_parenaj:'Antre nan Parenaj Biznis', fab_contact:'Kontakte Nou',
     foot_tag:'Super App Dijital Ayiti a. Yon sèl kont, nèf platfòm, yon ekosistèm.',
     foot_platforms:'Platfòm', foot_more_plat:'Plis', foot_company:'Konpayi',
     foot_dash:'Tablo A Bò', foot_privacy:'Règleman Konfidansyalite', foot_terms:'Kondisyon Sèvis',
@@ -421,12 +434,13 @@ var T = {
     pa1_t:'Gagner de l’argent', pa1_d:'Rejoignez Parenaj Biznis et gagnez des commissions.',
     pa2_t:'Lancer une entreprise', pa2_d:'Lancez votre entreprise avec 48HoursReady.',
     pa3_t:'Acheter & Vendre', pa3_d:'Achetez, vendez et créez votre boutique en ligne.',
+    pa4_t:'Rouler ou conduire', pa4_d:'Devenez chauffeur moto ou auto, ou demandez une course.',
     get_started:'Commencer →',
     featured_tag:'À la une cette semaine', learn:'En savoir plus',
     eco_h:'L’écosystème', eco_sub:'Un login, tous les services',
     explore:'Explorer', no_results:'Aucun résultat. Essayez un autre mot.',
     nav_home:'Accueil', nav_earn:'Gagner', nav_ride:'Trajet', nav_market:'Marché', nav_profile:'Profil',
-    fab_driver:'Devenir chauffeur', fab_store:'Créer une boutique', fab_parenaj:'Rejoindre Parenaj Biznis', fab_contact:'Nous contacter',
+    fab_driver:'Devenir chauffeur', fab_ride:'Demander une course', fab_store:'Créer une boutique', fab_parenaj:'Rejoindre Parenaj Biznis', fab_contact:'Nous contacter',
     foot_tag:'La super app numérique d’Haïti. Un compte, neuf plateformes, un écosystème.',
     foot_platforms:'Plateformes', foot_more_plat:'Plus', foot_company:'Entreprise',
     foot_dash:'Tablo A Bò', foot_privacy:'Confidentialité', foot_terms:'Conditions',
@@ -440,12 +454,13 @@ var T = {
     pa1_t:'Earn Money', pa1_d:'Join Parenaj Biznis and earn commissions.',
     pa2_t:'Start a Business', pa2_d:'Launch your business with 48HoursReady.',
     pa3_t:'Shop & Sell', pa3_d:'Buy, sell and create your online store.',
+    pa4_t:'Ride or Drive', pa4_d:'Become a moto or car driver, or request a ride.',
     get_started:'Get Started →',
     featured_tag:'Featured This Week', learn:'Learn More',
     eco_h:'The Ecosystem', eco_sub:'One login, every service',
     explore:'Explore', no_results:'No matches. Try another word.',
     nav_home:'Home', nav_earn:'Earn', nav_ride:'Ride', nav_market:'Market', nav_profile:'Profile',
-    fab_driver:'Become a Driver', fab_store:'Create a Store', fab_parenaj:'Join Parenaj Biznis', fab_contact:'Contact Us',
+    fab_driver:'Become a Driver', fab_ride:'Request a Ride', fab_store:'Create a Store', fab_parenaj:'Join Parenaj Biznis', fab_contact:'Contact Us',
     foot_tag:'Haiti’s Digital Super App. One account, nine platforms, one ecosystem.',
     foot_platforms:'Platforms', foot_more_plat:'More', foot_company:'Company',
     foot_dash:'Tablo A Bò', foot_privacy:'Privacy Policy', foot_terms:'Terms of Service',
@@ -459,12 +474,13 @@ var T = {
     pa1_t:'Gana dinero', pa1_d:'Únete a Parenaj Biznis y gana comisiones.',
     pa2_t:'Inicia un negocio', pa2_d:'Lanza tu negocio con 48HoursReady.',
     pa3_t:'Compra y vende', pa3_d:'Compra, vende y crea tu tienda online.',
+    pa4_t:'Viaja o conduce', pa4_d:'Conviértete en chofer de moto o auto, o pide un viaje.',
     get_started:'Empezar →',
     featured_tag:'Destacado esta semana', learn:'Saber más',
     eco_h:'El ecosistema', eco_sub:'Un acceso, todos los servicios',
     explore:'Explorar', no_results:'Sin resultados. Prueba otra palabra.',
     nav_home:'Inicio', nav_earn:'Ganar', nav_ride:'Viaje', nav_market:'Mercado', nav_profile:'Perfil',
-    fab_driver:'Conviértete en chofer', fab_store:'Crear una tienda', fab_parenaj:'Únete a Parenaj Biznis', fab_contact:'Contáctanos',
+    fab_driver:'Conviértete en chofer', fab_ride:'Pide un viaje', fab_store:'Crear una tienda', fab_parenaj:'Únete a Parenaj Biznis', fab_contact:'Contáctanos',
     foot_tag:'La súper app digital de Haití. Una cuenta, nueve plataformas, un ecosistema.',
     foot_platforms:'Plataformas', foot_more_plat:'Más', foot_company:'Empresa',
     foot_dash:'Tablo A Bò', foot_privacy:'Privacidad', foot_terms:'Términos',
