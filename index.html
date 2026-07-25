@@ -99,9 +99,10 @@ img{max-width:100%;display:block}
 .pcard.biz{background:linear-gradient(150deg,#E8274A,#B00D2C)}
 .pcard.shop{background:linear-gradient(150deg,#12A85A,#0A6E3A)}
 .pcard.ride{background:linear-gradient(150deg,#F0A81E,#C67E00)}
-.pcard .ico{flex:0 0 auto;width:72px;height:72px;border-radius:20px;display:flex;align-items:center;justify-content:center;
-  font-size:2.7rem;line-height:1;background:rgba(255,255,255,.18);border:1px solid rgba(255,255,255,.28);
-  box-shadow:inset 0 1px 6px rgba(255,255,255,.2)}
+.pcard .ico{flex:0 0 auto;width:72px;height:72px;border-radius:18px;display:flex;align-items:center;justify-content:center;
+  overflow:hidden;padding:6px;background:#fff;border:1px solid rgba(255,255,255,.5);
+  box-shadow:0 4px 12px rgba(0,0,0,.18)}
+.pcard .ico img{width:100%;height:100%;object-fit:contain;border-radius:10px}
 .pcard .body{flex:1;min-width:0}
 .pcard h3{font-family:var(--display);font-size:1.42rem;margin:0 0 3px;line-height:1.05}
 .pcard p{font-size:.86rem;opacity:.94;font-weight:500;line-height:1.35;margin-bottom:12px}
@@ -239,7 +240,7 @@ img{max-width:100%;display:block}
   <section class="section" id="searchScope">
     <div class="primary-grid" id="primaryGrid">
       <a class="pcard earn" href="koutye.html">
-        <span class="ico">💰</span>
+        <span class="ico"><img src="assets/koutye-biznis-logo.jpg" alt="Parenaj Biznis"></span>
         <div class="body">
           <h3 data-i18n="pa1_t">Earn Money</h3>
           <p data-i18n="pa1_d">Join Parenaj Biznis and earn commissions.</p>
@@ -247,7 +248,7 @@ img{max-width:100%;display:block}
         </div>
       </a>
       <a class="pcard biz" href="https://48hoursready.com" target="_blank" rel="noopener">
-        <span class="ico">🚀</span>
+        <span class="ico"><img src="assets/48hoursready-logo.jpg" alt="48HoursReady"></span>
         <div class="body">
           <h3 data-i18n="pa2_t">Start a Business</h3>
           <p data-i18n="pa2_d">Launch your business with 48HoursReady.</p>
@@ -255,7 +256,7 @@ img{max-width:100%;display:block}
         </div>
       </a>
       <a class="pcard shop" href="https://myplopplop.com" target="_blank" rel="noopener">
-        <span class="ico">🛒</span>
+        <span class="ico"><img src="assets/myplopplop-logo-new.png" alt="MyPlopPlop"></span>
         <div class="body">
           <h3 data-i18n="pa3_t">Shop & Sell</h3>
           <p data-i18n="pa3_d">Buy, sell and create your online store.</p>
@@ -263,9 +264,9 @@ img{max-width:100%;display:block}
         </div>
       </a>
       <a class="pcard ride" href="https://msouwout.com" target="_blank" rel="noopener">
-        <span class="ico">🚕</span>
+        <span class="ico"><img src="assets/msouwout-logo-2026.png" alt="MsouWout"></span>
         <div class="body">
-          <h3 data-i18n="pa4_t">Ride or Drive</h3>
+          <h3 data-i18n="pa4_t">Give or Request a Ride</h3>
           <p data-i18n="pa4_d">Become a moto or car driver, or request a ride.</p>
           <span class="go" data-i18n="get_started">Get Started →</span>
         </div>
@@ -414,7 +415,7 @@ var T = {
     pa1_t:'Fè Lajan', pa1_d:'Antre nan Parenaj Biznis epi touche komisyon.',
     pa2_t:'Louvri yon Biznis', pa2_d:'Lanse biznis ou ak 48HoursReady.',
     pa3_t:'Achte & Vann', pa3_d:'Achte, vann epi kreye boutik anliy ou.',
-    pa4_t:'Vwayaje ou Kondi', pa4_d:'Vin chofè moto oswa machin, oswa mande yon woulib.',
+    pa4_t:'Bay Woulib, Mande Woulib', pa4_d:'Vin chofè moto oswa machin, oswa mande yon woulib.',
     get_started:'Kòmanse →',
     featured_tag:'An Vedèt Semèn Nan', learn:'Aprann Plis',
     eco_h:'Ekosistèm Nan', eco_sub:'Yon sèl kont, tout sèvis yo',
@@ -434,7 +435,7 @@ var T = {
     pa1_t:'Gagner de l’argent', pa1_d:'Rejoignez Parenaj Biznis et gagnez des commissions.',
     pa2_t:'Lancer une entreprise', pa2_d:'Lancez votre entreprise avec 48HoursReady.',
     pa3_t:'Acheter & Vendre', pa3_d:'Achetez, vendez et créez votre boutique en ligne.',
-    pa4_t:'Rouler ou conduire', pa4_d:'Devenez chauffeur moto ou auto, ou demandez une course.',
+    pa4_t:'Offrez ou demandez une course', pa4_d:'Devenez chauffeur moto ou auto, ou demandez une course.',
     get_started:'Commencer →',
     featured_tag:'À la une cette semaine', learn:'En savoir plus',
     eco_h:'L’écosystème', eco_sub:'Un login, tous les services',
@@ -454,7 +455,7 @@ var T = {
     pa1_t:'Earn Money', pa1_d:'Join Parenaj Biznis and earn commissions.',
     pa2_t:'Start a Business', pa2_d:'Launch your business with 48HoursReady.',
     pa3_t:'Shop & Sell', pa3_d:'Buy, sell and create your online store.',
-    pa4_t:'Ride or Drive', pa4_d:'Become a moto or car driver, or request a ride.',
+    pa4_t:'Give or Request a Ride', pa4_d:'Become a moto or car driver, or request a ride.',
     get_started:'Get Started →',
     featured_tag:'Featured This Week', learn:'Learn More',
     eco_h:'The Ecosystem', eco_sub:'One login, every service',
@@ -474,7 +475,7 @@ var T = {
     pa1_t:'Gana dinero', pa1_d:'Únete a Parenaj Biznis y gana comisiones.',
     pa2_t:'Inicia un negocio', pa2_d:'Lanza tu negocio con 48HoursReady.',
     pa3_t:'Compra y vende', pa3_d:'Compra, vende y crea tu tienda online.',
-    pa4_t:'Viaja o conduce', pa4_d:'Conviértete en chofer de moto o auto, o pide un viaje.',
+    pa4_t:'Ofrece o pide un viaje', pa4_d:'Conviértete en chofer de moto o auto, o pide un viaje.',
     get_started:'Empezar →',
     featured_tag:'Destacado esta semana', learn:'Saber más',
     eco_h:'El ecosistema', eco_sub:'Un acceso, todos los servicios',
