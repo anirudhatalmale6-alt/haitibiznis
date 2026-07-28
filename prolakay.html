@@ -625,21 +625,21 @@ img{max-width:100%;display:block}
 <section class="hero">
   <div class="hero-content">
     <img src="assets/prolakay-logo-full.png" alt="Pwofesyonèl Lakay" class="hero-logo">
-    <div class="hero-badge">🏠 Immobilier &amp; Sèvis Verifye</div>
-    <h1>Jwenn Kay, Tè, ak Pwofesyonèl Ou <em>Fè Konfyans</em></h1>
-    <p class="hero-sub"><span>Achte</span> · <span>Vann</span> · <span>Lwe</span> · <span>Evalye</span> · <span>Konstwi</span></p>
+    <div class="hero-badge" data-i18n="hero_badge">🏠 Immobilier &amp; Sèvis Verifye</div>
+    <h1 data-i18n="hero_head">Jwenn Kay, Tè, ak Pwofesyonèl Ou <em>Fè Konfyans</em></h1>
+    <p class="hero-sub" data-i18n="hero_sub"><span>Achte</span> · <span>Vann</span> · <span>Lwe</span> · <span>Evalye</span> · <span>Konstwi</span></p>
     <div class="hero-ctas">
       <a href="#properties" class="btn btn-red">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg>
-        Chèche Pwopriyete
+        <span data-i18n="cta_search">Chèche Pwopriyete</span>
       </a>
       <a href="#professionals" class="btn btn-outline">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4-4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75"/></svg>
-        Jwenn Pwofesyonèl
+        <span data-i18n="cta_pro">Jwenn Pwofesyonèl</span>
       </a>
       <a href="#koutye" class="btn btn-gold">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 000 7h5a3.5 3.5 0 010 7H6"/></svg>
-        Vin yon Parenaj Biznis
+        <span data-i18n="cta_partner">Vin yon Parenaj Biznis</span>
       </a>
     </div>
   </div>
@@ -651,27 +651,27 @@ img{max-width:100%;display:block}
   <div class="search-card reveal">
     <div class="search-row">
       <div class="search-field">
-        <label>Tip Pwopriyete</label>
+        <label data-i18n="search_type_label">Tip Pwopriyete</label>
         <select id="searchType">
-          <option value="">Tout Tip</option>
-          <option value="kay">🏠 Kay</option>
-          <option value="te">🏞️ Tè</option>
-          <option value="apatman">🏢 Apatman</option>
-          <option value="komesyal">🏪 Komèsyal</option>
+          <option value="" data-i18n="search_type_all">Tout Tip</option>
+          <option value="kay" data-i18n="search_type_kay">🏠 Kay</option>
+          <option value="te" data-i18n="search_type_te">🏞️ Tè</option>
+          <option value="apatman" data-i18n="search_type_apt">🏢 Apatman</option>
+          <option value="komesyal" data-i18n="search_type_comm">🏪 Komèsyal</option>
         </select>
       </div>
       <div class="search-field">
-        <label>Zòn / Komin</label>
-        <input type="text" id="searchLoc" placeholder="Eks: Pétion-Ville, Tabarre...">
+        <label data-i18n="search_zone_label">Zòn / Komin</label>
+        <input type="text" id="searchLoc" data-i18n-ph="search_zone_ph" placeholder="Eks: Pétion-Ville, Tabarre...">
       </div>
     </div>
     <div class="search-row">
       <div class="search-field">
-        <label>Bidjè Minimòm (HTG)</label>
+        <label data-i18n="search_min_label">Bidjè Minimòm (HTG)</label>
         <input type="number" id="searchMin" placeholder="500,000">
       </div>
       <div class="search-field">
-        <label>Bidjè Maksimòm (HTG)</label>
+        <label data-i18n="search_max_label">Bidjè Maksimòm (HTG)</label>
         <input type="number" id="searchMax" placeholder="5,000,000">
       </div>
     </div>
@@ -679,11 +679,11 @@ img{max-width:100%;display:block}
       <label class="search-verify">
         <input type="checkbox" id="searchVerified">
         <span class="check"></span>
-        Sèlman Verifye
+        <span data-i18n="search_verified_only">Sèlman Verifye</span>
       </label>
       <button class="search-btn" onclick="doSearch()">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg>
-        Chèche
+        <span data-i18n="search_btn">Chèche</span>
       </button>
     </div>
   </div>
@@ -691,9 +691,9 @@ img{max-width:100%;display:block}
 
 <!-- ═══════════ 3. FEATURED PROPERTIES ═══════════ -->
 <section class="section" id="properties">
-  <div class="section-tag reveal">🏘 Pwopriyete</div>
-  <h2 class="section-title reveal">Pwopriyete <em>Seleksyone</em></h2>
-  <p class="section-desc reveal">Meilleur opsyon nan mache immobilier an Ayiti — verifye, byen pri, pare pou ou.</p>
+  <div class="section-tag reveal" data-i18n="props_tag">🏘 Pwopriyete</div>
+  <h2 class="section-title reveal" data-i18n="props_title">Pwopriyete <em>Seleksyone</em></h2>
+  <p class="section-desc reveal" data-i18n="props_desc">Meilleur opsyon nan mache immobilier an Ayiti — verifye, byen pri, pare pou ou.</p>
 
   <div class="props-scroll" id="propsScroll">
 
@@ -701,8 +701,8 @@ img{max-width:100%;display:block}
       <div class="prop-img">
         <div class="prop-img-bg" style="background:linear-gradient(135deg,#1a3a5c,#2a5a8c,#4a8abd)">🏠</div>
         <div class="prop-tags">
-          <span class="prop-tag sale">A Vann</span>
-          <span class="prop-tag verified">✓ Verifye</span>
+          <span class="prop-tag sale" data-i18n="tag_sale">A Vann</span>
+          <span class="prop-tag verified" data-i18n="tag_verified">✓ Verifye</span>
           <span class="prop-tag hot">🔥 Hot</span>
         </div>
         <div class="prop-price">HTG 8,500,000 <small>≈ USD $62,000</small></div>
@@ -713,12 +713,12 @@ img{max-width:100%;display:block}
           Pétion-Ville, Rue Faubert
         </div>
         <div class="prop-meta">
-          <span>🛏 4 chanm</span>
+          <span data-i18n="p1_bed">🛏 4 chanm</span>
           <span>📐 280 m²</span>
-          <span>🚗 2 pakin</span>
+          <span data-i18n="p1_park">🚗 2 pakin</span>
         </div>
         <div class="prop-actions">
-          <button class="prop-btn detail">Gade Detay</button>
+          <button class="prop-btn detail" data-i18n="prop_view">Gade Detay</button>
           <button class="prop-btn wa" onclick="event.stopPropagation();window.open('https://wa.me/50946859702?text=Bonjou! Mwen enterese nan kay Pétion-Ville HTG 8.5M sou Pwofesyonèl Lakay','_blank')">WhatsApp</button>
         </div>
       </div>
@@ -728,8 +728,8 @@ img{max-width:100%;display:block}
       <div class="prop-img">
         <div class="prop-img-bg" style="background:linear-gradient(135deg,#2d5a2d,#4a8c4a,#6abd6a)">🏞️</div>
         <div class="prop-tags">
-          <span class="prop-tag sale">A Vann</span>
-          <span class="prop-tag verified">✓ Verifye</span>
+          <span class="prop-tag sale" data-i18n="tag_sale">A Vann</span>
+          <span class="prop-tag verified" data-i18n="tag_verified">✓ Verifye</span>
         </div>
         <div class="prop-price">HTG 3,200,000 <small>≈ USD $23,400</small></div>
       </div>
@@ -740,10 +740,10 @@ img{max-width:100%;display:block}
         </div>
         <div class="prop-meta">
           <span>🏞️ 450 m²</span>
-          <span>📋 Tit klè</span>
+          <span data-i18n="p2_title">📋 Tit klè</span>
         </div>
         <div class="prop-actions">
-          <button class="prop-btn detail">Gade Detay</button>
+          <button class="prop-btn detail" data-i18n="prop_view">Gade Detay</button>
           <button class="prop-btn wa" onclick="event.stopPropagation();window.open('https://wa.me/50946859702?text=Bonjou! Mwen enterese nan tè Tabarre HTG 3.2M sou Pwofesyonèl Lakay','_blank')">WhatsApp</button>
         </div>
       </div>
@@ -753,10 +753,10 @@ img{max-width:100%;display:block}
       <div class="prop-img">
         <div class="prop-img-bg" style="background:linear-gradient(135deg,#5a3a1a,#8c6a3a,#bd9a5a)">🏢</div>
         <div class="prop-tags">
-          <span class="prop-tag rent">A Lwe</span>
-          <span class="prop-tag verified">✓ Verifye</span>
+          <span class="prop-tag rent" data-i18n="tag_rent">A Lwe</span>
+          <span class="prop-tag verified" data-i18n="tag_verified">✓ Verifye</span>
         </div>
-        <div class="prop-price">HTG 45,000 <small>/mwa</small></div>
+        <div class="prop-price">HTG 45,000 <small data-i18n="per_month">/mwa</small></div>
       </div>
       <div class="prop-body">
         <div class="prop-loc">
@@ -764,12 +764,12 @@ img{max-width:100%;display:block}
           Delmas 33, bò Digicel
         </div>
         <div class="prop-meta">
-          <span>🛏 2 chanm</span>
+          <span data-i18n="p3_bed">🛏 2 chanm</span>
           <span>📐 95 m²</span>
-          <span>🚿 1 twalèt</span>
+          <span data-i18n="p3_bath">🚿 1 twalèt</span>
         </div>
         <div class="prop-actions">
-          <button class="prop-btn detail">Gade Detay</button>
+          <button class="prop-btn detail" data-i18n="prop_view">Gade Detay</button>
           <button class="prop-btn wa" onclick="event.stopPropagation();window.open('https://wa.me/50946859702?text=Bonjou! Mwen enterese nan apatman Delmas 33 HTG 45K/mwa sou Pwofesyonèl Lakay','_blank')">WhatsApp</button>
         </div>
       </div>
@@ -779,7 +779,7 @@ img{max-width:100%;display:block}
       <div class="prop-img">
         <div class="prop-img-bg" style="background:linear-gradient(135deg,#0a2a5a,#1a4a8a,#3a7abd)">🏠</div>
         <div class="prop-tags">
-          <span class="prop-tag sale">A Vann</span>
+          <span class="prop-tag sale" data-i18n="tag_sale">A Vann</span>
           <span class="prop-tag hot">🔥 Hot</span>
         </div>
         <div class="prop-price">HTG 12,000,000 <small>≈ USD $88,000</small></div>
@@ -790,12 +790,12 @@ img{max-width:100%;display:block}
           Cap-Haïtien, Vètyè
         </div>
         <div class="prop-meta">
-          <span>🛏 5 chanm</span>
+          <span data-i18n="p4_bed">🛏 5 chanm</span>
           <span>📐 350 m²</span>
-          <span>🏊 Pisin</span>
+          <span data-i18n="p4_pool">🏊 Pisin</span>
         </div>
         <div class="prop-actions">
-          <button class="prop-btn detail">Gade Detay</button>
+          <button class="prop-btn detail" data-i18n="prop_view">Gade Detay</button>
           <button class="prop-btn wa" onclick="event.stopPropagation();window.open('https://wa.me/50946859702?text=Bonjou! Mwen enterese nan kay Cap-Haitien HTG 12M sou Pwofesyonèl Lakay','_blank')">WhatsApp</button>
         </div>
       </div>
@@ -805,8 +805,8 @@ img{max-width:100%;display:block}
       <div class="prop-img">
         <div class="prop-img-bg" style="background:linear-gradient(135deg,#1a4a3a,#2a7a5a,#4abd8a)">🏡</div>
         <div class="prop-tags">
-          <span class="prop-tag sale">A Vann</span>
-          <span class="prop-tag verified">✓ Verifye</span>
+          <span class="prop-tag sale" data-i18n="tag_sale">A Vann</span>
+          <span class="prop-tag verified" data-i18n="tag_verified">✓ Verifye</span>
         </div>
         <div class="prop-price">HTG 15,500,000 <small>≈ USD $113,000</small></div>
       </div>
@@ -816,12 +816,12 @@ img{max-width:100%;display:block}
           Kenscoff, Route de Furcy
         </div>
         <div class="prop-meta">
-          <span>🛏 3 chanm</span>
+          <span data-i18n="p5_bed">🛏 3 chanm</span>
           <span>📐 500 m²</span>
-          <span>🌳 Jaden</span>
+          <span data-i18n="p5_garden">🌳 Jaden</span>
         </div>
         <div class="prop-actions">
-          <button class="prop-btn detail">Gade Detay</button>
+          <button class="prop-btn detail" data-i18n="prop_view">Gade Detay</button>
           <button class="prop-btn wa" onclick="event.stopPropagation();window.open('https://wa.me/50946859702?text=Bonjou! Mwen enterese nan kay Kenscoff HTG 15.5M sou Pwofesyonèl Lakay','_blank')">WhatsApp</button>
         </div>
       </div>
@@ -831,10 +831,10 @@ img{max-width:100%;display:block}
       <div class="prop-img">
         <div class="prop-img-bg" style="background:linear-gradient(135deg,#3a2a5a,#6a4a8a,#9a7abd)">🏪</div>
         <div class="prop-tags">
-          <span class="prop-tag rent">A Lwe</span>
-          <span class="prop-tag verified">✓ Verifye</span>
+          <span class="prop-tag rent" data-i18n="tag_rent">A Lwe</span>
+          <span class="prop-tag verified" data-i18n="tag_verified">✓ Verifye</span>
         </div>
-        <div class="prop-price">HTG 120,000 <small>/mwa</small></div>
+        <div class="prop-price">HTG 120,000 <small data-i18n="per_month">/mwa</small></div>
       </div>
       <div class="prop-body">
         <div class="prop-loc">
@@ -842,12 +842,12 @@ img{max-width:100%;display:block}
           Jacmel, Centre-Ville
         </div>
         <div class="prop-meta">
-          <span>🏪 Komèsyal</span>
+          <span data-i18n="p6_comm">🏪 Komèsyal</span>
           <span>📐 200 m²</span>
-          <span>🅿️ 4 pakin</span>
+          <span data-i18n="p6_park">🅿️ 4 pakin</span>
         </div>
         <div class="prop-actions">
-          <button class="prop-btn detail">Gade Detay</button>
+          <button class="prop-btn detail" data-i18n="prop_view">Gade Detay</button>
           <button class="prop-btn wa" onclick="event.stopPropagation();window.open('https://wa.me/50946859702?text=Bonjou! Mwen enterese nan lokal komèsyal Jacmel HTG 120K/mwa sou Pwofesyonèl Lakay','_blank')">WhatsApp</button>
         </div>
       </div>
@@ -859,34 +859,34 @@ img{max-width:100%;display:block}
 <!-- ═══════════ 4. PROFESSIONALS ═══════════ -->
 <section class="section" id="professionals" style="background:var(--white);border-top:1px solid var(--border-light);border-bottom:1px solid var(--border-light);max-width:100%;padding-left:20px;padding-right:20px">
   <div style="max-width:1000px;margin:0 auto">
-    <div class="section-tag reveal">👷 Pwofesyonèl</div>
-    <h2 class="section-title reveal">Pwofesyonèl <em>Verifye</em></h2>
-    <p class="section-desc reveal">Enjenyè, achitèk, avoka, evalyatè — tout verifye ak reyèl.</p>
+    <div class="section-tag reveal" data-i18n="pro_tag">👷 Pwofesyonèl</div>
+    <h2 class="section-title reveal" data-i18n="pro_title">Pwofesyonèl <em>Verifye</em></h2>
+    <p class="section-desc reveal" data-i18n="pro_desc">Enjenyè, achitèk, avoka, evalyatè — tout verifye ak reyèl.</p>
 
     <div class="pro-cats reveal">
       <div class="pro-cat active" data-cat="all">
         <span class="pro-cat-icon">👥</span>
-        <span class="pro-cat-name">Tout</span>
+        <span class="pro-cat-name" data-i18n="cat_all">Tout</span>
       </div>
       <div class="pro-cat" data-cat="engineer">
         <span class="pro-cat-icon">🏗</span>
-        <span class="pro-cat-name">Enjenyè</span>
+        <span class="pro-cat-name" data-i18n="cat_engineer">Enjenyè</span>
       </div>
       <div class="pro-cat" data-cat="architect">
         <span class="pro-cat-icon">📐</span>
-        <span class="pro-cat-name">Achitèk</span>
+        <span class="pro-cat-name" data-i18n="cat_architect">Achitèk</span>
       </div>
       <div class="pro-cat" data-cat="lawyer">
         <span class="pro-cat-icon">⚖️</span>
-        <span class="pro-cat-name">Avoka</span>
+        <span class="pro-cat-name" data-i18n="cat_lawyer">Avoka</span>
       </div>
       <div class="pro-cat" data-cat="evaluator">
         <span class="pro-cat-icon">💰</span>
-        <span class="pro-cat-name">Evalyatè</span>
+        <span class="pro-cat-name" data-i18n="cat_evaluator">Evalyatè</span>
       </div>
       <div class="pro-cat" data-cat="agent">
         <span class="pro-cat-icon">🏠</span>
-        <span class="pro-cat-name">Ajan</span>
+        <span class="pro-cat-name" data-i18n="cat_agent">Ajan</span>
       </div>
     </div>
 
@@ -899,14 +899,14 @@ img{max-width:100%;display:block}
         </div>
         <div class="pro-info">
           <div class="pro-name">Jean-Baptiste Michel</div>
-          <div class="pro-title">Enjenyè Sivil · 12 ane eksperyans</div>
+          <div class="pro-title" data-i18n="pro1_title">Enjenyè Sivil · 12 ane eksperyans</div>
           <div class="pro-rating">
             <span class="pro-star">★</span><span class="pro-star">★</span><span class="pro-star">★</span><span class="pro-star">★</span><span class="pro-star">★</span>
             <span class="pro-rating-num">5.0 (47)</span>
           </div>
           <div class="pro-actions">
-            <button class="pro-btn contact" onclick="window.open('https://wa.me/50937001234?text=Bonjou! Mwen jwenn ou sou Pwofesyonèl Lakay. Mwen bezwen yon enjenyè sivil.','_blank')">Kontakte</button>
-            <button class="pro-btn refer" onclick="window.open('koutye.html','_blank')">Rekòmande</button>
+            <button class="pro-btn contact" onclick="window.open('https://wa.me/50937001234?text=Bonjou! Mwen jwenn ou sou Pwofesyonèl Lakay. Mwen bezwen yon enjenyè sivil.','_blank')"><span data-i18n="pro_contact">Kontakte</span></button>
+            <button class="pro-btn refer" onclick="window.open('koutye.html','_blank')"><span data-i18n="pro_refer">Rekòmande</span></button>
           </div>
         </div>
       </div>
@@ -918,14 +918,14 @@ img{max-width:100%;display:block}
         </div>
         <div class="pro-info">
           <div class="pro-name">Marie-Ange Duval</div>
-          <div class="pro-title">Achitèk · Espesyalis kay modèn</div>
+          <div class="pro-title" data-i18n="pro2_title">Achitèk · Espesyalis kay modèn</div>
           <div class="pro-rating">
             <span class="pro-star">★</span><span class="pro-star">★</span><span class="pro-star">★</span><span class="pro-star">★</span><span class="pro-star" style="color:var(--border)">★</span>
             <span class="pro-rating-num">4.8 (32)</span>
           </div>
           <div class="pro-actions">
-            <button class="pro-btn contact" onclick="window.open('https://wa.me/50938005678?text=Bonjou! Mwen jwenn ou sou Pwofesyonèl Lakay. Mwen bezwen yon achitèk.','_blank')">Kontakte</button>
-            <button class="pro-btn refer" onclick="window.open('koutye.html','_blank')">Rekòmande</button>
+            <button class="pro-btn contact" onclick="window.open('https://wa.me/50938005678?text=Bonjou! Mwen jwenn ou sou Pwofesyonèl Lakay. Mwen bezwen yon achitèk.','_blank')"><span data-i18n="pro_contact">Kontakte</span></button>
+            <button class="pro-btn refer" onclick="window.open('koutye.html','_blank')"><span data-i18n="pro_refer">Rekòmande</span></button>
           </div>
         </div>
       </div>
@@ -937,14 +937,14 @@ img{max-width:100%;display:block}
         </div>
         <div class="pro-info">
           <div class="pro-name">Pierre Louissaint</div>
-          <div class="pro-title">Avoka Immobilye · Tit &amp; Kontra</div>
+          <div class="pro-title" data-i18n="pro3_title">Avoka Immobilye · Tit &amp; Kontra</div>
           <div class="pro-rating">
             <span class="pro-star">★</span><span class="pro-star">★</span><span class="pro-star">★</span><span class="pro-star">★</span><span class="pro-star">★</span>
             <span class="pro-rating-num">5.0 (28)</span>
           </div>
           <div class="pro-actions">
-            <button class="pro-btn contact" onclick="window.open('https://wa.me/50936009012?text=Bonjou! Mwen jwenn ou sou Pwofesyonèl Lakay. Mwen bezwen yon avoka immobilye.','_blank')">Kontakte</button>
-            <button class="pro-btn refer" onclick="window.open('koutye.html','_blank')">Rekòmande</button>
+            <button class="pro-btn contact" onclick="window.open('https://wa.me/50936009012?text=Bonjou! Mwen jwenn ou sou Pwofesyonèl Lakay. Mwen bezwen yon avoka immobilye.','_blank')"><span data-i18n="pro_contact">Kontakte</span></button>
+            <button class="pro-btn refer" onclick="window.open('koutye.html','_blank')"><span data-i18n="pro_refer">Rekòmande</span></button>
           </div>
         </div>
       </div>
@@ -956,14 +956,14 @@ img{max-width:100%;display:block}
         </div>
         <div class="pro-info">
           <div class="pro-name">Rose-Marie Théodore</div>
-          <div class="pro-title">Evalyatè Immobilye Sètifye</div>
+          <div class="pro-title" data-i18n="pro4_title">Evalyatè Immobilye Sètifye</div>
           <div class="pro-rating">
             <span class="pro-star">★</span><span class="pro-star">★</span><span class="pro-star">★</span><span class="pro-star">★</span><span class="pro-star" style="color:var(--border)">★</span>
             <span class="pro-rating-num">4.7 (19)</span>
           </div>
           <div class="pro-actions">
-            <button class="pro-btn contact" onclick="window.open('https://wa.me/50934003456?text=Bonjou! Mwen jwenn ou sou Pwofesyonèl Lakay. Mwen bezwen yon evalyatè.','_blank')">Kontakte</button>
-            <button class="pro-btn refer" onclick="window.open('koutye.html','_blank')">Rekòmande</button>
+            <button class="pro-btn contact" onclick="window.open('https://wa.me/50934003456?text=Bonjou! Mwen jwenn ou sou Pwofesyonèl Lakay. Mwen bezwen yon evalyatè.','_blank')"><span data-i18n="pro_contact">Kontakte</span></button>
+            <button class="pro-btn refer" onclick="window.open('koutye.html','_blank')"><span data-i18n="pro_refer">Rekòmande</span></button>
           </div>
         </div>
       </div>
@@ -975,14 +975,14 @@ img{max-width:100%;display:block}
         </div>
         <div class="pro-info">
           <div class="pro-name">Widelson Dorcéus</div>
-          <div class="pro-title">Ajan Immobilye · Pétion-Ville &amp; Tabarre</div>
+          <div class="pro-title" data-i18n="pro5_title">Ajan Immobilye · Pétion-Ville &amp; Tabarre</div>
           <div class="pro-rating">
             <span class="pro-star">★</span><span class="pro-star">★</span><span class="pro-star">★</span><span class="pro-star">★</span><span class="pro-star">★</span>
             <span class="pro-rating-num">4.9 (41)</span>
           </div>
           <div class="pro-actions">
-            <button class="pro-btn contact" onclick="window.open('https://wa.me/50940007890?text=Bonjou! Mwen jwenn ou sou Pwofesyonèl Lakay. Mwen ap chèche yon pwopriyete.','_blank')">Kontakte</button>
-            <button class="pro-btn refer" onclick="window.open('koutye.html','_blank')">Rekòmande</button>
+            <button class="pro-btn contact" onclick="window.open('https://wa.me/50940007890?text=Bonjou! Mwen jwenn ou sou Pwofesyonèl Lakay. Mwen ap chèche yon pwopriyete.','_blank')"><span data-i18n="pro_contact">Kontakte</span></button>
+            <button class="pro-btn refer" onclick="window.open('koutye.html','_blank')"><span data-i18n="pro_refer">Rekòmande</span></button>
           </div>
         </div>
       </div>
@@ -994,14 +994,14 @@ img{max-width:100%;display:block}
         </div>
         <div class="pro-info">
           <div class="pro-name">Stéphane Casimir</div>
-          <div class="pro-title">Kontraktè · Konstriksyon &amp; Renovasyon</div>
+          <div class="pro-title" data-i18n="pro6_title">Kontraktè · Konstriksyon &amp; Renovasyon</div>
           <div class="pro-rating">
             <span class="pro-star">★</span><span class="pro-star">★</span><span class="pro-star">★</span><span class="pro-star">★</span><span class="pro-star" style="color:var(--border)">★</span>
             <span class="pro-rating-num">4.6 (23)</span>
           </div>
           <div class="pro-actions">
-            <button class="pro-btn contact" onclick="window.open('https://wa.me/50941002345?text=Bonjou! Mwen jwenn ou sou Pwofesyonèl Lakay. Mwen bezwen yon kontraktè.','_blank')">Kontakte</button>
-            <button class="pro-btn refer" onclick="window.open('koutye.html','_blank')">Rekòmande</button>
+            <button class="pro-btn contact" onclick="window.open('https://wa.me/50941002345?text=Bonjou! Mwen jwenn ou sou Pwofesyonèl Lakay. Mwen bezwen yon kontraktè.','_blank')"><span data-i18n="pro_contact">Kontakte</span></button>
+            <button class="pro-btn refer" onclick="window.open('koutye.html','_blank')"><span data-i18n="pro_refer">Rekòmande</span></button>
           </div>
         </div>
       </div>
@@ -1014,27 +1014,27 @@ img{max-width:100%;display:block}
 <section class="koutye-section" id="koutye">
   <div class="koutye-inner">
     <div class="koutye-icon reveal">💰</div>
-    <h2 class="reveal">Fè Lajan ak <em>Pwofesyonèl Lakay</em></h2>
-    <p class="reveal">Refere kliyan, pwopriyete, oswa pwofesyonèl — touche komisyon sou chak tranzaksyon. Sistèm Parenaj Biznis la peye ou pou koneksyon ou fè.</p>
+    <h2 class="reveal" data-i18n="koutye_head">Fè Lajan ak <em>Pwofesyonèl Lakay</em></h2>
+    <p class="reveal" data-i18n="koutye_desc">Refere kliyan, pwopriyete, oswa pwofesyonèl — touche komisyon sou chak tranzaksyon. Sistèm Parenaj Biznis la peye ou pou koneksyon ou fè.</p>
     <div class="koutye-ctas reveal">
       <a href="koutye.html" class="btn btn-red">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 000 7h5a3.5 3.5 0 010 7H6"/></svg>
-        Vin yon Parenaj Biznis
+        <span data-i18n="cta_partner">Vin yon Parenaj Biznis</span>
       </a>
-      <a href="koutye.html#how" class="btn btn-outline">Gade Komisyon yo</a>
+      <a href="koutye.html#how" class="btn btn-outline" data-i18n="koutye_cta2">Gade Komisyon yo</a>
     </div>
     <div class="koutye-stats reveal">
       <div class="koutye-stat">
         <div class="num">10%</div>
-        <div class="label">Komisyon</div>
+        <div class="label" data-i18n="stat_commission">Komisyon</div>
       </div>
       <div class="koutye-stat">
         <div class="num">200+</div>
-        <div class="label">Parenaj Biznis Aktif</div>
+        <div class="label" data-i18n="stat_active">Parenaj Biznis Aktif</div>
       </div>
       <div class="koutye-stat">
         <div class="num">HTG 1M+</div>
-        <div class="label">Peye</div>
+        <div class="label" data-i18n="stat_paid">Peye</div>
       </div>
     </div>
   </div>
@@ -1046,7 +1046,7 @@ img{max-width:100%;display:block}
     <div class="diaspora-header">
       <div class="diaspora-title">
         <span class="globe">🌍</span>
-        <h3>Mwen pa Ayiti</h3>
+        <h3 data-i18n="dias_title">Mwen pa Ayiti</h3>
       </div>
       <div class="toggle" id="diasporaToggle" onclick="toggleDiaspora()"></div>
     </div>
@@ -1054,22 +1054,22 @@ img{max-width:100%;display:block}
       <div class="diaspora-feat">
         <div class="diaspora-feat-icon pay">💳</div>
         <div>
-          <h4>Peye Depi Lòt Bò</h4>
-          <p>Kat kredi, PayPal, Zelle — peye nan dola, resevwa sèvis an Ayiti.</p>
+          <h4 data-i18n="dias_f1_h">Peye Depi Lòt Bò</h4>
+          <p data-i18n="dias_f1_p">Kat kredi, PayPal, Zelle — peye nan dola, resevwa sèvis an Ayiti.</p>
         </div>
       </div>
       <div class="diaspora-feat">
         <div class="diaspora-feat-icon assign">👤</div>
         <div>
-          <h4>Asiyen Yon Moun Lokal</h4>
-          <p>Chwazi yon ajan oswa pwofesyonèl ki pral jere tout bagay pou ou sou teren an.</p>
+          <h4 data-i18n="dias_f2_h">Asiyen Yon Moun Lokal</h4>
+          <p data-i18n="dias_f2_p">Chwazi yon ajan oswa pwofesyonèl ki pral jere tout bagay pou ou sou teren an.</p>
         </div>
       </div>
       <div class="diaspora-feat">
         <div class="diaspora-feat-icon track">📍</div>
         <div>
-          <h4>Swiv Pwopriyete / Sèvis</h4>
-          <p>Resevwa mizajou, foto, ak rapò sou travay la oswa pwopriyete a.</p>
+          <h4 data-i18n="dias_f3_h">Swiv Pwopriyete / Sèvis</h4>
+          <p data-i18n="dias_f3_p">Resevwa mizajou, foto, ak rapò sou travay la oswa pwopriyete a.</p>
         </div>
       </div>
     </div>
@@ -1079,42 +1079,42 @@ img{max-width:100%;display:block}
 <!-- ═══════════ 7. SERVICE REQUEST ═══════════ -->
 <section class="request-section" id="request">
   <div class="request-inner">
-    <div class="section-tag reveal">📋 Demann Sèvis</div>
-    <h2 class="section-title reveal" style="margin-bottom:6px">Kisa Ou <em>Bezwen?</em></h2>
-    <p class="section-desc reveal">Di nou sa w ap chèche — nou pral konekte w ak bon pwofesyonèl la.</p>
+    <div class="section-tag reveal" data-i18n="req_tag">📋 Demann Sèvis</div>
+    <h2 class="section-title reveal" style="margin-bottom:6px" data-i18n="req_title">Kisa Ou <em>Bezwen?</em></h2>
+    <p class="section-desc reveal" data-i18n="req_desc">Di nou sa w ap chèche — nou pral konekte w ak bon pwofesyonèl la.</p>
 
     <form class="request-form reveal" id="requestForm" onsubmit="submitRequest(event)">
       <div class="form-group">
-        <label>Tip Sèvis</label>
+        <label data-i18n="req_type_label">Tip Sèvis</label>
         <select id="reqType" required>
-          <option value="">Chwazi...</option>
-          <option value="achte">🏠 Achte yon Pwopriyete</option>
-          <option value="lwe">🔑 Lwe yon Pwopriyete</option>
-          <option value="evalye">💰 Evalye yon Pwopriyete</option>
-          <option value="konstwi">🏗 Konstwi / Renove</option>
-          <option value="legal">⚖️ Konsèy Legal (Tit, Kontra)</option>
-          <option value="vann">📢 Vann yon Pwopriyete</option>
+          <option value="" data-i18n="req_opt0">Chwazi...</option>
+          <option value="achte" data-i18n="req_opt_buy">🏠 Achte yon Pwopriyete</option>
+          <option value="lwe" data-i18n="req_opt_rent">🔑 Lwe yon Pwopriyete</option>
+          <option value="evalye" data-i18n="req_opt_eval">💰 Evalye yon Pwopriyete</option>
+          <option value="konstwi" data-i18n="req_opt_build">🏗 Konstwi / Renove</option>
+          <option value="legal" data-i18n="req_opt_legal">⚖️ Konsèy Legal (Tit, Kontra)</option>
+          <option value="vann" data-i18n="req_opt_sell">📢 Vann yon Pwopriyete</option>
         </select>
       </div>
       <div class="form-group">
-        <label>Bidjè Estimasyon (HTG)</label>
-        <input type="text" id="reqBudget" placeholder="Eks: 5,000,000">
+        <label data-i18n="req_budget_label">Bidjè Estimasyon (HTG)</label>
+        <input type="text" id="reqBudget" data-i18n-ph="req_budget_ph" placeholder="Eks: 5,000,000">
       </div>
       <div class="form-group">
-        <label>Zòn / Komin</label>
-        <input type="text" id="reqLoc" placeholder="Eks: Pétion-Ville, Delmas..." required>
+        <label data-i18n="req_loc_label">Zòn / Komin</label>
+        <input type="text" id="reqLoc" data-i18n-ph="req_loc_ph" placeholder="Eks: Pétion-Ville, Delmas..." required>
       </div>
       <div class="form-group">
-        <label>Nimewo Telefòn</label>
+        <label data-i18n="req_phone_label">Nimewo Telefòn</label>
         <input type="tel" id="reqPhone" placeholder="+509 XXXX XXXX" required>
       </div>
       <div class="form-group">
-        <label>Nòt Adisyonèl</label>
-        <textarea id="reqNote" placeholder="Bay plis detay sou sa w bezwen..."></textarea>
+        <label data-i18n="req_note_label">Nòt Adisyonèl</label>
+        <textarea id="reqNote" data-i18n-ph="req_note_ph" placeholder="Bay plis detay sou sa w bezwen..."></textarea>
       </div>
       <button type="submit" class="form-submit">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M22 2L11 13M22 2l-7 20-4-9-9-4z"/></svg>
-        Voye Demann
+        <span data-i18n="req_submit">Voye Demann</span>
       </button>
     </form>
   </div>
@@ -1154,15 +1154,15 @@ img{max-width:100%;display:block}
     <div class="modal-actions">
       <button class="modal-btn wa" id="modalWaBtn" onclick="contactOwner()">
         <svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.625.846 5.059 2.284 7.034L.789 23.492l4.625-1.515A11.93 11.93 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 21.818c-2.17 0-4.182-.577-5.927-1.588l-.422-.255-2.747.9.882-2.686-.271-.437A9.769 9.769 0 012.182 12c0-5.423 4.395-9.818 9.818-9.818S21.818 6.577 21.818 12s-4.395 9.818-9.818 9.818z"/></svg>
-        Kontakte Pwopriyetè via WhatsApp
+        <span data-i18n="modal_wa">Kontakte Pwopriyetè via WhatsApp</span>
       </button>
       <button class="modal-btn visit" onclick="requestVisit()">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>
-        Mande Vizit
+        <span data-i18n="modal_visit">Mande Vizit</span>
       </button>
       <button class="modal-btn refer" onclick="window.open('koutye.html','_blank')">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 000 7h5a3.5 3.5 0 010 7H6"/></svg>
-        Refere &amp; Touche Komisyon
+        <span data-i18n="modal_refer">Refere &amp; Touche Komisyon</span>
       </button>
     </div>
   </div>
@@ -1171,25 +1171,25 @@ img{max-width:100%;display:block}
 <!-- ═══════════ FOOTER ═══════════ -->
 <footer class="footer">
   <div class="footer-logo">Pro<em>Lakay</em></div>
-  <p class="footer-text">Enfrastrikti immobilye Ayiti a — achte, vann, lwe, konstwi ak konfyans.</p>
+  <p class="footer-text" data-i18n="foot_text">Enfrastrikti immobilye Ayiti a — achte, vann, lwe, konstwi ak konfyans.</p>
   <div class="footer-eco">
     <img src="assets/haitibiznis-icon.png" alt="HaitiBiznis">
-    Yon Platfòm HaitiBiznis
+    <span data-i18n="foot_eco">Yon Platfòm HaitiBiznis</span>
   </div>
   <div class="footer-links">
     <a href="index.html">HaitiBiznis</a>
     <a href="koutye.html">Parenaj Biznis</a>
     <a href="utility-hub.html">Utility Hub</a>
-    <a href="#request">Kontakte Nou</a>
+    <a href="#request" data-i18n="foot_contact">Kontakte Nou</a>
   </div>
-  <p style="font-size:.7rem;color:rgba(255,255,255,.25);margin-top:14px">&copy; 2026 Pwofesyonèl Lakay. Tout dwa rezève.</p>
+  <p style="font-size:.7rem;color:rgba(255,255,255,.25);margin-top:14px" data-i18n="foot_copy">&copy; 2026 Pwofesyonèl Lakay. Tout dwa rezève.</p>
 </footer>
 
 <!-- ═══════════ 10. STICKY CTA ═══════════ -->
 <div class="sticky-cta" id="stickyCta">
   <a href="koutye.html" class="sticky-cta-inner">
     <span class="sticky-cta-pulse"></span>
-    <span class="sticky-cta-text"><span class="coin">💰</span> Vin yon Parenaj Biznis — Fè Lajan</span>
+    <span class="sticky-cta-text" data-i18n="sticky_cta"><span class="coin">💰</span> Vin yon Parenaj Biznis — Fè Lajan</span>
     <span class="sticky-cta-arrow">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
     </span>
@@ -1200,15 +1200,15 @@ img{max-width:100%;display:block}
 <nav class="bottom-nav">
   <a href="#" class="active" onclick="scrollToTop(event)">
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
-    Akèy
+    <span data-i18n="nav_home">Akèy</span>
   </a>
   <a href="#properties" onclick="navTo(event,'properties')">
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg>
-    Chèche
+    <span data-i18n="nav_search">Chèche</span>
   </a>
   <a href="#professionals" onclick="navTo(event,'professionals')">
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4-4v2"/><circle cx="9" cy="7" r="4"/></svg>
-    Pwofesyonèl
+    <span data-i18n="nav_pro">Pwofesyonèl</span>
   </a>
   <a href="#koutye" onclick="navTo(event,'koutye')">
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 000 7h5a3.5 3.5 0 010 7H6"/></svg>
@@ -1216,7 +1216,7 @@ img{max-width:100%;display:block}
   </a>
   <a href="#request" onclick="navTo(event,'request')">
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4-4v2"/><circle cx="12" cy="7" r="4"/></svg>
-    Kont
+    <span data-i18n="nav_account">Kont</span>
   </a>
 </nav>
 
@@ -1314,10 +1314,10 @@ function submitRequest(e) {
   if (note) msg += 'Nòt: ' + note + '\n';
   window.open('https://wa.me/50946859702?text=' + encodeURIComponent(msg), '_blank');
   var btn = document.querySelector('.form-submit');
-  btn.innerHTML = '✓ Demann Voye!';
+  btn.innerHTML = t('req_sent');
   btn.style.background = 'var(--green)';
   setTimeout(function(){
-    btn.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M22 2L11 13M22 2l-7 20-4-9-9-4z"/></svg> Voye Demann';
+    btn.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M22 2L11 13M22 2l-7 20-4-9-9-4z"/></svg> <span data-i18n="req_submit">'+t('req_submit')+'</span>';
     btn.style.background = '';
   }, 3000);
 }
@@ -1351,13 +1351,167 @@ document.querySelectorAll('.reveal').forEach(function(el){
   observer.observe(el);
 });
 
-/* ══════════ LANG SWITCHER (VISUAL) ══════════ */
+/* ══════════ LANG SWITCHER (i18n) ══════════ */
+var T = {
+  ht:{
+    hero_badge:'🏠 Immobilier &amp; Sèvis Verifye',
+    hero_head:'Jwenn Kay, Tè, ak Pwofesyonèl Ou <em>Fè Konfyans</em>',
+    hero_sub:'<span>Achte</span> · <span>Vann</span> · <span>Lwe</span> · <span>Evalye</span> · <span>Konstwi</span>',
+    cta_search:'Chèche Pwopriyete', cta_pro:'Jwenn Pwofesyonèl', cta_partner:'Vin yon Parenaj Biznis',
+    search_type_label:'Tip Pwopriyete', search_type_all:'Tout Tip', search_type_kay:'🏠 Kay', search_type_te:'🏞️ Tè', search_type_apt:'🏢 Apatman', search_type_comm:'🏪 Komèsyal',
+    search_zone_label:'Zòn / Komin', search_zone_ph:'Eks: Pétion-Ville, Tabarre...',
+    search_min_label:'Bidjè Minimòm (HTG)', search_max_label:'Bidjè Maksimòm (HTG)',
+    search_verified_only:'Sèlman Verifye', search_btn:'Chèche',
+    props_tag:'🏘 Pwopriyete', props_title:'Pwopriyete <em>Seleksyone</em>',
+    props_desc:'Meilleur opsyon nan mache immobilier an Ayiti — verifye, byen pri, pare pou ou.',
+    tag_sale:'A Vann', tag_verified:'✓ Verifye', tag_rent:'A Lwe', prop_view:'Gade Detay', per_month:'/mwa',
+    p1_bed:'🛏 4 chanm', p1_park:'🚗 2 pakin', p2_title:'📋 Tit klè', p3_bed:'🛏 2 chanm', p3_bath:'🚿 1 twalèt',
+    p4_bed:'🛏 5 chanm', p4_pool:'🏊 Pisin', p5_bed:'🛏 3 chanm', p5_garden:'🌳 Jaden', p6_comm:'🏪 Komèsyal', p6_park:'🅿️ 4 pakin',
+    pro_tag:'👷 Pwofesyonèl', pro_title:'Pwofesyonèl <em>Verifye</em>', pro_desc:'Enjenyè, achitèk, avoka, evalyatè — tout verifye ak reyèl.',
+    cat_all:'Tout', cat_engineer:'Enjenyè', cat_architect:'Achitèk', cat_lawyer:'Avoka', cat_evaluator:'Evalyatè', cat_agent:'Ajan',
+    pro1_title:'Enjenyè Sivil · 12 ane eksperyans', pro2_title:'Achitèk · Espesyalis kay modèn', pro3_title:'Avoka Immobilye · Tit &amp; Kontra',
+    pro4_title:'Evalyatè Immobilye Sètifye', pro5_title:'Ajan Immobilye · Pétion-Ville &amp; Tabarre', pro6_title:'Kontraktè · Konstriksyon &amp; Renovasyon',
+    pro_contact:'Kontakte', pro_refer:'Rekòmande',
+    koutye_head:'Fè Lajan ak <em>Pwofesyonèl Lakay</em>',
+    koutye_desc:'Refere kliyan, pwopriyete, oswa pwofesyonèl — touche komisyon sou chak tranzaksyon. Sistèm Parenaj Biznis la peye ou pou koneksyon ou fè.',
+    koutye_cta2:'Gade Komisyon yo', stat_commission:'Komisyon', stat_active:'Parenaj Biznis Aktif', stat_paid:'Peye',
+    dias_title:'Mwen pa Ayiti',
+    dias_f1_h:'Peye Depi Lòt Bò', dias_f1_p:'Kat kredi, PayPal, Zelle — peye nan dola, resevwa sèvis an Ayiti.',
+    dias_f2_h:'Asiyen Yon Moun Lokal', dias_f2_p:'Chwazi yon ajan oswa pwofesyonèl ki pral jere tout bagay pou ou sou teren an.',
+    dias_f3_h:'Swiv Pwopriyete / Sèvis', dias_f3_p:'Resevwa mizajou, foto, ak rapò sou travay la oswa pwopriyete a.',
+    req_tag:'📋 Demann Sèvis', req_title:'Kisa Ou <em>Bezwen?</em>', req_desc:'Di nou sa w ap chèche — nou pral konekte w ak bon pwofesyonèl la.',
+    req_type_label:'Tip Sèvis', req_opt0:'Chwazi...', req_opt_buy:'🏠 Achte yon Pwopriyete', req_opt_rent:'🔑 Lwe yon Pwopriyete', req_opt_eval:'💰 Evalye yon Pwopriyete', req_opt_build:'🏗 Konstwi / Renove', req_opt_legal:'⚖️ Konsèy Legal (Tit, Kontra)', req_opt_sell:'📢 Vann yon Pwopriyete',
+    req_budget_label:'Bidjè Estimasyon (HTG)', req_budget_ph:'Eks: 5,000,000', req_loc_label:'Zòn / Komin', req_loc_ph:'Eks: Pétion-Ville, Delmas...',
+    req_phone_label:'Nimewo Telefòn', req_note_label:'Nòt Adisyonèl', req_note_ph:'Bay plis detay sou sa w bezwen...', req_submit:'Voye Demann', req_sent:'✓ Demann Voye!',
+    modal_wa:'Kontakte Pwopriyetè via WhatsApp', modal_visit:'Mande Vizit', modal_refer:'Refere &amp; Touche Komisyon',
+    foot_text:'Enfrastrikti immobilye Ayiti a — achte, vann, lwe, konstwi ak konfyans.', foot_eco:'Yon Platfòm HaitiBiznis', foot_contact:'Kontakte Nou', foot_copy:'&copy; 2026 Pwofesyonèl Lakay. Tout dwa rezève.',
+    sticky_cta:'<span class="coin">💰</span> Vin yon Parenaj Biznis — Fè Lajan',
+    nav_home:'Akèy', nav_search:'Chèche', nav_pro:'Pwofesyonèl', nav_account:'Kont'
+  },
+  fr:{
+    hero_badge:'🏠 Immobilier &amp; Services Vérifiés',
+    hero_head:'Trouvez Maisons, Terrains et Professionnels de <em>Confiance</em>',
+    hero_sub:'<span>Acheter</span> · <span>Vendre</span> · <span>Louer</span> · <span>Évaluer</span> · <span>Construire</span>',
+    cta_search:'Chercher une Propriété', cta_pro:'Trouver un Professionnel', cta_partner:'Devenir Parenaj Biznis',
+    search_type_label:'Type de Propriété', search_type_all:'Tous types', search_type_kay:'🏠 Maison', search_type_te:'🏞️ Terrain', search_type_apt:'🏢 Appartement', search_type_comm:'🏪 Commercial',
+    search_zone_label:'Zone / Commune', search_zone_ph:'Ex : Pétion-Ville, Tabarre...',
+    search_min_label:'Budget Minimum (HTG)', search_max_label:'Budget Maximum (HTG)',
+    search_verified_only:'Vérifiés seulement', search_btn:'Chercher',
+    props_tag:'🏘 Propriétés', props_title:'Propriétés <em>Sélectionnées</em>',
+    props_desc:'Les meilleures options du marché immobilier haïtien — vérifiées, bien situées, prêtes pour vous.',
+    tag_sale:'À Vendre', tag_verified:'✓ Vérifié', tag_rent:'À Louer', prop_view:'Voir les Détails', per_month:'/mois',
+    p1_bed:'🛏 4 chambres', p1_park:'🚗 2 parkings', p2_title:'📋 Titre clair', p3_bed:'🛏 2 chambres', p3_bath:'🚿 1 salle de bain',
+    p4_bed:'🛏 5 chambres', p4_pool:'🏊 Piscine', p5_bed:'🛏 3 chambres', p5_garden:'🌳 Jardin', p6_comm:'🏪 Commercial', p6_park:'🅿️ 4 parkings',
+    pro_tag:'👷 Professionnels', pro_title:'Professionnels <em>Vérifiés</em>', pro_desc:'Ingénieurs, architectes, avocats, évaluateurs — tous vérifiés et réels.',
+    cat_all:'Tous', cat_engineer:'Ingénieur', cat_architect:'Architecte', cat_lawyer:'Avocat', cat_evaluator:'Évaluateur', cat_agent:'Agent',
+    pro1_title:'Ingénieur Civil · 12 ans d’expérience', pro2_title:'Architecte · Spécialiste maisons modernes', pro3_title:'Avocat Immobilier · Titres &amp; Contrats',
+    pro4_title:'Évaluateur Immobilier Certifié', pro5_title:'Agent Immobilier · Pétion-Ville &amp; Tabarre', pro6_title:'Entrepreneur · Construction &amp; Rénovation',
+    pro_contact:'Contacter', pro_refer:'Recommander',
+    koutye_head:'Gagnez de l’argent avec <em>Pwofesyonèl Lakay</em>',
+    koutye_desc:'Référez des clients, des propriétés ou des professionnels — gagnez une commission sur chaque transaction. Le système Parenaj Biznis vous paie pour les connexions que vous créez.',
+    koutye_cta2:'Voir les Commissions', stat_commission:'Commission', stat_active:'Parenaj Biznis Actifs', stat_paid:'Payé',
+    dias_title:'Je ne suis pas en Haïti',
+    dias_f1_h:'Payez depuis l’étranger', dias_f1_p:'Carte de crédit, PayPal, Zelle — payez en dollars, recevez le service en Haïti.',
+    dias_f2_h:'Assignez une personne locale', dias_f2_p:'Choisissez un agent ou un professionnel qui gérera tout pour vous sur le terrain.',
+    dias_f3_h:'Suivez la propriété / le service', dias_f3_p:'Recevez des mises à jour, des photos et des rapports sur les travaux ou la propriété.',
+    req_tag:'📋 Demande de Service', req_title:'De quoi avez-vous <em>besoin ?</em>', req_desc:'Dites-nous ce que vous cherchez — nous vous connecterons au bon professionnel.',
+    req_type_label:'Type de Service', req_opt0:'Choisir...', req_opt_buy:'🏠 Acheter une Propriété', req_opt_rent:'🔑 Louer une Propriété', req_opt_eval:'💰 Évaluer une Propriété', req_opt_build:'🏗 Construire / Rénover', req_opt_legal:'⚖️ Conseil Juridique (Titres, Contrats)', req_opt_sell:'📢 Vendre une Propriété',
+    req_budget_label:'Budget Estimé (HTG)', req_budget_ph:'Ex : 5,000,000', req_loc_label:'Zone / Commune', req_loc_ph:'Ex : Pétion-Ville, Delmas...',
+    req_phone_label:'Numéro de Téléphone', req_note_label:'Note Supplémentaire', req_note_ph:'Donnez plus de détails sur vos besoins...', req_submit:'Envoyer la Demande', req_sent:'✓ Demande Envoyée !',
+    modal_wa:'Contacter le Propriétaire via WhatsApp', modal_visit:'Demander une Visite', modal_refer:'Référer &amp; Gagner une Commission',
+    foot_text:'L’infrastructure immobilière d’Haïti — achetez, vendez, louez et construisez en confiance.', foot_eco:'Une Plateforme HaitiBiznis', foot_contact:'Nous Contacter', foot_copy:'&copy; 2026 Pwofesyonèl Lakay. Tous droits réservés.',
+    sticky_cta:'<span class="coin">💰</span> Devenez Parenaj Biznis — Gagnez de l’argent',
+    nav_home:'Accueil', nav_search:'Chercher', nav_pro:'Pros', nav_account:'Compte'
+  },
+  en:{
+    hero_badge:'🏠 Verified Real Estate &amp; Services',
+    hero_head:'Find Homes, Land, and Professionals You <em>Trust</em>',
+    hero_sub:'<span>Buy</span> · <span>Sell</span> · <span>Rent</span> · <span>Appraise</span> · <span>Build</span>',
+    cta_search:'Search Properties', cta_pro:'Find Professionals', cta_partner:'Become a Parenaj Biznis',
+    search_type_label:'Property Type', search_type_all:'All Types', search_type_kay:'🏠 House', search_type_te:'🏞️ Land', search_type_apt:'🏢 Apartment', search_type_comm:'🏪 Commercial',
+    search_zone_label:'Area / District', search_zone_ph:'e.g. Pétion-Ville, Tabarre...',
+    search_min_label:'Minimum Budget (HTG)', search_max_label:'Maximum Budget (HTG)',
+    search_verified_only:'Verified Only', search_btn:'Search',
+    props_tag:'🏘 Properties', props_title:'Featured <em>Properties</em>',
+    props_desc:'The best options on the Haitian real estate market — verified, well priced, ready for you.',
+    tag_sale:'For Sale', tag_verified:'✓ Verified', tag_rent:'For Rent', prop_view:'View Details', per_month:'/mo',
+    p1_bed:'🛏 4 beds', p1_park:'🚗 2 parking', p2_title:'📋 Clear title', p3_bed:'🛏 2 beds', p3_bath:'🚿 1 bath',
+    p4_bed:'🛏 5 beds', p4_pool:'🏊 Pool', p5_bed:'🛏 3 beds', p5_garden:'🌳 Garden', p6_comm:'🏪 Commercial', p6_park:'🅿️ 4 parking',
+    pro_tag:'👷 Professionals', pro_title:'Verified <em>Professionals</em>', pro_desc:'Engineers, architects, lawyers, appraisers — all verified and real.',
+    cat_all:'All', cat_engineer:'Engineer', cat_architect:'Architect', cat_lawyer:'Lawyer', cat_evaluator:'Appraiser', cat_agent:'Agent',
+    pro1_title:'Civil Engineer · 12 years experience', pro2_title:'Architect · Modern home specialist', pro3_title:'Real Estate Lawyer · Titles &amp; Contracts',
+    pro4_title:'Certified Real Estate Appraiser', pro5_title:'Real Estate Agent · Pétion-Ville &amp; Tabarre', pro6_title:'Contractor · Construction &amp; Renovation',
+    pro_contact:'Contact', pro_refer:'Refer',
+    koutye_head:'Earn Money with <em>Pwofesyonèl Lakay</em>',
+    koutye_desc:'Refer clients, properties, or professionals — earn a commission on every transaction. The Parenaj Biznis system pays you for the connections you make.',
+    koutye_cta2:'See the Commissions', stat_commission:'Commission', stat_active:'Active Parenaj Biznis', stat_paid:'Paid Out',
+    dias_title:'I’m not in Haiti',
+    dias_f1_h:'Pay From Abroad', dias_f1_p:'Credit card, PayPal, Zelle — pay in dollars, get the service in Haiti.',
+    dias_f2_h:'Assign a Local Person', dias_f2_p:'Choose an agent or professional who will handle everything for you on the ground.',
+    dias_f3_h:'Track Property / Service', dias_f3_p:'Get updates, photos, and reports on the work or property.',
+    req_tag:'📋 Service Request', req_title:'What Do You <em>Need?</em>', req_desc:'Tell us what you’re looking for — we’ll connect you with the right professional.',
+    req_type_label:'Service Type', req_opt0:'Choose...', req_opt_buy:'🏠 Buy a Property', req_opt_rent:'🔑 Rent a Property', req_opt_eval:'💰 Appraise a Property', req_opt_build:'🏗 Build / Renovate', req_opt_legal:'⚖️ Legal Advice (Titles, Contracts)', req_opt_sell:'📢 Sell a Property',
+    req_budget_label:'Estimated Budget (HTG)', req_budget_ph:'e.g. 5,000,000', req_loc_label:'Area / District', req_loc_ph:'e.g. Pétion-Ville, Delmas...',
+    req_phone_label:'Phone Number', req_note_label:'Additional Note', req_note_ph:'Give more details about what you need...', req_submit:'Send Request', req_sent:'✓ Request Sent!',
+    modal_wa:'Contact Owner via WhatsApp', modal_visit:'Request a Visit', modal_refer:'Refer &amp; Earn Commission',
+    foot_text:'Haiti’s real estate infrastructure — buy, sell, rent and build with confidence.', foot_eco:'A HaitiBiznis Platform', foot_contact:'Contact Us', foot_copy:'&copy; 2026 Pwofesyonèl Lakay. All rights reserved.',
+    sticky_cta:'<span class="coin">💰</span> Become a Parenaj Biznis — Earn Money',
+    nav_home:'Home', nav_search:'Search', nav_pro:'Pros', nav_account:'Account'
+  },
+  es:{
+    hero_badge:'🏠 Inmuebles y Servicios Verificados',
+    hero_head:'Encuentra Casas, Terrenos y Profesionales de <em>Confianza</em>',
+    hero_sub:'<span>Comprar</span> · <span>Vender</span> · <span>Alquilar</span> · <span>Tasar</span> · <span>Construir</span>',
+    cta_search:'Buscar Propiedades', cta_pro:'Buscar Profesionales', cta_partner:'Únete a Parenaj Biznis',
+    search_type_label:'Tipo de Propiedad', search_type_all:'Todos los tipos', search_type_kay:'🏠 Casa', search_type_te:'🏞️ Terreno', search_type_apt:'🏢 Apartamento', search_type_comm:'🏪 Comercial',
+    search_zone_label:'Zona / Comuna', search_zone_ph:'Ej: Pétion-Ville, Tabarre...',
+    search_min_label:'Presupuesto Mínimo (HTG)', search_max_label:'Presupuesto Máximo (HTG)',
+    search_verified_only:'Solo Verificados', search_btn:'Buscar',
+    props_tag:'🏘 Propiedades', props_title:'Propiedades <em>Destacadas</em>',
+    props_desc:'Las mejores opciones del mercado inmobiliario haitiano — verificadas, a buen precio, listas para ti.',
+    tag_sale:'En Venta', tag_verified:'✓ Verificado', tag_rent:'En Alquiler', prop_view:'Ver Detalles', per_month:'/mes',
+    p1_bed:'🛏 4 habitaciones', p1_park:'🚗 2 parqueos', p2_title:'📋 Título claro', p3_bed:'🛏 2 habitaciones', p3_bath:'🚿 1 baño',
+    p4_bed:'🛏 5 habitaciones', p4_pool:'🏊 Piscina', p5_bed:'🛏 3 habitaciones', p5_garden:'🌳 Jardín', p6_comm:'🏪 Comercial', p6_park:'🅿️ 4 parqueos',
+    pro_tag:'👷 Profesionales', pro_title:'Profesionales <em>Verificados</em>', pro_desc:'Ingenieros, arquitectos, abogados, tasadores — todos verificados y reales.',
+    cat_all:'Todos', cat_engineer:'Ingeniero', cat_architect:'Arquitecto', cat_lawyer:'Abogado', cat_evaluator:'Tasador', cat_agent:'Agente',
+    pro1_title:'Ingeniero Civil · 12 años de experiencia', pro2_title:'Arquitecta · Especialista en casas modernas', pro3_title:'Abogado Inmobiliario · Títulos &amp; Contratos',
+    pro4_title:'Tasadora Inmobiliaria Certificada', pro5_title:'Agente Inmobiliario · Pétion-Ville &amp; Tabarre', pro6_title:'Contratista · Construcción &amp; Renovación',
+    pro_contact:'Contactar', pro_refer:'Recomendar',
+    koutye_head:'Gana dinero con <em>Pwofesyonèl Lakay</em>',
+    koutye_desc:'Refiere clientes, propiedades o profesionales — gana comisión en cada transacción. El sistema Parenaj Biznis te paga por las conexiones que creas.',
+    koutye_cta2:'Ver las Comisiones', stat_commission:'Comisión', stat_active:'Parenaj Biznis Activos', stat_paid:'Pagado',
+    dias_title:'No estoy en Haití',
+    dias_f1_h:'Paga desde el extranjero', dias_f1_p:'Tarjeta de crédito, PayPal, Zelle — paga en dólares, recibe el servicio en Haití.',
+    dias_f2_h:'Asigna a una persona local', dias_f2_p:'Elige un agente o profesional que se encargará de todo por ti en el terreno.',
+    dias_f3_h:'Sigue la propiedad / servicio', dias_f3_p:'Recibe actualizaciones, fotos e informes sobre el trabajo o la propiedad.',
+    req_tag:'📋 Solicitud de Servicio', req_title:'¿Qué <em>Necesitas?</em>', req_desc:'Dinos qué buscas — te conectaremos con el profesional adecuado.',
+    req_type_label:'Tipo de Servicio', req_opt0:'Elegir...', req_opt_buy:'🏠 Comprar una Propiedad', req_opt_rent:'🔑 Alquilar una Propiedad', req_opt_eval:'💰 Tasar una Propiedad', req_opt_build:'🏗 Construir / Renovar', req_opt_legal:'⚖️ Asesoría Legal (Títulos, Contratos)', req_opt_sell:'📢 Vender una Propiedad',
+    req_budget_label:'Presupuesto Estimado (HTG)', req_budget_ph:'Ej: 5,000,000', req_loc_label:'Zona / Comuna', req_loc_ph:'Ej: Pétion-Ville, Delmas...',
+    req_phone_label:'Número de Teléfono', req_note_label:'Nota Adicional', req_note_ph:'Da más detalles sobre lo que necesitas...', req_submit:'Enviar Solicitud', req_sent:'✓ ¡Solicitud Enviada!',
+    modal_wa:'Contactar al Propietario por WhatsApp', modal_visit:'Solicitar una Visita', modal_refer:'Referir &amp; Ganar Comisión',
+    foot_text:'La infraestructura inmobiliaria de Haití — compra, vende, alquila y construye con confianza.', foot_eco:'Una Plataforma HaitiBiznis', foot_contact:'Contáctanos', foot_copy:'&copy; 2026 Pwofesyonèl Lakay. Todos los derechos reservados.',
+    sticky_cta:'<span class="coin">💰</span> Únete a Parenaj Biznis — Gana dinero',
+    nav_home:'Inicio', nav_search:'Buscar', nav_pro:'Pros', nav_account:'Cuenta'
+  }
+};
+var lang = localStorage.getItem('hb_lang') || 'ht';
+function t(k){ return (T[lang] && T[lang][k]) || T.en[k] || k; }
+function applyI18n(){
+  document.documentElement.lang=lang;
+  document.querySelectorAll('[data-i18n]').forEach(function(el){
+    var k=el.getAttribute('data-i18n'); if(T[lang]&&T[lang][k]!=null) el.innerHTML=T[lang][k];
+  });
+  document.querySelectorAll('[data-i18n-ph]').forEach(function(el){
+    var k=el.getAttribute('data-i18n-ph'); if(T[lang]&&T[lang][k]!=null) el.setAttribute('placeholder',T[lang][k]);
+  });
+  document.querySelectorAll('.lang-bar a').forEach(function(b){ b.classList.toggle('active',b.getAttribute('data-lang')===lang); });
+}
 document.querySelectorAll('.lang-bar a').forEach(function(a){
   a.addEventListener('click', function(){
-    document.querySelectorAll('.lang-bar a').forEach(function(l){l.classList.remove('active')});
-    a.classList.add('active');
+    lang=this.getAttribute('data-lang'); localStorage.setItem('hb_lang',lang); applyI18n();
   });
 });
+applyI18n();
 
 /* ══════════ HIDE STICKY CTA NEAR KOUTYE SECTION ══════════ */
 var koutyeObs = new IntersectionObserver(function(entries){

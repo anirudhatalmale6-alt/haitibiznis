@@ -145,7 +145,19 @@ textarea{min-height:58px;resize:vertical}.hint{font-size:12px;color:var(--muted)
 .nav button .ni{font-size:22px;line-height:1}.nav button.on{color:var(--blue)}
 .badge-dot{position:relative}
 .badge-dot[data-n]:not([data-n="0"]):after{content:attr(data-n);position:absolute;top:-3px;right:calc(50% - 22px);background:var(--red);color:#fff;font-size:10px;font-weight:800;min-width:16px;height:16px;border-radius:999px;display:flex;align-items:center;justify-content:center;padding:0 4px}
-@media print{.appbar,.nav,.back,.cta,.no-print{display:none!important}body{padding:0}}
+#installBanner{display:none;align-items:center;gap:11px;background:linear-gradient(135deg,#00209F 0%,#0a44e0 100%);color:#fff;padding:12px 14px;box-shadow:0 6px 18px rgba(0,32,159,.34);animation:ibslide .35s cubic-bezier(.2,.8,.2,1)}
+#installBanner.show{display:flex}
+@keyframes ibslide{from{transform:translateY(-100%);opacity:0}to{transform:translateY(0);opacity:1}}
+#installBanner .ib-ic{font-size:1.7rem;flex-shrink:0}
+#installBanner .ib-tx{flex:1;min-width:0;display:flex;flex-direction:column;line-height:1.28}
+#installBanner .ib-tx b{font-size:14px;font-weight:800}
+#installBanner .ib-tx span{font-size:11.5px;color:rgba(255,255,255,.9)}
+#installBanner .ib-btn{background:#fff;color:#00209F;border:none;border-radius:11px;padding:10px 16px;font-size:13px;font-weight:900;flex-shrink:0;cursor:pointer;box-shadow:0 3px 10px rgba(0,0,0,.2);animation:ibpulse 2s ease-in-out infinite}
+#installBanner .ib-btn:active{transform:scale(.95)}
+@keyframes ibpulse{0%,100%{box-shadow:0 3px 10px rgba(0,0,0,.2)}50%{box-shadow:0 0 0 6px rgba(255,255,255,.18)}}
+#installBanner .ib-x{background:transparent;border:none;color:rgba(255,255,255,.85);font-size:15px;flex-shrink:0;cursor:pointer;padding:2px 5px;line-height:1}
+@media(prefers-reduced-motion:reduce){#installBanner,#installBanner .ib-btn{animation:none}}
+@media print{.appbar,.nav,.back,.cta,.no-print,#installBanner{display:none!important}body{padding:0}}
 </style>
 </head>
 <body>
@@ -158,6 +170,15 @@ textarea{min-height:58px;resize:vertical}.hint{font-size:12px;color:var(--muted)
   <button class="gear" onclick="go('set')">⚙️</button>
 </div>
 <div id="offlineBar" style="display:none;background:#e08a00;color:#fff;text-align:center;font-size:12px;font-weight:700;padding:5px 8px" data-i18n="offline_on">Mòd offline — sere sou aparèy la</div>
+<div id="installBanner">
+  <span class="ib-ic">📲</span>
+  <div class="ib-tx">
+    <b data-i18n="ib_head">Enstale app la sou telefòn ou</b>
+    <span data-i18n="ib_sub">Pi rapid, louvri tankou yon vrè app, mache menm san entènèt</span>
+  </div>
+  <button id="installBtn2" class="ib-btn" data-i18n="ib_cta">Enstale Kounye a</button>
+  <button id="installClose" class="ib-x" aria-label="close">✕</button>
+</div>
 
 <main>
 <section id="s-home" class="screen on">
@@ -176,6 +197,12 @@ textarea{min-height:58px;resize:vertical}.hint{font-size:12px;color:var(--muted)
 <!-- Referral (Parenaj Biznis) -->
 <section id="s-ref" class="screen">
   <div id="refBody"></div>
+</section>
+
+<!-- Promo / Marketing Kit -->
+<section id="s-promo" class="screen">
+  <button class="back" onclick="go('ref')">‹ <span data-i18n="back">Retounen</span></button>
+  <div id="promoBody"></div>
 </section>
 
 <section id="s-subs" class="screen">
@@ -413,7 +440,7 @@ const T={
 };
 /* ---- added strings (install/offline, reports, notify) ---- */
 const T_EXT={
- ht:{install:'Enstale',offline_on:'Mòd offline — sere sou aparèy la',rep_open:'📈 Rapò detaye',rep_t:'Rapò',rep_csv:'⬇️ CSV',
+ ht:{install:'Enstale',ib_head:'Enstale app la sou telefòn ou',ib_sub:'Pi rapid, louvri tankou yon vrè app, mache menm san entènèt',ib_cta:'Enstale Kounye a',offline_on:'Mòd offline — sere sou aparèy la',rep_open:'📈 Rapò detaye',rep_t:'Rapò',rep_csv:'⬇️ CSV',
   rp_today:'Jodi a',rp_7:'7 jou',rp_30:'30 jou',rp_all:'Tout',rep_revenue:'Revni',rep_txn:'Tranzaksyon',rep_avg:'Mwayèn',
   rep_bysvc:'Pa sèvis',rep_bypay:'Pa metòd peman',rep_bystat:'Pa estati',rep_none:'Pa gen done pou peryòd sa a.',
   notify:'📲 Fè kliyan an konnen',notify_t:'Fè konnen kliyan',notify_wa:'WhatsApp',notify_email:'Imel',notify_no:'Pa gen telefòn/imel pou kliyan sa a.',
@@ -424,7 +451,7 @@ const T_EXT={
   sv_products:'Jesyon Pwodwi',sv_inventory:'Envantè',sv_notifs:'Notifikasyon Tan Reyèl',sv_payments:'Peman MonCash/NatCash',
   dash_orders:'Kòmand',dash_customers:'Kliyan',dash_notifs:'Notifikasyon',sv_none_cust:'Pa gen kliyan ankò.',sv_none_sales:'Pa gen vant ankò.',reopen_receipt:'Wè resi',
   pg_creating:'N ap kreye peman an…',pg_scan:'Fè kliyan an eskane kòd la ak telefòn li, oswa louvri paj peman an.',pg_open:'Louvri paj peman an',pg_waiting:'N ap tann peman an…',pg_paid:'✓ Peman resevwa!',pg_manual:'Make peye manyèlman',pg_fail:'Peman pa kreye',pg_fail_sub:'Nou pa rive jwenn sèvis peman an. Ou ka make l peye manyèlman oswa eseye ankò.',cancel:'Anile',set_pay_h:'Peman elektwonik',set_payclient:'ID Machann Peman (MonCash/NatCash)',pay_active:'MonCash & NatCash aktif',pay_active_sub:'Chwazi MonCash oswa NatCash lè w ap fè yon vant — kliyan an peye sou telefòn li epi vant lan make peye otomatikman.',pay_status_paid:'Peye',pay_status_manual:'Peye (manyèl)',pay_none:'Pa gen peman elektwonik ankò.'},
- fr:{install:'Installer',offline_on:'Mode hors-ligne — enregistré sur l’appareil',rep_open:'📈 Rapport détaillé',rep_t:'Rapports',rep_csv:'⬇️ CSV',
+ fr:{install:'Installer',ib_head:'Installez l’app sur votre téléphone',ib_sub:'Plus rapide, s’ouvre comme une vraie app, fonctionne même hors-ligne',ib_cta:'Installer maintenant',offline_on:'Mode hors-ligne — enregistré sur l’appareil',rep_open:'📈 Rapport détaillé',rep_t:'Rapports',rep_csv:'⬇️ CSV',
   rp_today:'Aujourd’hui',rp_7:'7 jours',rp_30:'30 jours',rp_all:'Tout',rep_revenue:'Revenu',rep_txn:'Transactions',rep_avg:'Moyenne',
   rep_bysvc:'Par service',rep_bypay:'Par paiement',rep_bystat:'Par statut',rep_none:'Aucune donnée pour cette période.',
   notify:'📲 Notifier le client',notify_t:'Notifier le client',notify_wa:'WhatsApp',notify_email:'Email',notify_no:'Aucun téléphone/email pour ce client.',
@@ -435,7 +462,7 @@ const T_EXT={
   sv_products:'Gestion des produits',sv_inventory:'Inventaire',sv_notifs:'Notifications en temps réel',sv_payments:'Paiement MonCash/NatCash',
   dash_orders:'Commandes',dash_customers:'Clients',dash_notifs:'Notifications',sv_none_cust:'Aucun client pour le moment.',sv_none_sales:'Aucune vente pour le moment.',reopen_receipt:'Voir le reçu',
   pg_creating:'Création du paiement…',pg_scan:'Faites scanner le code au client avec son téléphone, ou ouvrez la page de paiement.',pg_open:'Ouvrir la page de paiement',pg_waiting:'En attente du paiement…',pg_paid:'✓ Paiement reçu !',pg_manual:'Marquer payé manuellement',pg_fail:'Paiement non créé',pg_fail_sub:'Impossible de joindre le service de paiement. Vous pouvez marquer payé manuellement ou réessayer.',cancel:'Annuler',set_pay_h:'Paiement électronique',set_payclient:'ID Marchand Paiement (MonCash/NatCash)',pay_active:'MonCash & NatCash actifs',pay_active_sub:'Choisissez MonCash ou NatCash lors d’une vente — le client paie sur son téléphone et la vente est marquée payée automatiquement.',pay_status_paid:'Payé',pay_status_manual:'Payé (manuel)',pay_none:'Aucun paiement électronique pour le moment.'},
- en:{install:'Install',offline_on:'Offline mode — saved on this device',rep_open:'📈 Detailed Report',rep_t:'Reports',rep_csv:'⬇️ CSV',
+ en:{install:'Install',ib_head:'Install the app on your phone',ib_sub:'Faster, opens like a real app, works even offline',ib_cta:'Install Now',offline_on:'Offline mode — saved on this device',rep_open:'📈 Detailed Report',rep_t:'Reports',rep_csv:'⬇️ CSV',
   rp_today:'Today',rp_7:'7 days',rp_30:'30 days',rp_all:'All',rep_revenue:'Revenue',rep_txn:'Transactions',rep_avg:'Average',
   rep_bysvc:'By service',rep_bypay:'By payment',rep_bystat:'By status',rep_none:'No data for this period.',
   notify:'📲 Notify customer',notify_t:'Notify customer',notify_wa:'WhatsApp',notify_email:'Email',notify_no:'No phone/email for this customer.',
@@ -569,6 +596,33 @@ const T_HUB={
 };
 Object.keys(T_HUB).forEach(function(l){Object.assign(T[l],T_HUB[l]);});
 
+const T_PROMO={
+ ht:{promo_open:'Materyèl Pwomosyon',promo_t:'Materyèl Pwomosyon',promo_sub:'Telechaje flyer ak videyo pou pwomote sèvis yo epi fè plis komisyon.',
+  promo_link_note:'Chak fwa ou pataje, mete lyen parenaj ou an pou touche komisyon:',promo_flyers_h:'Flyer & Post Rezo Sosyal',promo_videos_h:'Videyo',
+  promo_download:'Telechaje',promo_share:'Pataje',promo_videos_empty:'Videyo pwomosyon ap vini talè. W ap ka telechaje yo la a pou pataje sou WhatsApp ak Facebook.',
+  promo_watch:'Gade',promo_msg:'Dekouvri sèvis HaitiBiznis yo! Enskri ak lyen mwen an: {link}'},
+ fr:{promo_open:'Matériel Promo',promo_t:'Matériel Promotionnel',promo_sub:'Téléchargez des flyers et vidéos pour promouvoir les services et gagner plus de commissions.',
+  promo_link_note:'À chaque partage, incluez votre lien de parrainage pour gagner des commissions :',promo_flyers_h:'Flyers & Posts Réseaux Sociaux',promo_videos_h:'Vidéos',
+  promo_download:'Télécharger',promo_share:'Partager',promo_videos_empty:'Les vidéos promotionnelles arrivent bientôt. Vous pourrez les télécharger ici pour les partager sur WhatsApp et Facebook.',
+  promo_watch:'Regarder',promo_msg:'Découvrez les services HaitiBiznis ! Inscrivez-vous avec mon lien : {link}'},
+ en:{promo_open:'Promo Materials',promo_t:'Promotional Materials',promo_sub:'Download flyers and videos to promote the services and earn more commissions.',
+  promo_link_note:'Every time you share, include your referral link to earn commissions:',promo_flyers_h:'Flyers & Social Media Posts',promo_videos_h:'Videos',
+  promo_download:'Download',promo_share:'Share',promo_videos_empty:'Promo videos are coming soon. You’ll be able to download them here to share on WhatsApp and Facebook.',
+  promo_watch:'Watch',promo_msg:'Discover the HaitiBiznis services! Sign up with my link: {link}'}
+};
+Object.keys(T_PROMO).forEach(function(l){Object.assign(T[l],T_PROMO[l]);});
+const PROMO_FLYERS=[
+ {f:'msw-whatsapp-status.png',t:'MsouWout — WhatsApp Status'},
+ {f:'msw-square.png',t:'MsouWout — Post Rezo Sosyal'},
+ {f:'msw-launch.png',t:'MsouWout — Lansman'},
+ {f:'msw-how.png',t:'MsouWout — Kijan li Mache'},
+ {f:'msw-driver.png',t:'MsouWout — Rekritman Chofè'},
+ {f:'msw-fb-cover.png',t:'MsouWout — Kouvèti Facebook'},
+ {f:'msw-vehicle-sticker.png',t:'MsouWout — Otokolan Machin'},
+ {f:'msw-qr-flyer.png',t:'MsouWout — Flyer QR'}
+];
+const PROMO_VIDEOS=[]; /* client to supply promo videos → {src,thumb,t} */
+
 let lang=localStorage.getItem('hb_lang')||'ht';
 function t(k){return (T[lang]&&T[lang][k])||T.ht[k]||k;}
 function applyI18n(){document.documentElement.lang=lang;
@@ -654,13 +708,13 @@ const REG_FORMS={
 function go(name){
   document.querySelectorAll('.screen').forEach(s=>s.classList.remove('on'));
   document.getElementById('s-'+name).classList.add('on');
-  const nm={home:'home',earn:'earn',orders:'orders',dash:'earn',reports:'earn',ref:'ref',set:'set'};
+  const nm={home:'home',earn:'earn',orders:'orders',dash:'earn',reports:'earn',ref:'ref',promo:'ref',set:'set'};
   document.querySelectorAll('.nav button').forEach(b=>b.classList.toggle('on',b.dataset.nav===nm[name]));
   if(!nm[name])document.querySelector('.nav button[data-nav="home"]').classList.add('on');
   window.scrollTo(0,0);
   const fab=document.getElementById('fabNewSale');if(fab)fab.style.display=['home','orders','earn'].includes(name)?'flex':'none';
   if(name==='home')renderHome();if(name==='orders')renderOrders();if(name==='dash')renderDash();if(name==='set')renderSettings();if(name==='reports')renderReports();
-  if(name==='earn')renderEarn();if(name==='ref')renderRef();
+  if(name==='earn')renderEarn();if(name==='ref')renderRef();if(name==='promo')renderPromo();
   refreshBadges();
 }
 function refreshBadges(){const o=load('hb_orders',[]);
@@ -724,6 +778,11 @@ function renderHome(){
      <div style="font-size:16px;font-weight:900">🤝 ${t('hub_invite_t')}</div>
      <div style="font-size:12px;opacity:.92;margin-top:4px">${t('hub_invite_s')}</div>
      <div style="display:inline-block;background:#fff;color:#0b7a44;font-weight:800;font-size:13px;padding:8px 16px;border-radius:999px;margin-top:12px">${t('hub_invite_btn')} →</div>
+   </button>
+   <button onclick="go('promo')" style="width:100%;border:0;border-radius:16px;padding:14px 16px;margin-top:10px;text-align:left;color:#fff;background:linear-gradient(135deg,var(--blue),#0a44e0);box-shadow:0 8px 20px rgba(0,32,159,.28);display:flex;align-items:center;gap:12px">
+     <span style="font-size:22px">📣</span>
+     <span style="flex:1"><span style="display:block;font-size:14px;font-weight:900">${t('promo_open')}</span><span style="display:block;font-size:11.5px;opacity:.9">${t('promo_sub')}</span></span>
+     <span style="font-size:18px">→</span>
    </button>`;
   applyI18n();
 }
@@ -767,6 +826,7 @@ function renderRef(){
       <div style="font-size:11px;opacity:.85;word-break:break-all">${link}</div></div>
     <button class="cta green" onclick="refShare()">📲 ${t('ref_invite')}</button>
     <button class="cta ghost" onclick="refCopy()">📋 ${t('ref_copy')}</button>
+    <button class="cta" style="background:var(--blue)" onclick="go('promo')">📣 ${t('promo_open')}</button>
     <div class="card" style="margin-top:14px">
       <div style="font-weight:800;margin-bottom:8px">${t('ref_yours')}</div>
       <div style="display:flex;justify-content:space-between;font-size:13px;padding:4px 0"><span>${t('earn_referred')}</span><b>${refs.length}</b></div>
@@ -777,6 +837,40 @@ function refShare(){const link=refLink();const msg=t('ref_msg').replace('{link}'
   if(navigator.share){navigator.share({title:'HaitiBiznis',text:msg,url:link}).catch(()=>{});}
   else window.open('https://wa.me/?text='+encodeURIComponent(msg),'_blank');}
 function refCopy(){const link=refLink();if(navigator.clipboard){navigator.clipboard.writeText(link).then(()=>alert(t('ref_copied'))).catch(()=>alert(link));}else alert(link);}
+function renderPromo(){
+  const link=refLink();
+  const flyers=PROMO_FLYERS.map((fl,i)=>`
+    <div class="card" style="padding:10px">
+      <img src="assets/promo/${fl.f}" alt="${fl.t}" loading="lazy" style="width:100%;border-radius:10px;background:#f2f4f8;display:block;object-fit:cover;max-height:220px">
+      <div style="font-weight:800;font-size:13px;margin:8px 2px 10px">${fl.t}</div>
+      <div style="display:flex;gap:8px">
+        <a class="cta" style="flex:1;text-decoration:none;text-align:center;padding:10px 8px;font-size:13px" href="assets/promo/${fl.f}" download="${fl.f}">⬇️ ${t('promo_download')}</a>
+        <button class="cta ghost" style="flex:1;padding:10px 8px;font-size:13px" onclick="promoShare('${fl.t.replace(/'/g,"\\'")}')">📲 ${t('promo_share')}</button>
+      </div>
+    </div>`).join('');
+  const videos = PROMO_VIDEOS.length
+    ? PROMO_VIDEOS.map(v=>`
+      <div class="card" style="padding:10px">
+        <video src="${v.src}" ${v.thumb?`poster="${v.thumb}"`:''} controls preload="metadata" style="width:100%;border-radius:10px;background:#000;max-height:240px"></video>
+        <div style="font-weight:800;font-size:13px;margin:8px 2px 10px">${v.t||''}</div>
+        <a class="cta" style="text-decoration:none;text-align:center;display:block;padding:10px 8px;font-size:13px" href="${v.src}" download>⬇️ ${t('promo_download')}</a>
+      </div>`).join('')
+    : `<div class="empty" style="padding:22px 14px;text-align:center;color:var(--muted)">🎬<div style="margin-top:8px;font-size:13px">${t('promo_videos_empty')}</div></div>`;
+  document.getElementById('promoBody').innerHTML=`
+    <div class="h2">📣 ${t('promo_t')}</div><p class="sub">${t('promo_sub')}</p>
+    <div class="card" style="background:linear-gradient(135deg,var(--blue),#0a44e0);color:#fff;border:0">
+      <div style="font-size:12px;opacity:.9;font-weight:700">${t('promo_link_note')}</div>
+      <div style="font-size:13px;font-weight:800;word-break:break-all;margin-top:6px">${link}</div>
+      <button class="cta ghost" style="background:rgba(255,255,255,.16);border-color:rgba(255,255,255,.6);color:#fff;margin-top:10px" onclick="refCopy()">📋 ${t('ref_copy')}</button>
+    </div>
+    <div class="h2" style="font-size:16px;margin:18px 0 10px">${t('promo_flyers_h')}</div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">${flyers}</div>
+    <div class="h2" style="font-size:16px;margin:20px 0 10px">${t('promo_videos_h')}</div>
+    ${videos}`;
+}
+function promoShare(name){const link=refLink();const msg=t('promo_msg').replace('{link}',link);
+  if(navigator.share){navigator.share({title:'HaitiBiznis',text:msg,url:link}).catch(()=>{});}
+  else window.open('https://wa.me/?text='+encodeURIComponent(msg),'_blank');}
 function openModule(m){
   if(!m.soon&&!licGate())return;
   if(m.type==='order'){startFlow(m.id);}
@@ -1773,9 +1867,27 @@ function exportCSV(){const os=repOrders();
    =================================================================== */
 if('serviceWorker' in navigator){window.addEventListener('load',function(){navigator.serviceWorker.register('sw.js').catch(function(){});});}
 let deferredPrompt=null;
-window.addEventListener('beforeinstallprompt',function(e){e.preventDefault();deferredPrompt=e;document.getElementById('installBtn').style.display='inline-flex';});
-document.getElementById('installBtn').onclick=function(){if(!deferredPrompt)return;deferredPrompt.prompt();deferredPrompt.userChoice.finally(function(){deferredPrompt=null;document.getElementById('installBtn').style.display='none';});};
-window.addEventListener('appinstalled',function(){document.getElementById('installBtn').style.display='none';});
+function showInstallUI(){
+  if(!deferredPrompt)return;
+  document.getElementById('installBtn').style.display='inline-flex';
+  if(localStorage.getItem('hb_install_dismissed')!=='1'){
+    document.getElementById('installBanner').classList.add('show');
+  }
+}
+function hideInstallUI(){
+  document.getElementById('installBtn').style.display='none';
+  document.getElementById('installBanner').classList.remove('show');
+}
+function doInstall(){
+  if(!deferredPrompt)return;
+  deferredPrompt.prompt();
+  deferredPrompt.userChoice.finally(function(){deferredPrompt=null;hideInstallUI();});
+}
+window.addEventListener('beforeinstallprompt',function(e){e.preventDefault();deferredPrompt=e;showInstallUI();});
+document.getElementById('installBtn').onclick=doInstall;
+document.getElementById('installBtn2').onclick=doInstall;
+document.getElementById('installClose').onclick=function(){localStorage.setItem('hb_install_dismissed','1');document.getElementById('installBanner').classList.remove('show');};
+window.addEventListener('appinstalled',function(){hideInstallUI();});
 function updateOnline(){document.getElementById('offlineBar').style.display=navigator.onLine?'none':'block';}
 window.addEventListener('online',updateOnline);window.addEventListener('offline',updateOnline);updateOnline();
 
