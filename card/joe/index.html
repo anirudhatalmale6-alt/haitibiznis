@@ -3,18 +3,18 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
-<title>Jeffery Boyard — HaitiBiznis Business Card</title>
-<meta name="description" content="Jeffery Boyard, Co-Founder & CEO — HaitiBiznis. Save my contact or share my card.">
+<title>Joe Lambert — HaitiBiznis Business Card</title>
+<meta name="description" content="Joe Lambert, Directeur de la Securite Strategique — HaitiBiznis. Save my contact or share my card.">
 <link rel="icon" type="image/png" sizes="32x32" href="../../assets/favicon-32.png">
 <link rel="apple-touch-icon" href="../../assets/apple-touch-icon.png">
 <meta property="og:type" content="profile">
-<meta property="og:title" content="Jeffery Boyard — Co-Founder & CEO · HaitiBiznis">
+<meta property="og:title" content="Joe Lambert — Directeur de la Securite Strategique · HaitiBiznis">
 <meta property="og:description" content="Save my contact or share my business card.">
-<meta property="og:url" content="https://haitibiznis.com/card/jeffery/">
-<meta property="og:image" content="https://haitibiznis.com/card/assets/card-jeffery.jpg">
-<meta property="og:image:width" content="1636"><meta property="og:image:height" content="961">
+<meta property="og:url" content="https://haitibiznis.com/card/joe/">
+<meta property="og:image" content="https://haitibiznis.com/card/assets/card-joe.jpg">
+<meta property="og:image:width" content="1536"><meta property="og:image:height" content="1024">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:image" content="https://haitibiznis.com/card/assets/card-jeffery.jpg">
+<meta name="twitter:image" content="https://haitibiznis.com/card/assets/card-joe.jpg">
 <style>
 *{box-sizing:border-box;-webkit-tap-highlight-color:transparent;margin:0;padding:0}
 :root{--navy:#00209F;--blue:#0a34c4;--red:#D21034;--gold:#F2C230;--wa:#25D366;--ink:#0f1830;--muted:#9fb0d6}
@@ -45,22 +45,22 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Ar
 <body>
 <div class="wrap">
   <div class="brandline">HaitiBiznis · Digital Business Card</div>
-  <a href="../assets/card-jeffery.jpg" target="_blank" rel="noopener" aria-label="Open full card">
-    <img class="cardimg" src="../assets/card-jeffery.jpg" alt="Jeffery Boyard — Co-Founder & CEO, HaitiBiznis business card">
+  <a href="../assets/card-joe.jpg" target="_blank" rel="noopener" aria-label="Open full card">
+    <img class="cardimg" src="../assets/card-joe.jpg" alt="Joe Lambert — Directeur de la Securite Strategique, HaitiBiznis business card">
   </a>
   <div class="hint">Tap the card to enlarge · scan the QR to connect</div>
   <div class="acts">
-    <a class="btn b-save" href="jeffery.vcf" id="saveBtn">💾 Save My Contact</a>
+    <a class="btn b-save" href="joe.vcf" id="saveBtn">💾 Save My Contact</a>
     <button class="btn b-share" id="shareBtn">📲 Share My Card</button>
-    <a class="btn b-img" href="../assets/card-jeffery.jpg" download="HaitiBiznis-jeffery.jpg">⬇️ Save Card Image</a>
+    <a class="btn b-img" href="../assets/card-joe.jpg" download="HaitiBiznis-joe.jpg">⬇️ Save Card Image</a>
     <a class="btn b-pos" href="../../pos/">🛍️ Open the HaitiBiznis POS</a>
   </div>
   <div class="foot"><a href="https://haitibiznis.com" target="_blank" rel="noopener">www.HaitiBiznis.com</a></div>
 </div>
 <div class="toast" id="toast"></div>
 <script>
-var VCARD='BEGIN:VCARD\r\nVERSION:3.0\r\nN:Boyard;Jeffery;;;\r\nFN:Jeffery Boyard\r\nORG:HaitiBiznis\r\nTITLE:Co-Founder & CEO\r\nTEL;TYPE=CELL,VOICE:+13476366742\r\nEMAIL;TYPE=INTERNET:Jeffery@HaitiBiznis.com\r\nURL:https://haitibiznis.com\r\nADR;TYPE=WORK:;;#123 Ave Martin Luther King;;;;Haiti\r\nNOTE:HaitiBiznis - Building Haiti\'s Digital Bridge to the World. WhatsApp +1 (347) 636-6742\r\nEND:VCARD\r\n';
-var CARDURL='https://haitibiznis.com/card/jeffery/';
+var VCARD='BEGIN:VCARD\r\nVERSION:3.0\r\nN:Lambert;Joe;;;\r\nFN:Joe Lambert\r\nORG:HaitiBiznis\r\nTITLE:Directeur de la Securite Strategique\r\nTEL;TYPE=CELL,VOICE:+50949149494\r\nURL:https://haitibiznis.com\r\nADR;TYPE=WORK:;;#123 Ave Martin Luther King;;;;Haiti\r\nNOTE:HaitiBiznis - Building Haiti\'s Digital Bridge to the World. WhatsApp +509 4914 9494\r\nEND:VCARD\r\n';
+var CARDURL='https://haitibiznis.com/card/joe/';
 function toast(m){var t=document.getElementById('toast');t.textContent=m;t.classList.add('on');setTimeout(function(){t.classList.remove('on');},2200);}
 document.getElementById('saveBtn').addEventListener('click',function(e){
   try{
@@ -68,13 +68,13 @@ document.getElementById('saveBtn').addEventListener('click',function(e){
     if(!isiOS){
       e.preventDefault();
       var blob=new Blob([VCARD],{type:'text/vcard'});var url=URL.createObjectURL(blob);
-      var a=document.createElement('a');a.href=url;a.download='jeffery.vcf';document.body.appendChild(a);a.click();a.remove();
+      var a=document.createElement('a');a.href=url;a.download='joe.vcf';document.body.appendChild(a);a.click();a.remove();
       toast('Contact saved to downloads');setTimeout(function(){URL.revokeObjectURL(url);},4000);
     }
   }catch(err){}
 });
 document.getElementById('shareBtn').addEventListener('click',function(){
-  var data={title:'Jeffery Boyard — HaitiBiznis',text:'Jeffery Boyard, Co-Founder & CEO at HaitiBiznis. Here is my card:',url:CARDURL};
+  var data={title:'Joe Lambert — HaitiBiznis',text:'Joe Lambert, Directeur de la Securite Strategique at HaitiBiznis. Here is my card:',url:CARDURL};
   if(navigator.share){navigator.share(data).catch(function(){});}
   else if(navigator.clipboard){navigator.clipboard.writeText(CARDURL).then(function(){toast('Card link copied!');});}
   else{window.open('https://wa.me/?text='+encodeURIComponent(data.text+' '+CARDURL),'_blank');}
