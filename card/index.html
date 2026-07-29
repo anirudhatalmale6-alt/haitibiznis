@@ -3,101 +3,55 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
-<title>HaitiBiznis — Contact Cards</title>
-<meta name="description" content="HaitiBiznis team contact cards — tap a name to save the contact, WhatsApp, call or email.">
+<title>HaitiBiznis — Business Cards</title>
+<meta name="description" content="HaitiBiznis team digital business cards — tap a card to save the contact or share.">
 <link rel="icon" type="image/png" sizes="32x32" href="../assets/favicon-32.png">
-<meta property="og:title" content="HaitiBiznis — Team Contacts">
-<meta property="og:description" content="Tap a name to save the contact.">
+<meta property="og:title" content="HaitiBiznis — Business Cards">
+<meta property="og:description" content="Tap a card to save the contact or share.">
 <meta property="og:url" content="https://haitibiznis.com/card/">
-<meta property="og:image" content="https://haitibiznis.com/pos/assets/og-share.png">
+<meta property="og:image" content="https://haitibiznis.com/card/assets/card-jeffery.jpg">
 <style>
 *{box-sizing:border-box;-webkit-tap-highlight-color:transparent;margin:0;padding:0}
-:root{--navy:#00209F;--navy2:#001566;--blue:#0a34c4;--red:#D21034;--red2:#B00D2C;--gold:#F2C230;--wa:#25D366;--wa2:#128C7E;--ink:#0f1830;--muted:#5b6b8c;--line:#e6e9f2}
+:root{--navy:#00209F;--blue:#0a34c4;--red:#D21034;--gold:#F2C230;--wa:#25D366;--ink:#0f1830;--muted:#9fb0d6}
 html,body{height:100%}
-body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;color:var(--ink);
-  background:radial-gradient(1200px 600px at 50% -10%,#0a34c4 0%,#00209F 42%,#001248 100%);
-  min-height:100%;display:flex;justify-content:center;padding:22px 14px 34px}
-.card{width:100%;max-width:430px;background:#fff;border-radius:30px;overflow:hidden;
-  box-shadow:0 30px 70px rgba(0,10,50,.5);position:relative}
-.top{padding:26px 22px 18px;text-align:center;background:
-  radial-gradient(120% 90% at 50% 0,#f4f7ff 0,#ffffff 60%)}
-.top .logo{height:60px;width:auto;margin:0 auto 4px;display:block}
-.top .tag{font-size:11.5px;font-weight:700;color:var(--navy);letter-spacing:.2px;font-style:italic;opacity:.85}
-.pillrow{display:flex;align-items:center;justify-content:center;gap:9px;margin-top:11px;font-size:12px;font-weight:800;letter-spacing:.4px}
-.pillrow b{color:var(--navy)} .pillrow .g{color:#0a8a44} .pillrow .r{color:var(--red)}
-.pillrow .dot{width:5px;height:5px;border-radius:50%;background:var(--gold)}
-.rule{height:4px;background:linear-gradient(90deg,var(--navy) 0 45%,var(--gold) 45% 55%,var(--red) 55% 100%)}
-.who{padding:22px 22px 6px;text-align:center}
-.avatar{width:92px;height:92px;border-radius:50%;margin:0 auto 12px;display:flex;align-items:center;justify-content:center;
-  font-size:34px;font-weight:800;color:#fff;letter-spacing:1px;
-  background:linear-gradient(140deg,var(--navy),var(--blue));
-  box-shadow:0 10px 26px rgba(0,32,159,.4),0 0 0 4px #fff,0 0 0 7px var(--gold)}
-.who h1{font-size:27px;line-height:1.05;color:var(--navy);letter-spacing:-.3px}
-.who .role{margin-top:5px;font-size:14px;font-weight:800;color:var(--red);text-transform:uppercase;letter-spacing:.6px}
-.org{margin-top:8px;font-size:12.5px;color:var(--muted);font-weight:600}
-.actions{padding:18px 20px 6px;display:flex;flex-direction:column;gap:11px}
-.btn{display:flex;align-items:center;gap:13px;width:100%;border:0;border-radius:15px;padding:15px 17px;
-  font-size:15.5px;font-weight:800;text-decoration:none;color:#fff;cursor:pointer;transition:transform .12s,box-shadow .12s}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;color:#fff;
+  background:radial-gradient(1100px 560px at 50% -8%,#0a34c4 0%,#00209F 44%,#000f3c 100%);
+  min-height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:26px 16px 34px}
+.wrap{width:100%;max-width:470px;text-align:center}
+.brandline{font-size:12px;font-weight:800;letter-spacing:1.5px;color:#cdd8f5;margin-bottom:14px;text-transform:uppercase}
+.cardimg{display:block;width:100%;border-radius:18px;box-shadow:0 24px 60px rgba(0,6,40,.6);border:3px solid rgba(255,255,255,.9)}
+.hint{font-size:11.5px;color:var(--muted);margin-top:9px;font-weight:600}
+.acts{margin-top:20px;display:flex;flex-direction:column;gap:11px}
+.btn{display:flex;align-items:center;justify-content:center;gap:10px;width:100%;border:0;border-radius:15px;padding:16px 17px;
+  font-size:16px;font-weight:800;text-decoration:none;color:#fff;cursor:pointer;transition:transform .12s}
 .btn:active{transform:scale(.98)}
-.btn .ic{width:30px;height:30px;border-radius:9px;background:rgba(255,255,255,.2);display:flex;align-items:center;justify-content:center;font-size:16px;flex:0 0 auto}
-.btn .tx{flex:1;min-width:0}
-.btn .tx small{display:block;font-size:11.5px;font-weight:600;opacity:.85;margin-top:1px}
-.btn .arw{opacity:.85;font-size:18px}
 .b-save{background:linear-gradient(135deg,var(--gold),#e0a91a);color:#3a2a00}
-.b-save .ic{background:rgba(0,0,0,.12)}
-.b-wa{background:linear-gradient(135deg,var(--wa),var(--wa2))}
-.b-call{background:linear-gradient(135deg,var(--navy),var(--blue))}
-.b-mail{background:linear-gradient(135deg,var(--red),var(--red2))}
-.b-web{background:#fff;color:var(--navy);border:1.6px solid var(--line)}
-.b-web .ic{background:#eef2ff}
-.qrwrap{margin:16px 20px 4px;padding:18px;border:1.6px solid var(--line);border-radius:18px;text-align:center;background:#fafbff}
-.qrwrap .h{font-size:13px;font-weight:800;color:var(--navy)}
-.qrwrap .s{font-size:11px;color:var(--muted);font-weight:600;margin-top:2px}
-.qrwrap img{width:180px;height:180px;margin:12px auto 0;display:block;border-radius:10px}
-.share{margin:16px 20px 8px}
-.b-share{background:linear-gradient(135deg,#101a3a,#22315f);justify-content:center;text-align:center}
-.eco{margin:8px 20px 4px;display:flex;flex-wrap:wrap;gap:7px;justify-content:center}
-.chip{font-size:10.5px;font-weight:800;color:var(--navy);background:#eef2ff;border:1px solid #dfe6ff;border-radius:999px;padding:5px 11px}
-.foot{padding:16px 20px 22px;text-align:center}
-.foot a{color:var(--navy);font-weight:800;font-size:14px;text-decoration:none}
-.foot .cw{margin-top:6px;font-size:10.5px;color:var(--muted);font-weight:600}
-.toast{position:fixed;left:50%;bottom:26px;transform:translateX(-50%) translateY(30px);background:#101a3a;color:#fff;
-  padding:11px 18px;border-radius:12px;font-size:13px;font-weight:700;opacity:0;transition:.3s;pointer-events:none;z-index:50;box-shadow:0 10px 30px rgba(0,0,0,.4)}
+.b-share{background:linear-gradient(135deg,var(--wa),#128C7E)}
+.b-img{background:rgba(255,255,255,.12);border:1.5px solid rgba(255,255,255,.35);color:#fff;backdrop-filter:blur(4px)}
+.b-more{background:transparent;border:1.5px solid rgba(255,255,255,.3);color:#dfe7ff;font-weight:700;font-size:14px;padding:12px}
+.foot{margin-top:20px;font-size:12.5px;color:#cdd8f5;font-weight:700}
+.foot a{color:#fff;text-decoration:none}
+.toast{position:fixed;left:50%;bottom:26px;transform:translateX(-50%) translateY(30px);background:#0b1636;color:#fff;
+  padding:12px 18px;border-radius:12px;font-size:13px;font-weight:700;opacity:0;transition:.3s;pointer-events:none;box-shadow:0 12px 34px rgba(0,0,0,.5)}
 .toast.on{opacity:1;transform:translateX(-50%) translateY(0)}
 
-.mlist{padding:8px 20px 6px;display:flex;flex-direction:column;gap:11px}
-.member{display:flex;align-items:center;gap:13px;border:1.6px solid var(--line);border-radius:16px;padding:13px 15px;text-decoration:none;color:var(--ink);background:#fff;transition:transform .12s,box-shadow .12s}
-.member:active{transform:scale(.98)}
-.mav{width:50px;height:50px;border-radius:14px;display:flex;align-items:center;justify-content:center;color:#fff;font-weight:800;font-size:18px;flex:0 0 auto;box-shadow:0 0 0 3px #fff,0 0 0 5px var(--gold)}
-.mtx{flex:1;min-width:0} .mtx b{display:block;font-size:16px;color:var(--navy)} .mtx small{display:block;font-size:12px;color:var(--red);font-weight:800;text-transform:uppercase;letter-spacing:.4px;margin-top:2px}
-.marw{color:var(--navy);font-weight:800;font-size:18px}
+.tcard{display:block;text-decoration:none;color:#fff;margin-bottom:20px}
+.tname{display:block;margin-top:9px;font-size:16px;font-weight:800;color:#fff}
+.tname small{display:block;font-size:12px;font-weight:700;color:var(--gold);text-transform:uppercase;letter-spacing:.5px;margin-top:2px}
+.hd{font-size:24px;font-weight:900;margin-bottom:4px}
+.hs{font-size:13px;color:#cdd8f5;font-weight:600;margin-bottom:20px}
 </style>
 </head>
 <body>
-<div class="card">
-  <div class="top">
-    <img class="logo" src="assets/hb-logo.png" alt="HaitiBiznis">
-    <div class="tag">Building Haiti's Digital Bridge to the World</div>
-    <div class="pillrow"><b>KONEKTE</b><span class="dot"></span><span class="g">FÈ LAJAN</span><span class="dot"></span><b>DEVLOPE</b></div>
-  </div>
-  <div class="rule"></div>
-  <div class="who" style="padding-bottom:2px">
-    <h1 style="font-size:22px">Our Team</h1>
-    <div class="org" style="margin-top:6px">Tap a name to save the contact</div>
-  </div>
-  <div class="mlist">
-    <a class="member" href="jeffery/"><span class="mav" style="background:linear-gradient(140deg,var(--navy),#0a34c4)">JB</span><span class="mtx"><b>Jeffery Boyard</b><small>Co-Founder & CEO</small></span><span class="marw">→</span></a>
-<a class="member" href="gilbert/"><span class="mav" style="background:linear-gradient(140deg,#0a8a44,#0a34c4)">GH</span><span class="mtx"><b>Gilbert Hippolyte</b><small>Chief Connector Officer</small></span><span class="marw">→</span></a>
-<a class="member" href="emile/"><span class="mav" style="background:linear-gradient(140deg,var(--red),#0a34c4)">DE</span><span class="mtx"><b>Dukens Emile</b><small>Directeur Commercial</small></span><span class="marw">→</span></a>
+<div class="wrap">
+  <div class="brandline">HaitiBiznis</div>
+  <div class="hd">Our Business Cards</div>
+  <div class="hs">Tap a card to save the contact or share it</div>
+  <a class="tcard" href="jeffery/"><img class="cardimg" src="assets/card-jeffery.jpg" alt="Jeffery Boyard — Co-Founder & CEO"><span class="tname">Jeffery Boyard <small>Co-Founder & CEO</small></span></a>
+<a class="tcard" href="gilbert/"><img class="cardimg" src="assets/card-gilbert.jpg" alt="Gilbert Hippolyte — Chief Connector Officer"><span class="tname">Gilbert Hippolyte <small>Chief Connector Officer</small></span></a>
+<a class="tcard" href="emile/"><img class="cardimg" src="assets/card-emile.jpg" alt="Dukens Emile — Directeur Commercial"><span class="tname">Dukens Emile <small>Directeur Commercial</small></span></a>
 
-  </div>
-  <div class="eco" style="margin-top:14px">
-    <span class="chip">💳 POS & Sèvis</span><span class="chip">🚕 MsouWout</span><span class="chip">🛒 MyPlopPlop</span><span class="chip">🏢 48HoursReady</span>
-  </div>
-  <div class="foot">
-    <a href="https://haitibiznis.com" target="_blank" rel="noopener">www.HaitiBiznis.com</a>
-    <div class="cw">© 2026 HaitiBiznis — Konekte • Fè Lajan • Devlope</div>
-  </div>
+  <div class="foot"><a href="https://haitibiznis.com" target="_blank" rel="noopener">www.HaitiBiznis.com</a></div>
 </div>
 </body>
 </html>

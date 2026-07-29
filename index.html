@@ -321,8 +321,8 @@ img{max-width:100%;display:block}
       </a>
     </div>
 
-    <!-- POS PILLAR CARD -->
-    <button class="poscard" id="posCard" type="button">
+    <!-- POS PILLAR CARD (real link so it always works; JS enhances it to open the services menu) -->
+    <a class="poscard" id="posCard" href="pos/">
       <span class="ico"><img src="assets/pos-logo.png" alt="HaitiBiznis POS Center"></span>
       <div class="body">
         <span class="pctag" data-i18n="pos_tag">B2B • Revenue Engine</span>
@@ -331,7 +331,7 @@ img{max-width:100%;display:block}
         <p class="pcsub" data-i18n="pos_tagline">Download the POS • 30 Days FREE • Grow Your Revenue</p>
         <span class="go" data-i18n="get_started">Get Started →</span>
       </div>
-    </button>
+    </a>
 
     <!-- FEATURED -->
     <div class="section reveal">
@@ -613,7 +613,7 @@ function renderHeroSub(){
   var items=[['💰','sub1'],['🏢','sub2'],['🛒','sub3'],['🚕','sub4'],['💳','sub5']];
   document.getElementById('heroSub').innerHTML = items.map(function(it,i){
     var sep=(i>0?'<span class="d">•</span>':'');
-    if(it[1]==='sub5'){ return sep+'<button type="button" class="hsub-pos" onclick="openPos()">'+it[0]+' '+t(it[1])+' <span class="hsub-caret">▾</span></button>'; }
+    if(it[1]==='sub5'){ return sep+'<a href="pos/" class="hsub-pos" onclick="openPos();return false;">'+it[0]+' '+t(it[1])+' <span class="hsub-caret">▾</span></a>'; }
     return sep+'<span>'+it[0]+' '+t(it[1])+'</span>';
   }).join('');
 }
@@ -709,7 +709,7 @@ document.addEventListener('click',function(e){ if(!fab.contains(e.target)) fab.c
 var posSheet=document.getElementById('posSheet');
 function openPos(){ posSheet.classList.add('open'); document.body.style.overflow='hidden'; if(location.hash!=='#pos') history.replaceState(null,'','#pos'); }
 function closePos(){ posSheet.classList.remove('open'); document.body.style.overflow=''; if(location.hash==='#pos') history.replaceState(null,'',location.pathname+location.search); }
-document.getElementById('posCard').addEventListener('click',openPos);
+document.getElementById('posCard').addEventListener('click',function(e){ e.preventDefault(); openPos(); });
 document.getElementById('posX').addEventListener('click',closePos);
 posSheet.addEventListener('click',function(e){ if(e.target===posSheet) closePos(); });
 document.addEventListener('keydown',function(e){ if(e.key==='Escape'&&posSheet.classList.contains('open')) closePos(); });
@@ -725,15 +725,9 @@ setTimeout(function(){ document.querySelectorAll('.reveal').forEach(function(el)
 
 renderAll();
 
-/* Service worker: register + self-heal. If an old cached version was controlling
-   this device (which could show a stale, non-clickable page), take over and refresh once. */
-if('serviceWorker' in navigator){
-  navigator.serviceWorker.register('sw.js').catch(function(){});
-  var _swReloaded=false;
-  navigator.serviceWorker.addEventListener('controllerchange',function(){
-    if(_swReloaded) return; _swReloaded=true; location.reload();
-  });
-}
+/* No service worker is registered anymore. Any old worker still on a device will
+   fetch the self-destructing sw.js, purge its caches and unregister itself, so the
+   homepage is always loaded fresh from the network (no more stale, non-clickable page). */
 </script>
 </body>
 </html>

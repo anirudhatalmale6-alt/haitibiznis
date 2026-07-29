@@ -1245,7 +1245,7 @@ document.querySelectorAll('.lang-bar a').forEach(a=>{
 const savedLang=localStorage.getItem('hb_lang');
 setLang(savedLang||'ht');
 
-if('serviceWorker' in navigator){navigator.serviceWorker.register('sw.js').catch(()=>{})}
+/* Service worker registration removed — it caused stale cached pages. sw.js now self-destructs. */
 if(window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone){
   document.addEventListener('click',function(e){
     var a=e.target.closest('a[href]');
