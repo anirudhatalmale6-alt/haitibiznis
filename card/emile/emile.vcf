@@ -1,0 +1,12 @@
+BEGIN:VCARD
+VERSION:3.0
+N:Emile;Dukens;;;
+FN:Dukens Emile
+ORG:HaitiBiznis
+TITLE:Directeur Commercial
+TEL;TYPE=CELL,VOICE:+50931798023
+EMAIL;TYPE=INTERNET:Emile@HaitiBiznis.com
+URL:https://haitibiznis.com
+ADR;TYPE=WORK:;;#123 Ave Martin Luther King;;;;Haiti
+NOTE:HaitiBiznis - Building Haiti's Digital Bridge to the World. WhatsApp +509 3179 8023
+END:VCARD

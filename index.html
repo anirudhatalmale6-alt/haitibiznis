@@ -724,6 +724,16 @@ var io=new IntersectionObserver(function(es){ es.forEach(function(en){
 setTimeout(function(){ document.querySelectorAll('.reveal').forEach(function(el){ io.observe(el); }); },60);
 
 renderAll();
+
+/* Service worker: register + self-heal. If an old cached version was controlling
+   this device (which could show a stale, non-clickable page), take over and refresh once. */
+if('serviceWorker' in navigator){
+  navigator.serviceWorker.register('sw.js').catch(function(){});
+  var _swReloaded=false;
+  navigator.serviceWorker.addEventListener('controllerchange',function(){
+    if(_swReloaded) return; _swReloaded=true; location.reload();
+  });
+}
 </script>
 </body>
 </html>
