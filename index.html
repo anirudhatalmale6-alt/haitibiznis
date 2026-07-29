@@ -178,6 +178,50 @@ img{max-width:100%;display:block}
   box-shadow:0 10px 26px rgba(0,32,159,.42);font-size:1.5rem;display:flex;align-items:center;justify-content:center;transition:transform .25s}
 .fab-wrap.open .fab-main{transform:rotate(45deg)}
 
+/* ============ POS PILLAR CARD ============ */
+.poscard{position:relative;display:flex;align-items:center;gap:16px;width:100%;text-align:left;
+  border:2px solid var(--gold-light);cursor:pointer;border-radius:var(--r-lg);padding:20px;margin-top:14px;color:#fff;
+  background:linear-gradient(135deg,#001566 0%,#00209F 58%,#0A2AA8 100%);
+  box-shadow:0 16px 42px rgba(0,21,102,.34);overflow:hidden;isolation:isolate;font-family:var(--body)}
+.poscard::after{content:'';position:absolute;inset:0;z-index:-1;opacity:.7;
+  background:radial-gradient(circle at 92% 4%,rgba(240,195,60,.32),transparent 46%)}
+.poscard:hover{transform:translateY(-4px);box-shadow:0 22px 55px rgba(0,21,102,.42)}
+.poscard .ico{flex:0 0 auto;width:72px;height:72px;border-radius:18px;display:flex;align-items:center;justify-content:center;
+  overflow:hidden;padding:6px;background:#fff;border:1px solid rgba(255,255,255,.5);box-shadow:0 4px 12px rgba(0,0,0,.22)}
+.poscard .ico img{width:100%;height:100%;object-fit:contain;border-radius:10px}
+.poscard .body{flex:1;min-width:0}
+.poscard .pctag{display:inline-flex;align-items:center;gap:5px;background:var(--grad-gold);color:#3a2a00;
+  font-weight:800;font-size:.62rem;text-transform:uppercase;letter-spacing:.08em;padding:4px 10px;border-radius:999px;margin-bottom:8px}
+.poscard h3{font-family:var(--display);font-size:1.5rem;margin:0 0 2px;line-height:1.05}
+.poscard .pcline{font-size:.9rem;opacity:.96;font-weight:700;line-height:1.3}
+.poscard .pcsub{font-size:.78rem;opacity:.86;font-weight:600;margin:4px 0 12px;line-height:1.4}
+.poscard .go{display:inline-flex;align-items:center;gap:7px;font-weight:800;font-size:1rem;color:var(--blue);
+  background:#fff;padding:11px 22px;border-radius:999px;box-shadow:0 4px 14px rgba(0,0,0,.2)}
+@media(min-width:720px){.poscard{padding:26px}.poscard h3{font-size:1.7rem}}
+
+/* ============ SERVICES SHEET ============ */
+.sheet-back{position:fixed;inset:0;z-index:200;background:rgba(12,19,48,.55);backdrop-filter:blur(3px);
+  display:none;align-items:flex-end;justify-content:center}
+.sheet-back.open{display:flex}
+.sheet{background:#fff;width:100%;max-width:560px;border-radius:26px 26px 0 0;
+  padding:20px 18px calc(22px + env(safe-area-inset-bottom));box-shadow:0 -20px 60px rgba(0,0,0,.3);
+  animation:sheetup .32s cubic-bezier(.2,.8,.2,1);max-height:90vh;overflow-y:auto}
+@keyframes sheetup{from{transform:translateY(100%)}to{transform:none}}
+@media(min-width:560px){.sheet-back{align-items:center}.sheet{border-radius:26px}}
+.sheet-grip{width:42px;height:5px;border-radius:999px;background:var(--line);margin:0 auto 12px}
+.sheet-head{display:flex;align-items:center;justify-content:space-between;gap:10px}
+.sheet-head b{font-family:var(--display);font-size:1.3rem;color:var(--ink)}
+.sheet-x{border:0;background:var(--off);width:34px;height:34px;border-radius:50%;font-size:1.05rem;color:var(--muted);cursor:pointer;flex:0 0 auto}
+.sheet-sub{font-size:.84rem;color:var(--muted);font-weight:600;margin:3px 0 15px}
+.sheet-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.sheet-grid a{display:flex;align-items:center;gap:9px;background:var(--off);border:1.5px solid var(--line);
+  border-radius:14px;padding:13px 12px;font-weight:700;font-size:.82rem;color:var(--ink);transition:.15s;line-height:1.25}
+.sheet-grid a:hover{border-color:var(--blue);background:#fff;transform:translateY(-2px);box-shadow:var(--sh-sm)}
+.sheet-grid a .si{font-size:1.15rem;flex:0 0 auto}
+.sheet-cta{display:block;text-align:center;margin-top:14px;background:var(--grad-gold);color:#3a2a00;font-weight:800;
+  padding:15px;border-radius:14px;font-size:.94rem;box-shadow:0 8px 22px rgba(212,160,23,.35)}
+.sheet-free{text-align:center;font-size:.74rem;color:var(--muted);font-weight:700;margin-top:10px}
+
 /* ============ FOOTER ============ */
 .footer{background:var(--ink);color:#fff;padding:32px 0 26px;margin-top:10px}
 .footer-top{display:flex;flex-wrap:wrap;gap:26px;justify-content:space-between}
@@ -273,6 +317,18 @@ img{max-width:100%;display:block}
       </a>
     </div>
 
+    <!-- POS PILLAR CARD -->
+    <button class="poscard" id="posCard" type="button">
+      <span class="ico"><img src="assets/haitibiznis-icon.png" alt="HaitiBiznis Center"></span>
+      <div class="body">
+        <span class="pctag" data-i18n="pos_tag">B2B • Revenue Engine</span>
+        <h3 data-i18n="pos_title">HaitiBiznis Center</h3>
+        <p class="pcline" data-i18n="pos_sub">POS &amp; 30+ Digital Services</p>
+        <p class="pcsub" data-i18n="pos_tagline">Download the POS • 30 Days FREE • Grow Your Revenue</p>
+        <span class="go" data-i18n="get_started">Get Started →</span>
+      </div>
+    </button>
+
     <!-- FEATURED -->
     <div class="section reveal">
       <div class="featured" id="featured"></div>
@@ -339,6 +395,31 @@ img{max-width:100%;display:block}
   <a href="koutye-dashboard.html" data-nav="profile"><span class="bi">👤</span><span data-i18n="nav_profile">Profile</span></a>
 </nav>
 
+<!-- POS SERVICES SHEET -->
+<div class="sheet-back" id="posSheet">
+  <div class="sheet">
+    <div class="sheet-grip"></div>
+    <div class="sheet-head">
+      <b>🏢 <span data-i18n="pos_title">HaitiBiznis Center</span></b>
+      <button class="sheet-x" id="posX" aria-label="close" type="button">&times;</button>
+    </div>
+    <p class="sheet-sub" data-i18n="pos_sheet_sub">POS &amp; 30+ Digital Services — Download the POS, 30 Days FREE</p>
+    <div class="sheet-grid">
+      <a href="pos/"><span class="si">📱</span><span data-i18n="pos_i1">Download the POS</span></a>
+      <a href="pos/"><span class="si">🆓</span><span data-i18n="pos_i2">30 days free</span></a>
+      <a href="pos/"><span class="si">💼</span><span data-i18n="pos_i3">Sell 30+ digital services</span></a>
+      <a href="utility-hub.html"><span class="si">⚡</span><span data-i18n="pos_i4">Pay bills</span></a>
+      <a href="pos/"><span class="si">🚗</span><span data-i18n="pos_i5">License renewal</span></a>
+      <a href="https://48hoursready.com" target="_blank" rel="noopener"><span class="si">🏢</span><span data-i18n="pos_i6">Register a business</span></a>
+      <a href="pos/"><span class="si">🛡️</span><span data-i18n="pos_i7">Insurance</span></a>
+      <a href="pos/"><span class="si">💳</span><span>MonCash / NatCash</span></a>
+      <a href="https://48hoursready.com" target="_blank" rel="noopener"><span class="si">🌐</span><span data-i18n="pos_i9">Website &amp; 48HoursReady</span></a>
+    </div>
+    <a class="sheet-cta" href="pos/" data-i18n="pos_sheet_cta">Download the POS — 30 Days FREE →</a>
+    <p class="sheet-free" data-i18n="pos_sheet_free">No card required • Cancel anytime</p>
+  </div>
+</div>
+
 <!-- FAB -->
 <div class="fab-wrap" id="fab">
   <div class="fab-menu">
@@ -360,7 +441,7 @@ var CATS = [
   {id:'ride', ico:'🚕', tint:'tint-ride', title:{ht:'Transpò',fr:'Transport',en:'Transportation',es:'Transporte'}},
   {id:'shop', ico:'🛒', tint:'tint-shop', title:{ht:'Komès',fr:'Commerce',en:'Commerce',es:'Comercio'}},
   {id:'life', ico:'🎟️', tint:'tint-life', title:{ht:'Lwazi',fr:'Loisirs',en:'Lifestyle',es:'Estilo de vida'}},
-  {id:'pay',  ico:'⚡', tint:'tint-pay', title:{ht:'Peye Bòdwo',fr:'Payer les factures',en:'Pay Bills',es:'Pagar facturas'}},
+  {id:'pos',  ico:'💳', tint:'tint-pay', title:{ht:'POS & Sèvis',fr:'POS & Services',en:'POS & Services',es:'POS y Servicios'}},
   {id:'comm', ico:'❤️', tint:'tint-comm', title:{ht:'Kominote',fr:'Communauté',en:'Community',es:'Comunidad'}}
 ];
 var PLATFORMS = [
@@ -382,7 +463,9 @@ var PLATFORMS = [
     tag:{ht:'Kreye evènman epi vann tikè.',fr:'Créez des événements et vendez des billets.',en:'Create events and sell tickets.',es:'Crea eventos y vende boletos.'}},
   {cat:'life', ico:'✈️', name:'TouPaTou', url:'reservations.html',
     tag:{ht:'Rezève otèl, vwayaj ak eksperyans.',fr:'Réservez hôtels, voyages et expériences.',en:'Book hotels, travel and experiences.',es:'Reserva hoteles, viajes y experiencias.'}},
-  {cat:'pay', ico:'⚡', name:'Utility Payment Hub', url:'utility-hub.html',
+  {cat:'pos', ico:'🏢', name:'Sant HaitiBiznis', url:'pos/',
+    tag:{ht:'POS ak 30+ sèvis dijital — 30 jou gratis pou ogmante revni ou.',fr:'POS et 30+ services numériques — 30 jours gratuits.',en:'POS and 30+ digital services — 30 days free to grow your revenue.',es:'POS y 30+ servicios digitales — 30 días gratis.'}},
+  {cat:'pos', ico:'⚡', name:'Utility Payment Hub', url:'utility-hub.html',
     tag:{ht:'Peye EDH epi rechaje, tout nan yon sèl kote.',fr:'Payez l’EDH et rechargez, tout au même endroit.',en:'Pay EDH and top up, all in one place.',es:'Paga EDH y recarga, todo en un lugar.'}},
   {cat:'comm', ico:'⛪', name:'Shalom', url:'https://anirudhatalmale6-alt.github.io/shalom-site/', ext:1,
     tag:{ht:'Lafwa, evènman ak kominote.',fr:'Foi, événements et communauté.',en:'Faith, events and community.',es:'Fe, eventos y comunidad.'}}
@@ -398,6 +481,7 @@ var KW = {
   'Billionorth':'wholesale import supplier gwo enpotasyon grossiste mayoreo importacion',
   'Tikè Lakay':'ticket event concert party tikè evenman billet boleto entrada evento',
   'TouPaTou':'travel hotel trip tourism reservation vwayaj otel voyage hotel viaje reserva',
+  'Sant HaitiBiznis':'pos point of sale sant center services digital sevis dijital business register license insurance moncash natcash lisans asirans 30 days free 30 jou gratis pos & servis',
   'Utility Payment Hub':'bill pay electricity edh topup recharge bodwo fakti facture factura peye pay bills',
   'Shalom':'church faith community religion legliz kominote eglise iglesia comunidad'
 };
@@ -413,12 +497,18 @@ var T = {
     search_ph:'Kisa w ap chèche jodi a?',
     hero_h1:'Super App Dijital <em>Ayiti a</em>',
     hero_desc:'<b>Yon sèl kont.</b> Nèf platfòm pwisan. Opòtinite san limit.',
-    sub1:'Fè Lajan', sub2:'Devlope Biznis', sub3:'Achte', sub4:'Vwayaje', sub5:'Woulib', sub6:'Peye Bòdwo',
+    sub1:'Fè Lajan', sub2:'Devlope Biznis', sub3:'Achte & Vann', sub4:'Woulib', sub5:'POS & Sèvis',
     pa1_t:'Fè Lajan', pa1_d:'Antre nan Parenaj Biznis epi touche komisyon.',
     pa2_t:'Louvri yon Biznis', pa2_d:'Lanse biznis ou ak 48HoursReady.',
     pa3_t:'Achte & Vann', pa3_d:'Achte, vann epi kreye boutik anliy ou.',
     pa4_t:'Bay Woulib, Mande Woulib', pa4_d:'Vin chofè moto oswa machin, oswa mande yon woulib.',
     get_started:'Kòmanse →',
+    pos_tag:'B2B • Motè Revni', pos_title:'HaitiBiznis Center', pos_sub:'POS & 30+ Sèvis Dijital',
+    pos_tagline:'Telechaje POS la • 30 Jou GRATIS • Ogmante Revni Ou',
+    pos_sheet_sub:'POS & 30+ Sèvis Dijital — Telechaje POS la, 30 Jou GRATIS',
+    pos_i1:'Telechaje POS la', pos_i2:'30 jou gratis', pos_i3:'Vann 30+ sèvis dijital', pos_i4:'Peye bòdwo',
+    pos_i5:'Renouvèlman lisans', pos_i6:'Anrejistre biznis', pos_i7:'Asirans', pos_i9:'Sit entènèt & 48HoursReady',
+    pos_sheet_cta:'Telechaje POS la — 30 Jou GRATIS →', pos_sheet_free:'Pa bezwen kat • Anile lè w vle',
     featured_tag:'An Vedèt Semèn Nan', learn:'Aprann Plis',
     eco_h:'Ekosistèm Nan', eco_sub:'Yon sèl kont, tout sèvis yo',
     explore:'Eksplore', no_results:'Pa gen rezilta. Eseye yon lòt mo.',
@@ -433,12 +523,18 @@ var T = {
     search_ph:'Que cherchez-vous aujourd’hui ?',
     hero_h1:'La Super App Numérique <em>d’Haïti</em>',
     hero_desc:'<b>Un seul compte.</b> Neuf plateformes puissantes. Opportunités illimitées.',
-    sub1:'Gagner', sub2:'Développer', sub3:'Acheter', sub4:'Voyager', sub5:'Rouler', sub6:'Payer',
+    sub1:'Gagner', sub2:'Développer', sub3:'Acheter & Vendre', sub4:'Rouler', sub5:'POS & Services',
     pa1_t:'Gagner de l’argent', pa1_d:'Rejoignez Parenaj Biznis et gagnez des commissions.',
     pa2_t:'Lancer une entreprise', pa2_d:'Lancez votre entreprise avec 48HoursReady.',
     pa3_t:'Acheter & Vendre', pa3_d:'Achetez, vendez et créez votre boutique en ligne.',
     pa4_t:'Offrez ou demandez une course', pa4_d:'Devenez chauffeur moto ou auto, ou demandez une course.',
     get_started:'Commencer →',
+    pos_tag:'B2B • Moteur de revenus', pos_title:'HaitiBiznis Center', pos_sub:'POS & 30+ Services Numériques',
+    pos_tagline:'Téléchargez le POS • 30 Jours GRATUITS • Augmentez vos revenus',
+    pos_sheet_sub:'POS & 30+ Services Numériques — Téléchargez le POS, 30 Jours GRATUITS',
+    pos_i1:'Téléchargez le POS', pos_i2:'30 jours gratuits', pos_i3:'Vendez 30+ services', pos_i4:'Payer les factures',
+    pos_i5:'Renouvellement de permis', pos_i6:'Enregistrer une entreprise', pos_i7:'Assurance', pos_i9:'Site web & 48HoursReady',
+    pos_sheet_cta:'Téléchargez le POS — 30 Jours GRATUITS →', pos_sheet_free:'Sans carte • Annulez à tout moment',
     featured_tag:'À la une cette semaine', learn:'En savoir plus',
     eco_h:'L’écosystème', eco_sub:'Un login, tous les services',
     explore:'Explorer', no_results:'Aucun résultat. Essayez un autre mot.',
@@ -453,12 +549,18 @@ var T = {
     search_ph:'What are you looking for today?',
     hero_h1:'Haiti’s Digital <em>Super App</em>',
     hero_desc:'<b>One Account.</b> Nine Powerful Platforms. Unlimited Opportunities.',
-    sub1:'Earn Money', sub2:'Grow Your Business', sub3:'Shop', sub4:'Travel', sub5:'Ride', sub6:'Pay Bills',
+    sub1:'Earn Money', sub2:'Grow Business', sub3:'Shop & Sell', sub4:'Ride', sub5:'POS & Services',
     pa1_t:'Earn Money', pa1_d:'Join Parenaj Biznis and earn commissions.',
     pa2_t:'Start a Business', pa2_d:'Launch your business with 48HoursReady.',
     pa3_t:'Shop & Sell', pa3_d:'Buy, sell and create your online store.',
     pa4_t:'Give or Request a Ride', pa4_d:'Become a moto or car driver, or request a ride.',
     get_started:'Get Started →',
+    pos_tag:'B2B • Revenue Engine', pos_title:'HaitiBiznis Center', pos_sub:'POS & 30+ Digital Services',
+    pos_tagline:'Download the POS • 30 Days FREE • Grow Your Revenue',
+    pos_sheet_sub:'POS & 30+ Digital Services — Download the POS, 30 Days FREE',
+    pos_i1:'Download the POS', pos_i2:'30 days free', pos_i3:'Sell 30+ digital services', pos_i4:'Pay bills',
+    pos_i5:'License renewal', pos_i6:'Register a business', pos_i7:'Insurance', pos_i9:'Website & 48HoursReady',
+    pos_sheet_cta:'Download the POS — 30 Days FREE →', pos_sheet_free:'No card required • Cancel anytime',
     featured_tag:'Featured This Week', learn:'Learn More',
     eco_h:'The Ecosystem', eco_sub:'One login, every service',
     explore:'Explore', no_results:'No matches. Try another word.',
@@ -473,12 +575,18 @@ var T = {
     search_ph:'¿Qué buscas hoy?',
     hero_h1:'La Súper App Digital <em>de Haití</em>',
     hero_desc:'<b>Una sola cuenta.</b> Nueve plataformas potentes. Oportunidades ilimitadas.',
-    sub1:'Gana dinero', sub2:'Haz crecer tu negocio', sub3:'Compra', sub4:'Viaja', sub5:'Viaja en moto', sub6:'Paga facturas',
+    sub1:'Gana dinero', sub2:'Haz crecer tu negocio', sub3:'Compra y vende', sub4:'Viaja', sub5:'POS y Servicios',
     pa1_t:'Gana dinero', pa1_d:'Únete a Parenaj Biznis y gana comisiones.',
     pa2_t:'Inicia un negocio', pa2_d:'Lanza tu negocio con 48HoursReady.',
     pa3_t:'Compra y vende', pa3_d:'Compra, vende y crea tu tienda online.',
     pa4_t:'Ofrece o pide un viaje', pa4_d:'Conviértete en chofer de moto o auto, o pide un viaje.',
     get_started:'Empezar →',
+    pos_tag:'B2B • Motor de ingresos', pos_title:'HaitiBiznis Center', pos_sub:'POS y 30+ Servicios Digitales',
+    pos_tagline:'Descarga el POS • 30 Días GRATIS • Aumenta tus ingresos',
+    pos_sheet_sub:'POS y 30+ Servicios Digitales — Descarga el POS, 30 Días GRATIS',
+    pos_i1:'Descarga el POS', pos_i2:'30 días gratis', pos_i3:'Vende 30+ servicios', pos_i4:'Pagar facturas',
+    pos_i5:'Renovación de licencia', pos_i6:'Registrar un negocio', pos_i7:'Seguro', pos_i9:'Sitio web & 48HoursReady',
+    pos_sheet_cta:'Descarga el POS — 30 Días GRATIS →', pos_sheet_free:'Sin tarjeta • Cancela cuando quieras',
     featured_tag:'Destacado esta semana', learn:'Saber más',
     eco_h:'El ecosistema', eco_sub:'Un acceso, todos los servicios',
     explore:'Explorar', no_results:'Sin resultados. Prueba otra palabra.',
@@ -498,7 +606,7 @@ var ARROW = '<svg viewBox="0 0 24 24" fill="none" stroke-width="2.5" stroke-line
 function t(k){ return (T[lang] && T[lang][k]) || T.en[k] || k; }
 
 function renderHeroSub(){
-  var items=[['🇭🇹','sub1'],['📈','sub2'],['🛒','sub3'],['✈️','sub4'],['🛵','sub5'],['⚡','sub6']];
+  var items=[['💰','sub1'],['🏢','sub2'],['🛒','sub3'],['🚕','sub4'],['💳','sub5']];
   document.getElementById('heroSub').innerHTML = items.map(function(it,i){
     return (i>0?'<span class="d">•</span>':'')+'<span>'+it[0]+' '+t(it[1])+'</span>';
   }).join('');
@@ -590,6 +698,16 @@ searchClr.addEventListener('click',function(){ searchInput.value=''; runSearch()
 var fab=document.getElementById('fab');
 document.getElementById('fabMain').addEventListener('click',function(e){ e.stopPropagation(); fab.classList.toggle('open'); });
 document.addEventListener('click',function(e){ if(!fab.contains(e.target)) fab.classList.remove('open'); });
+
+/* ==================== POS SERVICES SHEET ==================== */
+var posSheet=document.getElementById('posSheet');
+function openPos(){ posSheet.classList.add('open'); document.body.style.overflow='hidden'; if(location.hash!=='#pos') history.replaceState(null,'','#pos'); }
+function closePos(){ posSheet.classList.remove('open'); document.body.style.overflow=''; if(location.hash==='#pos') history.replaceState(null,'',location.pathname+location.search); }
+document.getElementById('posCard').addEventListener('click',openPos);
+document.getElementById('posX').addEventListener('click',closePos);
+posSheet.addEventListener('click',function(e){ if(e.target===posSheet) closePos(); });
+document.addEventListener('keydown',function(e){ if(e.key==='Escape'&&posSheet.classList.contains('open')) closePos(); });
+if((location.hash||'')==='#pos'){ openPos(); }
 
 /* ==================== REVEAL ==================== */
 var io=new IntersectionObserver(function(es){ es.forEach(function(en){
