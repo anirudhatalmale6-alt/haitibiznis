@@ -709,7 +709,8 @@ document.addEventListener('click',function(e){ if(!fab.contains(e.target)) fab.c
 var posSheet=document.getElementById('posSheet');
 function openPos(){ posSheet.classList.add('open'); document.body.style.overflow='hidden'; if(location.hash!=='#pos') history.replaceState(null,'','#pos'); }
 function closePos(){ posSheet.classList.remove('open'); document.body.style.overflow=''; if(location.hash==='#pos') history.replaceState(null,'',location.pathname+location.search); }
-document.getElementById('posCard').addEventListener('click',function(e){ e.preventDefault(); openPos(); });
+/* POS pillar card navigates straight to the POS (like every other block) — the
+   services sheet stays reachable via the hero chip. Guarantees the block is clickable. */
 document.getElementById('posX').addEventListener('click',closePos);
 posSheet.addEventListener('click',function(e){ if(e.target===posSheet) closePos(); });
 document.addEventListener('keydown',function(e){ if(e.key==='Escape'&&posSheet.classList.contains('open')) closePos(); });
