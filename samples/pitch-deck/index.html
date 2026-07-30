@@ -3,9 +3,9 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
-<title>Investor Pitch Deck — Sample | HaitiBiznis Technologies</title>
-<meta property="og:title" content="Investor Pitch Deck — Sample (HaitiBiznis Technologies)">
-<meta property="og:description" content="A sample of the professional investor pitch deck we design for your business. Flip through all 12 slides. Powered by HaitiBiznis.com">
+<title>Pitch Deck Envestisè — Egzanp | HaitiBiznis Technologies</title>
+<meta property="og:title" content="Pitch Deck Envestisè — Egzanp (HaitiBiznis Technologies)">
+<meta property="og:description" content="Yon egzanp pitch deck pwofesyonèl nou fè pou biznis ou. Vire tout 10 paj yo. Powered by HaitiBiznis.com">
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://haitibiznis.com/samples/pitch-deck/">
 <meta property="og:image" content="https://haitibiznis.com/samples/pitch-deck/pages/p01.jpg">
@@ -56,32 +56,32 @@
 <body>
   <header>
     <div class="kick">HaitiBiznis Technologies</div>
-    <h1>Investor Pitch Deck — <span>Sample</span></h1>
-    <div class="sub">This is an example of the professional pitch deck we design for your business.</div>
-    <div class="badge">📊 12 slides · swipe to flip</div>
+    <h1>Pitch Deck Envestisè — <span>Egzanp</span></h1>
+    <div class="sub">Sa a se yon egzanp pitch deck pwofesyonèl nou fè pou biznis ou.</div>
+    <div class="badge">📊 10 paj · glise pou vire</div>
   </header>
 
   <div class="stage">
-    <div id="flipbook"><div class="loading">Loading deck…</div></div>
+    <div id="flipbook"><div class="loading">Chaje deck la…</div></div>
   </div>
 
   <div class="controls">
-    <button class="btn" id="prev">‹ Prev</button>
+    <button class="btn" id="prev">‹ Anvan</button>
     <div class="pagemark" id="mark">— / —</div>
-    <button class="btn" id="next">Next ›</button>
+    <button class="btn" id="next">Aprè ›</button>
   </div>
-  <div class="hint">Swipe or tap the page edges to turn, just like a real book.</div>
+  <div class="hint">Glise oswa tape sou kwen paj la pou vire l, menm jan ak yon vrè liv.</div>
   <div class="dl">
-    <a href="Haiti-Digital-Commerce-Ecosystem.pdf" download>⬇ Download PDF</a>
-    <a href="#" id="share" role="button">⤴ Share</a>
+    <a href="HaitiBiznis-Pitch-Deck-Kreyol.pdf" download>⬇ Telechaje PDF</a>
+    <a href="#" id="share" role="button">⤴ Pataje</a>
   </div>
-  <div class="toast" id="toast">Link copied to clipboard</div>
+  <div class="toast" id="toast">Lyen kopye</div>
   <footer>Powered by <b>HaitiBiznis.com</b> · Konekte · Fè Lajan · Devlope</footer>
 
   <script src="https://cdn.jsdelivr.net/npm/page-flip@2.0.7/dist/js/page-flip.browser.js"></script>
   <script>
     var PAGES = [];
-    for (var i=1;i<=12;i++){ PAGES.push('pages/p'+String(i).padStart(2,'0')+'.jpg'); }
+    for (var i=1;i<=10;i++){ PAGES.push('pages/p'+String(i).padStart(2,'0')+'.jpg'); }
     var AR = 1834.66667/1024;   // slide width/height (16:9-ish landscape)
 
     function calcSize(){
@@ -122,8 +122,8 @@
     document.getElementById('share').onclick = function(e){
       e.preventDefault();
       var data = {
-        title: 'HaitiBiznis Technologies — Investor Pitch Deck (Sample)',
-        text: 'A sample of the professional investor pitch deck HaitiBiznis designs for your business.',
+        title: 'HaitiBiznis Technologies — Pitch Deck Envestisè (Egzanp)',
+        text: 'Yon egzanp pitch deck pwofesyonèl HaitiBiznis fè pou biznis ou.',
         url: location.href
       };
       if (navigator.share){ navigator.share(data).catch(function(){}); }
