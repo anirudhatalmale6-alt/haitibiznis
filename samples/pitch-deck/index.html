@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<title>Investor Pitch Deck — Sample | HaitiBiznis Technologies</title>
+<meta property="og:title" content="Investor Pitch Deck — Sample (HaitiBiznis Technologies)">
+<meta property="og:description" content="A sample of the professional investor pitch deck we design for your business. Flip through all 12 slides. Powered by HaitiBiznis.com">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://haitibiznis.com/samples/pitch-deck/">
+<meta property="og:image" content="https://haitibiznis.com/samples/pitch-deck/pages/p01.jpg">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500;700;800;900&display=swap" rel="stylesheet">
+<style>
+  :root{ --blue:#00209F; --blue2:#0a44e0; --navy:#001741; --red:#D21034; }
+  *{margin:0;padding:0;box-sizing:border-box;}
+  html,body{height:100%;}
+  body{font-family:'Montserrat',system-ui,sans-serif;
+    background:radial-gradient(120% 90% at 50% 0%, #16346f 0%, var(--blue) 45%, var(--navy) 100%);
+    color:#fff; min-height:100%; display:flex; flex-direction:column; align-items:center;
+    padding:14px 10px 22px; overflow-x:hidden;}
+  header{text-align:center; margin-bottom:12px;}
+  header .kick{font-weight:800; font-size:10px; letter-spacing:.24em; color:#9fb6ff; text-transform:uppercase;}
+  header h1{font-weight:900; font-size:clamp(16px,4.6vw,24px); margin-top:5px; line-height:1.15;}
+  header h1 span{color:#fff; background:var(--red); padding:1px 9px; border-radius:8px;}
+  header .sub{font-size:11.5px; color:#c9d4ea; margin-top:7px; font-weight:600;}
+  .stage{width:100%; max-width:940px; display:flex; justify-content:center; touch-action:pan-y;}
+  #flipbook{ box-shadow:0 22px 55px rgba(0,0,0,.55); border-radius:6px; overflow:hidden;}
+  #flipbook img{width:100%; height:100%; display:block;}
+  .controls{display:flex; align-items:center; gap:16px; margin-top:16px;}
+  .btn{appearance:none; border:1.5px solid rgba(255,255,255,.5); background:rgba(255,255,255,.1); color:#fff;
+    font-family:'Montserrat'; font-weight:800; font-size:13px; letter-spacing:.04em;
+    padding:10px 18px; border-radius:30px; cursor:pointer; display:flex; align-items:center; gap:8px;}
+  .btn:active{transform:scale(.96);}
+  .pagemark{font-weight:800; font-size:12px; color:#dfe7f6; min-width:74px; text-align:center;}
+  .hint{margin-top:12px; font-size:11px; color:#9fb0d0; letter-spacing:.03em; text-align:center;}
+  .dl{margin-top:16px; display:flex; gap:12px; flex-wrap:wrap; justify-content:center;}
+  .dl a{color:#fff; background:linear-gradient(135deg,var(--blue2),var(--blue));
+    text-decoration:none; font-weight:800; font-size:12.5px; letter-spacing:.04em;
+    padding:11px 22px; border-radius:30px; display:inline-flex; align-items:center; gap:8px;
+    box-shadow:0 8px 20px rgba(0,0,0,.32);}
+  .dl a#share{background:rgba(255,255,255,.12); border:1.5px solid rgba(255,255,255,.5);}
+  .badge{display:inline-flex; align-items:center; gap:7px; background:rgba(255,255,255,.1);
+    border:1px solid rgba(255,255,255,.3); border-radius:20px; padding:5px 14px; font-size:11px;
+    font-weight:800; letter-spacing:.05em; margin-top:10px; color:#dfe7f6;}
+  .toast{position:fixed; bottom:26px; left:50%; transform:translateX(-50%) translateY(20px);
+    background:var(--blue); border:1.5px solid rgba(255,255,255,.5); color:#fff; font-size:12.5px; font-weight:700;
+    padding:11px 22px; border-radius:24px; opacity:0; pointer-events:none; transition:.3s; z-index:9;}
+  .toast.show{opacity:1; transform:translateX(-50%) translateY(0);}
+  .loading{color:#c9d4ea; font-size:13px; padding:60px 0; text-align:center;}
+  footer{margin-top:20px; font-size:11px; color:#8fa2c8; text-align:center;}
+  footer b{color:#fff;}
+</style>
+</head>
+<body>
+  <header>
+    <div class="kick">HaitiBiznis Technologies</div>
+    <h1>Investor Pitch Deck — <span>Sample</span></h1>
+    <div class="sub">This is an example of the professional pitch deck we design for your business.</div>
+    <div class="badge">📊 12 slides · swipe to flip</div>
+  </header>
+
+  <div class="stage">
+    <div id="flipbook"><div class="loading">Loading deck…</div></div>
+  </div>
+
+  <div class="controls">
+    <button class="btn" id="prev">‹ Prev</button>
+    <div class="pagemark" id="mark">— / —</div>
+    <button class="btn" id="next">Next ›</button>
+  </div>
+  <div class="hint">Swipe or tap the page edges to turn, just like a real book.</div>
+  <div class="dl">
+    <a href="Haiti-Digital-Commerce-Ecosystem.pdf" download>⬇ Download PDF</a>
+    <a href="#" id="share" role="button">⤴ Share</a>
+  </div>
+  <div class="toast" id="toast">Link copied to clipboard</div>
+  <footer>Powered by <b>HaitiBiznis.com</b> · Konekte · Fè Lajan · Devlope</footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/page-flip@2.0.7/dist/js/page-flip.browser.js"></script>
+  <script>
+    var PAGES = [];
+    for (var i=1;i<=12;i++){ PAGES.push('pages/p'+String(i).padStart(2,'0')+'.jpg'); }
+    var AR = 1834.66667/1024;   // slide width/height (16:9-ish landscape)
+
+    function calcSize(){
+      var vw = Math.min(window.innerWidth-24, 920);
+      var w = vw, h = Math.round(w/AR);
+      var maxH = window.innerHeight - 250;
+      if (h > maxH){ h = maxH; w = Math.round(h*AR); }
+      return {w:w,h:h};
+    }
+
+    var el = document.getElementById('flipbook');
+    el.innerHTML = '';
+    var s = calcSize();
+    var pageFlip = new St.PageFlip(el, {
+      width: s.w, height: s.h,
+      size: 'stretch',
+      minWidth: 260, maxWidth: 1200,
+      minHeight: 150, maxHeight: 700,
+      drawShadow: true, flippingTime: 700,
+      usePortrait: true, showCover: true,
+      mobileScrollSupport: true, maxShadowOpacity: 0.5
+    });
+    pageFlip.loadFromImages(PAGES);
+
+    var mark = document.getElementById('mark');
+    function updMark(){
+      var cur = pageFlip.getCurrentPageIndex()+1;
+      mark.textContent = cur + ' / ' + PAGES.length;
+    }
+    pageFlip.on('flip', updMark);
+    pageFlip.on('init', updMark);
+    document.getElementById('prev').onclick = function(){ pageFlip.flipPrev(); };
+    document.getElementById('next').onclick = function(){ pageFlip.flipNext(); };
+
+    var toast = document.getElementById('toast');
+    function showToast(msg){ toast.textContent = msg; toast.classList.add('show');
+      setTimeout(function(){ toast.classList.remove('show'); }, 2200); }
+    document.getElementById('share').onclick = function(e){
+      e.preventDefault();
+      var data = {
+        title: 'HaitiBiznis Technologies — Investor Pitch Deck (Sample)',
+        text: 'A sample of the professional investor pitch deck HaitiBiznis designs for your business.',
+        url: location.href
+      };
+      if (navigator.share){ navigator.share(data).catch(function(){}); }
+      else if (navigator.clipboard){ navigator.clipboard.writeText(location.href)
+        .then(function(){ showToast('Link copied to clipboard'); })
+        .catch(function(){ showToast(location.href); }); }
+      else { window.prompt('Copy this link to share:', location.href); }
+    };
+
+    var rt;
+    window.addEventListener('resize', function(){
+      clearTimeout(rt);
+      rt = setTimeout(function(){
+        var ns = calcSize();
+        pageFlip.update({width:ns.w, height:ns.h, size:'stretch'});
+      }, 200);
+    });
+  </script>
+</body>
+</html>
