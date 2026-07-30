@@ -1,0 +1,99 @@
+<!doctype html>
+<html lang="ht">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<title>Pierre Luc Compère — HaitiBiznis Business Card</title>
+<meta name="description" content="Pierre Luc Compère, Directeur Des Opérations — HaitiBiznis. Save my contact or share my card.">
+<link rel="icon" type="image/png" sizes="32x32" href="../../assets/favicon-32.png">
+<link rel="apple-touch-icon" href="../../assets/apple-touch-icon.png">
+<meta property="og:type" content="profile">
+<meta property="og:title" content="Pierre Luc Compère — Directeur Des Opérations · HaitiBiznis">
+<meta property="og:description" content="Save my contact or share my business card.">
+<meta property="og:url" content="https://haitibiznis.com/card/pierre/">
+<meta property="og:image" content="https://haitibiznis.com/card/assets/card-pierre.jpg">
+<meta property="og:image:width" content="1537"><meta property="og:image:height" content="1023">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://haitibiznis.com/card/assets/card-pierre.jpg">
+<style>
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent;margin:0;padding:0}
+:root{--navy:#00209F;--blue:#0a34c4;--red:#D21034;--gold:#F2C230;--wa:#25D366;--ink:#0f1830;--muted:#9fb0d6}
+html,body{height:100%}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;color:#fff;
+  background:radial-gradient(1100px 560px at 50% -8%,#0a34c4 0%,#00209F 44%,#000f3c 100%);
+  min-height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:22px 16px 34px}
+.wrap{width:100%;max-width:470px;text-align:center}
+.langbar{display:flex;justify-content:center;gap:6px;margin-bottom:14px}
+.langbar button{appearance:none;border:1.5px solid rgba(255,255,255,.28);background:rgba(255,255,255,.06);color:#dfe7ff;
+  font-weight:800;font-size:12px;letter-spacing:.05em;padding:7px 13px;border-radius:20px;cursor:pointer;transition:.15s}
+.langbar button.on{background:linear-gradient(135deg,var(--gold),#e0a91a);color:#3a2a00;border-color:transparent}
+.brandline{font-size:12px;font-weight:800;letter-spacing:1.5px;color:#cdd8f5;margin-bottom:14px;text-transform:uppercase}
+.cardimg{display:block;width:100%;border-radius:18px;box-shadow:0 24px 60px rgba(0,6,40,.6);border:3px solid rgba(255,255,255,.9)}
+.hint{font-size:11.5px;color:var(--muted);margin-top:9px;font-weight:600}
+.acts{margin-top:20px;display:flex;flex-direction:column;gap:11px}
+.btn{display:flex;align-items:center;justify-content:center;gap:10px;width:100%;border:0;border-radius:15px;padding:16px 17px;
+  font-size:16px;font-weight:800;text-decoration:none;color:#fff;cursor:pointer;transition:transform .12s}
+.btn:active{transform:scale(.98)}
+.b-save{background:linear-gradient(135deg,var(--gold),#e0a91a);color:#3a2a00}
+.b-share{background:linear-gradient(135deg,var(--wa),#128C7E)}
+.b-img{background:rgba(255,255,255,.12);border:1.5px solid rgba(255,255,255,.35);color:#fff;backdrop-filter:blur(4px)}
+.b-pos{background:linear-gradient(135deg,var(--blue),var(--navy));border:1.5px solid rgba(255,255,255,.25)}
+.foot{margin-top:20px;font-size:12.5px;color:#cdd8f5;font-weight:700}
+.foot a{color:#fff;text-decoration:none}
+.toast{position:fixed;left:50%;bottom:26px;transform:translateX(-50%) translateY(30px);background:#0b1636;color:#fff;
+  padding:12px 18px;border-radius:12px;font-size:13px;font-weight:700;opacity:0;transition:.3s;pointer-events:none;box-shadow:0 12px 34px rgba(0,0,0,.5)}
+.toast.on{opacity:1;transform:translateX(-50%) translateY(0)}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="langbar" id="langbar"><button data-lang="ht">HT</button><button data-lang="fr">FR</button><button data-lang="en">EN</button><button data-lang="es">ES</button></div>
+  <div class="brandline" data-i18n="brand">HaitiBiznis · Kat Biznis Dijital</div>
+  <a href="../assets/card-pierre.jpg" target="_blank" rel="noopener" aria-label="Open full card">
+    <img class="cardimg" src="../assets/card-pierre.jpg" alt="Pierre Luc Compère — Directeur Des Opérations, HaitiBiznis business card">
+  </a>
+  <div class="hint" data-i18n="hint">Tape kat la pou agrandi · eskane QR a pou konekte</div>
+  <div class="acts">
+    <a class="btn b-save" href="pierre.vcf" id="saveBtn" data-i18n="save">💾 Sove Kontak Mwen</a>
+    <button class="btn b-share" id="shareBtn" data-i18n="share">📲 Pataje Kat Mwen</button>
+    <a class="btn b-img" href="../assets/card-pierre.jpg" download="HaitiBiznis-pierre.jpg" data-i18n="img">⬇️ Sove Imaj Kat la</a>
+    <a class="btn b-pos" href="../../pos/" data-i18n="pos">🛍️ Ouvri POS HaitiBiznis la</a>
+  </div>
+  <div class="foot"><a href="https://haitibiznis.com" target="_blank" rel="noopener">www.HaitiBiznis.com</a></div>
+</div>
+<div class="toast" id="toast"></div>
+<script>
+var T={"ht": {"brand": "HaitiBiznis · Kat Biznis Dijital", "hint": "Tape kat la pou agrandi · eskane QR a pou konekte", "save": "💾 Sove Kontak Mwen", "share": "📲 Pataje Kat Mwen", "img": "⬇️ Sove Imaj Kat la", "pos": "🛍️ Ouvri POS HaitiBiznis la", "t_saved": "Kontak sove nan telechajman", "t_copied": "Lyen kat la kopye!", "sh_at": "nan", "sh_here": "Men kat mwen:", "idx_hd": "Kat Biznis Nou Yo", "idx_hs": "Tape yon kat pou sove kontak la oswa pataje l"}, "fr": {"brand": "HaitiBiznis · Carte de Visite Numérique", "hint": "Touchez la carte pour l’agrandir · scannez le QR pour vous connecter", "save": "💾 Enregistrer mon contact", "share": "📲 Partager ma carte", "img": "⬇️ Enregistrer l’image", "pos": "🛍️ Ouvrir le POS HaitiBiznis", "t_saved": "Contact enregistré dans les téléchargements", "t_copied": "Lien de la carte copié !", "sh_at": "chez", "sh_here": "Voici ma carte :", "idx_hd": "Nos Cartes de Visite", "idx_hs": "Touchez une carte pour enregistrer le contact ou la partager"}, "en": {"brand": "HaitiBiznis · Digital Business Card", "hint": "Tap the card to enlarge · scan the QR to connect", "save": "💾 Save My Contact", "share": "📲 Share My Card", "img": "⬇️ Save Card Image", "pos": "🛍️ Open the HaitiBiznis POS", "t_saved": "Contact saved to downloads", "t_copied": "Card link copied!", "sh_at": "at", "sh_here": "Here is my card:", "idx_hd": "Our Business Cards", "idx_hs": "Tap a card to save the contact or share it"}, "es": {"brand": "HaitiBiznis · Tarjeta de Presentación Digital", "hint": "Toca la tarjeta para ampliar · escanea el QR para conectar", "save": "💾 Guardar mi contacto", "share": "📲 Compartir mi tarjeta", "img": "⬇️ Guardar imagen", "pos": "🛍️ Abrir el POS de HaitiBiznis", "t_saved": "Contacto guardado en descargas", "t_copied": "¡Enlace de la tarjeta copiado!", "sh_at": "en", "sh_here": "Aquí está mi tarjeta:", "idx_hd": "Nuestras Tarjetas de Presentación", "idx_hs": "Toca una tarjeta para guardar el contacto o compartirla"}};var LANGS=['ht','fr','en','es'];
+var SLUG="pierre",FN="Pierre Luc Comp\u00e8re",TITLE="Directeur Des Op\u00e9rations",VCARD="BEGIN:VCARD\r\nVERSION:3.0\r\nN:Comp\u00e8re;Pierre Luc;;;\r\nFN:Pierre Luc Comp\u00e8re\r\nORG:HaitiBiznis\r\nTITLE:Directeur Des Op\u00e9rations\r\nTEL;TYPE=CELL,VOICE:+50941628353\r\nURL:https://haitibiznis.com\r\nADR;TYPE=WORK:;;#123 Ave Martin Luther King;;;;Haiti\r\nNOTE:HaitiBiznis - Building Haiti's Digital Bridge to the World. WhatsApp +509 41 62 8353\r\nEND:VCARD\r\n",CARDURL="https://haitibiznis.com/card/pierre/";
+var lang='ht';
+function toast(m){var t=document.getElementById('toast');t.textContent=m;t.classList.add('on');setTimeout(function(){t.classList.remove('on');},2200);}
+function tr(k){return (T[lang]&&T[lang][k]!=null)?T[lang][k]:T['ht'][k];}
+function applyLang(l){
+  if(LANGS.indexOf(l)<0)l='ht';lang=l;document.documentElement.lang=l;
+  var ns=document.querySelectorAll('[data-i18n]');
+  for(var i=0;i<ns.length;i++){var k=ns[i].getAttribute('data-i18n');var v=tr(k);if(v!=null)ns[i].textContent=v;}
+  var bs=document.querySelectorAll('#langbar button');
+  for(var j=0;j<bs.length;j++){bs[j].classList.toggle('on',bs[j].getAttribute('data-lang')===l);}
+  try{localStorage.setItem('hb_lang',l);}catch(e){}
+}
+(function(){var bs=document.querySelectorAll('#langbar button');
+  for(var i=0;i<bs.length;i++){(function(b){b.addEventListener('click',function(){applyLang(b.getAttribute('data-lang'));});})(bs[i]);}
+  var stored;try{stored=localStorage.getItem('hb_lang');}catch(e){}applyLang(stored||'ht');})();
+document.getElementById('saveBtn').addEventListener('click',function(e){
+  try{var isiOS=/iPad|iPhone|iPod/.test(navigator.userAgent);
+    if(!isiOS){e.preventDefault();
+      var blob=new Blob([VCARD],{type:'text/vcard'});var url=URL.createObjectURL(blob);
+      var a=document.createElement('a');a.href=url;a.download=SLUG+'.vcf';document.body.appendChild(a);a.click();a.remove();
+      toast(tr('t_saved'));setTimeout(function(){URL.revokeObjectURL(url);},4000);}
+  }catch(err){}
+});
+document.getElementById('shareBtn').addEventListener('click',function(){
+  var txt=FN+', '+TITLE+' '+tr('sh_at')+' HaitiBiznis. '+tr('sh_here');
+  var data={title:FN+' — HaitiBiznis',text:txt,url:CARDURL};
+  if(navigator.share){navigator.share(data).catch(function(){});}
+  else if(navigator.clipboard){navigator.clipboard.writeText(CARDURL).then(function(){toast(tr('t_copied'));});}
+  else{window.open('https://wa.me/?text='+encodeURIComponent(txt+' '+CARDURL),'_blank');}
+});
+</script>
+</body>
+</html>
