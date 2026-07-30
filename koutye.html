@@ -345,7 +345,7 @@ input{font-family:var(--body)}
       <input type="text" class="field-input" id="kRef" placeholder="Ex: KB-MAR7X">
       <div class="ref-note" id="refNote" data-i18n="signup_ref_note">Si yon moun refere ou, mete kod PA YO la</div>
     </div>
-    <button class="signup-btn" onclick="submitKoutye()" data-i18n="signup_btn">Enskri Kounye A</button>
+    <button class="signup-btn" id="kSubmitBtn" onclick="submitKoutye()" data-i18n="signup_btn">Enskri Kounye A</button>
   </div>
 
   <div class="signup-success" id="signupSuccess">
@@ -699,6 +699,16 @@ function generateKoutyeCode(name){
 var generatedCode='';
 var generatedLink='';
 
+var PARENAJ_API='https://myplopplop-api.onrender.com/api/koutye/register-public';
+
+function showKoutyeSuccess(){
+  generatedLink='https://haitibiznis.com/koutye.html?ref='+generatedCode;
+  document.getElementById('myKoutyeCode').textContent=generatedCode;
+  document.getElementById('refLinkPreview').textContent=generatedLink;
+  document.getElementById('signupForm').style.display='none';
+  document.getElementById('signupSuccess').style.display='block';
+}
+
 function submitKoutye(){
   var name=document.getElementById('kName').value.trim();
   var phone=document.getElementById('kPhone').value.trim();
@@ -708,30 +718,35 @@ function submitKoutye(){
 
   var customCode=document.getElementById('kCustomCode').value.trim();
   var existing=localStorage.getItem('kb_code');
-  if(existing){
-    generatedCode=existing;
-  } else if(customCode){
-    generatedCode=customCode.replace(/\s+/g,'-');
+
+  // Local fallback code (used only if the server can't be reached).
+  var localCode = existing || (customCode ? customCode.replace(/\s+/g,'-').toUpperCase() : generateKoutyeCode(name));
+
+  var btn=document.getElementById('kSubmitBtn');
+  if(btn){btn.disabled=true;btn.dataset.txt=btn.textContent;btn.textContent='...';}
+
+  // Persist the sign-up on the server so it reaches the dashboard. Idempotent
+  // by phone; the server returns the canonical code to keep links stable.
+  fetch(PARENAJ_API,{
+    method:'POST',
+    headers:{'Content-Type':'application/json'},
+    body:JSON.stringify({name:name,phone:phone,ref:ref,customCode:customCode})
+  }).then(function(r){return r.json();}).then(function(data){
+    generatedCode=(data&&data.success&&data.koutyeCode)?data.koutyeCode:localCode;
     localStorage.setItem('kb_code',generatedCode);
     localStorage.setItem('kb_name',name);
     localStorage.setItem('kb_phone',phone);
-  } else {
-    generatedCode=generateKoutyeCode(name);
+    if(btn){btn.disabled=false;if(btn.dataset.txt)btn.textContent=btn.dataset.txt;}
+    showKoutyeSuccess();
+  }).catch(function(){
+    // Network failure — don't block the user; keep their code locally.
+    generatedCode=localCode;
     localStorage.setItem('kb_code',generatedCode);
     localStorage.setItem('kb_name',name);
     localStorage.setItem('kb_phone',phone);
-  }
-  generatedLink='https://haitibiznis.com/koutye.html?ref='+generatedCode;
-
-  document.getElementById('myKoutyeCode').textContent=generatedCode;
-  document.getElementById('refLinkPreview').textContent=generatedLink;
-  document.getElementById('signupForm').style.display='none';
-  document.getElementById('signupSuccess').style.display='block';
-
-  var adminMsg='Nouvo Parenaj Biznis enskri!\n\nNon: '+name+'\nTelefon: '+phone+'\nKod: '+generatedCode;
-  if(ref) adminMsg+='\nRefere pa: '+ref;
-  var waUrl='https://wa.me/50946859702?text='+encodeURIComponent(adminMsg);
-  try{navigator.sendBeacon&&navigator.sendBeacon(waUrl)}catch(e){}
+    if(btn){btn.disabled=false;if(btn.dataset.txt)btn.textContent=btn.dataset.txt;}
+    showKoutyeSuccess();
+  });
 }
 
 function copyRefLink(){
