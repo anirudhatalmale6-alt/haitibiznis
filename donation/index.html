@@ -1,0 +1,618 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Donation Campaign — Cap-Haïtien Road Safety Drive</title>
+<meta name="theme-color" content="#0f172a">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@500;600;700;800&family=Public+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --ink:#0f172a;--muted:#5b6b82;--line:#e6eaf1;--bg:#f4f7fb;--card:#ffffff;
+  --grn:#16a34a;--grn-d:#12813a;--amb:#f59e0b;--road:#111827;--blue:#0057d9;
+  --red:#e31b23;--shadow:0 10px 30px rgba(15,23,42,.08);--r:18px;
+}
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+html,body{background:var(--bg);color:var(--ink);font-family:'Public Sans',system-ui,sans-serif;font-size:16px;line-height:1.5}
+h1,h2,h3,.disp{font-family:'Sora',sans-serif}
+img{max-width:100%;display:block}
+button{font-family:inherit;cursor:pointer;border:0}
+a{color:inherit}
+.wrap{max-width:920px;margin:0 auto;padding:0 16px}
+
+/* top bar */
+.topbar{background:#0b1220;color:#fff;position:sticky;top:0;z-index:30}
+.topbar .wrap{display:flex;align-items:center;gap:11px;padding:10px 16px}
+.orglogo{width:38px;height:38px;border-radius:10px;background:linear-gradient(135deg,var(--grn),#0f9d58);display:flex;align-items:center;justify-content:center;font-weight:800;color:#fff;font-family:'Sora';font-size:15px;flex:0 0 auto;overflow:hidden}
+.orglogo img{width:100%;height:100%;object-fit:cover}
+.brandtxt{font-weight:700;font-family:'Sora';font-size:14.5px;line-height:1.15}
+.brandtxt small{display:block;font-family:'Public Sans';font-weight:500;font-size:11px;color:#93a4bd;letter-spacing:.4px}
+.topbar .sp{flex:1}
+.poweredby{font-size:11.5px;color:#93a4bd;font-weight:600;text-align:right;line-height:1.3}
+.poweredby a{color:#7fd4a6;text-decoration:none;font-weight:700}
+
+/* hero */
+.hero{position:relative;overflow:hidden;background:linear-gradient(160deg,#182234,#0b1220)}
+.hero .chev{position:absolute;left:0;right:0;bottom:0;height:12px;background:repeating-linear-gradient(-45deg,var(--amb) 0 22px,#12161f 22px 44px);opacity:.95}
+.hero .cover{position:absolute;inset:0;background-size:cover;background-position:center;opacity:.32}
+.hero .wrap{position:relative;padding:30px 16px 38px}
+.chip{display:inline-flex;align-items:center;gap:7px;background:rgba(245,158,11,.16);color:#ffcf7a;border:1px solid rgba(245,158,11,.4);padding:5px 12px;border-radius:999px;font-size:12.5px;font-weight:700;letter-spacing:.3px;text-transform:uppercase}
+.hero h1{color:#fff;font-size:29px;line-height:1.14;font-weight:800;margin:13px 0 8px;max-width:640px}
+.hero p{color:#c4d0e2;max-width:600px;font-size:15px}
+.dlbadge{display:inline-flex;align-items:center;gap:8px;margin-top:15px;background:rgba(227,27,35,.15);border:1px solid rgba(227,27,35,.45);color:#ffb3b7;padding:7px 13px;border-radius:12px;font-size:13px;font-weight:700}
+
+/* quick facts */
+.facts{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin-top:-24px;position:relative;z-index:3}
+@media(min-width:620px){.facts{grid-template-columns:repeat(4,1fr)}}
+.fact{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:13px 12px;box-shadow:var(--shadow)}
+.fact .fi{font-size:19px;line-height:1}
+.fact .fv{font-family:'Sora';font-weight:800;font-size:16px;margin-top:6px;line-height:1.15}
+.fact .fl{font-size:11.5px;color:var(--muted);font-weight:600;margin-top:2px}
+.fact.s .fv{color:var(--grn-d)}.fact.r .fv{color:var(--amb)}
+
+/* progress card */
+.pcard{background:var(--card);border-radius:var(--r);box-shadow:var(--shadow);padding:20px;margin-top:14px;border:1px solid var(--line)}
+.pbar-top{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:12px;flex-wrap:wrap;gap:6px}
+.pbar-top .pct{font-family:'Sora';font-weight:800;font-size:30px;color:var(--grn-d)}
+.pbar-top .cap{color:var(--muted);font-size:14px;font-weight:700}
+.track{height:30px;border-radius:999px;background:#eef1f6;overflow:hidden;box-shadow:inset 0 2px 4px rgba(0,0,0,.08);position:relative}
+.fill{height:100%;border-radius:999px;background:linear-gradient(90deg,var(--grn),#22c55e);transition:width .7s cubic-bezier(.2,.8,.2,1);min-width:0;position:relative}
+.fill::after{content:"";position:absolute;inset:0;background:repeating-linear-gradient(-45deg,rgba(255,255,255,.18) 0 14px,transparent 14px 28px)}
+.money{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:16px}
+.mbox{background:var(--bg);border:1px solid var(--line);border-radius:14px;padding:13px 14px}
+.mbox .mv{font-family:'Sora';font-weight:800;font-size:20px}
+.mbox .ml{font-size:12px;color:var(--muted);font-weight:600;margin-top:2px}
+.mbox.q .mv{color:var(--ink)}.mbox.d .mv{color:var(--grn-d)}
+
+/* completed banner */
+.done{margin-top:16px;background:linear-gradient(135deg,#16a34a,#0f9d58);color:#fff;border-radius:16px;padding:18px;text-align:center;box-shadow:0 10px 26px rgba(22,163,74,.3)}
+.done h3{font-size:20px;font-weight:800}
+.done p{opacity:.92;font-size:14px;margin-top:3px}
+
+/* generic section */
+.sec-h{display:flex;align-items:center;justify-content:space-between;margin:26px 2px 12px}
+.sec-h h2{font-size:18px;font-weight:700}
+.sec-h .muted{color:var(--muted);font-size:13px;font-weight:600}
+.panel{background:var(--card);border:1px solid var(--line);border-radius:var(--r);box-shadow:var(--shadow);padding:18px}
+
+/* payment pills */
+.paypills{display:flex;flex-wrap:wrap;gap:9px}
+.paypill{display:inline-flex;align-items:center;gap:7px;background:#f7f9fc;border:1px solid var(--line);border-radius:11px;padding:9px 13px;font-size:13.5px;font-weight:700;color:#334155}
+.paypill .dot{width:9px;height:9px;border-radius:50%;background:var(--grn)}
+.paynote{color:var(--muted);font-size:12.5px;margin-top:11px;display:flex;align-items:center;gap:6px}
+
+/* items grid */
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:16px}
+.item{background:var(--card);border:1px solid var(--line);border-radius:var(--r);overflow:hidden;box-shadow:var(--shadow);display:flex;flex-direction:column}
+.item .ph{aspect-ratio:16/10;background:#f2f5f9;display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden}
+.item .ph img{width:100%;height:100%;object-fit:cover}
+.item .body{padding:14px;display:flex;flex-direction:column;flex:1}
+.item .nm{font-weight:700;font-size:15.5px;font-family:'Sora'}
+.item .cost{color:var(--grn-d);font-weight:800;font-size:20px;font-family:'Sora';margin-top:4px}
+.item .cost small{color:var(--muted);font-weight:600;font-size:12px;font-family:'Public Sans'}
+.item .miniprog{margin-top:10px}
+.item .miniprog .mt{display:flex;justify-content:space-between;font-size:12px;color:var(--muted);font-weight:600;margin-bottom:5px}
+.item .mtrack{height:9px;border-radius:999px;background:#eef1f6;overflow:hidden}
+.item .mfill{height:100%;background:linear-gradient(90deg,var(--grn),#22c55e);transition:width .5s}
+.item .act{margin-top:14px}
+.btn{width:100%;padding:12px;border-radius:12px;font-weight:700;font-size:14.5px;display:flex;align-items:center;justify-content:center;gap:8px;transition:transform .06s}
+.btn:active{transform:scale(.97)}
+.btn-pri{background:var(--grn);color:#fff;box-shadow:0 6px 16px rgba(22,163,74,.25)}
+.btn-done{background:#eef2f8;color:#64748b;cursor:default}
+.btn-out{background:#fff;border:1.5px solid var(--line);color:var(--ink)}
+
+/* recent sponsors */
+.donors{display:flex;flex-wrap:wrap;gap:9px}
+.donor{display:inline-flex;align-items:center;gap:8px;background:#eefdf3;border:1px solid #c7ecd4;color:#12813a;font-size:13.5px;font-weight:700;padding:8px 13px;border-radius:12px}
+.donor .av{width:24px;height:24px;border-radius:50%;background:#16a34a;color:#fff;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:800}
+.donors .empty{color:var(--muted);font-size:13.5px}
+
+/* share */
+.share{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+.sbtn{display:flex;flex-direction:column;align-items:center;gap:6px;padding:14px 8px;border-radius:14px;font-weight:700;font-size:12.5px;color:#fff}
+.sbtn .si{font-size:20px}
+.sbtn.wa{background:#25d366}.sbtn.fb{background:#1877f2}.sbtn.cp{background:#334155}
+
+/* about / credibility */
+.about .arow{display:flex;gap:14px;align-items:flex-start}
+.about .alogo{width:56px;height:56px;border-radius:14px;background:linear-gradient(135deg,var(--grn),#0f9d58);flex:0 0 auto;display:flex;align-items:center;justify-content:center;color:#fff;font-family:'Sora';font-weight:800;overflow:hidden}
+.about .alogo img{width:100%;height:100%;object-fit:cover}
+.about h3{font-size:16px}
+.about p{color:var(--muted);font-size:14px;margin-top:5px}
+.about .contacts{display:flex;flex-wrap:wrap;gap:8px;margin-top:14px}
+.cpill{display:inline-flex;align-items:center;gap:7px;background:#f7f9fc;border:1px solid var(--line);border-radius:10px;padding:8px 12px;font-size:13px;font-weight:600;color:#334155;text-decoration:none}
+.cpill.hb{background:#eef4ff;border-color:#cfe0ff;color:#0047b3}
+
+/* footer */
+.foot{text-align:center;color:var(--muted);font-size:12.5px;padding:26px 16px 40px;line-height:1.7}
+.foot b{color:#334155}
+.foot a{color:var(--grn-d);font-weight:700;text-decoration:none}
+
+/* modal */
+.ov{position:fixed;inset:0;background:rgba(15,23,42,.55);backdrop-filter:blur(2px);z-index:60;display:none;align-items:flex-end;justify-content:center}
+.ov.on{display:flex}
+.sheet{background:#fff;width:100%;max-width:460px;border-radius:22px 22px 0 0;padding:22px 20px calc(22px + env(safe-area-inset-bottom));box-shadow:0 -10px 40px rgba(0,0,0,.25);animation:up .28s cubic-bezier(.2,.8,.2,1);max-height:92vh;overflow:auto}
+@media(min-width:560px){.ov{align-items:center}.sheet{border-radius:22px}}
+@keyframes up{from{transform:translateY(30px);opacity:.4}to{transform:translateY(0);opacity:1}}
+.sheet h3{font-size:19px;font-weight:800}
+.sheet .sub{color:var(--muted);font-size:14px;margin-top:3px}
+.fl{display:block;font-size:12.5px;font-weight:700;color:var(--muted);margin:14px 0 6px;text-transform:uppercase;letter-spacing:.3px}
+.inp{width:100%;padding:12px 13px;border:1.5px solid var(--line);border-radius:12px;font-size:15px;font-family:inherit;background:#fbfcfe}
+.inp:focus{outline:0;border-color:var(--grn)}
+textarea.inp{min-height:70px;resize:vertical}
+.row2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.sheet .cta-row{display:flex;gap:10px;margin-top:18px}
+.summ{background:#f4f9f5;border:1px solid #d6ecdd;border-radius:14px;padding:13px 15px;margin-top:14px;display:flex;justify-content:space-between;align-items:center}
+.summ .k{color:#12813a;font-weight:700;font-size:14px}
+.summ .v{font-family:'Sora';font-weight:800;font-size:22px;color:#12813a}
+.ok{text-align:center;padding:6px 0}
+.ok .ring{width:74px;height:74px;border-radius:50%;background:linear-gradient(135deg,#16a34a,#0f9d58);margin:6px auto 12px;display:flex;align-items:center;justify-content:center;color:#fff;font-size:38px;animation:pop .5s cubic-bezier(.2,.8,.2,1)}
+@keyframes pop{0%{transform:scale(.6);opacity:0}60%{transform:scale(1.08)}100%{transform:scale(1)}}
+.chkrow{display:flex;align-items:center;gap:10px;padding:10px 12px;border:1.5px solid var(--line);border-radius:12px;margin-top:8px;font-weight:600;font-size:14px}
+.chkrow input{width:18px;height:18px}
+
+/* admin */
+.admin{display:none}.admin.on{display:block}.public.off{display:none}
+.abar{background:#0b1220;color:#fff;padding:10px 0}
+.abar .wrap{display:flex;align-items:center;gap:10px}
+.abar h2{font-size:15px;color:#fff}
+.tbtn{background:rgba(255,255,255,.12);color:#fff;padding:8px 14px;border-radius:10px;font-weight:600;font-size:13.5px}
+.tbtn:active{background:rgba(255,255,255,.24)}
+.acard{background:var(--card);border:1px solid var(--line);border-radius:var(--r);box-shadow:var(--shadow);padding:18px;margin-top:16px}
+.acard h3{font-size:15px;margin-bottom:4px}
+.acard .hint{color:var(--muted);font-size:12.5px;margin-bottom:12px}
+.selrow{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+.adm-item{border:1px solid var(--line);border-radius:14px;padding:12px;margin-top:10px;display:flex;gap:12px;align-items:center}
+.adm-item .thumb{width:52px;height:52px;border-radius:10px;background:#eef2f8;flex:0 0 auto;display:flex;align-items:center;justify-content:center;overflow:hidden}
+.adm-item .thumb img{width:100%;height:100%;object-fit:cover}
+.adm-item .meta{flex:1;min-width:0}
+.adm-item .meta .t{font-weight:700;font-size:14.5px}
+.adm-item .meta .d{color:var(--muted);font-size:12.5px}
+.iconbtn{background:#f1f5f9;border-radius:9px;padding:8px 10px;font-size:13px;font-weight:700;color:#334155}
+.iconbtn.del{background:#fdecec;color:#c0323a}
+.badge{display:inline-block;background:#eef2f8;color:#475569;border-radius:8px;padding:3px 9px;font-size:12px;font-weight:700;margin-left:6px}
+.tot-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:6px}
+.stat{background:var(--bg);border:1px solid var(--line);border-radius:14px;padding:12px 10px;text-align:center}
+.stat .n{font-family:'Sora';font-weight:800;font-size:22px}
+.stat .l{font-size:11.5px;color:var(--muted);font-weight:700;text-transform:uppercase;letter-spacing:.4px;margin-top:2px}
+.stat.g .n{color:var(--ink)}.stat.s .n{color:var(--grn-d)}.stat.r .n{color:var(--amb)}
+.small{font-size:12.5px;color:var(--muted)}
+.danger{background:#fdecec;color:#c0323a;border:1px solid #f6cdd0}
+.paycheck{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.toast{position:fixed;left:50%;bottom:22px;transform:translateX(-50%);background:#0f172a;color:#fff;padding:11px 18px;border-radius:12px;font-weight:600;font-size:14px;z-index:80;box-shadow:0 10px 30px rgba(0,0,0,.3);opacity:0;transition:opacity .25s,transform .25s;pointer-events:none}
+.toast.on{opacity:1;transform:translateX(-50%) translateY(-4px)}
+
+/* login gate */
+.gate{position:fixed;inset:0;background:#0b1220;z-index:90;display:none;align-items:center;justify-content:center;padding:20px}
+.gate.on{display:flex}
+.gate .box{background:#fff;border-radius:20px;padding:26px 22px;max-width:340px;width:100%;text-align:center}
+.gate h3{font-size:19px}
+.gate p{color:var(--muted);font-size:13.5px;margin:6px 0 16px}
+</style>
+</head>
+<body>
+
+<!-- ============ PUBLIC ============ -->
+<div class="public" id="public">
+  <div class="topbar">
+    <div class="wrap">
+      <div class="orglogo" id="tbLogo">CH</div>
+      <div class="brandtxt" id="tbOrg">Cap-Haïtien Safety Coalition<small>DONATION CAMPAIGN</small></div>
+      <div class="sp"></div>
+      <div class="poweredby">Powered by<br><a href="https://haitibiznis.com" target="_blank" rel="noopener">HaitiBiznis</a></div>
+    </div>
+  </div>
+
+  <div class="hero">
+    <div class="cover" id="heroCover"></div>
+    <div class="wrap">
+      <span class="chip" id="heroChip">🦺 Road Safety Campaign</span>
+      <h1 id="heroTitle">Cap-Haïtien Road Safety Drive</h1>
+      <p id="heroDesc"></p>
+      <div class="dlbadge" id="dlBadge" style="display:none"></div>
+    </div>
+    <div class="chev"></div>
+  </div>
+
+  <div class="wrap">
+    <!-- 1. quick facts -->
+    <div class="facts" id="facts"></div>
+
+    <!-- 2/3. big progress + money -->
+    <div class="pcard">
+      <div class="pbar-top">
+        <span class="pct" id="pPct">0%</span>
+        <span class="cap" id="pCap">0 of 5 sponsored</span>
+      </div>
+      <div class="track"><div class="fill" id="pFill" style="width:0%"></div></div>
+      <div class="money">
+        <div class="mbox q"><div class="mv" id="mQty">0 of 5 Vests</div><div class="ml">Items sponsored</div></div>
+        <div class="mbox d"><div class="mv" id="mDollar">$0 of $125</div><div class="ml">Funds raised</div></div>
+      </div>
+      <div id="doneBox"></div>
+    </div>
+
+    <!-- 6. payment methods -->
+    <div class="sec-h"><h2>Accepted Payment Methods</h2></div>
+    <div class="panel">
+      <div class="paypills" id="payPills"></div>
+      <div class="paynote">🔒 Secure checkout — demo only, no real payment is processed.</div>
+    </div>
+
+    <!-- items -->
+    <div class="sec-h"><h2>Sponsor an Item</h2><span class="muted" id="itemCount"></span></div>
+    <div class="grid" id="itemGrid"></div>
+
+    <!-- 4. donor recognition -->
+    <div class="sec-h"><h2>Recent Sponsors</h2></div>
+    <div class="panel"><div class="donors" id="donors"></div></div>
+
+    <!-- 5. share -->
+    <div class="sec-h"><h2>Help Spread the Word</h2></div>
+    <div class="panel">
+      <div class="share">
+        <button class="sbtn wa" onclick="shareWA()"><span class="si">💬</span>WhatsApp</button>
+        <button class="sbtn fb" onclick="shareFB()"><span class="si">📘</span>Facebook</button>
+        <button class="sbtn cp" onclick="copyLink()"><span class="si">🔗</span>Copy Link</button>
+      </div>
+    </div>
+
+    <!-- 9. organization credibility -->
+    <div class="sec-h"><h2>About the Organization</h2></div>
+    <div class="panel about">
+      <div class="arow">
+        <div class="alogo" id="aboutLogo">CH</div>
+        <div>
+          <h3 id="aboutOrg">Cap-Haïtien Safety Coalition</h3>
+          <p id="aboutText"></p>
+        </div>
+      </div>
+      <div class="contacts" id="contacts"></div>
+    </div>
+  </div>
+
+  <div class="foot">
+    <b id="footOrg">Cap-Haïtien Safety Coalition</b><br>
+    Real-time donation campaign · Powered by <a href="https://haitibiznis.com" target="_blank" rel="noopener">HaitiBiznis</a><br>
+    <span class="small">Demo module — designed to embed into an existing WordPress website.</span>
+  </div>
+</div>
+
+<!-- ============ ADMIN ============ -->
+<div class="admin" id="admin">
+  <div class="abar">
+    <div class="wrap">
+      <button class="tbtn" onclick="closeAdmin()">← View Page</button>
+      <div class="sp"></div>
+      <h2>Admin Panel</h2>
+    </div>
+  </div>
+  <div class="wrap" style="padding-bottom:40px">
+
+    <div class="acard">
+      <h3>Campaign</h3>
+      <div class="hint">Switch between campaigns or create a new one.</div>
+      <div class="selrow">
+        <select class="inp" id="campSel" style="flex:1" onchange="switchCamp(this.value)"></select>
+        <button class="btn btn-pri" style="width:auto;padding:12px 16px" onclick="newCamp()">+ New</button>
+      </div>
+    </div>
+
+    <div class="acard">
+      <h3>Campaign Details</h3>
+      <div class="hint">These appear on the public page.</div>
+      <label class="fl">Organization name</label>
+      <input class="inp" id="aOrg" oninput="setField('org',this.value)">
+      <label class="fl">Organization logo</label>
+      <input class="inp" type="file" accept="image/*" onchange="uploadLogo(this)">
+      <label class="fl">Campaign title</label>
+      <input class="inp" id="aTitle" oninput="setField('title',this.value)">
+      <label class="fl">Short description</label>
+      <textarea class="inp" id="aDesc" oninput="setField('desc',this.value)"></textarea>
+      <label class="fl">Category label (chip)</label>
+      <input class="inp" id="aChip" oninput="setField('chip',this.value)">
+      <div class="row2">
+        <div><label class="fl">Goal headline</label><input class="inp" id="aGoalLabel" oninput="setField('goalLabel',this.value)"></div>
+        <div><label class="fl">Unit-price headline</label><input class="inp" id="aUnitLabel" oninput="setField('unitPriceLabel',this.value)"></div>
+      </div>
+      <label class="fl">Campaign deadline</label>
+      <input class="inp" type="date" id="aDeadline" oninput="setField('deadline',this.value)">
+      <label class="fl">Banner image (optional)</label>
+      <input class="inp" type="file" accept="image/*" onchange="uploadBanner(this)">
+    </div>
+
+    <div class="acard">
+      <h3>About &amp; Contact</h3>
+      <div class="hint">Builds donor confidence.</div>
+      <label class="fl">About us</label>
+      <textarea class="inp" id="aAbout" oninput="setField('about',this.value)"></textarea>
+      <div class="row2">
+        <div><label class="fl">Contact email</label><input class="inp" id="aEmail" oninput="setField('email',this.value)"></div>
+        <div><label class="fl">Phone number</label><input class="inp" id="aPhone" oninput="setField('phone',this.value)"></div>
+      </div>
+      <label class="fl">Website link</label>
+      <input class="inp" id="aWebsite" oninput="setField('website',this.value)">
+    </div>
+
+    <div class="acard">
+      <h3>Payment Methods</h3>
+      <div class="hint">Shown to donors as accepted methods.</div>
+      <div class="paycheck" id="payCheck"></div>
+    </div>
+
+    <div class="acard">
+      <h3>Donation Items <span class="badge" id="aItemBadge"></span></h3>
+      <div class="hint">Each item has a price and a target quantity. The big progress bar is the total of all items.</div>
+      <div id="admItems"></div>
+      <button class="btn btn-out" style="margin-top:12px" onclick="editItem(null)">+ Add donation item</button>
+    </div>
+
+    <div class="acard">
+      <h3>Campaign Totals</h3>
+      <div class="tot-grid">
+        <div class="stat g"><div class="n" id="tGoal">0</div><div class="l">Goal</div></div>
+        <div class="stat s"><div class="n" id="tSpon">0</div><div class="l">Sponsored</div></div>
+        <div class="stat r"><div class="n" id="tRem">0</div><div class="l">Remaining</div></div>
+      </div>
+      <div style="margin-top:6px" class="small">Raised so far: <b id="tRaised">$0</b> of <b id="tMoneyGoal">$0</b></div>
+    </div>
+
+    <div class="acard">
+      <h3>Testing</h3>
+      <div class="hint">Reset all sponsored counts back to zero to demo again.</div>
+      <button class="btn danger" onclick="resetCamp()">↺ Reset campaign progress</button>
+    </div>
+  </div>
+</div>
+
+<!-- sponsor / edit modal -->
+<div class="ov" id="ov"><div class="sheet" id="sheet"></div></div>
+<!-- admin login gate -->
+<div class="gate" id="gate"><div class="box">
+  <h3>🔒 Admin Access</h3>
+  <p>Enter the admin passcode to manage this campaign.</p>
+  <input class="inp" id="gatePin" type="password" inputmode="numeric" placeholder="Passcode" style="text-align:center;letter-spacing:4px" onkeydown="if(event.key==='Enter')tryGate()">
+  <button class="btn btn-pri" style="margin-top:12px" onclick="tryGate()">Enter</button>
+  <div class="small" id="gateErr" style="margin-top:10px"></div>
+  <button class="tbtn" style="margin-top:14px;background:#eef2f8;color:#334155" onclick="closeGate()">Cancel</button>
+</div></div>
+<div class="toast" id="toast"></div>
+
+<script>
+/* ---------------- state ---------------- */
+const LS='donation_demo_v2';
+const ADMIN_PIN='2026';
+function load(){try{return JSON.parse(localStorage.getItem(LS))}catch(e){return null}}
+function save(){localStorage.setItem(LS,JSON.stringify(state))}
+function uid(p){return p+Math.random().toString(36).slice(2,8)}
+let state=load();
+if(!state){state=seed();save();}
+function seed(){
+  return {activeId:'c1',campaigns:[{
+    id:'c1',
+    org:'Cap-Haïtien Safety Coalition',
+    title:'Cap-Haïtien Road Safety Drive',
+    desc:'Help equip our community road-safety volunteers with high-visibility security vests. Every vest keeps a volunteer seen and safe while guiding traffic on Cap-Haïtien’s busiest streets.',
+    chip:'🦺 Road Safety Campaign',
+    goalLabel:'Equip 5 Volunteers',
+    unitPriceLabel:'$25 sponsors one vest',
+    deadline:'2026-08-15',
+    logo:null,banner:null,
+    website:'https://haitibiznis.com',
+    about:'A community coalition working to make Cap-Haïtien’s streets safer for pedestrians, drivers and volunteers through equipment, training and awareness.',
+    email:'contact@caphaitiensafety.org',
+    phone:'+509 46 85 9702',
+    pay:['card','paypal','applepay','googlepay','moncash'],
+    items:[{id:'i1',name:'Road Safety / Security Vest',price:25,target:5,sponsored:3,img:'assets/vest.jpg',sponsors:['John D.','Anonymous','Marie L.']}]
+  }]};
+}
+function active(){return state.campaigns.find(c=>c.id===state.activeId)||state.campaigns[0]}
+function totals(c){c=c||active();let g=0,s=0,raised=0,mg=0;c.items.forEach(i=>{const sp=Math.min(i.sponsored,i.target);g+=i.target;s+=sp;raised+=sp*i.price;mg+=i.target*i.price;});return {goal:g,spon:s,rem:g-s,raised:raised,moneyGoal:mg};}
+
+const PAY_DEFS=[['card','Credit / Debit Card'],['paypal','PayPal'],['applepay','Apple Pay'],['googlepay','Google Pay'],['moncash','MonCash']];
+const MONTHS=['January','February','March','April','May','June','July','August','September','October','November','December'];
+function fmtDate(iso){if(!iso)return '';const p=iso.split('-');if(p.length<3)return iso;return MONTHS[(+p[1])-1]+' '+(+p[2])+', '+p[0];}
+function daysLeft(iso){if(!iso)return null;const end=new Date(iso+'T23:59:59');const now=new Date();return Math.ceil((end-now)/86400000);}
+
+function esc(s){return (s||'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]))}
+function money(n){return '$'+(Math.round(n*100)/100).toLocaleString()}
+function initials(n){n=(n||'').trim();if(!n||/anon/i.test(n))return '★';const p=n.split(/\s+/);return ((p[0]||'')[0]||'')+((p[1]||'')[0]||'')}
+function campaignLink(){return location.origin+location.pathname}
+
+/* ---------------- public render ---------------- */
+function renderPublic(){
+  const c=active(),t=totals(c);
+  // topbar + logos
+  const ini=(c.org||'CH').trim().slice(0,2).toUpperCase();
+  document.getElementById('tbLogo').innerHTML=c.logo?`<img src="${c.logo}">`:ini;
+  document.getElementById('aboutLogo').innerHTML=c.logo?`<img src="${c.logo}">`:ini;
+  document.getElementById('tbOrg').innerHTML=esc(c.org)+'<small>DONATION CAMPAIGN</small>';
+  document.getElementById('heroChip').textContent=c.chip||'Campaign';
+  document.getElementById('heroTitle').textContent=c.title;
+  document.getElementById('heroDesc').textContent=c.desc;
+  document.getElementById('heroCover').style.backgroundImage=c.banner?`url(${c.banner})`:'';
+  // deadline badge
+  const dl=document.getElementById('dlBadge');
+  if(c.deadline){const dleft=daysLeft(c.deadline);dl.style.display='inline-flex';dl.innerHTML=`⏳ Campaign ends ${fmtDate(c.deadline)}${dleft!=null?` · <b style="color:#fff">${dleft>0?dleft+' days left':'ending today'}</b>`:''}`;}else dl.style.display='none';
+  // quick facts
+  const pct=t.goal?Math.round(t.spon/t.goal*100):0;
+  document.getElementById('facts').innerHTML=`
+    <div class="fact"><div class="fi">🎯</div><div class="fv">${esc(c.goalLabel||('Goal: '+t.goal))}</div><div class="fl">Campaign goal</div></div>
+    <div class="fact"><div class="fi">💵</div><div class="fv">${esc(c.unitPriceLabel||'')}</div><div class="fl">How it works</div></div>
+    <div class="fact s"><div class="fi">✅</div><div class="fv">${t.spon} of ${t.goal} sponsored</div><div class="fl">Progress</div></div>
+    <div class="fact r"><div class="fi">⏳</div><div class="fv">${t.rem} remaining</div><div class="fl">Still needed</div></div>`;
+  // big bar + money
+  document.getElementById('pPct').textContent=pct+'%';
+  document.getElementById('pCap').textContent=`${t.spon} of ${t.goal} sponsored`;
+  document.getElementById('pFill').style.width=pct+'%';
+  document.getElementById('mQty').textContent=`${t.spon} of ${t.goal} Vests`;
+  document.getElementById('mDollar').textContent=`${money(t.raised)} of ${money(t.moneyGoal)}`;
+  document.getElementById('doneBox').innerHTML=(t.goal>0&&t.rem<=0)
+    ? '<div class="done"><h3>🎉 Goal Reached!</h3><p>Every item in this campaign has been sponsored. Thank you!</p></div>' : '';
+  // payment pills
+  document.getElementById('payPills').innerHTML=PAY_DEFS.filter(p=>(c.pay||[]).includes(p[0])).map(p=>`<span class="paypill"><span class="dot"></span>${p[1]}</span>`).join('')||'<span class="small">No methods selected.</span>';
+  // items
+  document.getElementById('itemCount').textContent=c.items.length+(c.items.length===1?' item':' items');
+  document.getElementById('itemGrid').innerHTML=c.items.map(it=>{
+    const full=it.sponsored>=it.target;
+    const mpct=it.target?Math.round(Math.min(it.sponsored,it.target)/it.target*100):0;
+    const img=it.img?`<img src="${it.img}" alt="${esc(it.name)}">`:`<div style="text-align:center;color:#9aa8bd;font-size:12px;font-weight:700">IMAGE<br>PLACEHOLDER</div>`;
+    const btn=full?`<div class="btn btn-done">✓ Fully Sponsored</div>`:`<button class="btn btn-pri" onclick="openSponsor('${it.id}')">Sponsor Now · ${money(it.price)}</button>`;
+    return `<div class="item"><div class="ph">${img}</div><div class="body">
+      <div class="nm">${esc(it.name)}</div>
+      <div class="cost">${money(it.price)} <small>/ item</small></div>
+      <div class="miniprog"><div class="mt"><span>${Math.min(it.sponsored,it.target)} of ${it.target} sponsored</span><span>${mpct}%</span></div>
+      <div class="mtrack"><div class="mfill" style="width:${mpct}%"></div></div></div>
+      <div class="act">${btn}</div></div></div>`;
+  }).join('');
+  // donors
+  const names=[];c.items.forEach(i=>(i.sponsors||[]).forEach(n=>names.push(n)));
+  const dz=document.getElementById('donors');
+  dz.innerHTML=names.length?names.slice(-12).reverse().map(n=>`<span class="donor"><span class="av">${esc(initials(n))}</span>${esc(/anon/i.test(n)||!n?'Anonymous':n)}</span>`).join(''):'<span class="empty">Be the first to sponsor an item!</span>';
+  // about
+  document.getElementById('aboutOrg').textContent=c.org;
+  document.getElementById('aboutText').textContent=c.about||'';
+  document.getElementById('footOrg').textContent=c.org;
+  const cc=[];
+  if(c.email)cc.push(`<span class="cpill">✉️ ${esc(c.email)}</span>`);
+  if(c.phone)cc.push(`<span class="cpill">📞 ${esc(c.phone)}</span>`);
+  if(c.website)cc.push(`<a class="cpill hb" href="${esc(c.website)}" target="_blank" rel="noopener">🌐 Visit HaitiBiznis</a>`);
+  document.getElementById('contacts').innerHTML=cc.join('');
+}
+
+/* ---------------- sponsor flow ---------------- */
+let curItem=null;
+function openSponsor(id){
+  curItem=id;const c=active();const it=c.items.find(i=>i.id===id);if(!it)return;
+  const pay=PAY_DEFS.filter(p=>(c.pay||[]).includes(p[0])).map(p=>`<span class="paypill"><span class="dot"></span>${p[1]}</span>`).join('');
+  document.getElementById('sheet').innerHTML=`
+    <h3>Sponsor this item</h3>
+    <div class="sub">${esc(it.name)}</div>
+    <div class="summ"><span class="k">Your sponsorship</span><span class="v">${money(it.price)}</span></div>
+    <label class="fl">Your name (optional)</label>
+    <input class="inp" id="spName" placeholder="e.g. Marie J." maxlength="40">
+    <label class="fl">Note (optional)</label>
+    <input class="inp" id="spNote" placeholder="Add a message of support" maxlength="80">
+    <label class="fl">Payment method</label>
+    <div class="paypills" style="margin-top:2px">${pay}</div>
+    <div class="cta-row">
+      <button class="btn btn-out" onclick="closeOv()">Cancel</button>
+      <button class="btn btn-pri" onclick="confirmSponsor()">Confirm Sponsorship</button>
+    </div>
+    <div class="small" style="text-align:center;margin-top:12px">🔒 Demo only — no real payment is taken. In production this connects to your payment provider.</div>`;
+  document.getElementById('ov').classList.add('on');
+}
+function confirmSponsor(){
+  const it=active().items.find(i=>i.id===curItem);if(!it)return;
+  if(it.sponsored>=it.target){closeOv();return;}
+  const nm=(document.getElementById('spName').value||'').trim();
+  it.sponsored++; it.sponsors=it.sponsors||[]; it.sponsors.push(nm||'Anonymous');
+  save();renderPublic();
+  const t=totals();
+  document.getElementById('sheet').innerHTML=`
+    <div class="ok">
+      <div class="ring">✓</div>
+      <h3>Thank you${nm?', '+esc(nm):''}!</h3>
+      <div class="sub" style="margin-top:6px">You sponsored 1 × ${esc(it.name)}.</div>
+      <div class="summ" style="margin-top:16px"><span class="k">Campaign progress</span><span class="v">${t.spon}/${t.goal}</span></div>
+      <div class="fl" style="text-align:center">Share this campaign</div>
+      <div class="share">
+        <button class="sbtn wa" onclick="shareWA()"><span class="si">💬</span>WhatsApp</button>
+        <button class="sbtn fb" onclick="shareFB()"><span class="si">📘</span>Facebook</button>
+        <button class="sbtn cp" onclick="copyLink()"><span class="si">🔗</span>Copy Link</button>
+      </div>
+      <button class="btn btn-pri" style="margin-top:16px" onclick="closeOv()">Done</button>
+    </div>`;
+}
+function closeOv(){document.getElementById('ov').classList.remove('on');}
+document.getElementById('ov').addEventListener('click',e=>{if(e.target.id==='ov')closeOv();});
+
+/* ---------------- share ---------------- */
+function shareText(){const c=active();return `Support "${c.title}" by ${c.org}. Sponsor an item and help us reach our goal!`;}
+function shareWA(){window.open('https://wa.me/?text='+encodeURIComponent(shareText()+' '+campaignLink()),'_blank');}
+function shareFB(){window.open('https://www.facebook.com/sharer/sharer.php?u='+encodeURIComponent(campaignLink()),'_blank');}
+function copyLink(){const u=campaignLink();if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(u).then(()=>toast('Campaign link copied')).catch(()=>toast(u));}else{toast(u);}}
+
+/* ---------------- admin login gate ---------------- */
+function requestAdmin(){document.getElementById('gate').classList.add('on');setTimeout(()=>document.getElementById('gatePin').focus(),50);}
+function closeGate(){document.getElementById('gate').classList.remove('on');document.getElementById('gatePin').value='';document.getElementById('gateErr').textContent='';if(location.hash==='#admin')history.replaceState(null,'',location.pathname);}
+function tryGate(){const v=document.getElementById('gatePin').value;if(v===ADMIN_PIN){document.getElementById('gate').classList.remove('on');document.getElementById('gatePin').value='';openAdmin();}else{document.getElementById('gateErr').textContent='Incorrect passcode.';}}
+
+/* ---------------- admin ---------------- */
+function openAdmin(){document.getElementById('public').classList.add('off');document.getElementById('admin').classList.add('on');window.scrollTo(0,0);renderAdmin();}
+function closeAdmin(){document.getElementById('admin').classList.remove('on');document.getElementById('public').classList.remove('off');if(location.hash==='#admin')history.replaceState(null,'',location.pathname);window.scrollTo(0,0);renderPublic();}
+function setField(k,v){active()[k]=v;save();}
+function switchCamp(id){state.activeId=id;save();renderAdmin();}
+function newCamp(){const c={id:uid('c'),org:'New Organization',title:'New Campaign',desc:'Describe your campaign here.',chip:'Campaign',goalLabel:'Our Goal',unitPriceLabel:'',deadline:'',logo:null,banner:null,website:'https://haitibiznis.com',about:'',email:'',phone:'',pay:['card','paypal','moncash'],items:[]};state.campaigns.push(c);state.activeId=c.id;save();renderAdmin();}
+function renderAdmin(){
+  const c=active(),t=totals(c);
+  document.getElementById('campSel').innerHTML=state.campaigns.map(x=>`<option value="${x.id}" ${x.id===c.id?'selected':''}>${esc(x.title)}</option>`).join('');
+  const g=id=>document.getElementById(id);
+  g('aOrg').value=c.org||'';g('aTitle').value=c.title||'';g('aDesc').value=c.desc||'';g('aChip').value=c.chip||'';
+  g('aGoalLabel').value=c.goalLabel||'';g('aUnitLabel').value=c.unitPriceLabel||'';g('aDeadline').value=c.deadline||'';
+  g('aAbout').value=c.about||'';g('aEmail').value=c.email||'';g('aPhone').value=c.phone||'';g('aWebsite').value=c.website||'';
+  g('payCheck').innerHTML=PAY_DEFS.map(p=>`<label class="chkrow"><input type="checkbox" ${(c.pay||[]).includes(p[0])?'checked':''} onchange="togglePay('${p[0]}',this.checked)">${p[1]}</label>`).join('');
+  g('aItemBadge').textContent=c.items.length;
+  g('admItems').innerHTML=c.items.map(it=>`
+    <div class="adm-item">
+      <div class="thumb">${it.img?`<img src="${it.img}">`:'—'}</div>
+      <div class="meta"><div class="t">${esc(it.name)}</div><div class="d">${money(it.price)} · target ${it.target} · sponsored ${Math.min(it.sponsored,it.target)}</div></div>
+      <button class="iconbtn" onclick="editItem('${it.id}')">Edit</button>
+      <button class="iconbtn del" onclick="delItem('${it.id}')">✕</button>
+    </div>`).join('')||'<div class="small">No items yet. Add one below.</div>';
+  g('tGoal').textContent=t.goal;g('tSpon').textContent=t.spon;g('tRem').textContent=t.rem;
+  g('tRaised').textContent=money(t.raised);g('tMoneyGoal').textContent=money(t.moneyGoal);
+}
+function togglePay(key,on){const c=active();c.pay=c.pay||[];if(on){if(!c.pay.includes(key))c.pay.push(key);}else{c.pay=c.pay.filter(x=>x!==key);}save();}
+function delItem(id){const c=active();c.items=c.items.filter(i=>i.id!==id);save();renderAdmin();}
+function editItem(id){
+  const c=active();const it=id?c.items.find(i=>i.id===id):{id:null,name:'',price:10,target:1,sponsored:0,img:null,sponsors:[]};
+  document.getElementById('sheet').innerHTML=`
+    <h3>${id?'Edit item':'Add donation item'}</h3>
+    <label class="fl">Item name</label>
+    <input class="inp" id="eiName" value="${esc(it.name)}" placeholder="e.g. Security Vest">
+    <div class="row2">
+      <div><label class="fl">Unit price ($)</label><input class="inp" id="eiPrice" type="number" min="0" step="0.5" value="${it.price}"></div>
+      <div><label class="fl">Target quantity</label><input class="inp" id="eiTarget" type="number" min="1" step="1" value="${it.target}"></div>
+    </div>
+    <label class="fl">Item image</label>
+    <input class="inp" type="file" accept="image/*" id="eiFile">
+    <div id="eiPrev" style="margin-top:8px">${it.img?`<img src="${it.img}" style="height:70px;border-radius:10px">`:''}</div>
+    <div class="cta-row">
+      <button class="btn btn-out" onclick="closeOv()">Cancel</button>
+      <button class="btn btn-pri" onclick="saveItem('${id||''}')">Save item</button>
+    </div>`;
+  document.getElementById('ov').classList.add('on');
+  let pending=it.img;
+  document.getElementById('eiFile').addEventListener('change',function(){if(this.files&&this.files[0])shrink(this.files[0],d=>{pending=d;document.getElementById('eiPrev').innerHTML=`<img src="${d}" style="height:70px;border-radius:10px">`;});});
+  window.__pendingImg=()=>pending;
+}
+function saveItem(id){
+  const c=active();
+  const name=(document.getElementById('eiName').value||'').trim()||'Untitled item';
+  const price=Math.max(0,parseFloat(document.getElementById('eiPrice').value)||0);
+  const target=Math.max(1,parseInt(document.getElementById('eiTarget').value)||1);
+  const img=window.__pendingImg?window.__pendingImg():null;
+  if(id){const it=c.items.find(i=>i.id===id);it.name=name;it.price=price;it.target=target;it.img=img;if(it.sponsored>target)it.sponsored=target;}
+  else{c.items.push({id:uid('i'),name,price,target,sponsored:0,img,sponsors:[]});}
+  save();closeOv();renderAdmin();toast('Item saved');
+}
+function uploadLogo(inp){if(inp.files&&inp.files[0])shrink(inp.files[0],d=>{active().logo=d;save();renderAdmin();toast('Logo updated');},300);}
+function uploadBanner(inp){if(inp.files&&inp.files[0])shrink(inp.files[0],d=>{active().banner=d;save();toast('Banner updated');},1200);}
+function resetCamp(){const c=active();c.items.forEach(i=>{i.sponsored=0;i.sponsors=[];});save();renderAdmin();toast('Campaign reset');}
+
+/* ---------------- image resize ---------------- */
+function shrink(file,cb,max){max=max||700;const r=new FileReader();r.onload=()=>{const img=new Image();img.onload=()=>{let w=img.width,h=img.height;if(w>h&&w>max){h=h*max/w;w=max;}else if(h>=w&&h>max){w=w*max/h;h=max;}const cv=document.createElement('canvas');cv.width=w;cv.height=h;cv.getContext('2d').drawImage(img,0,0,w,h);cb(cv.toDataURL('image/jpeg',0.82));};img.src=r.result;};r.readAsDataURL(file);}
+
+/* ---------------- toast ---------------- */
+let tTO;function toast(m){const el=document.getElementById('toast');el.textContent=m;el.classList.add('on');clearTimeout(tTO);tTO=setTimeout(()=>el.classList.remove('on'),2000);}
+
+/* ---------------- boot ---------------- */
+renderPublic();
+if(location.hash==='#admin')requestAdmin();
+window.addEventListener('hashchange',()=>{if(location.hash==='#admin')requestAdmin();});
+</script>
+</body>
+</html>
