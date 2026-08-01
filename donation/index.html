@@ -382,7 +382,7 @@ textarea.inp{min-height:70px;resize:vertical}
 
 <script>
 /* ---------------- state ---------------- */
-const LS='donation_demo_v2';
+const LS='donation_demo_v3';
 const ADMIN_PIN='2026';
 function load(){try{return JSON.parse(localStorage.getItem(LS))}catch(e){return null}}
 function save(){localStorage.setItem(LS,JSON.stringify(state))}
@@ -403,7 +403,7 @@ function seed(){
     website:'https://haitibiznis.com',
     about:'A community coalition working to make Cap-Haïtien’s streets safer for pedestrians, drivers and volunteers through equipment, training and awareness.',
     email:'contact@caphaitiensafety.org',
-    phone:'+509 46 85 9702',
+    phone:'+1 931 546-9690',
     pay:['card','paypal','applepay','googlepay','moncash'],
     items:[{id:'i1',name:'Road Safety / Security Vest',price:25,target:5,sponsored:3,img:'assets/vest.jpg',sponsors:['John D.','Anonymous','Marie L.']}]
   }]};
