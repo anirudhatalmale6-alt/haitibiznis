@@ -228,7 +228,7 @@ textarea.inp{min-height:70px;resize:vertical}
       </div>
       <div class="track"><div class="fill" id="pFill" style="width:0%"></div></div>
       <div class="money">
-        <div class="mbox q"><div class="mv" id="mQty">0 of 5 Vests</div><div class="ml">Items sponsored</div></div>
+        <div class="mbox q"><div class="mv" id="mQty">0 of 300 Items</div><div class="ml">Items sponsored</div></div>
         <div class="mbox d"><div class="mv" id="mDollar">$0 of $125</div><div class="ml">Funds raised</div></div>
       </div>
       <div id="doneBox"></div>
@@ -382,7 +382,7 @@ textarea.inp{min-height:70px;resize:vertical}
 
 <script>
 /* ---------------- state ---------------- */
-const LS='donation_demo_v3';
+const LS='donation_demo_v4';
 const ADMIN_PIN='2026';
 function load(){try{return JSON.parse(localStorage.getItem(LS))}catch(e){return null}}
 function save(){localStorage.setItem(LS,JSON.stringify(state))}
@@ -394,10 +394,10 @@ function seed(){
     id:'c1',
     org:'Cap-Haïtien Safety Coalition',
     title:'Cap-Haïtien Road Safety Drive',
-    desc:'Help equip our community road-safety volunteers with high-visibility security vests. Every vest keeps a volunteer seen and safe while guiding traffic on Cap-Haïtien’s busiest streets.',
+    desc:'Help equip our community road-safety volunteers with the gear they need to work safely on Cap-Haïtien’s busiest streets — heavy-duty safety work boots, waterproof rain boots for the wet season, and high-visibility reflective vests. Sponsor one item, or a full set, and keep a volunteer seen, protected and on the job.',
     chip:'🦺 Road Safety Campaign',
-    goalLabel:'Equip 5 Volunteers',
-    unitPriceLabel:'$25 sponsors one vest',
+    goalLabel:'Equip 300 Volunteers',
+    unitPriceLabel:'Sponsor boots, rain boots & vests',
     deadline:'2026-08-15',
     logo:null,banner:null,
     website:'https://haitibiznis.com',
@@ -405,7 +405,11 @@ function seed(){
     email:'contact@caphaitiensafety.org',
     phone:'+1 931 546-9690',
     pay:['card','paypal','applepay','googlepay','moncash'],
-    items:[{id:'i1',name:'Road Safety / Security Vest',price:25,target:5,sponsored:3,img:'assets/vest.jpg',sponsors:['John D.','Anonymous','Marie L.']}]
+    items:[
+      {id:'i1',name:'Safety Toe Work Boots (Sizes 8–11)',price:80,target:100,sponsored:14,img:'assets/boots.jpg',sponsors:['Jean B.','Anonymous','Widline P.','Marc A.']},
+      {id:'i2',name:'Hip / Wellington Rain Boots (Sizes 8–11)',price:32,target:100,sponsored:9,img:'assets/rainboots.jpg',sponsors:['Anonymous','Roland J.','Nadège S.']},
+      {id:'i3',name:'Hi-Vis Reflective Safety Vest (Yellow-Green / Orange)',price:25,target:100,sponsored:21,img:'assets/vests.jpg',sponsors:['John D.','Anonymous','Marie L.']}
+    ]
   }]};
 }
 function active(){return state.campaigns.find(c=>c.id===state.activeId)||state.campaigns[0]}
@@ -447,7 +451,7 @@ function renderPublic(){
   document.getElementById('pPct').textContent=pct+'%';
   document.getElementById('pCap').textContent=`${t.spon} of ${t.goal} sponsored`;
   document.getElementById('pFill').style.width=pct+'%';
-  document.getElementById('mQty').textContent=`${t.spon} of ${t.goal} Vests`;
+  document.getElementById('mQty').textContent=`${t.spon} of ${t.goal} Items`;
   document.getElementById('mDollar').textContent=`${money(t.raised)} of ${money(t.moneyGoal)}`;
   document.getElementById('doneBox').innerHTML=(t.goal>0&&t.rem<=0)
     ? '<div class="done"><h3>🎉 Goal Reached!</h3><p>Every item in this campaign has been sponsored. Thank you!</p></div>' : '';
