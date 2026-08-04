@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>HaitiBiznis — AI Business Package</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800;900&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  *{margin:0;padding:0;box-sizing:border-box}
+  :root{--blue:#0057D9;--navy:#0a1a52;--red:#E31B23;--green:#00A651;--gold:#F5A800;
+    --ink:#16223b;--muted:#66738c;--line:#e7ebf5;--bg:#eef1f8;--card:#fff}
+  html,body{background:var(--bg);font-family:'Inter',system-ui,sans-serif;color:var(--ink)}
+  .wrap{max-width:920px;margin:0 auto;padding:0 16px 60px}
+  /* header */
+  .top{background:linear-gradient(120deg,#0a1a52,#0d2170 55%,#142a8a);color:#fff;padding:20px 16px 22px;border-bottom:5px solid var(--red);position:relative}
+  .top::after{content:"";position:absolute;left:0;right:0;bottom:-5px;height:5px;background:linear-gradient(90deg,var(--blue),var(--red))}
+  .top .in{max-width:920px;margin:0 auto;display:flex;align-items:center;gap:14px}
+  .top .logo{width:52px;height:52px;border-radius:14px;background:#fff;display:grid;place-items:center;font-size:26px;flex:0 0 auto;box-shadow:0 6px 16px rgba(0,0,0,.25)}
+  .top h1{font-family:'Poppins';font-weight:900;font-size:20px;line-height:1.1}
+  .top .sub{font-size:12px;opacity:.85;margin-top:2px;font-weight:500}
+  .top .pill{margin-left:auto;background:rgba(255,255,255,.16);border:1px solid rgba(255,255,255,.25);border-radius:999px;padding:6px 13px;font-size:12px;font-weight:700}
+  /* biz bar */
+  .bizbar{background:var(--card);border-radius:18px;box-shadow:0 10px 30px rgba(16,26,60,.08);margin-top:-14px;position:relative;padding:18px 20px;display:flex;flex-wrap:wrap;align-items:center;gap:14px}
+  .bizbar .bn{font-family:'Poppins';font-weight:800;font-size:20px}
+  .bizbar .bt{font-size:13px;color:var(--muted);margin-top:2px}
+  .bizbar .badge{margin-left:auto;background:#eafaf0;color:#0c8f45;font-weight:800;font-size:12.5px;padding:7px 14px;border-radius:999px}
+  .prog{margin-top:16px;background:var(--card);border-radius:16px;padding:16px 20px;box-shadow:0 6px 20px rgba(16,26,60,.06)}
+  .prog .lab{display:flex;justify-content:space-between;font-size:13px;font-weight:700;margin-bottom:9px}
+  .prog .lab b{color:var(--blue)}
+  .bar{height:12px;border-radius:8px;background:#e9edf7;overflow:hidden}
+  .bar > i{display:block;height:100%;width:0;border-radius:8px;background:linear-gradient(90deg,var(--blue),var(--green));transition:width .5s ease}
+  .prog .note{font-size:12px;color:var(--muted);margin-top:9px}
+  /* grid */
+  .sec-h{font-family:'Poppins';font-weight:800;font-size:16px;margin:26px 4px 12px;display:flex;align-items:center;gap:8px}
+  .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:14px}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:15px 16px 14px;box-shadow:0 6px 18px rgba(16,26,60,.05);display:flex;flex-direction:column;opacity:0;transform:translateY(10px);transition:opacity .4s,transform .4s}
+  .card.in{opacity:1;transform:none}
+  .card .ch{display:flex;align-items:center;gap:10px}
+  .card .emo{width:38px;height:38px;border-radius:11px;display:grid;place-items:center;font-size:20px;background:#eef3ff;flex:0 0 auto}
+  .card .nm{font-weight:700;font-size:14.5px;line-height:1.2}
+  .card .st{margin-left:auto;font-size:11px;font-weight:800;color:#0c8f45;display:flex;align-items:center;gap:4px;white-space:nowrap}
+  .card.approved .st{color:var(--blue)}
+  .card.revise .st{color:var(--gold)}
+  .dot{width:8px;height:8px;border-radius:50%;background:currentColor;display:inline-block}
+  .card .snip{font-size:12.5px;color:var(--muted);margin:11px 0 13px;line-height:1.5;flex:1}
+  .btns{display:flex;gap:7px}
+  .btns button{flex:1;border:0;border-radius:10px;padding:9px 6px;font-size:12px;font-weight:700;font-family:'Inter';cursor:pointer;display:flex;align-items:center;justify-content:center;gap:4px}
+  .b-prev{background:#eef3ff;color:var(--blue)}
+  .b-rev{background:#fff6e6;color:#b57000}
+  .b-appr{background:var(--green);color:#fff}
+  .b-appr:disabled{background:#cfe9d9;color:#fff}
+  /* modal */
+  .ov{position:fixed;inset:0;background:rgba(10,20,45,.55);backdrop-filter:blur(3px);display:none;align-items:flex-end;justify-content:center;z-index:50}
+  .ov.on{display:flex}
+  .sheet{background:#fff;width:100%;max-width:760px;max-height:90vh;border-radius:22px 22px 0 0;overflow:hidden;display:flex;flex-direction:column;animation:up .3s ease}
+  @keyframes up{from{transform:translateY(30px);opacity:.6}to{transform:none;opacity:1}}
+  .sheet .sh{padding:16px 20px;border-bottom:1px solid var(--line);display:flex;align-items:center;gap:10px}
+  .sheet .sh .emo{width:40px;height:40px;border-radius:12px;background:#eef3ff;display:grid;place-items:center;font-size:21px}
+  .sheet .sh .nm{font-family:'Poppins';font-weight:800;font-size:16px}
+  .sheet .sh .x{margin-left:auto;background:#f1f3f9;border:0;width:34px;height:34px;border-radius:10px;font-size:18px;cursor:pointer;color:var(--muted)}
+  .sheet .bd{padding:18px 22px;overflow:auto;font-size:14.5px;line-height:1.62}
+  .sheet .bd h3{font-family:'Poppins';font-size:15px;margin:16px 0 6px;color:var(--navy)}
+  .sheet .bd h3:first-child{margin-top:0}
+  .sheet .bd p{margin:0 0 10px}
+  .sheet .bd ul{margin:0 0 12px 18px}.sheet .bd li{margin:3px 0}
+  .sheet .bd .swatches{display:flex;gap:10px;flex-wrap:wrap;margin:6px 0 12px}
+  .sheet .bd .sw{width:60px;text-align:center;font-size:10px;color:var(--muted)}
+  .sheet .bd .sw i{display:block;height:46px;border-radius:10px;border:1px solid var(--line);margin-bottom:4px}
+  .sheet .sf{padding:12px 20px;border-top:1px solid var(--line);display:flex;gap:9px}
+  .sheet .sf button{flex:1;border:0;border-radius:11px;padding:12px;font-weight:800;font-size:13.5px;cursor:pointer}
+  .foot{text-align:center;color:var(--muted);font-size:12px;margin-top:30px;line-height:1.6}
+  .foot b{color:var(--ink)}
+  .demo-tag{display:inline-block;background:#fff3cd;color:#7a5a00;font-size:11px;font-weight:700;border:1px solid #f4d992;border-radius:8px;padding:5px 10px;margin-top:8px}
+</style>
+</head>
+<body>
+<div class="top"><div class="in">
+  <div class="logo">🤖</div>
+  <div><h1>AI Business Creation Engine</h1><div class="sub">HaitiBiznis Technologies · 48HoursReady</div></div>
+  <div class="pill">Package: 10,000 GDES</div>
+</div></div>
+
+<div class="wrap">
+  <div class="bizbar">
+    <div><div class="bn" id="bizName">Kafe Montay Ayiti</div><div class="bt">Premium single-origin Haitian mountain coffee · Owner: Roseline Étienne</div></div>
+    <div class="badge" id="allBadge">✓ 17 items ready</div>
+  </div>
+
+  <div class="prog" id="progBox">
+    <div class="lab"><span id="progText">🤖 Generating your business package…</span><b id="progPct">0%</b></div>
+    <div class="bar"><i id="progFill"></i></div>
+    <div class="note" id="progNote">Our AI is reading your Smart Brief and drafting every deliverable…</div>
+  </div>
+
+  <div class="sec-h">📦 Your Business Package <span style="font-weight:500;color:var(--muted);font-size:13px">— tap Preview on any item</span></div>
+  <div class="grid" id="grid"></div>
+
+  <div class="foot">
+    <span class="demo-tag">DEMO — sample business generated to show the experience</span><br>
+    Every item was drafted by AI from a single Smart Brief. In the live version each customer gets this dashboard after they order, with Preview · Request Revision · Approve on every deliverable.<br>
+    <b>HaitiBiznis</b> — we don't sell documents, we build an AI-powered digital identity for every business.
+  </div>
+</div>
+
+<div class="ov" id="ov"><div class="sheet">
+  <div class="sh"><div class="emo" id="mEmo">📄</div><div class="nm" id="mNm">Item</div><button class="x" onclick="closeSheet()">×</button></div>
+  <div class="bd" id="mBd"></div>
+  <div class="sf">
+    <button class="b-rev" style="background:#fff6e6;color:#b57000" onclick="act('revise')">✏ Request Revision</button>
+    <button class="b-appr" style="background:var(--green);color:#fff" onclick="act('approve')">✔ Approve</button>
+  </div>
+</div></div>
+
+<script>
+/* ── The AI-generated package (this is what the engine outputs from the Smart Brief) ── */
+const PKG=[
+ {id:'slogan',emo:'💬',nm:'Business Slogan',snip:'"Gou mòn Ayiti nan chak tas." — the taste of Haiti\'s mountains in every cup.',
+  body:`<p><b>Kreyòl:</b> «Gou mòn Ayiti nan chak tas.»</p><p><b>English:</b> "Haiti's mountains in every cup."</p><p><b>Français:</b> « Le goût des montagnes d'Haïti dans chaque tasse. »</p><h3>Alternatives</h3><ul><li>"Roasted in Haiti. Loved everywhere."</li><li>"Kafe pa nou. Fyète nou." (Our coffee. Our pride.)</li><li>"From our mountains to your morning."</li></ul>`},
+ {id:'mission',emo:'🎯',nm:'Mission',snip:'Revive Haiti\'s coffee heritage by partnering directly with mountain farmers and delivering premium single-origin coffee at home and abroad.',
+  body:`<p>To revive Haiti's world-class coffee heritage by partnering directly with mountain-farming cooperatives, roasting premium single-origin beans with care, and bringing an authentic taste of Haiti to families at home and across the diaspora — keeping quality, income and dignity in Haitian hands.</p>`},
+ {id:'vision',emo:'🔭',nm:'Vision',snip:'Become the most loved Haitian coffee brand in the Americas.',
+  body:`<p>To become the most loved Haitian coffee brand in the Americas — living proof that a product grown, roasted and branded in Haiti, by Haitians, can compete and win on the world stage, while lifting the mountain communities that make it possible.</p>`},
+ {id:'value',emo:'💎',nm:'Value Proposition',snip:'100% single-origin Haitian coffee, direct from mountain cooperatives at fair prices, roasted fresh, delivered to your door.',
+  body:`<p>100% single-origin Haitian coffee, sourced <b>directly</b> from mountain cooperatives at fair prices, roasted fresh in small batches, and delivered to your door.</p><ul><li><b>Authentic:</b> real Haitian Arabica, not a blend.</li><li><b>Fair:</b> farmers paid above market — money stays in Haiti.</li><li><b>Fresh:</b> roasted to order, sealed with a roast date.</li><li><b>Convenient:</b> home delivery + diaspora shipping.</li></ul>`},
+ {id:'market',emo:'👥',nm:'Target Market',snip:'Diaspora families, urban professionals, cafés/hotels, and conscious fair-trade consumers.',
+  body:`<h3>Primary</h3><ul><li>Haitian diaspora families (US, Canada, France) who miss the taste of home.</li><li>Urban professionals in Port-au-Prince, Pétion-Ville & Cap-Haïtien.</li></ul><h3>Secondary</h3><ul><li>Cafés, hotels & restaurants seeking a local premium supplier.</li><li>Conscious consumers who value single-origin, fair-trade coffee.</li><li>Corporate gifting & event partners.</li></ul>`},
+ {id:'colors',emo:'🎨',nm:'Brand Colors',type:'colors',snip:'Mountain Green, Roasted Bean Brown, Warm Gold, Cream.',
+  colors:[['#1B5E20','Mountain Green'],['#4E342E','Bean Brown'],['#D4A017','Warm Gold'],['#FAF3E0','Cream']],
+  body:`<p>A warm, earthy palette that says premium, natural and proudly Haitian.</p>`},
+ {id:'exec',emo:'📄',nm:'Executive Summary',snip:'A bank- and investor-ready 1-page summary: overview, problem/solution, market, revenue, edge, financials.',
+  body:`<h3>Company Overview</h3><p>Kafe Montay Ayiti is a Haitian specialty-coffee company that sources single-origin Arabica directly from mountain cooperatives, roasts it fresh, and sells it to households, businesses and the diaspora through delivery and retail.</p><h3>Problem & Solution</h3><p>Haiti grows some of the world's finest coffee, yet most is exported raw and cheap while local drinkers settle for imported instant coffee. Kafe Montay closes that gap: a premium, proudly Haitian brand that pays farmers fairly and delivers quality at home.</p><h3>Market Opportunity</h3><p>4M+ Haitian diaspora abroad + a growing urban middle class represent a multi-million-dollar specialty-coffee opportunity currently served by foreign brands.</p><h3>Revenue Model</h3><p>Retail bags, café/hotel wholesale, diaspora subscription boxes, and branded café locations.</p><h3>Competitive Advantage</h3><p>Direct farmer relationships, fresh local roasting, authentic Haitian story, and an omni-channel (WhatsApp + delivery + retail) reach.</p><h3>Financial Highlights</h3><p>Target Year 1: 12,000 bags sold, 3 wholesale accounts, break-even by month 9. Seeking modest working capital for roasting equipment and inventory.</p><h3>Call to Action</h3><p>Partner with Kafe Montay Ayiti to build the coffee brand Haiti deserves.</p>`},
+ {id:'model',emo:'🏗️',nm:'Business Model',snip:'Four revenue streams: retail bags, wholesale, diaspora subscriptions, café locations.',
+  body:`<h3>Revenue Streams</h3><ul><li><b>Retail bags</b> (250g/500g/1kg) via WhatsApp, delivery & shops.</li><li><b>Wholesale</b> to cafés, hotels & restaurants.</li><li><b>Diaspora subscription boxes</b> shipped monthly.</li><li><b>Branded café</b> locations (phase 2).</li></ul><h3>Cost Structure</h3><ul><li>Green coffee (fair-trade), roasting, packaging, delivery, marketing.</li></ul><h3>Margins</h3><p>Target ~55% gross on retail, ~35% on wholesale; subscriptions drive repeat revenue and predictable cash flow.</p>`},
+ {id:'marketing',emo:'📣',nm:'Marketing Strategy',snip:'WhatsApp + Instagram, diaspora Facebook groups, hotel tastings, QR-on-bag, influencer sampling.',
+  body:`<h3>Channels</h3><ul><li><b>WhatsApp Business</b> catalog + orders (primary in Haiti).</li><li><b>Instagram & TikTok</b>: roast videos, farmer stories, brew tips.</li><li><b>Diaspora Facebook groups</b> (US/Canada/France).</li><li><b>Café & hotel tastings</b> to win wholesale accounts.</li><li><b>QR code on every bag</b> → reorder + the farm's story.</li></ul><h3>Launch Plan (90 days)</h3><ul><li>Weeks 1–2: brand + packaging + WhatsApp catalog live.</li><li>Weeks 3–6: influencer sampling + first 3 café pitches.</li><li>Weeks 7–12: diaspora subscription launch + paid social.</li></ul>`},
+ {id:'social',emo:'📱',nm:'Social Media Bio',snip:'☕ Premium single-origin Haitian coffee, roasted fresh from our mountains…',
+  body:`<h3>Instagram / TikTok</h3><p>☕ Premium single-origin Haitian coffee<br>⛰️ Roasted fresh from our mountains<br>🤝 Direct from farmers · Fair prices<br>🚚 Delivered to your door · 🌍 Diaspora shipping<br>👇 Order on WhatsApp</p><h3>Facebook</h3><p>Kafe Montay Ayiti — proudly Haitian, single-origin mountain coffee roasted fresh and delivered to your door. Order via WhatsApp. #GouMònAyiti #KafeAyisyen</p>`},
+ {id:'website',emo:'💻',nm:'Website Content',snip:'Hero, About, How it works, Products, and Contact copy for a 5-section landing page.',
+  body:`<h3>Hero</h3><p><b>Haiti's mountains in every cup.</b><br>Premium single-origin Haitian coffee, roasted fresh and delivered to your door. <em>[Order on WhatsApp]</em></p><h3>About Us</h3><p>Born in the mountains of Haiti, Kafe Montay works hand-in-hand with farming cooperatives to bring you authentic, fair-trade Haitian coffee — roasted with care, sealed with a roast date.</p><h3>How It Works</h3><ul><li>1 · Choose your roast & size</li><li>2 · Order on WhatsApp</li><li>3 · We roast, pack & deliver</li></ul><h3>Products</h3><p>Whole bean & ground · 250g / 500g / 1kg · Subscription boxes · Wholesale for cafés & hotels.</p><h3>Contact</h3><p>WhatsApp: +509 …  ·  Delivery across Port-au-Prince & Cap-Haïtien  ·  Diaspora shipping available.</p>`},
+ {id:'press',emo:'📰',nm:'Press Release',snip:'"Kafe Montay Ayiti Launches to Bring Premium Haitian Mountain Coffee to the Diaspora."',
+  body:`<h3>FOR IMMEDIATE RELEASE</h3><p><b>Kafe Montay Ayiti Launches to Bring Premium Haitian Mountain Coffee Home and to the Diaspora</b></p><p><b>Port-au-Prince, Haiti —</b> Kafe Montay Ayiti today announced the launch of its premium single-origin coffee brand, sourced directly from Haitian mountain cooperatives and roasted fresh for delivery to homes, cafés and the diaspora.</p><p>"Haiti grows some of the finest coffee in the world," said founder Roseline Étienne. "We're building the brand that finally does it justice — and pays our farmers what they deserve."</p><p>Customers can order via WhatsApp with delivery across Port-au-Prince and Cap-Haïtien, and shipping to the diaspora. Learn more at the company's website.</p><p><b>Media contact:</b> press@kafemontay.ht</p>`},
+ {id:'card',emo:'🪪',nm:'Business Card Copy',snip:'Front + back copy for a print-ready business card with QR.',
+  body:`<h3>Front</h3><p><b>KAFE MONTAY AYITI</b><br><em>Gou mòn Ayiti nan chak tas.</em><br>Roseline Étienne — Founder</p><h3>Back</h3><p>📱 WhatsApp: +509 … · ✉ hello@kafemontay.ht<br>🌍 www.kafemontay.ht · 📸 @kafemontay<br>[ QR code → WhatsApp catalog ]</p>`},
+ {id:'logo',emo:'✏️',nm:'Logo Creative Brief',snip:'Concept & direction for the designer: a mountain + coffee cherry + sunrise mark.',
+  body:`<h3>Concept</h3><p>A clean emblem combining a <b>mountain peak</b>, a <b>coffee cherry/bean</b>, and a <b>rising sun</b> — Haitian heritage, origin and a fresh start.</p><h3>Style</h3><ul><li>Modern, premium, warm — not clip-art.</li><li>Works in one color (stamp on a bag) and full color.</li><li>Rounded, friendly geometry.</li></ul><h3>Colors</h3><p>Mountain Green #1B5E20 · Bean Brown #4E342E · Warm Gold #D4A017.</p><h3>Deliverables for designer</h3><ul><li>Primary logo, icon-only mark, one-color version, bag stamp.</li></ul>`},
+ {id:'deck',emo:'📊',nm:'Investor Pitch Deck (NotebookLM source)',snip:'12-slide source doc, ready to drop into NotebookLM to generate the deck.',
+  body:`<h3>Slide-by-slide source</h3><ul><li><b>1 · Title</b> — Kafe Montay Ayiti · "Haiti's mountains in every cup."</li><li><b>2 · Problem</b> — Haiti exports great coffee raw & cheap; locals drink imported instant.</li><li><b>3 · Solution</b> — Premium, fair-trade, proudly Haitian brand, roasted fresh.</li><li><b>4 · Product</b> — Single-origin bags, subscriptions, wholesale.</li><li><b>5 · Market</b> — 4M+ diaspora + growing urban middle class.</li><li><b>6 · Business model</b> — Retail, wholesale, subscription, café.</li><li><b>7 · Go-to-market</b> — WhatsApp, social, diaspora groups, hotel tastings.</li><li><b>8 · Traction plan</b> — Yr1: 12k bags, 3 wholesale accounts.</li><li><b>9 · Competition</b> — Foreign brands vs. our authentic local edge.</li><li><b>10 · Team</b> — Founder + roasting partner + farmer cooperatives.</li><li><b>11 · Financials</b> — Break-even month 9; modest working-capital ask.</li><li><b>12 · The ask</b> — Partner to build Haiti's coffee brand.</li></ul><p style="color:var(--muted);font-size:12.5px">↳ This clean source is fed to <b>NotebookLM</b>, which produces the finished deck.</p>`},
+ {id:'video',emo:'🎬',nm:'Explainer Video Script (NotebookLM source)',snip:'60-second narration + the source doc for NotebookLM to build the video.',
+  body:`<h3>60-second narration</h3><p>[Open — mountains at sunrise] In the mountains of Haiti grows some of the finest coffee on earth…</p><p>[Farmers, cherries] …but for too long it left the country raw and cheap, while we drank imported instant.</p><p>[Roasting, bags] Kafe Montay Ayiti changes that. We buy directly from our farmers, pay them fairly, and roast fresh — single-origin, sealed with a roast date.</p><p>[Delivery, happy cup] From our mountains to your morning — at home in Haiti, and wherever the diaspora calls home.</p><p>[Logo] Kafe Montay Ayiti. Gou mòn Ayiti nan chak tas. Order today on WhatsApp.</p><p style="color:var(--muted);font-size:12.5px">↳ Script + source fed to <b>NotebookLM</b> to generate the explainer video.</p>`},
+ {id:'promo',emo:'📹',nm:'Promotional Video Script (NotebookLM source)',snip:'Punchy 30-second promo script + source for NotebookLM.',
+  body:`<h3>30-second promo narration</h3><p>[Fast cuts — steaming cup, mountains, roasting] Real Haitian coffee. Grown in our mountains.</p><p>[Bag with roast date] Roasted fresh. Fair to our farmers.</p><p>[Delivery to a smiling customer] Delivered to your door — in Haiti and to the diaspora.</p><p>[Logo + slogan] Kafe Montay Ayiti. Gou mòn Ayiti nan chak tas. Order on WhatsApp today. ☕🇭🇹</p><p style="color:var(--muted);font-size:12.5px">↳ Script + source fed to <b>NotebookLM</b> to generate the promo video.</p>`}
+];
+
+/* ── render ── */
+const grid=document.getElementById('grid');
+const state=JSON.parse(localStorage.getItem('aipkg_state')||'{}');
+PKG.forEach((it,i)=>{
+  const c=document.createElement('div');c.className='card';c.dataset.id=it.id;
+  const stTxt=state[it.id]==='approve'?'<span class="dot"></span>Approved':state[it.id]==='revise'?'<span class="dot"></span>Revision asked':'<span class="dot"></span>Ready';
+  c.innerHTML=`<div class="ch"><div class="emo">${it.emo}</div><div class="nm">${it.nm}</div><div class="st">${stTxt}</div></div>
+    <div class="snip">${it.snip}</div>
+    <div class="btns">
+      <button class="b-prev" onclick="openSheet('${it.id}')">👁 Preview</button>
+      <button class="b-rev" onclick="quick('${it.id}','revise')">✏ Revise</button>
+      <button class="b-appr" onclick="quick('${it.id}','approve')">✔ Approve</button>
+    </div>`;
+  if(state[it.id])c.classList.add(state[it.id]==='approve'?'approved':'revise');
+  grid.appendChild(c);
+});
+
+/* generating animation → reveal cards */
+let pct=0;const fill=document.getElementById('progFill'),pctEl=document.getElementById('progPct'),
+  txt=document.getElementById('progText'),note=document.getElementById('progNote');
+const cards=[...document.querySelectorAll('.card')];
+const stepNames=PKG.map(p=>p.nm);
+const tick=setInterval(()=>{
+  pct=Math.min(100,pct+Math.ceil(100/PKG.length));
+  fill.style.width=pct+'%';pctEl.textContent=pct+'%';
+  const idx=Math.min(PKG.length-1,Math.floor(pct/100*PKG.length));
+  if(cards[idx])cards[idx].classList.add('in');
+  note.textContent='✅ '+stepNames[idx]+' — ready';
+  if(pct>=100){clearInterval(tick);cards.forEach(c=>c.classList.add('in'));
+    txt.textContent='✅ Your business package is ready';fill.style.width='100%';
+    note.textContent='Review each item below — Preview, then Approve or Request a Revision.';}
+},260);
+
+/* modal */
+let cur=null;
+function openSheet(id){cur=id;const it=PKG.find(x=>x.id===id);
+  document.getElementById('mEmo').textContent=it.emo;document.getElementById('mNm').textContent=it.nm;
+  let html=it.body||'';
+  if(it.type==='colors'&&it.colors){html='<div class="swatches">'+it.colors.map(c=>`<div class="sw"><i style="background:${c[0]}"></i>${c[1]}<br>${c[0]}</div>`).join('')+'</div>'+html;}
+  document.getElementById('mBd').innerHTML=html;
+  document.getElementById('ov').classList.add('on');document.getElementById('mBd').scrollTop=0;}
+function closeSheet(){document.getElementById('ov').classList.remove('on');}
+document.getElementById('ov').addEventListener('click',e=>{if(e.target.id==='ov')closeSheet();});
+function act(kind){if(cur){setState(cur,kind);}closeSheet();}
+function quick(id,kind){setState(id,kind);}
+function setState(id,kind){state[id]=kind;localStorage.setItem('aipkg_state',JSON.stringify(state));
+  const c=document.querySelector('.card[data-id="'+id+'"]');if(!c)return;
+  c.classList.remove('approved','revise');c.classList.add(kind==='approve'?'approved':'revise');
+  c.querySelector('.st').innerHTML='<span class="dot"></span>'+(kind==='approve'?'Approved':'Revision asked');
+  const done=PKG.filter(p=>state[p.id]==='approve').length;
+  document.getElementById('allBadge').textContent = done===PKG.length ? '✓ All approved 🎉' : '✓ '+done+'/'+PKG.length+' approved';}
+</script>
+</body>
+</html>
