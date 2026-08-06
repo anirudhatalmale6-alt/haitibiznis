@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Pearl Hippolyte — HaitiBiznis Technologies</title>
+<meta name="description" content="Pearl Hippolyte, Directrice des Partenariats Stratégiques — HaitiBiznis Technologies. Visitez www.HaitiBiznis.com">
+<meta property="og:title" content="Pearl Hippolyte — HaitiBiznis Technologies">
+<meta property="og:description" content="Directrice des Partenariats Stratégiques · www.HaitiBiznis.com">
+<meta property="og:image" content="https://haitibiznis.com/card/pearl/assets/hb-logo.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@500;600;700;800;900&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --navy:#00209F; --navy-deep:#0A1A5C; --red:#D21034; --green:#0a7d3a;
+  --ink:#14203a; --muted:#5f6b85; --line:#e7ecf5; --bg:#eef1f8;
+  --gold:#e9a923;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+body{
+  font-family:'Inter',system-ui,sans-serif;color:var(--ink);
+  background:
+    radial-gradient(1200px 600px at 50% -10%, rgba(0,32,159,.18), transparent 60%),
+    linear-gradient(160deg,#0a1240 0%,#0a1a5c 45%,#141c3f 100%);
+  min-height:100vh;display:flex;align-items:flex-start;justify-content:center;
+  padding:22px 14px 40px;-webkit-font-smoothing:antialiased;
+}
+.dots{position:fixed;inset:0;background-image:radial-gradient(rgba(255,255,255,.06) 1.1px, transparent 1.2px);background-size:20px 20px;pointer-events:none;z-index:0}
+.card{
+  position:relative;z-index:1;width:100%;max-width:430px;background:#fff;
+  border-radius:26px;overflow:hidden;box-shadow:0 30px 70px rgba(3,10,40,.55);
+}
+/* header */
+.hdr{position:relative;background:linear-gradient(140deg,var(--navy) 0%,var(--navy-deep) 100%);padding:26px 22px 46px;text-align:center;overflow:hidden}
+.hdr::before{content:"";position:absolute;top:-40px;right:-40px;width:160px;height:160px;border-radius:50%;background:rgba(255,255,255,.06)}
+.hdr::after{content:"";position:absolute;bottom:-60px;left:-30px;width:150px;height:150px;border-radius:50%;background:rgba(210,16,52,.14)}
+.flagbar{position:absolute;top:0;left:0;right:0;height:6px;background:linear-gradient(90deg,var(--navy) 50%,var(--red) 50%)}
+.logoplate{position:relative;background:#fff;border-radius:18px;padding:16px 18px;display:inline-block;box-shadow:0 12px 30px rgba(0,0,0,.28)}
+.logoplate img{display:block;width:210px;max-width:64vw;height:auto}
+.tagline{position:relative;color:rgba(255,255,255,.92);font-size:.82rem;font-weight:600;margin-top:14px;letter-spacing:.2px;font-style:italic}
+/* identity */
+.who{padding:0 22px;margin-top:-26px;position:relative;z-index:2;text-align:center}
+.namecard{background:#fff;border:1px solid var(--line);border-radius:18px;padding:20px 18px 18px;box-shadow:0 14px 34px rgba(10,26,92,.12)}
+.name{font-family:'Poppins',sans-serif;font-weight:900;font-size:1.7rem;line-height:1.05;color:var(--navy-deep);letter-spacing:-.5px}
+.role{margin-top:6px;font-weight:700;font-size:.82rem;color:var(--red);text-transform:uppercase;letter-spacing:1.4px;line-height:1.4}
+.org{margin-top:8px;font-size:.9rem;color:var(--muted);font-weight:600}
+/* website hero */
+.site-hero{margin:16px 22px 4px}
+.site-btn{
+  display:flex;align-items:center;gap:14px;width:100%;text-decoration:none;
+  background:linear-gradient(135deg,var(--red) 0%,#b10d2b 100%);
+  color:#fff;border-radius:18px;padding:16px 18px;
+  box-shadow:0 14px 30px rgba(210,16,52,.42);position:relative;overflow:hidden;
+  animation:pulse 2.6s ease-in-out infinite;
+}
+@keyframes pulse{0%,100%{box-shadow:0 14px 30px rgba(210,16,52,.42)}50%{box-shadow:0 14px 30px rgba(210,16,52,.42),0 0 0 6px rgba(210,16,52,.16)}}
+.site-btn .globe{font-size:1.9rem;flex-shrink:0}
+.site-btn .st{flex:1;min-width:0;text-align:left}
+.site-btn .st small{display:block;font-size:.68rem;font-weight:600;opacity:.9;text-transform:uppercase;letter-spacing:1.2px}
+.site-btn .st b{display:block;font-family:'Poppins',sans-serif;font-weight:800;font-size:1.18rem;line-height:1.15;letter-spacing:.2px}
+.site-btn .arr{font-size:1.4rem;opacity:.9}
+/* contact rows */
+.rows{padding:14px 22px 4px;display:flex;flex-direction:column;gap:10px}
+.row{display:flex;align-items:center;gap:13px;text-decoration:none;color:var(--ink);background:#f6f8fc;border:1px solid var(--line);border-radius:14px;padding:12px 14px;transition:.15s}
+.row:hover{background:#eef2fb;border-color:#d3ddf0}
+.row .ic{width:42px;height:42px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:1.25rem;flex-shrink:0;color:#fff}
+.ic.wa{background:#25D366}.ic.mail{background:var(--navy)}.ic.loc{background:var(--red)}
+.row .tx{flex:1;min-width:0}
+.row .tx small{display:block;font-size:.68rem;color:var(--muted);font-weight:700;text-transform:uppercase;letter-spacing:.8px}
+.row .tx b{display:block;font-size:.98rem;font-weight:700;color:var(--ink);word-break:break-word}
+/* save contact */
+.save{margin:14px 22px 6px}
+.save-btn{width:100%;border:0;cursor:pointer;background:linear-gradient(135deg,var(--navy) 0%,var(--navy-deep) 100%);color:#fff;border-radius:15px;padding:15px;font-family:'Poppins',sans-serif;font-weight:800;font-size:1rem;display:flex;align-items:center;justify-content:center;gap:9px;box-shadow:0 10px 24px rgba(0,32,159,.32)}
+.save-btn:active{transform:scale(.99)}
+/* qr */
+.qr{margin:16px 22px 6px;background:#fff;border:1px solid var(--line);border-radius:18px;padding:16px;text-align:center;box-shadow:0 8px 22px rgba(10,26,92,.07)}
+.qr .qh{font-weight:800;font-size:.78rem;color:var(--navy-deep);text-transform:uppercase;letter-spacing:1px;margin-bottom:10px}
+.qr .qh b{color:var(--red)}
+.qr img{width:190px;max-width:60vw;height:auto;border-radius:10px}
+.qr .qsub{margin-top:8px;font-size:.74rem;color:var(--muted);font-weight:600}
+/* value props */
+.props{display:flex;gap:9px;padding:14px 22px 2px}
+.prop{flex:1;background:#f6f8fc;border:1px solid var(--line);border-radius:14px;padding:12px 8px;text-align:center}
+.prop .pe{font-size:1.5rem}
+.prop .pt{margin-top:5px;font-size:.68rem;font-weight:700;color:var(--ink);line-height:1.25}
+/* ecosystem */
+.eco{padding:14px 22px 4px}
+.eco-h{font-size:.7rem;font-weight:800;color:var(--muted);text-transform:uppercase;letter-spacing:1.2px;text-align:center;margin-bottom:9px}
+.eco-row{display:flex;gap:10px}
+.eco-chip{flex:1;display:flex;align-items:center;gap:9px;background:#fff;border:1px solid var(--line);border-radius:14px;padding:9px 11px;text-decoration:none}
+.eco-chip img{width:34px;height:34px;border-radius:9px;object-fit:contain;flex-shrink:0;background:#f3f6fc}
+.eco-chip .en{font-family:'Poppins',sans-serif;font-weight:800;font-size:.86rem;color:var(--navy-deep);line-height:1}
+.eco-chip .es{display:block;font-size:.64rem;color:var(--muted);font-weight:600;margin-top:2px}
+/* footer */
+.ftr{margin-top:14px;background:linear-gradient(140deg,var(--navy-deep),#0a1240);color:#fff;text-align:center;padding:18px 22px 20px}
+.ftr .bridge{font-size:.82rem;font-weight:600;font-style:italic;opacity:.92}
+.ftr .kfd{margin-top:9px;font-family:'Poppins',sans-serif;font-weight:800;font-size:.74rem;letter-spacing:.5px}
+.ftr .kfd .r{color:#ff6b81}.ftr .kfd .g{color:#5fd08a}.ftr .kfd .b{color:#8fb0ff}
+.ftr .site{margin-top:10px;display:inline-block;color:#fff;text-decoration:none;font-weight:800;font-size:.92rem;background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.22);padding:7px 16px;border-radius:100px}
+</style>
+</head>
+<body>
+<div class="dots"></div>
+<div class="card">
+  <div class="hdr">
+    <div class="flagbar"></div>
+    <div class="logoplate"><img src="assets/hb-logo.png" alt="HaitiBiznis Technologies"></div>
+    <div class="tagline">Building Haiti's Digital Bridge to the World</div>
+  </div>
+
+  <div class="who">
+    <div class="namecard">
+      <div class="name">Pearl Hippolyte</div>
+      <div class="role">Directrice des Partenariats Stratégiques</div>
+      <div class="org">HaitiBiznis Technologies</div>
+    </div>
+  </div>
+
+  <div class="site-hero">
+    <a class="site-btn" href="https://haitibiznis.com" target="_blank" rel="noopener">
+      <span class="globe">🌐</span>
+      <span class="st"><small>Notre plateforme</small><b>www.HaitiBiznis.com</b></span>
+      <span class="arr">→</span>
+    </a>
+  </div>
+
+  <div class="rows">
+    <a class="row" href="https://wa.me/50956301729" target="_blank" rel="noopener">
+      <span class="ic wa">📱</span>
+      <span class="tx"><small>WhatsApp</small><b>+509 5630 1729</b></span>
+    </a>
+    <a class="row" href="mailto:Pearl@HaitiBiznis.com">
+      <span class="ic mail">✉️</span>
+      <span class="tx"><small>Email</small><b>Pearl@HaitiBiznis.com</b></span>
+    </a>
+    <a class="row" href="https://maps.google.com/?q=Avenue+Martin+Luther+King+Port-au-Prince+Haiti" target="_blank" rel="noopener">
+      <span class="ic loc">📍</span>
+      <span class="tx"><small>Bureau</small><b>#123 Ave Martin L. King, Port-au-Prince, Haïti</b></span>
+    </a>
+  </div>
+
+  <div class="save">
+    <button class="save-btn" onclick="saveContact()">＋ Enregistrer le contact</button>
+  </div>
+
+  <div class="qr">
+    <div class="qh">Scannez pour visiter <b>HaitiBiznis.com</b></div>
+    <img src="assets/qr.png" alt="QR HaitiBiznis.com">
+    <div class="qsub">Konekte ak nou — pointez l'appareil photo sur le code</div>
+  </div>
+
+  <div class="props">
+    <div class="prop"><div class="pe">🏪</div><div class="pt">POS &amp; 30+ Services Digitaux</div></div>
+    <div class="prop"><div class="pe">📈</div><div class="pt">Augmentez vos Revenus</div></div>
+    <div class="prop"><div class="pe">🤝</div><div class="pt">Plateforme pour Business</div></div>
+  </div>
+
+  <div class="eco">
+    <div class="eco-h">Notre écosystème</div>
+    <div class="eco-row">
+      <a class="eco-chip" href="https://msouwout.com" target="_blank" rel="noopener">
+        <img src="assets/msouwout.png" alt="MsouWout">
+        <span><span class="en">MsouWout</span><span class="es">Chofè &amp; Pasaje verifye</span></span>
+      </a>
+      <a class="eco-chip" href="https://myplopplop.com" target="_blank" rel="noopener">
+        <img src="assets/myplopplop.png" alt="MyPlopPlop">
+        <span><span class="en">MyPlopPlop</span><span class="es">Livrezon · Toupatou</span></span>
+      </a>
+    </div>
+  </div>
+
+  <div class="ftr">
+    <div class="bridge">Building Haiti's Digital Bridge to the World</div>
+    <div class="kfd"><span class="r">KONEKTE</span> · <span class="g">FÈ LAJAN</span> · <span class="b">DEVLOPE</span></div>
+    <a class="site" href="https://haitibiznis.com" target="_blank" rel="noopener">www.HaitiBiznis.com</a>
+  </div>
+</div>
+
+<script>
+function saveContact(){
+  var v=[
+    'BEGIN:VCARD','VERSION:3.0',
+    'N:Hippolyte;Pearl;;;','FN:Pearl Hippolyte',
+    'ORG:HaitiBiznis Technologies',
+    'TITLE:Directrice des Partenariats Strategiques',
+    'TEL;TYPE=CELL,VOICE:+50956301729',
+    'EMAIL;TYPE=WORK:Pearl@HaitiBiznis.com',
+    'URL:https://haitibiznis.com',
+    'ADR;TYPE=WORK:;;#123 Ave Martin L. King;Port-au-Prince;;;Haiti',
+    'END:VCARD'
+  ].join('\r\n');
+  var blob=new Blob([v],{type:'text/vcard'});
+  var a=document.createElement('a');
+  a.href=URL.createObjectURL(blob);
+  a.download='Pearl-Hippolyte-HaitiBiznis.vcf';
+  document.body.appendChild(a);a.click();
+  setTimeout(function(){document.body.removeChild(a);URL.revokeObjectURL(a.href);},400);
+}
+</script>
+</body>
+</html>
