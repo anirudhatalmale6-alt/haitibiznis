@@ -6,7 +6,7 @@
   "display": "browser",
   "background_color": "#00209F",
   "theme_color": "#00209F",
-  "orientation": "portrait",
+  "orientation": "any",
   "icons": [
     {
       "src": "assets/icon-192.png",
