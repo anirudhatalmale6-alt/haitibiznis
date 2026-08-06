@@ -7,7 +7,10 @@
 <meta name="description" content="Pearl Hippolyte, Directrice des Partenariats Stratégiques — HaitiBiznis Technologies. www.HaitiBiznis.com">
 <meta property="og:title" content="Pearl Hippolyte — HaitiBiznis Technologies">
 <meta property="og:description" content="Directrice des Partenariats Stratégiques · www.HaitiBiznis.com">
-<meta property="og:image" content="https://haitibiznis.com/card/pearl/assets/hb-logo.png">
+<meta property="og:image" content="https://haitibiznis.com/card/pearl/assets/card.jpg">
+<meta property="og:image:width" content="546">
+<meta property="og:image:height" content="1256">
+<meta name="twitter:card" content="summary_large_image">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@600;700;800;900&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -162,11 +165,22 @@ function saveContact(){
   setTimeout(function(){document.body.removeChild(a);URL.revokeObjectURL(a.href);},400);
   toast('Contact enregistré ✓');
 }
-function shareCard(){
-  var data={title:'Pearl Hippolyte — HaitiBiznis Technologies',text:'Pearl Hippolyte · Directrice des Partenariats Stratégiques · HaitiBiznis',url:location.href};
-  if(navigator.share){navigator.share(data).catch(function(){});}
-  else if(navigator.clipboard){navigator.clipboard.writeText(location.href);toast('Lien copié ✓');}
-  else{toast(location.href);}
+async function shareCard(){
+  var url=location.href;
+  var title='Pearl Hippolyte — HaitiBiznis Technologies';
+  var text='Pearl Hippolyte · Directrice des Partenariats Stratégiques · www.HaitiBiznis.com';
+  try{
+    var r=await fetch('assets/card.jpg',{cache:'no-store'});
+    var blob=await r.blob();
+    var file=new File([blob],'Pearl-Hippolyte-HaitiBiznis.jpg',{type:'image/jpeg'});
+    if(navigator.canShare && navigator.canShare({files:[file]})){
+      await navigator.share({files:[file],title:title,text:text+'\n'+url});
+      return;
+    }
+  }catch(e){}
+  if(navigator.share){try{await navigator.share({title:title,text:text,url:url});return;}catch(e){}}
+  if(navigator.clipboard){navigator.clipboard.writeText(url);toast('Lien copié ✓');}
+  else toast(url);
 }
 </script>
 </body>
