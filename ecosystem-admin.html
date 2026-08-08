@@ -788,7 +788,7 @@ function loadMPStores(status, search) {
   var st = (currentSubTab && currentSubTab !== 'all') ? currentSubTab : status;
   var q = buildQuery(st, search);
   apiFetch(MP_API, '/stores' + q).then(function(data) {
-    setHead(['Dat', 'Non', 'Kategori', 'Pwopriyetè', 'Telefon', 'Komand', 'Reveni', 'Estati']);
+    setHead(['Dat', 'Non', 'Kategori', 'Pwopriyetè', 'Telefon', 'Komand', 'Reveni', 'Verifye', 'Aksyon']);
     var rows = data.stores || [];
     if (!rows.length) { emptyTable('&#127978;', 'Pa gen magazen anko'); return; }
     var html = '';
@@ -804,12 +804,35 @@ function loadMPStores(status, search) {
       html += '<td>' + waLink(ownerPhone) + '</td>';
       html += '<td>' + (s.stats ? s.stats.totalOrders : 0) + '</td>';
       html += '<td>' + (s.stats ? (s.stats.totalRevenue || 0).toLocaleString() : '0') + ' HTG</td>';
-      html += '<td><span class="badge badge-' + s.status + '">' + s.status + '</span></td>';
+      html += '<td>' + (s.isVerified ? '<span style="color:var(--green);font-weight:700">&#10004; Verifye</span>' : '<span style="color:var(--gold);font-weight:700">An atant</span>') + '</td>';
+      html += '<td style="white-space:nowrap">';
+      if (s.isVerified) {
+        html += '<button style="font-size:.7rem;padding:4px 10px;border-radius:6px;background:var(--orange);color:#fff;font-weight:700;cursor:pointer;border:none" onclick="storeAction(\'' + s._id + '\',\'unverify\')">Retire</button>';
+      } else {
+        html += '<button style="font-size:.7rem;padding:4px 10px;border-radius:6px;background:var(--green);color:#fff;font-weight:700;cursor:pointer;border:none" onclick="storeAction(\'' + s._id + '\',\'verify\')">Apwouve &amp; Verifye</button>';
+      }
+      html += '</td>';
       html += '</tr>';
     }
     document.getElementById('tableBody').innerHTML = html;
     renderPagination(data.page, data.pages, data.total);
   }).catch(apiErr);
+}
+
+function storeAction(storeId, action) {
+  var msg = action === 'verify'
+    ? 'Apwouve epi make magazen sa a kòm Verifye?'
+    : 'Retire badj Verifye a sou magazen sa a?';
+  if (!confirm(msg)) return;
+  fetch(MP_API + '/stores/' + storeId, {
+    method: 'PATCH',
+    headers: { 'Content-Type': 'application/json', 'x-admin-pin': pin },
+    body: JSON.stringify({ action: action })
+  }).then(function(r) { return r.json(); })
+    .then(function(res) {
+      if (res.success) { showToast('Fini!'); loadCurrentTab(); }
+      else { alert('Erè: ' + (res.error || 'pa kapab modifye')); }
+    }).catch(function() { alert('Erè rezo'); });
 }
 
 function loadMPKoutye(status, search) {
