@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Flavio Michelli — HB Technologies · 48 Horas Pronto</title>
+<meta name="description" content="Flavio Michelli, Diretor de País — Brasil. HB Technologies · 48 Horas Pronto. Soluções digitais para o seu negócio. www.HaitiBiznis.com">
+<meta property="og:title" content="Flavio Michelli — HB Technologies">
+<meta property="og:description" content="Diretor de País — Brasil · 48 Horas Pronto · Atendemos todo o Brasil">
+<meta property="og:url" content="https://haitibiznis.com/card/flavio/">
+<meta property="og:image" content="https://haitibiznis.com/card/flavio/assets/card.jpg">
+<meta property="og:image:width" content="546">
+<meta property="og:image:height" content="1517">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" type="image/png" sizes="32x32" href="../../assets/favicon-32.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@600;700;800;900&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --navy:#0b2a6b; --navy-deep:#071a45; --red:#D21034; --ink:#14203a;
+  --muted:#5f6b85; --line:#e7ecf5; --green:#009B3A; --gold:#FFCC29;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+body{
+  font-family:'Inter',system-ui,sans-serif;color:var(--ink);
+  background:radial-gradient(1000px 500px at 50% -8%, rgba(0,155,58,.22), transparent 60%),linear-gradient(160deg,#06153a,#0b2a6b 48%,#04102e);
+  min-height:100vh;display:flex;align-items:flex-start;justify-content:center;
+  padding:16px 12px 26px;-webkit-font-smoothing:antialiased;
+}
+.dots{position:fixed;inset:0;background-image:radial-gradient(rgba(255,255,255,.06) 1.1px,transparent 1.2px);background-size:20px 20px;pointer-events:none;z-index:0}
+.card{position:relative;z-index:1;width:100%;max-width:420px;background:#fff;border-radius:24px;overflow:hidden;box-shadow:0 26px 60px rgba(3,10,40,.55)}
+/* header */
+.hdr{position:relative;background:linear-gradient(140deg,var(--navy),var(--navy-deep));padding:18px 20px 34px;text-align:center;overflow:hidden}
+.flagbar{position:absolute;top:0;left:0;right:0;height:5px;background:linear-gradient(90deg,var(--green) 0 40%,var(--gold) 40% 70%,#002776 70% 100%)}
+.hdr::after{content:"";position:absolute;bottom:-50px;left:-30px;width:130px;height:130px;border-radius:50%;background:rgba(0,155,58,.20)}
+.logoplate{position:relative;background:#fff;border-radius:18px;padding:8px;display:inline-block;box-shadow:0 10px 24px rgba(0,0,0,.28)}
+.logoplate img{display:block;width:132px;max-width:46vw;height:auto;border-radius:12px}
+.tagline{position:relative;color:rgba(255,255,255,.9);font-size:.76rem;font-weight:600;margin-top:10px;font-style:italic}
+/* identity */
+.who{padding:0 18px;margin-top:-20px;position:relative;z-index:2;text-align:center}
+.namecard{background:#fff;border:1px solid var(--line);border-radius:16px;padding:15px 16px 14px;box-shadow:0 12px 28px rgba(10,26,92,.12)}
+.name{font-family:'Poppins',sans-serif;font-weight:900;font-size:1.55rem;line-height:1.04;color:var(--navy-deep);letter-spacing:-.5px}
+.role{margin-top:5px;font-weight:700;font-size:.76rem;color:var(--green);text-transform:uppercase;letter-spacing:1.2px;line-height:1.35}
+.org{margin-top:6px;font-size:.85rem;color:var(--muted);font-weight:600}
+/* contact rows */
+.rows{padding:12px 18px 2px;display:flex;flex-direction:column;gap:7px}
+.row{display:flex;align-items:center;gap:11px;text-decoration:none;color:var(--ink);background:#f6f8fc;border:1px solid var(--line);border-radius:12px;padding:9px 12px}
+.row:active{background:#eef2fb}
+.row .ic{width:36px;height:36px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:1.1rem;flex-shrink:0;color:#fff}
+.ic.wa{background:#25D366}.ic.mail{background:var(--navy)}.ic.loc{background:var(--green)}
+.row .tx{flex:1;min-width:0}
+.row .tx small{display:block;font-size:.64rem;color:var(--muted);font-weight:700;text-transform:uppercase;letter-spacing:.7px}
+.row .tx b{display:block;font-size:.92rem;font-weight:700;color:var(--ink);word-break:break-word;line-height:1.25}
+/* action buttons */
+.acts{display:flex;gap:8px;padding:11px 18px 2px}
+.abtn{flex:1;border:0;cursor:pointer;border-radius:13px;padding:13px 8px;font-family:'Poppins',sans-serif;font-weight:800;font-size:.92rem;display:flex;align-items:center;justify-content:center;gap:7px;text-decoration:none}
+.abtn.save{background:linear-gradient(135deg,var(--green),#00762c);color:#fff;box-shadow:0 8px 20px rgba(0,155,58,.3)}
+.abtn.share{background:#fff;color:var(--navy-deep);border:2px solid var(--navy)}
+.abtn:active{transform:scale(.99)}
+/* qr + ecosystem */
+.midgrid{display:flex;gap:9px;padding:12px 18px 4px;align-items:stretch}
+.qr{flex:0 0 auto;background:#fff;border:1px solid var(--line);border-radius:15px;padding:11px;text-align:center;box-shadow:0 6px 18px rgba(10,26,92,.07)}
+.qr canvas,.qr img{width:118px;height:118px;display:block;border-radius:8px}
+.qr .qsub{margin-top:6px;font-size:.6rem;color:var(--muted);font-weight:700;text-transform:uppercase;letter-spacing:.5px;max-width:120px;line-height:1.3}
+.eco{flex:1;display:flex;flex-direction:column;gap:8px;justify-content:center}
+.eco-chip{display:flex;align-items:center;gap:9px;background:#f6f8fc;border:1px solid var(--line);border-radius:13px;padding:9px 10px;text-decoration:none}
+.eco-chip img{width:34px;height:34px;border-radius:9px;object-fit:contain;flex-shrink:0;background:#fff}
+.eco-chip .en{font-family:'Poppins',sans-serif;font-weight:800;font-size:.9rem;color:var(--navy-deep);line-height:1}
+.eco-chip .es{display:block;font-size:.62rem;color:var(--muted);font-weight:600;margin-top:2px}
+/* services strip */
+.svc{margin:13px 18px 0;background:#f6f8fc;border:1px solid var(--line);border-radius:14px;padding:11px 12px}
+.svc .st{font-family:'Poppins',sans-serif;font-weight:800;font-size:.72rem;color:var(--navy-deep);text-transform:uppercase;letter-spacing:.8px;margin-bottom:7px}
+.svc ul{list-style:none;display:flex;flex-wrap:wrap;gap:5px}
+.svc li{font-size:.7rem;font-weight:700;color:var(--navy);background:#fff;border:1px solid var(--line);border-radius:99px;padding:4px 9px}
+/* BIG website highlight */
+.web{margin:14px 18px 6px}
+.web a{
+  display:flex;align-items:center;justify-content:center;gap:12px;text-decoration:none;
+  background:linear-gradient(135deg,var(--green) 0%,#00762c 100%);color:#fff;
+  border-radius:16px;padding:17px 16px;box-shadow:0 14px 30px rgba(0,155,58,.44);
+  animation:pulse 2.6s ease-in-out infinite;
+}
+@keyframes pulse{0%,100%{box-shadow:0 14px 30px rgba(0,155,58,.44)}50%{box-shadow:0 14px 30px rgba(0,155,58,.44),0 0 0 6px rgba(0,155,58,.16)}}
+@media(prefers-reduced-motion:reduce){.web a{animation:none}}
+.web .g{font-size:1.7rem}
+.web .wt small{display:block;font-size:.64rem;font-weight:700;opacity:.92;text-transform:uppercase;letter-spacing:1.4px}
+.web .wt b{display:block;font-family:'Poppins',sans-serif;font-weight:900;font-size:1.34rem;line-height:1.1;letter-spacing:.2px}
+/* footer */
+.ftr{margin-top:12px;background:linear-gradient(140deg,var(--navy-deep),#04102e);color:#fff;text-align:center;padding:13px 20px 15px}
+.ftr .kfd{font-family:'Poppins',sans-serif;font-weight:800;font-size:.72rem;letter-spacing:.5px}
+.ftr .kfd .r{color:#ffd75e}.ftr .kfd .g{color:#5fd08a}.ftr .kfd .b{color:#8fb0ff}
+.toast{position:fixed;left:50%;bottom:26px;transform:translateX(-50%) translateY(20px);background:#0b2a6b;color:#fff;padding:11px 20px;border-radius:100px;font-weight:700;font-size:.85rem;opacity:0;transition:.25s;z-index:20;box-shadow:0 10px 30px rgba(0,0,0,.4)}
+.toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+</style>
+</head>
+<body>
+<div class="dots"></div>
+<div class="card">
+  <div class="hdr">
+    <div class="flagbar"></div>
+    <div class="logoplate"><img src="assets/hb-tech.jpg" alt="HB Technologies"></div>
+    <div class="tagline">Tecnologia que acelera o seu negócio</div>
+  </div>
+
+  <div class="who">
+    <div class="namecard">
+      <div class="name">Flavio Michelli</div>
+      <div class="role">Diretor de País — Brasil</div>
+      <div class="org">HB Technologies · 48 Horas Pronto</div>
+    </div>
+  </div>
+
+  <div class="rows">
+    <a class="row" id="waRow" href="https://wa.me/554888096064" target="_blank" rel="noopener">
+      <span class="ic wa">📱</span><span class="tx"><small>WhatsApp</small><b>+55 48 8809-6064</b></span>
+    </a>
+    <a class="row" href="https://haitibiznis.com/pos/" target="_blank" rel="noopener">
+      <span class="ic mail">🧾</span><span class="tx"><small>Sistema de vendas</small><b>48 Horas Pronto — POS</b></span>
+    </a>
+    <a class="row" href="https://haitibiznis.com" target="_blank" rel="noopener">
+      <span class="ic loc">📍</span><span class="tx"><small>Cobertura</small><b>Atendemos todo o Brasil 🇧🇷</b></span>
+    </a>
+  </div>
+
+  <div class="acts">
+    <button class="abtn save" onclick="saveContact()">＋ Contato</button>
+    <button class="abtn share" onclick="shareCard()">↗ Compartilhar</button>
+  </div>
+
+  <div class="midgrid">
+    <div class="qr">
+      <div id="qrbox"></div>
+      <div class="qsub">Aponte a câmera para salvar</div>
+    </div>
+    <div class="eco">
+      <a class="eco-chip" href="https://haitibiznis.com/pos/" target="_blank" rel="noopener">
+        <img src="assets/pronto.jpg" alt="48 Horas Pronto"><span><span class="en">48 Horas Pronto</span><span class="es">Venda · Gerencie · Cresça</span></span>
+      </a>
+      <a class="eco-chip" href="https://haitibiznis.com" target="_blank" rel="noopener">
+        <img src="assets/haitibiznis.png" alt="HaitiBiznis"><span><span class="en">HaitiBiznis</span><span class="es">Soluções digitais</span></span>
+      </a>
+    </div>
+  </div>
+
+  <div class="svc">
+    <div class="st">O que entregamos em até 48 horas</div>
+    <ul>
+      <li>Logo profissional</li><li>Cartão de visita</li><li>Site profissional</li>
+      <li>Landing page</li><li>Domínio &amp; hospedagem</li><li>Vídeo explicativo</li>
+      <li>Executive summary</li><li>Pitch deck</li><li>QR Code permanente</li>
+      <li>Design para redes sociais</li>
+    </ul>
+  </div>
+
+  <div class="web">
+    <a href="https://haitibiznis.com" target="_blank" rel="noopener">
+      <span class="g">🌐</span>
+      <span class="wt"><small>Visite a nossa plataforma</small><b>www.HaitiBiznis.com</b></span>
+    </a>
+  </div>
+
+  <div class="ftr">
+    <div class="kfd"><span class="r">VENDA</span> · <span class="g">GERENCIE</span> · <span class="b">CRESÇA</span></div>
+  </div>
+</div>
+<div class="toast" id="toast"></div>
+
+<script src="../../pos/qrcode.js"></script>
+<script>
+function toast(m){var t=document.getElementById('toast');t.textContent=m;t.classList.add('show');setTimeout(function(){t.classList.remove('show');},2200);}
+/* qrcode.js exposes a global `qrcode()` factory, not a `QRCode` class. */
+(function(){try{
+  var q=qrcode(0,'M');q.addData('https://haitibiznis.com/card/flavio/');q.make();
+  var img=new Image();img.src=q.createDataURL(5,8);img.alt='QR — Flavio Michelli';
+  document.getElementById('qrbox').appendChild(img);
+}catch(e){}})();
+function saveContact(){
+  var v=['BEGIN:VCARD','VERSION:3.0','N:Michelli;Flavio;;;','FN:Flavio Michelli',
+    'ORG:HB Technologies','TITLE:Diretor de Pais - Brasil',
+    'TEL;TYPE=CELL,VOICE:+554888096064',
+    'URL:https://haitibiznis.com','URL:https://haitibiznis.com/card/flavio/',
+    'ADR;TYPE=WORK:;;;;;;Brasil','NOTE:48 Horas Pronto - Solucoes digitais para o seu negocio','END:VCARD'].join('\r\n');
+  var blob=new Blob([v],{type:'text/vcard'});var a=document.createElement('a');
+  a.href=URL.createObjectURL(blob);a.download='Flavio-Michelli-HB-Technologies.vcf';
+  document.body.appendChild(a);a.click();
+  setTimeout(function(){document.body.removeChild(a);URL.revokeObjectURL(a.href);},400);
+  toast('Contato salvo ✓');
+}
+async function shareCard(){
+  var url=location.href;
+  var title='Flavio Michelli — HB Technologies';
+  var text='Flavio Michelli · Diretor de País — Brasil · 48 Horas Pronto · www.HaitiBiznis.com';
+  try{
+    var r=await fetch('assets/card.jpg',{cache:'no-store'});
+    if(r.ok){
+      var blob=await r.blob();
+      var file=new File([blob],'Flavio-Michelli-HB-Technologies.jpg',{type:'image/jpeg'});
+      if(navigator.canShare && navigator.canShare({files:[file]})){
+        await navigator.share({files:[file],title:title,text:text+'\n'+url});
+        return;
+      }
+    }
+  }catch(e){}
+  if(navigator.share){try{await navigator.share({title:title,text:text,url:url});return;}catch(e){}}
+  if(navigator.clipboard){navigator.clipboard.writeText(url);toast('Link copiado ✓');}
+  else toast(url);
+}
+</script>
+</body>
+</html>
