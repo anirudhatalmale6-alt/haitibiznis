@@ -274,6 +274,7 @@ img{max-width:100%;display:block}
       <button data-lang="fr">FR</button>
       <button data-lang="en">EN</button>
       <button data-lang="es">ES</button>
+      <button data-lang="pt">PT</button>
     </div>
   </div>
 </header>
@@ -454,38 +455,38 @@ img{max-width:100%;display:block}
 <script>
 /* ==================== DATA ==================== */
 var CATS = [
-  {id:'earn', ico:'💰', tint:'tint-earn', title:{ht:'Fè Lajan',fr:'Gagner de l’argent',en:'Earn Money',es:'Gana dinero'}},
-  {id:'ride', ico:'🚕', tint:'tint-ride', title:{ht:'Transpò',fr:'Transport',en:'Transportation',es:'Transporte'}},
-  {id:'shop', ico:'🛒', tint:'tint-shop', title:{ht:'Komès',fr:'Commerce',en:'Commerce',es:'Comercio'}},
-  {id:'life', ico:'🎟️', tint:'tint-life', title:{ht:'Lwazi',fr:'Loisirs',en:'Lifestyle',es:'Estilo de vida'}},
-  {id:'pos',  ico:'💳', tint:'tint-pay', title:{ht:'POS & Sèvis',fr:'POS & Services',en:'POS & Services',es:'POS y Servicios'}},
-  {id:'comm', ico:'❤️', tint:'tint-comm', title:{ht:'Kominote',fr:'Communauté',en:'Community',es:'Comunidad'}}
+  {id:'earn', ico:'💰', tint:'tint-earn', title:{ht:'Fè Lajan',fr:'Gagner de l’argent',en:'Earn Money',es:'Gana dinero',pt:'Ganhe dinheiro'}},
+  {id:'ride', ico:'🚕', tint:'tint-ride', title:{ht:'Transpò',fr:'Transport',en:'Transportation',es:'Transporte',pt:'Transporte'}},
+  {id:'shop', ico:'🛒', tint:'tint-shop', title:{ht:'Komès',fr:'Commerce',en:'Commerce',es:'Comercio',pt:'Comércio'}},
+  {id:'life', ico:'🎟️', tint:'tint-life', title:{ht:'Lwazi',fr:'Loisirs',en:'Lifestyle',es:'Estilo de vida',pt:'Estilo de vida'}},
+  {id:'pos',  ico:'💳', tint:'tint-pay', title:{ht:'POS & Sèvis',fr:'POS & Services',en:'POS & Services',es:'POS y Servicios',pt:'POS e Serviços'}},
+  {id:'comm', ico:'❤️', tint:'tint-comm', title:{ht:'Kominote',fr:'Communauté',en:'Community',es:'Comunidad',pt:'Comunidade'}}
 ];
 var PLATFORMS = [
   {cat:'earn', ico:'🤝', name:'Parenaj Biznis', url:'koutye.html',
-    tag:{ht:'Refere moun, touche komisyon sou chak tranzaksyon.',fr:'Référez des gens et gagnez une commission.',en:'Refer people and earn commission on every deal.',es:'Refiere personas y gana comisión.'}},
+    tag:{ht:'Refere moun, touche komisyon sou chak tranzaksyon.',fr:'Référez des gens et gagnez une commission.',en:'Refer people and earn commission on every deal.',es:'Refiere personas y gana comisión.',pt:'Indique pessoas e ganhe comissão em cada negócio.'}},
   {cat:'earn', ico:'🚀', name:'48HoursReady', url:'https://48hoursready.com', ext:1,
-    tag:{ht:'Lanse biznis ou an 48 èdtan.',fr:'Lancez votre entreprise en 48 heures.',en:'Launch your business in 48 hours.',es:'Lanza tu negocio en 48 horas.'}},
+    tag:{ht:'Lanse biznis ou an 48 èdtan.',fr:'Lancez votre entreprise en 48 heures.',en:'Launch your business in 48 hours.',es:'Lanza tu negocio en 48 horas.',pt:'Lance o seu negócio em 48 horas.'}},
   {cat:'earn', ico:'🧰', name:'Pwofesyonèl Lakay', url:'prolakay.html',
-    tag:{ht:'Jwenn bon pwofesyonèl, oswa ofri sèvis ou.',fr:'Trouvez des pros de confiance ou offrez vos services.',en:'Find trusted pros, or offer your skills.',es:'Encuentra profesionales o ofrece tus servicios.'}},
+    tag:{ht:'Jwenn bon pwofesyonèl, oswa ofri sèvis ou.',fr:'Trouvez des pros de confiance ou offrez vos services.',en:'Find trusted pros, or offer your skills.',es:'Encuentra profesionales o ofrece tus servicios.',pt:'Ache profissionais de confiança ou ofereça os seus serviços.'}},
   {cat:'ride', ico:'🛵', name:'MsouWout', url:'https://msouwout.com', ext:1,
-    tag:{ht:'Vwayaje an sekirite tout kote an Ayiti.',fr:'Déplacez-vous en toute sécurité partout en Haïti.',en:'Ride safely anywhere in Haiti.',es:'Viaja seguro por todo Haití.'}},
+    tag:{ht:'Vwayaje an sekirite tout kote an Ayiti.',fr:'Déplacez-vous en toute sécurité partout en Haïti.',en:'Ride safely anywhere in Haiti.',es:'Viaja seguro por todo Haití.',pt:'Ande com segurança por todo o Haiti.'}},
   {cat:'ride', ico:'📦', name:'MsouWout Logistics', url:'https://msouwout.com/logistics.html', ext:1,
-    tag:{ht:'Voye pakè ak livrezon rapid.',fr:'Envoyez colis et livraisons rapidement.',en:'Send packages and deliveries fast.',es:'Envía paquetes y entregas rápido.'}},
+    tag:{ht:'Voye pakè ak livrezon rapid.',fr:'Envoyez colis et livraisons rapidement.',en:'Send packages and deliveries fast.',es:'Envía paquetes y entregas rápido.',pt:'Envie pacotes e entregas rapidinho.'}},
   {cat:'shop', ico:'🛍️', name:'MyPlopPlop', url:'https://myplopplop.com', ext:1,
-    tag:{ht:'Achte, vann epi louvri boutik anliy ou.',fr:'Achetez, vendez et ouvrez votre boutique en ligne.',en:'Buy, sell and open your online store.',es:'Compra, vende y abre tu tienda online.'}},
+    tag:{ht:'Achte, vann epi louvri boutik anliy ou.',fr:'Achetez, vendez et ouvrez votre boutique en ligne.',en:'Buy, sell and open your online store.',es:'Compra, vende y abre tu tienda online.',pt:'Compre, venda e abra a sua loja online.'}},
   {cat:'shop', ico:'🏢', name:'Billionorth', url:'https://billionorth.com', ext:1,
-    tag:{ht:'Pwodwi an gwo ak enpòtasyon pou biznis ou.',fr:'Grossiste et import pour votre entreprise.',en:'Wholesale and import for your business.',es:'Mayoreo e importación para tu negocio.'}},
+    tag:{ht:'Pwodwi an gwo ak enpòtasyon pou biznis ou.',fr:'Grossiste et import pour votre entreprise.',en:'Wholesale and import for your business.',es:'Mayoreo e importación para tu negocio.',pt:'Atacado e importação para o seu negócio.'}},
   {cat:'life', ico:'🎟️', name:'Tikè Lakay', url:'events.html',
-    tag:{ht:'Kreye evènman epi vann tikè.',fr:'Créez des événements et vendez des billets.',en:'Create events and sell tickets.',es:'Crea eventos y vende boletos.'}},
+    tag:{ht:'Kreye evènman epi vann tikè.',fr:'Créez des événements et vendez des billets.',en:'Create events and sell tickets.',es:'Crea eventos y vende boletos.',pt:'Crie eventos e venda ingressos.'}},
   {cat:'life', ico:'✈️', name:'TouPaTou', url:'reservations.html',
-    tag:{ht:'Rezève otèl, vwayaj ak eksperyans.',fr:'Réservez hôtels, voyages et expériences.',en:'Book hotels, travel and experiences.',es:'Reserva hoteles, viajes y experiencias.'}},
+    tag:{ht:'Rezève otèl, vwayaj ak eksperyans.',fr:'Réservez hôtels, voyages et expériences.',en:'Book hotels, travel and experiences.',es:'Reserva hoteles, viajes y experiencias.',pt:'Reserve hotéis, viagens e experiências.'}},
   {cat:'pos', ico:'🏢', name:'Sant HaitiBiznis', url:'pos/',
-    tag:{ht:'POS ak 30+ sèvis dijital — 30 jou gratis pou ogmante revni ou.',fr:'POS et 30+ services numériques — 30 jours gratuits.',en:'POS and 30+ digital services — 30 days free to grow your revenue.',es:'POS y 30+ servicios digitales — 30 días gratis.'}},
+    tag:{ht:'POS ak 30+ sèvis dijital — 30 jou gratis pou ogmante revni ou.',fr:'POS et 30+ services numériques — 30 jours gratuits.',en:'POS and 30+ digital services — 30 days free to grow your revenue.',es:'POS y 30+ servicios digitales — 30 días gratis.',pt:'POS e mais de 30 serviços digitais — 30 dias grátis para aumentar a sua receita.'}},
   {cat:'pos', ico:'⚡', name:'Utility Payment Hub', url:'utility-hub.html',
-    tag:{ht:'Peye EDH epi rechaje, tout nan yon sèl kote.',fr:'Payez l’EDH et rechargez, tout au même endroit.',en:'Pay EDH and top up, all in one place.',es:'Paga EDH y recarga, todo en un lugar.'}},
+    tag:{ht:'Peye EDH epi rechaje, tout nan yon sèl kote.',fr:'Payez l’EDH et rechargez, tout au même endroit.',en:'Pay EDH and top up, all in one place.',es:'Paga EDH y recarga, todo en un lugar.',pt:'Pague a EDH e recarregue, tudo num lugar só.'}},
   {cat:'comm', ico:'⛪', name:'Shalom', url:'https://anirudhatalmale6-alt.github.io/shalom-site/', ext:1,
-    tag:{ht:'Lafwa, evènman ak kominote.',fr:'Foi, événements et communauté.',en:'Faith, events and community.',es:'Fe, eventos y comunidad.'}}
+    tag:{ht:'Lafwa, evènman ak kominote.',fr:'Foi, événements et communauté.',en:'Faith, events and community.',es:'Fe, eventos y comunidad.',pt:'Fé, eventos e comunidade.'}}
 ];
 /* cross-language search keywords per platform (so search works in any language) */
 var KW = {
@@ -587,6 +588,32 @@ var T = {
     foot_platforms:'Platforms', foot_more_plat:'More', foot_company:'Company',
     foot_dash:'Tablo A Bò', foot_privacy:'Privacy Policy', foot_terms:'Terms of Service',
     foot_rights:'All Haiti, one ecosystem. All rights reserved.'
+  },
+  pt:{
+    search_ph:'O que você procura hoje?',
+    hero_h1:'O <em>Super App</em> Digital do Haiti',
+    hero_desc:'<b>Uma conta.</b> Nove plataformas poderosas. Oportunidades sem limite.',
+    sub1:'Ganhe dinheiro', sub2:'Faça o negócio crescer', sub3:'Compre e venda', sub4:'Transporte', sub5:'POS e serviços',
+    pa1_t:'Ganhe dinheiro', pa1_d:'Entre no Parenaj Biznis e ganhe comissões.',
+    pa2_t:'Abra um negócio', pa2_d:'Comece o seu negócio com o 48HoursReady.',
+    pa3_t:'Compre e venda', pa3_d:'Compre, venda e crie a sua loja online.',
+    pa4_t:'Dirija ou peça uma corrida', pa4_d:'Seja motorista de moto ou carro, ou peça uma corrida.',
+    get_started:'Começar →',
+    pos_tag:'B2B • Motor de receita', pos_title:'HaitiBiznis Center', pos_sub:'POS e mais de 30 serviços digitais',
+    pos_tagline:'Baixe o POS • 30 dias GRÁTIS • Aumente a sua receita',
+    pos_sheet_sub:'POS e mais de 30 serviços digitais — baixe o POS, 30 dias GRÁTIS',
+    pos_i1:'Baixe o POS', pos_i2:'30 dias grátis', pos_i3:'Venda mais de 30 serviços digitais', pos_i4:'Pague contas',
+    pos_i5:'Renovação de licença', pos_i6:'Abrir uma empresa', pos_i7:'Seguros', pos_i9:'Site e 48HoursReady',
+    pos_sheet_cta:'Baixe o POS — 30 dias GRÁTIS →', pos_sheet_free:'Sem cartão • Cancele quando quiser',
+    featured_tag:'Destaque da semana', learn:'Saiba mais',
+    eco_h:'O ecossistema', eco_sub:'Um login, todos os serviços',
+    explore:'Explorar', no_results:'Nada encontrado. Tente outra palavra.',
+    nav_home:'Início', nav_earn:'Ganhar', nav_ride:'Transporte', nav_market:'Mercado', nav_profile:'Perfil',
+    fab_driver:'Seja motorista', fab_ride:'Pedir uma corrida', fab_store:'Criar uma loja', fab_parenaj:'Entrar no Parenaj Biznis', fab_promo:'Material de divulgação', fab_team:'Equipe de liderança', fab_contact:'Fale conosco',
+    foot_tag:'O super app digital do Haiti. Uma conta, nove plataformas, um ecossistema.',
+    foot_platforms:'Plataformas', foot_more_plat:'Mais', foot_company:'Empresa',
+    foot_dash:'Tablo A Bò', foot_privacy:'Política de privacidade', foot_terms:'Termos de serviço',
+    foot_rights:'Todo o Haiti, um ecossistema. Todos os direitos reservados.'
   },
   es:{
     search_ph:'¿Qué buscas hoy?',

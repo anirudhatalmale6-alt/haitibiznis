@@ -498,6 +498,7 @@ img{max-width:100%;display:block}
   <a data-lang="fr">Francais</a>
   <a data-lang="en">English</a>
   <a data-lang="es">Espanol</a>
+  <a data-lang="pt">Espanol</a>
 </div>
 
 <!-- HEADER -->
@@ -977,7 +978,10 @@ function switchLeaderTab(el, period) {
   renderLeaderboard(period);
 }
 
-renderLeaderboard('weekly');
+/* The first render used to run here, above the translations table. renderLeaderboard
+   calls tx(), tx() reads T, and T is only assigned further down - so it threw and took
+   the rest of the script with it, which is why the language bar never did anything.
+   setLang() at the bottom renders the leaderboard itself. */
 
 /* ═══ TRANSLATIONS ═══ */
 var T = {
@@ -1215,6 +1219,84 @@ en: {
   toast_link_copied: 'Link copied!',
   wa_share_msg: 'Use my HaitiBiznis code [CODE] and get 5% off your first ride, delivery or booking on MsouWout & TouPaTou 🇭🇹 https://haitibiznis.com/parenaj.html?ref=[CODE]'
 },
+  pt: {
+  header_logo: 'Haiti<em>Biznis</em>',
+  welcome_title: 'Bem-vindo! Um amigo convidou você!',
+  welcome_text: 'Digite o código abaixo para ganhar 5% de desconto na sua primeira transação.',
+  hero_title: 'Programa de <em>Indicações</em>',
+  hero_sub: 'Convide pessoas. Pague menos taxas. Ganhe recompensas.',
+  hero_promo: '5% de desconto na primeira transação para novos usuários!',
+  tag_code: '🔗 Seu código',
+  code_title: 'Seu código de <em>indicação</em>',
+  code_desc: 'Compartilhe este código com amigos: eles ganham desconto e você ganha créditos.',
+  code_card_title: '🔑 Seu código',
+  code_card_sub: 'Compartilhe no WhatsApp, no Facebook ou copie o link.',
+  btn_copy: 'Copiar',
+  btn_share_wa: 'WhatsApp',
+  btn_share_fb: 'Facebook',
+  btn_copy_link: 'Copiar link',
+  stat_invited: 'Pessoas convidadas',
+  stat_discounts: 'Descontos ativos',
+  stat_earned: 'Ganhos',
+  tag_how: '⚡ Como funciona',
+  how_title: '4 passos para <em>ganhar</em>',
+  how_desc: 'Bem simples. Compartilhe, os amigos se cadastram, todo mundo ganha.',
+  step1_title: 'Compartilhe seu código',
+  step1_desc: 'Envie o seu código de indicação para amigos no WhatsApp ou no Facebook.',
+  step2_title: 'O amigo se cadastra',
+  step2_desc: 'Ele cria uma conta e digita o seu código como indicação.',
+  step3_title: 'Ele ganha 5% de desconto',
+  step3_desc: 'Seu amigo ganha 5% de desconto nas taxas da plataforma na primeira transação.',
+  step4_title: 'Você ganha créditos',
+  step4_desc: 'Você recebe créditos por cada amigo que se cadastrar.',
+  tag_discount: '💡 Exemplos',
+  discount_title: 'Como o desconto <em>funciona</em>',
+  discount_desc: 'O desconto vale só para as taxas da plataforma. Os motoristas e operadores recebem o valor cheio.',
+  service_ride: 'Corrida',
+  service_delivery: 'Entrega',
+  service_booking: 'Reserva',
+  ex1_trip: 'Viagem', ex1_fee: 'Taxa da plataforma', ex1_discount: '5% de desconto', ex1_note: '✅ O motorista não é afetado — ele recebe o valor cheio',
+  ex2_order: 'Pedido', ex2_delivery_fee: 'Taxa de entrega', ex2_platform_fee: 'Taxa da plataforma', ex2_discount: '5% de desconto', ex2_note: '✅ A entrega não é afetada — o total do pedido continua igual',
+  ex3_booking_fee: 'Taxa de reserva', ex3_discount: '5% de desconto', ex3_note: '✅ O hotel/operador não é afetado — recebe o valor cheio',
+  tag_leaders: '🏆 Melhores embaixadores',
+  leader_title: 'Melhores <em>embaixadores</em>',
+  leader_desc: 'Quem mais convidou amigos para a plataforma.',
+  tab_weekly: 'Esta semana',
+  tab_monthly: 'Este mês',
+  leader_motivate: '🌟 Você pode ser o próximo embaixador!',
+  leader_unit: 'indicações',
+  tag_promo: '🎫 Cupom',
+  promo_title: 'Tem um <em>cupom?</em>',
+  promo_desc: 'Digite o código que um amigo te deu para ganhar 5% de desconto na primeira transação.',
+  promo_card_title: '🎁 Digite o cupom',
+  promo_card_sub: 'Digite o código que o seu amigo compartilhou.',
+  promo_placeholder: 'Digite o cupom',
+  btn_validate: 'Validar',
+  promo_success: '✅ Desconto de 5% para novo usuário aplicado!',
+  promo_error: '❌ Código inválido — precisa ter pelo menos 6 caracteres.',
+  tag_trust: '🛡️ Garantias',
+  trust_title: 'Você pode <em>confiar na gente</em>',
+  trust1: 'Desconto só nas taxas da plataforma',
+  trust1_sub: 'O desconto não mexe no preço do serviço.',
+  trust2: 'Motoristas e operadores recebem o valor cheio',
+  trust2_sub: 'O desconto sai da comissão da plataforma.',
+  trust3: 'Um código por pessoa',
+  trust3_sub: 'Cada pessoa tem um único código.',
+  trust4: 'Só na primeira transação',
+  trust4_sub: 'O desconto vale uma vez, para novos usuários.',
+  cta_title: 'Comece a convidar <em>agora!</em>',
+  cta_desc: 'Compartilhe o seu código e ajude os amigos a economizar na primeira transação.',
+  cta_share_wa: 'Compartilhar no WhatsApp',
+  cta_register: 'Criar a sua conta',
+  wa_help: 'Precisa de ajuda?',
+  wa_help_sub: 'Nossa equipe está disponível 24 horas por dia',
+  footer_text: 'Um ecossistema digital para negócios e serviços no Haiti.',
+  footer_eco: 'Uma plataforma HaitiBiznis',
+  footer_copy: '&copy; 2026 HaitiBiznis. Todos os direitos reservados.',
+  toast_copied: 'Código copiado!',
+  toast_link_copied: 'Link copiado!',
+  wa_share_msg: 'Use o meu código HaitiBiznis [CODE] e ganhe 5% de desconto na sua primeira corrida, entrega ou reserva no MsouWout e TouPaTou 🇭🇹 https://haitibiznis.com/parenaj.html?ref=[CODE]'
+},
 es: {
   header_logo: 'Haiti<em>Biznis</em>',
   welcome_title: 'Bienvenido! Tu amigo te invito!',
@@ -1297,7 +1379,7 @@ es: {
 
 /* ═══ LANG SWITCHER ═══ */
 var currentLang = 'ht';
-function tx(key) { return (T[currentLang] || T.ht)[key] || (T.ht)[key] || key; }
+function tx(key) { if (typeof T === 'undefined') return key; return (T[currentLang] || T.ht)[key] || (T.ht)[key] || key; }
 
 function setLang(lang) {
   currentLang = lang;
