@@ -36,6 +36,11 @@ button{font-family:var(--body);cursor:pointer;border:none;background:none}
 input{font-family:var(--body)}
 
 .flag-stripe{height:4px;background:linear-gradient(90deg,var(--blue) 50%,var(--red) 50%)}
+.lang-bar{display:flex;justify-content:center;gap:4px;padding:7px 10px;background:#0a1633}
+.lang-bar a{color:#cbd5f0;font:700 11px/1 system-ui,sans-serif;padding:5px 10px;border-radius:100px;cursor:pointer;letter-spacing:.04em}
+.lang-bar a:hover{background:rgba(255,255,255,.08);color:#fff}
+.lang-bar a.active{background:#fff;color:#00209F}
+
 
 /* SCREENS */
 .screen{
@@ -170,6 +175,13 @@ input{font-family:var(--body)}
 <body>
 
 <div class="flag-stripe"></div>
+<div class="lang-bar">
+  <a class="active" data-lang="ht">HT</a>
+  <a data-lang="fr">FR</a>
+  <a data-lang="en">EN</a>
+  <a data-lang="es">ES</a>
+  <a data-lang="pt">PT</a>
+</div>
 
 <!-- ═══ SCREEN 0: ENTRY ═══ -->
 <div class="screen active" id="screen0">
@@ -316,6 +328,136 @@ input{font-family:var(--body)}
 </div>
 
 <script>
+
+/* ═══ TRANSLATIONS ═══ */
+var ST_T = {
+ ht:{s0_q:'Kijan ou vle <em>fe lajan?</em>',s0_earn:'Fe Lajan',s0_earn_sub:'Chofe, Parenaj Biznis, oswa Pwofesyonel',
+  s0_service:'Mande Sevis',s0_service_sub:'Kous, Livrezon, oswa Pwofesyonel',s0_footer:'Premye ekosistem dijital Ayiti',
+  s1a_title:'Chwazi kijan ou vle touche',s1a_sub:'1 tap = 1 chemen',
+  r_driver:'Kondwi',r_driver_d:'Kondwi machin oswa moto, touche chak kous',r_driver_e:'500-3K/jou',
+  r_koutye:'Rekòmande',r_koutye_d:'Pataje link ou, touche komisyon sou chak referral',r_koutye_e:'2-3%',
+  r_pro:'Ofri Sevis',r_pro_d:'Plonbye, elektrisyen, mason — jwenn kliyan',r_pro_e:'Pwofesyonèl Lakay',
+  s1b_title:'Ki sevis ou bezwen?',s1b_sub:'Chwazi epi nou jere rès la',
+  sv_ride:'Mande Kous',sv_ride_d:'Machin oswa moto, kounye a oswa pita',
+  sv_delivery:'Livrezon',sv_delivery_d:'Voye oswa resevwa yon pake',
+  sv_pro:'Pwofesyonel',sv_pro_d:'Plonbye, elektrisyen, mason, ak plis',
+  sv_events:'Evenman',sv_events_d:'Jwenn evenman ak achte tike',
+  s2_title:'Enskri an 10 segonn',s2_sub:'Jis telefon + non — sa sifi',
+  s2_phone_label:'TELEFON / WHATSAPP',s2_name_label:'NON',s2_btn:'&#128308; Kontinye',
+  s3_title:'Byenvini!',s3_sub:'Ou pare pou fe premye lajan ou',
+  b_driver:'&#128663; Chofe',b_koutye:'&#129309; Parenaj Biznis',b_pro:'&#128736;&#65039; Pwofesyonel',
+  d3t:'Ou pare pou fe premye lajan ou!',d3s:'Enskri kom chofe MsouWout epi komanse touche jodi a.',
+  d3p:'&#128663; Ale Online — Vin Chofe',d3x:'&#128200; Dashboard Chofe',
+  k3t:'Pataje lyen ou epi komanse touche!',k3s:'Chak moun ki enskri ak link ou = komisyon pou ou.',
+  k3p:'&#128279; Kopye Link Mwen',k3x:'&#128200; Dashboard Parenaj Biznis',
+  p3t:'Kreye pwofil ou pou jwenn kliyan!',p3s:'Ajoute sevis ou epi kliyan ap ka jwenn ou.',
+  p3p:'&#10133; Kreye Pwofil',p3x:'&#128200; Ale nan Pwofesyonèl Lakay'},
+ fr:{s0_q:'Comment voulez-vous <em>gagner de l’argent ?</em>',s0_earn:'Gagner de l’argent',s0_earn_sub:'Chauffeur, Parenaj Biznis ou professionnel',
+  s0_service:'Demander un service',s0_service_sub:'Course, livraison ou professionnel',s0_footer:'Le premier écosystème numérique d’Haïti',
+  s1a_title:'Choisissez comment vous voulez gagner',s1a_sub:'1 tap = 1 parcours',
+  r_driver:'Conduire',r_driver_d:'Conduisez voiture ou moto, gagnez à chaque course',r_driver_e:'500-3K/jour',
+  r_koutye:'Recommander',r_koutye_d:'Partagez votre lien, gagnez une commission sur chaque parrainage',r_koutye_e:'2-3%',
+  r_pro:'Offrir un service',r_pro_d:'Plombier, électricien, maçon — trouvez des clients',r_pro_e:'Pwofesyonèl Lakay',
+  s1b_title:'De quel service avez-vous besoin ?',s1b_sub:'Choisissez, on s’occupe du reste',
+  sv_ride:'Demander une course',sv_ride_d:'Voiture ou moto, maintenant ou plus tard',
+  sv_delivery:'Livraison',sv_delivery_d:'Envoyez ou recevez un colis',
+  sv_pro:'Professionnel',sv_pro_d:'Plombier, électricien, maçon et plus',
+  sv_events:'Événements',sv_events_d:'Trouvez des événements et achetez vos billets',
+  s2_title:'Inscrivez-vous en 10 secondes',s2_sub:'Juste téléphone + nom — c’est tout',
+  s2_phone_label:'TÉLÉPHONE / WHATSAPP',s2_name_label:'NOM',s2_btn:'&#128308; Continuer',
+  s3_title:'Bienvenue !',s3_sub:'Vous êtes prêt à gagner votre premier argent',
+  b_driver:'&#128663; Chauffeur',b_koutye:'&#129309; Parenaj Biznis',b_pro:'&#128736;&#65039; Professionnel',
+  d3t:'Vous êtes prêt à gagner votre premier argent !',d3s:'Inscrivez-vous comme chauffeur MsouWout et commencez à gagner dès aujourd’hui.',
+  d3p:'&#128663; Passer en ligne — Devenir chauffeur',d3x:'&#128200; Tableau de bord chauffeur',
+  k3t:'Partagez votre lien et commencez à gagner !',k3s:'Chaque personne inscrite avec votre lien = une commission pour vous.',
+  k3p:'&#128279; Copier mon lien',k3x:'&#128200; Tableau de bord Parenaj Biznis',
+  p3t:'Créez votre profil pour trouver des clients !',p3s:'Ajoutez vos services et les clients pourront vous trouver.',
+  p3p:'&#10133; Créer un profil',p3x:'&#128200; Aller sur Pwofesyonèl Lakay'},
+ en:{s0_q:'How do you want to <em>make money?</em>',s0_earn:'Make Money',s0_earn_sub:'Driver, Parenaj Biznis or professional',
+  s0_service:'Request a Service',s0_service_sub:'Ride, delivery or professional',s0_footer:'Haiti’s first digital ecosystem',
+  s1a_title:'Choose how you want to earn',s1a_sub:'1 tap = 1 path',
+  r_driver:'Drive',r_driver_d:'Drive a car or motorcycle, earn on every ride',r_driver_e:'500-3K/day',
+  r_koutye:'Refer',r_koutye_d:'Share your link, earn commission on every referral',r_koutye_e:'2-3%',
+  r_pro:'Offer a Service',r_pro_d:'Plumber, electrician, mason — find customers',r_pro_e:'Pwofesyonèl Lakay',
+  s1b_title:'Which service do you need?',s1b_sub:'Choose and we handle the rest',
+  sv_ride:'Request a Ride',sv_ride_d:'Car or motorcycle, now or later',
+  sv_delivery:'Delivery',sv_delivery_d:'Send or receive a package',
+  sv_pro:'Professional',sv_pro_d:'Plumber, electrician, mason and more',
+  sv_events:'Events',sv_events_d:'Find events and buy tickets',
+  s2_title:'Sign up in 10 seconds',s2_sub:'Just phone + name — that is all',
+  s2_phone_label:'PHONE / WHATSAPP',s2_name_label:'NAME',s2_btn:'&#128308; Continue',
+  s3_title:'Welcome!',s3_sub:'You are ready to make your first money',
+  b_driver:'&#128663; Driver',b_koutye:'&#129309; Parenaj Biznis',b_pro:'&#128736;&#65039; Professional',
+  d3t:'You are ready to make your first money!',d3s:'Sign up as a MsouWout driver and start earning today.',
+  d3p:'&#128663; Go Online — Become a Driver',d3x:'&#128200; Driver Dashboard',
+  k3t:'Share your link and start earning!',k3s:'Every person who signs up with your link = commission for you.',
+  k3p:'&#128279; Copy My Link',k3x:'&#128200; Parenaj Biznis Dashboard',
+  p3t:'Create your profile to find customers!',p3s:'Add your services and customers will be able to find you.',
+  p3p:'&#10133; Create Profile',p3x:'&#128200; Go to Pwofesyonèl Lakay'},
+ es:{s0_q:'¿Cómo quieres <em>ganar dinero?</em>',s0_earn:'Ganar dinero',s0_earn_sub:'Conductor, Parenaj Biznis o profesional',
+  s0_service:'Pedir un servicio',s0_service_sub:'Viaje, entrega o profesional',s0_footer:'El primer ecosistema digital de Haití',
+  s1a_title:'Elige cómo quieres ganar',s1a_sub:'1 toque = 1 camino',
+  r_driver:'Conducir',r_driver_d:'Conduce auto o moto, gana en cada viaje',r_driver_e:'500-3K/día',
+  r_koutye:'Recomendar',r_koutye_d:'Comparte tu enlace, gana comisión por cada referido',r_koutye_e:'2-3%',
+  r_pro:'Ofrecer un servicio',r_pro_d:'Plomero, electricista, albañil — encuentra clientes',r_pro_e:'Pwofesyonèl Lakay',
+  s1b_title:'¿Qué servicio necesitas?',s1b_sub:'Elige y nosotros hacemos el resto',
+  sv_ride:'Pedir un viaje',sv_ride_d:'Auto o moto, ahora o más tarde',
+  sv_delivery:'Entrega',sv_delivery_d:'Envía o recibe un paquete',
+  sv_pro:'Profesional',sv_pro_d:'Plomero, electricista, albañil y más',
+  sv_events:'Eventos',sv_events_d:'Encuentra eventos y compra boletos',
+  s2_title:'Regístrate en 10 segundos',s2_sub:'Solo teléfono + nombre — eso es todo',
+  s2_phone_label:'TELÉFONO / WHATSAPP',s2_name_label:'NOMBRE',s2_btn:'&#128308; Continuar',
+  s3_title:'¡Bienvenido!',s3_sub:'Estás listo para ganar tu primer dinero',
+  b_driver:'&#128663; Conductor',b_koutye:'&#129309; Parenaj Biznis',b_pro:'&#128736;&#65039; Profesional',
+  d3t:'¡Estás listo para ganar tu primer dinero!',d3s:'Regístrate como conductor MsouWout y empieza a ganar hoy.',
+  d3p:'&#128663; Conectarse — Ser conductor',d3x:'&#128200; Panel del conductor',
+  k3t:'¡Comparte tu enlace y empieza a ganar!',k3s:'Cada persona que se registre con tu enlace = comisión para ti.',
+  k3p:'&#128279; Copiar mi enlace',k3x:'&#128200; Panel Parenaj Biznis',
+  p3t:'¡Crea tu perfil para encontrar clientes!',p3s:'Agrega tus servicios y los clientes podrán encontrarte.',
+  p3p:'&#10133; Crear perfil',p3x:'&#128200; Ir a Pwofesyonèl Lakay'},
+ pt:{s0_q:'Como você quer <em>ganhar dinheiro?</em>',s0_earn:'Ganhar dinheiro',s0_earn_sub:'Motorista, Parenaj Biznis ou profissional',
+  s0_service:'Pedir um serviço',s0_service_sub:'Corrida, entrega ou profissional',s0_footer:'O primeiro ecossistema digital do Haiti',
+  s1a_title:'Escolha como você quer ganhar',s1a_sub:'1 toque = 1 caminho',
+  r_driver:'Dirigir',r_driver_d:'Dirija carro ou moto e ganhe em cada corrida',r_driver_e:'500-3 mil/dia',
+  r_koutye:'Indicar',r_koutye_d:'Compartilhe o seu link e ganhe comissão em cada indicação',r_koutye_e:'2-3%',
+  r_pro:'Oferecer um serviço',r_pro_d:'Encanador, eletricista, pedreiro — encontre clientes',r_pro_e:'Pwofesyonèl Lakay',
+  s1b_title:'De qual serviço você precisa?',s1b_sub:'Escolha e a gente cuida do resto',
+  sv_ride:'Pedir uma corrida',sv_ride_d:'Carro ou moto, agora ou mais tarde',
+  sv_delivery:'Entrega',sv_delivery_d:'Envie ou receba um pacote',
+  sv_pro:'Profissional',sv_pro_d:'Encanador, eletricista, pedreiro e mais',
+  sv_events:'Eventos',sv_events_d:'Encontre eventos e compre ingressos',
+  s2_title:'Cadastre-se em 10 segundos',s2_sub:'Só telefone + nome — é só isso',
+  s2_phone_label:'TELEFONE / WHATSAPP',s2_name_label:'NOME',s2_btn:'&#128308; Continuar',
+  s3_title:'Bem-vindo!',s3_sub:'Você está pronto para ganhar o seu primeiro dinheiro',
+  b_driver:'&#128663; Motorista',b_koutye:'&#129309; Parenaj Biznis',b_pro:'&#128736;&#65039; Profissional',
+  d3t:'Você está pronto para ganhar o seu primeiro dinheiro!',d3s:'Cadastre-se como motorista MsouWout e comece a ganhar hoje.',
+  d3p:'&#128663; Ficar online — ser motorista',d3x:'&#128200; Painel do motorista',
+  k3t:'Compartilhe o seu link e comece a ganhar!',k3s:'Cada pessoa que se cadastrar com o seu link = comissão para você.',
+  k3p:'&#128279; Copiar o meu link',k3x:'&#128200; Painel Parenaj Biznis',
+  p3t:'Crie o seu perfil para encontrar clientes!',p3s:'Adicione os seus serviços e os clientes vão te encontrar.',
+  p3p:'&#10133; Criar perfil',p3x:'&#128200; Ir para o Pwofesyonèl Lakay'}
+};
+var stLang = localStorage.getItem('hb_lang');
+if(!ST_T[stLang]) stLang = 'ht';
+function stT(k){ return (ST_T[stLang] && ST_T[stLang][k]) || ST_T.ht[k] || k; }
+function stApply(){
+  document.querySelectorAll('[data-i18n]').forEach(function(el){
+    var v = stT(el.getAttribute('data-i18n')); if(v!=null) el.innerHTML = v;
+  });
+  document.documentElement.lang = (stLang==='pt' ? 'pt-BR' : stLang);
+  document.querySelectorAll('.lang-bar a').forEach(function(a){
+    a.classList.toggle('active', a.getAttribute('data-lang')===stLang);
+  });
+  /* screen 3 is written from JS, so it has to be repainted too */
+  if(typeof selectedRole !== 'undefined' && selectedRole) paintScreen3();
+}
+document.querySelectorAll('.lang-bar a').forEach(function(a){
+  a.addEventListener('click', function(){
+    stLang = a.getAttribute('data-lang');
+    try{ localStorage.setItem('hb_lang', stLang); }catch(e){}
+    stApply();
+  });
+});
 var selectedRole='';
 
 function showScreen(n){
@@ -333,13 +475,13 @@ function selectRole(role){
   badge.className='s2-role-badge';
   if(role==='driver'){
     badge.classList.add('driver');
-    badge.innerHTML='&#128663; Chofe';
+    badge.innerHTML=stT('b_driver');
   } else if(role==='koutye'){
     badge.classList.add('koutye');
-    badge.innerHTML='&#129309; Parenaj Biznis';
+    badge.innerHTML=stT('b_koutye');
   } else if(role==='pro'){
     badge.classList.add('pro');
-    badge.innerHTML='&#128736;&#65039; Pwofesyonel';
+    badge.innerHTML=stT('b_pro');
   }
   showScreen(3);
 }
@@ -370,28 +512,7 @@ function doSignup(){
   var s3p=document.getElementById('s3Primary');
   var s3sec=document.getElementById('s3Secondary');
 
-  if(selectedRole==='driver'){
-    s3.textContent='Ou pare pou fe premye lajan ou!';
-    s3s.textContent='Enskri kom chofe MsouWout epi komanse touche jodi a.';
-    s3p.innerHTML='&#128663; Ale Online — Vin Chofe';
-    s3p.onclick=function(){window.location.href='driver-register.html'};
-    s3sec.innerHTML='&#128200; Dashboard Chofe';
-    s3sec.onclick=function(){window.location.href='driver-dashboard.html'};
-  } else if(selectedRole==='koutye'){
-    s3.textContent='Pataje lyen ou epi komanse touche!';
-    s3s.textContent='Chak moun ki enskri ak link ou = komisyon pou ou.';
-    s3p.innerHTML='&#128279; Kopye Link Mwen';
-    s3p.onclick=function(){window.location.href='koutye.html'};
-    s3sec.innerHTML='&#128200; Dashboard Parenaj Biznis';
-    s3sec.onclick=function(){window.location.href='koutye-dashboard.html'};
-  } else if(selectedRole==='pro'){
-    s3.textContent='Kreye pwofil ou pou jwenn kliyan!';
-    s3s.textContent='Ajoute sevis ou epi kliyan ap ka jwenn ou.';
-    s3p.innerHTML='&#10133; Kreye Pwofil';
-    s3p.onclick=function(){window.location.href='prolakay.html'};
-    s3sec.innerHTML='&#128200; Ale nan Pwofesyonèl Lakay';
-    s3sec.onclick=function(){window.location.href='prolakay.html'};
-  }
+  paintScreen3();
 
   showScreen(4);
 
@@ -399,8 +520,28 @@ function doSignup(){
   try{navigator.sendBeacon('https://wa.me/50946859702?text='+encodeURIComponent(msg))}catch(e){}
 }
 
+/* Screen 3 copy lives here so switching language can repaint it. */
+function paintScreen3(){
+  var s3=document.getElementById('s3Title'),s3s=document.getElementById('s3Sub'),
+      s3p=document.getElementById('s3Primary'),s3sec=document.getElementById('s3Secondary');
+  if(!s3||!s3s||!s3p||!s3sec) return;
+  if(selectedRole==='driver'){
+    s3.textContent=stT('d3t'); s3s.textContent=stT('d3s');
+    s3p.innerHTML=stT('d3p'); s3p.onclick=function(){window.location.href='driver-register.html'};
+    s3sec.innerHTML=stT('d3x'); s3sec.onclick=function(){window.location.href='driver-dashboard.html'};
+  } else if(selectedRole==='koutye'){
+    s3.textContent=stT('k3t'); s3s.textContent=stT('k3s');
+    s3p.innerHTML=stT('k3p'); s3p.onclick=function(){window.location.href='koutye.html'};
+    s3sec.innerHTML=stT('k3x'); s3sec.onclick=function(){window.location.href='koutye-dashboard.html'};
+  } else if(selectedRole==='pro'){
+    s3.textContent=stT('p3t'); s3s.textContent=stT('p3s');
+    s3p.innerHTML=stT('p3p'); s3p.onclick=function(){window.location.href='prolakay.html'};
+    s3sec.innerHTML=stT('p3x'); s3sec.onclick=function(){window.location.href='prolakay.html'};
+  }
+}
 function doFirstAction(){}
 function doSecondAction(){}
+stApply();
 </script>
 </body>
 </html>

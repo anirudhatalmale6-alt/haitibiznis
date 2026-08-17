@@ -255,6 +255,7 @@ a{text-decoration:none;color:inherit}
   <a data-lang="fr">Français</a>
   <a data-lang="en">English</a>
   <a data-lang="es">Español</a>
+  <a data-lang="pt">Português</a>
 </div>
 <div class="flag-stripe"></div>
 <div class="header">
@@ -610,6 +611,76 @@ document.getElementById('rPhone').addEventListener('change',function(){
   if(this.value.trim()) localStorage.setItem('msw_phone',this.value.trim());
 });
 
+
+/* ═══ TRANSLATIONS ═══ */
+var MSW_T = {
+  ht:{main_q:'Jwenn Yon Kous <em>Nan 2 Minit</em>',greeting:'Chofe ap reponn rapid via WhatsApp',
+    ph_pickup:'Ki kote ou ye?',gps_btn:'Sevi ak pozisyon mwen',ph_drop:'Ki kote ou prale?',
+    find_btn:'&#128308; Mande Kous Kounye A',popular:'Kote popile',
+    t1:'Chofe verifye',t2:'Repons rapid',t3:'Sekirite garanti',
+    db_title:'&#128663; Ou gen yon machin/moto?',db_sub:'Touche 500-3,000 HTG/jou',db_btn:'Vin Chofe',
+    edit:'Chanje',vtype_label:'KALITE MACHIN',moto_price:'Pi rapid, pi abodab',car_name:'Machin',car_price:'Konfortab, AC',
+    when_label:'KI LE',now:'Kounye A',later:'Pita',est_label:'Estimasyon pri',phone_label:'NIMEWO POU KONTAKTE OU',
+    request_btn:'&#128308; Mande Kous',match_title:'N ap chache yon chofe...',
+    match_sub:'Chofe ki pi pre a ap resevwa demann ou an',eta:'&#128337; 2-5 minit',
+    match_msg:'Chofe a ap kontakte ou sou WhatsApp. Si ou pa resevwa mesaj la, kontakte nou:',
+    wa_btn:'Kontakte sou WhatsApp',new_ride:'Mande yon lot kous'},
+  fr:{main_q:'Trouvez une course <em>en 2 minutes</em>',greeting:'Les chauffeurs répondent vite sur WhatsApp',
+    ph_pickup:'Où êtes-vous ?',gps_btn:'Utiliser ma position',ph_drop:'Où allez-vous ?',
+    find_btn:'&#128308; Demander une course',popular:'Lieux populaires',
+    t1:'Chauffeurs vérifiés',t2:'Réponse rapide',t3:'Sécurité garantie',
+    db_title:'&#128663; Vous avez une voiture / moto ?',db_sub:'Gagnez 500-3 000 HTG par jour',db_btn:'Devenir chauffeur',
+    edit:'Modifier',vtype_label:'TYPE DE VÉHICULE',moto_price:'Plus rapide, plus abordable',car_name:'Voiture',car_price:'Confortable, climatisée',
+    when_label:'QUAND',now:'Maintenant',later:'Plus tard',est_label:'Prix estimé',phone_label:'NUMÉRO POUR VOUS JOINDRE',
+    request_btn:'&#128308; Demander la course',match_title:'Nous cherchons un chauffeur...',
+    match_sub:'Le chauffeur le plus proche va recevoir votre demande',eta:'&#128337; 2-5 minutes',
+    match_msg:'Le chauffeur vous contactera sur WhatsApp. Si vous ne recevez pas de message, écrivez-nous :',
+    wa_btn:'Nous écrire sur WhatsApp',new_ride:'Demander une autre course'},
+  en:{main_q:'Get a Ride <em>in 2 Minutes</em>',greeting:'Drivers reply fast on WhatsApp',
+    ph_pickup:'Where are you?',gps_btn:'Use my location',ph_drop:'Where are you going?',
+    find_btn:'&#128308; Request a Ride Now',popular:'Popular places',
+    t1:'Verified drivers',t2:'Fast response',t3:'Safety guaranteed',
+    db_title:'&#128663; Got a car or motorcycle?',db_sub:'Earn 500-3,000 HTG a day',db_btn:'Become a Driver',
+    edit:'Change',vtype_label:'VEHICLE TYPE',moto_price:'Faster, cheaper',car_name:'Car',car_price:'Comfortable, A/C',
+    when_label:'WHEN',now:'Now',later:'Later',est_label:'Estimated price',phone_label:'NUMBER TO REACH YOU',
+    request_btn:'&#128308; Request Ride',match_title:'Finding you a driver...',
+    match_sub:'The closest driver will get your request',eta:'&#128337; 2-5 minutes',
+    match_msg:'The driver will contact you on WhatsApp. If you do not get a message, reach us here:',
+    wa_btn:'Message us on WhatsApp',new_ride:'Request another ride'},
+  es:{main_q:'Consigue un viaje <em>en 2 minutos</em>',greeting:'Los conductores responden rápido por WhatsApp',
+    ph_pickup:'¿Dónde estás?',gps_btn:'Usar mi ubicación',ph_drop:'¿A dónde vas?',
+    find_btn:'&#128308; Pedir un viaje ahora',popular:'Lugares populares',
+    t1:'Conductores verificados',t2:'Respuesta rápida',t3:'Seguridad garantizada',
+    db_title:'&#128663; ¿Tienes carro o moto?',db_sub:'Gana 500-3,000 HTG al día',db_btn:'Ser conductor',
+    edit:'Cambiar',vtype_label:'TIPO DE VEHÍCULO',moto_price:'Más rápido, más barato',car_name:'Auto',car_price:'Cómodo, con aire',
+    when_label:'CUÁNDO',now:'Ahora',later:'Más tarde',est_label:'Precio estimado',phone_label:'NÚMERO PARA CONTACTARTE',
+    request_btn:'&#128308; Pedir viaje',match_title:'Buscando un conductor...',
+    match_sub:'El conductor más cercano recibirá tu solicitud',eta:'&#128337; 2-5 minutos',
+    match_msg:'El conductor te contactará por WhatsApp. Si no recibes mensaje, escríbenos:',
+    wa_btn:'Escríbenos por WhatsApp',new_ride:'Pedir otro viaje'},
+  pt:{main_q:'Peça uma corrida <em>em 2 minutos</em>',greeting:'Os motoristas respondem rápido no WhatsApp',
+    ph_pickup:'Onde você está?',gps_btn:'Usar a minha localização',ph_drop:'Para onde você vai?',
+    find_btn:'&#128308; Pedir uma corrida agora',popular:'Lugares populares',
+    t1:'Motoristas verificados',t2:'Resposta rápida',t3:'Segurança garantida',
+    db_title:'&#128663; Tem carro ou moto?',db_sub:'Ganhe de 500 a 3.000 HTG por dia',db_btn:'Quero ser motorista',
+    edit:'Trocar',vtype_label:'TIPO DE VEÍCULO',moto_price:'Mais rápido, mais barato',car_name:'Carro',car_price:'Confortável, com ar',
+    when_label:'QUANDO',now:'Agora',later:'Mais tarde',est_label:'Preço estimado',phone_label:'NÚMERO PARA FALAR COM VOCÊ',
+    request_btn:'&#128308; Pedir corrida',match_title:'Procurando um motorista...',
+    match_sub:'O motorista mais perto vai receber o seu pedido',eta:'&#128337; 2-5 minutos',
+    match_msg:'O motorista vai falar com você no WhatsApp. Se não receber a mensagem, fale com a gente:',
+    wa_btn:'Falar no WhatsApp',new_ride:'Pedir outra corrida'}
+};
+function mswApplyLang(l){
+  var t=MSW_T[l]||MSW_T.ht;
+  document.querySelectorAll('[data-i18n]').forEach(function(el){
+    var v=t[el.getAttribute('data-i18n')]; if(v!=null) el.innerHTML=v;
+  });
+  document.querySelectorAll('[data-i18n-ph]').forEach(function(el){
+    var v=t[el.getAttribute('data-i18n-ph')]; if(v!=null) el.setAttribute('placeholder',v);
+  });
+  document.documentElement.lang = (l==='pt' ? 'pt-BR' : l);
+}
+
 /* LANGUAGE BAR */
 document.querySelectorAll('.lang-bar a').forEach(function(a){
   a.addEventListener('click',function(){
@@ -618,13 +689,15 @@ document.querySelectorAll('.lang-bar a').forEach(function(a){
     document.querySelectorAll('.lang-bar a').forEach(function(b){
       b.classList.toggle('active',b.getAttribute('data-lang')===l);
     });
+    mswApplyLang(l);
   });
 });
 var savedLang=localStorage.getItem('hb_lang');
-if(savedLang){
+if(savedLang && MSW_T[savedLang]){
   document.querySelectorAll('.lang-bar a').forEach(function(a){
     a.classList.toggle('active',a.getAttribute('data-lang')===savedLang);
   });
+  mswApplyLang(savedLang);
 }
 </script>
 </body>
