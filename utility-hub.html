@@ -478,10 +478,11 @@ nav{
 
 <!-- LANG BAR -->
 <div class="top-lang-bar">
-  <a class="active" onclick="setLang('ht')">Kreyòl</a>
-  <a onclick="setLang('fr')">Français</a>
-  <a onclick="setLang('en')">English</a>
-  <a onclick="setLang('es')">Español</a>
+  <a class="active" data-lang="ht" onclick="setLang('ht')">Kreyòl</a>
+  <a data-lang="fr" onclick="setLang('fr')">Français</a>
+  <a data-lang="en" onclick="setLang('en')">English</a>
+  <a data-lang="es" onclick="setLang('es')">Español</a>
+  <a data-lang="pt" onclick="setLang('pt')">Português</a>
 </div>
 
 <!-- NAV -->
@@ -1006,12 +1007,14 @@ var flowState = {
 var stepLabels = {
   ht: ['Etap 1: Enfomasyon Kliyan','Etap 2: Montan','Etap 3: Metod Peman','Etap 4: Konfimasyon'],
   en: ['Step 1: Customer Info','Step 2: Amount','Step 3: Payment Method','Step 4: Confirmation'],
+  pt: ['Passo 1: Dados do cliente','Passo 2: Valor','Passo 3: Forma de pagamento','Passo 4: Confirmação'],
   fr: ['Etape 1: Info Client','Etape 2: Montant','Etape 3: Mode de Paiement','Etape 4: Confirmation'],
   es: ['Paso 1: Info del Cliente','Paso 2: Monto','Paso 3: Metodo de Pago','Paso 4: Confirmacion']
 };
 var stepLabelsDinepa = {
   ht: ['Etap 1: Enfomasyon Kont','Etap 2: Montan','Etap 3: Metod Peman','Etap 4: Konfimasyon'],
   en: ['Step 1: Account Info','Step 2: Amount','Step 3: Payment Method','Step 4: Confirmation'],
+  pt: ['Passo 1: Dados da conta','Passo 2: Valor','Passo 3: Forma de pagamento','Passo 4: Confirmação'],
   fr: ['Etape 1: Info Compte','Etape 2: Montant','Etape 3: Mode de Paiement','Etape 4: Confirmation'],
   es: ['Paso 1: Info de Cuenta','Paso 2: Monto','Paso 3: Metodo de Pago','Paso 4: Confirmacion']
 };
@@ -1568,6 +1571,70 @@ var translations = {
     min_amount: 'Minimum 100 HTG',
     choose_method: 'Choisissez un mode de paiement'
   },
+  pt: {
+    hero_badge: 'HaitiBiznis Utility Hub',
+    hero_title: 'Pague as suas contas <em>com facilidade</em>',
+    hero_sub: 'Pague a EDH e a DINEPA no HaitiBiznis com MonCash, NatCash ou cartão de crédito. Rápido, simples e seguro.',
+    hero_card: 'Cartão de crédito',
+    hub_title: 'Escolha o seu serviço',
+    hub_sub: 'Selecione o serviço que você quer pagar e siga os passos.',
+    edh_desc: 'Pague a conta de luz e receba o token ou o comprovante. Rápido e seguro.',
+    dinepa_desc: 'Pague a conta de água e receba a confirmação. Sem precisar pegar fila.',
+    pay_now: 'Pagar agora &#8594;',
+    status_active: 'Ativo',
+    how_title: 'Como funciona?',
+    how_s1: 'Escolha o serviço (EDH / DINEPA)',
+    how_s2: 'Informe os dados da sua conta',
+    how_s3: 'Escolha o valor e a forma de pagamento',
+    how_s4: 'Pague e receba a confirmação',
+    trust_title: 'Por que pagar no HaitiBiznis?',
+    trust_1_h: '100% seguro',
+    trust_1_p: 'Todas as transações são protegidas pelo sistema SolutionIP.',
+    trust_2_h: 'Rápido',
+    trust_2_p: 'Receba o token ou a confirmação em minutos.',
+    trust_3_h: 'No seu celular',
+    trust_3_p: 'Sem precisar sair de casa. Pague de qualquer lugar, a qualquer hora.',
+    nav_home: 'Início',
+    nav_koutye: 'Parenaj Biznis',
+    nav_services: 'Serviços',
+    nav_pay: 'Pagar agora',
+    step_info: 'Passo 1: Dados do cliente',
+    edh_meter: 'Número do medidor EDH',
+    field_name: 'Nome do cliente',
+    field_phone: 'Telefone',
+    field_email: 'E-mail',
+    optional: '(opcional)',
+    field_zone: 'Zona / Município',
+    field_required: 'Este campo é obrigatório',
+    dinepa_account: 'Número da conta DINEPA',
+    sum_meter: 'Medidor',
+    sum_account: 'Conta DINEPA',
+    sum_amount: 'Valor',
+    sum_fee: 'Taxa de serviço',
+    method_moncash: 'Pague com o seu MonCash',
+    method_natcash: 'Pague com o seu NatCash',
+    method_card_h: 'Cartão de crédito / débito',
+    method_card_p: 'Visa, Mastercard',
+    confirm_pending_h: 'Processando o pagamento...',
+    confirm_pending_p: 'Estamos conferindo o seu pagamento. Isso pode levar alguns minutos.',
+    confirm_success_h: 'Pagamento aprovado!',
+    confirm_success_p: 'Sua transação foi concluída.',
+    token_note: 'Digite este token no seu medidor para ativar a energia.',
+    rcpt_ref: 'Referência',
+    rcpt_meter: 'Medidor',
+    rcpt_account: 'Conta DINEPA',
+    rcpt_amount: 'Valor',
+    rcpt_fee: 'Taxa',
+    rcpt_method: 'Forma',
+    copy_token: 'Copiar token',
+    send_whatsapp: 'Enviar pelo WhatsApp',
+    done: 'Concluído',
+    btn_continue: 'Continuar',
+    btn_back: '&#8592; Voltar',
+    btn_pay: 'Confirmar pagamento',
+    min_amount: 'Mínimo 100 HTG',
+    choose_method: 'Escolha uma forma de pagamento'
+  },
   es: {
     hero_badge: 'HaitiBiznis Utility Hub',
     hero_title: 'Paga Tus Servicios <em>Facilmente</em>',
@@ -1637,13 +1704,21 @@ var translations = {
 function setLang(lang) {
   currentLang = lang;
   var links = document.querySelectorAll('.top-lang-bar a');
-  for (var i = 0; i < links.length; i++) links[i].classList.remove('active');
-  links[['ht','fr','en','es'].indexOf(lang)].classList.add('active');
+  /* Match on the link's own data-lang instead of a hardcoded list - adding a language
+     to the bar used to make indexOf return -1 and throw on links[-1]. */
+  for (var i = 0; i < links.length; i++) {
+    links[i].classList.toggle('active', links[i].getAttribute('data-lang') === lang);
+  }
   var t = translations[lang] || {};
   var els = document.querySelectorAll('[data-i18n]');
   for (var j = 0; j < els.length; j++) {
     var key = els[j].getAttribute('data-i18n');
-    if (t[key]) els[j].innerHTML = t[key];
+    /* The page is written in Kreyol and there is no ht block, so remember the original
+       markup - otherwise going back to Kreyol just leaves the previous language up. */
+    if (els[j].getAttribute('data-i18n-orig') === null) {
+      els[j].setAttribute('data-i18n-orig', els[j].innerHTML);
+    }
+    els[j].innerHTML = t[key] || els[j].getAttribute('data-i18n-orig');
   }
 }
 </script>

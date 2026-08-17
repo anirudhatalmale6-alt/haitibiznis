@@ -479,6 +479,7 @@ footer{
       <a onclick="setLang('fr')" id="lang-fr">FR</a>
       <a onclick="setLang('en')" id="lang-en">EN</a>
       <a onclick="setLang('es')" id="lang-es">ES</a>
+      <a onclick="setLang('pt')" id="lang-es">PT</a>
     </div>
     <a href="reservations.html" class="header-link" data-i18n="nav_book">Rezève</a>
   </div>
@@ -634,17 +635,17 @@ var DEMO_RESERVATIONS = [
   {
     ref_code: 'FLT-X4K9M2',
     type: 'flight',
-    service_label: { ht:'Vòl PAP → Miami', fr:'Vol PAP → Miami', en:'Flight PAP → Miami', es:'Vuelo PAP → Miami' },
+    service_label: { ht:'Vòl PAP → Miami', fr:'Vol PAP → Miami', en:'Flight PAP → Miami', es:'Vuelo PAP → Miami', pt:'Voo PAP → Miami' },
     date: '2025-08-15',
     time: '08:30',
     status: 'confirmed',
     pin: '4521',
     payment_status: 'paid',
     details: {
-      departure: { ht:'Port-au-Prince (PAP)', fr:'Port-au-Prince (PAP)', en:'Port-au-Prince (PAP)', es:'Puerto Príncipe (PAP)' },
-      destination: { ht:'Miami (MIA)', fr:'Miami (MIA)', en:'Miami (MIA)', es:'Miami (MIA)' },
+      departure: { ht:'Port-au-Prince (PAP)', fr:'Port-au-Prince (PAP)', en:'Port-au-Prince (PAP)', es:'Puerto Príncipe (PAP)', pt:'Porto Príncipe (PAP)' },
+      destination: { ht:'Miami (MIA)', fr:'Miami (MIA)', en:'Miami (MIA)', es:'Miami (MIA)', pt:'Miami (MIA)' },
       passengers: '2',
-      class: { ht:'Ekonomi', fr:'Économique', en:'Economy', es:'Económica' },
+      class: { ht:'Ekonomi', fr:'Économique', en:'Economy', es:'Económica', pt:'Econômica' },
       airline: 'American Airlines',
       seat: '14A, 14B'
     }
@@ -652,7 +653,7 @@ var DEMO_RESERVATIONS = [
   {
     ref_code: 'HTL-R7B3N8',
     type: 'hotel',
-    service_label: { ht:'Otèl Petion-Ville', fr:'Hôtel Pétion-Ville', en:'Hotel Petion-Ville', es:'Hotel Pétion-Ville' },
+    service_label: { ht:'Otèl Petion-Ville', fr:'Hôtel Pétion-Ville', en:'Hotel Petion-Ville', es:'Hotel Pétion-Ville', pt:'Hotel Pétion-Ville' },
     date: '2025-08-15',
     time: '14:00',
     status: 'pending',
@@ -660,17 +661,17 @@ var DEMO_RESERVATIONS = [
     payment_status: 'unpaid',
     details: {
       hotel_name: 'Marriott Port-au-Prince',
-      checkin: { ht:'15 Dawout 2025', fr:'15 Août 2025', en:'Aug 15, 2025', es:'15 Ago 2025' },
-      checkout: { ht:'20 Dawout 2025', fr:'20 Août 2025', en:'Aug 20, 2025', es:'20 Ago 2025' },
+      checkin: { ht:'15 Dawout 2025', fr:'15 Août 2025', en:'Aug 15, 2025', es:'15 Ago 2025', pt:'15 ago 2025' },
+      checkout: { ht:'20 Dawout 2025', fr:'20 Août 2025', en:'Aug 20, 2025', es:'20 Ago 2025', pt:'20 ago 2025' },
       guests: '2',
-      room: { ht:'Chanm Deluxe', fr:'Chambre Deluxe', en:'Deluxe Room', es:'Habitación Deluxe' },
+      room: { ht:'Chanm Deluxe', fr:'Chambre Deluxe', en:'Deluxe Room', es:'Habitación Deluxe', pt:'Quarto Deluxe' },
       nights: '5'
     }
   },
   {
     ref_code: 'BUS-M2K5P9',
     type: 'bus',
-    service_label: { ht:'Bis PAP → Santo Domingo', fr:'Bus PAP → Santo Domingo', en:'Bus PAP → Santo Domingo', es:'Bus PAP → Santo Domingo' },
+    service_label: { ht:'Bis PAP → Santo Domingo', fr:'Bus PAP → Santo Domingo', en:'Bus PAP → Santo Domingo', es:'Bus PAP → Santo Domingo', pt:'Ônibus PAP → Santo Domingo' },
     date: '2025-07-28',
     time: '06:00',
     status: 'completed',
@@ -681,7 +682,7 @@ var DEMO_RESERVATIONS = [
       seats: '1',
       departure_time: '06:00 AM',
       operator: 'Caribe Tours',
-      luggage: { ht:'Wi, bagaj siplemantè', fr:'Oui, bagages supplémentaires', en:'Yes, extra luggage', es:'Sí, equipaje extra' }
+      luggage: { ht:'Wi, bagaj siplemantè', fr:'Oui, bagages supplémentaires', en:'Yes, extra luggage', es:'Sí, equipaje extra', pt:'Sim, bagagem extra' }
     }
   }
 ];
@@ -893,6 +894,74 @@ en: {
   lbl_your_pin: "Your PIN",
   btn_wa_help: "WhatsApp Support",
   wa_res_msg: "Hello! I need help with reservation {ref}."
+},
+pt: {
+  header_sub: "Painel de reservas",
+  nav_book: "Reservar agora",
+  nav_home: "Início",
+  nav_events: "Eventos",
+  hero_title: "Consulte a sua reserva",
+  hero_sub: "Digite o seu telefone ou o código de referência para ver a situação da sua reserva.",
+  tab_phone: "Por telefone",
+  tab_ref: "Por código",
+  lbl_phone: "Número de telefone",
+  ph_phone: "+509 XXXX XXXX",
+  lbl_ref: "Código de referência",
+  ph_ref: "FLT-X4K9M2",
+  btn_search: "Buscar",
+  loading: "Buscando...",
+  demo_msg: "Modo demonstração — dados não são reais. Use +509 4812 3456 para testar.",
+  results_title: "Suas reservas",
+  results_count: "{n} reservas",
+  results_count_1: "1 reserva",
+  err_title: "Nenhuma reserva encontrada",
+  err_sub: "Não encontramos nenhuma reserva com esses dados. Confira o seu telefone ou o código de referência e tente de novo.",
+  btn_try_again: "Tentar de novo",
+  verify_title: "Verificar com PIN",
+  verify_sub: "Digite o código de referência e o seu PIN de 4 dígitos para verificar a sua reserva.",
+  btn_verify: "Verificar",
+  verify_success: "Reserva verificada! Está tudo certo.",
+  verify_fail: "PIN incorreto. Confira e tente de novo.",
+  btn_new_res: "Fazer uma nova reserva",
+  wa_help: "Precisa de ajuda?",
+  wa_help_sub: "Nossa equipe está disponível 24 horas no WhatsApp",
+  footer_desc: "Uma plataforma. Todas as reservas. Voos, helicópteros, hotéis, ônibus, transporte marítimo, emergências médicas e eventos.",
+  status_pending: "Pendente",
+  status_confirmed: "Confirmada",
+  status_completed: "Concluída",
+  status_cancelled: "Cancelada",
+  type_flight: "Voo",
+  type_helicopter: "Helicóptero",
+  type_hotel: "Hotel",
+  type_bus: "Ônibus",
+  type_ambulance: "Ambulância",
+  type_ticket: "Ingresso",
+  type_boat: "Barco",
+  type_concierge: "Concierge",
+  lbl_departure: "Partida",
+  lbl_destination: "Destino",
+  lbl_passengers: "Passageiros",
+  lbl_class: "Classe",
+  lbl_airline: "Companhia aérea",
+  lbl_seat: "Assento",
+  lbl_hotel_name: "Nome do hotel",
+  lbl_checkin: "Check-in",
+  lbl_checkout: "Check-out",
+  lbl_guests: "Hóspedes",
+  lbl_room: "Quarto",
+  lbl_nights: "Noites",
+  lbl_route: "Rota",
+  lbl_seats: "Assentos",
+  lbl_dep_time: "Horário de partida",
+  lbl_operator: "Operadora",
+  lbl_luggage: "Bagagem",
+  lbl_payment: "Pagamento",
+  payment_paid: "Pago",
+  payment_unpaid: "Não pago",
+  lbl_your_ref: "Seu código de referência",
+  lbl_your_pin: "Seu PIN",
+  btn_wa_help: "Suporte no WhatsApp",
+  wa_res_msg: "Olá! Preciso de ajuda com a reserva {ref}."
 },
 es: {
   header_sub: "Panel de Reservas",
