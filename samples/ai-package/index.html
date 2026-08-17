@@ -100,6 +100,29 @@
   .foot b{color:var(--ink)}
   .demo-tag{display:inline-block;background:#fff3cd;color:#7a5a00;font-size:11px;font-weight:700;border:1px solid #f4d992;border-radius:8px;padding:5px 10px;margin-top:8px}
   .hidden{display:none !important}
+  /* ── QR studio (the QR Code deliverable, generated live) ── */
+  .qrs{background:#f7f9ff;border:1px solid var(--line);border-radius:16px;padding:16px;margin:4px 0 6px}
+  .qrs .fld{margin-bottom:11px}
+  .qrs label{display:block;font-size:12px;font-weight:800;color:var(--muted);margin-bottom:5px;letter-spacing:.2px}
+  .qrs select,.qrs input{width:100%;border:1px solid var(--line);border-radius:11px;padding:11px 12px;
+    font-family:'Inter';font-size:14px;color:var(--ink);background:#fff;-webkit-appearance:none;appearance:none}
+  .qrs select{padding-right:34px;background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='12' height='8'><path d='M1 1l5 5 5-5' stroke='%2366738c' stroke-width='2' fill='none'/></svg>");
+    background-repeat:no-repeat;background-position:right 13px center}
+  .qrs input:focus,.qrs select:focus{outline:0;border-color:var(--blue)}
+  .qrstage{display:flex;gap:16px;align-items:center;margin-top:14px;flex-wrap:wrap}
+  .qrstage canvas{width:172px;height:172px;border-radius:14px;border:1px solid var(--line);background:#fff;flex:0 0 auto}
+  .qrside{flex:1;min-width:190px}
+  .qrside .lb{font-size:11.5px;font-weight:800;color:var(--muted);letter-spacing:.3px}
+  .qrside .lk{font-size:13px;word-break:break-all;margin-top:3px;font-weight:600;color:var(--navy)}
+  .qrside .warn{font-size:12.5px;color:#b57000;background:#fff6e6;border:1px solid #f4d992;border-radius:10px;padding:8px 10px;margin-top:9px;display:none}
+  .qrside .warn.on{display:block}
+  .qrbtns{display:flex;gap:8px;margin-top:13px;flex-wrap:wrap}
+  .qrbtns button{flex:1;min-width:150px;border:0;border-radius:11px;padding:12px 10px;font-family:'Inter';
+    font-weight:800;font-size:13px;cursor:pointer;background:var(--navy);color:#fff}
+  .qrbtns button.alt{background:#eef3ff;color:var(--blue)}
+  .qrbtns button:disabled{opacity:.5;cursor:default}
+  .qrfoot{font-size:12px;color:var(--muted);line-height:1.55;margin-top:11px}
+  @media(max-width:430px){.qrstage canvas{width:100%;height:auto;aspect-ratio:1}}
 </style>
 </head>
 <body>
@@ -163,6 +186,7 @@
   </div>
 </div></div>
 
+<script src="qrcode.js"></script>
 <script>
 /* ── The 5 tabs your AI Consultant delivers ── */
 const TABS=[
@@ -184,7 +208,7 @@ const PKG=[
  {id:'slogan',tab:'brand',emo:'💬',nm:'Slogan',snip:'"Gou mòn Ayiti nan chak tas." — the taste of Haiti’s mountains in every cup.',
   body:`<p><b>Kreyòl:</b> «Gou mòn Ayiti nan chak tas.»</p><p><b>English:</b> "Haiti's mountains in every cup."</p><p><b>Français:</b> « Le goût des montagnes d'Haïti dans chaque tasse. »</p><h3>Alternatives</h3><ul><li>"Roasted in Haiti. Loved everywhere."</li><li>"Kafe pa nou. Fyète nou." (Our coffee. Our pride.)</li><li>"From our mountains to your morning."</li></ul>`},
  {id:'card',tab:'brand',emo:'🪪',nm:'Business Card',snip:'Print-ready front + back copy with a QR code to your WhatsApp catalog.',
-  body:`<h3>Front</h3><p><b>KAFE MONTAY AYITI</b><br><em>Gou mòn Ayiti nan chak tas.</em><br>Roseline Étienne — Founder</p><h3>Back</h3><p>📱 WhatsApp: +509 … · ✉ hello@kafemontay.ht<br>🌍 www.kafemontay.ht · 📸 @kafemontay<br>[ QR code → WhatsApp catalog ]</p>`},
+  body:`<h3>Front</h3><p><b>KAFE MONTAY AYITI</b><br><em>Gou mòn Ayiti nan chak tas.</em><br>Roseline Étienne — Founder</p><h3>Back</h3><p>📱 WhatsApp: +509 … · ✉ hello@kafemontay.ht<br>🌍 www.kafemontay.ht · 📸 @kafemontay<br>🔳 Your QR code, printed bottom-right — generate and download it in the <b>Digital</b> tab.</p>`},
 
  /* 📄 BUSINESS */
  {id:'exec',tab:'business',emo:'📄',nm:'Executive Summary',snip:'A bank- and investor-ready one-pager: overview, problem/solution, market, revenue, edge.',
@@ -206,8 +230,9 @@ const PKG=[
   body:`<h3>Hero</h3><p><b>Haiti's mountains in every cup.</b><br>Premium single-origin Haitian coffee, roasted fresh and delivered to your door. <em>[Order on WhatsApp]</em></p><h3>About Us</h3><p>Born in the mountains of Haiti, Kafe Montay works hand-in-hand with farming cooperatives to bring you authentic, fair-trade Haitian coffee — roasted with care, sealed with a roast date.</p><h3>How It Works</h3><ul><li>1 · Choose your roast & size</li><li>2 · Order on WhatsApp</li><li>3 · We roast, pack & deliver</li></ul><h3>Products</h3><p>Whole bean & ground · 250g / 500g / 1kg · Subscription boxes · Wholesale for cafés & hotels.</p><h3>Contact</h3><p>WhatsApp: +509 …  ·  Delivery across Port-au-Prince & Cap-Haïtien  ·  Diaspora shipping available.</p>`},
  {id:'social',tab:'digital',emo:'📱',nm:'Social Media',snip:'Ready-to-post bios and captions for Instagram, TikTok & Facebook.',
   body:`<h3>Instagram / TikTok bio</h3><p>☕ Premium single-origin Haitian coffee<br>⛰️ Roasted fresh from our mountains<br>🤝 Direct from farmers · Fair prices<br>🚚 Delivered to your door · 🌍 Diaspora shipping<br>👇 Order on WhatsApp</p><h3>Facebook</h3><p>Kafe Montay Ayiti — proudly Haitian, single-origin mountain coffee roasted fresh and delivered to your door. Order via WhatsApp. #GouMònAyiti #KafeAyisyen</p><h3>Sample first posts</h3><ul><li>"Meet the farmers behind your cup ⛰️☕"</li><li>"Roasted this morning. At your door tomorrow."</li><li>"Why we pay our farmers more — a thread 🧵"</li></ul>`},
- {id:'qr',tab:'digital',emo:'🔳',nm:'QR Code',snip:'A branded QR code that opens your WhatsApp catalog — for bags, cards & flyers.',
-  body:`<h3>Your QR code</h3><p>A branded QR code is generated that opens your <b>WhatsApp order catalog</b> in one scan.</p><h3>Where to use it</h3><ul><li>On every coffee bag (reorder in one scan).</li><li>On your business card and flyers.</li><li>At café tastings and market stalls.</li></ul><p>You receive it in high resolution (print) and web sizes, in your brand colors.</p><p style="color:var(--muted);font-size:12.5px">[ Sample QR image shown in the live version ]</p>`},
+ {id:'qr',tab:'digital',emo:'🔳',nm:'QR Code',type:'qr',snip:'A real, permanent QR code in your brand colors — change where it points, then download it for print.',
+  body:`<h3>Where to use it</h3><ul><li>On every coffee bag — reorder in one scan.</li><li>On your business card, flyers and shop window.</li><li>At café tastings and market stalls.</li></ul>
+  <h3>It is permanent</h3><p>The address is built straight into the pattern, so there is no QR service behind it — nothing to renew, nothing that expires, nobody who can switch it off. Print it once and it keeps working.</p>`},
 
  /* 🎥 MEDIA */
  {id:'video',tab:'media',emo:'🎬',nm:'Explainer Video',snip:'A 60-second explainer video built with NotebookLM from your story.',
@@ -285,7 +310,9 @@ function openSheet(id){cur=id;const it=PKG.find(x=>x.id===id);
   document.getElementById('mEmo').textContent=it.emo;document.getElementById('mNm').textContent=it.nm;
   let html=it.body||'';
   if(it.type==='colors'&&it.colors){html='<div class="swatches">'+it.colors.map(c=>`<div class="sw"><i style="background:${c[0]}"></i>${c[1]}<br>${c[0]}</div>`).join('')+'</div>'+html;}
+  if(it.type==='qr')html=qrStudioHTML()+html;
   document.getElementById('mBd').innerHTML=html;
+  if(it.type==='qr')qrInit();
   document.getElementById('ov').classList.add('on');document.getElementById('mBd').scrollTop=0;}
 function closeSheet(){document.getElementById('ov').classList.remove('on');}
 document.getElementById('ov').addEventListener('click',e=>{if(e.target.id==='ov')closeSheet();});
@@ -303,6 +330,128 @@ function updateFinal(){const done=PKG.filter(p=>state[p.id]==='approve').length;
   bar.textContent = done===PKG.length ? 'All '+PKG.length+' items approved — your package is ready to download 🎉' : 'You’ve approved '+done+' of '+PKG.length+' items so far.';}
 function downloadAll(){alert('In the live version this downloads your full business package (PDFs, images, logo files and videos) in one ZIP.');}
 updateBadge();
+
+/* ══════════════════════════════════════════════════════════════════════
+   QR STUDIO — a real generator, not a picture of one.
+   qrcode.js here is Kazuhiko Arase's build: a qrcode(type,ecc) FACTORY.
+   There is no QRCode class - `new QRCode(...)` throws and, inside a
+   try/catch, leaves an empty box with nothing in the console.
+   ══════════════════════════════════════════════════════════════════════ */
+const BIZ={name:'Kafe Montay Ayiti',initials:'KM',ink:'#1B5E20',
+           wa:'50912345678',web:'www.kafemontay.ht',tel:'+50912345678',
+           msg:'Bonjou! Mwen vle kòmande kafe.'};
+const QR_KINDS={
+  wa :{lb:'WhatsApp number (with country code)',ph:'509 1234 5678',get:v=>'https://wa.me/'+v.replace(/[^0-9]/g,''),msg:true},
+  web:{lb:'Your website address',ph:'www.kafemontay.ht',
+       get:v=>/^https?:\/\//i.test(v)?v:'https://'+v.replace(/^\/+/,'')},
+  tel:{lb:'Phone number to call',ph:'+509 1234 5678',get:v=>'tel:'+v.replace(/[^0-9+]/g,'')},
+  url:{lb:'Any link you want it to open',ph:'https://…',
+       get:v=>/^[a-z]+:/i.test(v)?v:'https://'+v.replace(/^\/+/,'')}
+};
+
+function qrStudioHTML(){return `<div class="qrs">
+  <div class="fld"><label>What should the QR code open?</label>
+    <select id="qrKind" onchange="qrKindChanged()">
+      <option value="wa">WhatsApp — order message</option>
+      <option value="web">Your website</option>
+      <option value="tel">Call your phone</option>
+      <option value="url">Any other link</option>
+    </select></div>
+  <div class="fld"><label id="qrLbl"></label><input id="qrVal" oninput="qrDraw()" autocomplete="off"></div>
+  <div class="fld" id="qrMsgFld"><label>Message it fills in for them (optional)</label>
+    <input id="qrMsg" oninput="qrDraw()" autocomplete="off"></div>
+  <div class="qrstage">
+    <canvas id="qrCv" width="172" height="172"></canvas>
+    <div class="qrside">
+      <div class="lb">SCANNING IT OPENS</div><div class="lk" id="qrOut">—</div>
+      <div class="warn" id="qrWarn"></div>
+    </div>
+  </div>
+  <div class="qrbtns">
+    <button id="qrDl1" onclick="qrDownload(2400)">⬇ Print quality</button>
+    <button id="qrDl2" class="alt" onclick="qrDownload(600)">⬇ Web size</button>
+  </div>
+  <div class="qrfoot">Point your phone camera at it right now — it works. Download the print version for
+    bags, cards, flyers and signs, and the web version for social media and your website.</div>
+</div>`;}
+
+function qrInit(){
+  const k=document.getElementById('qrKind');if(!k)return;
+  k.value='wa';qrKindChanged();
+}
+function qrKindChanged(){
+  const kind=document.getElementById('qrKind').value,cfg=QR_KINDS[kind];
+  document.getElementById('qrLbl').textContent=cfg.lb;
+  const v=document.getElementById('qrVal');
+  v.placeholder=cfg.ph;
+  v.value = kind==='wa'?BIZ.wa : kind==='web'?BIZ.web : kind==='tel'?BIZ.tel : '';
+  document.getElementById('qrMsgFld').style.display=cfg.msg?'':'none';
+  document.getElementById('qrMsg').value=BIZ.msg;
+  qrDraw();
+}
+function qrLink(){
+  const kind=document.getElementById('qrKind').value,cfg=QR_KINDS[kind];
+  const raw=document.getElementById('qrVal').value.trim();
+  if(!raw)return '';
+  let url=cfg.get(raw);
+  if(cfg.msg){const m=document.getElementById('qrMsg').value.trim();
+    if(m)url+='?text='+encodeURIComponent(m);}
+  return url;
+}
+
+/* Draw onto a canvas at an EXACT whole number of pixels per module.
+   Scaling a finished QR down to fit a box smears the modules and it stops
+   scanning, so the canvas is sized to the modules instead. */
+function qrPaint(cv,px,link){
+  const q=qrcode(0,'H');            // H = 30% recovery, survives the centre badge
+  q.addData(link);q.make();
+  const n=q.getModuleCount(),quiet=4,total=n+quiet*2;
+  const k=Math.max(1,Math.floor(px/total)),size=k*total;
+  cv.width=size;cv.height=size;
+  const g=cv.getContext('2d');
+  g.fillStyle='#fff';g.fillRect(0,0,size,size);
+  g.fillStyle=BIZ.ink;
+  for(let r=0;r<n;r++)for(let c=0;c<n;c++)
+    if(q.isDark(r,c))g.fillRect((c+quiet)*k,(r+quiet)*k,k,k);
+  /* brand badge in the middle — kept small so ECC H still has room */
+  const bw=Math.round(size*0.20),bx=(size-bw)/2,rad=bw*0.22;
+  g.fillStyle='#fff';
+  g.beginPath();
+  if(g.roundRect)g.roundRect(bx,bx,bw,bw,rad);else g.rect(bx,bx,bw,bw);
+  g.fill();
+  g.fillStyle=BIZ.ink;
+  g.font='800 '+Math.round(bw*0.46)+'px Poppins, sans-serif';
+  g.textAlign='center';g.textBaseline='middle';
+  g.fillText(BIZ.initials,size/2,size/2+bw*0.02);
+  return size;
+}
+function qrDraw(){
+  const cv=document.getElementById('qrCv');if(!cv)return;
+  const link=qrLink(),out=document.getElementById('qrOut'),warn=document.getElementById('qrWarn');
+  const dl=[document.getElementById('qrDl1'),document.getElementById('qrDl2')];
+  if(!link){
+    cv.getContext('2d').clearRect(0,0,cv.width,cv.height);
+    out.textContent='—';warn.className='warn on';warn.textContent='Fill in the field above and the QR code appears here.';
+    dl.forEach(b=>b.disabled=true);return;
+  }
+  try{
+    qrPaint(cv,516,link);            // 3x the 172px display box, so it stays sharp
+    out.textContent=link;warn.className='warn';dl.forEach(b=>b.disabled=false);
+  }catch(e){
+    out.textContent='—';warn.className='warn on';
+    warn.textContent='That link is too long for one QR code — try a shorter address.';
+    dl.forEach(b=>b.disabled=true);
+  }
+}
+function qrDownload(px){
+  const link=qrLink();if(!link)return;
+  const cv=document.createElement('canvas');
+  qrPaint(cv,px,link);
+  const a=document.createElement('a');
+  a.download=BIZ.name.replace(/[^A-Za-z0-9]+/g,'-')+'-QR-'+px+'px.png';
+  a.href=cv.toDataURL('image/png');
+  document.body.appendChild(a);a.click();a.remove();
+}
 </script>
 </body>
 </html>
