@@ -337,12 +337,12 @@ img{max-width:100%;display:block}
 
     <!-- POS PILLAR CARD (real link so it always works; JS enhances it to open the services menu) -->
     <a class="poscard" id="posCard" href="pos/">
-      <span class="ico"><img src="assets/pos-logo.png" alt="HaitiBiznis POS Center"></span>
+      <span class="ico"><img src="assets/lajanmaker-logo.png" alt="LajanMaker Center"></span>
       <div class="body">
-        <span class="pctag" data-i18n="pos_tag">B2B • Revenue Engine</span>
-        <h3 data-i18n="pos_title">HaitiBiznis Center</h3>
-        <p class="pcline" data-i18n="pos_sub">POS &amp; 30+ Digital Services</p>
-        <p class="pcsub" data-i18n="pos_tagline">Download the POS • 7 Days FREE • Grow Your Revenue</p>
+        <span class="pctag" data-i18n="pos_tag">LEARN • SELL • EARN</span>
+        <h3 data-i18n="pos_title">LajanMaker Center</h3>
+        <p class="pcline" data-i18n="pos_sub">Register drivers &amp; businesses, sell digital, earn commissions</p>
+        <p class="pcsub" data-i18n="pos_tagline">Download it • 7 Days FREE • Start earning</p>
         <span class="go" data-i18n="get_started">Get Started →</span>
       </div>
     </a>
@@ -646,6 +646,32 @@ var lang = localStorage.getItem('hb_lang') || 'ht';
 
 /* ==================== RENDER ==================== */
 var ARROW = '<svg viewBox="0 0 24 24" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>';
+
+/* The POS is now LajanMaker Center. Portuguese is left alone: Brazil runs the
+   same product under its own mark, "48 Horas Pronto". */
+var T_LM={
+ ht:{sub5:'LajanMaker Center',pos_tag:'APRANN • VANN • FÈ LAJAN',pos_title:'LajanMaker Center',
+  pos_sub:'Enskri chofè & biznis, vann dijital, fè komisyon',
+  pos_tagline:'Telechaje l • 7 Jou GRATIS • Kòmanse fè lajan',
+  pos_sheet_sub:'Enskri, vann, fè komisyon — 30+ sèvis. 7 Jou GRATIS.',
+  pos_i1:'Telechaje LajanMaker',pos_sheet_cta:'Telechaje LajanMaker — 7 Jou GRATIS →'},
+ fr:{sub5:'LajanMaker Center',pos_tag:'APRANN • VANN • FÈ LAJAN',pos_title:'LajanMaker Center',
+  pos_sub:'Inscrire chauffeurs & commerces, vendre du digital, gagner',
+  pos_tagline:'Téléchargez • 7 Jours GRATUITS • Commencez à gagner',
+  pos_sheet_sub:'Inscrire, vendre, gagner — 30+ services. 7 jours gratuits.',
+  pos_i1:'Téléchargez LajanMaker',pos_sheet_cta:'Téléchargez LajanMaker — 7 Jours GRATUITS →'},
+ en:{sub5:'LajanMaker Center',pos_tag:'LEARN • SELL • EARN',pos_title:'LajanMaker Center',
+  pos_sub:'Register drivers & businesses, sell digital, earn commissions',
+  pos_tagline:'Download it • 7 Days FREE • Start earning',
+  pos_sheet_sub:'Learn, sell, earn — 30+ services. 7 days free.',
+  pos_i1:'Download LajanMaker',pos_sheet_cta:'Download LajanMaker — 7 Days FREE →'},
+ es:{sub5:'LajanMaker Center',pos_tag:'APRENDE • VENDE • GANA',pos_title:'LajanMaker Center',
+  pos_sub:'Registra conductores y negocios, vende digital, gana comisiones',
+  pos_tagline:'Descárgalo • 7 Días GRATIS • Empieza a ganar',
+  pos_sheet_sub:'Aprende, vende, gana — 30+ servicios. 7 días gratis.',
+  pos_i1:'Descarga LajanMaker',pos_sheet_cta:'Descarga LajanMaker — 7 Días GRATIS →'}
+};
+Object.keys(T_LM).forEach(function(l){ if(T[l]) Object.assign(T[l], T_LM[l]); });
 
 function t(k){ return (T[lang] && T[lang][k]) || T.en[k] || k; }
 
