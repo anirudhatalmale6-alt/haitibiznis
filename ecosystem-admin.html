@@ -228,6 +228,7 @@ tr:hover td{background:rgba(0,32,159,.02)}
   <div class="top-bar-right">
     <a href="https://haitibiznis.com" target="_blank">HaitiBiznis</a>
     <a href="https://myplopplop.com" target="_blank">MyPlopPlop</a>
+    <a onclick="secOpen()">Sekirite</a>
     <a onclick="logout()">Logout</a>
   </div>
 </div>
@@ -252,6 +253,11 @@ tr:hover td{background:rgba(0,32,159,.02)}
 </div>
 
 <div id="dashboardMain" style="display:none">
+
+<!-- Still on the code he was handed. Loud, but not in his way. -->
+<div id="secBanner" style="display:none;background:#fef3c7;border-bottom:2px solid #f59e0b;padding:12px 16px;text-align:center;font-weight:700;color:#78350f;cursor:pointer" onclick="secOpen()">
+  &#128273; W ap toujou sèvi ak premye kòd la. Peze la a pou chwazi youn ou menm.
+</div>
 
 <div class="admin-header">
   <div class="admin-header-inner">
@@ -406,6 +412,104 @@ function showDashboard() {
   document.getElementById('dashboardMain').style.display = '';
   renderSectionTabs();
   loadAll();
+  secCheckState();
+}
+
+/* ---------------------------------------------------------------------------
+   Sekirite — he sets his own console code, and resets a merchant's PIN.
+
+   The code used to be a literal in both API repositories, so anyone who could
+   read the source could open this console. Now nothing usable ships in the
+   code: what he sets is stored, salted, in each database. One code opens both
+   APIs, so a change has to land on both or not count.
+   --------------------------------------------------------------------------- */
+function secOpen() { document.getElementById('secModal').style.display = 'flex'; }
+function secClose() { document.getElementById('secModal').style.display = 'none'; }
+
+function secPost(base, path, body, usePin) {
+  return fetch(base + path, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json', 'x-admin-pin': usePin },
+    body: JSON.stringify(body)
+  }).then(function (r) {
+    return r.json().catch(function () { return {}; })
+      .then(function (d) { return { ok: r.ok, status: r.status, d: d }; });
+  });
+}
+
+/* If a previous attempt already changed this one, the old code no longer opens
+   it — so retry with the new code and treat that as the success it is. */
+function secChangeOn(base, nu) {
+  return secPost(base, '/change-pin', { newPin: nu }, pin).then(function (r) {
+    if (!r.ok && r.status === 403) return secPost(base, '/change-pin', { newPin: nu }, nu);
+    return r;
+  });
+}
+
+function secChange() {
+  var nu = document.getElementById('secNew').value.trim();
+  var rp = document.getElementById('secRep').value.trim();
+  var msg = document.getElementById('secMsg');
+  var btn = document.getElementById('secBtn');
+  function say(cls, txt) { msg.style.color = cls; msg.textContent = txt; }
+  if (nu.replace(/[^A-Za-z0-9]/g, '').length < 6) { say('#b91c1c', 'Mete omwen 6 lèt oswa chif'); return; }
+  if (nu !== rp) { say('#b91c1c', 'De kòd yo pa menm'); return; }
+  btn.disabled = true;
+  say('#6b7280', 'Ap chanje...');
+  Promise.all([secChangeOn(HB_API, nu), secChangeOn(MP_API, nu)]).then(function (res) {
+    btn.disabled = false;
+    var bad = res.filter(function (x) { return !x.ok; });
+    if (bad.length === 0) {
+      pin = nu;
+      localStorage.setItem('eco_admin_pin', pin);
+      document.getElementById('secNew').value = '';
+      document.getElementById('secRep').value = '';
+      var b = document.getElementById('secBanner');
+      if (b) b.style.display = 'none';
+      say('#0f9d55', 'Kòd ou an chanje. Sèvi ak li pwochèn fwa w ap konekte.');
+    } else {
+      say('#b91c1c', (bad[0].d && bad[0].d.error) || 'Yon sistèm pa aksepte l. Peze bouton an ankò.');
+    }
+  }).catch(function () {
+    btn.disabled = false;
+    say('#b91c1c', 'Koneksyon echwe. Eseye ankò.');
+  });
+}
+
+function secReset() {
+  var phone = document.getElementById('rsPhone').value.trim();
+  var np = document.getElementById('rsPin').value.trim();
+  var msg = document.getElementById('rsMsg');
+  var btn = document.getElementById('rsBtn');
+  function say(cls, txt) { msg.style.color = cls; msg.textContent = txt; }
+  if (!phone) { say('#b91c1c', 'Antre nimewo telefòn nan'); return; }
+  if (!/^[0-9]{4}$/.test(np)) { say('#b91c1c', 'PIN an dwe gen 4 chif'); return; }
+  btn.disabled = true;
+  say('#6b7280', 'Ap remete...');
+  secPost(MP_API, '/reset-user-pin', { phone: phone, newPin: np }, pin).then(function (r) {
+    btn.disabled = false;
+    if (r.ok && r.d && r.d.success) {
+      document.getElementById('rsPhone').value = '';
+      document.getElementById('rsPin').value = '';
+      say('#0f9d55', 'PIN ' + (r.d.name || phone) + ' remete. Di yo pou yo chanje l nan Paramèt.');
+    } else {
+      say('#b91c1c', (r.d && r.d.error) || 'Nou pa jwenn kont sa a');
+    }
+  }).catch(function () {
+    btn.disabled = false;
+    say('#b91c1c', 'Koneksyon echwe. Eseye ankò.');
+  });
+}
+
+/* Nag until he has replaced the code he was handed. */
+function secCheckState() {
+  fetch(MP_API + '/pin-state?pin=' + encodeURIComponent(pin))
+    .then(function (r) { return r.json(); })
+    .then(function (d) {
+      var b = document.getElementById('secBanner');
+      if (b && d && d.success && !d.custom) b.style.display = '';
+    })
+    .catch(function () { /* the banner is a nudge, not a feature */ });
 }
 
 function logout() {
@@ -1147,5 +1251,33 @@ function showToast(msg) {
   setTimeout(function() { t.classList.remove('show'); }, 2500);
 }
 </script>
+
+<div id="secModal" style="display:none;position:fixed;inset:0;z-index:9999;background:rgba(0,0,0,.55);align-items:center;justify-content:center;padding:16px;overflow:auto">
+  <div style="background:#fff;border-radius:16px;padding:24px;max-width:460px;width:100%;box-shadow:0 20px 60px rgba(0,0,0,.35)">
+    <h3 style="margin:0 0 16px;font-size:20px;font-weight:800">&#128274; Sekirite</h3>
+
+    <div style="border:1px solid #e5e7eb;border-radius:12px;padding:16px;margin-bottom:14px">
+      <h4 style="margin:0 0 4px;font-size:15px;font-weight:800">Chanje kòd admin ou</h4>
+      <p style="margin:0 0 12px;font-size:13px;color:#6b7280;line-height:1.5">Chwazi yon kòd w ap sonje — omwen 6 lèt oswa chif. Se menm kòd la ki louvri tou de sistèm yo.</p>
+      <input type="password" id="secNew" placeholder="Nouvo kòd" style="width:100%;padding:11px;border:1px solid #d1d5db;border-radius:9px;margin-bottom:8px;font-size:15px">
+      <input type="password" id="secRep" placeholder="Repete nouvo kòd la" style="width:100%;padding:11px;border:1px solid #d1d5db;border-radius:9px;margin-bottom:10px;font-size:15px">
+      <button id="secBtn" onclick="secChange()" style="width:100%;padding:12px;border:none;border-radius:9px;background:#D21034;color:#fff;font-weight:800;font-size:15px;cursor:pointer">Sere nouvo kòd la</button>
+      <div id="secMsg" style="font-size:13px;font-weight:700;margin-top:8px;min-height:18px"></div>
+      <p style="margin:6px 0 0;font-size:12px;color:#6b7280;line-height:1.5">Premye kòd ou an ap toujou mache, konsa ou pa ka janm rete deyò.</p>
+    </div>
+
+    <div style="border:1px solid #e5e7eb;border-radius:12px;padding:16px;margin-bottom:14px">
+      <h4 style="margin:0 0 4px;font-size:15px;font-weight:800">Remete PIN yon machann oswa yon chofè</h4>
+      <p style="margin:0 0 12px;font-size:13px;color:#6b7280;line-height:1.5">Antre nimewo telefòn yo epi yon nouvo PIN 4 chif. Di yo pou yo chanje l nan Paramèt apre.</p>
+      <input id="rsPhone" placeholder="+50931234567" style="width:100%;padding:11px;border:1px solid #d1d5db;border-radius:9px;margin-bottom:8px;font-size:15px">
+      <input id="rsPin" inputmode="numeric" maxlength="4" placeholder="PIN 4 chif" style="width:100%;padding:11px;border:1px solid #d1d5db;border-radius:9px;margin-bottom:10px;font-size:15px">
+      <button id="rsBtn" onclick="secReset()" style="width:100%;padding:12px;border:none;border-radius:9px;background:#00209F;color:#fff;font-weight:800;font-size:15px;cursor:pointer">Remete PIN an</button>
+      <div id="rsMsg" style="font-size:13px;font-weight:700;margin-top:8px;min-height:18px"></div>
+    </div>
+
+    <button onclick="secClose()" style="width:100%;padding:12px;border:1px solid #d1d5db;border-radius:9px;background:#fff;font-weight:700;font-size:15px;cursor:pointer">Fèmen</button>
+  </div>
+</div>
+
 </body>
 </html>
