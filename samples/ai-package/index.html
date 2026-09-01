@@ -122,6 +122,16 @@
   .qrbtns button.alt{background:#eef3ff;color:var(--blue)}
   .qrbtns button:disabled{opacity:.5;cursor:default}
   .qrfoot{font-size:12px;color:var(--muted);line-height:1.55;margin-top:11px}
+  .qrsave{display:none;margin-top:11px;font-size:12.5px;line-height:1.55;border-radius:11px;
+    padding:10px 12px;background:#eaf7ee;color:#14532d;border:1px solid #bfe3c9}
+  .qrsave.on{display:block}
+  .qrsave b{display:block;font-weight:800;margin-bottom:2px}
+  .qrsave.bad{background:#fff6f5;color:#9b1c22;border-color:#f4c4c4}
+  /* a real button, so it can never look like a third download */
+  .qrsave button{display:block;width:100%;margin-top:9px;border:0;border-radius:11px;
+    padding:12px 10px;font-family:'Inter';font-weight:700;font-size:14px;
+    background:#1B8C3D;color:#fff;cursor:pointer;-webkit-appearance:none}
+  .qrsave button:disabled{opacity:.6;cursor:default}
   @media(max-width:430px){.qrstage canvas{width:100%;height:auto;aspect-ratio:1}}
 </style>
 </head>
@@ -371,6 +381,7 @@ function qrStudioHTML(){return `<div class="qrs">
     <button id="qrDl1" onclick="qrDownload(2400)">⬇ Print quality</button>
     <button id="qrDl2" class="alt" onclick="qrDownload(600)">⬇ Web size</button>
   </div>
+  <div class="qrsave" id="qrSave"></div>
   <div class="qrfoot">Point your phone camera at it right now — it works. Download the print version for
     bags, cards, flyers and signs, and the web version for social media and your website.</div>
 </div>`;}
@@ -429,6 +440,9 @@ function qrDraw(){
   const cv=document.getElementById('qrCv');if(!cv)return;
   const link=qrLink(),out=document.getElementById('qrOut'),warn=document.getElementById('qrWarn');
   const dl=[document.getElementById('qrDl1'),document.getElementById('qrDl2')];
+  // the code just changed, so any "Saved" line refers to a file that is no
+  // longer what is on screen - clear it rather than leave it lying
+  const sv=document.getElementById('qrSave');if(sv){sv.className='qrsave';sv.innerHTML='';}
   if(!link){
     cv.getContext('2d').clearRect(0,0,cv.width,cv.height);
     out.textContent='—';warn.className='warn on';warn.textContent='Fill in the field above and the QR code appears here.';
@@ -443,14 +457,73 @@ function qrDraw(){
     dl.forEach(b=>b.disabled=true);
   }
 }
+/* Saving the code used to be canvas.toDataURL() straight onto an <a download>.
+   That works on a desktop and is unreliable on a phone - the browser is being
+   asked to download a link that is itself a megabyte of text, and on Android it
+   quietly does nothing. A real Blob behind an object URL is what the phone
+   expects, and it is also the only form that can be handed to the share sheet,
+   which is how most people actually get the code to a printer. */
 function qrDownload(px){
   const link=qrLink();if(!link)return;
+  const box=document.getElementById('qrSave');
+  const name=BIZ.name.replace(/[^A-Za-z0-9]+/g,'-')+'-QR-'+px+'px.png';
   const cv=document.createElement('canvas');
   qrPaint(cv,px,link);
-  const a=document.createElement('a');
-  a.download=BIZ.name.replace(/[^A-Za-z0-9]+/g,'-')+'-QR-'+px+'px.png';
-  a.href=cv.toDataURL('image/png');
-  document.body.appendChild(a);a.click();a.remove();
+
+  const finish=blob=>{
+    if(!blob){qrSaveFailed(box,cv);return;}
+    const url=URL.createObjectURL(blob);
+    const a=document.createElement('a');
+    a.href=url;a.download=name;a.style.display='none';
+    document.body.appendChild(a);a.click();a.remove();
+    // revoking straight away can cut the write off on a slow phone
+    setTimeout(()=>URL.revokeObjectURL(url),60000);
+    qrSaved(box,blob,name);
+  };
+
+  if(cv.toBlob) cv.toBlob(finish,'image/png');
+  else finish(qrDataToBlob(cv.toDataURL('image/png')));
+}
+function qrDataToBlob(d){
+  try{
+    const b=atob(d.split(',')[1]),u=new Uint8Array(b.length);
+    for(let i=0;i<b.length;i++)u[i]=b.charCodeAt(i);
+    return new Blob([u],{type:'image/png'});
+  }catch(e){return null;}
+}
+function qrSaved(box,blob,name){
+  if(!box)return;
+  box.className='qrsave on';
+  box.innerHTML='<b>Saved to your phone</b>It is in your Downloads folder — open the Files app, then Downloads.';
+  if(!navigator.share||!navigator.canShare)return;
+  let file;
+  try{
+    file=new File([blob],name,{type:'image/png'});
+    if(!navigator.canShare({files:[file]}))return;
+  }catch(e){return;}
+  const b=document.createElement('button');
+  b.type='button';b.textContent='📤 Send it on WhatsApp';
+  b.onclick=()=>{
+    b.disabled=true;
+    // the file is already in memory, so the share sheet opens inside the tap
+    navigator.share({files:[file],title:name}).catch(()=>{}).then(()=>{b.disabled=false;});
+  };
+  box.appendChild(b);
+}
+/* The code on screen is drawn on a <canvas>, and pressing and holding a canvas
+   does not offer "Save image" the way a picture does. So the fallback has to
+   put a real <img> on the page for them to press and hold. */
+function qrSaveFailed(box,cv){
+  if(!box)return;
+  box.className='qrsave on bad';
+  box.innerHTML='<b>That did not save on its own</b>Press and hold the code just below, then choose Save image.';
+  try{
+    const im=new Image();
+    im.src=cv.toDataURL('image/png');
+    im.alt='QR code';
+    im.style.cssText='display:block;width:180px;max-width:100%;margin:10px auto 0;border-radius:8px';
+    box.appendChild(im);
+  }catch(e){}
 }
 </script>
 </body>

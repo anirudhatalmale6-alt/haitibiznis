@@ -1620,12 +1620,29 @@ document.getElementById('logoInput').addEventListener('change', function(e) {
   }
 });
 
+/* See the note in ticket.html: a detached <a> pointed at a multi-megabyte data
+   URI is not a download on a phone. Blob + object URL, appended to the page. */
+function saveCanvas(cv, filename) {
+  var give = function (blob) {
+    if (!blob) return;
+    var url = URL.createObjectURL(blob);
+    var a = document.createElement('a');
+    a.href = url; a.download = filename; a.style.display = 'none';
+    document.body.appendChild(a); a.click(); a.remove();
+    setTimeout(function () { URL.revokeObjectURL(url); }, 60000);
+  };
+  if (cv.toBlob) { cv.toBlob(give, 'image/png'); return; }
+  try {
+    var b = atob(cv.toDataURL('image/png').split(',')[1]);
+    var u = new Uint8Array(b.length);
+    for (var i = 0; i < b.length; i++) u[i] = b.charCodeAt(i);
+    give(new Blob([u], { type: 'image/png' }));
+  } catch (e) {}
+}
+
 function downloadInvite() {
   renderCanvas();
-  var link = document.createElement('a');
-  link.download = 'envitasyon-' + (document.getElementById('invTitle').value || 'event').replace(/\s+/g,'-') + '.png';
-  link.href = canvas.toDataURL('image/png');
-  link.click();
+  saveCanvas(canvas, 'envitasyon-' + (document.getElementById('invTitle').value || 'event').replace(/\s+/g,'-') + '.png');
 }
 
 /* ═══ TICKETS ═══ */

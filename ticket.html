@@ -599,14 +599,39 @@ function renderTicket(data, qrData) {
   applyI18n();
 }
 
+/* Saving a picture of the ticket used to be canvas.toDataURL() dropped onto a
+   detached <a>. Two problems, and both of them bite on exactly the device that
+   matters here - the phone the ticket is going to live on:
+     - the anchor was never put in the document, which some browsers refuse
+       to act on at all;
+     - a ticket rendered at scale 2 is a data URI a couple of megabytes long,
+       and Android quietly declines to download those.
+   A Blob behind an object URL is what a phone expects, and it is also the only
+   form the share sheet accepts - which is how most people send a ticket on. */
+function saveCanvas(canvas, filename, done) {
+  var give = function (blob) {
+    if (!blob) { if (done) done(null); return; }
+    var url = URL.createObjectURL(blob);
+    var a = document.createElement('a');
+    a.href = url; a.download = filename; a.style.display = 'none';
+    document.body.appendChild(a); a.click(); a.remove();
+    setTimeout(function () { URL.revokeObjectURL(url); }, 60000);
+    if (done) done(blob);
+  };
+  if (canvas.toBlob) { canvas.toBlob(give, 'image/png'); return; }
+  try {
+    var b = atob(canvas.toDataURL('image/png').split(',')[1]);
+    var u = new Uint8Array(b.length);
+    for (var i = 0; i < b.length; i++) u[i] = b.charCodeAt(i);
+    give(new Blob([u], { type: 'image/png' }));
+  } catch (e) { give(null); }
+}
+
 function downloadTicket() {
   var card = document.getElementById('ticketCard');
   if (typeof html2canvas === 'undefined') { alert('Loading...'); return; }
   html2canvas(card, { scale: 2, useCORS: true, backgroundColor: '#ffffff', borderRadius: 20 }).then(function(canvas) {
-    var link = document.createElement('a');
-    link.download = 'ticket-' + (ticketData ? ticketData.referenceId : 'tike-lakay') + '.png';
-    link.href = canvas.toDataURL('image/png');
-    link.click();
+    saveCanvas(canvas, 'ticket-' + (ticketData ? ticketData.referenceId : 'tike-lakay') + '.png');
   });
 }
 
