@@ -692,11 +692,15 @@ img{max-width:100%;display:block}
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M22 2L11 13M22 2l-7 20-4-9-9-4z"/></svg>
       <span data-i18n="publish_event">Pibliye Evènman</span>
     </button>
-    <button class="btn btn-back" style="justify-content:center" onclick="goStep(3)">
+    <button class="btn btn-back" style="justify-content:center" onclick="goStep(3)" id="step4Back">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M19 12H5M12 5l-7 7 7 7"/></svg>
       <span data-i18n="back">Retounen</span>
     </button>
   </div>
+  <!-- So a "it still does not work" report can be matched to a build: if the
+       phone is showing an old cached page, this number will not be the current
+       one. It is the first thing to read back. -->
+  <div style="text-align:center;font-size:.7rem;color:#94A3B8;margin-top:10px" id="buildStamp">Tikè Lakay · vèsyon 2 · 1 Sep 2026</div>
 </div>
 
 </div>
@@ -1240,6 +1244,64 @@ var i18n = {
   }
 };
 
+/* ─────────────────────────────────────────────────────────────────────────────
+   "We are trying to create a workshop event but cant."
+
+   The page asked for nothing and checked nothing, then treated the server's
+   refusal as a success: a rejected event showed the same confetti as a
+   published one and survived only in this phone's own storage, so it was gone
+   the moment anybody else opened the link. The server requires a title, a date
+   and a name on every ticket - three things this screen never once mentioned.
+
+   These are the words for saying what is missing, and for admitting when the
+   publish did not go through.
+   ───────────────────────────────────────────────────────────────────────────── */
+var i18nMore = {
+  ht: {
+    need_title: 'Bay evènman an yon tit anvan ou pibliye l.',
+    need_date: 'Chwazi dat evènman an anvan ou pibliye l.',
+    need_ticket_name: 'Bay chak tikè yon non. Tikè ki poko gen non: ',
+    publish_failed: 'Evènman an pa pibliye. Sèvè a di: ',
+    publish_offline: 'Evènman an pa pibliye - koneksyon an pa pase. Nou kenbe tout sa ou tape sou telefòn sa a. Peze "Pibliye Evènman" ankò lè ou gen entènèt.',
+    publishing: 'Ap pibliye...'
+  },
+  fr: {
+    need_title: "Donnez un titre à l'événement avant de le publier.",
+    need_date: "Choisissez la date de l'événement avant de le publier.",
+    need_ticket_name: 'Chaque billet doit avoir un nom. Billets sans nom : ',
+    publish_failed: "L'événement n'est pas publié. Le serveur répond : ",
+    publish_offline: "L'événement n'est pas publié - la connexion n'est pas passée. Tout ce que vous avez saisi est conservé sur ce téléphone. Appuyez de nouveau sur « Publier l'Événement » une fois connecté.",
+    publishing: 'Publication...'
+  },
+  en: {
+    need_title: 'Give the event a title before publishing it.',
+    need_date: 'Choose the event date before publishing it.',
+    need_ticket_name: 'Every ticket needs a name. Tickets with no name: ',
+    publish_failed: 'The event was NOT published. The server said: ',
+    publish_offline: 'The event was NOT published - the connection did not go through. Everything you typed is kept on this phone. Press "Publish Event" again once you are online.',
+    publishing: 'Publishing...'
+  },
+  pt: {
+    need_title: 'Dê um título ao evento antes de publicá-lo.',
+    need_date: 'Escolha a data do evento antes de publicá-lo.',
+    need_ticket_name: 'Cada ingresso precisa de um nome. Ingressos sem nome: ',
+    publish_failed: 'O evento NÃO foi publicado. O servidor respondeu: ',
+    publish_offline: 'O evento NÃO foi publicado - a conexão não passou. Tudo o que você digitou está guardado neste telefone. Toque em "Publicar evento" de novo quando tiver internet.',
+    publishing: 'Publicando...'
+  },
+  es: {
+    need_title: 'Ponga un título al evento antes de publicarlo.',
+    need_date: 'Elija la fecha del evento antes de publicarlo.',
+    need_ticket_name: 'Cada boleto necesita un nombre. Boletos sin nombre: ',
+    publish_failed: 'El evento NO se publicó. El servidor responde: ',
+    publish_offline: 'El evento NO se publicó - la conexión no pasó. Todo lo que escribió queda guardado en este teléfono. Pulse "Publicar Evento" otra vez cuando tenga internet.',
+    publishing: 'Publicando...'
+  }
+};
+Object.keys(i18nMore).forEach(function(l) {
+  if (i18n[l]) { Object.keys(i18nMore[l]).forEach(function(k) { i18n[l][k] = i18nMore[l][k]; }); }
+});
+
 /* ═══ LANGUAGE SWITCHER ═══ */
 function setLang(lang) {
   curLang = lang;
@@ -1653,7 +1715,11 @@ function addTicket(name, price, qty) {
   var html = '<div class="ticket-card" id="ticket' + id + '">' +
     '<div class="ticket-card-header"><span class="ticket-card-num">' + t.ticket_num + id + '</span>' +
     '<button class="ticket-del" onclick="removeTicket(' + id + ')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M18 6L6 18M6 6l12 12"/></svg></button></div>' +
-    '<div class="form-group"><label>' + t.ticket_name + '</label><input type="text" value="' + (name || '') + '" placeholder="' + t.ph_ticket_name + '"></div>' +
+    /* The + button called addTicket() with no arguments, so the name arrived
+       empty and the server refused the whole event over it. Start it off with
+       something valid; he can rename it, but he can no longer lose an event to
+       a box he never noticed. */
+    '<div class="form-group"><label>' + t.ticket_name + '</label><input type="text" value="' + (name || (t.ticket_num + id).trim()) + '" placeholder="' + t.ph_ticket_name + '"></div>' +
     '<div class="form-row">' +
     '<div class="form-group"><label>' + t.ticket_price + '</label><input type="number" value="' + (price || 0) + '" min="0" placeholder="' + t.ph_ticket_price + '"></div>' +
     '<div class="form-group"><label>' + t.ticket_qty + '</label><input type="number" value="' + (qty || 100) + '" min="1"></div>' +
@@ -1734,9 +1800,55 @@ var typeConfig = {
 };
 
 /* ═══ PUBLISH ═══ */
+
+/* The three things the server insists on, checked here so he finds out on the
+   screen that owns the field - not after pressing Publish. Each failure takes
+   him back to the step and puts the cursor in the box. */
+function checkEventReady() {
+  var t = i18n[curLang] || i18n.ht;
+
+  var titleEl = document.getElementById('evTitle');
+  if (!titleEl.value.trim()) {
+    goStep(1); alert(t.need_title); titleEl.focus(); return false;
+  }
+  var dateEl = document.getElementById('evDate');
+  if (!dateEl.value) {
+    goStep(1); alert(t.need_date); dateEl.focus(); return false;
+  }
+
+  var blank = [], firstBlank = null;
+  document.querySelectorAll('.ticket-card').forEach(function(card) {
+    var nameInput = card.querySelector('input[type="text"]');   /* the name box is the first one */
+    if (nameInput && !nameInput.value.trim()) {
+      blank.push(card.querySelector('.ticket-card-num').textContent.trim());
+      if (!firstBlank) firstBlank = nameInput;
+    }
+  });
+  if (blank.length) {
+    goStep(3);
+    alert(t.need_ticket_name + blank.join(', '));
+    if (firstBlank) firstBlank.focus();
+    return false;
+  }
+  return true;
+}
+
+/* Put the button back the way it was, whatever happened. It used to be left
+   reading "Ap pibliye..." for the rest of the session. */
+function resetPublishBtn() {
+  var b = document.getElementById('publishBtn');
+  if (!b) return;
+  b.disabled = false;
+  b.style.opacity = '';
+  var t = i18n[curLang] || i18n.ht;
+  b.querySelector('span').textContent = t.publish_event;
+}
+
 function publishEvent() {
+  if (!checkEventReady()) return;
+
   var pubBtn = document.getElementById('publishBtn');
-  if (pubBtn) { pubBtn.disabled = true; pubBtn.style.opacity = '0.6'; pubBtn.querySelector('span').textContent = 'Ap pibliye...'; }
+  if (pubBtn) { pubBtn.disabled = true; pubBtn.style.opacity = '0.6'; pubBtn.querySelector('span').textContent = (i18n[curLang] || i18n.ht).publishing; }
 
   var evId = 'evt_' + Date.now();
   var evType = document.getElementById('evType').value;
@@ -1793,7 +1905,7 @@ function publishEvent() {
   };
 
   function showSuccessOverlay(eventId, shareUrl) {
-    if (pubBtn) { pubBtn.disabled = false; pubBtn.style.opacity = ''; }
+    resetPublishBtn();
     var viewBtn = document.querySelector('#successOverlay .btn-blue');
     if (viewBtn) viewBtn.href = 'event.html?id=' + eventId;
     window._publishedEventId = eventId;
@@ -1816,36 +1928,42 @@ function publishEvent() {
     }
   }
 
-  // Save to backend API first, then show success
-  fetch(API_URL + '/api/events', {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify(eventObj)
-  }).then(function(r) { return r.json(); }).then(function(saved) {
-    if (saved._id) {
-      eventObj._id = saved._id;
-      var shareUrl = API_URL + '/api/events/' + saved._id + '/share';
-      // Save to localStorage with API id
-      var events = [];
-      try { events = JSON.parse(localStorage.getItem('tl_events') || '[]'); } catch(e) { events = []; }
-      events.unshift(eventObj);
-      try { localStorage.setItem('tl_events', JSON.stringify(events)); } catch(e) {}
-      showSuccessOverlay(saved._id, shareUrl);
-    } else {
-      // API returned but no _id, use local fallback
-      var events = [];
-      try { events = JSON.parse(localStorage.getItem('tl_events') || '[]'); } catch(e) { events = []; }
-      events.unshift(eventObj);
-      try { localStorage.setItem('tl_events', JSON.stringify(events)); } catch(e) {}
-      showSuccessOverlay(evId, 'https://haitibiznis.com/event.html?id=' + evId);
-    }
-  }).catch(function() {
-    // API failed, use localStorage fallback
+  function keepOnThisPhone(id) {
     var events = [];
     try { events = JSON.parse(localStorage.getItem('tl_events') || '[]'); } catch(e) { events = []; }
     events.unshift(eventObj);
     try { localStorage.setItem('tl_events', JSON.stringify(events)); } catch(e) {}
-    showSuccessOverlay(evId, 'https://haitibiznis.com/event.html?id=' + evId);
+    return id;
+  }
+
+  /* An event only exists once the server has it and has given it an id. A copy
+     in this phone's storage is not a published event - anybody else opening the
+     link finds nothing. So the confetti is now shown for exactly one outcome:
+     the server accepted it. Every other outcome says so, out loud, and leaves
+     the button ready to press again. */
+  var t = i18n[curLang] || i18n.ht;
+  fetch(API_URL + '/api/events', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(eventObj)
+  }).then(function(r) {
+    return r.json().catch(function() { return { error: 'HTTP ' + r.status }; });
+  }).then(function(saved) {
+    if (saved && saved._id) {
+      eventObj._id = saved._id;
+      keepOnThisPhone(saved._id);
+      showSuccessOverlay(saved._id, API_URL + '/api/events/' + saved._id + '/share');
+      return;
+    }
+    /* The server looked at it and refused it. Say what it said. */
+    resetPublishBtn();
+    alert(t.publish_failed + ((saved && saved.error) || '?'));
+  }).catch(function() {
+    /* No answer at all - the phone lost the network. Keep his typing so he does
+       not have to fill the whole form in again, and tell him it is not live. */
+    keepOnThisPhone(evId);
+    resetPublishBtn();
+    alert(t.publish_offline);
   });
 }
 
