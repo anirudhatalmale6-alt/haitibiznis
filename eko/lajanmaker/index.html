@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="ht">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="theme-color" content="#128A4A">
+<title>LajanMaker — HaitiBiznis</title>
+<meta name="description" content="Training, digital products and commissions — everything you need to earn with the ecosystem.">
+<meta property="og:title" content="LajanMaker — Learn • Sell • Earn | HaitiBiznis">
+<meta property="og:description" content="Training, digital products and commissions — everything you need to earn with the ecosystem.">
+<meta property="og:image" content="https://haitibiznis.com/assets/og-tab-lajanmaker.jpg?v=1">
+<meta property="og:image:type" content="image/jpeg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:url" content="https://haitibiznis.com/eko/lajanmaker/">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="HaitiBiznis">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="LajanMaker — Learn • Sell • Earn | HaitiBiznis">
+<meta name="twitter:description" content="Training, digital products and commissions — everything you need to earn with the ecosystem.">
+<meta name="twitter:image" content="https://haitibiznis.com/assets/og-tab-lajanmaker.jpg?v=1">
+<link rel="canonical" href="https://haitibiznis.com/eko/lajanmaker/">
+<link rel="icon" type="image/png" sizes="32x32" href="../../assets/favicon-32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="../../assets/favicon-16.png">
+<link rel="apple-touch-icon" href="../../assets/apple-touch-icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+:root{
+  --blue:#00209F;--red:#D21034;--gold:#D4A017;--green:#128A4A;
+  --ink:#0C1330;--text:#1C2647;--muted:#6B769A;--line:#E7EBF5;--off:#F4F6FC;
+  --body:'Plus Jakarta Sans',system-ui,sans-serif;
+  --display:'DM Serif Display',Georgia,serif;
+  --a:#128A4A;--a2:#0B5F33;
+}
+html{scroll-behavior:smooth}
+body{font-family:var(--body);background:var(--off);color:var(--text);line-height:1.5;
+  overflow-x:hidden;-webkit-font-smoothing:antialiased}
+a{text-decoration:none;color:inherit}
+img{max-width:100%;display:block}
+.wrap{max-width:1080px;margin:0 auto;padding:0 18px}
+.flag-stripe{height:5px;background:linear-gradient(90deg,var(--blue) 0 50%,var(--red) 50% 100%)}
+
+/* top bar */
+.topbar{background:#fff;border-bottom:1px solid var(--line);position:sticky;top:0;z-index:40}
+.topbar-inner{max-width:1080px;margin:0 auto;padding:11px 18px;display:flex;align-items:center;
+  justify-content:space-between;gap:12px}
+.brand{display:flex;align-items:center;gap:9px;font-weight:800;font-size:1.03rem;color:var(--ink)}
+.brand img{width:29px;height:29px;border-radius:8px}
+.brand em{font-style:normal;color:var(--red)}
+.lang{display:flex;gap:2px;background:var(--off);border-radius:999px;padding:3px}
+.lang button{border:0;background:transparent;font:inherit;font-size:.72rem;font-weight:700;
+  color:var(--muted);padding:5px 8px;border-radius:999px;cursor:pointer}
+.lang button.on{background:var(--a);color:#fff}
+
+/* hero */
+.hero{background:linear-gradient(155deg,var(--a) 0%,var(--a2) 100%);color:#fff;
+  padding:40px 0 46px;position:relative;overflow:hidden}
+.hero::after{content:'';position:absolute;right:-70px;bottom:-90px;width:280px;height:280px;
+  border-radius:50%;background:rgba(255,255,255,.07)}
+.hero .wrap{position:relative;z-index:1}
+.back{display:inline-flex;align-items:center;gap:7px;font-size:.83rem;font-weight:700;
+  color:rgba(255,255,255,.82);margin-bottom:22px}
+.back:hover{color:#fff}
+.hlogo{width:74px;height:74px;border-radius:20px;background:#fff;padding:8px;
+  box-shadow:0 12px 30px rgba(0,0,0,.22);margin-bottom:16px}
+.hero h1{font-family:var(--display);font-size:clamp(2.1rem,7vw,3rem);line-height:1.06;
+  letter-spacing:-.01em;margin-bottom:6px}
+.htag{display:inline-block;font-size:.76rem;font-weight:800;letter-spacing:.13em;
+  text-transform:uppercase;color:#fff;background:rgba(255,255,255,.17);
+  padding:6px 13px;border-radius:999px;margin-bottom:14px}
+.hlede{font-size:1.03rem;color:rgba(255,255,255,.9);max-width:560px}
+
+/* feature cards */
+.fgrid{display:grid;grid-template-columns:repeat(2,1fr);gap:14px;margin:-26px 0 0;
+  position:relative;z-index:2}
+.fcard{background:#fff;border:1px solid var(--line);border-radius:18px;padding:18px 17px 16px;
+  display:flex;flex-direction:column;box-shadow:0 10px 30px rgba(12,19,48,.07);
+  transition:transform .16s ease,box-shadow .16s ease}
+.fcard:hover{transform:translateY(-3px);box-shadow:0 16px 40px rgba(12,19,48,.13)}
+.fi{font-size:1.85rem;line-height:1;margin-bottom:11px}
+.ft{font-weight:800;font-size:1.02rem;color:var(--ink);margin-bottom:5px}
+.fd{font-size:.87rem;color:var(--muted);flex:1}
+.fg{margin-top:12px;font-weight:800;color:var(--a);font-size:1.05rem}
+
+.sec{padding:44px 0}
+.sech{font-family:var(--display);font-size:1.6rem;color:var(--ink);margin-bottom:4px}
+.secs{font-size:.92rem;color:var(--muted);margin-bottom:20px}
+
+/* social */
+.social{background:#fff;border:1px solid var(--line);border-radius:22px;
+  padding:30px 22px;text-align:center;box-shadow:0 10px 30px rgba(12,19,48,.06)}
+.soch{font-family:var(--display);font-size:1.55rem;color:var(--ink);margin-bottom:5px}
+.socsub{font-size:.9rem;color:var(--muted);margin-bottom:20px}
+.socrow{display:flex;justify-content:center;gap:12px;margin-bottom:20px}
+.soc{width:50px;height:50px;border-radius:15px;display:grid;place-items:center;
+  background:var(--off);border:1px solid var(--line);color:var(--ink);transition:.16s}
+.soc:hover{background:var(--a);color:#fff;border-color:var(--a);transform:translateY(-2px)}
+.soc svg{width:23px;height:23px}
+.socsoon{font-size:.85rem;color:var(--muted);background:var(--off);border:1px dashed #C9D2E6;
+  border-radius:12px;padding:12px 14px;margin-bottom:20px}
+.wabtn{display:inline-flex;align-items:center;gap:9px;background:#25D366;color:#fff;
+  font-weight:800;font-size:.96rem;padding:14px 24px;border-radius:999px;
+  box-shadow:0 8px 22px rgba(37,211,102,.35)}
+.wabtn:hover{filter:brightness(1.05)}
+.mailln{display:block;margin-top:14px;font-size:.86rem;font-weight:600;color:var(--muted)}
+.mailln:hover{color:var(--a)}
+
+/* other tabs */
+.otabs{display:grid;grid-template-columns:repeat(2,1fr);gap:14px}
+.otab{background:#fff;border:1px solid var(--line);border-left:4px solid var(--a);
+  border-radius:16px;padding:17px;display:block;transition:.16s}
+.otab:hover{transform:translateY(-2px);box-shadow:0 12px 30px rgba(12,19,48,.1)}
+.oe{font-size:1.5rem;display:block;margin-bottom:7px}
+.otab b{display:block;font-size:1rem;color:var(--ink);margin-bottom:2px}
+.os{font-size:.82rem;color:var(--muted)}
+
+footer{background:var(--ink);color:#fff;padding:30px 0;margin-top:14px}
+footer .wrap{display:flex;flex-wrap:wrap;gap:14px;align-items:center;justify-content:space-between}
+.fbrand{display:flex;align-items:center;gap:9px;font-weight:800}
+.fbrand img{width:26px;height:26px;border-radius:7px}
+.fbrand em{font-style:normal;color:#FF6B84}
+.fnote{font-size:.8rem;color:rgba(255,255,255,.6)}
+
+@media(max-width:560px){
+  .fgrid{grid-template-columns:1fr}
+  .otabs{grid-template-columns:1fr}
+  .hero{padding:30px 0 40px}
+}
+</style>
+</head>
+<body>
+
+<div class="flag-stripe"></div>
+
+<header class="topbar">
+  <div class="topbar-inner">
+    <a href="../../" class="brand">
+      <img src="../../assets/haitibiznis-icon.png" alt="HaitiBiznis">
+      <b>Haiti<em>Biznis</em></b>
+    </a>
+    <div class="lang" id="langBar">
+      <button data-lang="ht" class="on">HT</button>
+      <button data-lang="fr">FR</button>
+      <button data-lang="en">EN</button>
+      <button data-lang="es">ES</button>
+      <button data-lang="pt">PT</button>
+    </div>
+  </div>
+</header>
+
+<section class="hero">
+  <div class="wrap">
+    <a class="back" href="../../"><span>&larr;</span> <span data-i18n="nav_back">Tounen nan HaitiBiznis</span></a>
+    <img class="hlogo" src="../../assets/lajanmaker-logo.png" alt="LajanMaker">
+    <span class="htag" data-i18n="tab_tag">Aprann • Vann • Touche</span>
+    <h1>🎓 LajanMaker</h1>
+    <p class="hlede" data-i18n="tab_lede">Fòmasyon, pwodwi dijital ak komisyon — tout sa ou bezwen pou fè lajan ak ekosistèm nan.</p>
+  </div>
+</section>
+
+<div class="wrap">
+  <div class="fgrid">
+<a class="fcard" href="https://haitibiznis.com/pos/" target="_blank" rel="noopener"><span class="fi">📲</span><span class="ft">Louvri LajanMaker</span><span class="fd">Aplikasyon an — 7 jou gratis pou kòmanse.</span><span class="fg">&rarr;</span></a><a class="fcard" href="https://haitibiznis.com/koutye.html" target="_blank" rel="noopener"><span class="fi">💰</span><span class="ft">Parenaj Biznis</span><span class="fd">Envite moun, touche komisyon sou chak enskripsyon.</span><span class="fg">&rarr;</span></a><a class="fcard" href="https://haitibiznis.com/parenaj.html" target="_blank" rel="noopener"><span class="fi">📚</span><span class="ft">Fòmasyon</span><span class="fd">Aprann kijan pou w enskri chofè ak machann, epi kijan pou w peye.</span><span class="fg">&rarr;</span></a><a class="fcard" href="https://48hoursready.com" target="_blank" rel="noopener"><span class="fi">🚀</span><span class="ft">Louvri yon biznis</span><span class="fd">48HoursReady: monte biznis ou an de jou.</span><span class="fg">&rarr;</span></a>
+  </div>
+</div>
+
+<div class="wrap sec">
+
+  <section class="social">
+    <h2 class="soch" data-i18n="soc_follow">Swiv nou</h2>
+    <p class="socsub" data-i18n="soc_sub">Yon sèl kont HaitiBiznis pou tout ekosistèm nan.</p>
+    <p class="socsoon" data-i18n="soc_soon">Paj rezo sosyal yo ap konekte talè.</p>
+    <a class="wabtn" href="https://wa.me/50946859702?text=Bonjou%21%20Mwen%20soti%20sou%20paj%20LajanMaker%20nan%20HaitiBiznis." target="_blank" rel="noopener">
+      <span>&#128172;</span> <span data-i18n="soc_wa">Ekri nou sou WhatsApp</span>
+    </a>
+    <a class="mailln" href="mailto:contact@haitibiznis.com">contact@haitibiznis.com</a>
+  </section>
+</div>
+
+<div class="wrap sec" style="padding-top:0">
+  <h2 class="sech" data-i18n="oth_h">Lòt pati nan ekosistèm nan</h2>
+  <p class="secs">HaitiBiznis</p>
+  <div class="otabs">
+<a class="otab" href="../msouwout/" style="--a:#D21034"><span class="oe">🛵</span><b>MsouWout</b><span class="os">Kous ak Livrezon</span></a><a class="otab" href="../myplopplop/" style="--a:#00209F"><span class="oe">🛒</span><b>MyPlopPlop</b><span class="os">Mache an liy</span></a>
+  </div>
+</div>
+
+<footer>
+  <div class="wrap">
+    <a class="fbrand" href="../../">
+      <img src="../../assets/haitibiznis-icon.png" alt=""><span>Haiti<em>Biznis</em></span>
+    </a>
+    <div class="fnote">&copy; 2026 HaitiBiznis — Learn • Sell • Earn</div>
+  </div>
+</footer>
+
+<script>
+/* i18n: same contract as the rest of the site - data-i18n keys, choice kept
+   in localStorage so a language picked on one tab survives to the next */
+var I18N = {"ht": {"tab_tag": "Aprann • Vann • Touche", "tab_lede": "Fòmasyon, pwodwi dijital ak komisyon — tout sa ou bezwen pou fè lajan ak ekosistèm nan.", "nav_back": "Tounen nan HaitiBiznis", "soc_follow": "Swiv nou", "soc_sub": "Yon sèl kont HaitiBiznis pou tout ekosistèm nan.", "soc_wa": "Ekri nou sou WhatsApp", "soc_soon": "Paj rezo sosyal yo ap konekte talè.", "oth_h": "Lòt pati nan ekosistèm nan", "c1_t": "Louvri LajanMaker", "c1_d": "Aplikasyon an — 7 jou gratis pou kòmanse.", "c2_t": "Parenaj Biznis", "c2_d": "Envite moun, touche komisyon sou chak enskripsyon.", "c3_t": "Fòmasyon", "c3_d": "Aprann kijan pou w enskri chofè ak machann, epi kijan pou w peye.", "c4_t": "Louvri yon biznis", "c4_d": "48HoursReady: monte biznis ou an de jou."}, "fr": {"tab_tag": "Apprendre • Vendre • Gagner", "tab_lede": "Formation, produits numériques et commissions — tout pour gagner avec l'écosystème.", "nav_back": "Retour à HaitiBiznis", "soc_follow": "Suivez-nous", "soc_sub": "Un seul compte HaitiBiznis pour tout l'écosystème.", "soc_wa": "Écrivez-nous sur WhatsApp", "soc_soon": "Les pages de réseaux sociaux seront connectées bientôt.", "oth_h": "Ailleurs dans l'écosystème", "c1_t": "Ouvrir LajanMaker", "c1_d": "L'application — 7 jours gratuits pour commencer.", "c2_t": "Parenaj Biznis", "c2_d": "Parrainez, gagnez une commission sur chaque inscription.", "c3_t": "Formation", "c3_d": "Apprenez à inscrire chauffeurs et marchands, et à être payé.", "c4_t": "Lancer une entreprise", "c4_d": "48HoursReady : montez votre entreprise en deux jours."}, "en": {"tab_tag": "Learn • Sell • Earn", "tab_lede": "Training, digital products and commissions — everything you need to earn with the ecosystem.", "nav_back": "Back to HaitiBiznis", "soc_follow": "Follow us", "soc_sub": "One HaitiBiznis account for the whole ecosystem.", "soc_wa": "Message us on WhatsApp", "soc_soon": "The social pages are being connected.", "oth_h": "Elsewhere in the ecosystem", "c1_t": "Open LajanMaker", "c1_d": "The app — 7 days free to get started.", "c2_t": "Parenaj Biznis (Affiliate)", "c2_d": "Refer people, earn a commission on every signup.", "c3_t": "Training", "c3_d": "Learn how to register drivers and merchants, and how you get paid.", "c4_t": "Start a business", "c4_d": "48HoursReady: set your business up in two days."}, "es": {"tab_tag": "Aprende • Vende • Gana", "tab_lede": "Formación, productos digitales y comisiones — todo para ganar con el ecosistema.", "nav_back": "Volver a HaitiBiznis", "soc_follow": "Síguenos", "soc_sub": "Una sola cuenta HaitiBiznis para todo el ecosistema.", "soc_wa": "Escríbenos por WhatsApp", "soc_soon": "Las páginas de redes sociales se conectarán pronto.", "oth_h": "En otras partes del ecosistema", "c1_t": "Abrir LajanMaker", "c1_d": "La aplicación — 7 días gratis para empezar.", "c2_t": "Parenaj Biznis", "c2_d": "Refiere personas, gana comisión por cada registro.", "c3_t": "Formación", "c3_d": "Aprende a registrar conductores y comerciantes, y cómo cobrar.", "c4_t": "Iniciar un negocio", "c4_d": "48HoursReady: monta tu negocio en dos días."}, "pt": {"tab_tag": "Aprenda • Venda • Ganhe", "tab_lede": "Formação, produtos digitais e comissões — tudo para ganhar com o ecossistema.", "nav_back": "Voltar para HaitiBiznis", "soc_follow": "Siga-nos", "soc_sub": "Uma única conta HaitiBiznis para todo o ecossistema.", "soc_wa": "Fale conosco no WhatsApp", "soc_soon": "As páginas de redes sociais serão conectadas em breve.", "oth_h": "Em outras partes do ecossistema", "c1_t": "Abrir LajanMaker", "c1_d": "O aplicativo — 7 dias grátis para começar.", "c2_t": "Parenaj Biznis", "c2_d": "Indique pessoas, ganhe comissão a cada cadastro.", "c3_t": "Formação", "c3_d": "Aprenda a cadastrar motoristas e comerciantes, e como receber.", "c4_t": "Abrir um negócio", "c4_d": "48HoursReady: monte seu negócio em dois dias."}};
+function applyLang(L){
+  if(!I18N[L]) L='ht';
+  document.documentElement.lang = L;
+  document.querySelectorAll('[data-i18n]').forEach(function(el){
+    var v = I18N[L][el.getAttribute('data-i18n')];
+    if(v) el.textContent = v;
+  });
+  /* the feature cards are numbered c1..c4 in source order */
+  document.querySelectorAll('.fcard').forEach(function(card, i){
+    var t = I18N[L]['c'+(i+1)+'_t'], d = I18N[L]['c'+(i+1)+'_d'];
+    if(t) card.querySelector('.ft').textContent = t;
+    if(d) card.querySelector('.fd').textContent = d;
+  });
+  document.querySelectorAll('#langBar button').forEach(function(b){
+    b.classList.toggle('on', b.dataset.lang === L);
+  });
+  try{ localStorage.setItem('hb_lang', L); }catch(e){}
+}
+document.getElementById('langBar').addEventListener('click', function(e){
+  var b = e.target.closest('button'); if(b) applyLang(b.dataset.lang);
+});
+(function(){
+  var L = null;
+  try{ L = localStorage.getItem('hb_lang'); }catch(e){}
+  if(!L){
+    var n = (navigator.language||'').slice(0,2).toLowerCase();
+    L = ({fr:'fr',en:'en',es:'es',pt:'pt'})[n] || 'ht';
+  }
+  applyLang(L);
+})();
+</script>
+</body>
+</html>

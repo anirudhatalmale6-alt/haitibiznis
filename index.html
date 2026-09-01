@@ -57,6 +57,30 @@ a{text-decoration:none;color:inherit}
 img{max-width:100%;display:block}
 .wrap{max-width:1080px;margin:0 auto;padding:0 18px}
 
+/* ============ ECOSYSTEM TABS ============
+   Three specialised sections of one brand. Explicit 3 columns, not auto-fit:
+   the count is known, and auto-fit would orphan the third card on a wide
+   screen the moment the min-width does not divide cleanly. */
+.ecotabs-sec{padding-top:4px}
+.ecotabs{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+.ecotab{background:var(--card);border:1px solid var(--line);border-top:3px solid var(--t);
+  border-radius:var(--r);padding:16px 15px;box-shadow:var(--sh-sm);
+  transition:transform .16s ease,box-shadow .16s ease;min-width:0}
+.ecotab:hover{transform:translateY(-3px);box-shadow:var(--sh)}
+.ecotab .et-e{display:block;font-size:1.6rem;line-height:1;margin-bottom:9px}
+.ecotab b{display:block;font-size:1rem;color:var(--ink);margin-bottom:2px}
+.ecotab .et-s{display:block;font-size:.79rem;color:var(--muted)}
+/* On a phone three full-height cards push everything else off the fold, so
+   they become one compact row each - emoji on the left, text stacked right. */
+@media(max-width:640px){
+  .ecotabs{grid-template-columns:1fr;gap:9px}
+  .ecotab{display:grid;grid-template-columns:auto 1fr;align-items:center;
+    column-gap:13px;padding:13px 15px}
+  .ecotab .et-e{grid-row:1/3;margin-bottom:0;font-size:1.7rem}
+  .ecotab b{grid-column:2;align-self:end}
+  .ecotab .et-s{grid-column:2;align-self:start}
+}
+
 /* ============ TOP BAR ============ */
 .flag-stripe{height:4px;background:linear-gradient(90deg,var(--blue) 50%,var(--red) 50%)}
 .topbar{position:sticky;top:0;z-index:60;background:rgba(255,255,255,.92);backdrop-filter:blur(12px);
@@ -298,6 +322,29 @@ img{max-width:100%;display:block}
     <p class="desc" data-i18n="hero_desc"><b>One Account.</b> Nine Powerful Platforms. Unlimited Opportunities.</p>
   </section>
 
+  <!-- ECOSYSTEM TABS
+       One brand, three specialised sections. Each has its own landing page
+       and its own social links, all under HaitiBiznis. -->
+  <section class="section ecotabs-sec">
+    <div class="ecotabs">
+      <a class="ecotab" href="eko/msouwout/" style="--t:#D21034">
+        <span class="et-e">&#128757;</span>
+        <b>MsouWout</b>
+        <span class="et-s" data-i18n="etab_mw">Kous ak Livrezon</span>
+      </a>
+      <a class="ecotab" href="eko/myplopplop/" style="--t:#00209F">
+        <span class="et-e">&#128722;</span>
+        <b>MyPlopPlop</b>
+        <span class="et-s" data-i18n="etab_mpp">Mache an liy</span>
+      </a>
+      <a class="ecotab" href="eko/lajanmaker/" style="--t:#128A4A">
+        <span class="et-e">&#127891;</span>
+        <b>LajanMaker</b>
+        <span class="et-s" data-i18n="etab_lm">Aprann • Vann • Touche</span>
+      </a>
+    </div>
+  </section>
+
   <!-- PRIMARY ACTIONS -->
   <section class="section" id="searchScope">
     <div class="primary-grid" id="primaryGrid">
@@ -371,15 +418,21 @@ img{max-width:100%;display:block}
       <div class="footer-brand">
         <div class="fb-logo"><img src="assets/haitibiznis-icon.png" alt=""><b>Haiti<em>Biznis</em></b></div>
         <p data-i18n="foot_tag">Haiti's Digital Super App. One account, nine platforms, one ecosystem.</p>
+        <!-- Social bar. Rendered by js/social.js so the handles live in ONE
+             place across the whole site instead of in 31 separate footers. -->
+        <div data-social-bar></div>
       </div>
       <div class="footer-col">
         <h5 data-i18n="foot_platforms">Platforms</h5>
+        <a href="eko/msouwout/">MsouWout</a>
+        <a href="eko/myplopplop/">MyPlopPlop</a>
+        <a href="eko/lajanmaker/">LajanMaker</a>
         <a href="koutye.html">Parenaj Biznis</a>
         <a href="https://48hoursready.com" target="_blank" rel="noopener">48HoursReady</a>
         <a href="prolakay.html">Pwofesyonèl Lakay</a>
-        <a href="https://msouwout.com" target="_blank" rel="noopener">MsouWout</a>
+        <a href="https://msouwout.com" target="_blank" rel="noopener">MsouWout — Mande Kous</a>
         <a href="https://msouwout.com/logistics.html" target="_blank" rel="noopener">MsouWout Logistics</a>
-        <a href="https://myplopplop.com" target="_blank" rel="noopener">MyPlopPlop</a>
+        <a href="https://myplopplop.com" target="_blank" rel="noopener">MyPlopPlop — Mache a</a>
       </div>
       <div class="footer-col">
         <h5 data-i18n="foot_more_plat">More</h5>
@@ -796,5 +849,6 @@ renderAll();
    fetch the self-destructing sw.js, purge its caches and unregister itself, so the
    homepage is always loaded fresh from the network (no more stale, non-clickable page). */
 </script>
+  <script src="js/social.js" defer></script>
 </body>
 </html>
