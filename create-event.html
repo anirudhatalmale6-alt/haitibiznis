@@ -129,7 +129,9 @@ img{max-width:100%;display:block}
   background:#111;border-radius:var(--radius-lg);overflow:hidden;
   margin-bottom:16px;position:relative;
 }
-.canvas-wrap canvas{width:100%;display:block}
+/* The frame now takes the shape of the flyer, so a portrait one must not push
+   the templates and the text boxes off the bottom of a phone. */
+.canvas-wrap canvas{width:100%;max-height:58vh;object-fit:contain;display:block;margin:0 auto}
 .template-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:16px}
 .template-thumb{
   aspect-ratio:16/9;border-radius:10px;cursor:pointer;position:relative;
@@ -490,6 +492,15 @@ img{max-width:100%;display:block}
     <div class="canvas-wrap">
       <canvas id="inviteCanvas" width="960" height="540"></canvas>
     </div>
+    <!-- Always on screen, whether or not a flyer has been chosen: a control that
+         only appears in one state reads as a control that was never built. -->
+    <label style="display:flex;align-items:flex-start;gap:9px;margin:12px 2px 0;cursor:pointer">
+      <input type="checkbox" id="invDrawText" checked style="width:19px;height:19px;margin:1px 0 0;flex:0 0 auto">
+      <span>
+        <span style="font-weight:600;font-size:.86rem" data-i18n="draw_text">Ekri tit la sou imaj la</span>
+        <span style="display:block;font-size:.75rem;color:#64748B;margin-top:2px" data-i18n="draw_text_note">Flyer ou a rete jan l ye. Dekoche si ou pa vle nou ekri anyen sou li.</span>
+      </span>
+    </label>
     <div class="template-grid" id="templateGrid">
       <div class="template-thumb active" data-tpl="professional" style="background:linear-gradient(135deg,#0A0E1A,#00209F,#D4A017)">
         <span class="name" data-i18n="tpl_professional">Pwofesyonèl</span>
@@ -700,7 +711,7 @@ img{max-width:100%;display:block}
   <!-- So a "it still does not work" report can be matched to a build: if the
        phone is showing an old cached page, this number will not be the current
        one. It is the first thing to read back. -->
-  <div style="text-align:center;font-size:.7rem;color:#94A3B8;margin-top:10px" id="buildStamp">Tikè Lakay · vèsyon 2 · 1 Sep 2026</div>
+  <div style="text-align:center;font-size:.7rem;color:#94A3B8;margin-top:10px" id="buildStamp">Tikè Lakay · vèsyon 3 · 1 Sep 2026</div>
 </div>
 
 </div>
@@ -1263,7 +1274,9 @@ var i18nMore = {
     need_ticket_name: 'Bay chak tikè yon non. Tikè ki poko gen non: ',
     publish_failed: 'Evènman an pa pibliye. Sèvè a di: ',
     publish_offline: 'Evènman an pa pibliye - koneksyon an pa pase. Nou kenbe tout sa ou tape sou telefòn sa a. Peze "Pibliye Evènman" ankò lè ou gen entènèt.',
-    publishing: 'Ap pibliye...'
+    publishing: 'Ap pibliye...',
+    draw_text: 'Ekri tit la sou imaj la',
+    draw_text_note: 'Flyer ou a rete jan l ye. Dekoche si ou pa vle nou ekri anyen sou li.'
   },
   fr: {
     need_title: "Donnez un titre à l'événement avant de le publier.",
@@ -1271,7 +1284,9 @@ var i18nMore = {
     need_ticket_name: 'Chaque billet doit avoir un nom. Billets sans nom : ',
     publish_failed: "L'événement n'est pas publié. Le serveur répond : ",
     publish_offline: "L'événement n'est pas publié - la connexion n'est pas passée. Tout ce que vous avez saisi est conservé sur ce téléphone. Appuyez de nouveau sur « Publier l'Événement » une fois connecté.",
-    publishing: 'Publication...'
+    publishing: 'Publication...',
+    draw_text: "Écrire le titre sur l'image",
+    draw_text_note: "Votre flyer reste tel quel. Décochez si vous ne voulez rien d'écrit dessus."
   },
   en: {
     need_title: 'Give the event a title before publishing it.',
@@ -1279,7 +1294,9 @@ var i18nMore = {
     need_ticket_name: 'Every ticket needs a name. Tickets with no name: ',
     publish_failed: 'The event was NOT published. The server said: ',
     publish_offline: 'The event was NOT published - the connection did not go through. Everything you typed is kept on this phone. Press "Publish Event" again once you are online.',
-    publishing: 'Publishing...'
+    publishing: 'Publishing...',
+    draw_text: 'Write the title on the image',
+    draw_text_note: 'Your flyer stays exactly as it is. Untick this if you do not want anything written over it.'
   },
   pt: {
     need_title: 'Dê um título ao evento antes de publicá-lo.',
@@ -1287,7 +1304,9 @@ var i18nMore = {
     need_ticket_name: 'Cada ingresso precisa de um nome. Ingressos sem nome: ',
     publish_failed: 'O evento NÃO foi publicado. O servidor respondeu: ',
     publish_offline: 'O evento NÃO foi publicado - a conexão não passou. Tudo o que você digitou está guardado neste telefone. Toque em "Publicar evento" de novo quando tiver internet.',
-    publishing: 'Publicando...'
+    publishing: 'Publicando...',
+    draw_text: 'Escrever o título sobre a imagem',
+    draw_text_note: 'Seu flyer fica exatamente como está. Desmarque se não quiser nada escrito em cima.'
   },
   es: {
     need_title: 'Ponga un título al evento antes de publicarlo.',
@@ -1295,7 +1314,9 @@ var i18nMore = {
     need_ticket_name: 'Cada boleto necesita un nombre. Boletos sin nombre: ',
     publish_failed: 'El evento NO se publicó. El servidor responde: ',
     publish_offline: 'El evento NO se publicó - la conexión no pasó. Todo lo que escribió queda guardado en este teléfono. Pulse "Publicar Evento" otra vez cuando tenga internet.',
-    publishing: 'Publicando...'
+    publishing: 'Publicando...',
+    draw_text: 'Escribir el título sobre la imagen',
+    draw_text_note: 'Su flyer queda tal cual. Desmarque si no quiere nada escrito encima.'
   }
 };
 Object.keys(i18nMore).forEach(function(l) {
@@ -1550,16 +1571,41 @@ function syncStep1ToInvite() {
 var canvas = document.getElementById('inviteCanvas');
 var ctx = canvas.getContext('2d');
 
+/* A flyer he already had designed was being squeezed into a fixed 960x540 box,
+   darkened, and written over - so a portrait flyer came out distorted and his
+   own artwork was unreadable. The frame now takes the shape of the picture he
+   chose, nothing is cropped or stretched, and the text is his choice. */
+function fitCanvasToFlyer() {
+  var W = 1200;                      /* long edge; keeps the JPEG a sane size */
+  if (!flyerImage || !flyerImage.width || !flyerImage.height) {
+    canvas.width = 960; canvas.height = 540; return;
+  }
+  var r = flyerImage.width / flyerImage.height;
+  r = Math.max(0.5, Math.min(2.2, r));            /* nothing absurdly long */
+  if (r >= 1) { canvas.width = W; canvas.height = Math.round(W / r); }
+  else        { canvas.height = W; canvas.width = Math.round(W * r); }
+}
+
+function drawTextOn() {
+  var el = document.getElementById('invDrawText');
+  return el ? el.checked : true;
+}
+
 function renderCanvas() {
+  fitCanvasToFlyer();
   var w = canvas.width, h = canvas.height;
   var tpl = templates[selectedTemplate];
+  var withText = drawTextOn();
 
   ctx.clearRect(0, 0, w, h);
 
   if (flyerImage) {
     ctx.drawImage(flyerImage, 0, 0, w, h);
-    ctx.fillStyle = 'rgba(0,0,0,0.45)';
-    ctx.fillRect(0, 0, w, h);
+    /* The scrim exists only to make our text readable. No text, no scrim. */
+    if (withText) {
+      ctx.fillStyle = 'rgba(0,0,0,0.45)';
+      ctx.fillRect(0, 0, w, h);
+    }
   } else {
     var grad = ctx.createLinearGradient(0, 0, w, h);
     grad.addColorStop(0, tpl.bg1);
@@ -1573,6 +1619,9 @@ function renderCanvas() {
       ctx.fillRect(x, 0, 1, h);
     }
   }
+
+  /* Unticked means exactly that: his picture, and nothing of ours on top of it. */
+  if (!withText) return;
 
   var topBorder = ctx.createLinearGradient(0, 0, w, 0);
   topBorder.addColorStop(0, tpl.accent);
@@ -1664,10 +1713,25 @@ document.getElementById('invBgColor').addEventListener('input', function() {
   renderCanvas();
 });
 
+document.getElementById('invDrawText').addEventListener('change', renderCanvas);
+
+/* Someone who uploads a finished flyer has already put the title, the date and
+   the place on it. Writing them a second time is the thing he showed me. So the
+   first flyer he picks turns the text off; if he ticks it back on, we leave his
+   choice alone from then on. */
+var flyerTextChoiceMade = false;
+document.getElementById('invDrawText').addEventListener('change', function() {
+  flyerTextChoiceMade = true;
+});
+
 document.getElementById('flyerInput').addEventListener('change', function(e) {
   if (e.target.files[0]) {
     var img = new Image();
-    img.onload = function() { flyerImage = img; renderCanvas(); };
+    img.onload = function() {
+      flyerImage = img;
+      if (!flyerTextChoiceMade) document.getElementById('invDrawText').checked = false;
+      renderCanvas();
+    };
     img.src = URL.createObjectURL(e.target.files[0]);
     document.getElementById('flyerLabel').textContent = e.target.files[0].name;
   }

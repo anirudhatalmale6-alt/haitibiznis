@@ -69,6 +69,16 @@ img{max-width:100%;display:block}
   width:100%;aspect-ratio:16/9;position:relative;overflow:hidden;
   background:linear-gradient(160deg,var(--dark) 0%,#0A1235 30%,var(--blue-deep) 55%,var(--blue) 80%,var(--gold) 100%);
 }
+/* His own invitation, whole - never cropped, never stretched. The frame takes
+   the shape of the picture (set inline once it has loaded). */
+.hero-invite-img{
+  position:absolute;inset:0;width:100%;height:100%;
+  object-fit:contain;background:#0A0E1A;z-index:1;
+}
+.hero-invite.has-invite::before,
+.hero-invite.has-invite::after,
+.hero-invite.has-invite .hero-grid,
+.hero-invite.has-invite .hero-content{display:none}
 .hero-invite::before{
   content:'';position:absolute;inset:0;
   background:
@@ -911,8 +921,38 @@ function formatPrice(p) {
 var ticketQty = [];
 event.tickets.forEach(function() { ticketQty.push(0); });
 
+/* renderPage runs twice when the event arrives from the API, so this has to be
+   safe to call again. */
+function showInvite() {
+  var src = event && event.inviteImage;
+  var hero = document.getElementById('heroInvite');
+  if (!hero || typeof src !== 'string' || src.indexOf('data:image') !== 0) return;
+  var img = document.getElementById('heroInviteImg');
+  if (!img) {
+    img = document.createElement('img');
+    img.id = 'heroInviteImg';
+    img.className = 'hero-invite-img';
+    img.onload = function() {
+      if (img.naturalWidth && img.naturalHeight) {
+        hero.style.aspectRatio = img.naturalWidth + ' / ' + img.naturalHeight;
+      }
+    };
+    hero.insertBefore(img, hero.firstChild);
+  }
+  img.alt = event.title || '';
+  if (img.getAttribute('src') !== src) img.src = src;
+  hero.classList.add('has-invite');
+}
+
 /* ═══ RENDER PAGE ═══ */
 function renderPage() {
+  /* The invitation he designs in step 2 was being saved to the database and
+     then shown to nobody - this page drew a gradient and ignored it. If there
+     is a picture, the picture IS the hero, at its own shape, and our own title
+     strip comes off it: the info card underneath already carries the title,
+     the date, the place and the type. */
+  showInvite();
+
   /* Hero */
   document.getElementById('heroType').innerHTML = event.typeEmoji + ' ' + event.typeLabel;
   document.getElementById('heroTitle').textContent = event.title;
@@ -958,9 +998,12 @@ function renderPage() {
   /* Tickets */
   renderTickets();
 
-  /* Organizer */
-  document.getElementById('orgAvatar').textContent = event.organizer.charAt(0);
-  document.getElementById('orgName').textContent = event.organizer;
+  /* Organizer - an event saved without one used to throw here, and everything
+     below this line (the koutye banner, the similar events, the tab title)
+     silently stopped rendering. */
+  var org = event.organizer || event.hostedBy || '';
+  document.getElementById('orgAvatar').textContent = org.charAt(0) || '·';
+  document.getElementById('orgName').textContent = org;
 
   /* Koutye Banner */
   if (event.koutyeEnabled) {
