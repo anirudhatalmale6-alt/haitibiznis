@@ -369,42 +369,55 @@ var sections = [
 
 if (pin) showDashboard();
 
+/* Ask one API and say plainly which of the three things happened. Before this,
+   a server that was still waking up came back as "PIN envalid" - so a correct
+   code looked like the wrong code, and the only advice was to type it again. */
+function askApi(base) {
+  return fetch(base + '/dashboard?pin=' + encodeURIComponent(pin))
+    .then(function(r) {
+      if (r.status === 403) return 'BAD_PIN';
+      if (!r.ok) return 'SERVER';
+      return r.json().then(function(d) {
+        return (d && (d.success || d.stats)) ? 'OK' : 'SERVER';
+      }, function() { return 'SERVER'; });
+    }, function() { return 'SERVER'; });   /* no answer at all */
+}
+
 function doLogin() {
   var p = document.getElementById('loginPin').value.trim();
   if (!p) { showError('Antre PIN ou'); return; }
   pin = p;
   localStorage.setItem('eco_admin_pin', pin);
-  fetch(HB_API + '/dashboard?pin=' + encodeURIComponent(pin))
-    .then(function(r) {
-      if (r.status === 403) throw new Error('PIN envalid');
-      return r.json();
-    })
-    .then(function(data) {
-      if (data.success || data.stats) showDashboard();
-      else throw new Error('Koneksyon echwe');
-    })
-    .catch(function(err) {
-      fetch(MP_API + '/dashboard?pin=' + encodeURIComponent(pin))
-        .then(function(r) {
-          if (r.status === 403) throw new Error('PIN envalid');
-          return r.json();
-        })
-        .then(function(data) {
-          if (data.success) showDashboard();
-          else throw new Error('PIN envalid');
-        })
-        .catch(function(err2) {
-          pin = '';
-          localStorage.removeItem('eco_admin_pin');
-          showError(err2.message || 'PIN envalid');
-        });
+  showError('Ap verifye...');
+  askApi(HB_API).then(function(a) {
+    if (a === 'OK') return showDashboard();
+    return askApi(MP_API).then(function(b) {
+      if (b === 'OK') return showDashboard();
+      pin = '';
+      localStorage.removeItem('eco_admin_pin');
+      /* Only call it a bad PIN when a server actually looked at it and said no. */
+      if (a === 'BAD_PIN' || b === 'BAD_PIN') showError('PIN envalid', true);
+      else showError('Sèvè a poko reponn. Tann 30 segonn epi peze Antre ankò.');
     });
+  });
 }
 
-function showError(msg) {
+function showError(msg, wrongPin) {
   var el = document.getElementById('loginError');
   el.textContent = msg;
   el.style.display = 'block';
+  /* Two apps, two codes, and they are easy to mix up. Say which one this page
+     wants - the first letters only, never the code itself. */
+  var h = document.getElementById('loginHint');
+  if (!h) {
+    h = document.createElement('div');
+    h.id = 'loginHint';
+    h.style.cssText = 'margin-top:8px;font-size:12px;color:#6b7280;line-height:1.5';
+    el.parentNode.insertBefore(h, el.nextSibling);
+  }
+  h.textContent = wrongPin
+    ? 'Kòd paj sa a kòmanse ak YZ- . Kòd LajanMaker la (LM-) se pou app POS la, li pa mache isit la.'
+    : '';
 }
 
 function showDashboard() {

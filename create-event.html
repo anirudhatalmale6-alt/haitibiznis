@@ -711,7 +711,7 @@ img{max-width:100%;display:block}
   <!-- So a "it still does not work" report can be matched to a build: if the
        phone is showing an old cached page, this number will not be the current
        one. It is the first thing to read back. -->
-  <div style="text-align:center;font-size:.7rem;color:#94A3B8;margin-top:10px" id="buildStamp">Tikè Lakay · vèsyon 3 · 1 Sep 2026</div>
+  <div style="text-align:center;font-size:.7rem;color:#94A3B8;margin-top:10px" id="buildStamp">Tikè Lakay · vèsyon 4 · 2 Sep 2026</div>
 </div>
 
 </div>
@@ -1276,7 +1276,13 @@ var i18nMore = {
     publish_offline: 'Evènman an pa pibliye - koneksyon an pa pase. Nou kenbe tout sa ou tape sou telefòn sa a. Peze "Pibliye Evènman" ankò lè ou gen entènèt.',
     publishing: 'Ap pibliye...',
     draw_text: 'Ekri tit la sou imaj la',
-    draw_text_note: 'Flyer ou a rete jan l ye. Dekoche si ou pa vle nou ekri anyen sou li.'
+    draw_text_note: 'Flyer ou a rete jan l ye. Dekoche si ou pa vle nou ekri anyen sou li.',
+    draft_found: 'Nou kenbe evènman ou t ap kreye a',
+    draft_sub: 'Ou pa t fini l. Tout sa ou te tape toujou la.',
+    draft_resume: '↩️ Kontinye kote m te rete a',
+    draft_discard: '🗑 Efase l, m ap rekòmanse',
+    draft_discard_ask: 'Efase sa ou te tape a nèt?',
+    draft_saved: '💾 Sere otomatikman'
   },
   fr: {
     need_title: "Donnez un titre à l'événement avant de le publier.",
@@ -1286,7 +1292,13 @@ var i18nMore = {
     publish_offline: "L'événement n'est pas publié - la connexion n'est pas passée. Tout ce que vous avez saisi est conservé sur ce téléphone. Appuyez de nouveau sur « Publier l'Événement » une fois connecté.",
     publishing: 'Publication...',
     draw_text: "Écrire le titre sur l'image",
-    draw_text_note: "Votre flyer reste tel quel. Décochez si vous ne voulez rien d'écrit dessus."
+    draw_text_note: "Votre flyer reste tel quel. Décochez si vous ne voulez rien d'écrit dessus.",
+    draft_found: "Nous avons gardé l'événement que vous prépariez",
+    draft_sub: "Vous ne l'aviez pas terminé. Tout ce que vous aviez saisi est toujours là.",
+    draft_resume: '↩️ Reprendre où je me suis arrêté',
+    draft_discard: '🗑 Effacer et recommencer',
+    draft_discard_ask: 'Effacer définitivement ce que vous aviez saisi ?',
+    draft_saved: '💾 Enregistré automatiquement'
   },
   en: {
     need_title: 'Give the event a title before publishing it.',
@@ -1296,7 +1308,13 @@ var i18nMore = {
     publish_offline: 'The event was NOT published - the connection did not go through. Everything you typed is kept on this phone. Press "Publish Event" again once you are online.',
     publishing: 'Publishing...',
     draw_text: 'Write the title on the image',
-    draw_text_note: 'Your flyer stays exactly as it is. Untick this if you do not want anything written over it.'
+    draw_text_note: 'Your flyer stays exactly as it is. Untick this if you do not want anything written over it.',
+    draft_found: 'We kept the event you were creating',
+    draft_sub: 'You did not finish it. Everything you typed is still here.',
+    draft_resume: '↩️ Carry on where I stopped',
+    draft_discard: '🗑 Delete it, I will start again',
+    draft_discard_ask: 'Delete everything you typed?',
+    draft_saved: '💾 Saved automatically'
   },
   pt: {
     need_title: 'Dê um título ao evento antes de publicá-lo.',
@@ -1306,7 +1324,13 @@ var i18nMore = {
     publish_offline: 'O evento NÃO foi publicado - a conexão não passou. Tudo o que você digitou está guardado neste telefone. Toque em "Publicar evento" de novo quando tiver internet.',
     publishing: 'Publicando...',
     draw_text: 'Escrever o título sobre a imagem',
-    draw_text_note: 'Seu flyer fica exatamente como está. Desmarque se não quiser nada escrito em cima.'
+    draw_text_note: 'Seu flyer fica exatamente como está. Desmarque se não quiser nada escrito em cima.',
+    draft_found: 'Guardamos o evento que você estava criando',
+    draft_sub: 'Você não terminou. Tudo o que digitou continua aqui.',
+    draft_resume: '↩️ Continuar de onde parei',
+    draft_discard: '🗑 Apagar e começar de novo',
+    draft_discard_ask: 'Apagar de vez tudo o que você digitou?',
+    draft_saved: '💾 Salvo automaticamente'
   },
   es: {
     need_title: 'Ponga un título al evento antes de publicarlo.',
@@ -1316,7 +1340,13 @@ var i18nMore = {
     publish_offline: 'El evento NO se publicó - la conexión no pasó. Todo lo que escribió queda guardado en este teléfono. Pulse "Publicar Evento" otra vez cuando tenga internet.',
     publishing: 'Publicando...',
     draw_text: 'Escribir el título sobre la imagen',
-    draw_text_note: 'Su flyer queda tal cual. Desmarque si no quiere nada escrito encima.'
+    draw_text_note: 'Su flyer queda tal cual. Desmarque si no quiere nada escrito encima.',
+    draft_found: 'Guardamos el evento que estaba creando',
+    draft_sub: 'No lo terminó. Todo lo que escribió sigue aquí.',
+    draft_resume: '↩️ Seguir donde me quedé',
+    draft_discard: '🗑 Borrarlo, empiezo de nuevo',
+    draft_discard_ask: '¿Borrar del todo lo que escribió?',
+    draft_saved: '💾 Guardado automáticamente'
   }
 };
 Object.keys(i18nMore).forEach(function(l) {
@@ -1724,26 +1754,66 @@ document.getElementById('invDrawText').addEventListener('change', function() {
   flyerTextChoiceMade = true;
 });
 
-document.getElementById('flyerInput').addEventListener('change', function(e) {
-  if (e.target.files[0]) {
-    var img = new Image();
-    img.onload = function() {
-      flyerImage = img;
-      if (!flyerTextChoiceMade) document.getElementById('invDrawText').checked = false;
-      renderCanvas();
+/* A blob: URL dies with the page, so a flyer chosen before an interruption
+   could never be brought back. The picture is shrunk once, to a data URI small
+   enough to keep on the phone, and that same string is what the canvas draws
+   and what the draft stores. */
+function shrinkToDataUrl(file, maxEdge, type, cb) {
+  var fr = new FileReader();
+  fr.onload = function() {
+    var im = new Image();
+    im.onload = function() {
+      var w = im.width, h = im.height, s = Math.min(1, maxEdge / Math.max(w, h));
+      var cv = document.createElement('canvas');
+      cv.width = Math.max(1, Math.round(w * s));
+      cv.height = Math.max(1, Math.round(h * s));
+      cv.getContext('2d').drawImage(im, 0, 0, cv.width, cv.height);
+      var out;
+      try { out = cv.toDataURL(type, 0.85); } catch (err) { out = fr.result; }
+      cb(out);
     };
-    img.src = URL.createObjectURL(e.target.files[0]);
-    document.getElementById('flyerLabel').textContent = e.target.files[0].name;
-  }
+    im.onerror = function() { cb(fr.result); };
+    im.src = fr.result;
+  };
+  fr.onerror = function() { cb(''); };
+  fr.readAsDataURL(file);
+}
+
+var flyerSrc = '', logoSrc = '', flyerName = '', logoName = '';
+
+function setFlyer(src, name, fromDraft) {
+  if (!src) return;
+  var img = new Image();
+  img.onload = function() {
+    flyerImage = img; flyerSrc = src; flyerName = name || '';
+    if (name) document.getElementById('flyerLabel').textContent = name;
+    if (!fromDraft && !flyerTextChoiceMade) document.getElementById('invDrawText').checked = false;
+    renderCanvas();
+    if (!fromDraft) saveDraft();
+  };
+  img.src = src;
+}
+
+function setLogo(src, name, fromDraft) {
+  if (!src) return;
+  var img = new Image();
+  img.onload = function() {
+    logoImage = img; logoSrc = src; logoName = name || '';
+    if (name) document.getElementById('logoLabel').textContent = name;
+    renderCanvas();
+    if (!fromDraft) saveDraft();
+  };
+  img.src = src;
+}
+
+document.getElementById('flyerInput').addEventListener('change', function(e) {
+  var f = e.target.files[0];
+  if (f) shrinkToDataUrl(f, 1400, 'image/jpeg', function(src) { setFlyer(src, f.name); });
 });
 
 document.getElementById('logoInput').addEventListener('change', function(e) {
-  if (e.target.files[0]) {
-    var img = new Image();
-    img.onload = function() { logoImage = img; renderCanvas(); };
-    img.src = URL.createObjectURL(e.target.files[0]);
-    document.getElementById('logoLabel').textContent = e.target.files[0].name;
-  }
+  var f = e.target.files[0];
+  if (f) shrinkToDataUrl(f, 400, 'image/png', function(src) { setLogo(src, f.name); });
 });
 
 /* See the note in ticket.html: a detached <a> pointed at a multi-megabyte data
@@ -1803,6 +1873,203 @@ function removeTicket(id) {
 }
 
 addTicket('General Admission', 0, 100);
+
+/* ═══ DRAFT — "i got a call which i picked up and it didnt save" ═══
+   An incoming call takes the browser away, and Android is free to throw the tab
+   out while it is in the background. Nothing was kept, so a whole event had to
+   be typed again. Everything now goes to this phone's storage as he types, and
+   again the moment the page is hidden - which is the last instant we are given
+   when a call arrives. Nothing is sent anywhere; it stays on the phone until he
+   publishes, and publishing clears it. */
+var DRAFT_KEY = 'tl_draft_v1';
+var TXT_IDS = ['evTitle','evType','evDate','evStart','evEnd','evLocation','evOnline','evDesc',
+               'evOrgName','evOrgPhone','evOrgEmail','invTitle','invDate','invLoc','invHost',
+               'invBgColor','hostedBy','creatorPct'];
+
+function elVal(id) { var e = document.getElementById(id); return e ? e.value : ''; }
+function setVal(id, v) { var e = document.getElementById(id); if (e && v !== undefined && v !== null) e.value = v; }
+
+function collectDraft() {
+  var d = { step: currentStep, ts: Date.now(), fields: {}, tickets: [], pay: {} };
+  TXT_IDS.forEach(function(id) { d.fields[id] = elVal(id); });
+  var dt = document.getElementById('invDrawText');
+  d.drawText = dt ? dt.checked : true;
+  d.textChoiceMade = flyerTextChoiceMade;
+  d.template = selectedTemplate;
+  d.textColor = textColor;
+  d.flyer = flyerSrc; d.flyerName = flyerName;
+  d.logo = logoSrc;   d.logoName = logoName;
+  document.querySelectorAll('.ticket-card').forEach(function(card) {
+    var i = card.querySelectorAll('input');
+    d.tickets.push({
+      name: i[0] ? i[0].value : '', price: i[1] ? i[1].value : '', qty: i[2] ? i[2].value : '',
+      start: i[3] ? i[3].value : '', end: i[4] ? i[4].value : '', desc: i[5] ? i[5].value : ''
+    });
+  });
+  document.querySelectorAll('.pay-check input[type="checkbox"]').forEach(function(cb) { d.pay[cb.value] = cb.checked; });
+  var mc = document.getElementById('moncashInput'), nc = document.getElementById('natcashInput');
+  d.moncash = mc && mc.querySelector('input') ? mc.querySelector('input').value : '';
+  d.natcash = nc && nc.querySelector('input') ? nc.querySelector('input').value : '';
+  var kt = document.getElementById('koutyeToggle');
+  d.koutye = kt ? kt.checked : false;
+  return d;
+}
+
+/* Worth keeping only if there is something in it he would hate to retype. */
+function draftHasContent(d) {
+  if (!d) return false;
+  if (d.flyer) return true;
+  var f = d.fields || {};
+  return !!(String(f.evTitle || '').trim() || String(f.evDate || '').trim() ||
+            String(f.evLocation || '').trim() || String(f.evDesc || '').trim() ||
+            String(f.evOrgName || '').trim());
+}
+
+function saveDraft() {
+  try {
+    var d = collectDraft();
+    if (!draftHasContent(d)) return;
+    try {
+      localStorage.setItem(DRAFT_KEY, JSON.stringify(d));
+    } catch (e) {
+      /* The phone refused the picture (storage is full). His typing matters more
+         than the flyer, so keep the words rather than keep nothing. */
+      d.flyer = ''; d.logo = '';
+      try { localStorage.setItem(DRAFT_KEY, JSON.stringify(d)); } catch (e2) {}
+    }
+    showDraftSaved();
+  } catch (e) {}
+}
+
+function clearDraft() { try { localStorage.removeItem(DRAFT_KEY); } catch (e) {} }
+
+function readDraft() {
+  try {
+    var raw = localStorage.getItem(DRAFT_KEY);
+    if (!raw) return null;
+    var d = JSON.parse(raw);
+    /* A month-old draft is not something he is coming back to. */
+    if (!d || !d.ts || (Date.now() - d.ts) > 30 * 24 * 3600 * 1000) { clearDraft(); return null; }
+    return draftHasContent(d) ? d : null;
+  } catch (e) { return null; }
+}
+
+var draftTimer = null;
+function queueSave() { clearTimeout(draftTimer); draftTimer = setTimeout(saveDraft, 400); }
+document.addEventListener('input', queueSave, true);
+document.addEventListener('change', queueSave, true);
+/* The one that matters when a call comes in: the page is hidden first. */
+document.addEventListener('visibilitychange', function() { if (document.hidden) saveDraft(); });
+window.addEventListener('pagehide', saveDraft);
+window.addEventListener('beforeunload', saveDraft);
+
+/* A quiet line, so he can see for himself that it is being kept. */
+function showDraftSaved() {
+  var t = i18n[curLang] || i18n.ht;
+  var el = document.getElementById('draftSaved');
+  if (!el) {
+    el = document.createElement('div');
+    el.id = 'draftSaved';
+    el.style.cssText = 'position:fixed;left:50%;transform:translateX(-50%);bottom:14px;z-index:60;' +
+      'background:rgba(15,23,42,.88);color:#fff;font-size:12px;font-weight:600;padding:7px 14px;' +
+      'border-radius:999px;opacity:0;transition:opacity .25s;pointer-events:none';
+    document.body.appendChild(el);
+  }
+  el.textContent = t.draft_saved || '💾';
+  el.style.opacity = '1';
+  clearTimeout(el._h);
+  el._h = setTimeout(function() { el.style.opacity = '0'; }, 1200);
+}
+
+function applyDraft(d) {
+  TXT_IDS.forEach(function(id) { setVal(id, d.fields ? d.fields[id] : ''); });
+  var dt = document.getElementById('invDrawText');
+  if (dt) dt.checked = d.drawText !== false;
+  flyerTextChoiceMade = !!d.textChoiceMade;
+  if (d.template) selectedTemplate = d.template;
+  if (d.textColor) textColor = d.textColor;
+  document.querySelectorAll('.template-thumb').forEach(function(x) {
+    x.classList.toggle('active', x.dataset.tpl === d.template);
+  });
+  document.querySelectorAll('.color-toggle').forEach(function(x) {
+    x.classList.toggle('active', x.dataset.color === d.textColor);
+  });
+  /* Tickets: rebuild the list exactly as he left it, then put back the three
+     boxes addTicket() does not take as arguments. */
+  if (d.tickets && d.tickets.length) {
+    document.getElementById('ticketsList').innerHTML = '';
+    ticketCount = 0;
+    d.tickets.forEach(function(tk) {
+      addTicket(tk.name, tk.price, tk.qty);
+      var card = document.getElementById('ticketsList').lastElementChild;
+      if (!card) return;
+      var i = card.querySelectorAll('input');
+      if (i[0]) i[0].value = tk.name || '';
+      if (i[1]) i[1].value = tk.price || 0;
+      if (i[2]) i[2].value = tk.qty || 0;
+      if (i[3]) i[3].value = tk.start || '';
+      if (i[4]) i[4].value = tk.end || '';
+      if (i[5]) i[5].value = tk.desc || '';
+    });
+  }
+  document.querySelectorAll('.pay-check input[type="checkbox"]').forEach(function(cb) {
+    if (d.pay && cb.value in d.pay) {
+      cb.checked = !!d.pay[cb.value];
+      cb.closest('.pay-check').classList.toggle('checked', cb.checked);
+      var sub = document.getElementById(cb.value + 'Input');
+      if (sub) sub.classList.toggle('visible', cb.checked);
+    }
+  });
+  var mc = document.getElementById('moncashInput'), nc = document.getElementById('natcashInput');
+  if (mc && mc.querySelector('input')) mc.querySelector('input').value = d.moncash || '';
+  if (nc && nc.querySelector('input')) nc.querySelector('input').value = d.natcash || '';
+  var kt = document.getElementById('koutyeToggle');
+  if (kt) kt.checked = !!d.koutye;
+  if (d.logo) setLogo(d.logo, d.logoName, true);
+  if (d.flyer) setFlyer(d.flyer, d.flyerName, true);
+
+  aiMode = false;
+  document.getElementById('stepper').style.display = '';
+  goStep(Math.min(4, Math.max(1, d.step || 1)));
+  /* goStep(2) copies step 1 over the invitation boxes, so his own wording goes
+     back afterwards, not before. */
+  ['invTitle','invDate','invLoc','invHost'].forEach(function(id) { setVal(id, d.fields ? d.fields[id] : ''); });
+  renderCanvas();
+}
+
+/* Offered, never forced: coming back to the page is not always "carry on". */
+function offerDraft() {
+  var d = readDraft();
+  if (!d) return;
+  var t = i18n[curLang] || i18n.ht;
+  var bar = document.createElement('div');
+  bar.id = 'draftBar';
+  bar.style.cssText = 'position:fixed;inset:0;background:rgba(10,14,26,.6);z-index:120;display:flex;' +
+    'align-items:center;justify-content:center;padding:18px';
+  bar.innerHTML = '<div style="background:#fff;border-radius:18px;padding:22px 18px;max-width:420px;width:100%;box-shadow:0 20px 50px rgba(0,0,0,.3)">' +
+    '<div style="font-size:34px;text-align:center">💾</div>' +
+    '<div style="font-weight:800;font-size:18px;text-align:center;margin:6px 0 4px">' + (t.draft_found || '') + '</div>' +
+    '<div style="font-size:13px;color:#64748B;text-align:center;margin-bottom:6px">' + (t.draft_sub || '') + '</div>' +
+    '<div style="font-size:13px;font-weight:700;text-align:center;color:#0F172A;margin-bottom:14px">' +
+      (d.fields && d.fields.evTitle ? escapeDraft(d.fields.evTitle) : '') + '</div>' +
+    '<button id="draftGo" class="btn btn-blue" style="width:100%;margin-bottom:8px">' + (t.draft_resume || '') + '</button>' +
+    '<button id="draftNo" class="btn" style="width:100%;background:#fff;border:1px solid var(--border);color:#64748B">' + (t.draft_discard || '') + '</button>' +
+    '</div>';
+  document.body.appendChild(bar);
+  document.getElementById('draftGo').onclick = function() { bar.remove(); applyDraft(d); };
+  document.getElementById('draftNo').onclick = function() {
+    if (!confirm(t.draft_discard_ask || '?')) return;
+    clearDraft(); bar.remove();
+  };
+}
+/* Called from INIT, after the saved language has been applied - otherwise the
+   card would greet a French speaker in Kreyol. */
+
+function escapeDraft(s) {
+  return String(s).replace(/[&<>"]/g, function(c) {
+    return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c];
+  });
+}
 
 /* ═══ PAYMENT ═══ */
 function togglePay(label) {
@@ -2016,6 +2283,8 @@ function publishEvent() {
     if (saved && saved._id) {
       eventObj._id = saved._id;
       keepOnThisPhone(saved._id);
+      /* It is published. The half-finished copy has done its job. */
+      clearDraft();
       showSuccessOverlay(saved._id, API_URL + '/api/events/' + saved._id + '/share');
       return;
     }
@@ -2082,6 +2351,9 @@ renderCanvas();
     setLang(saved);
   }
 })();
+
+/* Last, so the card speaks his language and every function it calls exists. */
+offerDraft();
 </script>
 </body>
 </html>
