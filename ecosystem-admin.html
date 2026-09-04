@@ -146,6 +146,7 @@ tr:hover td{background:rgba(0,32,159,.02)}
 .feed-icon.ticket{background:rgba(212,160,23,.08);color:var(--gold)}
 .feed-icon.order{background:rgba(230,126,34,.08);color:var(--orange)}
 .feed-icon.refund{background:rgba(210,16,52,.08);color:var(--red)}
+.feed-icon.store{background:rgba(27,140,61,.08);color:var(--green)}
 .feed-body{flex:1;min-width:0}
 .feed-label{font-size:.82rem;font-weight:700;color:var(--dark);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .feed-detail{font-size:.72rem;color:var(--text-light);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
@@ -651,7 +652,7 @@ function renderFeed(items) {
     el.innerHTML = '<div class="empty-state"><div class="icon">&#128203;</div><h3>Pa gen aktivite ankò</h3></div>';
     return;
   }
-  var icons = { ride: '&#128663;', driver: '&#128100;', ticket: '&#127915;', refund: '&#128176;', user: '&#128101;', order: '&#128230;' };
+  var icons = { ride: '&#128663;', driver: '&#128100;', ticket: '&#127915;', refund: '&#128176;', user: '&#128101;', order: '&#128230;', store: '&#127978;' };
   var html = '';
   for (var i = 0; i < items.length; i++) {
     var it = items[i];
