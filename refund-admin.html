@@ -275,6 +275,20 @@ tr:hover td{background:rgba(0,32,159,.01)}
 
 <script>
 var API_URL = 'https://haitibiznis-api.onrender.com';
+
+/* Approving a refund moves real money, and this page used to do it with no
+   credential at all - anyone who found the URL could approve every refund on
+   the platform. The server now asks for the console code. It is remembered
+   for the tab only, so it is not left sitting on a shared phone. */
+function adminPin() {
+  var p = sessionStorage.getItem('hb_admin_pin');
+  if (!p) {
+    p = window.prompt('Kòd admin (admin code):') || '';
+    if (p) sessionStorage.setItem('hb_admin_pin', p);
+  }
+  return p;
+}
+function forgetAdminPin() { sessionStorage.removeItem('hb_admin_pin'); }
 var allRefunds = [];
 
 var REASON_LABELS = {
@@ -505,7 +519,7 @@ function processRefund(id, action) {
 
   fetch(API_URL + '/api/rides/refund/process/' + id, {
     method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
+    headers: { 'Content-Type': 'application/json', 'x-admin-pin': adminPin() },
     body: JSON.stringify({
       action: action,
       refundAmount: amount ? parseInt(amount.value) : 0,
@@ -520,7 +534,14 @@ function processRefund(id, action) {
         loadStats();
         loadRefunds();
       } else {
-        showToast('Error: ' + (data.error || 'Unknown error'));
+        // A wrong code must not stick, or every later click fails silently
+        // with the same bad one and the page looks broken.
+        if (data.error && /pin/i.test(data.error)) {
+          forgetAdminPin();
+          showToast('Wrong admin code - try again.');
+        } else {
+          showToast('Error: ' + (data.error || 'Unknown error'));
+        }
         btnApprove.disabled = false;
         btnDeny.disabled = false;
         activeBtn.textContent = origText;
