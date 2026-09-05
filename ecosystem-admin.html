@@ -437,7 +437,7 @@ function showDashboard() {
    code: what he sets is stored, salted, in each database. One code opens both
    APIs, so a change has to land on both or not count.
    --------------------------------------------------------------------------- */
-function secOpen() { document.getElementById('secModal').style.display = 'flex'; }
+function secOpen() { document.getElementById('secModal').style.display = 'flex'; secAdminList(); }
 function secClose() { document.getElementById('secModal').style.display = 'none'; }
 
 function secPost(base, path, body, usePin) {
@@ -513,6 +513,53 @@ function secReset() {
     btn.disabled = false;
     say('#b91c1c', 'Koneksyon echwe. Eseye ankò.');
   });
+}
+
+/* Admin rights used to be handed to anyone who asked the sign-up form for them.
+   Now the console is the only door, which means the console has to have one. */
+function secGrantAdmin() {
+  var phone = document.getElementById('gaPhone').value.trim();
+  var msg = document.getElementById('gaMsg');
+  var btn = document.getElementById('gaBtn');
+  function say(cls, txt) { msg.style.color = cls; msg.textContent = txt; }
+  if (!phone) { say('#b91c1c', 'Antre nimewo telefòn nan'); return; }
+  btn.disabled = true;
+  say('#6b7280', 'Ap bay dwa a...');
+  secPost(MP_API, '/grant-admin', { phone: phone }, pin).then(function (r) {
+    btn.disabled = false;
+    if (r.ok && r.d && r.d.success) {
+      document.getElementById('gaPhone').value = '';
+      say('#0f9d55', r.d.already
+        ? ((r.d.name || phone) + ' se administratè deja.')
+        : ((r.d.name || phone) + ' se administratè kounye a. Konekte sou myplopplop.com epi ale nan /admin/riders.html'));
+      secAdminList();
+    } else if (r.status === 404) {
+      /* The server answers in English; he does not read English. */
+      say('#b91c1c', 'Nou pa jwenn okenn kont ak nimewo sa a. Li dwe enskri sou MyPlopPlop anvan.');
+    } else {
+      say('#b91c1c', (r.d && r.d.error) || 'Sa pa t mache. Eseye ankò.');
+    }
+  }).catch(function () {
+    btn.disabled = false;
+    say('#b91c1c', 'Koneksyon echwe. Eseye ankò.');
+  });
+}
+
+function secAdminList() {
+  fetch(MP_API + '/admins', { headers: { 'x-admin-pin': pin } })
+    .then(function (r) { return r.json(); })
+    .then(function (d) {
+      var el = document.getElementById('gaList');
+      if (!el) return;
+      if (!d || !d.success || !d.admins || !d.admins.length) {
+        el.textContent = 'Pa gen okenn administratè pou kounye a.';
+        return;
+      }
+      el.textContent = 'Administratè yo: ' + d.admins.map(function (a) {
+        return (a.name || '') + ' (' + (a.phone || '') + ')';
+      }).join(' · ');
+    })
+    .catch(function () { /* the panel still works without the list */ });
 }
 
 /* Nag until he has replaced the code he was handed. */
@@ -1287,6 +1334,15 @@ function showToast(msg) {
       <input id="rsPin" inputmode="numeric" maxlength="4" placeholder="PIN 4 chif" style="width:100%;padding:11px;border:1px solid #d1d5db;border-radius:9px;margin-bottom:10px;font-size:15px">
       <button id="rsBtn" onclick="secReset()" style="width:100%;padding:12px;border:none;border-radius:9px;background:#00209F;color:#fff;font-weight:800;font-size:15px;cursor:pointer">Remete PIN an</button>
       <div id="rsMsg" style="font-size:13px;font-weight:700;margin-top:8px;min-height:18px"></div>
+    </div>
+
+    <div style="border:1px solid #e5e7eb;border-radius:12px;padding:16px;margin-bottom:14px">
+      <h4 style="margin:0 0 4px;font-size:15px;font-weight:800">Bay yon moun dwa administratè</h4>
+      <p style="margin:0 0 12px;font-size:13px;color:#6b7280;line-height:1.5">Sa a louvri paj admin MyPlopPlop yo (chofè, machann, kòmand) pou nimewo sa a. Se sèl fason pou vin administratè. Bay tèt ou dwa a anvan tout moun.</p>
+      <input id="gaPhone" placeholder="+50931234567" style="width:100%;padding:11px;border:1px solid #d1d5db;border-radius:9px;margin-bottom:10px;font-size:15px">
+      <button id="gaBtn" onclick="secGrantAdmin()" style="width:100%;padding:12px;border:none;border-radius:9px;background:#0f9d55;color:#fff;font-weight:800;font-size:15px;cursor:pointer">Bay dwa administratè</button>
+      <div id="gaMsg" style="font-size:13px;font-weight:700;margin-top:8px;min-height:18px"></div>
+      <div id="gaList" style="font-size:12px;color:#6b7280;margin-top:8px;line-height:1.6"></div>
     </div>
 
     <button onclick="secClose()" style="width:100%;padding:12px;border:1px solid #d1d5db;border-radius:9px;background:#fff;font-weight:700;font-size:15px;cursor:pointer">Fèmen</button>
