@@ -45,6 +45,9 @@ button,input{font-family:var(--body)}
 .verdict.ok{background:linear-gradient(160deg,#1B8C3D,#12692c)}
 .verdict.no{background:linear-gradient(160deg,#D21034,#9c0a26)}
 .verdict.wait{background:linear-gradient(160deg,#5A6B8A,#3d4a63)}
+/* Amber, not red: a ticket scanned twice in ten seconds is usually the same
+   doorman, and a red screen there teaches people to ignore red screens. */
+.verdict.warn{background:linear-gradient(160deg,#D4A017,#a37605)}
 .mark{width:78px;height:78px;border-radius:50%;background:rgba(255,255,255,.16);
   border:3px solid rgba(255,255,255,.5);display:flex;align-items:center;
   justify-content:center;font-size:2.5rem;line-height:1}
@@ -71,6 +74,27 @@ button,input{font-family:var(--body)}
 .manual input:focus{outline:none;border-color:var(--blue)}
 .manual button{background:var(--blue);color:#fff;border:none;border-radius:10px;
   padding:12px 18px;font-weight:800;font-size:.9rem;cursor:pointer;white-space:nowrap}
+.door{margin:0 16px 8px}
+.door .bar{display:flex;align-items:center;justify-content:space-between;gap:10px;
+  background:var(--white);border:1px solid var(--border);border-radius:var(--radius);
+  padding:11px 14px}
+.door .bar.on{border-color:var(--green);background:#F1FAF3}
+.door .state{font-size:.78rem;font-weight:800;color:var(--text-light)}
+.door .bar.on .state{color:var(--green)}
+.door .bar button{border:1.5px solid var(--border);background:var(--white);color:var(--text);
+  border-radius:9px;padding:8px 13px;font-size:.78rem;font-weight:800;cursor:pointer}
+.door .bar.on button{border-color:var(--green);color:var(--green)}
+.door .unlock{display:none;margin-top:9px}
+.door .unlock.show{display:block}
+.door .unlock label{display:block;font-size:.75rem;font-weight:700;color:var(--text-light);margin-bottom:7px}
+.door .unlock .inp{display:flex;gap:8px}
+.door .unlock input{flex:1;min-width:0;border:1.5px solid var(--border);border-radius:10px;
+  padding:12px 13px;font-size:1rem;font-family:var(--mono);text-transform:uppercase}
+.door .unlock input:focus{outline:none;border-color:var(--green)}
+.door .unlock button{background:var(--green);color:#fff;border:none;border-radius:10px;
+  padding:12px 18px;font-weight:800;font-size:.9rem;cursor:pointer;white-space:nowrap}
+.door .err{color:var(--red);font-size:.75rem;font-weight:700;margin-top:7px;display:none}
+.door .err.show{display:block}
 .foot{margin-top:auto;padding:18px 16px 26px;text-align:center;
   font-size:.72rem;color:var(--text-muted);line-height:1.6}
 .spin{width:34px;height:34px;border:3px solid rgba(255,255,255,.3);
@@ -78,7 +102,7 @@ button,input{font-family:var(--body)}
 @keyframes sp{to{transform:rotate(360deg)}}
 @media(min-width:560px){
   .verdict h1{font-size:2.6rem}
-  .card,.manual{max-width:520px;margin-left:auto;margin-right:auto}
+  .card,.manual,.door{max-width:520px;margin-left:auto;margin-right:auto}
 }
 </style>
 </head>
@@ -110,8 +134,23 @@ button,input{font-family:var(--body)}
   </div>
 </div>
 
+<div class="door">
+  <div class="bar" id="doorBar">
+    <span class="state" id="doorState" data-i18n="doorOff">Mòd Pòt: Etenn</span>
+    <button id="doorBtn" onclick="toggleDoor()" data-i18n="btnDoorOn">Limen</button>
+  </div>
+  <div class="unlock" id="doorUnlock">
+    <label data-i18n="doorCodeLabel">Antre kòd pòt evènman an</label>
+    <div class="inp">
+      <input id="doorInput" placeholder="XXXXXX" autocomplete="off" autocapitalize="characters" spellcheck="false">
+      <button onclick="unlockDoor()" data-i18n="btnUnlock">Louvri</button>
+    </div>
+    <div class="err" id="doorErr" data-i18n="badCodeSub">Kòd sa a pa bon.</div>
+  </div>
+</div>
+
 <div class="foot">
-  <span data-i18n="footNote">Paj sa a sèlman li tikè a. Li pa chanje anyen.</span>
+  <span id="footNote" data-i18n="footNote">Paj sa a sèlman li tikè a. Li pa chanje anyen.</span>
 </div>
 
 <script>
@@ -130,7 +169,15 @@ var I18N = {
         manualLabel:'Oswa antre referans lan alamen', btnCheck:'Verifye',
         footNote:'Paj sa a sèlman li tikè a. Li pa chanje anyen.',
         lEvent:'Evènman', lDate:'Dat', lPlace:'Kote', lName:'Non', lType:'Tip Tikè',
-        lQty:'Kantite', lRef:'Referans', lPaid:'Peye', lAmount:'Total' },
+        lQty:'Kantite', lRef:'Referans', lPaid:'Peye', lAmount:'Total',
+        doorOff:'Mòd Pòt: Etenn', doorOn:'Mòd Pòt: Limen', btnDoorOn:'Limen', btnDoorOff:'Etenn',
+        doorCodeLabel:'Antre kòd pòt evènman an', btnUnlock:'Louvri',
+        badCode:'KÒD LA PA BON', badCodeSub:'Kòd sa a pa bon. Mande òganizatè a kòd pòt la.',
+        okIn:'BON — LI ANTRE', okInSub:'Nou make tikè a kòm itilize. Kite moun nan antre.',
+        usedNow:'YO FÈK SÈVI AVÈ L', usedNowSub:'Se ou menm ki fèk eskane l. Menm moun nan — kite l antre.',
+        used:'YO DEJA SÈVI AVÈ L', usedSub:'Yo te deja antre ak tikè sa a. Pa kite yon dezyèm moun antre.',
+        footNoteDoor:'Mòd Pòt limen: chak tikè ou eskane ap make kòm itilize.',
+        lUsed:'Itilize', lUsedBy:'Nan pòt la', lScans:'Konbyen fwa eskane' },
   fr: { doorTitle:'Contrôle Entrée', checking:'Vérification...', ok:'VALIDE — LAISSEZ ENTRER',
         notPaid:'NON PAYÉ', notFound:'BILLET INTROUVABLE', failed:'PAIEMENT ÉCHOUÉ',
         refunded:'REMBOURSÉ', error:'VÉRIFICATION IMPOSSIBLE',
@@ -143,7 +190,15 @@ var I18N = {
         manualLabel:'Ou saisissez la référence manuellement', btnCheck:'Vérifier',
         footNote:'Cette page lit seulement le billet. Elle ne change rien.',
         lEvent:'Événement', lDate:'Date', lPlace:'Lieu', lName:'Nom', lType:'Type de billet',
-        lQty:'Quantité', lRef:'Référence', lPaid:'Payé le', lAmount:'Total' },
+        lQty:'Quantité', lRef:'Référence', lPaid:'Payé le', lAmount:'Total',
+        doorOff:'Mode Entrée : éteint', doorOn:'Mode Entrée : activé', btnDoorOn:'Activer', btnDoorOff:'Éteindre',
+        doorCodeLabel:'Saisissez le code d\'entrée de l\'événement', btnUnlock:'Ouvrir',
+        badCode:'CODE INCORRECT', badCodeSub:'Ce code n\'est pas valable. Demandez le code d\'entrée à l\'organisateur.',
+        okIn:'VALIDE — ENTRÉE ENREGISTRÉE', okInSub:'Le billet est marqué utilisé. Laissez la personne entrer.',
+        usedNow:'VOUS VENEZ DE LE SCANNER', usedNowSub:'C\'est vous qui venez de le scanner. Même personne — laissez entrer.',
+        used:'DÉJÀ UTILISÉ', usedSub:'Quelqu\'un est déjà entré avec ce billet. Ne laissez pas entrer une deuxième personne.',
+        footNoteDoor:'Mode Entrée activé : chaque billet scanné est marqué utilisé.',
+        lUsed:'Utilisé', lUsedBy:'À l\'entrée', lScans:'Nombre de scans' },
   en: { doorTitle:'Door Check', checking:'Checking...', ok:'VALID — LET THEM IN',
         notPaid:'NOT PAID', notFound:'NO SUCH TICKET', failed:'PAYMENT FAILED',
         refunded:'REFUNDED', error:'CANNOT VERIFY',
@@ -156,7 +211,15 @@ var I18N = {
         manualLabel:'Or type the reference by hand', btnCheck:'Check',
         footNote:'This page only reads the ticket. It changes nothing.',
         lEvent:'Event', lDate:'Date', lPlace:'Place', lName:'Name', lType:'Ticket type',
-        lQty:'Quantity', lRef:'Reference', lPaid:'Paid', lAmount:'Total' }
+        lQty:'Quantity', lRef:'Reference', lPaid:'Paid', lAmount:'Total',
+        doorOff:'Door mode: off', doorOn:'Door mode: on', btnDoorOn:'Turn on', btnDoorOff:'Turn off',
+        doorCodeLabel:'Enter the event door code', btnUnlock:'Unlock',
+        badCode:'WRONG CODE', badCodeSub:'That code is not valid. Ask the organiser for the door code.',
+        okIn:'VALID — CHECKED IN', okInSub:'The ticket is now marked used. Let the person in.',
+        usedNow:'YOU JUST SCANNED THIS', usedNowSub:'You scanned it a moment ago. Same person — let them in.',
+        used:'ALREADY USED', usedSub:'Somebody already came in on this ticket. Do not let a second person in.',
+        footNoteDoor:'Door mode is on: every ticket you scan is marked used.',
+        lUsed:'Used', lUsedBy:'At the door', lScans:'Times scanned' }
 };
 var lang = (localStorage.getItem('tl_lang') || 'ht');
 if (!I18N[lang]) lang = 'ht';
@@ -188,7 +251,7 @@ function setVerdict(kind, headKey, subKey) {
   var v = document.getElementById('verdict');
   v.className = 'verdict ' + kind;
   document.getElementById('mark').innerHTML =
-    kind === 'ok' ? '&#10003;' : (kind === 'no' ? '&#10005;' : '?');
+    kind === 'ok' ? '&#10003;' : (kind === 'no' ? '&#10005;' : (kind === 'warn' ? '!' : '?'));
   var h = document.getElementById('headline');
   h.setAttribute('data-i18n', headKey);
   h.textContent = t(headKey);
@@ -227,9 +290,93 @@ function esc(s) {
     .replace(/>/g,'&gt;').replace(/"/g,'&quot;');
 }
 
+/* ---------------------------------------------------------------------------
+   Door mode.
+
+   Looking at a ticket and spending it are two different acts, so they are two
+   buttons and two routes. With door mode off this page reads and changes
+   nothing, which is why anybody may open it. With door mode on - which takes
+   the event's door code, typed once and kept on this phone - every scan marks
+   the ticket used, and the next phone to see the same QR code is told so.
+
+   Kept on the phone in localStorage on purpose: the doorman scans with the
+   camera, which reopens this page from scratch for every single ticket. Asking
+   for the code each time would mean it was never used.
+   --------------------------------------------------------------------------- */
+var doorCode = localStorage.getItem('tl_door_code') || '';
+
+function doorOn() { return !!doorCode; }
+
+function paintDoor() {
+  var bar = document.getElementById('doorBar');
+  var state = document.getElementById('doorState');
+  var btn = document.getElementById('doorBtn');
+  var foot = document.getElementById('footNote');
+  bar.classList.toggle('on', doorOn());
+  state.setAttribute('data-i18n', doorOn() ? 'doorOn' : 'doorOff');
+  state.textContent = t(doorOn() ? 'doorOn' : 'doorOff');
+  btn.setAttribute('data-i18n', doorOn() ? 'btnDoorOff' : 'btnDoorOn');
+  btn.textContent = t(doorOn() ? 'btnDoorOff' : 'btnDoorOn');
+  foot.setAttribute('data-i18n', doorOn() ? 'footNoteDoor' : 'footNote');
+  foot.textContent = t(doorOn() ? 'footNoteDoor' : 'footNote');
+}
+
+function toggleDoor() {
+  if (doorOn()) {
+    doorCode = '';
+    localStorage.removeItem('tl_door_code');
+    document.getElementById('doorUnlock').classList.remove('show');
+    document.getElementById('doorErr').classList.remove('show');
+    paintDoor();
+    return;
+  }
+  var u = document.getElementById('doorUnlock');
+  u.classList.toggle('show');
+  if (u.classList.contains('show')) document.getElementById('doorInput').focus();
+}
+
+function unlockDoor() {
+  var v = document.getElementById('doorInput').value.trim().toUpperCase();
+  if (!v) return;
+  doorCode = v;
+  localStorage.setItem('tl_door_code', v);
+  document.getElementById('doorInput').value = '';
+  document.getElementById('doorUnlock').classList.remove('show');
+  document.getElementById('doorErr').classList.remove('show');
+  paintDoor();
+  /* The code is not checked here - there is nothing on this phone that could
+     check it. It is proved by the first scan, and a wrong one turns door mode
+     back off with a message rather than quietly failing to admit anybody. */
+  if (currentRef) check(currentRef);
+}
+document.getElementById('doorInput').addEventListener('keydown', function(e) {
+  if (e.key === 'Enter') unlockDoor();
+});
+
 function show(data) {
   lastData = data;
-  if (data.valid) setVerdict('ok', 'ok', 'okSub');
+  if (data.reason === 'bad_code') {
+    doorCode = '';
+    localStorage.removeItem('tl_door_code');
+    paintDoor();
+    document.getElementById('doorErr').classList.add('show');
+    document.getElementById('doorUnlock').classList.add('show');
+    setVerdict('no', 'badCode', 'badCodeSub');
+    document.getElementById('details').style.display = 'none';
+    applyI18n();
+    return;
+  }
+  if (data.valid && data.firstUse === true) setVerdict('ok', 'okIn', 'okInSub');
+  else if (data.valid && data.firstUse === false) {
+    // Under a minute and a half is almost always the same doorman scanning
+    // twice, or the page reloading, not a second person on a copied ticket.
+    if (data.secondsAgo !== null && data.secondsAgo < 90) setVerdict('warn', 'usedNow', 'usedNowSub');
+    else setVerdict('no', 'used', 'usedSub');
+  }
+  // Read-only mode still has to say a ticket has been spent, or a doorman with
+  // door mode off would wave through the second person holding the same photo.
+  else if (data.valid && data.used) setVerdict('no', 'used', 'usedSub');
+  else if (data.valid) setVerdict('ok', 'ok', 'okSub');
   else if (data.reason === 'not_found') setVerdict('no', 'notFound', 'notFoundSub');
   else if (data.reason === 'failed') setVerdict('no', 'failed', 'notPaidSub');
   else if (data.reason === 'refunded') setVerdict('no', 'refunded', 'notPaidSub');
@@ -251,6 +398,11 @@ function show(data) {
   html += row(t('lQty'), esc(data.qty));
   html += row(t('lAmount'), data.totalAmount ? 'HTG ' + esc(data.totalAmount) : '');
   html += row(t('lPaid'), esc(formatWhen(data.paidAt)));
+  if (data.used) {
+    html += row(t('lUsed'), esc(formatWhen(data.usedAt)));
+    html += row(t('lUsedBy'), esc(data.usedBy));
+    if (data.useCount > 1) html += row(t('lScans'), esc(data.useCount));
+  }
   html += refRow(t('lRef'), esc(data.referenceId));
   document.getElementById('rows').innerHTML = html;
   document.getElementById('details').style.display = '';
@@ -270,7 +422,12 @@ function check(ref) {
   setVerdict('wait', 'checking', '');
   document.getElementById('mark').innerHTML = '<div class="spin"></div>';
   document.getElementById('details').style.display = 'none';
-  fetch(API_URL + '/api/payments/check/' + encodeURIComponent(ref))
+  var url = API_URL + '/api/payments/check/' + encodeURIComponent(ref);
+  var opts = doorOn()
+    ? { method:'POST', headers:{ 'Content-Type':'application/json', 'X-Door-Code': doorCode }, body:'{}' }
+    : { method:'GET' };
+  if (doorOn()) url += '/use';
+  fetch(url, opts)
     .then(function(r) { return r.json(); })
     .then(function(d) { show(d); })
     .catch(function() { show({ valid:false, reason:'error' }); });
@@ -287,6 +444,7 @@ document.getElementById('refInput').addEventListener('keydown', function(e) {
 });
 
 applyI18n();
+paintDoor();
 (function start() {
   var ref = new URLSearchParams(window.location.search).get('ref');
   if (!ref) { idle(); return; }
