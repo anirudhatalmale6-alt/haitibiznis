@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="ht">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Kontwòl Tikè — Tikè Lakay</title>
+<meta name="description" content="Paj kontwòl pou moun ki nan pòt la. Li tikè a epi di si li bon.">
+<meta name="theme-color" content="#00209F">
+<meta name="robots" content="noindex">
+<link rel="icon" type="image/x-icon" href="favicon.ico">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --blue:#00209F;--red:#D21034;--green:#1B8C3D;--gold:#D4A017;
+  --white:#FFFFFF;--off-white:#F5F7FA;
+  --dark:#0A0E1A;--text:#1A2A4A;--text-light:#5A6B8A;--text-muted:#8A95AA;
+  --border:#E2E8F0;
+  --body:'Plus Jakarta Sans',system-ui,sans-serif;
+  --display:'DM Serif Display',Georgia,serif;
+  --mono:'JetBrains Mono',monospace;
+  --radius:14px;
+}
+body{font-family:var(--body);background:var(--off-white);color:var(--text);
+  -webkit-font-smoothing:antialiased;min-height:100vh;display:flex;flex-direction:column}
+a{text-decoration:none;color:inherit}
+button,input{font-family:var(--body)}
+.flag-stripe{height:4px;background:linear-gradient(90deg,var(--blue) 50%,var(--red) 50%)}
+
+.topbar{background:var(--white);border-bottom:1px solid var(--border);
+  padding:10px 16px;display:flex;align-items:center;justify-content:space-between;gap:10px}
+.brand{font-family:var(--display);font-size:1rem;color:var(--dark)}
+.brand em{color:var(--red);font-style:italic}
+.langs{display:flex;gap:4px}
+.langs button{border:1px solid var(--border);background:var(--white);color:var(--text-light);
+  border-radius:999px;padding:4px 9px;font-size:.7rem;font-weight:700;cursor:pointer}
+.langs button.on{background:var(--blue);border-color:var(--blue);color:#fff}
+
+/* The verdict has to be readable at arm's length, outdoors, in a hurry.
+   It is the whole top of the screen and it is one word. */
+.verdict{padding:34px 20px 30px;text-align:center;color:#fff;
+  display:flex;flex-direction:column;align-items:center;gap:10px}
+.verdict.ok{background:linear-gradient(160deg,#1B8C3D,#12692c)}
+.verdict.no{background:linear-gradient(160deg,#D21034,#9c0a26)}
+.verdict.wait{background:linear-gradient(160deg,#5A6B8A,#3d4a63)}
+.mark{width:78px;height:78px;border-radius:50%;background:rgba(255,255,255,.16);
+  border:3px solid rgba(255,255,255,.5);display:flex;align-items:center;
+  justify-content:center;font-size:2.5rem;line-height:1}
+.verdict h1{font-size:2.1rem;font-weight:900;letter-spacing:-.5px;line-height:1}
+.verdict p{font-size:.95rem;font-weight:600;opacity:.92;max-width:22rem}
+
+.card{background:var(--white);margin:16px;border-radius:var(--radius);
+  border:1px solid var(--border);overflow:hidden}
+.card h2{font-size:.7rem;font-weight:800;letter-spacing:.12em;text-transform:uppercase;
+  color:var(--text-muted);padding:14px 16px 0}
+.rows{padding:8px 16px 14px}
+.row{display:flex;justify-content:space-between;align-items:baseline;gap:14px;
+  padding:9px 0;border-bottom:1px solid #F0F3F7}
+.row:last-child{border-bottom:none}
+.row .k{font-size:.78rem;color:var(--text-light);font-weight:600;flex-shrink:0}
+.row .v{font-size:.95rem;font-weight:700;text-align:right;word-break:break-word}
+.row .v.ref{font-family:var(--mono);font-size:.85rem;letter-spacing:.02em}
+
+.manual{margin:0 16px 24px}
+.manual label{display:block;font-size:.78rem;font-weight:700;color:var(--text-light);margin-bottom:7px}
+.manual .inp{display:flex;gap:8px}
+.manual input{flex:1;min-width:0;border:1.5px solid var(--border);border-radius:10px;
+  padding:12px 13px;font-size:1rem;font-family:var(--mono);text-transform:uppercase}
+.manual input:focus{outline:none;border-color:var(--blue)}
+.manual button{background:var(--blue);color:#fff;border:none;border-radius:10px;
+  padding:12px 18px;font-weight:800;font-size:.9rem;cursor:pointer;white-space:nowrap}
+.foot{margin-top:auto;padding:18px 16px 26px;text-align:center;
+  font-size:.72rem;color:var(--text-muted);line-height:1.6}
+.spin{width:34px;height:34px;border:3px solid rgba(255,255,255,.3);
+  border-top-color:#fff;border-radius:50%;animation:sp .8s linear infinite}
+@keyframes sp{to{transform:rotate(360deg)}}
+@media(min-width:560px){
+  .verdict h1{font-size:2.6rem}
+  .card,.manual{max-width:520px;margin-left:auto;margin-right:auto}
+}
+</style>
+</head>
+<body>
+<div class="flag-stripe"></div>
+<div class="topbar">
+  <span class="brand">Tikè <em>Lakay</em> — <span data-i18n="doorTitle">Kontwòl Pòt</span></span>
+  <div class="langs">
+    <button data-lang="ht">HT</button><button data-lang="fr">FR</button><button data-lang="en">EN</button>
+  </div>
+</div>
+
+<div class="verdict wait" id="verdict">
+  <div class="mark" id="mark"><div class="spin"></div></div>
+  <h1 id="headline" data-i18n="checking">Ap verifye...</h1>
+  <p id="subline"></p>
+</div>
+
+<div class="card" id="details" style="display:none">
+  <h2 data-i18n="ticketDetails">Detay Tikè A</h2>
+  <div class="rows" id="rows"></div>
+</div>
+
+<div class="manual">
+  <label data-i18n="manualLabel">Oswa antre referans lan alamen</label>
+  <div class="inp">
+    <input id="refInput" placeholder="TL-XXXXXXXXXX" autocomplete="off" autocapitalize="characters" spellcheck="false">
+    <button onclick="go()" data-i18n="btnCheck">Verifye</button>
+  </div>
+</div>
+
+<div class="foot">
+  <span data-i18n="footNote">Paj sa a sèlman li tikè a. Li pa chanje anyen.</span>
+</div>
+
+<script>
+var API_URL = 'https://haitibiznis-api.onrender.com';
+
+var I18N = {
+  ht: { doorTitle:'Kontwòl Pòt', checking:'Ap verifye...', ok:'BON — KITE L ANTRE',
+        notPaid:'PA PEYE', notFound:'TIKÈ SA A PA EGZISTE', failed:'PEMAN AN ECHWE',
+        refunded:'YO REMBOUSE L', error:'PA KA VERIFYE',
+        okSub:'Tikè sa a peye. Kite moun nan antre.',
+        notPaidSub:'Nou pa jwenn peman an. Pa kite l antre san ou pa tcheke ak òganizatè a.',
+        notFoundSub:'Okenn tikè pa gen referans sa a. Verifye si w byen li kòd la.',
+        errorSub:'Nou pa rive jwenn sèvè a. Eseye ankò nan yon ti moman.',
+        noRefSub:'Eskane QR code ki sou tikè a, oswa antre referans lan anba a.',
+        noRef:'ANTRE YON REFERANS', ticketDetails:'Detay Tikè A',
+        manualLabel:'Oswa antre referans lan alamen', btnCheck:'Verifye',
+        footNote:'Paj sa a sèlman li tikè a. Li pa chanje anyen.',
+        lEvent:'Evènman', lDate:'Dat', lPlace:'Kote', lName:'Non', lType:'Tip Tikè',
+        lQty:'Kantite', lRef:'Referans', lPaid:'Peye', lAmount:'Total' },
+  fr: { doorTitle:'Contrôle Entrée', checking:'Vérification...', ok:'VALIDE — LAISSEZ ENTRER',
+        notPaid:'NON PAYÉ', notFound:'BILLET INTROUVABLE', failed:'PAIEMENT ÉCHOUÉ',
+        refunded:'REMBOURSÉ', error:'VÉRIFICATION IMPOSSIBLE',
+        okSub:'Ce billet est payé. Laissez la personne entrer.',
+        notPaidSub:'Le paiement n\'a pas été trouvé. Ne laissez pas entrer sans vérifier avec l\'organisateur.',
+        notFoundSub:'Aucun billet ne porte cette référence. Vérifiez le code.',
+        errorSub:'Le serveur est injoignable. Réessayez dans un instant.',
+        noRefSub:'Scannez le QR code du billet, ou saisissez la référence ci-dessous.',
+        noRef:'SAISISSEZ UNE RÉFÉRENCE', ticketDetails:'Détails du billet',
+        manualLabel:'Ou saisissez la référence manuellement', btnCheck:'Vérifier',
+        footNote:'Cette page lit seulement le billet. Elle ne change rien.',
+        lEvent:'Événement', lDate:'Date', lPlace:'Lieu', lName:'Nom', lType:'Type de billet',
+        lQty:'Quantité', lRef:'Référence', lPaid:'Payé le', lAmount:'Total' },
+  en: { doorTitle:'Door Check', checking:'Checking...', ok:'VALID — LET THEM IN',
+        notPaid:'NOT PAID', notFound:'NO SUCH TICKET', failed:'PAYMENT FAILED',
+        refunded:'REFUNDED', error:'CANNOT VERIFY',
+        okSub:'This ticket is paid. Let the person in.',
+        notPaidSub:'We could not find the payment. Do not let them in without checking with the organiser.',
+        notFoundSub:'No ticket has this reference. Check the code.',
+        errorSub:'We could not reach the server. Try again in a moment.',
+        noRefSub:'Scan the QR code on the ticket, or type the reference below.',
+        noRef:'ENTER A REFERENCE', ticketDetails:'Ticket details',
+        manualLabel:'Or type the reference by hand', btnCheck:'Check',
+        footNote:'This page only reads the ticket. It changes nothing.',
+        lEvent:'Event', lDate:'Date', lPlace:'Place', lName:'Name', lType:'Ticket type',
+        lQty:'Quantity', lRef:'Reference', lPaid:'Paid', lAmount:'Total' }
+};
+var lang = (localStorage.getItem('tl_lang') || 'ht');
+if (!I18N[lang]) lang = 'ht';
+function t(k) { return (I18N[lang] && I18N[lang][k]) || I18N.ht[k] || k; }
+
+function applyI18n() {
+  document.querySelectorAll('[data-i18n]').forEach(function(el) {
+    el.textContent = t(el.getAttribute('data-i18n'));
+  });
+  document.querySelectorAll('.langs button').forEach(function(b) {
+    b.classList.toggle('on', b.getAttribute('data-lang') === lang);
+  });
+  document.documentElement.lang = lang;
+}
+document.querySelectorAll('.langs button').forEach(function(b) {
+  b.addEventListener('click', function() {
+    lang = b.getAttribute('data-lang');
+    localStorage.setItem('tl_lang', lang);
+    applyI18n();
+    if (lastData) show(lastData); else if (!currentRef) idle();
+  });
+});
+
+/* The verdict lines carry data-i18n so a language switch re-translates them,
+   which means the key has to be MOVED, not just the text: leaving the markup's
+   original key in place made applyI18n() paint "Ap verifye..." back over every
+   answer, so the door saw the same screen whatever the ticket said. */
+function setVerdict(kind, headKey, subKey) {
+  var v = document.getElementById('verdict');
+  v.className = 'verdict ' + kind;
+  document.getElementById('mark').innerHTML =
+    kind === 'ok' ? '&#10003;' : (kind === 'no' ? '&#10005;' : '?');
+  var h = document.getElementById('headline');
+  h.setAttribute('data-i18n', headKey);
+  h.textContent = t(headKey);
+  var s = document.getElementById('subline');
+  if (subKey) { s.setAttribute('data-i18n', subKey); s.textContent = t(subKey); }
+  else { s.removeAttribute('data-i18n'); s.textContent = ''; }
+}
+
+function formatDate(d) {
+  if (!d) return '';
+  try {
+    var dt = new Date(d + 'T00:00:00');
+    if (isNaN(dt)) return d;
+    return dt.toLocaleDateString(lang === 'en' ? 'en-GB' : 'fr-FR',
+      { day:'numeric', month:'long', year:'numeric' });
+  } catch (e) { return d; }
+}
+function formatWhen(iso) {
+  if (!iso) return '';
+  try { return new Date(iso).toLocaleString(lang === 'en' ? 'en-GB' : 'fr-FR'); }
+  catch (e) { return iso; }
+}
+
+var lastData = null;
+var currentRef = '';
+
+function row(k, v) {
+  if (v === '' || v === null || v === undefined) return '';
+  return '<div class="row"><span class="k">' + k + '</span><span class="v">' + v + '</span></div>';
+}
+function refRow(k, v) {
+  return '<div class="row"><span class="k">' + k + '</span><span class="v ref">' + v + '</span></div>';
+}
+function esc(s) {
+  return String(s == null ? '' : s).replace(/&/g,'&amp;').replace(/</g,'&lt;')
+    .replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+
+function show(data) {
+  lastData = data;
+  if (data.valid) setVerdict('ok', 'ok', 'okSub');
+  else if (data.reason === 'not_found') setVerdict('no', 'notFound', 'notFoundSub');
+  else if (data.reason === 'failed') setVerdict('no', 'failed', 'notPaidSub');
+  else if (data.reason === 'refunded') setVerdict('no', 'refunded', 'notPaidSub');
+  else if (data.reason === 'error') setVerdict('wait', 'error', 'errorSub');
+  else setVerdict('no', 'notPaid', 'notPaidSub');
+
+  if (data.reason === 'not_found' || data.reason === 'error') {
+    document.getElementById('details').style.display = 'none';
+    applyI18n();
+    return;
+  }
+  var ev = data.event || {};
+  var html = '';
+  html += row(t('lEvent'), esc(ev.title));
+  html += row(t('lDate'), esc(formatDate(ev.date)));
+  html += row(t('lPlace'), esc(ev.location));
+  html += row(t('lName'), esc(data.buyerName));
+  html += row(t('lType'), esc(data.ticketName));
+  html += row(t('lQty'), esc(data.qty));
+  html += row(t('lAmount'), data.totalAmount ? 'HTG ' + esc(data.totalAmount) : '');
+  html += row(t('lPaid'), esc(formatWhen(data.paidAt)));
+  html += refRow(t('lRef'), esc(data.referenceId));
+  document.getElementById('rows').innerHTML = html;
+  document.getElementById('details').style.display = '';
+  applyI18n();
+}
+
+function idle() {
+  lastData = null;
+  setVerdict('wait', 'noRef', 'noRefSub');
+  document.getElementById('mark').innerHTML = '&#9776;';
+  document.getElementById('details').style.display = 'none';
+  applyI18n();
+}
+
+function check(ref) {
+  currentRef = ref;
+  setVerdict('wait', 'checking', '');
+  document.getElementById('mark').innerHTML = '<div class="spin"></div>';
+  document.getElementById('details').style.display = 'none';
+  fetch(API_URL + '/api/payments/check/' + encodeURIComponent(ref))
+    .then(function(r) { return r.json(); })
+    .then(function(d) { show(d); })
+    .catch(function() { show({ valid:false, reason:'error' }); });
+}
+
+function go() {
+  var v = document.getElementById('refInput').value.trim().toUpperCase();
+  if (!v) return;
+  history.replaceState(null, '', 'check.html?ref=' + encodeURIComponent(v));
+  check(v);
+}
+document.getElementById('refInput').addEventListener('keydown', function(e) {
+  if (e.key === 'Enter') go();
+});
+
+applyI18n();
+(function start() {
+  var ref = new URLSearchParams(window.location.search).get('ref');
+  if (!ref) { idle(); return; }
+  document.getElementById('refInput').value = ref;
+  check(ref);
+})();
+</script>
+</body>
+</html>
