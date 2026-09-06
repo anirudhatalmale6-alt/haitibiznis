@@ -151,6 +151,7 @@ button,input{font-family:var(--body)}
 
 <div class="foot">
   <span id="footNote" data-i18n="footNote">Paj sa a sèlman li tikè a. Li pa chanje anyen.</span>
+  <br><a href="door-code.html" style="color:var(--blue);font-weight:700" data-i18n="getCode">Òganizatè? Jwenn kòd pòt evènman w lan</a>
 </div>
 
 <script>
@@ -177,6 +178,7 @@ var I18N = {
         usedNow:'YO FÈK SÈVI AVÈ L', usedNowSub:'Se ou menm ki fèk eskane l. Menm moun nan — kite l antre.',
         used:'YO DEJA SÈVI AVÈ L', usedSub:'Yo te deja antre ak tikè sa a. Pa kite yon dezyèm moun antre.',
         footNoteDoor:'Mòd Pòt limen: chak tikè ou eskane ap make kòm itilize.',
+        getCode:'Òganizatè? Jwenn kòd pòt evènman w lan',
         lUsed:'Itilize', lUsedBy:'Nan pòt la', lScans:'Konbyen fwa eskane' },
   fr: { doorTitle:'Contrôle Entrée', checking:'Vérification...', ok:'VALIDE — LAISSEZ ENTRER',
         notPaid:'NON PAYÉ', notFound:'BILLET INTROUVABLE', failed:'PAIEMENT ÉCHOUÉ',
@@ -198,6 +200,7 @@ var I18N = {
         usedNow:'VOUS VENEZ DE LE SCANNER', usedNowSub:'C\'est vous qui venez de le scanner. Même personne — laissez entrer.',
         used:'DÉJÀ UTILISÉ', usedSub:'Quelqu\'un est déjà entré avec ce billet. Ne laissez pas entrer une deuxième personne.',
         footNoteDoor:'Mode Entrée activé : chaque billet scanné est marqué utilisé.',
+        getCode:'Organisateur ? Obtenez le code d\'entrée de votre événement',
         lUsed:'Utilisé', lUsedBy:'À l\'entrée', lScans:'Nombre de scans' },
   en: { doorTitle:'Door Check', checking:'Checking...', ok:'VALID — LET THEM IN',
         notPaid:'NOT PAID', notFound:'NO SUCH TICKET', failed:'PAYMENT FAILED',
@@ -219,6 +222,7 @@ var I18N = {
         usedNow:'YOU JUST SCANNED THIS', usedNowSub:'You scanned it a moment ago. Same person — let them in.',
         used:'ALREADY USED', usedSub:'Somebody already came in on this ticket. Do not let a second person in.',
         footNoteDoor:'Door mode is on: every ticket you scan is marked used.',
+        getCode:'Organiser? Get your event\'s door code',
         lUsed:'Used', lUsedBy:'At the door', lScans:'Times scanned' }
 };
 var lang = (localStorage.getItem('tl_lang') || 'ht');

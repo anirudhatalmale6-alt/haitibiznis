@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html lang="ht">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Kòd Pòt — Tikè Lakay</title>
+<meta name="description" content="Jwenn kòd pòt yon evènman pou moun k ap kontwole tikè yo.">
+<meta name="theme-color" content="#00209F">
+<meta name="robots" content="noindex">
+<link rel="icon" type="image/x-icon" href="favicon.ico">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --blue:#00209F;--red:#D21034;--green:#1B8C3D;--gold:#D4A017;
+  --white:#FFFFFF;--off-white:#F5F7FA;
+  --dark:#0A0E1A;--text:#1A2A4A;--text-light:#5A6B8A;--text-muted:#8A95AA;
+  --border:#E2E8F0;
+  --body:'Plus Jakarta Sans',system-ui,sans-serif;
+  --display:'DM Serif Display',Georgia,serif;
+  --mono:'JetBrains Mono',monospace;
+  --radius:14px;
+}
+body{font-family:var(--body);background:var(--off-white);color:var(--text);
+  -webkit-font-smoothing:antialiased;min-height:100vh;display:flex;flex-direction:column}
+a{text-decoration:none;color:inherit}
+button,input{font-family:var(--body)}
+.flag-stripe{height:4px;background:linear-gradient(90deg,var(--blue) 50%,var(--red) 50%)}
+.topbar{background:var(--white);border-bottom:1px solid var(--border);
+  padding:10px 16px;display:flex;align-items:center;justify-content:space-between;gap:10px}
+.brand{font-family:var(--display);font-size:1rem;color:var(--dark)}
+.brand em{color:var(--red);font-style:italic}
+.langs{display:flex;gap:4px}
+.langs button{border:1px solid var(--border);background:var(--white);color:var(--text-light);
+  border-radius:999px;padding:4px 9px;font-size:.7rem;font-weight:700;cursor:pointer}
+.langs button.on{background:var(--blue);border-color:var(--blue);color:#fff}
+
+.intro{padding:20px 16px 6px}
+.intro h1{font-size:1.45rem;font-weight:900;letter-spacing:-.4px;margin-bottom:7px}
+.intro p{font-size:.86rem;color:var(--text-light);line-height:1.55;max-width:34rem}
+
+.wrap{padding:0 16px 20px}
+.ev{background:var(--white);border:1px solid var(--border);border-radius:var(--radius);
+  padding:14px 15px;margin-top:10px;display:flex;justify-content:space-between;
+  align-items:center;gap:12px;cursor:pointer;width:100%;text-align:left}
+.ev:active{border-color:var(--blue)}
+.ev .t{font-weight:800;font-size:.95rem;line-height:1.35}
+.ev .d{font-size:.76rem;color:var(--text-light);font-weight:600;margin-top:3px}
+.ev .go{color:var(--text-muted);font-size:1.2rem;flex-shrink:0}
+.empty{color:var(--text-muted);font-size:.85rem;padding:14px 0}
+
+.panel{background:var(--white);border:1px solid var(--border);border-radius:var(--radius);
+  padding:16px;margin-top:12px}
+.panel label{display:block;font-size:.78rem;font-weight:700;color:var(--text-light);margin-bottom:8px}
+.panel .inp{display:flex;gap:8px}
+.panel input{flex:1;min-width:0;border:1.5px solid var(--border);border-radius:10px;
+  padding:12px 13px;font-size:1rem;font-family:var(--mono);text-transform:uppercase}
+.panel input:focus{outline:none;border-color:var(--blue)}
+.panel .inp button{background:var(--blue);color:#fff;border:none;border-radius:10px;
+  padding:12px 18px;font-weight:800;font-size:.9rem;cursor:pointer;white-space:nowrap}
+.err{color:var(--red);font-size:.78rem;font-weight:700;margin-top:9px;display:none}
+.err.show{display:block}
+
+.code{background:linear-gradient(160deg,#1B8C3D,#12692c);color:#fff;border-radius:var(--radius);
+  padding:26px 18px;text-align:center;margin-top:12px}
+.code .for{font-size:.78rem;font-weight:700;opacity:.9}
+.code .val{font-family:var(--mono);font-size:2.7rem;font-weight:700;letter-spacing:.16em;
+  margin:10px 0 4px;word-break:break-all}
+.code .hint{font-size:.82rem;opacity:.92;line-height:1.5;max-width:24rem;margin:8px auto 0}
+.code button{margin-top:14px;background:rgba(255,255,255,.16);border:1.5px solid rgba(255,255,255,.55);
+  color:#fff;border-radius:10px;padding:10px 18px;font-weight:800;font-size:.85rem;cursor:pointer}
+.steps{margin-top:12px;background:var(--white);border:1px solid var(--border);
+  border-radius:var(--radius);padding:15px 16px}
+.steps h2{font-size:.7rem;font-weight:800;letter-spacing:.12em;text-transform:uppercase;
+  color:var(--text-muted);margin-bottom:9px}
+.steps ol{padding-left:19px}
+.steps li{font-size:.86rem;line-height:1.6;margin-bottom:5px}
+.back{display:inline-block;margin-top:14px;font-size:.82rem;font-weight:700;color:var(--blue);cursor:pointer}
+.foot{margin-top:auto;padding:18px 16px 26px;text-align:center;
+  font-size:.72rem;color:var(--text-muted);line-height:1.6}
+@media(min-width:560px){ .intro,.wrap{max-width:560px;margin-left:auto;margin-right:auto} }
+</style>
+</head>
+<body>
+<div class="flag-stripe"></div>
+<div class="topbar">
+  <span class="brand">Tikè <em>Lakay</em> — <span data-i18n="pageTitle">Kòd Pòt</span></span>
+  <div class="langs">
+    <button data-lang="ht">HT</button><button data-lang="fr">FR</button><button data-lang="en">EN</button>
+  </div>
+</div>
+
+<div class="intro">
+  <h1 data-i18n="h1">Kòd Pòt</h1>
+  <p data-i18n="lede">Chwazi evènman an. N ap ba ou yon kòd ou ka bay moun k ap kontwole tikè nan pòt la. Kòd sa a louvri yon sèl evènman — li pa touche lajan ou ni anyen lòt.</p>
+</div>
+
+<div class="wrap">
+  <div id="list"></div>
+  <div id="ask" style="display:none">
+    <div class="panel">
+      <label data-i18n="askLabel">Antre kòd konsòl ou a</label>
+      <div class="inp">
+        <input id="pin" type="password" autocomplete="off" autocapitalize="characters" spellcheck="false">
+        <button onclick="fetchCode()" data-i18n="btnGet">Jwenn kòd la</button>
+      </div>
+      <div class="err" id="err" data-i18n="errWrong">Kòd konsòl sa a pa bon.</div>
+    </div>
+    <span class="back" onclick="showList()" data-i18n="back">&#8592; Chanje evènman</span>
+  </div>
+  <div id="out" style="display:none">
+    <div class="code">
+      <div class="for" id="codeFor"></div>
+      <div class="val" id="codeVal"></div>
+      <div class="hint" data-i18n="codeHint">Bay moun ki nan pòt la kòd sa a.</div>
+      <button onclick="copyCode()" id="copyBtn" data-i18n="btnCopy">Kopye</button>
+    </div>
+    <div class="steps">
+      <h2 data-i18n="stepsTitle">Sa pou moun nan pòt la fè</h2>
+      <ol>
+        <li data-i18n="s1">Louvri haitibiznis.com/check.html sou telefòn li.</li>
+        <li data-i18n="s2">Anba paj la, peze "Limen" bò kote Mòd Pòt.</li>
+        <li data-i18n="s3">Antre kòd la epi peze Louvri. Li fè sa yon sèl fwa.</li>
+        <li data-i18n="s4">Kounye a, eskane QR code chak tikè ak kamera telefòn nan. Vèt vle di kite l antre. Wouj vle di non.</li>
+      </ol>
+    </div>
+    <span class="back" onclick="showList()" data-i18n="back">&#8592; Chanje evènman</span>
+  </div>
+</div>
+
+<div class="foot">
+  <span data-i18n="footNote">Pa pataje kòd konsòl ou a ak pèsonn. Kòd pòt la sèlman.</span>
+</div>
+
+<script>
+var API_URL = 'https://haitibiznis-api.onrender.com';
+
+var I18N = {
+  ht: { pageTitle:'Kòd Pòt', h1:'Kòd Pòt',
+        lede:'Chwazi evènman an. N ap ba ou yon kòd ou ka bay moun k ap kontwole tikè nan pòt la. Kòd sa a louvri yon sèl evènman — li pa touche lajan ou ni anyen lòt.',
+        askLabel:'Antre kòd konsòl ou a', btnGet:'Jwenn kòd la',
+        errWrong:'Kòd konsòl sa a pa bon.', errNet:'Nou pa rive jwenn sèvè a. Eseye ankò.',
+        back:'← Chanje evènman', codeFor:'Kòd pou',
+        codeHint:'Bay moun ki nan pòt la kòd sa a.', btnCopy:'Kopye', copied:'Kopye!',
+        stepsTitle:'Sa pou moun nan pòt la fè',
+        s1:'Louvri haitibiznis.com/check.html sou telefòn li.',
+        s2:'Anba paj la, peze "Limen" bò kote Mòd Pòt.',
+        s3:'Antre kòd la epi peze Louvri. Li fè sa yon sèl fwa.',
+        s4:'Kounye a, eskane QR code chak tikè ak kamera telefòn nan. Vèt vle di kite l antre. Wouj vle di non.',
+        footNote:'Pa pataje kòd konsòl ou a ak pèsonn. Kòd pòt la sèlman.',
+        loading:'Ap chaje evènman yo...', none:'Nou pa jwenn okenn evènman.' },
+  fr: { pageTitle:'Code d\'entrée', h1:'Code d\'entrée',
+        lede:'Choisissez l\'événement. Nous vous donnons un code à remettre à la personne qui contrôle les billets à l\'entrée. Ce code n\'ouvre qu\'un seul événement — il ne touche ni votre argent ni rien d\'autre.',
+        askLabel:'Saisissez votre code console', btnGet:'Obtenir le code',
+        errWrong:'Ce code console n\'est pas valable.', errNet:'Serveur injoignable. Réessayez.',
+        back:'← Changer d\'événement', codeFor:'Code pour',
+        codeHint:'Donnez ce code à la personne à l\'entrée.', btnCopy:'Copier', copied:'Copié !',
+        stepsTitle:'Ce que fait la personne à l\'entrée',
+        s1:'Elle ouvre haitibiznis.com/check.html sur son téléphone.',
+        s2:'En bas de la page, elle appuie sur « Activer » à côté de Mode Entrée.',
+        s3:'Elle saisit le code et appuie sur Ouvrir. Une seule fois.',
+        s4:'Ensuite elle scanne le QR code de chaque billet avec l\'appareil photo. Vert : laissez entrer. Rouge : non.',
+        footNote:'Ne partagez jamais votre code console. Uniquement le code d\'entrée.',
+        loading:'Chargement des événements...', none:'Aucun événement trouvé.' },
+  en: { pageTitle:'Door code', h1:'Door code',
+        lede:'Pick the event. We give you a code to hand to whoever checks tickets on the door. It opens that one event — it does not touch your money or anything else.',
+        askLabel:'Enter your console code', btnGet:'Get the code',
+        errWrong:'That console code is not valid.', errNet:'Could not reach the server. Try again.',
+        back:'← Change event', codeFor:'Code for',
+        codeHint:'Give this code to the person on the door.', btnCopy:'Copy', copied:'Copied!',
+        stepsTitle:'What the person on the door does',
+        s1:'Open haitibiznis.com/check.html on their phone.',
+        s2:'At the bottom of the page, tap "Turn on" next to Door mode.',
+        s3:'Type the code and tap Unlock. Once, not every time.',
+        s4:'Now scan each ticket\'s QR code with the phone camera. Green means let them in. Red means no.',
+        footNote:'Never share your console code. Only the door code.',
+        loading:'Loading events...', none:'No events found.' }
+};
+var lang = localStorage.getItem('tl_lang') || 'ht';
+if (!I18N[lang]) lang = 'ht';
+function t(k) { return (I18N[lang] && I18N[lang][k]) || I18N.ht[k] || k; }
+function applyI18n() {
+  document.querySelectorAll('[data-i18n]').forEach(function(el) {
+    el.textContent = t(el.getAttribute('data-i18n'));
+  });
+  document.querySelectorAll('.langs button').forEach(function(b) {
+    b.classList.toggle('on', b.getAttribute('data-lang') === lang);
+  });
+  document.documentElement.lang = lang;
+}
+document.querySelectorAll('.langs button').forEach(function(b) {
+  b.addEventListener('click', function() {
+    lang = b.getAttribute('data-lang');
+    localStorage.setItem('tl_lang', lang);
+    applyI18n();
+    renderList();
+    if (chosen) document.getElementById('codeFor').textContent = t('codeFor') + ' ' + chosen.title;
+  });
+});
+function esc(s) {
+  return String(s == null ? '' : s).replace(/&/g,'&amp;').replace(/</g,'&lt;')
+    .replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+function formatDate(d) {
+  if (!d) return '';
+  try {
+    var dt = new Date(d + 'T00:00:00');
+    if (isNaN(dt)) return d;
+    return dt.toLocaleDateString(lang === 'en' ? 'en-GB' : 'fr-FR',
+      { day:'numeric', month:'long', year:'numeric' });
+  } catch (e) { return d; }
+}
+
+var events = [], chosen = null, lastCode = '';
+
+function renderList() {
+  var box = document.getElementById('list');
+  if (!events.length) { box.innerHTML = '<div class="empty">' + t('none') + '</div>'; return; }
+  box.innerHTML = events.map(function(e, i) {
+    return '<button class="ev" onclick="pick(' + i + ')">' +
+      '<span><span class="t">' + esc(e.title) + '</span>' +
+      '<span class="d">' + esc(formatDate(e.date)) + (e.location ? ' &middot; ' + esc(e.location) : '') + '</span></span>' +
+      '<span class="go">&#8250;</span></button>';
+  }).join('');
+}
+function showList() {
+  chosen = null;
+  document.getElementById('list').style.display = '';
+  document.getElementById('ask').style.display = 'none';
+  document.getElementById('out').style.display = 'none';
+}
+function pick(i) {
+  chosen = events[i];
+  document.getElementById('list').style.display = 'none';
+  document.getElementById('out').style.display = 'none';
+  document.getElementById('ask').style.display = '';
+  document.getElementById('err').classList.remove('show');
+  var pin = document.getElementById('pin');
+  /* Kept for this tab only, never in localStorage: this is the code that opens
+     escrow and refunds, not the one that opens a gate. */
+  pin.value = sessionStorage.getItem('tl_console') || '';
+  pin.focus();
+  if (pin.value) fetchCode();
+}
+function fail(key) {
+  var e = document.getElementById('err');
+  e.setAttribute('data-i18n', key);
+  e.textContent = t(key);
+  e.classList.add('show');
+}
+function fetchCode() {
+  var pin = document.getElementById('pin').value.trim();
+  if (!pin || !chosen) return;
+  document.getElementById('err').classList.remove('show');
+  fetch(API_URL + '/api/payments/door-code/' + encodeURIComponent(chosen._id),
+        { headers: { 'x-admin-pin': pin } })
+    .then(function(r) { return r.json().then(function(j) { return { s:r.status, j:j }; }); })
+    .then(function(res) {
+      if (res.s !== 200 || !res.j.doorCode) {
+        sessionStorage.removeItem('tl_console');
+        return fail('errWrong');
+      }
+      sessionStorage.setItem('tl_console', pin);
+      lastCode = res.j.doorCode;
+      document.getElementById('ask').style.display = 'none';
+      document.getElementById('out').style.display = '';
+      document.getElementById('codeFor').textContent = t('codeFor') + ' ' + chosen.title;
+      document.getElementById('codeVal').textContent = lastCode;
+      document.getElementById('copyBtn').textContent = t('btnCopy');
+    })
+    .catch(function() { fail('errNet'); });
+}
+function copyCode() {
+  var btn = document.getElementById('copyBtn');
+  function done() { btn.textContent = t('copied'); setTimeout(function() { btn.textContent = t('btnCopy'); }, 2000); }
+  if (navigator.clipboard && navigator.clipboard.writeText) {
+    navigator.clipboard.writeText(lastCode).then(done).catch(function() {});
+    return;
+  }
+  // Older phone browsers have no clipboard API at all.
+  var ta = document.createElement('textarea');
+  ta.value = lastCode; document.body.appendChild(ta); ta.select();
+  try { document.execCommand('copy'); done(); } catch (e) {}
+  document.body.removeChild(ta);
+}
+document.getElementById('pin').addEventListener('keydown', function(e) {
+  if (e.key === 'Enter') fetchCode();
+});
+
+applyI18n();
+document.getElementById('list').innerHTML = '<div class="empty">' + t('loading') + '</div>';
+fetch(API_URL + '/api/events')
+  .then(function(r) { return r.json(); })
+  .then(function(list) {
+    events = (Array.isArray(list) ? list : (list.events || []))
+      .filter(function(e) { return e && e._id && e.title; })
+      .sort(function(a, b) { return String(b.date || '').localeCompare(String(a.date || '')); });
+    renderList();
+  })
+  .catch(function() {
+    document.getElementById('list').innerHTML = '<div class="empty">' + t('errNet') + '</div>';
+  });
+</script>
+</body>
+</html>
