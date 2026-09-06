@@ -1,0 +1,392 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Platform Bug List — MyPlopPlop Ecosystem</title>
+<meta name="description" content="Every issue found across MyPlopPlop, MsouWout, Tike Lakay, LajanMaker, the POS and 48HoursReady, with priority and status.">
+<meta name="theme-color" content="#00209F">
+<meta name="robots" content="noindex">
+<link rel="icon" type="image/x-icon" href="../favicon.ico">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --blue:#00209F;--red:#D21034;--green:#1B8C3D;--amber:#B26B00;--grey:#5A6B8A;
+  --white:#fff;--off:#F5F7FA;--dark:#0A0E1A;--text:#1A2A4A;
+  --tl:#5A6B8A;--tm:#8A95AA;--border:#E2E8F0;
+  --body:'Plus Jakarta Sans',system-ui,sans-serif;
+  --display:'DM Serif Display',Georgia,serif;
+  --mono:'JetBrains Mono',monospace;
+}
+body{font-family:var(--body);background:var(--off);color:var(--text);
+  -webkit-font-smoothing:antialiased;line-height:1.55}
+.flag{height:4px;background:linear-gradient(90deg,var(--blue) 50%,var(--red) 50%)}
+.wrap{max-width:760px;margin:0 auto;padding:0 16px}
+
+header{background:var(--white);border-bottom:1px solid var(--border);padding:26px 0 22px}
+header .eyebrow{font-size:.7rem;font-weight:800;letter-spacing:.14em;text-transform:uppercase;color:var(--red)}
+header h1{font-family:var(--display);font-size:2rem;line-height:1.1;margin:6px 0 10px;color:var(--dark)}
+header p{color:var(--tl);font-size:.92rem;max-width:44rem}
+header .stamp{margin-top:14px;font-size:.76rem;color:var(--tm);font-family:var(--mono)}
+
+.counts{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin:18px 0 0}
+.count{background:var(--off);border:1px solid var(--border);border-radius:11px;padding:11px 8px;text-align:center}
+.count b{display:block;font-size:1.4rem;font-weight:900;line-height:1.1}
+.count span{font-size:.62rem;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:var(--tm)}
+.count.c b{color:var(--red)}.count.h b{color:var(--amber)}
+.count.m b{color:var(--blue)}.count.l b{color:var(--grey)}
+
+.filters{position:sticky;top:0;z-index:10;background:rgba(245,247,250,.96);
+  backdrop-filter:blur(10px);border-bottom:1px solid var(--border);padding:11px 0;margin-bottom:6px}
+.filters .wrap{display:flex;gap:6px;overflow-x:auto;-webkit-overflow-scrolling:touch}
+.filters button{flex:0 0 auto;border:1px solid var(--border);background:var(--white);
+  color:var(--tl);border-radius:999px;padding:7px 13px;font-size:.76rem;font-weight:700;
+  cursor:pointer;font-family:var(--body);white-space:nowrap}
+.filters button.on{background:var(--dark);border-color:var(--dark);color:#fff}
+
+section{margin:22px 0 0}
+section > h2{font-size:.72rem;font-weight:900;letter-spacing:.14em;text-transform:uppercase;
+  color:var(--tm);margin:0 0 9px}
+
+.item{background:var(--white);border:1px solid var(--border);border-left:5px solid var(--grey);
+  border-radius:12px;padding:14px 15px;margin-bottom:9px}
+.item.critical{border-left-color:var(--red)}
+.item.high{border-left-color:var(--amber)}
+.item.medium{border-left-color:var(--blue)}
+.item.low{border-left-color:var(--grey)}
+.item .top{display:flex;flex-wrap:wrap;gap:6px;align-items:center;margin-bottom:7px}
+.sev{font-size:.6rem;font-weight:900;letter-spacing:.1em;text-transform:uppercase;
+  padding:3px 8px;border-radius:5px;color:#fff}
+.sev.critical{background:var(--red)}.sev.high{background:var(--amber)}
+.sev.medium{background:var(--blue)}.sev.low{background:var(--grey)}
+.chip{font-size:.63rem;font-weight:800;padding:3px 8px;border-radius:5px;border:1px solid}
+.chip.live{color:var(--green);border-color:#BFE3C8;background:#EFF9F1}
+.chip.held{color:var(--blue);border-color:#C7D2F0;background:#EFF3FD}
+.chip.you{color:var(--red);border-color:#F2C4CE;background:#FDF0F3}
+.chip.open{color:var(--tl);border-color:var(--border);background:var(--off)}
+.mod{font-size:.63rem;font-weight:800;color:var(--tm);text-transform:uppercase;letter-spacing:.07em}
+.item h3{font-size:.98rem;font-weight:800;color:var(--dark);margin-bottom:5px;line-height:1.35}
+.item p{font-size:.87rem;color:var(--tl);margin-bottom:5px}
+.item p:last-child{margin-bottom:0}
+.item .did{font-size:.83rem;color:var(--text);background:var(--off);border-radius:8px;
+  padding:8px 10px;margin-top:7px}
+.item .did b{color:var(--dark)}
+code{font-family:var(--mono);font-size:.82em;background:var(--off);
+  padding:1px 5px;border-radius:4px;word-break:break-word}
+
+.note{background:#FFF8E6;border:1px solid #F0DFB0;border-radius:12px;padding:14px 15px;margin:18px 0}
+.note h3{font-size:.9rem;font-weight:800;color:#7A5200;margin-bottom:5px}
+.note p{font-size:.86rem;color:#7A5200}
+footer{padding:30px 0 46px;text-align:center;color:var(--tm);font-size:.76rem;line-height:1.7}
+.empty{padding:26px 0;text-align:center;color:var(--tm);font-size:.85rem}
+@media(max-width:420px){
+  header h1{font-size:1.6rem}
+  .counts{grid-template-columns:repeat(2,1fr)}
+}
+</style>
+</head>
+<body>
+<div class="flag"></div>
+
+<header>
+  <div class="wrap">
+    <div class="eyebrow">Platform Review</div>
+    <h1>Complete bug list</h1>
+    <p>Everything found across MyPlopPlop, MsouWout, Tikè Lakay, LajanMaker, the POS
+       and 48HoursReady. Each item says what breaks, who it hurts, and where it stands
+       right now. Nothing here is a feature request — these are things that are supposed
+       to work and do not.</p>
+    <div class="counts">
+      <div class="count c"><b id="nC">0</b><span>Critical</span></div>
+      <div class="count h"><b id="nH">0</b><span>High</span></div>
+      <div class="count m"><b id="nM">0</b><span>Medium</span></div>
+      <div class="count l"><b id="nL">0</b><span>Low</span></div>
+    </div>
+    <div class="stamp" id="stamp"></div>
+  </div>
+</header>
+
+<div class="filters">
+  <div class="wrap">
+    <button data-f="all" class="on">All</button>
+    <button data-f="you">Needs your decision</button>
+    <button data-f="open">Still open</button>
+    <button data-f="held">Fixed, waiting to deploy</button>
+    <button data-f="live">Fixed and live</button>
+  </div>
+</div>
+
+<div class="wrap" id="list"></div>
+
+<div class="wrap">
+  <div class="note">
+    <h3>How to read the labels</h3>
+    <p><b>Fixed and live</b> — done, deployed, and checked on the real site.
+       <b>Fixed, waiting to deploy</b> — written and tested, not pushed, because
+       MsouWout is frozen until your live ride test is finished.
+       <b>Needs your decision</b> — I can fix it, but the choice is yours and I have
+       not touched it. <b>Still open</b> — known, not started.</p>
+  </div>
+</div>
+
+<footer>
+  Tikè Lakay · MsouWout · MyPlopPlop · LajanMaker · 48HoursReady<br>
+  This page is a working document and gets updated as items close.
+</footer>
+
+<script>
+/* One list, rendered. Kept as data so the page cannot drift from the counts. */
+var BUGS = [
+ /* ---------------------------------------------------------- CRITICAL */
+ {s:'critical',m:'Tikè Lakay',t:'No ticket ever got marked as paid — not one, ever',
+  st:'live',
+  d:'Every ticket bought on Tikè Lakay since May sat at "pending" for ever. All four of them, including one for 3,150 HTG. Meanwhile the payment gateway, asked directly about those same references, said the money had arrived every time.',
+  w:'A ticket was only ever marked paid in two places: a callback from MonCash, or a check run when the buyer lands back on the ticket page. MonCash is never given an address to call, so it never calls. And nothing on the site ever ran the check. Both doors existed and neither was ever opened.',
+  f:'The ticket now asks the gateway itself, every time it is looked at, for as long as it is unpaid. That needs nothing from MonCash and nothing from the buyer’s browser finding its way back — which matters on a phone that loses the redirect. If the gateway cannot be reached it leaves the ticket alone rather than guessing.'},
+
+ {s:'critical',m:'Tikè Lakay',t:'A free RSVP ticket could never be issued at all',
+  st:'live',
+  d:'Any event with a zero-price ticket answered with an error and gave the person nothing.',
+  w:'The code writes the payment method as "free", and the database was never told that "free" is an allowed value, so it refused to save and the buyer got a server error.',
+  f:'Allowed. A free ticket is now issued immediately and is valid at the door.'},
+
+ {s:'critical',m:'Tikè Lakay · Escrow',t:'Anyone could mark any order or ticket as paid',
+  st:'live',
+  d:'The "payment completed" message was believed on sight, with no password and no check with MonCash. The reference number needed to send it is printed on the buyer’s own confirmation screen, so it was never a secret.',
+  w:'Same mistake copied into three places: MyPlopPlop bills, Tikè Lakay tickets, and escrow orders. It was found in one and then found twice more by searching for the shape of it everywhere else.',
+  f:'All three now ignore what the caller claims and ask the gateway. If the gateway does not confirm, nothing is issued and the refusal is written to the log.'},
+
+ {s:'critical',m:'Escrow',t:'The safe way to confirm a payment had never worked once',
+  st:'live',
+  d:'The buyer’s own "did my payment go through?" check failed every single time it ran.',
+  w:'It called a web address that does not exist. The gateway answers that address with a normal-looking page rather than an error, so the code could not tell and crashed on it. The practical effect: the only thing that could ever mark an order paid was the insecure route above.',
+  f:'Corrected to the address the gateway actually publishes, verified against the live gateway, and shared by every payment path so it cannot drift apart again.'},
+
+ {s:'critical',m:'Escrow',t:'Anyone could download every buyer’s name, phone, home address and delivery PIN',
+  st:'live',
+  d:'One web address, no password, returned the full order list: who bought, their phone number, where they live, what they bought, what they paid, and the 4-digit code the driver must be given to complete delivery.',
+  w:'The list route was never given a guard.',
+  f:'Now requires the admin console code. Reading one order by its own reference is still open, because that is the buyer’s own order-status page.'},
+
+ {s:'critical',m:'Escrow',t:'Anyone could pay a seller out of escrow, or refund an order',
+  st:'live',
+  d:'Releasing money to a seller, refunding a buyer, verifying a driver and deleting an event all worked with no credential at all.',
+  w:'42 of 81 write operations on HaitiBiznis had no guard on them.',
+  f:'The money and admin operations now require the console code. Everything a real customer, seller or driver does was deliberately left open, because those apps carry no password — that needs proper per-person login, which is the next piece of work.'},
+
+ {s:'critical',m:'HaitiBiznis',t:'The refund approval page asked for nothing at all',
+  st:'live',
+  d:'Opening the refund page and pressing approve moved money. No password anywhere.',
+  w:'The page was built before the console code existed and never caught up.',
+  f:'It now asks for the console code, and forgets it immediately if the server refuses it.'},
+
+ {s:'critical',m:'MsouWout',t:'Anyone could approve drivers and rewrite the national fare table',
+  st:'held',
+  d:'With no password: approve, reject or suspend any driver, approve any business, start, complete or cancel any ride, change the fares for the whole country, and download every driver’s name, phone, email, licence number and plate.',
+  w:'56 of 99 write operations had no guard. A guarded route for approving a driver sat right next to an unguarded one that did the same thing — a second door to the same room.',
+  f:'Written and tested. Held, not deployed, because you asked me not to touch MsouWout until your live ride test is done. 125 calls made by your own pages were checked against the new locks first: 13 hit a lock, and all 13 already send the password, so no page you use loses a function.'},
+
+ {s:'critical',m:'MsouWout',t:'The admin password travelled inside the web address',
+  st:'held',
+  d:'The master admin password was part of the link itself, so it sat in the address bar, in browser history, in the server access log, and in any screenshot of that screen.',
+  w:'It was passed as a query on the end of the address.',
+  f:'It is now taken out of the address the moment the page opens, held only for that browser session, and asked for if it is missing. Please do not screenshot that page until this is deployed.'},
+
+ {s:'critical',m:'48HoursReady',t:'The sign-up page is live but there is no server behind it',
+  st:'you',
+  d:'48hoursready.com/ambassador.html accepts registrations and every single one fails. Anyone signing up gets an error.',
+  w:'The API was never deployed. The address it points at answers "Not Found" to everything.',
+  f:'Not touched. Your call: deploy it, or take the page down until it is ready. It should not stay as it is.'},
+
+ {s:'critical',m:'48HoursReady',t:'Ambassadors and the commission owed to them would be wiped on every restart',
+  st:'you',
+  d:'Even once it is deployed, every ambassador, every referral and every commission owed disappears whenever the service restarts or is updated.',
+  w:'It stores everything in a file inside the folder it is deployed from, and that folder is rebuilt from scratch on each deploy. There is no permanent disk configured.',
+  f:'Not touched. This has to move to a real database before a single person signs up. It is a proper piece of work, so it needs a plan and a price before I start.'},
+
+ {s:'critical',m:'48HoursReady',t:'Commissions could be manufactured out of nothing',
+  st:'you',
+  d:'Approving an ambassador, confirming a referral and marking a payout complete all work with no password, and so does recording a click. Someone could create a referral and an amount owed end to end.',
+  w:'None of the four admin operations has a guard.',
+  f:'Not touched — it goes with the two items above and the same decision.'},
+
+ {s:'critical',m:'MsouWout',t:'The driver app cannot tell one driver from another',
+  st:'open',
+  d:'Driver login takes a phone number and any four digits. Any four. Nothing checks them.',
+  w:'There is no PIN stored per driver.',
+  f:'Not started. Fixing it means changing the installed driver app at the same time, so it has to be planned with you rather than dropped on drivers mid-shift.'},
+
+ {s:'critical',m:'MyPlopPlop',t:'Commissions were made payable without checking the payment happened',
+  st:'live',
+  d:'One operation flipped every pending commission to payable. A commission row is created the moment a checkout starts, so an abandoned or invented checkout became money owed to an agent.',
+  w:'It never looked at whether the matching payment completed.',
+  f:'It now requires a completed transaction, and reports what it skipped and why.'},
+
+ /* -------------------------------------------------------------- HIGH */
+ {s:'high',m:'LajanMaker',t:'parenaj.html is a fake referral page, live, with share buttons',
+  st:'you',
+  d:'It makes up a code in the browser starting with the word DEMO, shows zero statistics, saves nothing anywhere — and offers WhatsApp and Facebook buttons to share it. Anyone sharing that code earns nothing and will not know.',
+  w:'It was a mock-up that went live. It names an API address and then never calls it.',
+  f:'Not touched, because there are two different referral systems and I will not risk confusing them. koutye.html is the real one. Your call: take parenaj.html down, or point it at the real system.'},
+
+ {s:'high',m:'Tikè Lakay',t:'A ticket can be used again and again for ever',
+  st:'open',
+  d:'Nothing anywhere records that a ticket has been used. One photo of one ticket could walk fifty people through the door.',
+  w:'There is no "used" mark on a ticket at all.',
+  f:'The door page now exists and shows valid or not valid, which is the half that did not exist before. Marking a ticket as used is the other half and it needs a decision from you: who is allowed to burn a ticket, and what happens if the door has no signal.'},
+
+ {s:'high',m:'Tikè Lakay',t:'Event organisers’ payout numbers were public',
+  st:'live',
+  d:'The public event list handed out each organiser’s MonCash number, NatCash number and email address — real third parties, not just you.',
+  w:'The list returned every stored field.',
+  f:'Those three are no longer sent. The contact phone stays, because the "contact the organiser" button needs it.'},
+
+ {s:'high',m:'Tikè Lakay',t:'A share link could run a stranger’s code',
+  st:'live',
+  d:'Anyone can create an event, and the event title went into the share page untreated, so a title could carry instructions that run on whoever opens the WhatsApp or Facebook link.',
+  w:'Only one of the characters that needed escaping was escaped, and the page title was not escaped at all.',
+  f:'Everything shown on that page is escaped now, and the test plants an actual attack and proves it comes out harmless.'},
+
+ {s:'high',m:'Tikè Lakay',t:'After paying, there is no way back to your ticket',
+  st:'open',
+  d:'If the browser does not come back from MonCash — which is normal on a phone — the buyer has nothing. No email, no SMS, no reference, no way to find the ticket again.',
+  w:'The only copy of the reference is the page the buyer was sent to, and the phone number field is optional so there may be no way to reach them.',
+  f:'Not started. Worth an SMS or WhatsApp message with the ticket link the moment the payment lands. Needs pricing.'},
+
+ {s:'high',m:'Tikè Lakay',t:'More people can pay for the last ticket than there are tickets',
+  st:'open',
+  d:'Stock only goes down when a payment completes, so several people can be paying for the last ten seats at the same time and all succeed.',
+  w:'Nothing is reserved while a payment is in progress.',
+  f:'Not started. It needs a short hold on the seat while the buyer is at MonCash.'},
+
+ {s:'high',m:'Whole platform',t:'The same person exists in three separate databases',
+  st:'open',
+  d:'Drivers are stored in MsouWout, in HaitiBiznis and in MyPlopPlop. Fleets are registered in two places from two different pages. Nobody can say which record is the real one.',
+  w:'Each site was built with its own copy of the person.',
+  f:'A five-step migration plan is written and agreed in principle. Step one — new sign-ups create the person in MyPlopPlop only — is the urgent part, and it is a single change that can be undone. It is scheduled after your MsouWout test.'},
+
+ {s:'high',m:'Tikè Lakay',t:'Anyone can publish an event instantly, with no review',
+  st:'open',
+  d:'A new event goes straight onto the public site and can start taking money.',
+  w:'Events default to published.',
+  f:'Not started. Needs your decision on whether you want to approve events first.'},
+
+ {s:'high',m:'POS',t:'The merchant account number is written into the public page',
+  st:'open',
+  d:'The live POS page carries the merchant id in the file itself, where anyone can read it.',
+  w:'It was hard-coded rather than held on the server.',
+  f:'Not started. Low risk on its own, but it should not be there.'},
+
+ /* ------------------------------------------------------------ MEDIUM */
+ {s:'medium',m:'MsouWout',t:'Vehicle types are recorded two different ways',
+  st:'open',
+  d:'Some records say "moto" and some say "motorcycle" for the same thing.',
+  w:'Two different pages wrote two different words.',
+  f:'Not started, but it must be tidied before the zone and vehicle filtering you asked for, or filtering will silently miss drivers.'},
+
+ {s:'medium',m:'Tikè Lakay',t:'The view counter lost counts and rewrote the whole event each time',
+  st:'live',
+  d:'Every view rewrote the entire event record, picture included, and two people looking at once counted as one.',
+  w:'It read the number, added one and saved the whole thing back.',
+  f:'It now adds one to the number in place. Proved with five simultaneous views counting five.'},
+
+ {s:'medium',m:'MsouWout',t:'A guard that stopped guarding the day a setting went missing',
+  st:'live',
+  d:'The admin lock only applied if the password was configured. If the setting ever disappeared, the door opened for everyone, silently.',
+  w:'The check was written as "if a password is set, and it does not match, refuse".',
+  f:'Both locks now refuse and log loudly when nothing is configured.'},
+
+ {s:'medium',m:'Escrow',t:'Order prices were taken from the browser',
+  st:'open',
+  d:'An old order route accepted whatever prices the browser sent, with no catalogue to check them against.',
+  w:'There is no product list in that database.',
+  f:'Nothing calls it any more — orders moved to MyPlopPlop. It should be retired rather than left lying there.'},
+
+ {s:'medium',m:'MyPlopPlop',t:'A store page answered "server error" instead of "not found"',
+  st:'live',
+  d:'Opening a store by its name rather than its id returned a server error.',
+  w:'The lookup only understood ids.',
+  f:'It now understands the name as well, and says not found when there is nothing.'},
+
+ {s:'medium',m:'Tikè Lakay',t:'Platform fees are written into the code',
+  st:'open',
+  d:'5% on tickets and 20% on orders cannot be changed without a deploy.',
+  w:'They are constants in the source.',
+  f:'Not started. They belong in settings, next to the MsouWout fare table.'},
+
+ /* --------------------------------------------------------------- LOW */
+ {s:'low',m:'Tikè Lakay',t:'A duplicated LajanMaker event, one copy with a misspelt title',
+  st:'open',
+  d:'The same event is listed twice.',
+  w:'Created twice.',
+  f:'Not touched — deleting one is your call, since people may already hold tickets against either.'},
+
+ {s:'low',m:'POS',t:'A second POS exists and is not deployed',
+  st:'open',
+  d:'myplopplop-pos returns not found. It is an early prototype that stores everything in the browser.',
+  w:'Never finished or deployed.',
+  f:'Not started. It should either be finished or removed so it stops looking like a live thing.'}
+];
+
+var STATUS = {live:['live','Fixed and live'],held:['held','Fixed, waiting to deploy'],
+              you:['you','Needs your decision'],open:['open','Still open']};
+var ORDER = ['critical','high','medium','low'];
+var TITLES = {critical:'Critical',high:'High',medium:'Medium',low:'Low'};
+
+function esc(s){return String(s==null?'':s).replace(/&/g,'&amp;').replace(/</g,'&lt;')
+  .replace(/>/g,'&gt;').replace(/"/g,'&quot;');}
+
+function render(filter){
+  var list=document.getElementById('list');
+  var html='',shown=0;
+  ORDER.forEach(function(sev){
+    var rows=BUGS.filter(function(b){
+      return b.s===sev && (filter==='all'||b.st===filter);});
+    if(!rows.length) return;
+    html+='<section><h2>'+TITLES[sev]+' &middot; '+rows.length+'</h2>';
+    rows.forEach(function(b){
+      shown++;
+      var st=STATUS[b.st];
+      html+='<div class="item '+b.s+'">'+
+        '<div class="top"><span class="sev '+b.s+'">'+TITLES[b.s]+'</span>'+
+        '<span class="chip '+st[0]+'">'+st[1]+'</span>'+
+        '<span class="mod">'+esc(b.m)+'</span></div>'+
+        '<h3>'+esc(b.t)+'</h3>'+
+        '<p>'+esc(b.d)+'</p>'+
+        '<p><b>Why:</b> '+esc(b.w)+'</p>'+
+        '<div class="did"><b>Where it stands:</b> '+esc(b.f)+'</div>'+
+      '</div>';
+    });
+    html+='</section>';
+  });
+  list.innerHTML = shown ? html : '<div class="empty">Nothing in this group.</div>';
+}
+
+document.getElementById('nC').textContent=BUGS.filter(function(b){return b.s==='critical'}).length;
+document.getElementById('nH').textContent=BUGS.filter(function(b){return b.s==='high'}).length;
+document.getElementById('nM').textContent=BUGS.filter(function(b){return b.s==='medium'}).length;
+document.getElementById('nL').textContent=BUGS.filter(function(b){return b.s==='low'}).length;
+
+var live=BUGS.filter(function(b){return b.st==='live'}).length;
+var held=BUGS.filter(function(b){return b.st==='held'}).length;
+var you=BUGS.filter(function(b){return b.st==='you'}).length;
+var open=BUGS.filter(function(b){return b.st==='open'}).length;
+document.getElementById('stamp').textContent =
+  BUGS.length+' issues  ·  '+live+' fixed and live  ·  '+held+' fixed, waiting to deploy  ·  '+
+  you+' need your decision  ·  '+open+' still open';
+
+document.querySelectorAll('.filters button').forEach(function(btn){
+  btn.addEventListener('click',function(){
+    document.querySelectorAll('.filters button').forEach(function(b){b.classList.remove('on')});
+    btn.classList.add('on');
+    render(btn.getAttribute('data-f'));
+    window.scrollTo({top:0,behavior:'smooth'});
+  });
+});
+render('all');
+</script>
+</body>
+</html>
