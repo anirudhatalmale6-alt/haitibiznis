@@ -132,6 +132,7 @@ button,input{font-family:var(--body)}
 
 <div class="foot">
   <span data-i18n="footNote">Pa pataje kòd konsòl ou a ak pèsonn. Kòd pòt la sèlman.</span>
+  <br><a href="event-price.html" style="color:var(--blue);font-weight:700" data-i18n="priceLink">Chanje pri tikè yon evènman</a>
 </div>
 
 <script>
@@ -150,7 +151,8 @@ var I18N = {
         s3:'Antre kòd la epi peze Louvri. Li fè sa yon sèl fwa.',
         s4:'Kounye a, eskane QR code chak tikè ak kamera telefòn nan. Vèt vle di kite l antre. Wouj vle di non.',
         footNote:'Pa pataje kòd konsòl ou a ak pèsonn. Kòd pòt la sèlman.',
-        loading:'Ap chaje evènman yo...', none:'Nou pa jwenn okenn evènman.' },
+        loading:'Ap chaje evènman yo...', none:'Nou pa jwenn okenn evènman.',
+        priceLink:'Chanje pri tikè yon evènman' },
   fr: { pageTitle:'Code d\'entrée', h1:'Code d\'entrée',
         lede:'Choisissez l\'événement. Nous vous donnons un code à remettre à la personne qui contrôle les billets à l\'entrée. Ce code n\'ouvre qu\'un seul événement — il ne touche ni votre argent ni rien d\'autre.',
         askLabel:'Saisissez votre code console', btnGet:'Obtenir le code',
@@ -163,7 +165,8 @@ var I18N = {
         s3:'Elle saisit le code et appuie sur Ouvrir. Une seule fois.',
         s4:'Ensuite elle scanne le QR code de chaque billet avec l\'appareil photo. Vert : laissez entrer. Rouge : non.',
         footNote:'Ne partagez jamais votre code console. Uniquement le code d\'entrée.',
-        loading:'Chargement des événements...', none:'Aucun événement trouvé.' },
+        loading:'Chargement des événements...', none:'Aucun événement trouvé.',
+        priceLink:'Changer le prix des billets d\'un événement' },
   en: { pageTitle:'Door code', h1:'Door code',
         lede:'Pick the event. We give you a code to hand to whoever checks tickets on the door. It opens that one event — it does not touch your money or anything else.',
         askLabel:'Enter your console code', btnGet:'Get the code',
@@ -176,7 +179,8 @@ var I18N = {
         s3:'Type the code and tap Unlock. Once, not every time.',
         s4:'Now scan each ticket\'s QR code with the phone camera. Green means let them in. Red means no.',
         footNote:'Never share your console code. Only the door code.',
-        loading:'Loading events...', none:'No events found.' }
+        loading:'Loading events...', none:'No events found.',
+        priceLink:'Change an event\'s ticket price' }
 };
 var lang = localStorage.getItem('tl_lang') || 'ht';
 if (!I18N[lang]) lang = 'ht';

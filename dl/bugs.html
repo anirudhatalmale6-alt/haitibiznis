@@ -147,6 +147,24 @@ var BUGS = [
   w:'A ticket was only ever marked paid in two places: a callback from MonCash, or a check run when the buyer lands back on the ticket page. MonCash is never given an address to call, so it never calls. And nothing on the site ever ran the check. Both doors existed and neither was ever opened.',
   f:'The ticket now asks the gateway itself, every time it is looked at, for as long as it is unpaid. That needs nothing from MonCash and nothing from the buyer’s browser finding its way back — which matters on a phone that loses the redirect. If the gateway cannot be reached it leaves the ticket alone rather than guessing.'},
 
+ {s:'critical',m:'Tikè Lakay',t:'A real event page was showing sample tickets at sample prices',
+  st:'live',
+  d:'Open an event that was saved without an end time and the page drew the title, the date and the place correctly — then listed four tickets that belong to the demonstration event this page ships with: General Admission at 500 HTG, VIP at 2,500, Early Bird at 350, Etidyan at 250. None of them exist. A free workshop was offering the public a 500 HTG ticket.',
+  w:'Writing the page threw an error on the missing end time, halfway down. Everything above the error had already been drawn, so the page looked finished. Everything below it — the ticket list, the organiser, the tab name — kept the sample data. The error landed in an empty catch, so nothing was written anywhere and nothing looked wrong.',
+  f:'A missing end time is now simply left out. The error can no longer be swallowed: it is logged, and if an event genuinely cannot be loaded the page says so plainly instead of showing a convincing wrong one.'},
+
+ {s:'high',m:'Tikè Lakay',t:'Free registrations were saved with no name and no phone number',
+  st:'live',
+  d:'Someone registering for a free event went straight through with nothing recorded about them. At the door the ticket was blank, and the organiser had no list of who was coming.',
+  w:'The name and phone boxes only ever existed inside the payment box, and a free ticket never opened one — it went directly to issuing the ticket.',
+  f:'A free ticket now asks for a name and a phone number first, and refuses to go through without them. Same check added to paid tickets, which could also be bought anonymously.'},
+
+ {s:'high',m:'Tikè Lakay',t:'A published event’s ticket price could not be changed by anyone',
+  st:'live',
+  d:'Nothing on any of the sites edits an event once it is published. A workshop advertised as free but saved at 20 HTG stayed at 20 HTG.',
+  w:'The route to change an event exists on the server and is now protected, but no page had ever been built that calls it.',
+  f:'New page: haitibiznis.com/event-price.html — pick the event, enter the console code, set the price or tap "Make it free". It reads the event fresh before saving and puts every other field back exactly as it was, so the quantity, the description and the number already sold cannot be lost in the edit.'},
+
  {s:'critical',m:'Tikè Lakay',t:'A free RSVP ticket could never be issued at all',
   st:'live',
   d:'Any event with a zero-price ticket answered with an error and gave the person nothing.',

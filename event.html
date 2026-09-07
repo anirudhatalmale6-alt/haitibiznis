@@ -636,9 +636,34 @@ function loadEventFromAPI(evId) {
       if (event.tickets) event.tickets.forEach(function(t) { if (!t.sold) t.sold = 0; });
       ticketQty = [];
       event.tickets.forEach(function() { ticketQty.push(0); });
-      renderPage();
+      /* Kept OUT of the promise chain below. renderPage() used to be inside
+         it, so anything it threw landed in an empty .catch and the page went
+         on showing the sample event this file ships with - sample tickets,
+         sample prices, on somebody's real event page. */
+      try {
+        renderPage();
+      } catch (e) {
+        console.error('renderPage failed on live event data', e);
+        showLoadFailure();
+      }
     })
-    .catch(function() {});
+    .catch(function(e) {
+      console.error('could not load event ' + evId, e);
+      showLoadFailure();
+    });
+}
+
+/* Better an honest empty page than a convincing wrong one. Without this the
+   fallback was a fictional conference with four ticket prices on it. */
+function showLoadFailure() {
+  var list = document.getElementById('ticketsList');
+  if (list) {
+    list.innerHTML = '<div style="padding:18px;text-align:center;color:var(--text-muted);' +
+      'border:1px dashed var(--border);border-radius:12px">' +
+      (t('loadFailed') || 'Nou pa ka chaje evènman sa a kounye a. Tanpri eseye ankò.') + '</div>';
+  }
+  var buy = document.querySelector('.buy-btn');
+  if (buy) buy.style.display = 'none';
 }
 
 /* Similar events demo */
@@ -688,7 +713,12 @@ var translations = {
     platformFee: 'Frè platfòm (5%)',
     yourName: 'Non ou',
     yourPhone: 'Nimewo telefòn',
-    creditCard: 'Kat Kredi'
+    creditCard: 'Kat Kredi',
+    freeTitle: 'Enskripsyon Gratis',
+    freeConfirm: 'Konfime Enskripsyon Mwen',
+    needNamePhone: 'Mete non ou ak nimewo telefòn ou',
+    freeNote: 'Nou bezwen non ou pou nou ka jwenn ou nan pòt la.',
+    loadFailed: 'Nou pa ka chaje evènman sa a kounye a. Tanpri eseye ankò.'
   },
   fr: {
     brand: 'Tikè <em>Lakay</em>',
@@ -725,7 +755,12 @@ var translations = {
     platformFee: 'Frais de plateforme (5%)',
     yourName: 'Votre nom',
     yourPhone: 'Numéro de téléphone',
-    creditCard: 'Carte de Crédit'
+    creditCard: 'Carte de Crédit',
+    freeTitle: 'Inscription Gratuite',
+    freeConfirm: 'Confirmer mon inscription',
+    needNamePhone: 'Entrez votre nom et votre numéro de téléphone',
+    freeNote: 'Nous avons besoin de votre nom pour vous retrouver à la porte.',
+    loadFailed: "Impossible de charger cet événement pour le moment. Réessayez."
   },
   en: {
     brand: 'Tikè <em>Lakay</em>',
@@ -762,7 +797,12 @@ var translations = {
     platformFee: 'Platform fee (5%)',
     yourName: 'Your name',
     yourPhone: 'Phone number',
-    creditCard: 'Credit Card'
+    creditCard: 'Credit Card',
+    freeTitle: 'Free Registration',
+    freeConfirm: 'Confirm my registration',
+    needNamePhone: 'Enter your name and phone number',
+    freeNote: 'We need your name so we can find you at the door.',
+    loadFailed: 'We cannot load this event right now. Please try again.'
   },
   pt: {
     brand: 'Tikè <em>Lakay</em>',
@@ -799,7 +839,12 @@ var translations = {
     platformFee: 'Taxa da plataforma (5%)',
     yourName: 'Seu nome',
     yourPhone: 'Número de telefone',
-    creditCard: 'Cartão de crédito'
+    creditCard: 'Cartão de crédito',
+    freeTitle: 'Inscrição Gratuita',
+    freeConfirm: 'Confirmar minha inscrição',
+    needNamePhone: 'Digite seu nome e seu número de telefone',
+    freeNote: 'Precisamos do seu nome para encontrá-lo na porta.',
+    loadFailed: 'Não foi possível carregar este evento agora. Tente novamente.'
   },
   es: {
     brand: 'Tikè <em>Lakay</em>',
@@ -836,7 +881,12 @@ var translations = {
     platformFee: 'Tarifa de plataforma (5%)',
     yourName: 'Tu nombre',
     yourPhone: 'Número de teléfono',
-    creditCard: 'Tarjeta de Crédito'
+    creditCard: 'Tarjeta de Crédito',
+    freeTitle: 'Inscripción Gratuita',
+    freeConfirm: 'Confirmar mi inscripción',
+    needNamePhone: 'Escribe tu nombre y tu número de teléfono',
+    freeNote: 'Necesitamos tu nombre para encontrarte en la puerta.',
+    loadFailed: 'No podemos cargar este evento ahora. Inténtalo de nuevo.'
   }
 };
 
@@ -903,8 +953,16 @@ function formatDate(dateStr) {
   return days[d.getDay()] + ', ' + d.getDate() + ' ' + months[d.getMonth()] + ' ' + d.getFullYear();
 }
 
+/* An event saved with no end time made this throw, and the throw happened
+   inside renderPage() which is called from a .then() whose .catch was empty.
+   The hero had already been written, so the page looked fine - and everything
+   from the info card down, INCLUDING THE TICKET LIST, stayed on the demo data
+   this file ships with. A free workshop was showing the public a General
+   Admission ticket at HTG 500 that does not exist. */
 function formatTime(t) {
-  var parts = t.split(':');
+  if (!t) return '';
+  var parts = String(t).split(':');
+  if (parts.length < 2) return '';
   var h = parseInt(parts[0]);
   var m = parts[1];
   var ampm = h >= 12 ? 'PM' : 'AM';
@@ -968,10 +1026,15 @@ function renderPage() {
   document.getElementById('infoTitle').textContent = event.title;
   var infoHtml = '';
 
-  /* Date + Time */
+  /* Date + Time. No end time means no dash - "08:00 - " reads like the page
+     lost something. */
+  var timeText = formatTime(event.startTime);
+  var endText = formatTime(event.endTime);
+  if (timeText && endText) timeText += ' - ' + endText;
+  else if (!timeText && endText) timeText = endText;
   infoHtml += '<div class="info-row">' +
     '<div class="info-icon blue"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg></div>' +
-    '<div class="info-text"><div class="label">' + t('dateTime') + '</div><div class="value">' + formatDate(event.date) + ' · ' + formatTime(event.startTime) + ' - ' + formatTime(event.endTime) + '</div></div></div>';
+    '<div class="info-text"><div class="label">' + t('dateTime') + '</div><div class="value">' + formatDate(event.date) + (timeText ? ' · ' + timeText : '') + '</div></div></div>';
 
   /* Location */
   infoHtml += '<div class="info-row">' +
@@ -1168,10 +1231,51 @@ function buyTickets() {
   });
   if (!totalQty) return alert(t('selectTicket') || 'Chwazi omwen 1 tikè');
   if (totalPrice === 0) {
-    processPayment('free', selectedTicket);
+    showFreeModal(selectedTicket);
     return;
   }
   showPaymentModal(selectedTicket, totalPrice);
+}
+
+/* A free ticket used to go straight to processPayment from here. The name and
+   phone boxes only ever existed inside the payment modal, so a free ticket was
+   issued with neither - and for a free workshop the registration IS the name
+   list. The door page had nothing to show and the organiser had no idea who
+   was coming. Same two boxes, same ids, so processPayment reads them either
+   way. */
+function showFreeModal(ticket) {
+  var modal = document.createElement('div');
+  modal.id = 'paymentModal';
+  modal.style.cssText = 'position:fixed;inset:0;z-index:9999;background:rgba(0,0,0,.6);display:flex;align-items:center;justify-content:center;padding:16px';
+  modal.innerHTML = '<div style="background:#fff;border-radius:16px;max-width:400px;width:100%;padding:24px;position:relative">' +
+    '<button onclick="this.closest(\'#paymentModal\').remove()" style="position:absolute;top:12px;right:12px;font-size:1.2rem;background:none;border:none;cursor:pointer">✕</button>' +
+    '<h3 style="font-family:var(--display);margin-bottom:16px">🎟️ ' + (t('freeTitle') || 'Enskripsyon Gratis') + '</h3>' +
+    '<div style="background:var(--off-white);border-radius:10px;padding:12px;margin-bottom:16px">' +
+    '<div style="display:flex;justify-content:space-between;font-size:.9rem;font-weight:700"><span>' + ticket.qty + 'x ' + ticket.name + '</span><span style="color:var(--green)">GRATIS</span></div></div>' +
+    '<div style="font-size:.85rem;color:var(--text-muted);margin-bottom:10px">' + (t('freeNote') || 'Nou bezwen non ou pou nou ka jwenn ou nan pòt la.') + '</div>' +
+    '<div style="margin-bottom:12px"><input id="buyerName" placeholder="' + (t('yourName') || 'Non ou') + '" style="width:100%;padding:10px;border:1px solid var(--border);border-radius:8px;margin-bottom:8px;font-family:var(--body)">' +
+    '<input id="buyerPhone" placeholder="' + (t('yourPhone') || 'Nimewo telefòn') + '" type="tel" style="width:100%;padding:10px;border:1px solid var(--border);border-radius:8px;font-family:var(--body)"></div>' +
+    '<div style="display:flex;flex-direction:column;gap:8px" id="payMethodBtns">' +
+    '<button id="freeConfirmBtn" onclick="processPayment(\'free\')" style="padding:12px;border-radius:10px;font-weight:700;font-size:.95rem;border:none;background:var(--green,#00A651);color:#fff;cursor:pointer;font-family:var(--body)">✓ ' + (t('freeConfirm') || 'Konfime Enskripsyon Mwen') + '</button>' +
+    '</div><div id="payError" style="color:#D21034;font-size:.85rem;margin-top:8px;display:none"></div></div>';
+  document.body.appendChild(modal);
+  window._selectedTicket = ticket;
+}
+
+/* A ticket with no name on it cannot be checked at a door, paid or free. Both
+   boxes were on screen for a paid ticket already; nothing was ever asserting
+   they had been filled in. */
+function requireBuyer() {
+  var n = document.getElementById('buyerName');
+  var p = document.getElementById('buyerPhone');
+  if (!n || !p) return true;
+  var err = document.getElementById('payError');
+  var empty = !n.value.trim() ? n : (!p.value.trim() ? p : null);
+  if (!empty) return true;
+  if (err) { err.textContent = t('needNamePhone') || 'Mete non ou ak nimewo telefòn ou'; err.style.display = ''; }
+  empty.style.borderColor = '#D21034';
+  empty.focus();
+  return false;
 }
 
 function showPaymentModal(ticket, total) {
@@ -1202,6 +1306,7 @@ function showPaymentModal(ticket, total) {
 function processPayment(method, freeTicket) {
   var ticket = freeTicket || window._selectedTicket;
   if (!ticket) return;
+  if (!requireBuyer()) return;
   var evId = new URLSearchParams(window.location.search).get('id') || (event._id || event.id);
   var body = {
     eventId: evId, ticketName: ticket.name, qty: ticket.qty,
