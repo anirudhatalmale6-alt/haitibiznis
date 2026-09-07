@@ -248,7 +248,31 @@ var BUGS = [
   st:'held',
   d:'A driver who is properly registered and approved was refused at the Mesaj page with "this number is not registered". Every driver, since the page was built. The driver app itself was never affected — only Mesaj.',
   w:'A driver number is saved as +509 followed by the eight digits, and the lookup compares the text exactly. The Mesaj page shows a +509 flag beside the box, so a driver types the eight digits alone — and the page sent exactly those eight digits, which never match. Checked against the live route both ways before changing anything.',
-  f:'Fixed and tested, waiting on your word to go live because MsouWout is frozen for your test. Until then, type the number in full with +509 in front and it opens. 23 checks pass; the same 23 against the old page fail 11.'},
+  f:'Fixed and tested, waiting on your word to go live because MsouWout is frozen for your test. Until then, type the number in full with +509 in front and it opens. The page now puts the +509 on for you, so eight digits is all anyone has to type. 30 checks pass across the four pages below; the same 30 against the old pages fail 18.'},
+
+ {s:'high',m:'MsouWout',t:'Mesaj showed passengers an empty page instead of their messages',
+  st:'held',
+  d:'The same fault as the one above, on the passenger side, but with no message at all — just "you have no messages", as if the driver had never written. It depended on how the number was typed when the ride was booked, so it worked for some people and not for others, which is the worst kind.',
+  w:'A conversation is filed under the number the ride was booked with, and that comparison is exact too. Book with +509 and check messages with eight digits and the two never meet.',
+  f:'Fixed with the same change. It now asks with the +509 on and, if nothing comes back, asks again exactly as typed, so conversations filed the old way are still found.'},
+
+ {s:'high',m:'MsouWout',t:'"My Rides" told passengers they had never taken a ride',
+  st:'held',
+  d:'A passenger with a full history typed his number and was told: you have no rides with this number yet. His rides were all there.',
+  w:'Same country code mismatch, on the ride history lookup.',
+  f:'Fixed. It asks both ways before it tells anyone they have nothing. A number that genuinely has no rides is still told so — I tested that too, because a fix that lets everyone in is not a fix.'},
+
+ {s:'high',m:'MsouWout',t:'The same passenger could be filed as two different people',
+  st:'held',
+  d:'A ride was saved under whatever was typed at the time — with the country code, without it, with a space in the middle. So one passenger became several, and none of them could see the others’ rides or messages.',
+  w:'The ride order form sent the number through untouched.',
+  f:'Fixed. The country code goes on before the ride is saved, so there is one spelling from now on, and every page that reads a number still tries both so nothing already saved is lost.'},
+
+ {s:'medium',m:'MsouWout',t:'Deleting your account said it worked without checking, and only deleted half',
+  st:'held',
+  d:'The delete screen says "your account has been deleted" the instant you tap it, whether or not the server did anything. And if your rides were saved under two spellings of your number, only one lot was removed.',
+  w:'Found while fixing the country code. The page fires the request and shows the goodbye message without waiting for an answer.',
+  f:'The half-deletion is fixed — it now asks for both spellings. The message that claims success without checking I have left alone for now and flagged it here rather than change how that screen behaves while you are testing. Say the word and I will make it wait for the real answer.'},
 
  {s:'high',m:'MsouWout',t:'The Mesaj page forgot you the moment it reloaded',
   st:'held',
