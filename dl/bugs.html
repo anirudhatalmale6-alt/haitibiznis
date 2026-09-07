@@ -334,6 +334,12 @@ var BUGS = [
   w:'It was hard-coded rather than held on the server.',
   f:'Not started. Low risk on its own, but it should not be there.'},
 
+ {s:'high',m:'LajanMaker',t:'Typing the name with capital letters landed on a blank error page',
+  st:'live',
+  d:'haitibiznis.com/lajanmaker opened the app. haitibiznis.com/LajanMaker did not — it showed GitHub’s own grey error page, with no logo, no Kreyòl and no way back. LajanMaker is exactly how the name is written on the billboard, on the cards and in every message, so anyone who typed what they read got a dead end. The QR code was never affected: it carries the small-letter address.',
+  w:'A web address is case-sensitive after the domain name, and the site had no error page of its own, so there was nothing to catch the mistake.',
+  f:'The site now has its own error page, and before it shows anything it retries the same address in small letters. That fixes the capitals for every page on the site at once, not just this one word. It cannot loop — an address that is already in small letters cannot differ from its own small-letter form, so the retry happens at most once. If the page really is missing it now says so in Kreyòl, prints the address that was typed, and offers the way back to LajanMaker, HaitiBiznis and Tikè Lakay.'},
+
  /* ------------------------------------------------------------ MEDIUM */
  {s:'medium',m:'MsouWout',t:'Vehicle types are recorded two different ways',
   st:'open',
