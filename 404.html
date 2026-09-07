@@ -1,0 +1,78 @@
+<!doctype html>
+<html lang="ht">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Paj sa a pa la — HaitiBiznis</title>
+<meta name="robots" content="noindex,nofollow">
+
+<!-- Served by GitHub Pages for every address that does not exist.
+     Two jobs, in this order:
+
+     1. FIX THE CAPITALS. The address bar is case-sensitive here, so
+        /lajanmaker opens and /LajanMaker does not - and /LajanMaker is exactly
+        how the name is written on the billboard, on the cards and in every
+        message. Anyone who types what they read got a blank error page. So
+        before showing anything, retry the same address in small letters.
+
+        No redirect loop is possible: a path that is already all-lowercase
+        cannot differ from its own lowercase form, so the second visit falls
+        straight through to the page below. Exactly one hop, always.
+
+     2. If that is not it, say so in a way a person can use - in their own
+        language, with the way back on screen. -->
+<script>
+(function () {
+  var p = location.pathname, low = p.toLowerCase();
+  if (low !== p) { location.replace(low + location.search + location.hash); }
+})();
+</script>
+
+<link rel="icon" href="/assets/favicon-32.png" sizes="32x32">
+<link rel="icon" href="/assets/favicon-16.png" sizes="16x16">
+<meta name="theme-color" content="#00209F">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+  *{box-sizing:border-box}
+  body{margin:0;min-height:100vh;display:flex;align-items:center;justify-content:center;
+       padding:26px 20px;text-align:center;
+       background:linear-gradient(160deg,#00209F,#001566);
+       font-family:Poppins,system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;color:#fff}
+  .card{width:100%;max-width:380px}
+  img.mark{width:104px;height:104px;border-radius:22px;background:#fff;padding:8px;
+           box-shadow:0 14px 34px rgba(0,0,0,.34)}
+  h1{font-size:21px;margin:20px 0 8px;line-height:1.3}
+  p.sub{font-size:14px;line-height:1.55;color:#c9d8ff;margin:0 0 8px}
+  p.en{font-size:12.5px;line-height:1.5;color:#8fb0f0;margin:0 0 24px}
+  .links{display:flex;flex-direction:column;gap:11px;margin-top:4px}
+  a.go{display:block;padding:14px 16px;border-radius:14px;text-decoration:none;
+       font-weight:700;font-size:15px;color:#fff;
+       background:rgba(255,255,255,.13);border:1px solid rgba(255,255,255,.24)}
+  a.go.main{background:linear-gradient(90deg,#E31B23,#ff3d45);border-color:transparent;
+            box-shadow:0 10px 24px rgba(227,27,35,.4)}
+  a.go small{display:block;font-weight:400;font-size:11.5px;color:#d8e4ff;margin-top:3px}
+  .addr{margin-top:22px;font-size:11.5px;color:#7e9fe0;word-break:break-all}
+</style>
+</head>
+<body>
+  <div class="card">
+    <img class="mark" src="/assets/haitibiznis-logo.png" alt="HaitiBiznis">
+    <h1>Nou pa jwenn paj sa a</h1>
+    <p class="sub">Gen chans adrès la gen yon ti erè ladan l. Chwazi youn anba a.</p>
+    <p class="en">We could not find that page. Pick one below.</p>
+    <div class="links">
+      <a class="go main" href="/pos/">LajanMaker Center <small>Aprann • Vann • Fè Lajan</small></a>
+      <a class="go" href="/">HaitiBiznis <small>Paj prensipal la</small></a>
+      <a class="go" href="/events.html">Tikè Lakay <small>Evènman ak tikè</small></a>
+    </div>
+    <p class="addr" id="addr"></p>
+  </div>
+<script>
+  /* Print what was actually asked for, so when someone films the screen and
+     sends it to me, the message tells me which address they typed. */
+  try { document.getElementById('addr').textContent = location.pathname; } catch (e) {}
+</script>
+</body>
+</html>
