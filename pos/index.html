@@ -2324,6 +2324,93 @@ const T_EMP5={
 Object.keys(T_EMP5).forEach(function(l){if(T[l])Object.assign(T[l],T_EMP5[l]);});
 
 /* -------------------------------------------------------------------------
+   Signing up, sixth pass — and the one that was costing him money.
+
+   "When shared the info they sign up as employees not as a subscription!
+    Nobody should have access to enter employees but me or someone that sign
+    up for 2500 gdes."
+
+   Three separate things were doing that, and each one on its own was enough:
+
+   1. The first account on a brand-new phone opened on Anplwaye. That default
+      was right for HIM adding his staff and wrong for the only other moment it
+      fires - somebody who has just opened the shared link, who is the merchant.
+      He signed himself up as an employee of a shop that has no owner.
+
+   2. Employees are free by design (the owner paid), so a phone whose only
+      account is an employee never gets asked for anything.
+
+   3. The share button minted a real HaitiBiznis TEAM CODE for every employee
+      and wrote it into a WhatsApp message ending "You will not have to pay
+      anything". A team code is checked by arithmetic on the phone itself - no
+      server, no internet - so it works on any phone it is ever forwarded to,
+      for good. One employee could hand the whole product away for free.
+
+   Adding people beyond the first now needs the plan that has "Plizyè
+   itilizatè" printed on it - Business, his own price list of 18 Aug. The
+   number is read from PLANS below, never typed here, so it can never drift
+   from what the subscription page charges.
+   ------------------------------------------------------------------------- */
+const T_SIGNUP={
+ ht:{emp_first_owner_t:'Kreye kont pwopriyetè a',
+     emp_first_owner_s:'Premye kont sou telefòn sa a se pou mèt biznis la — sa vle di ou menm. Se kont sa a ki gen abònman an. W ap ka ajoute anplwaye w yo apre.',
+     emp_biz_t:'Ajoute anplwaye',
+     emp_biz_s:'Plizyè itilizatè fè pati plan Business la ({p}). Ak plan sa a ou ka ajoute tout ekip ou a sou telefòn nan.',
+     emp_biz_now:'Plan ou kounye a: {c}',
+     emp_biz_see:'Wè plan Business la',
+     emp_biz_adm:'Mwen se HaitiBiznis — kòd admin',
+     emp_share_s2:'PIN li louvri telefòn sa a. Anplwaye yo konekte isit la, sou telefòn biznis la.',
+     emp_share_own:'Pou li travay sou pwòp telefòn pa l, telefòn sa a bezwen pwòp abònman pa l.',
+     emp_share_msg2:'Bonjou {n}! Men aksè ou pou LajanMaker Center.\nSou telefòn biznis la: chwazi non ou epi tape PIN {pin}',
+     emp_tmc_adm:'Kòd ekip (HaitiBiznis sèlman)'},
+ fr:{emp_first_owner_t:'Créer le compte propriétaire',
+     emp_first_owner_s:'Le premier compte de ce téléphone est celui du propriétaire — c’est-à-dire vous. C’est ce compte qui porte l’abonnement. Vous pourrez ajouter vos employés ensuite.',
+     emp_biz_t:'Ajouter un employé',
+     emp_biz_s:'Plusieurs utilisateurs font partie du plan Business ({p}). Avec ce plan vous pouvez ajouter toute votre équipe sur le téléphone.',
+     emp_biz_now:'Votre plan actuel : {c}',
+     emp_biz_see:'Voir le plan Business',
+     emp_biz_adm:'Je suis HaitiBiznis — code admin',
+     emp_share_s2:'Son PIN ouvre ce téléphone. Les employés se connectent ici, sur le téléphone de l’entreprise.',
+     emp_share_own:'Pour travailler sur son propre téléphone, ce téléphone a besoin de son propre abonnement.',
+     emp_share_msg2:'Bonjour {n} ! Voici votre accès à LajanMaker Center.\nSur le téléphone de l’entreprise : choisissez votre nom et tapez le PIN {pin}',
+     emp_tmc_adm:'Code d’équipe (HaitiBiznis uniquement)'},
+ en:{emp_first_owner_t:'Create the owner account',
+     emp_first_owner_s:'The first account on this phone belongs to the business owner — that is you. This is the account the subscription sits on. You can add your employees after.',
+     emp_biz_t:'Add an employee',
+     emp_biz_s:'Multiple users are part of the Business plan ({p}). With that plan you can add your whole team on this phone.',
+     emp_biz_now:'Your plan right now: {c}',
+     emp_biz_see:'See the Business plan',
+     emp_biz_adm:'I am HaitiBiznis — admin code',
+     emp_share_s2:'Their PIN opens this phone. Employees sign in here, on the business phone.',
+     emp_share_own:'For them to work on their own phone, that phone needs its own subscription.',
+     emp_share_msg2:'Hi {n}! Here is your access to LajanMaker Center.\nOn the business phone: pick your name and type PIN {pin}',
+     emp_tmc_adm:'Team code (HaitiBiznis only)'},
+ es:{emp_first_owner_t:'Crear la cuenta del propietario',
+     emp_first_owner_s:'La primera cuenta de este teléfono es la del propietario — es decir, usted. Es la cuenta que lleva la suscripción. Podrá agregar a sus empleados después.',
+     emp_biz_t:'Agregar un empleado',
+     emp_biz_s:'Varios usuarios forman parte del plan Business ({p}). Con ese plan puede agregar a todo su equipo en el teléfono.',
+     emp_biz_now:'Su plan actual: {c}',
+     emp_biz_see:'Ver el plan Business',
+     emp_biz_adm:'Soy HaitiBiznis — código admin',
+     emp_share_s2:'Su PIN abre este teléfono. Los empleados inician sesión aquí, en el teléfono del negocio.',
+     emp_share_own:'Para trabajar en su propio teléfono, ese teléfono necesita su propia suscripción.',
+     emp_share_msg2:'¡Hola {n}! Este es tu acceso a LajanMaker Center.\nEn el teléfono del negocio: elige tu nombre y escribe el PIN {pin}',
+     emp_tmc_adm:'Código de equipo (solo HaitiBiznis)'},
+ pt:{emp_first_owner_t:'Criar a conta do proprietário',
+     emp_first_owner_s:'A primeira conta deste celular é a do dono do negócio — ou seja, você. É nela que fica a assinatura. Você pode adicionar seus funcionários depois.',
+     emp_biz_t:'Adicionar funcionário',
+     emp_biz_s:'Vários usuários fazem parte do plano Business ({p}). Com esse plano você pode adicionar toda a sua equipe no celular.',
+     emp_biz_now:'Seu plano agora: {c}',
+     emp_biz_see:'Ver o plano Business',
+     emp_biz_adm:'Sou HaitiBiznis — código admin',
+     emp_share_s2:'O PIN dela abre este celular. Os funcionários entram aqui, no celular da empresa.',
+     emp_share_own:'Para ela trabalhar no próprio celular, aquele celular precisa da própria assinatura.',
+     emp_share_msg2:'Olá {n}! Este é o seu acesso ao LajanMaker Center.\nNo celular da empresa: escolha o seu nome e digite o PIN {pin}',
+     emp_tmc_adm:'Código de equipe (somente HaitiBiznis)'}
+};
+Object.keys(T_SIGNUP).forEach(function(l){if(T[l])Object.assign(T[l],T_SIGNUP[l]);});
+
+/* -------------------------------------------------------------------------
    Sèvis Administratif, Sèvis Legal, Kominike Laprès and Asirans have no fixed
    rate - the seller taps the service and types the price into the small box
    beside it. Tapping the row without typing anything selected the item at 0 and
@@ -4675,9 +4762,16 @@ function staffForm(isFirst,editId){
   var ed=editId?staffList().find(function(x){return x.id===editId;}):null;
   var dPin=ed?ed.pin:genPin();
   /* His instruction, in his words: "It should only allow me to create employees
-     unless I explicitly choose to create an owner." So the box opens on Anplwaye
-     every time, including the first account. Owner is now always a deliberate tap. */
-  var dRole=ed?ed.role:'staff';
+     unless I explicitly choose to create an owner." That is still true for every
+     account he adds - the box opens on Anplwaye.
+
+     But it was also firing on the FIRST account of a brand-new phone, and that
+     is a different person entirely: somebody who just opened the shared link,
+     i.e. the merchant. He was signing himself up as an employee of a shop with
+     no owner, and an employee is free. So the first account - and only the
+     first - opens on Pwopriyetè. The box is still there and he can still
+     change it; nothing is decided behind his back. */
+  var dRole=ed?ed.role:(isFirst?'owner':'staff');
   var roleRow='<label class="fl">'+t('emp_role')+'</label><select id="sfRole">'
     +'<option value="staff"'+(dRole==='staff'?' selected':'')+'>'+t('emp_staff')+'</option>'
     +'<option value="owner"'+(dRole==='owner'?' selected':'')+'>'+t('emp_owner')+'</option></select>'
@@ -4694,8 +4788,10 @@ function staffForm(isFirst,editId){
     /* State the gap, do not close it for him: telling him no owner exists is
        information; picking owner on his behalf is the bug we just removed. */
     if(!ed&&!owner&&!hasOwner())note.textContent+=' '+t('emp_noowner');
-    ttl.textContent=ed?t('emp_edit_t'):(owner?t('emp_first_t'):t('emp_add_t'));
-    sub.textContent=(isFirst&&owner)?t('emp_first_s2'):t('emp_add_s');
+    /* On the very first account the wording says out loud which account carries
+       the subscription, because that is the thing he was losing. */
+    ttl.textContent=ed?t('emp_edit_t'):((isFirst&&owner)?t('emp_first_owner_t'):(owner?t('emp_first_t'):t('emp_add_t')));
+    sub.textContent=(isFirst&&owner)?t('emp_first_owner_s'):t('emp_add_s');
   }
   sel.onchange=drawNote;drawNote();
   m.box.querySelector('#sfCancel').onclick=function(){m.close();if(!isFirst)manageStaff();};
@@ -4738,43 +4834,42 @@ function staffAdded(nm,pin,id){
   m.box.querySelector('#saCode').onclick=function(){m.close();staffShare(id);};
   m.box.querySelector('#saOk').onclick=function(){m.close();manageStaff();};
 }
-/* One message, both halves of what she needs. The PIN alone was never enough:
-   it opens THIS phone, and she is standing somewhere else with her own. The
-   team code is what stops her phone asking her for a subscription, so the two
-   travel together or he ends up explaining it twice. */
+/* This card used to mint a real HaitiBiznis team code for every employee a
+   merchant added, and put it in a WhatsApp message ending "You will not have to
+   pay anything."
+
+   A team code carries no secret and needs no server: any phone works out on its
+   own whether a code is valid, which is exactly what makes it useful for his
+   agents out in the country with no signal - and exactly what makes it fatal to
+   hand to a merchant's staff. Forward that message once and every phone it
+   reaches has the product for free, permanently, with nothing we can revoke.
+   That is the "they sign up as employees, not as a subscription" he is seeing.
+
+   So the card now sends what an employee actually needs: her PIN for the
+   business phone she stands at. Team codes are minted in one place only, the
+   admin panel, behind his code - tmcMakeForm(). */
 function staffShare(id){
   var s=staffList().find(function(x){return x.id===id;});
   if(!s)return manageStaff();
-  var link=location.origin+location.pathname;
+  var msg=t('emp_share_msg2').replace('{n}',s.name).replace('{pin}',s.pin||'----');
   var m=caOverlay('<div style="font-weight:900;font-size:17px;margin-bottom:2px">📤 '+escHtml(t('emp_share_t').replace('{n}',s.name))+'</div>'
-    +'<div class="sub" style="margin-bottom:12px">'+t('emp_share_s')+'</div>'
+    +'<div class="sub" style="margin-bottom:12px">'+t('emp_share_s2')+'</div>'
     +'<div style="background:#f1f5f9;border-radius:12px;padding:12px;margin-bottom:8px">'
-      +'<div style="font-size:11.5px;color:var(--muted);font-weight:800">1 · '+escHtml(t('emp_share_pin'))+'</div>'
+      +'<div style="font-size:11.5px;color:var(--muted);font-weight:800">'+escHtml(t('emp_share_pin'))+'</div>'
       +'<div style="font-size:28px;font-weight:900;letter-spacing:8px">'+escHtml(s.pin||'----')+'</div></div>'
-    +'<div style="background:#f2fbf5;border:2px solid #12a150;border-radius:12px;padding:12px;margin-bottom:12px">'
-      +'<div style="font-size:11.5px;color:var(--muted);font-weight:800">2 · '+escHtml(t('emp_share_code'))+'</div>'
-      +'<div id="shCode" style="font-size:24px;font-weight:900;letter-spacing:3px">'+escHtml(t('emp_share_wait'))+'</div></div>'
-    +'<a id="shWa" class="cta" target="_blank" rel="noopener" style="display:block;text-align:center;text-decoration:none;pointer-events:none;opacity:.5">💬 '+t('emp_share_wa')+'</a>'
-    +'<button class="cta ghost" id="shCopy" style="margin-top:8px" disabled>📋 '+t('emp_share_copy')+'</button>'
+    +'<div class="sub" style="margin-bottom:12px">'+escHtml(t('emp_share_own'))+'</div>'
+    +'<a id="shWa" class="cta" target="_blank" rel="noopener" href="https://wa.me/?text='+encodeURIComponent(msg)+'" style="display:block;text-align:center;text-decoration:none">💬 '+t('emp_share_wa')+'</a>'
+    +'<button class="cta ghost" id="shCopy" style="margin-top:8px">📋 '+t('emp_share_copy')+'</button>'
+    +'<button class="cta ghost" id="shTmc" style="margin-top:8px">🛡️ '+t('emp_tmc_adm')+'</button>'
     +'<button class="cta ghost" id="shX" style="margin-top:8px">'+t('back')+'</button>');
   m.ov.style.zIndex='97';
   m.box.querySelector('#shX').onclick=function(){m.close();manageStaff();};
-  /* The code is derived, so it takes a moment. Everything that needs it stays
-     switched off until it is there - a WhatsApp draft with the word
-     "preparing" in it would be worse than no button at all. */
-  tmcMake(s.role==='owner'?'mgr':'agent').then(function(code){
-    var msg=t('emp_share_msg').replace('{n}',s.name).replace('{pin}',s.pin||'----')
-              .replace('{code}',code).replace('{link}',link);
-    var el=m.box.querySelector('#shCode');if(el)el.textContent=code;
-    var wa=m.box.querySelector('#shWa');
-    if(wa){wa.href='https://wa.me/?text='+encodeURIComponent(msg);wa.style.pointerEvents='';wa.style.opacity='';}
-    var cp=m.box.querySelector('#shCopy');
-    if(cp){cp.disabled=false;cp.onclick=function(){
-      var done=function(){alert(t('emp_share_copied'));};
-      if(navigator.clipboard)navigator.clipboard.writeText(msg).then(done,done);else done();};}
-  },function(){
-    var el=m.box.querySelector('#shCode');if(el)el.textContent='--';
-  });
+  m.box.querySelector('#shCopy').onclick=function(){
+    var done=function(){alert(t('emp_share_copied'));};
+    if(navigator.clipboard)navigator.clipboard.writeText(msg).then(done,done);else done();};
+  /* Kept, because he does sometimes stand next to an agent and set her phone up.
+     The button is visible to anyone; the code behind it is not. */
+  m.box.querySelector('#shTmc').onclick=function(){m.close();openAdmin(tmcMakeForm);};
 }
 /* The licence buttons taught this lesson once already: a screen that can undo
    the protection has to be behind the same door. An employee must not be able
@@ -4790,6 +4885,53 @@ function staffCanManage(){
   var a=activeStaff();
   return !!(a&&a.role==='owner');
 }
+/* "Nobody should have access to enter employees but me or someone that sign up
+   for 2500 gdes."
+
+   The first account is never gated - that account IS the person who took the
+   phone on, and asking him to pay before he can write his own name down would
+   be absurd. Everything after it needs the plan whose feature list already
+   says "Plizyè itilizatè": Business, or Founder which contains it.
+
+   Viewing, editing and removing stay open. A shop that already has staff from
+   before today keeps working; it just cannot add a new one without the plan. */
+const MULTI_USER_PLANS=['business','founder'];
+function canAddStaff(){
+  if(!staffList().length)return true;   /* the owner's own first account */
+  if(admUnlocked())return true;         /* him */
+  if(isTeam())return true;              /* our own agents' phones */
+  var l=lic();
+  return MULTI_USER_PLANS.indexOf(l.plan)>=0&&!licExpired(l);
+}
+/* Read from PLANS, never typed here, so the figure on this card and the figure
+   the subscription page charges can never drift apart. Brazil has no Business
+   price set yet, and a converted GDES number is exactly what he told us not to
+   invent - so it says "talk to us" instead. */
+function bizPlanPrice(){
+  var p=PLANS.find(function(x){return x.id==='business';});
+  if(!p)return '';
+  if(isBR()){var v=planBRL(p,false);return v==null?t('lic_br_soon'):brlFmt(v);}
+  return gdes(p.price);
+}
+function staffNeedsBiz(){
+  var si=licStatusInfo();
+  var m=caOverlay('<div style="text-align:center"><div style="font-size:34px">👥</div>'
+    +'<div style="font-weight:900;font-size:18px;margin:2px 0">'+t('emp_biz_t')+'</div></div>'
+    +'<div class="sub" style="margin:8px 0 10px">'+escHtml(t('emp_biz_s').replace('{p}',bizPlanPrice()))+'</div>'
+    +'<div style="background:#eef3ff;border:1px solid var(--blue);border-radius:12px;padding:12px;margin-bottom:10px;text-align:center">'
+      +'<div style="font-size:12px;color:var(--muted);font-weight:700">Business</div>'
+      +'<div style="font-size:24px;font-weight:900;color:var(--blue)">'+bizPlanPrice()+'</div></div>'
+    +'<div class="sub" style="margin-bottom:12px">'+escHtml(t('emp_biz_now').replace('{c}',planName(lic().plan)+' · '+si[1]))+'</div>'
+    +'<button class="cta" id="nbGo">💳 '+t('emp_biz_see')+'</button>'
+    +'<button class="cta ghost" id="nbAdm" style="margin-top:8px">🔐 '+t('emp_biz_adm')+'</button>'
+    +'<button class="cta ghost" id="nbX" style="margin-top:8px">'+t('back')+'</button>');
+  m.ov.style.zIndex='96';
+  m.box.querySelector('#nbGo').onclick=function(){m.close();openLicense();};
+  /* Him, on a merchant's phone, with his own code - the one door that must
+     always exist or he cannot set a shop up for somebody in person. */
+  m.box.querySelector('#nbAdm').onclick=function(){m.close();openAdmin(function(){staffForm(staffList().length===0);});};
+  m.box.querySelector('#nbX').onclick=function(){m.close();manageStaff();};
+}
 function manageStaff(){
   if(!staffCanManage())return openAdmin(manageStaff);
   var l=staffList();var a=activeStaff();
@@ -4802,7 +4944,7 @@ function manageStaff(){
     +'<button data-share="'+s.id+'" style="width:100%;margin-top:8px;border:1px solid var(--blue);background:#eef3ff;color:var(--blue);border-radius:9px;padding:8px;font-weight:800;font-size:12.5px;font-family:inherit">📤 '+t('emp_share')+'</button>'
     +'</div>';}).join(''):'<div class="sub" style="margin-bottom:10px">'+t('emp_none')+'</div>';
   var m=caOverlay('<div style="font-weight:900;font-size:17px;margin-bottom:2px">👥 '+t('emp_manage_t')+'</div><div class="sub" style="margin-bottom:4px">'+t('emp_manage_s')+'</div><div class="sub" style="margin-bottom:12px"><b>'+t('emp_this_phone')+'</b></div>'+rows+'<button class="cta" id="stAdd" style="margin-top:4px">＋ '+t('emp_add_t')+'</button>'+(l.length?'<button class="cta ghost" id="stSwitch" style="margin-top:8px">🔄 '+t('emp_switch')+'</button>':'')+'<button class="cta ghost" id="stClose" style="margin-top:8px">'+t('back')+'</button>');
-  m.box.querySelector('#stAdd').onclick=function(){m.close();staffForm(staffList().length===0);};
+  m.box.querySelector('#stAdd').onclick=function(){m.close();if(!canAddStaff())return staffNeedsBiz();staffForm(staffList().length===0);};
   var sw=m.box.querySelector('#stSwitch');if(sw)sw.onclick=function(){m.close();signOut();};
   m.box.querySelector('#stClose').onclick=m.close;
   m.box.querySelectorAll('[data-edit]').forEach(function(b){b.onclick=function(){m.close();staffForm(false,b.dataset.edit);};});
@@ -4823,7 +4965,7 @@ function shareApp(){
    =================================================================== */
 /* Version the seller can read out loud. When someone says "I don't see the new
    button", the first useful question is which build their phone is running. */
-const APP_VER='61';
+const APP_VER='62';
 var swReg=null;
 if('serviceWorker' in navigator){
   window.addEventListener('load',function(){

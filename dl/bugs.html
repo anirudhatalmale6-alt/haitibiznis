@@ -141,6 +141,30 @@ footer{padding:30px 0 46px;text-align:center;color:var(--tm);font-size:.76rem;li
 /* One list, rendered. Kept as data so the page cannot drift from the counts. */
 var BUGS = [
  /* ---------------------------------------------------------- CRITICAL */
+ {s:'critical',m:'LajanMaker POS',t:'The employee button was giving the whole app away for free, permanently',
+  st:'live',
+  d:'When a merchant added an employee and pressed “Send their access”, the app created a HaitiBiznis team code and wrote it into a ready-made WhatsApp message that ended “You will not have to pay anything.” A team code turns any phone into a phone that never has to subscribe. It is checked by the phone itself, with no internet and no server, so it keeps working on every phone that message is ever forwarded to, for good, and there was no way to cancel one. Every merchant on the app could hand the product out for free to as many people as they liked, and none of them were doing anything wrong — it was the button we gave them.',
+  w:'Team codes were built for your own agents out in the country, where there is no signal to check anything against. That is why they check themselves. Putting that same code on a merchant’s employee card meant handing the master key to everybody.',
+  f:'The employee card now sends what an employee actually needs: her PIN for the business phone she works at. Team codes are created in one place only — the admin panel, behind your code. I tested it end to end: a code the live app produced (TM-AHJQ-454L) was accepted by a phone that had never seen it, with an expired subscription, and still let it sell. Honest limit, and it matters: codes that have already gone out still work, because the check happens on the phone. Nobody can make new ones now, but I cannot cancel the old ones without a licence server. Tell me if you want that built and I will send you the cost first.'},
+
+ {s:'critical',m:'LajanMaker POS',t:'Everyone who opened your shared link signed up as an employee, so nobody was asked to pay',
+  st:'live',
+  d:'You share the POS link. The person opens it, and the first account it asks them to create opens on “Anplwaye”. So the merchant signed himself up as an employee of a shop that has no owner. Employees are free by design — the owner is the one who pays — so that phone was never asked for anything. Then, because the phone had no owner on it, the same person could add as many more employees as he wanted.',
+  w:'You told me in August the form should open on Anplwaye unless you deliberately choose Pwopriyetè, and that was right for you adding your own staff. But the same form is also the very first screen on a brand-new phone, and that person is the merchant, not an employee. One default was doing two opposite jobs.',
+  f:'The first account on a phone now opens on Pwopriyetè and says out loud that this is the account the subscription sits on. Every account after it still opens on Anplwaye, exactly as you asked. The choice is still on screen both times — nothing is decided behind your back.'},
+
+ {s:'high',m:'LajanMaker POS',t:'Anyone could add employees, on any plan, without paying for it',
+  st:'live',
+  d:'“Multiple users” has been a Business-plan line on your price list since 18 August, but the app never asked. A phone on the free trial, on Basic, or with a subscription that had run out could add the whole team.',
+  w:'The employee screen was written before the plans were, and nothing was ever wired between the two.',
+  f:'Adding a second person now needs Business or Founder. If the plan does not cover it, the app shows a card naming the plan and the price — read straight from the price list, so the figure on that card and the figure the payment screen charges can never drift apart. Three doors stay open on purpose: the very first account (that is the owner setting his own phone up), your admin code, and a HaitiBiznis team phone. A shop that already has staff keeps them and keeps working; it just cannot add more without the plan.'},
+
+ {s:'high',m:'MyPlopPlop',t:'Sòl was live and finished, and nothing anywhere linked to it',
+  st:'live',
+  d:'“Where is the Sòl, he can’t find it.” He could not find it because there was no way in. The Sòl page has been live and working — I checked the server behind it and it answers properly — but the MyPlopPlop home screen did not mention the word Sòl once, in any language. The only way to reach it was to already know the address.',
+  w:'The page was built and published, and the link to it was never added to the home screen.',
+  f:'Sòl is now the first thing in “Plis sèvis” on the home screen, and a line in the menu, in all five languages. No “Byento” label on it — this one is actually open.'},
+
  {s:'critical',m:'Tikè Lakay',t:'No ticket ever got marked as paid — not one, ever',
   st:'live',
   d:'Every ticket bought on Tikè Lakay since May sat at "pending" for ever. All four of them, including one for 3,150 HTG. Meanwhile the payment gateway, asked directly about those same references, said the money had arrived every time.',
@@ -341,6 +365,12 @@ var BUGS = [
   f:'The site now has its own error page, and before it shows anything it retries the same address in small letters. That fixes the capitals for every page on the site at once, not just this one word. It cannot loop — an address that is already in small letters cannot differ from its own small-letter form, so the retry happens at most once. If the page really is missing it now says so in Kreyòl, prints the address that was typed, and offers the way back to LajanMaker, HaitiBiznis and Tikè Lakay.'},
 
  /* ------------------------------------------------------------ MEDIUM */
+ {s:'medium',m:'LajanMaker POS',t:'Promotional Materials has no way to add a flyer or a video',
+  st:'you',
+  d:'The Promotional Materials screen shows the flyers that were built into the app, and under Videos it says “coming soon”. There is no Upload button, so you cannot put a new flyer or a video in there yourself — every one has to come through me.',
+  w:'It was built as a fixed set of files that ship inside the app. Nothing was ever built to receive a new one.',
+  f:'Not built. Uploading needs somewhere for the files to live and a screen for you to manage them, which is real work rather than a fix, so I will send you the cost before I start anything. Say the word. In the meantime, send me any flyer or video on WhatsApp and I will put it in for you at no charge.'},
+
  {s:'medium',m:'MsouWout',t:'Vehicle types are recorded two different ways',
   st:'open',
   d:'Some records say "moto" and some say "motorcycle" for the same thing.',
