@@ -244,6 +244,18 @@ var BUGS = [
   f:'It now requires a completed transaction, and reports what it skipped and why.'},
 
  /* -------------------------------------------------------------- HIGH */
+ {s:'high',m:'MsouWout',t:'The Mesaj page told registered drivers they are not registered',
+  st:'held',
+  d:'A driver who is properly registered and approved was refused at the Mesaj page with "this number is not registered". Every driver, since the page was built. The driver app itself was never affected — only Mesaj.',
+  w:'A driver number is saved as +509 followed by the eight digits, and the lookup compares the text exactly. The Mesaj page shows a +509 flag beside the box, so a driver types the eight digits alone — and the page sent exactly those eight digits, which never match. Checked against the live route both ways before changing anything.',
+  f:'Fixed and tested, waiting on your word to go live because MsouWout is frozen for your test. Until then, type the number in full with +509 in front and it opens. 23 checks pass; the same 23 against the old page fail 11.'},
+
+ {s:'high',m:'MsouWout',t:'The Mesaj page forgot you the moment it reloaded',
+  st:'held',
+  d:'You were logged into Mesaj and then suddenly you were not, with nothing on screen to explain it. Reloading the page, or coming back to it after your phone put it in the background, silently dropped you at the login box. On a phone low on battery Android does exactly that.',
+  w:'The login was held only in the page’s memory, never written down. Nothing had gone wrong on the server.',
+  f:'Fixed and tested, waiting on your word with the one above. The login is now remembered for the session and restored when the page opens; logging out still really logs you out.'},
+
  {s:'high',m:'LajanMaker',t:'parenaj.html is a fake referral page, live, with share buttons',
   st:'you',
   d:'It makes up a code in the browser starting with the word DEMO, shows zero statistics, saves nothing anywhere — and offers WhatsApp and Facebook buttons to share it. Anyone sharing that code earns nothing and will not know.',
