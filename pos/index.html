@@ -4921,7 +4921,10 @@ function staffNeedsBiz(){
     +'<div style="background:#eef3ff;border:1px solid var(--blue);border-radius:12px;padding:12px;margin-bottom:10px;text-align:center">'
       +'<div style="font-size:12px;color:var(--muted);font-weight:700">Business</div>'
       +'<div style="font-size:24px;font-weight:900;color:var(--blue)">'+bizPlanPrice()+'</div></div>'
-    +'<div class="sub" style="margin-bottom:12px">'+escHtml(t('emp_biz_now').replace('{c}',planName(lic().plan)+' · '+si[1]))+'</div>'
+    /* On the trial the plan name and the status word are the same word, and
+       "Esè · Esè" reads like a fault. Say it once. */
+    +'<div class="sub" style="margin-bottom:12px">'+escHtml(t('emp_biz_now').replace('{c}',
+        planName(lic().plan)===si[1]?si[1]:(planName(lic().plan)+' · '+si[1])))+'</div>'
     +'<button class="cta" id="nbGo">💳 '+t('emp_biz_see')+'</button>'
     +'<button class="cta ghost" id="nbAdm" style="margin-top:8px">🔐 '+t('emp_biz_adm')+'</button>'
     +'<button class="cta ghost" id="nbX" style="margin-top:8px">'+t('back')+'</button>');
@@ -4965,7 +4968,7 @@ function shareApp(){
    =================================================================== */
 /* Version the seller can read out loud. When someone says "I don't see the new
    button", the first useful question is which build their phone is running. */
-const APP_VER='62';
+const APP_VER='63';
 var swReg=null;
 if('serviceWorker' in navigator){
   window.addEventListener('load',function(){
