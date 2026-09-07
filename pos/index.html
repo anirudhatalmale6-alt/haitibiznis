@@ -2410,6 +2410,28 @@ const T_SIGNUP={
 };
 Object.keys(T_SIGNUP).forEach(function(l){if(T[l])Object.assign(T[l],T_SIGNUP[l]);});
 
+/* The blocked screen, and the pill that used to count his own days down at
+   him. "I am the owner with full access why i am still with days left for my
+   subscription" - because nothing on the phone knew who he was. It does now. */
+const T_BLOCK={
+ ht:{blk_t:'Aksè sa a fèmen',blk_s:'Telefòn sa a pa gen aksè ak LajanMaker ankò. Si ou panse se yon erè, ekri nou sou WhatsApp ak nimewo ki anba a.',
+     blk_id:'Nimewo telefòn sa a',blk_wa:'Ekri HaitiBiznis',dev_h:'Telefòn ki gen aksè',dev_s:'Sa a se sèl paj la ki rive sou LÒT telefòn yo. Tout sa ki anwo a chanje telefòn sa a sèlman.',dev_open:'Louvri lis telefòn yo',
+     lic_granted:'Aksè konplè — pa gen abònman pou peye',dev_id:'Nimewo telefòn sa a'},
+ fr:{blk_t:'Cet accès est fermé',blk_s:'Ce téléphone n’a plus accès à LajanMaker. Si vous pensez que c’est une erreur, écrivez-nous sur WhatsApp avec le numéro ci-dessous.',
+     blk_id:'Numéro de ce téléphone',blk_wa:'Écrire à HaitiBiznis',dev_h:'Téléphones qui ont accès',dev_s:'C’est la seule page qui atteint les AUTRES téléphones. Tout ce qui est au-dessus ne change que ce téléphone-ci.',dev_open:'Ouvrir la liste des téléphones',
+     lic_granted:'Accès complet — aucun abonnement à payer',dev_id:'Numéro de ce téléphone'},
+ en:{blk_t:'This access is closed',blk_s:'This phone no longer has access to LajanMaker. If you think that is a mistake, write to us on WhatsApp with the number below.',
+     blk_id:'This phone’s number',blk_wa:'Write to HaitiBiznis',dev_h:'Phones that have access',dev_s:'This is the only page that reaches OTHER phones. Everything above it changes this phone only.',dev_open:'Open the phone list',
+     lic_granted:'Full access — no subscription to pay',dev_id:'This phone’s number'},
+ es:{blk_t:'Este acceso está cerrado',blk_s:'Este teléfono ya no tiene acceso a LajanMaker. Si cree que es un error, escríbanos por WhatsApp con el número de abajo.',
+     blk_id:'Número de este teléfono',blk_wa:'Escribir a HaitiBiznis',dev_h:'Teléfonos con acceso',dev_s:'Esta es la única página que llega a OTROS teléfonos. Todo lo de arriba cambia solo este teléfono.',dev_open:'Abrir la lista de teléfonos',
+     lic_granted:'Acceso completo — sin suscripción que pagar',dev_id:'Número de este teléfono'},
+ pt:{blk_t:'Este acesso está fechado',blk_s:'Este celular não tem mais acesso ao LajanMaker. Se você acha que é um engano, escreva para nós no WhatsApp com o número abaixo.',
+     blk_id:'Número deste celular',blk_wa:'Escrever para a HaitiBiznis',dev_h:'Celulares com acesso',dev_s:'Esta é a única página que alcança OUTROS celulares. Tudo acima muda apenas este celular.',dev_open:'Abrir a lista de celulares',
+     lic_granted:'Acesso completo — sem assinatura a pagar',dev_id:'Número deste celular'}
+};
+Object.keys(T_BLOCK).forEach(function(l){if(T[l])Object.assign(T[l],T_BLOCK[l]);});
+
 /* -------------------------------------------------------------------------
    Sèvis Administratif, Sèvis Legal, Kominike Laprès and Asirans have no fixed
    rate - the seller taps the service and types the price into the small box
@@ -2555,6 +2577,10 @@ function renderHome(){
   const commWeek=o.filter(x=>x.amount>0&&(Date.now()-new Date(x.ts).getTime())<7*864e5).reduce((a,b)=>a+orderComm(b),0);
   const l=lic();const days=Math.max(0,licDays(l));const si=licStatusInfo(l);const exp=licExpired(l);
   const tm=team();   /* a team phone shows its badge instead of the subscription pill */
+  /* "I am the owner with full acccess why i am still with days left for my
+     subscription" — because nothing on the phone knew who he was. It asks the
+     server now, and a phone he has granted never sees a countdown again. */
+  const granted=srvGranted();
   const hr=new Date().getHours();const greetIco=hr<12?'☀️':hr<18?'🌤️':'🌙';
   document.getElementById('homeHead').innerHTML=`
    <div class="greet">
@@ -2589,10 +2615,10 @@ function renderHome(){
      /* Staff exist but nobody is signed in - the sign-in card can be dismissed
         by tapping outside it, and there was then no way back to it. */
      return '<button onclick="openSignIn()" style="width:100%;border:1px solid var(--line);background:#fff;border-radius:12px;padding:9px 12px;margin:12px 0;display:flex;justify-content:space-between;align-items:center;box-shadow:var(--shadow)"><span style="font-weight:800;font-size:12.5px">👤 '+t('emp_signin_open')+'</span><span style="color:var(--blue);font-weight:800;font-size:12px;flex:0 0 auto">→</span></button>';})()}
-   ${(exp&&!tm)?`<button onclick="openLicense()" style="width:100%;border:0;border-radius:14px;padding:12px 14px;font-weight:800;text-align:left;color:#fff;font-size:13px;margin-bottom:12px;background:#b91c1c">⚠️ ${t('lic_expired_msg')} — ${t('lic_renew')} →</button>`:
+   ${(exp&&!tm&&!granted)?`<button onclick="openLicense()" style="width:100%;border:0;border-radius:14px;padding:12px 14px;font-weight:800;text-align:left;color:#fff;font-size:13px;margin-bottom:12px;background:#b91c1c">⚠️ ${t('lic_expired_msg')} — ${t('lic_renew')} →</button>`:
      `<button onclick="go('earn')" style="width:100%;border:0;border-radius:14px;padding:14px;font-weight:800;text-align:left;color:#fff;font-size:13px;margin-bottom:12px;background:linear-gradient(120deg,var(--good),#0f9d55);display:flex;justify-content:space-between;align-items:center;gap:8px"><span>🎉 ${t('hub_commbanner').replace('{n}',gdes(commWeek))}</span><span style="opacity:.9">→</span></button>`}
-   ${tm?`<button onclick="openAdmin()" style="width:100%;border:1px solid #12a150;background:#f2fbf5;border-radius:14px;padding:12px 14px;margin-bottom:4px;display:flex;justify-content:space-between;align-items:center;gap:8px">
-     <span style="font-weight:800;font-size:13px;color:#0b6b37;text-align:left">🛡️ ${t('adm_badge')} · ${escHtml(tm.name)}<br><span style="font-weight:600;font-size:11.5px">${t('adm_nosub')}</span></span>
+   ${(tm||granted)?`<button onclick="openAdmin()" style="width:100%;border:1px solid #12a150;background:#f2fbf5;border-radius:14px;padding:12px 14px;margin-bottom:4px;display:flex;justify-content:space-between;align-items:center;gap:8px">
+     <span style="font-weight:800;font-size:13px;color:#0b6b37;text-align:left">🛡️ ${tm?(t('adm_badge')+' · '+escHtml(tm.name)):t('lic_granted')}<br><span style="font-weight:600;font-size:11.5px">${t('adm_nosub')}</span></span>
      <span style="color:#0b6b37;font-weight:700;font-size:12px;flex:0 0 auto">${t('adm_t')} →</span>
    </button>`:`<button onclick="openLicense()" style="width:100%;border:1px solid var(--line);background:#fff;border-radius:14px;padding:12px 14px;margin-bottom:4px;display:flex;justify-content:space-between;align-items:center;box-shadow:var(--shadow)">
      <span style="font-weight:800;font-size:13px"><span style="color:${si[0]}">●</span> ${planName(l.plan)} · ${days} ${t('lic_days').toLowerCase()}</span>
@@ -3734,6 +3760,9 @@ function renderSettings(){const cfg=getCfg();const box=document.getElementById('
     <hr style="border:none;border-top:1px solid var(--line);margin:12px 0">
     <button class="cta ghost" style="margin-bottom:10px" onclick="editBizName()">🏷️ ${t('set_bizname')}${bizName()?' · '+escHtml(bizName()):''}</button>
     <button class="cta" style="margin-bottom:10px" onclick="manageStaff()">👥 ${t('emp_employees')}</button>
+    <!-- He has to be able to tell me WHICH phone. Without a number on screen,
+         "block Jennifer's phone" is a guess. -->
+    <div class="sub" style="margin:-4px 0 10px">${t('dev_id')}: <b style="letter-spacing:2px">${posDeviceShort()}</b></div>
     <button class="cta" style="margin-bottom:12px;background:linear-gradient(135deg,#25D366,#128C7E);border:0" onclick="shareApp()">🟢 ${t('share_pos')} — WhatsApp</button>
     <button class="cta" style="margin-bottom:12px" onclick="openLicense()">💳 ${t('lic_open')}</button>
     <div class="sub" style="margin-bottom:8px"><span style="color:${_si[0]}">●</span> ${planName(lic().plan)} · ${_si[1]} · ${Math.max(0,licDays())} ${t('lic_days').toLowerCase()}</div>
@@ -4179,9 +4208,106 @@ function licDays(l){l=l||lic();if(l.lifetime)return Infinity;return Math.ceil((n
 function licEffStatus(l){l=l||lic();if(l.status==='suspended')return'suspended';if(!l.lifetime&&licDays(l)<0)return'expired';if(l.plan==='trial')return'trial';return'active';}
 function licExpired(l){var s=licEffStatus(l);return s==='expired'||s==='suspended';}
 function licStatusInfo(l){var s=licEffStatus(l);return {suspended:['#b45309',t('lic_suspended')],expired:['#b91c1c',t('lic_expired')],trial:['#2563eb',t('lic_trial')],active:['#16a34a',t('lic_active')]}[s];}
+/* ===================================================================
+   THE PHONE HAS TO ASK.
+
+   "I deleted Jennifer and Dukens but they still have access this is nuts."
+
+   He was right and it could never have worked. Everything lived on the phone
+   itself — the staff list, the licence, the team code — so deleting a row on
+   HIS phone could not reach THEIRS. And a team code checks itself by
+   arithmetic, so once one was sent there was nothing anywhere that could take
+   it back.
+
+   So every phone now registers itself with the server and asks who it is. The
+   answer from the server wins. Blocking a phone takes effect the next time it
+   opens the app, which is every time — the POS is a web page, so if it can
+   load at all it has reached the internet.
+
+   Three rules that matter more than the code:
+
+   1. BLOCKING IS STICKY. The answer is remembered on the phone, so turning
+      aeroplane mode on does not undo a block. Only the server saying "active"
+      lifts it.
+   2. SILENCE IS NOT A BLOCK. Render's free tier sleeps and takes most of a
+      minute to wake. A phone that cannot reach us keeps working exactly as it
+      did before — a merchant who has paid must never lose his till because our
+      server was slow.
+   3. THE PHONE NEVER DECIDES. It reports what it believes; only `status` and
+      `grant` coming back are obeyed, and it cannot set either of them.
+   =================================================================== */
+const POS_API='https://haitibiznis-api.onrender.com';
+function posDeviceId(){
+  var id=load('hb_device_id',null);
+  if(!id||!/^[A-Za-z0-9_-]{8,64}$/.test(id)){
+    var a=new Uint8Array(12);crypto.getRandomValues(a);
+    id='d'+Array.from(a).map(function(b){return b.toString(16).padStart(2,'0');}).join('');
+    save('hb_device_id',id);
+  }
+  return id;
+}
+/* Short enough to read down a phone line, long enough to be unambiguous in a
+   list of a few hundred. He needs to be able to say which phone he means. */
+function posDeviceShort(){return posDeviceId().slice(1,7).toUpperCase();}
+function srvState(){return load('hb_srv',null)||{status:'unknown',grant:'none',at:0};}
+function srvBlocked(){return srvState().status==='blocked';}
+function srvGranted(){var g=srvState().grant;return g==='team'||g==='lifetime';}
+function srvAsk(){
+  try{
+    var l=lic();
+    return fetch(POS_API+'/api/pos/hello',{
+      method:'POST',headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({deviceId:posDeviceId(),label:bizName()||'',
+        staff:staffList().map(function(s){return s.name;}),
+        plan:l.plan||'',exp:l.exp||'',ver:APP_VER})
+    }).then(function(r){return r.ok?r.json():null;}).then(function(j){
+      if(!j||!j.ok)return null;                      /* an error is not an answer */
+      var before=srvState();
+      save('hb_srv',{status:j.status,grant:j.grant,note:j.note||'',at:Date.now()});
+      /* The answer lands AFTER the screen has been drawn, so it has to redraw
+         it. Without this, unblocking a phone left the lock on screen until the
+         next launch, and granting one still counted his days down at him -
+         both of which the tests caught and I would not have. */
+      var changed=(before.status!==j.status||before.grant!==j.grant);
+      if(j.status==='blocked'){posBlockedScreen();return j;}
+      var lockEl=document.getElementById('posBlocked');
+      if(lockEl)lockEl.remove();                     /* he lifted the block */
+      if(changed){try{renderHome();}catch(e){}}
+      refreshBadges();
+      return j;
+    }).catch(function(){return null;});              /* offline: rule 2 */
+  }catch(e){return Promise.resolve(null);}
+}
+/* Nothing to dismiss and nothing behind it. A blocked phone is not a phone
+   with a warning on it. */
+function posBlockedScreen(){
+  if(document.getElementById('posBlocked'))return;
+  var d=document.createElement('div');
+  d.id='posBlocked';
+  d.style.cssText='position:fixed;inset:0;z-index:99999;background:linear-gradient(160deg,#7f1d1d,#450a0a);'
+    +'color:#fff;display:flex;align-items:center;justify-content:center;padding:28px;text-align:center;'
+    +'font-family:Poppins,system-ui,sans-serif';
+  d.innerHTML='<div style="max-width:340px">'
+    +'<div style="font-size:44px">🔒</div>'
+    +'<div style="font-weight:900;font-size:20px;margin:10px 0 8px">'+escHtml(t('blk_t'))+'</div>'
+    +'<div style="font-size:14px;line-height:1.6;color:#fecaca">'+escHtml(t('blk_s'))+'</div>'
+    +'<div style="margin-top:18px;font-size:12px;color:#fca5a5">'+escHtml(t('blk_id'))+'</div>'
+    +'<div style="font-size:26px;font-weight:900;letter-spacing:4px">'+escHtml(posDeviceShort())+'</div>'
+    +'<a href="https://wa.me/50946859702" style="display:block;margin-top:20px;background:#fff;color:#7f1d1d;'
+      +'font-weight:800;padding:13px;border-radius:12px;text-decoration:none">💬 '+escHtml(t('blk_wa'))+'</a>'
+    +'</div>';
+  document.body.appendChild(d);
+}
+
 /* A team phone belongs to us, not to a paying merchant, so the subscription
    never blocks it — that is the whole point of registering it as a team phone. */
-function licGate(){if(isTeam())return true;if(licExpired()){openLicense(true);return false;}return true;}
+function licGate(){
+  if(srvBlocked()){posBlockedScreen();return false;}
+  if(srvGranted())return true;               /* he said this phone never pays */
+  if(isTeam())return true;
+  if(licExpired()){openLicense(true);return false;}
+  return true;
+}
 function openLicense(fromGate){
   const body=document.getElementById('licBody');const l=lic();const days=licDays(l);const si=licStatusInfo(l);const exp=licExpired(l);
   let html=`<button class="back" onclick="go('set')">‹ ${t('back')}</button>
@@ -4467,6 +4593,14 @@ function admPanel(){
     +'<div class="row2"><button class="cta ghost" data-la="extend">'+t('lic_extend')+'</button><button class="cta ghost" data-la="trial">'+t('lic_grant_trial')+'</button></div>'
     +'<div class="row2"><button class="cta ghost" data-la="active">'+t('lic_set_active')+'</button><button class="cta ghost" data-la="expired">'+t('lic_set_expired')+'</button></div>'
     +'<div class="row2"><button class="cta ghost" data-la="suspend">'+t('lic_suspend')+'</button><button class="cta ghost" data-la="reactivate">'+t('lic_reactivate')+'</button></div>'
+    +'<hr style="border:none;border-top:1px solid var(--line);margin:16px 0">'
+    /* The one screen that reaches OTHER phones. Everything above this line only
+       ever changed the handset in his hand, which is exactly why deleting
+       Jennifer here did nothing to Jennifer's phone. */
+    +'<div style="font-weight:800;margin:2px 0 4px">'+t('dev_h')+'</div>'
+    +'<div class="sub" style="margin-bottom:8px">'+t('dev_s')+'</div>'
+    +'<a class="cta" href="/pos-devices.html" target="_blank" rel="noopener" style="display:block;text-align:center;text-decoration:none;margin-bottom:6px">📱 '+t('dev_open')+'</a>'
+    +'<div class="sub" style="margin-bottom:12px">'+t('dev_id')+': <b style="letter-spacing:2px">'+posDeviceShort()+'</b></div>'
     +'<hr style="border:none;border-top:1px solid var(--line);margin:16px 0">'
     +'<button class="cta ghost" id="admLock">🔒 '+t('adm_lock')+'</button>'
     +'<button class="cta ghost" id="admClose" style="margin-top:8px">'+t('back')+'</button>');
@@ -4968,7 +5102,7 @@ function shareApp(){
    =================================================================== */
 /* Version the seller can read out loud. When someone says "I don't see the new
    button", the first useful question is which build their phone is running. */
-const APP_VER='63';
+const APP_VER='65';
 var swReg=null;
 if('serviceWorker' in navigator){
   window.addEventListener('load',function(){
@@ -5136,6 +5270,12 @@ applyI18n();renderHome();refreshBadges();renderDraftBar();
 try{showInstallUI();}catch(e){}   /* after applyI18n, so the in-app-browser wording survives */
 /* Any merchant registered while the phone had no signal goes out now. */
 setTimeout(function(){try{mppFlush();}catch(e){}},1500);
+/* Register this phone and ask who it is. If the last answer was "blocked" the
+   lock goes up straight away, before the server is even reached - otherwise a
+   blocked phone would get a few working seconds on every launch, and would
+   work for ever in aeroplane mode. */
+if(srvBlocked())posBlockedScreen();
+setTimeout(function(){try{srvAsk();}catch(e){}},600);
 /* The brief is a lot of typing. Save it while it is being typed, not only when
    the seller moves to the next step — a phone can drop the tab at any moment. */
 (function(){var tm=null,fs=document.getElementById('s-flow');if(!fs)return;

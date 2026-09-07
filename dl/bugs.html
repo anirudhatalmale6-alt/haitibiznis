@@ -141,11 +141,29 @@ footer{padding:30px 0 46px;text-align:center;color:var(--tm);font-size:.76rem;li
 /* One list, rendered. Kept as data so the page cannot drift from the counts. */
 var BUGS = [
  /* ---------------------------------------------------------- CRITICAL */
+ {s:'critical',m:'LajanMaker POS',t:'Deleting somebody from your phone did nothing to their phone',
+  st:'live',
+  d:'“I deleted Jennifer and Dukens but they still have access this is nuts.” You were right, and it could never have worked. Everything the POS knew lived on the phone it was typed into — the staff list, the subscription, the team code. So removing Jennifer from your phone removed a row from your phone. Her phone had never heard of your phone and carried on exactly as before. There was nothing anywhere that could reach it.',
+  w:'The POS was built to work with no signal, so it was built with nothing behind it. That is fine for a till and useless for control: if there is no server, there is nowhere to say “this phone is finished” and no one to say it to.',
+  f:'Every phone now registers itself and asks the server who it is, every time it opens. You get a list of every phone that has ever opened LajanMaker at haitibiznis.com/pos-devices.html, with a Fèmen aksè button on each one. Blocking takes effect the next time that phone opens the app — which is every time, because the POS is a web page: if it can load at all, it has reached us. Three things I made sure of, because each would have made it useless: turning aeroplane mode on does not lift a block; a phone that simply cannot reach us keeps working exactly as before, so a slow server never shuts a paying merchant’s till; and a phone cannot promote itself — it reports what it believes, and only the answer coming back is obeyed.'},
+
+ {s:'high',m:'LajanMaker POS',t:'Your own phone was counting your days down at you',
+  st:'live',
+  d:'“I am the owner with full access why i am still with days left for my subscription.” Your phone was showing Basic, 24 days left, and offering to sell you a subscription to your own product.',
+  w:'Nothing on the phone knew who you were. The app had no way of telling your handset apart from a merchant’s, so it treated you like one.',
+  f:'Open the phone list, find your phone by the number now printed in Paramèt under Anplwaye, and press San abònman. The countdown is replaced by “Aksè konplè — pa gen abònman pou peye” and it never asks you again. Same button works for any phone you want to give free access to.'},
+
+ {s:'high',m:'LajanMaker POS',t:'No way to clear everyone out and start again',
+  st:'live',
+  d:'“I need to delete everyone so we can start fresh.” There was no such thing. The only delete button removed a name from the phone you were holding.',
+  w:'Same cause as above — nothing was recorded anywhere but on each phone.',
+  f:'On the phone list, tap “Kenbe sa a” on your own phone (and any other you want to keep), then the red button. Everything else loses access the next time it opens. It is reversible — any phone can be opened again with one tap. The button refuses to run if you have not kept at least one phone, so you cannot lock yourself out by mis-tapping.'},
+
  {s:'critical',m:'LajanMaker POS',t:'The employee button was giving the whole app away for free, permanently',
   st:'live',
   d:'When a merchant added an employee and pressed “Send their access”, the app created a HaitiBiznis team code and wrote it into a ready-made WhatsApp message that ended “You will not have to pay anything.” A team code turns any phone into a phone that never has to subscribe. It is checked by the phone itself, with no internet and no server, so it keeps working on every phone that message is ever forwarded to, for good, and there was no way to cancel one. Every merchant on the app could hand the product out for free to as many people as they liked, and none of them were doing anything wrong — it was the button we gave them.',
   w:'Team codes were built for your own agents out in the country, where there is no signal to check anything against. That is why they check themselves. Putting that same code on a merchant’s employee card meant handing the master key to everybody.',
-  f:'The employee card now sends what an employee actually needs: her PIN for the business phone she works at. Team codes are created in one place only — the admin panel, behind your code. I tested it end to end: a code the live app produced (TM-AHJQ-454L) was accepted by a phone that had never seen it, with an expired subscription, and still let it sell. Honest limit, and it matters: codes that have already gone out still work, because the check happens on the phone. Nobody can make new ones now, but I cannot cancel the old ones without a licence server. Tell me if you want that built and I will send you the cost first.'},
+  f:'The employee card now sends what an employee actually needs: her PIN for the business phone she works at. Team codes are created in one place only — the admin panel, behind your code. I tested it end to end: a code the live app produced (TM-AHJQ-454L) was accepted by a phone that had never seen it, with an expired subscription, and still let it sell. When I first wrote this up I told you the codes already sent could not be cancelled without a licence server. That was true then. The licence server is now built and live, so they can: any phone that came in on an old code shows up in the phone list and can be shut off with one tap. No cost — the hole was mine.'},
 
  {s:'critical',m:'LajanMaker POS',t:'Everyone who opened your shared link signed up as an employee, so nobody was asked to pay',
   st:'live',
