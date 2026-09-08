@@ -4795,6 +4795,28 @@ function genStaffId(){return 'E'+Math.floor(1000+Math.random()*8999);}
 function signOut(){setActiveStaff(null);openSignIn();}
 
 function hasOwner(){return staffList().some(function(x){return x.role==='owner';});}
+/* "2 people registered but their accounts still say Employee."
+   Version 65 stopped NEW phones landing in that state, but it did nothing for
+   the phones already in it - and those are the ones he was looking at.
+
+   A phone with exactly one account, that account not an owner, and no team
+   registration, cannot have arisen any other way: it is somebody who opened
+   the shared link before the fix. One person alone on a phone IS the owner of
+   that phone, so this repairs itself on the next launch and he does not have
+   to talk anybody through the Anplwaye screen.
+
+   Deliberately narrow. Two or more accounts is a real shop where he chose the
+   roles, and a team phone is one of ours - neither is touched. */
+function fixLoneStaffAsOwner(){
+  try{
+    if(isTeam())return false;
+    var l=staffList();
+    if(l.length!==1||l[0].role==='owner')return false;
+    l[0].role='owner';saveStaff(l);
+    var a=activeStaff();if(a&&a.id===l[0].id)setActiveStaff(l[0]);
+    return true;
+  }catch(e){return false;}
+}
 /* `after` lets a screen send someone through sign-in and get them back, instead
    of dumping them on the home screen having forgotten what they came to do. */
 function openSignIn(after){
@@ -5102,7 +5124,7 @@ function shareApp(){
    =================================================================== */
 /* Version the seller can read out loud. When someone says "I don't see the new
    button", the first useful question is which build their phone is running. */
-const APP_VER='65';
+const APP_VER='66';
 var swReg=null;
 if('serviceWorker' in navigator){
   window.addEventListener('load',function(){
@@ -5266,6 +5288,9 @@ function rerenderCurrent(){
 
 /* ---------- boot ---------- */
 document.querySelectorAll('.lang button').forEach(x=>x.classList.toggle('on',x.dataset.lang===lang));
+/* Repair a phone that signed itself up as an employee before version 65 -
+   BEFORE the first paint, so the wrong word is never on screen. */
+fixLoneStaffAsOwner();
 applyI18n();renderHome();refreshBadges();renderDraftBar();
 try{showInstallUI();}catch(e){}   /* after applyI18n, so the in-app-browser wording survives */
 /* Any merchant registered while the phone had no signal goes out now. */
