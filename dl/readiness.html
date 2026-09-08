@@ -76,8 +76,9 @@ is a different, unconnected record in each one.</p>
 last one. Until there is one identity shared across all of them, "one synchronised
 ecosystem" cannot be true no matter how many individual bugs get fixed.</p>
 <p><b>Two things should be dealt with before anyone is onboarded</b>, both marked
-in red below: MsouWout's admin routes are open to the public, and a live
-notification key is published in a public code repository.</p>
+in red below. One is now done: the live notification key that was published in a
+public repository has been replaced and removed. The other is still open —
+MsouWout's admin routes answer anyone.</p>
 </div>
 
 <h2><span class="n">1</span>Every registration writes to the correct database <span class="badge warn">problem</span></h2>
@@ -101,26 +102,32 @@ written, tested and still waiting for your go-ahead on MsouWout.</p>
 ambassador sign-up page is live and collects nothing. Anyone who fills it in gets
 an error.</p>
 
-<h2><span class="n">2</span>Referrals captured, commissions automatic <span class="badge bad">not working</span></h2>
-<p>This one I can be exact about, because I counted the live records.</p>
+<h2><span class="n">2</span>Referrals captured, commissions automatic <span class="badge bad">disconnected</span></h2>
+<div class="card amber">
+<div class="k">Correction, 8 September</div>
+<p style="margin-top:0">An earlier version of this page said the commission system
+does not exist. <b>That was wrong and I corrected it in writing before any money
+was spent on it.</b> It does exist and it is complete: agent accounts, referral
+tracking, commission recording, approve and reject, wallet, payout requests,
+payout approval and an admin overview are all built.</p>
+</div>
+<p>The real fault is smaller. <b>The public sign-up page writes each person into a
+waiting-list table, and the commission engine reads from a different table. Nobody
+ever built the bridge between the two.</b></p>
 <div class="card red">
 <div class="k">Live counts, 8 September</div>
 <ul>
-<li><b>19</b> people have signed up as agents through the referral page. The most
-recent was last night.</li>
-<li><b>19 of 19</b> are still marked <code>pending</code>. Not one has ever been approved.</li>
-<li><b>0</b> approved agent records exist.</li>
-<li><b>0</b> commissions. <b>0</b> payouts. <b>0</b> wallets. The tables are empty.</li>
+<li><b>19</b> people have signed up as agents. The most recent was last night.</li>
+<li><b>19 of 19</b> are still <code>pending</code>. Not one has ever been approved.</li>
+<li><b>0</b> agent accounts, <b>0</b> commissions, <b>0</b> payouts, <b>0</b> wallets.</li>
+<li>They <i>do</i> already have working referral codes and links — the codes are
+simply attached to nothing.</li>
 </ul>
 </div>
-<p>Nine of the nineteen did name the person who referred them, but that name is
-stored as free text someone typed — a first name, a nickname, sometimes a name with
-a year stuck on the end — not as a link to an account. So even once approval exists, there is nothing solid to pay a
-commission <i>to</i>.</p>
-<p>There are also <b>two different referral systems</b> in the code. The one
-collecting these nineteen people is not the one with the commission logic in it.
-That needs a decision from you about which one is the real one before either can
-be finished.</p>
+<p>Nine of the nineteen named the person who referred them, but that name is stored
+as free text someone typed — a first name, a nickname, sometimes a name with a year
+stuck on the end — not as a link to an account. So even once approval exists, there
+is nothing solid to pay a commission <i>to</i> for those nine.</p>
 
 <h2><span class="n">3</span>Dashboards show live, synchronised data <span class="badge warn">partly</span></h2>
 <p>Each dashboard reads its own database directly, so what it shows is live and
@@ -202,17 +209,19 @@ have kept to that. <b>This is the single biggest risk on the list and it is wait
 on one word from you.</b></p>
 </div>
 <div class="card red">
-<div class="k">A live key is published in a public code repository</div>
+<div class="k">A live key was published in a public repository — FIXED 8 Sep</div>
 <p style="margin-top:0">All five code repositories are public. One of them has the
 <b>private key for web push notifications written into a settings file in plain
 text</b>. I confirmed it is the live key by comparing it against what the live
 server hands out — they match exactly. Anyone who reads that repository can send
 notifications to the ten phones currently subscribed, appearing as MyPlopPlop.</p>
-<p>The repair is to generate a new key pair, move it into the server's private
-settings, and delete it from the code. The ten existing subscribers would need to
-open the app once to re-subscribe. <b>Say the word and I will do it — it is free,
-and it is my mistake that it is there.</b> I have not done it unasked because it
-changes something outward-facing.</p>
+<p><b>Done on 8 September, on your say-so.</b> A new pair was generated, the pair
+now lives in the database rather than in the code, the leaked one is retired, and
+the ten subscriptions signed with it were cleared so those phones re-subscribe on
+next open. Verified afterwards: the server hands out the new key, and the old one
+is gone from the repository. The old key is still in the repository's <i>history</i>,
+which is harmless now that it is dead — and is exactly why replacing it was the
+right move rather than only deleting the line. No cost.</p>
 </div>
 <p>One smaller item: an old admin password is also written into a settings file in
 the MsouWout repository. I tested it against the live server today — it is
