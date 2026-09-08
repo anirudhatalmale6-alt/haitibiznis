@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="ht">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ajan LajanMaker — HaitiBiznis</title>
+<meta name="theme-color" content="#00209F">
+<meta name="robots" content="noindex,nofollow">
+<link rel="icon" type="image/x-icon" href="favicon.ico">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=Plus+Jakarta+Sans:wght@400;600;700;800;900&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+:root{--blue:#00209F;--red:#D21034;--green:#1B8C3D;--off:#F5F7FA;--dark:#0A0E1A;
+  --text:#1A2A4A;--tl:#5A6B8A;--tm:#8A95AA;--border:#E2E8F0;
+  --body:'Plus Jakarta Sans',system-ui,sans-serif;--display:'DM Serif Display',Georgia,serif;
+  --mono:'JetBrains Mono',monospace;--radius:14px}
+body{font-family:var(--body);background:var(--off);color:var(--text);min-height:100vh}
+button,input{font-family:var(--body)}
+.flag{height:4px;background:linear-gradient(90deg,var(--blue) 50%,var(--red) 50%)}
+.topbar{background:#fff;border-bottom:1px solid var(--border);padding:11px 16px}
+.brand{font-family:var(--display);font-size:1rem;color:var(--dark)}
+.brand em{color:var(--red);font-style:italic}
+.intro{padding:20px 16px 4px}
+.intro h1{font-size:1.4rem;font-weight:900;letter-spacing:-.4px;margin-bottom:7px}
+.intro p{font-size:.85rem;color:var(--tl);line-height:1.55;max-width:34rem}
+.wrap{padding:0 16px 40px}
+.panel{background:#fff;border:1px solid var(--border);border-radius:var(--radius);padding:16px;margin-top:12px}
+.panel label{display:block;font-size:.78rem;font-weight:700;color:var(--tl);margin-bottom:8px}
+.panel input{width:100%;border:1.5px solid var(--border);border-radius:10px;padding:12px 13px;
+  font-size:1rem;font-family:var(--mono);text-transform:uppercase}
+.panel input:focus{outline:none;border-color:var(--blue)}
+.btn{width:100%;border:0;background:var(--blue);color:#fff;font-weight:800;font-size:.92rem;
+  padding:13px;border-radius:11px;margin-top:10px;cursor:pointer}
+.btn.g{background:#fff;color:var(--blue);border:1.5px solid var(--border)}
+.btn.ok{background:var(--green)}
+.btn:disabled{opacity:.5}
+.err{color:#b91c1c;font-size:.8rem;font-weight:700;min-height:1.1rem;margin-top:8px}
+.msg{color:var(--green);font-size:.8rem;font-weight:700;min-height:1.1rem;margin-top:8px}
+.row{background:#fff;border:1px solid var(--border);border-radius:var(--radius);padding:13px 14px;margin-top:10px}
+.row.done{border-color:#86efac;background:#f4fdf7}
+.r1{display:flex;justify-content:space-between;align-items:flex-start;gap:10px}
+.nm{font-weight:800;font-size:.95rem;line-height:1.3;word-break:break-word}
+.code{font-family:var(--mono);font-size:.9rem;font-weight:700;color:var(--blue);flex:0 0 auto}
+.meta{font-size:.75rem;color:var(--tl);margin-top:4px}
+.tag{display:inline-block;font-size:.64rem;font-weight:800;padding:2px 8px;border-radius:99px;
+  text-transform:uppercase;letter-spacing:.04em}
+.tag.p{background:#fff7ed;color:#7c2d12}
+.tag.a{background:#e7f6ec;color:#0b6b37}
+.pin{background:#eef1f6;border-radius:10px;padding:10px;margin-top:9px;text-align:center}
+.pin .n{font-family:var(--mono);font-size:1.5rem;font-weight:700;letter-spacing:5px}
+.pin .l{font-size:.7rem;color:var(--tl);font-weight:700}
+.hide{display:none}
+.secth{font-weight:800;font-size:.9rem;margin:22px 2px 2px}
+.foot{text-align:center;font-size:.72rem;color:var(--tm);padding:20px 16px 30px;line-height:1.6}
+</style>
+</head>
+<body>
+<div class="flag"></div>
+<div class="topbar"><span class="brand">Haiti<em>Biznis</em> · Ajan LajanMaker</span></div>
+
+<div class="intro">
+  <h1>Apwouve ajan yo</h1>
+  <p>Chak moun ki enskri sou paj parenaj la parèt isit la. Lè ou apwouve yon moun,
+  kòd li a kòmanse travay menm kote a: si yon moun enskri ak lyen li, sistèm nan
+  make referans lan epi li kalkile komisyon an pou li otomatikman.</p>
+</div>
+
+<div class="wrap">
+
+  <div class="panel" id="askBox">
+    <label for="pin">Antre kòd konsòl ou a</label>
+    <input id="pin" autocomplete="off" autocapitalize="characters" spellcheck="false" placeholder="KÒD KONSÒL">
+    <button class="btn" id="go">Louvri lis la</button>
+    <div class="err" id="askErr"></div>
+  </div>
+
+  <div id="listBox" class="hide">
+    <div class="panel" style="display:flex;justify-content:space-between;align-items:center;gap:10px">
+      <div><div style="font-weight:800;font-size:.95rem" id="cnt">—</div>
+        <div style="font-size:.75rem;color:var(--tl)" id="cntSub"></div></div>
+      <button class="btn g" style="width:auto;margin:0;padding:10px 14px" id="refresh">↻</button>
+    </div>
+
+    <div id="pendBox"></div>
+    <button class="btn ok hide" id="all">✓ Apwouve tout moun k ap tann</button>
+    <div class="msg" id="msg"></div>
+
+    <div class="secth" id="doneH"></div>
+    <div id="doneBox"></div>
+  </div>
+
+</div>
+
+<div class="foot">
+  Pa pataje kòd konsòl ou a ak pèsonn.<br>
+  Kòd yon ajan pa janm chanje lè ou apwouve l — lyen li deja voye yo rete bon.
+</div>
+
+<script>
+var API = 'https://myplopplop-api.onrender.com';
+var pin = '';
+var signups = [];
+
+function $(i){return document.getElementById(i);}
+function esc(s){return String(s==null?'':s).replace(/[&<>"']/g,function(c){
+  return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c];});}
+function ago(d){
+  if(!d)return '';
+  var s=Math.floor((Date.now()-new Date(d).getTime())/1000);
+  if(s<90)return 'kounye a';
+  if(s<5400)return Math.round(s/60)+' minit';
+  if(s<172800)return Math.round(s/3600)+' èdtan';
+  return Math.round(s/86400)+' jou';
+}
+function api(method,path,body){
+  var o={method:method,headers:{'x-admin-pin':pin}};
+  if(body){o.headers['Content-Type']='application/json';o.body=JSON.stringify(body);}
+  return fetch(API+path,o).then(function(r){
+    return r.json().catch(function(){return {};}).then(function(j){
+      if(!r.ok){var e=new Error(j.error||j.message||('Erè '+r.status));e.status=r.status;throw e;}
+      return j;
+    });
+  });
+}
+
+function load(){
+  return api('GET','/api/admin-pin/agent-signups?status=all').then(function(j){
+    signups=j.signups||[];
+    draw(j.approved);
+  });
+}
+
+function draw(approvedAgents){
+  var pend=signups.filter(function(s){return s.status!=='approved';});
+  var done=signups.filter(function(s){return s.status==='approved';});
+
+  $('pendBox').innerHTML = pend.length
+    ? pend.map(function(s){
+        return '<div class="row"><div class="r1"><div>'
+          +'<div class="nm">'+esc(s.name)+' <span class="tag p">Ap tann</span></div>'
+          +'<div class="meta">enskri '+esc(ago(s.createdAt))+' pase'
+            +(s.referredBy?(' · yon moun ki rele "'+esc(s.referredBy)+'" voye l'):'')+'</div></div>'
+          +'<div class="code">'+esc(s.koutyeCode)+'</div></div>'
+          +'<button class="btn ok" data-ap="'+esc(s._id)+'" style="margin-top:10px">✓ Apwouve '+esc(s.name.split(' ')[0])+'</button>'
+          +'</div>';
+      }).join('')
+    : '<div class="panel" style="color:var(--tm)">Pa gen pèsonn k ap tann.</div>';
+
+  $('all').className = pend.length>1 ? 'btn ok' : 'btn ok hide';
+  $('doneH').textContent = done.length ? ('Ajan ki ap travay ('+done.length+')') : '';
+  $('doneBox').innerHTML = done.map(function(s){
+    return '<div class="row done"><div class="r1"><div>'
+      +'<div class="nm">'+esc(s.name)+' <span class="tag a">Aktif</span></div>'
+      +'<div class="meta">kòd li a ap travay — lyen: haitibiznis.com/koutye.html?ref='+esc(s.koutyeCode)+'</div></div>'
+      +'<div class="code">'+esc(s.koutyeCode)+'</div></div></div>';
+  }).join('');
+
+  $('cnt').textContent = pend.length+' ap tann · '+done.length+' aktif';
+  $('cntSub').textContent = (approvedAgents!=null? approvedAgents+' kont ajan sou sèvè a':'');
+
+  Array.prototype.forEach.call(document.querySelectorAll('[data-ap]'),function(b){
+    b.onclick=function(){approve(b.dataset.ap,b);};
+  });
+}
+
+/* The PIN comes back exactly once. Show it big and say plainly that it will not
+   be shown again — a number that appears for two seconds and vanishes is worse
+   than no number at all. */
+function showPin(r){
+  if(!r || !r.tempPin) return;
+  $('msg').innerHTML='';
+  var d=document.createElement('div');
+  d.className='pin';
+  d.innerHTML='<div class="l">Kòd antre pou '+esc(r.name||'')+' — ekri l, ou p ap wè l ankò</div>'
+    +'<div class="n">'+esc(r.tempPin)+'</div>'
+    +'<div class="l">telefòn: '+esc(r.phone||'')+'</div>';
+  $('msg').appendChild(d);
+}
+
+function approve(id,btn){
+  btn.disabled=true;btn.textContent='N ap apwouve...';
+  api('POST','/api/admin-pin/agent-signups/'+encodeURIComponent(id)+'/approve',{})
+    .then(function(r){ showPin(r); return load(); })
+    .catch(function(e){ alert(e.message); btn.disabled=false; });
+}
+
+$('all').onclick=function(){
+  var pend=signups.filter(function(s){return s.status!=='approved';}).length;
+  if(!confirm('Apwouve '+pend+' moun?\n\nKòd yo ap kòmanse travay menm kote a.'))return;
+  var b=$('all');b.disabled=true;b.textContent='N ap apwouve...';
+  api('POST','/api/admin-pin/agent-signups/approve-all',{})
+    .then(function(j){
+      $('msg').textContent=j.approved+' moun apwouve'+(j.failedCount?(' · '+j.failedCount+' pa mache'):'')+'.';
+      return load();
+    })
+    .catch(function(e){alert(e.message);})
+    .then(function(){b.disabled=false;b.textContent='✓ Apwouve tout moun k ap tann';});
+};
+
+$('refresh').onclick=function(){load().catch(function(e){alert(e.message);});};
+
+$('go').onclick=function(){
+  var v=($('pin').value||'').trim();
+  if(!v){$('askErr').textContent='Antre kòd la.';return;}
+  pin=v;
+  var b=$('go');b.disabled=true;b.textContent='N ap chèche...';$('askErr').textContent='';
+  load().then(function(){
+    $('askBox').classList.add('hide');
+    $('listBox').classList.remove('hide');
+  }).catch(function(e){
+    pin='';
+    $('askErr').textContent = e.status===403 ? 'Kòd konsòl sa a pa bon.'
+                            : 'Nou pa rive jwenn sèvè a. Eseye ankò.';
+  }).then(function(){b.disabled=false;b.textContent='Louvri lis la';});
+};
+$('pin').addEventListener('keydown',function(e){if(e.key==='Enter')$('go').click();});
+</script>
+</body>
+</html>
