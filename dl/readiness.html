@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Production Readiness — HaitiBiznis ecosystem</title>
+<meta name="robots" content="noindex,nofollow">
+<link rel="icon" type="image/x-icon" href="../favicon.ico">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --blue:#00209F;--red:#D21034;--green:#1B8C3D;--amber:#B45309;
+  --off:#F5F7FA;--dark:#0A0E1A;--text:#1A2A4A;--tl:#5A6B8A;--tm:#8A95AA;--border:#E2E8F0;
+  --body:'Plus Jakarta Sans',system-ui,sans-serif;--display:'DM Serif Display',Georgia,serif;
+  --mono:'JetBrains Mono',ui-monospace,monospace;
+}
+body{font-family:var(--body);background:var(--off);color:var(--text);
+  -webkit-font-smoothing:antialiased;line-height:1.6}
+.flag{height:4px;background:linear-gradient(90deg,var(--blue) 50%,var(--red) 50%)}
+.top{background:#fff;border-bottom:1px solid var(--border);padding:12px 16px}
+.brand{font-family:var(--display);font-size:1.05rem;color:var(--dark)}
+.brand em{color:var(--red);font-style:italic}
+.wrap{max-width:52rem;margin:0 auto;padding:0 16px 60px}
+h1{font-size:1.6rem;font-weight:900;letter-spacing:-.5px;margin:24px 0 8px;line-height:1.25}
+.stamp{font-size:.78rem;color:var(--tm);font-family:var(--mono);margin-bottom:20px}
+h2{font-size:1.12rem;font-weight:900;margin:34px 0 4px;letter-spacing:-.2px}
+h2 .n{color:var(--tm);font-family:var(--mono);font-size:.85rem;margin-right:6px}
+p{margin:9px 0;font-size:.93rem}
+ul{margin:9px 0 9px 20px;font-size:.93rem}
+li{margin:5px 0}
+.lead{background:#fff;border:1px solid var(--border);border-left:5px solid var(--blue);
+  border-radius:12px;padding:16px 18px;margin:18px 0}
+.lead p{font-size:.95rem}
+.badge{display:inline-block;font-size:.66rem;font-weight:800;letter-spacing:.05em;
+  text-transform:uppercase;padding:3px 9px;border-radius:99px;vertical-align:middle;
+  margin-left:2px;white-space:nowrap}
+.ok{background:#e7f6ec;color:#0b6b37}
+.bad{background:#fee2e2;color:#b91c1c}
+.warn{background:#fff7ed;color:#7c2d12}
+.none{background:#eef1f6;color:#5A6B8A}
+.card{background:#fff;border:1px solid var(--border);border-radius:12px;padding:14px 16px;margin:12px 0}
+.card.red{border-color:#fca5a5;background:#fff7f7}
+.card.amber{border-color:#fdba74;background:#fffbf5}
+.k{font-size:.72rem;font-weight:800;text-transform:uppercase;letter-spacing:.05em;
+  color:var(--tm);margin-bottom:5px}
+code,.mono{font-family:var(--mono);font-size:.85em;background:#eef1f6;padding:1px 5px;border-radius:4px}
+table{width:100%;border-collapse:collapse;margin:12px 0;font-size:.85rem;display:block;overflow-x:auto}
+th,td{text-align:left;padding:8px 10px;border-bottom:1px solid var(--border);vertical-align:top}
+th{font-size:.72rem;text-transform:uppercase;letter-spacing:.04em;color:var(--tm);font-weight:800}
+tr:last-child td{border-bottom:0}
+.foot{border-top:1px solid var(--border);margin-top:40px;padding-top:18px;
+  font-size:.8rem;color:var(--tm)}
+a{color:var(--blue)}
+</style>
+</head>
+<body>
+<div class="flag"></div>
+<div class="top"><span class="brand">Haiti<em>Biznis</em> · Production Readiness</span></div>
+
+<div class="wrap">
+
+<h1>Production readiness — where the ecosystem actually stands</h1>
+<div class="stamp">Checked 8 September 2026, against the live servers. Nothing below is
+from memory or from a test copy.</div>
+
+<div class="lead">
+<p><b>The short version.</b> The parts you can see mostly work. What is missing is
+underneath: this is not one system. It is <b>three separate databases in two
+different database engines</b>, plus a fourth service that does not exist, plus a
+till that keeps its records on each phone. Nothing joins them, so the same person
+is a different, unconnected record in each one.</p>
+<p>That is why problems keep appearing in a new place after being fixed in the
+last one. Until there is one identity shared across all of them, "one synchronised
+ecosystem" cannot be true no matter how many individual bugs get fixed.</p>
+<p><b>Two things should be dealt with before anyone is onboarded</b>, both marked
+in red below: MsouWout's admin routes are open to the public, and a live
+notification key is published in a public code repository.</p>
+</div>
+
+<h2><span class="n">1</span>Every registration writes to the correct database <span class="badge warn">problem</span></h2>
+<p>Every registration does write somewhere, and I found no lost records. The
+problem is <i>where</i>. There is no single place a person exists.</p>
+<table>
+<tr><th>What is registered</th><th>Where it is stored</th><th>Engine</th></tr>
+<tr><td>Customer, store, MyPlopPlop driver, Sòl group, agent sign-up</td><td>MyPlopPlop database</td><td>MongoDB</td></tr>
+<tr><td>Event, ticket, order, escrow, POS phone</td><td>HaitiBiznis database</td><td>MongoDB</td></tr>
+<tr><td>MsouWout driver, ride, zone, fare table</td><td>MsouWout database</td><td><b>PostgreSQL</b></td></tr>
+<tr><td>POS staff accounts and their PINs</td><td><b>On each phone only</b></td><td>none</td></tr>
+<tr><td>48HoursReady ambassador</td><td><b>Nowhere — no server</b></td><td>none</td></tr>
+</table>
+<p>Consequences that are already visible: a driver who signs up on MsouWout is
+unknown to MyPlopPlop; approving him in one place does nothing in the other. The
+only thing linking a person across systems is their phone number, and it is not
+stored in the same format everywhere — that is the <code>+509</code> work that is
+written, tested and still waiting for your go-ahead on MsouWout.</p>
+<p><b>48HoursReady:</b> I checked every likely address on
+<code>48hoursready-api.onrender.com</code> today. All return "not found". The
+ambassador sign-up page is live and collects nothing. Anyone who fills it in gets
+an error.</p>
+
+<h2><span class="n">2</span>Referrals captured, commissions automatic <span class="badge bad">not working</span></h2>
+<p>This one I can be exact about, because I counted the live records.</p>
+<div class="card red">
+<div class="k">Live counts, 8 September</div>
+<ul>
+<li><b>19</b> people have signed up as agents through the referral page. The most
+recent was last night.</li>
+<li><b>19 of 19</b> are still marked <code>pending</code>. Not one has ever been approved.</li>
+<li><b>0</b> approved agent records exist.</li>
+<li><b>0</b> commissions. <b>0</b> payouts. <b>0</b> wallets. The tables are empty.</li>
+</ul>
+</div>
+<p>Nine of the nineteen did name the person who referred them, but that name is
+stored as free text someone typed — "Dukens Emile 1978", "Sd-1971" — not as a link
+to an account. So even once approval exists, there is nothing solid to pay a
+commission <i>to</i>.</p>
+<p>There are also <b>two different referral systems</b> in the code. The one
+collecting these nineteen people is not the one with the commission logic in it.
+That needs a decision from you about which one is the real one before either can
+be finished.</p>
+
+<h2><span class="n">3</span>Dashboards show live, synchronised data <span class="badge warn">partly</span></h2>
+<p>Each dashboard reads its own database directly, so what it shows is live and
+correct <i>for that one system</i>. None of them read across systems, so no screen
+anywhere shows you the whole picture. There is no screen that could tell you today
+how many people are on the platform, because there is no "the platform" to count.</p>
+<p>The one place that is now genuinely live and cross-checked is the POS phone list,
+built this week.</p>
+
+<h2><span class="n">4</span>Payments end to end, with order, payout and commission records <span class="badge warn">partly</span></h2>
+<ul>
+<li><b>MonCash / NatCash:</b> the confirmation path is fixed and live. Both webhooks
+now ask the gateway to confirm before marking anything paid, and the buyer's way
+back from the gateway uses the address the gateway actually answers on. Before this
+it called an address that does not exist, got an HTML error page, and failed every
+single time — which is why no ticket was ever marked paid.</li>
+<li><b>Tickets</b> now also reconcile whenever the page is read, so a ticket cannot
+sit unpaid because a phone lost the redirect.</li>
+<li><b>Card:</b> there is a webhook route for it, but no card gateway is wired up
+to any of the buying screens. Card is not a working payment method today.</li>
+<li><b>Payouts and commissions:</b> escrow release exists and is now behind your
+console code. Commission records: none exist, as above.</li>
+</ul>
+<div class="card amber">
+<div class="k">Not tested, and it is the important one</div>
+<p style="margin-top:0">No real end-to-end payment has been put through by me. I
+will not send real money through a live gateway, and I will not create fake orders
+in the database you are about to onboard people into. This needs <b>you</b> to buy
+one small real ticket and one small real order, and tell me the reference. Then I
+can prove the whole chain with real data. Until that happens, the payment chain is
+"believed correct", not "proven correct".</p>
+</div>
+
+<h2><span class="n">5</span>Notifications delivered at the correct step <span class="badge bad">not working</span></h2>
+<p>I read the notification code today. What it does when a ride, driver, ticket,
+refund or event comes in:</p>
+<ul>
+<li>writes a line into the server log</li>
+<li>posts to a webhook address, <i>if</i> one is configured</li>
+<li>sends an email through a third-party form service</li>
+</ul>
+<p>Two things follow from that. <b>There is no WhatsApp sending and no SMS
+sending anywhere</b> — the messages are written in WhatsApp style but nothing sends
+them. And <b>every notification is addressed to you</b>. The customer, the driver
+and the agent are never told anything by the system. No "your ticket is confirmed",
+no "your driver is on the way", no "your order has shipped".</p>
+
+<h2><span class="n">6</span>Search, filters and reports return accurate data <span class="badge none">not tested</span></h2>
+<p>Not audited. With the live record counts as low as they are (single figures in
+most tables), a search test now would prove very little. This is worth doing
+properly against real volume, and I would rather say "not tested" than give you a
+green tick I cannot stand behind.</p>
+
+<h2><span class="n">7</span>Admin permissions and sensitive endpoints <span class="badge bad">one system open</span></h2>
+<p>I probed the live servers today with no credential, using impossible record ids
+so that nothing could be changed either way.</p>
+<div class="card">
+<div class="k">HaitiBiznis — all clear</div>
+<p style="margin-top:0">11 of 11 sensitive endpoints refused. Escrow release,
+refunds, auto-release, deleting or rewriting anyone's event, approving a driver,
+the whole POS phone list and its block buttons, and the admin dashboard — all
+answer "forbidden" without the console code. The public event list no longer leaks
+organisers' MonCash and NatCash numbers or their email; I confirmed today that
+those fields are gone from the live response.</p>
+</div>
+<div class="card red">
+<div class="k">MsouWout — still open to anyone</div>
+<p style="margin-top:0">Verified live today, with no credential at all:</p>
+<ul>
+<li><code>GET /api/drivers</code> answers <b>200</b> and returns every driver's
+name, phone, email, licence number and plate.</li>
+<li>Driver approval is reachable with no credential — there is a locked route and
+an older unlocked one leading to the same records.</li>
+<li>The national fare table can be rewritten with no credential.</li>
+</ul>
+<p>The fix for this is written, tested and committed. It has not been pushed
+because you told me not to touch MsouWout until your ride test is finished, and I
+have kept to that. <b>This is the single biggest risk on the list and it is waiting
+on one word from you.</b></p>
+</div>
+<div class="card red">
+<div class="k">A live key is published in a public code repository</div>
+<p style="margin-top:0">All five code repositories are public. One of them has the
+<b>private key for web push notifications written into a settings file in plain
+text</b>. I confirmed it is the live key by comparing it against what the live
+server hands out — they match exactly. Anyone who reads that repository can send
+notifications to the ten phones currently subscribed, appearing as MyPlopPlop.</p>
+<p>The repair is to generate a new key pair, move it into the server's private
+settings, and delete it from the code. The ten existing subscribers would need to
+open the app once to re-subscribe. <b>Say the word and I will do it — it is free,
+and it is my mistake that it is there.</b> I have not done it unasked because it
+changes something outward-facing.</p>
+</div>
+<p>One smaller item: an old admin password is also written into a settings file in
+the MsouWout repository. I tested it against the live server today — it is
+<b>refused</b>, so it is not the live one. It should still be deleted, because it
+looks live to anyone reading.</p>
+
+<h2><span class="n">8</span>Cross-platform synchronisation <span class="badge bad">does not exist</span></h2>
+<p>There is no synchronisation between the seven products. There is no shared
+login, no shared customer record, and no message passed between the systems. Each
+one was built complete in itself.</p>
+<p>This is the honest core of what you have been raising for months, and it is not
+a bug that can be fixed. It is a decision: pick one system as the place a person
+exists, and make the others ask it. Everything else on this page is small by
+comparison.</p>
+
+<h2><span class="n">9</span>Backup and recovery tested <span class="badge bad">no backups</span></h2>
+<ul>
+<li><b>MyPlopPlop and HaitiBiznis</b> share one MongoDB Atlas cluster on the free
+tier. The free tier has <b>no scheduled backups</b>. If that data is lost or
+corrupted there is nothing to restore from.</li>
+<li><b>MsouWout</b> is on a paid PostgreSQL plan, which does have backups. This is
+the one that is covered — and it is covered because it was learned the hard way:
+the original free database was <b>automatically deleted after 30 days</b> and took
+MsouWout offline from May until July.</li>
+<li><b>No restore has ever been rehearsed.</b> A backup nobody has restored from is
+a hope, not a backup.</li>
+</ul>
+
+<h2><span class="n">10</span>Performance with many users at once <span class="badge none">not tested</span></h2>
+<ul>
+<li><b>Not load tested.</b> No test has ever been run with more than one user.</li>
+<li><b>MyPlopPlop and HaitiBiznis servers are on Render's free plan.</b> A free
+server goes to sleep after 15 minutes with nobody on it, and the next person to
+arrive waits roughly a minute for it to wake. To that person the app looks broken.
+When I measured today the servers were already awake and answered in under a
+second, so that number is the good case, not the bad one.</li>
+<li><b>MsouWout is on a paid plan</b> and does not sleep. That was a deliberate
+change for exactly this reason.</li>
+<li>Onboarding thousands of people onto two free servers with no backups is the
+thing I would fix before the software.</li>
+</ul>
+
+<h2><span class="n">11</span>Mobile responsiveness <span class="badge ok">tested, good</span></h2>
+<p>I loaded the eight main entry points at three phone sizes — a small Android
+(360px), an iPhone SE (375px) and an iPhone 14 (390px). That is 24 combinations.
+Every one loaded, and not one had the sideways-scrolling problem that makes a page
+unusable on a phone.</p>
+<p><b>Limitation, stated plainly:</b> this was done with a Chrome engine set to
+iPhone dimensions, not on a real iPhone. Safari on a real iPhone can differ. If you
+have an iPhone to hand, that is a ten-minute check worth doing.</p>
+
+<h2><span class="n">12</span>Every journey completes without a dead end <span class="badge warn">partly</span></h2>
+<table>
+<tr><th>Journey</th><th>Today</th></tr>
+<tr><td>Buy a ticket, get scanned at the door</td><td>Works, end to end</td></tr>
+<tr><td>Open the POS, sign up, sell, be blocked by you</td><td>Works, end to end</td></tr>
+<tr><td>Find and open Sòl</td><td>Works. Never used for real — the only three groups are tests from April</td></tr>
+<tr><td>Sign up as an agent</td><td><b>Dead end.</b> The sign-up is stored and nothing happens next. Nineteen people are waiting</td></tr>
+<tr><td>Become a 48HoursReady ambassador</td><td><b>Dead end.</b> No server behind the form</td></tr>
+<tr><td>Order a ride, driver completes it</td><td>Believed working; your live test is what will confirm it</td></tr>
+<tr><td>Buy on MyPlopPlop and be delivered</td><td>Believed working; never proven with a real payment</td></tr>
+</table>
+
+<h2>What was fixed in the last few days</h2>
+<ul>
+<li>Tickets are marked paid properly, and the confirmation path talks to the real
+gateway address instead of one that never existed.</li>
+<li>Buyers' names, phones, home addresses and delivery PINs are no longer readable
+by anyone.</li>
+<li>Organisers' payment numbers and email are no longer published with their events.</li>
+<li>The POS: sign-ups become owners rather than employees; adding staff needs the
+plan that sells it; the employee button no longer hands out permanent free access;
+every phone can now be blocked from your console; your own phone no longer counts
+your days down; names are collected at sign-up.</li>
+<li>An address typed with capitals no longer shows a blank error page.</li>
+<li>Sòl now has a way in from the MyPlopPlop home screen.</li>
+</ul>
+
+<h2>What I need from you</h2>
+<ul>
+<li><b>The word on MsouWout</b>, so the open admin routes and the phone-number work
+can go live. Biggest item on this page.</li>
+<li><b>Yes or no on rotating the notification key.</b> Free, quick, ten people
+re-subscribe.</li>
+<li><b>One small real payment</b> — a ticket and an order — so the money chain can
+be proven with real data instead of assumed.</li>
+<li><b>Which referral system is the real one</b>, so the nineteen people waiting can
+be approved and commissions can start.</li>
+<li><b>A decision on 48HoursReady</b>: deploy the server or take the sign-up page
+down. Right now it collects nothing and tells people it failed.</li>
+</ul>
+
+<div class="foot">
+Every statement here was checked against the live servers on 8 September 2026.
+Where something was not tested it says so rather than being left blank.
+No customer names or phone numbers appear on this page.<br>
+Bug list: <a href="bugs.html">haitibiznis.com/dl/bugs.html</a>
+</div>
+
+</div>
+</body>
+</html>
