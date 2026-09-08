@@ -57,6 +57,11 @@ button,input{font-family:var(--body)}
 .acts button.dg{border-color:#fca5a5;color:#b91c1c}
 .acts button.on{background:var(--blue);border-color:var(--blue);color:#fff}
 .hide{display:none}
+.secth{font-weight:800;font-size:.9rem;margin:22px 2px 2px;color:var(--dark)}
+.note{font-size:.76rem;color:var(--tl);line-height:1.55;margin:6px 2px 0}
+.dev .nm.noname{color:var(--tm);font-weight:700}
+.dupe{background:#fff7ed;border:1px solid #fdba74;border-radius:9px;padding:8px 10px;
+  font-size:.73rem;color:#7c2d12;line-height:1.45;margin-top:8px}
 .foot{text-align:center;font-size:.72rem;color:var(--tm);padding:20px 16px 30px;line-height:1.6}
 .warn{background:#fff7ed;border:1px solid #fdba74;border-radius:12px;padding:12px 13px;
   font-size:.79rem;color:#7c2d12;line-height:1.55;margin-top:12px}
@@ -98,6 +103,19 @@ button,input{font-family:var(--body)}
     </div>
     <button class="btn r" id="fresh">🔒 Fèmen tout lòt telefòn yo</button>
     <div class="ok" id="msg"></div>
+
+    <!-- "How can i change the console password because i cant remember it."
+         He can only get here by already having typed the current one, so this
+         does not need to ask for it again. -->
+    <div class="panel" style="margin-top:26px">
+      <div style="font-weight:800;font-size:.95rem;margin-bottom:6px">Chanje kòd konsòl ou a</div>
+      <div style="font-size:.78rem;color:var(--tl);line-height:1.55;margin-bottom:10px">
+        Chwazi youn ou ka sonje. Omwen 6 lèt oswa chif. Menm kòd la louvri paj tikè yo ak paj kòd pòt la tou.
+      </div>
+      <input id="np" autocomplete="off" autocapitalize="characters" spellcheck="false" placeholder="NOUVO KÒD">
+      <button class="btn g" id="npGo">Anrejistre nouvo kòd la</button>
+      <div class="err" id="npErr"></div>
+    </div>
   </div>
 
 </div>
@@ -145,36 +163,82 @@ function load(){
   });
 }
 
+/* "Why there are so many without name!" Because the list was showing every
+   browser that had ever opened the address, and most of those never made an
+   account at all - several are Windows computers, which is a link scanner or
+   somebody having a look, not a merchant signing up.
+
+   So: a row with a name is a sign-up. A row without one is a visit. They are
+   two different things and they now sit in two different places, with the
+   visits folded away. */
+function hasName(d){return !!((d.label&&d.label.trim())||(d.staff&&d.staff.length));}
+function devKind(d){
+  var ua=String(d.ua||'');
+  if(/Windows NT|Macintosh|X11|CrOS/.test(ua)&&!/Mobile/.test(ua))return {e:'💻',t:'òdinatè'};
+  if(/iPhone|iPad/.test(ua))return {e:'📱',t:'iPhone'};
+  if(/Android/.test(ua))return {e:'📱',t:'Android'};
+  return {e:'❔',t:'enkoni'};
+}
+function devRow(d,dupNames){
+  var who=d.label||(d.staff&&d.staff.length?d.staff.join(', '):'Poko fè kont');
+  var k=devKind(d);
+  var tag = d.status==='blocked'
+    ? '<span class="tag b">Fèmen</span>'
+    : (d.grant&&d.grant!=='none' ? '<span class="tag g">'+(d.grant==='team'?'Ekip':'San abònman')+'</span>'
+                                 : '<span class="tag a">Aktif</span>');
+  /* Two rows with the same name is almost always one person who opened the app
+     in two different browsers - the WhatsApp one and Chrome, say. Say so, so he
+     does not think two people signed up. */
+  var dup = hasName(d)&&dupNames[who.toLowerCase()]>1
+    ? '<div class="dupe">⚠️ Menm non an parèt sou '+dupNames[who.toLowerCase()]+' telefòn. Souvan se menm moun nan ki louvri app la nan de navigatè diferan.</div>' : '';
+  return '<div class="dev'+(d.status==='blocked'?' blocked':'')+'">'
+    +'<div class="r1"><div><div class="nm'+(hasName(d)?'':' noname')+'">'+esc(who)+' '+tag+'</div>'
+      +'<div class="meta">'
+        +k.e+' '+esc(k.t)+' · v'+esc(d.ver||'?')+' · '+esc(d.plan||'—')+'<br>'
+        +'louvri app la '+esc(String(d.seenCount||1))+' fwa · dènye fwa '+esc(ago(d.lastSeen))+' pase</div></div>'
+      +'<div class="id">'+esc(shortId(d.deviceId))+'</div></div>'
+    +dup
+    +'<div class="acts">'
+      +(d.status==='blocked'
+         ? '<button data-act="active" data-id="'+esc(d.deviceId)+'">↩︎ Louvri ankò</button>'
+         : '<button class="dg" data-act="blocked" data-id="'+esc(d.deviceId)+'">🔒 Fèmen aksè</button>')
+      +'<button data-act="grant-lifetime" data-id="'+esc(d.deviceId)+'"'+(d.grant==='lifetime'?' class="on"':'')+'>♾️ San abònman</button>'
+      +'<button data-act="grant-none" data-id="'+esc(d.deviceId)+'"'+(d.grant==='none'?' class="on"':'')+'>💳 Nòmal</button>'
+      +'<button data-act="keep" data-id="'+esc(d.deviceId)+'"'+(keep[d.deviceId]?' class="on"':'')+'>'+(keep[d.deviceId]?'✓ Kenbe sa a':'Kenbe sa a')+'</button>'
+    +'</div></div>';
+}
 function draw(){
-  var nB=0,nG=0;
-  $('devs').innerHTML=devices.map(function(d){
+  var nB=0,nG=0,dupNames={};
+  devices.forEach(function(d){
     if(d.status==='blocked')nB++;
     if(d.grant&&d.grant!=='none')nG++;
-    var who=d.label||(d.staff&&d.staff.length?d.staff.join(', '):'(san non)');
-    var tag = d.status==='blocked'
-      ? '<span class="tag b">Fèmen</span>'
-      : (d.grant&&d.grant!=='none' ? '<span class="tag g">'+(d.grant==='team'?'Ekip':'Pou lavi')+'</span>'
-                                   : '<span class="tag a">Aktif</span>');
-    return '<div class="dev'+(d.status==='blocked'?' blocked':'')+'">'
-      +'<div class="r1"><div><div class="nm">'+esc(who)+' '+tag+'</div>'
-        +'<div class="meta">'
-          +(d.staff&&d.staff.length?('👤 '+esc(d.staff.join(', '))+'<br>'):'')
-          +'📱 v'+esc(d.ver||'?')+' · '+esc(d.plan||'—')
-          +' · wè '+esc(ago(d.lastSeen))+' pase</div></div>'
-        +'<div class="id">'+esc(shortId(d.deviceId))+'</div></div>'
-      +'<div class="acts">'
-        +(d.status==='blocked'
-           ? '<button data-act="active" data-id="'+esc(d.deviceId)+'">↩︎ Louvri ankò</button>'
-           : '<button class="dg" data-act="blocked" data-id="'+esc(d.deviceId)+'">🔒 Fèmen aksè</button>')
-        +'<button data-act="grant-lifetime" data-id="'+esc(d.deviceId)+'"'+(d.grant==='lifetime'?' class="on"':'')+'>♾️ San abònman</button>'
-        +'<button data-act="grant-none" data-id="'+esc(d.deviceId)+'"'+(d.grant==='none'?' class="on"':'')+'>💳 Nòmal</button>'
-        +'<button data-act="keep" data-id="'+esc(d.deviceId)+'"'+(keep[d.deviceId]?' class="on"':'')+'>'+(keep[d.deviceId]?'✓ Kenbe sa a':'Kenbe sa a')+'</button>'
-      +'</div></div>';
-  }).join('') || '<div class="panel" style="color:var(--tm)">Poko gen telefòn ki louvri app la.</div>';
+    if(hasName(d)){var n=(d.label||d.staff.join(', ')).toLowerCase();dupNames[n]=(dupNames[n]||0)+1;}
+  });
+  var named=devices.filter(hasName), anon=devices.filter(function(d){return !hasName(d);});
 
-  $('cnt').textContent=devices.length+' telefòn';
-  $('cntSub').textContent=nB+' fèmen · '+nG+' san abònman';
+  var html='';
+  html+='<div class="secth">Moun ki fè yon kont ('+named.length+')</div>';
+  html+= named.length ? named.map(function(d){return devRow(d,dupNames);}).join('')
+       : '<div class="panel" style="color:var(--tm)">Poko gen pèsonn.</div>';
 
+  if(anon.length){
+    html+='<div class="secth">Telefòn ki louvri app la san fè kont ('+anon.length+')</div>'
+      +'<div class="note">Yo louvri adrès la men yo pa janm kreye yon kont, kidonk pa gen non. '
+      +'Souvan se WhatsApp oswa Facebook ki louvri lyen an pou montre yon apèsi, oswa yon moun ki jis vin gade. '
+      +'Yo pa gen anyen ladan yo. Ou ka kite yo.</div>'
+      +'<button class="btn g" id="toggleAnon" style="margin-top:8px">Montre yo</button>'
+      +'<div id="anonBox" class="hide">'+anon.map(function(d){return devRow(d,dupNames);}).join('')+'</div>';
+  }
+  $('devs').innerHTML=html;
+
+  $('cnt').textContent=named.length+' moun ak yon kont';
+  $('cntSub').textContent=anon.length+' vizit san kont · '+nB+' fèmen · '+nG+' san abònman';
+
+  var tg=$('toggleAnon');
+  if(tg)tg.onclick=function(){
+    var b=$('anonBox');var shown=!b.classList.contains('hide');
+    b.classList.toggle('hide');tg.textContent=shown?'Montre yo':'Kache yo';
+  };
   Array.prototype.forEach.call(document.querySelectorAll('[data-act]'),function(b){
     b.onclick=function(){act(b.dataset.act,b.dataset.id,b);};
   });
@@ -211,6 +275,38 @@ $('fresh').onclick=function(){
 };
 
 $('refresh').onclick=function(){load().catch(function(e){alert(e.message);});};
+
+/* One console code opens both APIs, so a change has to land on both or half
+   his pages stop working. If the second one fails he is told, and the code he
+   just typed is still the live one on the first - saying nothing here would
+   leave him locked out of MyPlopPlop with no idea why. */
+var MPP_API='https://myplopplop-api.onrender.com';
+$('npGo').onclick=function(){
+  var v=($('np').value||'').trim();
+  var norm=v.replace(/[^A-Za-z0-9]/g,'');
+  if(norm.length<6){$('npErr').textContent='Kòd la dwe gen omwen 6 lèt oswa chif.';return;}
+  var b=$('npGo');b.disabled=true;$('npErr').textContent='';b.textContent='N ap anrejistre...';
+  api('POST','/api/admin/change-pin',{newPin:v})
+    .then(function(){
+      /* Now the second one. It must be told the OLD code, because that is still
+         what it is holding. */
+      return fetch(MPP_API+'/api/admin-pin/change-pin',{
+        method:'POST',headers:{'Content-Type':'application/json','x-admin-pin':pin},
+        body:JSON.stringify({newPin:v})
+      }).then(function(r){if(!r.ok)throw new Error('mpp');});
+    })
+    .then(function(){
+      pin=v;$('np').value='';
+      $('msg').textContent='Kòd la chanje. Sèvi ak nouvo a pou tout paj yo kounye a.';
+      $('npErr').textContent='';
+    })
+    .catch(function(e){
+      $('npErr').textContent = e.message==='mpp'
+        ? 'Kòd la chanje pou LajanMaker men pa pou MyPlopPlop. Ekri m.'
+        : 'Nou pa rive chanje l. Eseye ankò.';
+    })
+    .then(function(){b.disabled=false;b.textContent='Anrejistre nouvo kòd la';});
+};
 
 $('go').onclick=function(){
   var v=($('pin').value||'').trim();

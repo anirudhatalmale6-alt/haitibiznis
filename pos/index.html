@@ -2560,6 +2560,7 @@ function editBizName(){
   var v=prompt(t('set_bizname'),profile().name||'');
   if(v===null)return;
   var p=profile();p.name=v.trim();save('hb_profile',p);
+  try{srvAsk();}catch(e){}   /* the business name is what labels the row */
   renderHome();
   var st=document.getElementById('s-set');if(st&&st.classList.contains('on'))renderSettings();
 }
@@ -4962,9 +4963,17 @@ function staffForm(isFirst,editId){
     if(ed){ed.name=nm;ed.pin=pin;ed.role=role;var a=activeStaff();if(a&&a.id===ed.id)setActiveStaff(ed);}
     else {newId=genStaffId();l.push({id:newId,name:nm,pin:pin,role:role,ts:nowStamp()});}
     saveStaff(l);m.close();
+    /* Sign him in BEFORE saying hello. The label on his row comes from
+       bizName(), which falls back to whoever is signed in - so saying hello
+       first sent an empty name and left exactly the blank row he complained
+       about. The test caught it; I had the two lines the wrong way round. */
+    if(isFirst)setActiveStaff(staffList()[0]);
+    /* Tell the server the name NOW. Waiting for the next launch is what put a
+       row with no name on it in his list in the first place. */
+    try{srvAsk();}catch(e){}
     /* He is signed in from here on, so he must be told the number he will be
        asked for next time - especially when the app chose it. */
-    if(isFirst){setActiveStaff(staffList()[0]);renderHome();go('home');alert(t('emp_first_pin').replace('{p}',pin));return;}
+    if(isFirst){renderHome();go('home');alert(t('emp_first_pin').replace('{p}',pin));return;}
     /* Adding someone is where "I dont get the workflow" came from: the name went
        into a list and nothing told him what she now has to do. */
     if(!ed)return staffAdded(nm,pin,newId);
@@ -5124,7 +5133,7 @@ function shareApp(){
    =================================================================== */
 /* Version the seller can read out loud. When someone says "I don't see the new
    button", the first useful question is which build their phone is running. */
-const APP_VER='66';
+const APP_VER='67';
 var swReg=null;
 if('serviceWorker' in navigator){
   window.addEventListener('load',function(){
@@ -5310,6 +5319,20 @@ setTimeout(function(){try{srvAsk();}catch(e){}},600);
 (function(){var sp=document.getElementById('splash');if(!sp)return;setTimeout(function(){sp.classList.add('hide');setTimeout(function(){sp.remove();},600);},1600);})();
 /* employees: if the owner has set up staff, require PIN sign-in */
 if(staffList().length && !activeStaff()){openSignIn();}
+/* "The moment they sign up their names should have been there instead of
+   asking people after to put their names."
+
+   He was right: nothing ever asked. A new phone landed on the home screen with
+   a small nudge that most people never tapped, so the phone list filled up with
+   rows that had no name on them. Now the very first thing a brand-new phone
+   sees is the form that asks who this is.
+
+   It still has its Back button - a locked door on a shop's first ten seconds
+   would cost him more sign-ups than a blank name ever did - but it is in front
+   of them, once, instead of hidden behind a nudge. */
+else if(!staffList().length){setTimeout(function(){
+  try{ if(!staffList().length && !document.getElementById('posBlocked'))staffForm(true); }catch(e){}
+},1700);}
 /* deep-link: /pos/#promo opens the Promo Materials screen directly */
 (function(){var h=(location.hash||'').replace('#','');if(h==='promo'){go('promo');}})();
 window.addEventListener('hashchange',function(){var h=(location.hash||'').replace('#','');if(h==='promo')go('promo');else if(h==='home'||h==='')go('home');});
