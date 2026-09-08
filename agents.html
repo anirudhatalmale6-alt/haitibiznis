@@ -87,6 +87,12 @@ button,input{font-family:var(--body)}
     <button class="btn ok hide" id="all">✓ Apwouve tout moun k ap tann</button>
     <div class="msg" id="msg"></div>
 
+    <!-- A commission is created by itself when a referred shop is paid, but it
+         waits here until he approves it. Without this the agent's balance would
+         climb and never become withdrawable. -->
+    <div class="secth" id="commH"></div>
+    <div id="commBox"></div>
+
     <div class="secth" id="doneH"></div>
     <div id="doneBox"></div>
   </div>
@@ -126,9 +132,52 @@ function api(method,path,body){
 }
 
 function load(){
-  return api('GET','/api/admin-pin/agent-signups?status=all').then(function(j){
-    signups=j.signups||[];
-    draw(j.approved);
+  return Promise.all([
+    api('GET','/api/admin-pin/agent-signups?status=all'),
+    /* A missing commission list must not blank the whole page - the agent list
+       is the part he opens this for. */
+    api('GET','/api/admin-pin/commissions?status=pending').catch(function(){return {commissions:[]};})
+  ]).then(function(r){
+    signups=r[0].signups||[];
+    draw(r[0].approved);
+    drawComms(r[1].commissions||[]);
+  });
+}
+
+function drawComms(list){
+  if(!list.length){
+    $('commH').textContent='';
+    $('commBox').innerHTML='';
+    return;
+  }
+  var total=list.reduce(function(a,c){return a+(c.amount||0);},0);
+  $('commH').textContent='Komisyon k ap tann apwobasyon ou ('+list.length+')';
+  $('commBox').innerHTML='<div class="panel" style="font-size:.8rem;color:var(--tl);line-height:1.55">'
+    +'Yon komisyon fèt pou kont li lè yon biznis yon ajan te enskri fè yon vant ki peye. '
+    +'Li rete la a jiskaske ou apwouve l. Se apre sa ajan an ka mande lajan an. '
+    +'<b>Total: '+total+' HTG</b></div>'
+    +list.map(function(c){
+      var k=c.koutye||{}, u=k.user||{};
+      return '<div class="row"><div class="r1"><div>'
+        +'<div class="nm">'+esc(u.name||'(ajan)')+'</div>'
+        +'<div class="meta">'+esc(c.description||'')+'<br>'+esc(ago(c.createdAt))+' pase</div></div>'
+        +'<div class="code">'+(c.amount||0)+' HTG</div></div>'
+        +'<div style="display:flex;gap:8px;margin-top:10px">'
+          +'<button class="btn ok" style="margin:0" data-capp="'+esc(c._id)+'">✓ Apwouve</button>'
+          +'<button class="btn g" style="margin:0;color:#b91c1c;border-color:#fca5a5" data-crej="'+esc(c._id)+'">✕ Refize</button>'
+        +'</div></div>';
+    }).join('');
+
+  Array.prototype.forEach.call(document.querySelectorAll('[data-capp],[data-crej]'),function(b){
+    b.onclick=function(){
+      var id=b.dataset.capp||b.dataset.crej;
+      var act=b.dataset.capp?'approve':'reject';
+      if(act==='reject'&&!confirm('Refize komisyon sa a? Ajan an p ap resevwa l.'))return;
+      b.disabled=true;b.textContent='...';
+      api('POST','/api/admin-pin/commissions/'+encodeURIComponent(id)+'/'+act,{})
+        .then(function(){return load();})
+        .catch(function(e){alert(e.message);b.disabled=false;});
+    };
   });
 }
 
