@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Partner organizations — what exists, what is disconnected, what was never built</title>
+<meta name="robots" content="noindex,nofollow">
+<link rel="icon" type="image/x-icon" href="../favicon.ico">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=Plus+Jakarta+Sans:wght@400;600;700;800;900&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+:root{--blue:#00209F;--red:#D21034;--green:#1B8C3D;--amber:#B45309;
+  --off:#F5F7FA;--dark:#0A0E1A;--text:#1A2A4A;--tl:#5A6B8A;--tm:#8A95AA;--border:#E2E8F0;
+  --body:'Plus Jakarta Sans',system-ui,sans-serif;--display:'DM Serif Display',Georgia,serif;
+  --mono:'JetBrains Mono',ui-monospace,monospace}
+body{font-family:var(--body);background:var(--off);color:var(--text);line-height:1.6}
+.flag{height:4px;background:linear-gradient(90deg,var(--blue) 50%,var(--red) 50%)}
+.top{background:#fff;border-bottom:1px solid var(--border);padding:12px 16px}
+.brand{font-family:var(--display);font-size:1.05rem;color:var(--dark)}
+.brand em{color:var(--red);font-style:italic}
+.wrap{max-width:50rem;margin:0 auto;padding:0 16px 60px}
+h1{font-size:1.55rem;font-weight:900;letter-spacing:-.5px;margin:24px 0 8px;line-height:1.25}
+.stamp{font-size:.78rem;color:var(--tm);font-family:var(--mono);margin-bottom:18px}
+h2{font-size:1.1rem;font-weight:900;margin:32px 0 6px}
+p{margin:9px 0;font-size:.93rem}
+ul{margin:8px 0 8px 20px;font-size:.93rem}
+li{margin:6px 0}
+.lead{background:#fff;border:1px solid var(--border);border-left:5px solid var(--blue);
+  border-radius:12px;padding:16px 18px;margin:18px 0}
+.card{background:#fff;border:1px solid var(--border);border-radius:12px;padding:15px 17px;margin:12px 0}
+.card.green{border-color:#86efac;background:#f4fdf7}
+.card.amber{border-color:#fdba74;background:#fffbf5}
+.card.grey{border-color:var(--border);background:#fafbfc}
+.k{font-size:.72rem;font-weight:800;text-transform:uppercase;letter-spacing:.05em;margin-bottom:6px}
+.k.g{color:#0b6b37}.k.a{color:#7c2d12}.k.n{color:var(--tl)}
+code{font-family:var(--mono);font-size:.85em;background:#eef1f6;padding:2px 6px;border-radius:4px;word-break:break-word}
+.foot{border-top:1px solid var(--border);margin-top:38px;padding-top:16px;font-size:.8rem;color:var(--tm)}
+a{color:var(--blue)}
+.price{font-family:var(--mono);font-weight:700}
+</style>
+</head>
+<body>
+<div class="flag"></div>
+<div class="top"><span class="brand">Haiti<em>Biznis</em> · Partner organizations</span></div>
+
+<div class="wrap">
+
+<h1>Partner organizations — what exists, what is only disconnected, and what was never built</h1>
+<div class="stamp">Read from the code and the build history, 9 September 2026.</div>
+
+<div class="lead">
+<p><b>You were right and I was wrong.</b> I told you what exists is "a name tag and a
+page with names and logos on it". That was an understatement and it led me to a
+price that was not fair.</p>
+<p>There is a <b>complete partner dashboard</b>, built on 18 June 2026 — the commit
+is called "Add SPAP partner dashboard with store/driver tracking and referral
+links". It has the partner's header and logo, four statistic tiles, a table of
+stores signed up, a table of drivers signed up, and its own referral links to
+copy. It is live right now.</p>
+<p><b>It has no data.</b> The page never asks the server anything — there is not a
+single request in it. The four numbers are zeros written into the page, and the
+tables say "will appear here" for ever. That is the same fault as the agent
+sign-ups: the screen was built, the wiring never was.</p>
+</div>
+
+<h2>1 · Built and working</h2>
+<div class="card green">
+<div class="k g">These exist and do their job today</div>
+<ul>
+<li><b>The partner dashboard page itself</b> — header, statistic tiles, stores
+table, drivers table, per-partner sign-up links, and a switch between partners
+through the web address.</li>
+<li><b>The referral link capture.</b> When a shop signs up through a partner's
+link, the partner's name is written onto that shop's record and kept. I checked
+the code that saves it.</li>
+<li><b>The same for drivers</b>, on both MsouWout and the MyPlopPlop delivery
+sign-up — the partner's name is sent with the registration.</li>
+<li><b>A report on the server</b> that counts drivers grouped by which partner
+brought them. It works. Nothing calls it.</li>
+</ul>
+</div>
+
+<h2>2 · Built but disconnected</h2>
+<div class="card amber">
+<div class="k a">This is completing the implementation, not new work — no charge</div>
+<ul>
+<li><b>The dashboard shows nothing.</b> It has to ask the server for the stores
+and drivers carrying that partner's name, and put the real numbers in the tiles.
+The data is already being collected and the report already exists.</li>
+<li><b>The partner list is written into the page.</b> Only SPAP and
+FTPH/COTRASMOTHA are in it, as lines of code. Adding Église Shalom, Renaissance
+Ayiti or a university means editing the file. They need to be records you can add
+yourself.</li>
+<li><b>There is no login.</b> The page decides which partner you are from the web
+address. That is harmless while it shows nothing, and it must not stay that way
+once it shows real names and phone numbers. A partner has to sign in and see only
+their own.</li>
+</ul>
+<p style="margin-bottom:0">I will do all three at no cost. The dashboard was paid
+for in June and it should have been finished then.</p>
+</div>
+
+<h2>3 · Never built</h2>
+<div class="card grey">
+<div class="k n">This is the money layer, and it has never existed at organization level</div>
+<ul>
+<li><b>An organization inside the commission engine.</b> The engine knows
+individual agents only — there is no organization field anywhere in it. A
+partner's name on a shop record is a label; it is not connected to any
+commission.</li>
+<li><b>An organization referral code</b> that earns, as opposed to a link that
+labels.</li>
+<li><b>Members belonging to an organization</b>, with their own codes rolling up
+to it.</li>
+<li><b>An organization wallet, organization payouts, and commission split</b>
+between the organization and its member.</li>
+</ul>
+<p>To be fair in both directions: no commission of any kind existed anywhere on
+the platform until this week — the counters were all zero. So this part is not
+something that was built and broke. It has genuinely never been there.</p>
+</div>
+
+<h2>What I propose</h2>
+<p><b>Now, free:</b> finish section 2. Real numbers on the partner dashboard,
+organizations you can add yourself, and a proper login. That gives FTPH, Église
+Shalom and Renaissance Ayiti working dashboards showing their real sign-ups.</p>
+<p><b>Later, and only when you want it:</b> section 3, the money layer —
+organization codes that earn, wallets, payouts and the split with members.
+<span class="price">200 USD</span>, not 400. I am not charging for section 2, and
+I should not have bundled the two together in the first place.</p>
+<p><b>In the meantime nothing is blocked.</b> Anyone from any of those
+organizations can sign up as an individual agent today at
+<code>haitibiznis.com/koutye.html</code>, be approved at
+<code>haitibiznis.com/agents.html</code>, and earn commissions properly from day
+one. What they will not have until section 3 is the organization earning on top.</p>
+
+<div class="foot">
+Everything on this page was read from the code and the build history rather than
+from memory. Where I was wrong earlier, it says so.<br>
+<a href="readiness.html">Production readiness</a> · <a href="bugs.html">Bug list</a>
+</div>
+
+</div>
+</body>
+</html>
