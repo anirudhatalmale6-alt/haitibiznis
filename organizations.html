@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Organizations — HaitiBiznis</title>
+<meta name="theme-color" content="#00209F">
+<meta name="robots" content="noindex,nofollow">
+<link rel="icon" type="image/x-icon" href="favicon.ico">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=Plus+Jakarta+Sans:wght@400;600;700;800;900&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+:root{--blue:#00209F;--red:#D21034;--green:#1B8C3D;--off:#F5F7FA;--dark:#0A0E1A;
+  --text:#1A2A4A;--tl:#5A6B8A;--tm:#8A95AA;--border:#E2E8F0;
+  --body:'Plus Jakarta Sans',system-ui,sans-serif;--display:'DM Serif Display',Georgia,serif;
+  --mono:'JetBrains Mono',monospace;--radius:14px}
+body{font-family:var(--body);background:var(--off);color:var(--text);min-height:100vh}
+button,input{font-family:var(--body)}
+.flag{height:4px;background:linear-gradient(90deg,var(--blue) 50%,var(--red) 50%)}
+.topbar{background:#fff;border-bottom:1px solid var(--border);padding:11px 16px}
+.brand{font-family:var(--display);font-size:1rem;color:var(--dark)}
+.brand em{color:var(--red);font-style:italic}
+.intro{padding:20px 16px 4px}
+.intro h1{font-size:1.4rem;font-weight:900;letter-spacing:-.4px;margin-bottom:7px}
+.intro p{font-size:.85rem;color:var(--tl);line-height:1.55;max-width:34rem}
+.wrap{padding:0 16px 44px;max-width:44rem;margin:0 auto}
+.panel{background:#fff;border:1px solid var(--border);border-radius:var(--radius);padding:16px;margin-top:12px}
+label{display:block;font-size:.76rem;font-weight:700;color:var(--tl);margin:10px 0 5px}
+input{width:100%;border:1.5px solid var(--border);border-radius:10px;padding:11px 12px;font-size:1rem}
+input.mono{font-family:var(--mono);text-transform:uppercase}
+input:focus{outline:none;border-color:var(--blue)}
+.btn{width:100%;border:0;background:var(--blue);color:#fff;font-weight:800;font-size:.92rem;
+  padding:13px;border-radius:11px;margin-top:12px;cursor:pointer}
+.btn.g{background:#fff;color:var(--blue);border:1.5px solid var(--border)}
+.btn.r{background:var(--red)}
+.btn:disabled{opacity:.5}
+.err{color:#b91c1c;font-size:.8rem;font-weight:700;min-height:1.1rem;margin-top:8px}
+.msg{color:var(--green);font-size:.8rem;font-weight:700;min-height:1.1rem;margin-top:8px}
+.org{background:#fff;border:1px solid var(--border);border-radius:var(--radius);padding:13px 14px;margin-top:10px}
+.org.sus{border-color:#fca5a5;background:#fff7f7}
+.r1{display:flex;justify-content:space-between;align-items:flex-start;gap:10px}
+.nm{font-weight:800;font-size:.95rem;line-height:1.3;word-break:break-word}
+.meta{font-size:.75rem;color:var(--tl);margin-top:4px;line-height:1.5}
+.lk{font-family:var(--mono);font-size:.72rem;color:var(--blue);word-break:break-all;margin-top:6px}
+.tag{display:inline-block;font-size:.64rem;font-weight:800;padding:2px 8px;border-radius:99px;text-transform:uppercase}
+.tag.a{background:#e7f6ec;color:#0b6b37}
+.tag.s{background:#fee2e2;color:#b91c1c}
+.acts{display:flex;gap:7px;margin-top:10px;flex-wrap:wrap}
+.acts button{flex:1;min-width:92px;border:1.5px solid var(--border);background:#fff;color:var(--text);
+  font-weight:700;font-size:.76rem;padding:9px 6px;border-radius:9px;cursor:pointer}
+.acts button.dg{border-color:#fca5a5;color:#b91c1c}
+.code{background:#eef1f6;border-radius:10px;padding:10px;margin-top:9px;text-align:center}
+.code .n{font-family:var(--mono);font-size:1.3rem;font-weight:700;letter-spacing:4px}
+.code .l{font-size:.7rem;color:var(--tl);font-weight:700}
+.hide{display:none}
+.secth{font-weight:800;font-size:.9rem;margin:22px 2px 2px}
+.foot{text-align:center;font-size:.72rem;color:var(--tm);padding:20px 16px 30px;line-height:1.6}
+</style>
+</head>
+<body>
+<div class="flag"></div>
+<div class="topbar"><span class="brand">Haiti<em>Biznis</em> · Organizations</span></div>
+
+<div class="intro">
+  <h1>Partner organizations</h1>
+  <p>Every partner in one place. Add a university, a church, a cooperative, an
+  association, a TV station — as many as you like, without waiting for me.</p>
+</div>
+
+<div class="wrap">
+
+  <div class="panel" id="askBox">
+    <label for="pin">Your console code</label>
+    <input id="pin" class="mono" autocomplete="off" autocapitalize="characters" spellcheck="false" placeholder="CONSOLE CODE">
+    <button class="btn" id="go">Open</button>
+    <div class="err" id="askErr"></div>
+  </div>
+
+  <div id="listBox" class="hide">
+    <div class="panel" style="display:flex;justify-content:space-between;align-items:center;gap:10px">
+      <div><div style="font-weight:800;font-size:.95rem" id="cnt">—</div>
+        <div style="font-size:.75rem;color:var(--tl)" id="cntSub"></div></div>
+      <button class="btn g" style="width:auto;margin:0;padding:10px 14px" id="refresh">↻</button>
+    </div>
+
+    <div class="secth">Add an organization</div>
+    <div class="panel">
+      <label for="nName">Name</label>
+      <input id="nName" placeholder="Université Quisqueya">
+      <label for="nSlug">Referral code — this goes in their link</label>
+      <input id="nSlug" placeholder="UNIQ">
+      <div style="font-size:.72rem;color:var(--tl);margin-top:5px">
+        Keep it short and easy to type. It cannot be changed later without breaking
+        every link they have already handed out.</div>
+      <label for="nFull">Full name (optional)</label>
+      <input id="nFull" placeholder="Université Quisqueya, Port-au-Prince">
+      <button class="btn" id="add">Add this organization</button>
+      <div class="err" id="addErr"></div>
+      <div class="msg" id="addMsg"></div>
+    </div>
+
+    <div class="secth" id="listH">Organizations</div>
+    <div id="orgs"></div>
+  </div>
+
+</div>
+
+<div class="foot">
+  Do not share your console code with anyone.<br>
+  Each organization gets its own access code for
+  myplopplop.com/partner-dashboard.html
+</div>
+
+<script>
+var API='https://myplopplop-api.onrender.com';
+var pin='', orgs=[];
+var AB='ABCDEFGHJKLMNPQRSTUVWXYZ23456789';   /* no I O 0 1 to mistype */
+
+function $(i){return document.getElementById(i);}
+function esc(s){return String(s==null?'':s).replace(/[&<>"']/g,function(c){
+  return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c];});}
+function newCode(){
+  var a=new Uint8Array(8);crypto.getRandomValues(a);
+  var s='';for(var i=0;i<8;i++)s+=AB[a[i]%AB.length];return s;
+}
+function api(method,path,body){
+  var o={method:method,headers:{'x-admin-pin':pin}};
+  if(body){o.headers['Content-Type']='application/json';o.body=JSON.stringify(body);}
+  return fetch(API+path,o).then(function(r){
+    return r.json().catch(function(){return {};}).then(function(j){
+      if(!r.ok){var e=new Error(j.message||j.error||('Error '+r.status));e.status=r.status;throw e;}
+      return j;
+    });
+  });
+}
+function load(){
+  return api('GET','/api/organizations').then(function(j){orgs=j.organizations||[];draw();});
+}
+function draw(){
+  var sus=0;
+  $('orgs').innerHTML=orgs.map(function(o){
+    if(o.status==='suspended')sus++;
+    var link='myplopplop.com/merchant/register.html?ref='+encodeURIComponent(o.slug);
+    return '<div class="org'+(o.status==='suspended'?' sus':'')+'">'
+      +'<div class="r1"><div><div class="nm">'+esc(o.name)+' '
+        +(o.status==='suspended'?'<span class="tag s">Suspended</span>':'<span class="tag a">Active</span>')+'</div>'
+      +'<div class="meta">'+esc(o.fullName||'')+(o.fullName?'<br>':'')
+        +esc(o.stores||0)+' shop'+((o.stores===1)?'':'s')+' signed up'
+        +(o.hasCode?'':' · <b style="color:#b91c1c">no access code yet</b>')+'</div>'
+      +'<div class="lk">'+esc(link)+'</div></div></div>'
+      +'<div class="acts">'
+        +'<button data-copy="'+esc(link)+'">📋 Copy link</button>'
+        +'<button data-code="'+esc(o.slug)+'">🔑 New access code</button>'
+        +(o.status==='suspended'
+          ? '<button data-status="active" data-slug="'+esc(o.slug)+'">↩︎ Reactivate</button>'
+          : '<button class="dg" data-status="suspended" data-slug="'+esc(o.slug)+'">Suspend</button>')
+      +'</div></div>';
+  }).join('') || '<div class="panel" style="color:var(--tm)">No organizations yet.</div>';
+
+  $('cnt').textContent=orgs.length+' organization'+(orgs.length===1?'':'s');
+  $('cntSub').textContent=sus?(sus+' suspended'):'';
+
+  Array.prototype.forEach.call(document.querySelectorAll('[data-copy]'),function(b){
+    b.onclick=function(){
+      var t='https://'+b.dataset.copy;
+      if(navigator.clipboard)navigator.clipboard.writeText(t);
+      b.textContent='Copied!';setTimeout(function(){b.textContent='📋 Copy link';},1800);
+    };});
+  Array.prototype.forEach.call(document.querySelectorAll('[data-code]'),function(b){
+    b.onclick=function(){
+      var c=newCode();
+      if(!confirm('Give '+b.dataset.code+' a new access code?\n\nTheir old code stops working straight away.'))return;
+      b.disabled=true;
+      api('POST','/api/organizations/'+encodeURIComponent(b.dataset.code)+'/code',{code:c})
+        .then(function(){showCode(b.dataset.code,c);return load();})
+        .catch(function(e){alert(e.message);b.disabled=false;});
+    };});
+  Array.prototype.forEach.call(document.querySelectorAll('[data-status]'),function(b){
+    b.onclick=function(){
+      b.disabled=true;
+      api('POST','/api/organizations/'+encodeURIComponent(b.dataset.slug)+'/status',{status:b.dataset.status})
+        .then(function(){return load();})
+        .catch(function(e){alert(e.message);b.disabled=false;});
+    };});
+}
+/* Shown once, big, and said plainly. A code that flashes past is worse than
+   none at all. */
+function showCode(name,code){
+  var m=$('addMsg');
+  m.innerHTML='<div class="code"><div class="l">Access code for '+esc(name)+
+    ' — write it down, it is not shown again</div><div class="n">'+esc(code)+'</div></div>';
+}
+$('add').onclick=function(){
+  var name=($('nName').value||'').trim();
+  var slug=($('nSlug').value||'').trim()||name;
+  var full=($('nFull').value||'').trim();
+  if(!name){$('addErr').textContent='Give it a name.';return;}
+  var code=newCode();
+  var b=$('add');b.disabled=true;b.textContent='Adding...';$('addErr').textContent='';$('addMsg').textContent='';
+  api('POST','/api/organizations',{slug:slug,name:name,fullName:full,code:code})
+    .then(function(){
+      showCode(name,code);
+      $('nName').value='';$('nSlug').value='';$('nFull').value='';
+      return load();
+    })
+    .catch(function(e){$('addErr').textContent=e.message;})
+    .then(function(){b.disabled=false;b.textContent='Add this organization';});
+};
+$('refresh').onclick=function(){load().catch(function(e){alert(e.message);});};
+$('go').onclick=function(){
+  var v=($('pin').value||'').trim();
+  if(!v){$('askErr').textContent='Enter the code.';return;}
+  pin=v;
+  var b=$('go');b.disabled=true;b.textContent='Opening...';$('askErr').textContent='';
+  load().then(function(){
+    $('askBox').classList.add('hide');
+    $('listBox').classList.remove('hide');
+  }).catch(function(e){
+    pin='';
+    $('askErr').textContent = e.status===403 ? 'That console code is not right.'
+                            : 'Could not reach the server. Try again.';
+  }).then(function(){b.disabled=false;b.textContent='Open';});
+};
+$('pin').addEventListener('keydown',function(e){if(e.key==='Enter')$('go').click();});
+</script>
+</body>
+</html>
