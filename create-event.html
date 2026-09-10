@@ -400,37 +400,19 @@ img{max-width:100%;display:block}
     <div class="form-row">
       <div class="form-group">
         <label data-i18n="event_type">Tip Evènman</label>
-        <select id="evType">
-          <option value="">Chwazi...</option>
-          <option value="konferans">🎤 Konferans</option>
-          <option value="party">🎉 Fèt / Party</option>
-          <option value="gala">💝 Gala / Kolèk</option>
-          <option value="seminè">📚 Seminè</option>
-          <option value="maryaj">💍 Maryaj</option>
-          <option value="legliz">⛪ Legliz</option>
-          <option value="biznis">💼 Biznis</option>
-          <option value="konsè">🎵 Konsè</option>
-          <option value="fòmasyon">🎓 Fòmasyon / Workshop</option>
-          <option value="kominyon">🕊️ Premye Kominyon</option>
-          <option value="batèm">💧 Batèm</option>
-          <option value="gradyasyon">🎓 Gradyasyon</option>
-          <option value="bàl">💃 Bàl</option>
-          <option value="fèt-manman">🌸 Fèt dè Mè</option>
-          <option value="fèt-papa">👔 Fèt dè Pè</option>
-          <option value="jmj">✝️ JMJ</option>
-          <option value="valentinn">❤️ St Valentin</option>
-          <option value="nwèl">🎄 Nwèl / Christmas</option>
-          <option value="nouvel-ane">🎆 Nouvel Ane</option>
-          <option value="foutbòl">⚽ Foutbòl</option>
-          <option value="baskètbòl">🏀 Baskètbòl</option>
-          <option value="volebòl">🏐 Volebòl</option>
-          <option value="tenis">🎾 Tenis</option>
-          <option value="badmintonn">🏸 Badmintonn</option>
-          <option value="bòks">🥊 Bòks</option>
-          <option value="karate">🥋 Karate / Judo</option>
-          <option value="spò">🏆 Lòt Spò</option>
-          <option value="lòt">📌 Lòt</option>
-        </select>
+        <!-- Built by fillTypeOptions() from event-types.js so the twenty-nine
+             types translate with the rest of the page. They used to be
+             hard-coded here in Kreyol with no data-i18n on any of them, which
+             is exactly what the Academy director reported: the page turns French and the
+             event types do not. -->
+        <select id="evType" onchange="onTypeChange()"></select>
+        <div id="customTypeWrap" style="display:none;margin-top:8px">
+          <input type="text" id="evTypeCustom" maxlength="40"
+                 data-i18n-ph="ph_custom_type"
+                 placeholder="Ekri kalite evènman ou">
+          <div style="font-size:.75rem;color:var(--text-muted,#6b7280);margin-top:4px"
+               data-i18n="custom_type_note">Sa w ekri a ap parèt jan w ekri l, nan lang ou vle.</div>
+        </div>
       </div>
       <div class="form-group">
         <label data-i18n="date">Dat</label>
@@ -743,8 +725,21 @@ img{max-width:100%;display:block}
   </div>
 </div>
 
+<script src="event-types.js"></script>
 <script>
 var API_URL = 'https://haitibiznis-api.onrender.com';
+
+/* Where a shareable link points.
+ *
+ * The API host is the only server in the stack, so it has to serve the page
+ * that carries the WhatsApp preview - haitibiznis.com is static files on
+ * GitHub Pages and cannot. What CAN change is the name on the front of it: the
+ * day a subdomain of his own domain points at the API, TL_SHARE_BASE becomes
+ * that name and every link generated afterwards is branded. Links already
+ * shared keep working; the old path still answers. */
+var TL_SHARE_BASE = '';
+function shareBase() { return TL_SHARE_BASE || API_URL; }
+
 
 /* ═══ STATE ═══ */
 var currentStep = 0;
@@ -755,6 +750,66 @@ var textColor = '#FFFFFF';
 var flyerImage = null;
 var logoImage = null;
 var curLang = 'ht';
+
+/* ═══ EVENT TYPE DROPDOWN ═══════════════════════════════════════════════════
+ *
+ * The Academy director's first point. The twenty-nine options were hard-coded Kreyòl
+ * <option> elements with no data-i18n, so setting the page to French
+ * translated every label on it except this one. They are built from
+ * event-types.js now and rebuilt whenever the language changes.
+ *
+ * Plus the escape hatch both she and the owner asked for in their own words -
+ * hers was "banm posibilite pou m modifier, konsa m k ekri type d'événement
+ * an, e mwen k ekri l nan lang m vle", his was "allow the organizer to
+ * edit/override the Event Type". Choosing "Lòt" reveals a box, and whatever is
+ * typed in it is stored and displayed exactly as typed, in any language, and
+ * is never translated by anything.
+ */
+var CUSTOM_HINT = {
+  ht: 'Ekri kalite evènman ou', fr: "Écrivez votre type d'événement",
+  en: 'Write your own event type', es: 'Escribe tu tipo de evento',
+  pt: 'Escreva seu tipo de evento'
+};
+var CUSTOM_NOTE = {
+  ht: 'Sa w ekri a ap parèt jan w ekri l, nan lang ou vle.',
+  fr: 'Ce que vous écrivez sera affiché exactement ainsi, dans la langue de votre choix.',
+  en: 'What you write is shown exactly as written, in whatever language you choose.',
+  es: 'Lo que escribas se mostrará tal cual, en el idioma que elijas.',
+  pt: 'O que você escrever será exibido exatamente assim, no idioma que escolher.'
+};
+var CHOOSE_HINT = {
+  ht: 'Chwazi...', fr: 'Choisir...', en: 'Choose...', es: 'Elegir...', pt: 'Escolher...'
+};
+
+function fillTypeOptions() {
+  var sel = document.getElementById('evType');
+  if (!sel || !window.EventTypes) return;
+  /* Keep whatever was already chosen across a language change - rebuilding the
+     list must not silently clear the organiser's answer. */
+  var keep = sel.value;
+  var html = '<option value="">' + (CHOOSE_HINT[curLang] || CHOOSE_HINT.ht) + '</option>';
+  EventTypes.ORDER.forEach(function(key) {
+    html += '<option value="' + key + '">' +
+      EventTypes.style(key).emoji + ' ' + EventTypes.labelForKey(key, curLang) + '</option>';
+  });
+  sel.innerHTML = html;
+  if (keep) sel.value = keep;
+
+  var ph = document.getElementById('evTypeCustom');
+  if (ph) ph.placeholder = CUSTOM_HINT[curLang] || CUSTOM_HINT.ht;
+  var note = document.querySelector('[data-i18n="custom_type_note"]');
+  if (note) note.textContent = CUSTOM_NOTE[curLang] || CUSTOM_NOTE.ht;
+  onTypeChange();
+}
+
+function onTypeChange() {
+  var sel = document.getElementById('evType');
+  var wrap = document.getElementById('customTypeWrap');
+  if (!sel || !wrap) return;
+  /* "Lòt" is where somebody goes when nothing on the list is their event, so
+     that is where the box belongs. */
+  wrap.style.display = sel.value === 'lòt' ? '' : 'none';
+}
 
 /* ═══ TRANSLATIONS ═══ */
 var i18n = {
@@ -1375,6 +1430,10 @@ function setLang(lang) {
     var key = el.getAttribute('data-i18n-ph');
     if (t[key] !== undefined) el.placeholder = t[key];
   });
+
+  /* The event type list is built rather than written in the HTML, so it has to
+     be rebuilt here or it stays in whatever language the page loaded in. */
+  fillTypeOptions();
 
   /* Re-translate dynamically generated ticket cards */
   document.querySelectorAll('.ticket-card').forEach(function(card) {
@@ -2183,7 +2242,12 @@ function publishEvent() {
 
   var evId = 'evt_' + Date.now();
   var evType = document.getElementById('evType').value;
-  var cfg = typeConfig[evType] || typeConfig['lòt'];
+  /* Six of the twenty-nine options in the list - Fèt dè Mè, Fèt dè Pè, JMJ,
+     St Valentin, Nouvel Ane and Lòt Spò - had no entry in typeConfig at all,
+     so choosing any of them fell through to the generic grey "Lòt" card
+     without saying so. event-types.js has all twenty-nine; prefer it. */
+  var cfg = (window.EventTypes ? EventTypes.style(evType) : null) || typeConfig[evType] || typeConfig['lòt'];
+  if (!cfg.label) cfg.label = (window.EventTypes ? EventTypes.labelForKey(evType, 'ht') : evType);
 
   var tickets = [];
   document.querySelectorAll('.ticket-card').forEach(function(card) {
@@ -2207,11 +2271,23 @@ function publishEvent() {
   var inviteImage = '';
   try { inviteImage = document.getElementById('inviteCanvas').toDataURL('image/jpeg', 0.7); } catch(e) {}
 
+  /* What the organiser typed, if they typed one. Only meaningful for "lòt";
+     anything left in the box after switching back to a real type would
+     otherwise silently override it. */
+  var customEl = document.getElementById('evTypeCustom');
+  var typeCustom = (evType === 'lòt' && customEl) ? (customEl.value || '').trim() : '';
+
   var eventObj = {
     id: evId,
     title: document.getElementById('evTitle').value || '',
     type: evType,
-    typeLabel: cfg.label,
+    typeCustom: typeCustom,
+    /* typeLabel is written for the sake of older screens that still read it.
+       It is NO LONGER what gets displayed - every page translates the `type`
+       key at display time through event-types.js, so an event created in
+       French now reads correctly to somebody browsing in English. Freezing the
+       creator's language onto the event was the bug. */
+    typeLabel: typeCustom || cfg.label,
     typeEmoji: cfg.emoji,
     gradient: cfg.gradient,
     tagBg: cfg.tagBg,
@@ -2264,6 +2340,17 @@ function publishEvent() {
     try { events = JSON.parse(localStorage.getItem('tl_events') || '[]'); } catch(e) { events = []; }
     events.unshift(eventObj);
     try { localStorage.setItem('tl_events', JSON.stringify(events)); } catch(e) {}
+  }
+
+  /* Codes for the events created on this phone: {eventId: code}. Kept apart
+     from tl_events so that clearing the visible list never silently throws
+     away the only thing that proves which events are the organiser's. */
+  function keepManageCode(id, code) {
+    if (!id || !code) return;
+    var m = {};
+    try { m = JSON.parse(localStorage.getItem('tl_manage') || '{}'); } catch(e) { m = {}; }
+    m[id] = code;
+    try { localStorage.setItem('tl_manage', JSON.stringify(m)); } catch(e) {}
     return id;
   }
 
@@ -2283,9 +2370,15 @@ function publishEvent() {
     if (saved && saved._id) {
       eventObj._id = saved._id;
       keepOnThisPhone(saved._id);
+      /* The manage code, kept against the event id on the phone that created
+         it. This is what later lets the organiser delete or edit their OWN
+         event without being handed the console code, which opens escrow,
+         refunds and driver approval across the whole platform. The server
+         returns it exactly once - if it is not caught here it is gone. */
+      keepManageCode(saved._id, saved.manageCode);
       /* It is published. The half-finished copy has done its job. */
       clearDraft();
-      showSuccessOverlay(saved._id, API_URL + '/api/events/' + saved._id + '/share');
+      showSuccessOverlay(saved._id, shareBase() + '/e/' + saved._id);
       return;
     }
     /* The server looked at it and refused it. Say what it said. */
@@ -2342,6 +2435,11 @@ document.head.appendChild(style);
 
 /* ═══ INIT ═══ */
 renderCanvas();
+
+/* The type list is built, not written in the HTML, so it has to be filled in
+   before anything else looks at it - including a restored draft, which sets
+   the select's value and would find an empty list to set it on. */
+fillTypeOptions();
 
 /* Restore saved language */
 (function() {

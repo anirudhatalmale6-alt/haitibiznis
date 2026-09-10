@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html lang="ht">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Jwenn Tikè Mwen — Tikè Lakay</title>
+<meta name="description" content="Jwenn tikè ou ak nimewo telefòn ou. Antre nimewo w epi wè tout tikè ou yo ak kòd QR yo.">
+<meta name="theme-color" content="#00209F">
+<meta property="og:title" content="Jwenn Tikè Ou — Tikè Lakay">
+<meta property="og:description" content="Antre nimewo telefòn ou epi jwenn tout tikè ou yo.">
+<meta property="og:image" content="https://haitibiznis.com/assets/og-tike-lakay.jpg?v=2">
+<meta property="og:url" content="https://haitibiznis.com/my-tickets.html">
+<meta property="og:type" content="website">
+<link rel="canonical" href="https://haitibiznis.com/my-tickets.html">
+<link rel="icon" type="image/x-icon" href="favicon.ico">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --blue:#00209F;--blue-deep:#001566;--blue-light:#0A3ACC;
+  --red:#D21034;--red-dark:#B00D2C;
+  --gold:#D4A017;--gold-light:#E8B82E;--gold-soft:#FDF3D7;
+  --green:#1B8C3D;--green-light:#E8F5E9;
+  --white:#FFFFFF;--off-white:#F5F7FA;--cream:#FAFBFD;
+  --dark:#0A0E1A;--text:#1A2A4A;--text-light:#5A6B8A;--text-muted:#8A95AA;
+  --border:#E2E8F0;--border-light:#F0F3F7;
+  --body:'Plus Jakarta Sans',system-ui,sans-serif;
+  --display:'DM Serif Display',Georgia,serif;
+  --mono:'JetBrains Mono',monospace;
+  --shadow-sm:0 1px 3px rgba(10,14,26,.06);
+  --shadow-md:0 4px 16px rgba(10,14,26,.08);
+  --radius:14px;--radius-lg:20px;
+}
+body{font-family:var(--body);background:var(--off-white);color:var(--text);-webkit-font-smoothing:antialiased;min-height:100vh}
+a{text-decoration:none;color:inherit}
+button{font-family:var(--body);cursor:pointer;border:none;background:none}
+
+.flag-stripe{height:4px;background:linear-gradient(90deg,var(--blue) 50%,var(--red) 50%)}
+.lang-bar{background:var(--dark);display:flex;justify-content:center;gap:2px;padding:5px 8px;flex-wrap:wrap}
+.lang-bar a{font-size:.7rem;font-weight:700;color:rgba(255,255,255,.62);padding:4px 10px;border-radius:6px;cursor:pointer}
+.lang-bar a.active{background:var(--gold);color:var(--dark)}
+.header{
+  position:sticky;top:0;z-index:100;background:rgba(255,255,255,.95);backdrop-filter:blur(16px);
+  border-bottom:1px solid var(--border);padding:0 16px;height:56px;
+  display:flex;align-items:center;justify-content:space-between;
+}
+.header-left span{font-family:var(--display);font-size:1rem;color:var(--dark)}
+.header-left span em{color:var(--red);font-style:italic}
+.header-back{display:flex;align-items:center;gap:6px;font-size:.78rem;font-weight:600;
+  color:var(--text-light);border:1px solid var(--border);border-radius:99px;padding:7px 13px}
+
+.wrap{max-width:520px;margin:0 auto;padding:22px 16px 60px}
+.hero{text-align:center;margin-bottom:22px}
+.hero h1{font-family:var(--display);font-size:1.7rem;line-height:1.2;color:var(--dark);margin-bottom:8px}
+.hero p{font-size:.9rem;color:var(--text-light);line-height:1.5}
+
+.card{background:var(--white);border-radius:var(--radius-lg);padding:20px;box-shadow:var(--shadow-md);margin-bottom:16px}
+label{display:block;font-size:.8rem;font-weight:700;color:var(--text-light);margin-bottom:6px}
+input[type=tel]{width:100%;padding:14px;border:1.5px solid var(--border);border-radius:12px;
+  font-family:var(--mono);font-size:1.05rem;letter-spacing:.5px}
+input[type=tel]:focus{outline:none;border-color:var(--blue)}
+.btn{width:100%;margin-top:12px;padding:15px;border-radius:12px;font-weight:800;font-size:1rem;
+  background:var(--blue);color:#fff;box-shadow:0 6px 18px rgba(0,32,159,.25)}
+.btn:disabled{opacity:.55}
+.hint{font-size:.78rem;color:var(--text-muted);margin-top:10px;line-height:1.5}
+
+.msg{border-radius:12px;padding:14px;font-size:.88rem;line-height:1.5;margin-bottom:14px;display:none}
+.msg.err{background:#FDECEF;color:var(--red-dark);border:1px solid #F5C6CE}
+.msg.none{background:var(--gold-soft);color:#7A5C0A;border:1px solid #EBD9A0}
+
+.tk{background:var(--white);border-radius:var(--radius);box-shadow:var(--shadow-sm);
+  border:1px solid var(--border-light);padding:16px;margin-bottom:12px;display:block}
+.tk-top{display:flex;justify-content:space-between;align-items:flex-start;gap:10px;margin-bottom:8px}
+.tk-title{font-weight:800;font-size:1rem;color:var(--dark);line-height:1.3}
+.tk-meta{font-size:.8rem;color:var(--text-light);margin-bottom:10px}
+.tk-bottom{display:flex;justify-content:space-between;align-items:center;gap:8px}
+.tk-ref{font-family:var(--mono);font-size:.75rem;color:var(--text-muted);letter-spacing:.5px}
+.pill{font-size:.7rem;font-weight:800;padding:5px 10px;border-radius:99px;white-space:nowrap}
+.pill.ok{background:var(--green-light);color:var(--green)}
+.pill.wait{background:var(--gold-soft);color:#7A5C0A}
+.pill.used{background:var(--border-light);color:var(--text-muted)}
+.pill.dead{background:#FDECEF;color:var(--red-dark)}
+.open{font-size:.82rem;font-weight:700;color:var(--blue)}
+.spin{display:inline-block;width:15px;height:15px;border:2px solid rgba(255,255,255,.4);
+  border-top-color:#fff;border-radius:50%;animation:sp .7s linear infinite;vertical-align:-2px}
+@keyframes sp{to{transform:rotate(360deg)}}
+</style>
+</head>
+<body>
+<div class="flag-stripe"></div>
+<div class="lang-bar">
+  <a data-lang="ht" onclick="setLang('ht')">Kreyòl</a>
+  <a data-lang="fr" onclick="setLang('fr')">Français</a>
+  <a data-lang="en" onclick="setLang('en')">English</a>
+  <a data-lang="es" onclick="setLang('es')">Español</a>
+  <a data-lang="pt" onclick="setLang('pt')">Português</a>
+</div>
+<div class="header">
+  <div class="header-left"><span>Tikè <em>Lakay</em></span></div>
+  <a class="header-back" href="events.html">&#8592; <span id="backTxt">Retounen</span></a>
+</div>
+
+<div class="wrap">
+  <div class="hero">
+    <h1 id="h1"></h1>
+    <p id="sub"></p>
+  </div>
+
+  <div class="card">
+    <label id="lblPhone" for="phone"></label>
+    <input type="tel" id="phone" inputmode="tel" autocomplete="tel" placeholder="3xxx xxxx">
+    <button class="btn" id="findBtn" onclick="find()"></button>
+    <div class="hint" id="hint"></div>
+  </div>
+
+  <div class="msg err" id="errBox"></div>
+  <div class="msg none" id="noneBox"></div>
+  <div id="results"></div>
+</div>
+
+<script>
+/* ═══════════════════════════════════════════════════════════════════════════
+   Finding a ticket you already paid for.
+
+   This page exists because of one sentence, on 10 September 2026:
+
+     "i paid for it with moncash bu i never receided the QR code either by SMS
+      or WhatsApp or email ! It only asks for my phone number"
+
+   The last part is the answer to the first part. Checkout asks for a phone
+   number and nothing else - no email, no account, no password - because that
+   is what a buyer in Haiti actually has. So the phone number is the only
+   handle anybody has on their own purchase, and until now nothing in the
+   platform used it as one. A buyer who closed MonCash before the redirect
+   brought them back had no way, anywhere, to reach their own ticket again.
+
+   Looking a ticket up also reconciles it: if the money arrived at the gateway
+   but our side never heard, the act of searching confirms the payment and the
+   QR code appears. That is why someone who was told "pending" an hour ago can
+   come here and simply find a valid ticket.
+   ═══════════════════════════════════════════════════════════════════════════ */
+var API_URL = 'https://haitibiznis-api.onrender.com';
+
+var I18N = {
+  ht: {
+    back: 'Retounen', h1: 'Jwenn tikè mwen',
+    sub: 'Antre nimewo telefòn ou te itilize lè w te achte a. Nou pral jwenn tout tikè ou yo.',
+    lbl: 'Nimewo telefòn ou', btn: 'Chèche tikè mwen', btnBusy: 'N ap chèche...',
+    hint: 'Se menm nimewo w te bay lè w t ap peye a. Ou pa bezwen okenn kont ni modpas.',
+    short: 'Mete nimewo telefòn ou nèt (8 chif).',
+    none: 'Nou pa jwenn okenn tikè ak nimewo sa a. Tcheke si se bon nimewo a — pafwa moun peye ak yon lòt nimewo.',
+    err: 'Nou pa ka chèche kounye a. Tanpri eseye ankò nan yon ti moman.',
+    tooMany: 'Twòp rechèch. Tanpri tann kèk minit epi eseye ankò.',
+    found1: 'Nou jwenn 1 tikè', foundN: 'Nou jwenn {n} tikè',
+    ok: 'Konfime', wait: 'N ap tann peman', used: 'Deja itilize', dead: 'Anile',
+    open: 'Louvri tikè a &#8594;', qty: 'kantite'
+  },
+  fr: {
+    back: 'Retour', h1: 'Trouver mon billet',
+    sub: 'Entrez le numéro de téléphone utilisé lors de l’achat. Nous retrouverons tous vos billets.',
+    lbl: 'Votre numéro de téléphone', btn: 'Chercher mes billets', btnBusy: 'Recherche...',
+    hint: 'Le même numéro que vous avez donné en payant. Aucun compte ni mot de passe n’est nécessaire.',
+    short: 'Entrez votre numéro complet (8 chiffres).',
+    none: 'Aucun billet trouvé avec ce numéro. Vérifiez le numéro — il arrive qu’on paie avec un autre.',
+    err: 'Recherche impossible pour le moment. Réessayez dans un instant.',
+    tooMany: 'Trop de recherches. Attendez quelques minutes et réessayez.',
+    found1: '1 billet trouvé', foundN: '{n} billets trouvés',
+    ok: 'Confirmé', wait: 'Paiement en attente', used: 'Déjà utilisé', dead: 'Annulé',
+    open: 'Ouvrir le billet &#8594;', qty: 'quantité'
+  },
+  en: {
+    back: 'Back', h1: 'Find my ticket',
+    sub: 'Enter the phone number you used when you bought it. We will find all your tickets.',
+    lbl: 'Your phone number', btn: 'Find my tickets', btnBusy: 'Searching...',
+    hint: 'The same number you gave when paying. No account and no password needed.',
+    short: 'Enter your full number (8 digits).',
+    none: 'No tickets found for that number. Check the number — sometimes people pay with a different one.',
+    err: 'We cannot search right now. Please try again in a moment.',
+    tooMany: 'Too many searches. Please wait a few minutes and try again.',
+    found1: '1 ticket found', foundN: '{n} tickets found',
+    ok: 'Confirmed', wait: 'Awaiting payment', used: 'Already used', dead: 'Cancelled',
+    open: 'Open ticket &#8594;', qty: 'quantity'
+  },
+  es: {
+    back: 'Volver', h1: 'Encontrar mi boleto',
+    sub: 'Escribe el número de teléfono que usaste al comprar. Encontraremos todos tus boletos.',
+    lbl: 'Tu número de teléfono', btn: 'Buscar mis boletos', btnBusy: 'Buscando...',
+    hint: 'El mismo número que diste al pagar. No necesitas cuenta ni contraseña.',
+    short: 'Escribe tu número completo (8 dígitos).',
+    none: 'No encontramos boletos con ese número. Revisa el número — a veces se paga con otro.',
+    err: 'No podemos buscar ahora. Inténtalo de nuevo en un momento.',
+    tooMany: 'Demasiadas búsquedas. Espera unos minutos e inténtalo de nuevo.',
+    found1: '1 boleto encontrado', foundN: '{n} boletos encontrados',
+    ok: 'Confirmado', wait: 'Pago pendiente', used: 'Ya usado', dead: 'Cancelado',
+    open: 'Abrir boleto &#8594;', qty: 'cantidad'
+  },
+  pt: {
+    back: 'Voltar', h1: 'Encontrar meu ingresso',
+    sub: 'Digite o telefone que você usou na compra. Vamos encontrar todos os seus ingressos.',
+    lbl: 'Seu número de telefone', btn: 'Buscar meus ingressos', btnBusy: 'Buscando...',
+    hint: 'O mesmo número que você deu ao pagar. Não precisa de conta nem senha.',
+    short: 'Digite seu número completo (8 dígitos).',
+    none: 'Nenhum ingresso encontrado com esse número. Confira o número — às vezes se paga com outro.',
+    err: 'Não é possível buscar agora. Tente novamente em instantes.',
+    tooMany: 'Muitas buscas. Aguarde alguns minutos e tente novamente.',
+    found1: '1 ingresso encontrado', foundN: '{n} ingressos encontrados',
+    ok: 'Confirmado', wait: 'Aguardando pagamento', used: 'Já usado', dead: 'Cancelado',
+    open: 'Abrir ingresso &#8594;', qty: 'quantidade'
+  }
+};
+
+var lang = 'ht';
+function t(k) { return (I18N[lang] && I18N[lang][k]) || I18N.ht[k] || k; }
+
+function setLang(l) {
+  if (!I18N[l]) return;
+  lang = l;
+  try { localStorage.setItem('tl_lang', l); } catch (e) {}
+  document.querySelectorAll('.lang-bar a').forEach(function(a) {
+    a.classList.toggle('active', a.getAttribute('data-lang') === l);
+  });
+  document.documentElement.lang = l;
+  document.getElementById('backTxt').textContent = t('back');
+  document.getElementById('h1').textContent = t('h1');
+  document.getElementById('sub').textContent = t('sub');
+  document.getElementById('lblPhone').textContent = t('lbl');
+  document.getElementById('findBtn').textContent = t('btn');
+  document.getElementById('hint').textContent = t('hint');
+  /* Redraw whatever is already on screen, in the new language. */
+  if (window._lastResults) render(window._lastResults);
+}
+
+function esc(s) {
+  return String(s == null ? '' : s).replace(/[&<>"']/g, function(c) {
+    return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c];
+  });
+}
+
+function show(id, text) {
+  var el = document.getElementById(id);
+  el.textContent = text;
+  el.style.display = text ? 'block' : 'none';
+}
+
+function statusPill(tk) {
+  if (tk.status === 'completed') {
+    return tk.used ? '<span class="pill used">' + t('used') + '</span>'
+                   : '<span class="pill ok">&#10003; ' + t('ok') + '</span>';
+  }
+  if (tk.status === 'pending') return '<span class="pill wait">' + t('wait') + '</span>';
+  return '<span class="pill dead">' + t('dead') + '</span>';
+}
+
+function render(tickets) {
+  window._lastResults = tickets;
+  var out = document.getElementById('results');
+  if (!tickets.length) { out.innerHTML = ''; return; }
+
+  var head = tickets.length === 1 ? t('found1') : t('foundN').replace('{n}', tickets.length);
+  var html = '<div style="font-weight:800;font-size:.9rem;margin:4px 0 12px">' + esc(head) + '</div>';
+
+  tickets.forEach(function(tk) {
+    var ev = tk.event || {};
+    var when = ev.date || '';
+    if (ev.startTime) when += ' · ' + ev.startTime;
+    var where = ev.location || '';
+    /* A pending ticket still gets a link. Opening it asks the gateway again,
+       which for a payment that did arrive is exactly what turns it into a QR
+       code - so the least useful thing to do would be to hide it. */
+    html += '<a class="tk" href="ticket.html?ref=' + encodeURIComponent(tk.referenceId) + '">' +
+      '<div class="tk-top">' +
+        '<div class="tk-title">' + (ev.typeEmoji ? esc(ev.typeEmoji) + ' ' : '') +
+          esc(ev.title || tk.ticketName || '—') + '</div>' +
+        statusPill(tk) +
+      '</div>' +
+      '<div class="tk-meta">' + esc(when) + (where ? ' — ' + esc(where) : '') +
+        '<br>' + esc(tk.ticketName || '') + ' · ' + t('qty') + ' ' + (tk.qty || 1) + '</div>' +
+      '<div class="tk-bottom">' +
+        '<span class="tk-ref">' + esc(tk.referenceId) + '</span>' +
+        '<span class="open">' + t('open') + '</span>' +
+      '</div></a>';
+  });
+  out.innerHTML = html;
+}
+
+function find() {
+  var input = document.getElementById('phone');
+  var raw = (input.value || '').trim();
+  var digits = raw.replace(/\D/g, '');
+
+  show('errBox', '');
+  show('noneBox', '');
+  document.getElementById('results').innerHTML = '';
+  window._lastResults = null;
+
+  /* Checked here so the person is told at once rather than after a round
+     trip - and because a fragment of a number must never be matched loosely
+     against somebody else's ticket. */
+  if (digits.length < 8) { show('errBox', t('short')); return; }
+
+  var btn = document.getElementById('findBtn');
+  btn.disabled = true;
+  btn.innerHTML = '<span class="spin"></span> ' + t('btnBusy');
+
+  try { localStorage.setItem('tl_phone', raw); } catch (e) {}
+
+  fetch(API_URL + '/api/payments/my-tickets?phone=' + encodeURIComponent(raw))
+    .then(function(r) {
+      return r.json().then(function(d) { return { code: r.status, d: d }; });
+    })
+    .then(function(res) {
+      if (res.code === 429) { show('errBox', t('tooMany')); return; }
+      if (res.code >= 400) { show('errBox', res.d && res.d.error ? res.d.error : t('err')); return; }
+      var tickets = (res.d && res.d.tickets) || [];
+      if (!tickets.length) { show('noneBox', t('none')); return; }
+      render(tickets);
+    })
+    .catch(function() { show('errBox', t('err')); })
+    .then(function() {
+      btn.disabled = false;
+      btn.textContent = t('btn');
+    });
+}
+
+document.getElementById('phone').addEventListener('keydown', function(e) {
+  if (e.key === 'Enter') find();
+});
+
+/* Boot */
+(function() {
+  var saved = null;
+  try { saved = localStorage.getItem('tl_lang'); } catch (e) {}
+  setLang(saved && I18N[saved] ? saved : 'ht');
+
+  /* If this phone has bought before, fill the number in. One less thing to
+     type for somebody standing outside a venue. */
+  var known = null;
+  try { known = localStorage.getItem('tl_phone'); } catch (e) {}
+  if (known) document.getElementById('phone').value = known;
+
+  /* ?phone= so the number can be handed over in a link - which is how he will
+     help somebody who calls him saying their ticket never arrived. */
+  var q = new URLSearchParams(location.search).get('phone');
+  if (q) { document.getElementById('phone').value = q; find(); }
+})();
+</script>
+</body>
+</html>

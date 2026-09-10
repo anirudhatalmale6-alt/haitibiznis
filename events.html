@@ -211,6 +211,11 @@ img{max-width:100%;display:block}
 .ev-meta-row svg{width:14px;height:14px;flex-shrink:0;color:var(--text-muted)}
 .ev-footer{display:flex;align-items:center;justify-content:space-between}
 .ev-price{font-size:1rem;font-weight:800;color:var(--dark)}
+.ev-manage{display:flex;justify-content:flex-end;padding:0 0 2px}
+.ev-mini{font-size:.74rem;font-weight:700;color:var(--text-muted,#8A95AA);background:none;border:none;
+  padding:6px 2px;cursor:pointer;font-family:inherit}
+.ev-mini:hover{color:#D21034}
+.ev-mini:disabled{opacity:.5;cursor:default}
 .ev-price.free{color:var(--green);font-size:.85rem}
 .ev-buy{
   height:36px;padding:0 16px;border-radius:8px;font-size:.78rem;font-weight:700;
@@ -897,6 +902,7 @@ img{max-width:100%;display:block}
   </a>
 </nav>
 
+<script src="event-types.js"></script>
 <script>
 /* ═══ CONFETTI PARTICLES ═══ */
 (function(){
@@ -1626,6 +1632,123 @@ document.querySelectorAll('.cat-card').forEach(function(card){
   });
 });
 
+
+/* ═══ MANAGING YOUR OWN EVENT ═══════════════════════════════════════════════
+ *
+ * The Academy director: "Epi lè m fin kreye yon evènman m publier l, si l ale 2 fwa fok m
+ * gen posibilite pou m efase youn." - once I have created and published an
+ * event, if it goes up twice I must be able to delete one.
+ *
+ * She could not, and the reason was not a missing button. Editing or deleting
+ * an event takes the console code, because an event carries the organiser's
+ * MonCash number and anyone who could edit one could point somebody else's
+ * takings at themselves. Correct, but it meant only the owner could ever remove
+ * anything.
+ *
+ * Now every event issues a manage code when it is created, and the phone that
+ * created it keeps that code. So the organiser can remove their own duplicate,
+ * nobody can touch anybody else's, and the console code still opens everything
+ * exactly as before.
+ *
+ * An event that has already sold tickets is NOT deleted on a tap. The server
+ * refuses and says how many, and the choice offered is to cancel it instead -
+ * which keeps every ticket somebody paid for valid, and still takes the event
+ * off the public list.
+ */
+function manageCodeFor(id) {
+  if (!id) return null;
+  var m = {};
+  try { m = JSON.parse(localStorage.getItem('tl_manage') || '{}'); } catch (e) { return null; }
+  return m[id] || null;
+}
+
+function forgetEvent(id) {
+  try {
+    var evs = JSON.parse(localStorage.getItem('tl_events') || '[]');
+    localStorage.setItem('tl_events', JSON.stringify(
+      evs.filter(function(e) { return (e._id || e.id) !== id; })));
+    var m = JSON.parse(localStorage.getItem('tl_manage') || '{}');
+    delete m[id];
+    localStorage.setItem('tl_manage', JSON.stringify(m));
+  } catch (e) {}
+}
+
+var TL_MANAGE_TXT = {
+  ht: { del: '🗑️ Efase', confirm: 'Efase evènman sa a nèt?', deleting: 'N ap efase...',
+        sold: 'Gen {n} tikè ki deja achte pou evènman sa a. Si w efase l, tikè sa yo ap pèdi evènman yo. Anile l pito — tikè yo rete bon epi evènman an soti nan lis piblik la.\n\nAnile evènman an?',
+        cancelled: 'Evènman an anile.', failed: 'Nou pa ka efase l kounye a.',
+        noRight: 'Se sèlman moun ki kreye evènman an ki ka efase l.' },
+  fr: { del: '🗑️ Supprimer', confirm: 'Supprimer définitivement cet événement?', deleting: 'Suppression...',
+        sold: '{n} billet(s) ont déjà été achetés pour cet événement. En le supprimant, ces billets ne renverront plus à rien. Annulez-le plutôt — les billets restent valables et l\'événement quitte la liste publique.\n\nAnnuler l\'événement?',
+        cancelled: 'Événement annulé.', failed: 'Suppression impossible pour le moment.',
+        noRight: 'Seul l\'organisateur qui a créé cet événement peut le supprimer.' },
+  en: { del: '🗑️ Delete', confirm: 'Delete this event permanently?', deleting: 'Deleting...',
+        sold: '{n} ticket(s) have already been bought for this event. Deleting it would leave those tickets pointing at nothing. Cancel it instead — the tickets stay valid and the event leaves the public list.\n\nCancel the event?',
+        cancelled: 'Event cancelled.', failed: 'We cannot delete it right now.',
+        noRight: 'Only the organizer who created this event can delete it.' },
+  es: { del: '🗑️ Eliminar', confirm: '¿Eliminar este evento definitivamente?', deleting: 'Eliminando...',
+        sold: 'Ya se compraron {n} boleto(s) para este evento. Si lo eliminas, esos boletos no apuntarán a nada. Mejor cancélalo — los boletos siguen válidos y el evento sale de la lista pública.\n\n¿Cancelar el evento?',
+        cancelled: 'Evento cancelado.', failed: 'No podemos eliminarlo ahora.',
+        noRight: 'Solo el organizador que creó este evento puede eliminarlo.' },
+  pt: { del: '🗑️ Excluir', confirm: 'Excluir este evento definitivamente?', deleting: 'Excluindo...',
+        sold: '{n} ingresso(s) já foram comprados para este evento. Excluí-lo deixaria esses ingressos sem destino. Cancele-o em vez disso — os ingressos continuam válidos e o evento sai da lista pública.\n\nCancelar o evento?',
+        cancelled: 'Evento cancelado.', failed: 'Não é possível excluir agora.',
+        noRight: 'Apenas o organizador que criou este evento pode excluí-lo.' }
+};
+
+function TL_TXT(k) {
+  var l = localStorage.getItem('tl_lang') || 'ht';
+  return (TL_MANAGE_TXT[l] && TL_MANAGE_TXT[l][k]) || TL_MANAGE_TXT.ht[k] || k;
+}
+
+function deleteMyEvent(id, btn) {
+  var code = manageCodeFor(id);
+  if (!code) { alert(TL_TXT('noRight')); return; }
+  if (!confirm(TL_TXT('confirm'))) return;
+
+  var original = btn.textContent;
+  btn.disabled = true;
+  btn.textContent = TL_TXT('deleting');
+
+  function restore() { btn.disabled = false; btn.textContent = original; }
+
+  fetch(EVENTS_API_URL + '/api/events/' + id, {
+    method: 'DELETE',
+    headers: { 'x-manage-code': code }
+  }).then(function(r) {
+    return r.json().catch(function() { return {}; }).then(function(d) { return { code: r.status, d: d }; });
+  }).then(function(res) {
+    if (res.code === 200) {
+      forgetEvent(id);
+      location.reload();
+      return;
+    }
+    /* Tickets exist. Offer the honest alternative rather than destroying
+       something somebody paid for. */
+    if (res.code === 409) {
+      var n = (res.d && res.d.ticketsSold) || '?';
+      if (confirm(TL_TXT('sold').replace('{n}', n))) {
+        return fetch(EVENTS_API_URL + '/api/events/' + id + '/cancel', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json', 'x-manage-code': code }
+        }).then(function(r2) {
+          if (!r2.ok) throw new Error('cancel failed');
+          alert(TL_TXT('cancelled'));
+          location.reload();
+        });
+      }
+      restore();
+      return;
+    }
+    if (res.code === 403) { alert(TL_TXT('noRight')); restore(); return; }
+    alert(TL_TXT('failed'));
+    restore();
+  }).catch(function() {
+    alert(TL_TXT('failed'));
+    restore();
+  });
+}
+
 /* ═══ RENDER USER-CREATED EVENTS ═══ */
 var EVENTS_API_URL = 'https://haitibiznis-api.onrender.com';
 
@@ -1645,10 +1768,14 @@ function renderEventCards(events) {
     var d = ev.date ? new Date(ev.date + 'T00:00:00') : null;
     var monthStr = d ? months[d.getMonth()] : '—';
     var dayStr = d ? d.getDate() : '—';
-    var emoji = ev.typeEmoji || '📌';
+    var emoji = window.EventTypes ? EventTypes.emoji(ev) : (ev.typeEmoji || '📌');
     var gradient = ev.gradient || 'linear-gradient(135deg,#2a2a4a,#4a4a8a,#6a6abd)';
     var tagBg = ev.tagBg || 'rgba(74,74,138,.85)';
-    var typeLabel = ev.typeLabel || ev.type || 'Evènman';
+    /* Translated at display time from the type key - see event-types.js. The
+       label used to be whatever language the event was created in, shown to
+       everybody. A type the organiser typed themselves comes back untouched. */
+    var typeLabel = window.EventTypes ? EventTypes.label(ev, lang)
+                                      : (ev.typeCustom || ev.typeLabel || ev.type || 'Evènman');
     var minPrice = null;
     var isFree = true;
     if (ev.tickets && ev.tickets.length) {
@@ -1665,6 +1792,11 @@ function renderEventCards(events) {
     var delayClass = idx > 0 ? ' reveal-d' + Math.min(idx, 3) : '';
 
     var evLinkId = ev._id || ev.id;
+    /* A manage button appears only on events THIS phone created - the ones we
+       hold a code for. The Academy director's second point was that after publishing an
+       event there is no way to remove it; this is where that lives, because
+       "Evenman Ou Kreye" is the only list that is hers. */
+    var mine = manageCodeFor(evLinkId);
     html += '<div class="ev-card reveal' + delayClass + '" onclick="window.location.href=\'event.html?id=' + evLinkId + '\'">' +
       '<div class="ev-img">' +
       '<div class="ev-img-bg" style="background:' + gradient + '">' + emoji + '</div>' +
@@ -1678,6 +1810,9 @@ function renderEventCards(events) {
       (timeStr ? '<div class="ev-meta-row"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>' + timeStr + '</div>' : '') +
       '</div>' +
       '<div class="ev-footer">' + priceHtml + btnHtml + '</div>' +
+      (mine ? '<div class="ev-manage" onclick="event.stopPropagation()">' +
+        '<button class="ev-mini" onclick="deleteMyEvent(\'' + evLinkId + '\',this)">' +
+        TL_TXT('del') + '</button></div>' : '') +
       '</div></div>';
   });
   scroll.innerHTML = html;

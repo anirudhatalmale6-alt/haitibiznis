@@ -218,6 +218,32 @@ img{max-width:100%;display:block}
 }
 .ticket-price .currency{font-size:.72rem;font-weight:600;color:var(--text-muted)}
 .ticket-price.free{color:var(--green);font-size:.88rem}
+
+/* RSVP. Deliberately large targets: this is tapped once, on a phone, often
+   outdoors, by somebody who has never used the site before. */
+.rsvp-btn{
+  width:100%;padding:16px 18px;border-radius:14px;border:2px solid transparent;
+  font-family:var(--body);font-size:1rem;font-weight:800;cursor:pointer;
+  text-align:left;transition:transform .12s ease,box-shadow .12s ease,background .12s ease;
+}
+.rsvp-btn:active{transform:scale(.985)}
+.rsvp-yes{background:var(--green,#00A651);color:#fff;box-shadow:0 6px 16px rgba(0,166,81,.28)}
+.rsvp-yes:hover{background:#00913f}
+.rsvp-no{background:#fff;color:var(--text,#0A0E1A);border-color:var(--border,#e3e6ee)}
+.rsvp-no:hover{background:var(--off-white,#f6f7fb)}
+.rsvp-btn.chosen{outline:3px solid rgba(0,32,159,.35);outline-offset:2px}
+.rsvp-answer{
+  background:var(--off-white,#f6f7fb);border-radius:12px;padding:16px;
+  display:flex;flex-direction:column;gap:10px;
+}
+.rsvp-answer .headline{font-weight:800;font-size:1rem}
+.rsvp-answer .sub{font-size:.85rem;color:var(--text-muted,#6b7280)}
+.rsvp-link{
+  display:inline-block;padding:11px 16px;border-radius:10px;background:var(--primary-blue,#00209F);
+  color:#fff;text-decoration:none;font-weight:700;font-size:.9rem;text-align:center;
+}
+.rsvp-change{background:none;border:none;color:var(--text-muted,#6b7280);font-size:.82rem;
+  text-decoration:underline;cursor:pointer;font-family:var(--body);padding:0;text-align:left}
 .ticket-desc{font-size:.78rem;color:var(--text-light);margin-bottom:10px;line-height:1.4}
 .ticket-bottom{display:flex;align-items:center;justify-content:space-between;gap:8px}
 .ticket-avail{
@@ -481,6 +507,20 @@ img{max-width:100%;display:block}
   </button>
 </div>
 
+<!-- RSVP CARD - shown INSTEAD of the ticket selector when the event is free.
+     The Academy director's third point: a free workshop should ask one question and take
+     one tap, not walk somebody through a checkout for a zero-price ticket. -->
+<div class="card reveal reveal-d2" id="rsvpCard" style="display:none">
+  <div class="card-title"><span class="icon">🙋</span> <span id="rsvpTitleTxt">Èske w ap vini?</span></div>
+  <p id="rsvpDescTxt" style="color:var(--text-light);font-size:.88rem;margin:-4px 0 14px"></p>
+  <div id="rsvpCount" style="display:none;font-size:.85rem;font-weight:700;color:var(--green,#00A651);margin-bottom:12px"></div>
+  <div id="rsvpButtons" style="display:flex;flex-direction:column;gap:10px">
+    <button class="rsvp-btn rsvp-yes" onclick="openRsvp('yes')"></button>
+    <button class="rsvp-btn rsvp-no" onclick="openRsvp('no')"></button>
+  </div>
+  <div id="rsvpDone" style="display:none"></div>
+</div>
+
 <!-- TICKET SELECTION CARD -->
 <div class="card reveal reveal-d2" id="ticketsCard">
   <div class="card-title"><span class="icon">🎟️</span> <span data-i18n="chooseTickets">Chwazi Tikè</span></div>
@@ -557,7 +597,7 @@ img{max-width:100%;display:block}
     </div>
     <span style="margin-top:4px" data-i18n="navCreate">Kreye</span>
   </a>
-  <a href="#">
+  <a href="my-tickets.html">
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M15 5v2M15 11v2M15 17v2M5 5h14a2 2 0 012 2v3a2 2 0 000 4v3a2 2 0 01-2 2H5a2 2 0 01-2-2v-3a2 2 0 000-4V7a2 2 0 012-2z"/></svg>
     <span data-i18n="navTickets">Tikè</span>
   </a>
@@ -567,6 +607,7 @@ img{max-width:100%;display:block}
   </a>
 </nav>
 
+<script src="event-types.js"></script>
 <script>
 /* ═══ LOAD EVENT DATA ═══ */
 var demoEvent = {
@@ -593,6 +634,18 @@ var demoEvent = {
 };
 
 var API_URL = 'https://haitibiznis-api.onrender.com';
+
+/* Where a shareable link points.
+ *
+ * The API host is the only server in the stack, so it has to serve the page
+ * that carries the WhatsApp preview - haitibiznis.com is static files on
+ * GitHub Pages and cannot. What CAN change is the name on the front of it: the
+ * day a subdomain of his own domain points at the API, TL_SHARE_BASE becomes
+ * that name and every link generated afterwards is branded. Links already
+ * shared keep working; the old path still answers. */
+var TL_SHARE_BASE = '';
+function shareBase() { return TL_SHARE_BASE || API_URL; }
+
 var event = demoEvent;
 var needsAsyncLoad = false;
 
@@ -718,7 +771,24 @@ var translations = {
     freeConfirm: 'Konfime Enskripsyon Mwen',
     needNamePhone: 'Mete non ou ak nimewo telefòn ou',
     freeNote: 'Nou bezwen non ou pou nou ka jwenn ou nan pòt la.',
-    loadFailed: 'Nou pa ka chaje evènman sa a kounye a. Tanpri eseye ankò.'
+    loadFailed: 'Nou pa ka chaje evènman sa a kounye a. Tanpri eseye ankò.',
+    rsvpTitle: 'Èske w ap vini?',
+    rsvpDesc: 'Evènman sa a gratis. Fè òganizatè a konnen si w ap la.',
+    rsvpYes: '✅ Wi, m ap vini',
+    rsvpNo: '❌ Non, m pa ka vini',
+    rsvpYesTitle: 'Bèl bagay! Ann jwenn ou',
+    rsvpNoTitle: 'Mèsi paske w fè nou konnen',
+    rsvpNoNote: 'Nou jis bezwen nimewo w pou nou pa konte w de fwa.',
+    rsvpSend: 'Voye repons mwen',
+    rsvpGoingOne: 'moun ap vini',
+    rsvpGoingMany: 'moun ap vini',
+    rsvpThanksYes: 'Ou anrejistre! Tikè w pare.',
+    rsvpThanksNo: 'Nou make repons ou. Mèsi!',
+    rsvpChange: 'Chanje repons mwen',
+    rsvpYouSaidYes: 'Ou di w ap vini',
+    rsvpYouSaidNo: 'Ou di w pa ka vini',
+    rsvpGuests: 'Konbyen moun ansanm ak ou?',
+    rsvpTicketLink: 'Louvri tikè mwen'
   },
   fr: {
     brand: 'Tikè <em>Lakay</em>',
@@ -760,7 +830,24 @@ var translations = {
     freeConfirm: 'Confirmer mon inscription',
     needNamePhone: 'Entrez votre nom et votre numéro de téléphone',
     freeNote: 'Nous avons besoin de votre nom pour vous retrouver à la porte.',
-    loadFailed: "Impossible de charger cet événement pour le moment. Réessayez."
+    loadFailed: "Impossible de charger cet événement pour le moment. Réessayez.",
+    rsvpTitle: 'Serez-vous présent?',
+    rsvpDesc: 'Cet événement est gratuit. Dites à l\'organisateur si vous venez.',
+    rsvpYes: '✅ Oui, je viens',
+    rsvpNo: '❌ Non, je ne peux pas',
+    rsvpYesTitle: 'Parfait! Retrouvons-nous',
+    rsvpNoTitle: 'Merci de nous prévenir',
+    rsvpNoNote: 'Nous avons juste votre numéro pour ne pas vous compter deux fois.',
+    rsvpSend: 'Envoyer ma réponse',
+    rsvpGoingOne: 'personne vient',
+    rsvpGoingMany: 'personnes viennent',
+    rsvpThanksYes: 'Vous êtes inscrit! Votre billet est prêt.',
+    rsvpThanksNo: 'Votre réponse est enregistrée. Merci!',
+    rsvpChange: 'Changer ma réponse',
+    rsvpYouSaidYes: 'Vous avez dit que vous venez',
+    rsvpYouSaidNo: 'Vous avez dit que vous ne pouvez pas',
+    rsvpGuests: 'Combien de personnes avec vous?',
+    rsvpTicketLink: 'Ouvrir mon billet'
   },
   en: {
     brand: 'Tikè <em>Lakay</em>',
@@ -802,7 +889,24 @@ var translations = {
     freeConfirm: 'Confirm my registration',
     needNamePhone: 'Enter your name and phone number',
     freeNote: 'We need your name so we can find you at the door.',
-    loadFailed: 'We cannot load this event right now. Please try again.'
+    loadFailed: 'We cannot load this event right now. Please try again.',
+    rsvpTitle: 'Are you coming?',
+    rsvpDesc: 'This event is free. Let the organizer know if you will be there.',
+    rsvpYes: '✅ Yes, I\'m Coming',
+    rsvpNo: '❌ No, I Can\'t Make It',
+    rsvpYesTitle: 'Great! Let us find you',
+    rsvpNoTitle: 'Thanks for letting us know',
+    rsvpNoNote: 'We only need your number so we do not count you twice.',
+    rsvpSend: 'Send my answer',
+    rsvpGoingOne: 'person coming',
+    rsvpGoingMany: 'people coming',
+    rsvpThanksYes: 'You\'re registered! Your ticket is ready.',
+    rsvpThanksNo: 'Your answer is recorded. Thank you!',
+    rsvpChange: 'Change my answer',
+    rsvpYouSaidYes: 'You said you are coming',
+    rsvpYouSaidNo: 'You said you cannot make it',
+    rsvpGuests: 'How many people with you?',
+    rsvpTicketLink: 'Open my ticket'
   },
   pt: {
     brand: 'Tikè <em>Lakay</em>',
@@ -844,7 +948,24 @@ var translations = {
     freeConfirm: 'Confirmar minha inscrição',
     needNamePhone: 'Digite seu nome e seu número de telefone',
     freeNote: 'Precisamos do seu nome para encontrá-lo na porta.',
-    loadFailed: 'Não foi possível carregar este evento agora. Tente novamente.'
+    loadFailed: 'Não foi possível carregar este evento agora. Tente novamente.',
+    rsvpTitle: 'Você vem?',
+    rsvpDesc: 'Este evento é gratuito. Avise o organizador se você virá.',
+    rsvpYes: '✅ Sim, eu vou',
+    rsvpNo: '❌ Não, não posso ir',
+    rsvpYesTitle: 'Ótimo! Vamos encontrá-lo',
+    rsvpNoTitle: 'Obrigado por avisar',
+    rsvpNoNote: 'Precisamos apenas do seu número para não contar você duas vezes.',
+    rsvpSend: 'Enviar minha resposta',
+    rsvpGoingOne: 'pessoa vem',
+    rsvpGoingMany: 'pessoas vêm',
+    rsvpThanksYes: 'Você está inscrito! Seu ingresso está pronto.',
+    rsvpThanksNo: 'Sua resposta foi registrada. Obrigado!',
+    rsvpChange: 'Mudar minha resposta',
+    rsvpYouSaidYes: 'Você disse que vem',
+    rsvpYouSaidNo: 'Você disse que não pode ir',
+    rsvpGuests: 'Quantas pessoas com você?',
+    rsvpTicketLink: 'Abrir meu ingresso'
   },
   es: {
     brand: 'Tikè <em>Lakay</em>',
@@ -886,7 +1007,24 @@ var translations = {
     freeConfirm: 'Confirmar mi inscripción',
     needNamePhone: 'Escribe tu nombre y tu número de teléfono',
     freeNote: 'Necesitamos tu nombre para encontrarte en la puerta.',
-    loadFailed: 'No podemos cargar este evento ahora. Inténtalo de nuevo.'
+    loadFailed: 'No podemos cargar este evento ahora. Inténtalo de nuevo.',
+    rsvpTitle: '¿Vas a venir?',
+    rsvpDesc: 'Este evento es gratis. Avísale al organizador si vas a estar.',
+    rsvpYes: '✅ Sí, voy a ir',
+    rsvpNo: '❌ No, no puedo ir',
+    rsvpYesTitle: '¡Genial! Vamos a encontrarte',
+    rsvpNoTitle: 'Gracias por avisarnos',
+    rsvpNoNote: 'Solo necesitamos tu número para no contarte dos veces.',
+    rsvpSend: 'Enviar mi respuesta',
+    rsvpGoingOne: 'persona viene',
+    rsvpGoingMany: 'personas vienen',
+    rsvpThanksYes: '¡Estás inscrito! Tu boleto está listo.',
+    rsvpThanksNo: 'Tu respuesta fue registrada. ¡Gracias!',
+    rsvpChange: 'Cambiar mi respuesta',
+    rsvpYouSaidYes: 'Dijiste que vas a venir',
+    rsvpYouSaidNo: 'Dijiste que no puedes ir',
+    rsvpGuests: '¿Cuántas personas contigo?',
+    rsvpTicketLink: 'Abrir mi boleto'
   }
 };
 
@@ -1012,7 +1150,7 @@ function renderPage() {
   showInvite();
 
   /* Hero */
-  document.getElementById('heroType').innerHTML = event.typeEmoji + ' ' + event.typeLabel;
+  document.getElementById('heroType').innerHTML = typeEmojiOf(event) + ' ' + typeLabelOf(event);
   document.getElementById('heroTitle').textContent = event.title;
   document.getElementById('heroDateText').textContent = formatDate(event.date) + ' · ' + formatTime(event.startTime);
   document.getElementById('heroLocText').textContent = event.location;
@@ -1051,15 +1189,16 @@ function renderPage() {
   /* Event Type */
   infoHtml += '<div class="info-row">' +
     '<div class="info-icon gold"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1z"/><line x1="4" y1="22" x2="4" y2="15"/></svg></div>' +
-    '<div class="info-text"><div class="label">' + t('eventType') + '</div><div class="event-type-pill">' + event.typeEmoji + ' ' + event.typeLabel + '</div></div></div>';
+    '<div class="info-text"><div class="label">' + t('eventType') + '</div><div class="event-type-pill">' + typeEmojiOf(event) + ' ' + typeLabelOf(event) + '</div></div></div>';
 
   document.getElementById('infoRows').innerHTML = infoHtml;
 
   /* Description */
   document.getElementById('descText').textContent = event.description;
 
-  /* Tickets */
+  /* Tickets, or - for a free event - the two RSVP buttons instead. */
   renderTickets();
+  setupRsvp();
 
   /* Organizer - an event saved without one used to throw here, and everything
      below this line (the koutye banner, the similar events, the tab title)
@@ -1081,6 +1220,209 @@ function renderPage() {
 }
 
 /* ═══ RENDER TICKETS ═══ */
+/* ═══ RSVP - free events ═══════════════════════════════════════════════════
+ *
+ * The Academy director, who is about to run a month of free
+ * workshops: for free events, registration should not require a ticket
+ * purchase flow. Two buttons. Yes, I'm Coming. No, I Can't Make It.
+ *
+ * What "free" means here is every ticket priced at zero, or no ticket types at
+ * all. A mixed event - a free tier and a paid VIP tier - keeps the ticket
+ * selector, because there is genuinely something to buy.
+ *
+ * Tapping Yes still issues the free ticket underneath, so the person arrives
+ * with a QR code and the door works exactly as it does for a paid event. The
+ * difference is entirely in what they are asked to do: one tap and their name,
+ * rather than a quantity selector, a fee line and a payment method.
+ */
+function isFreeEvent() {
+  if (!event || !event.tickets || !event.tickets.length) return true;
+  return event.tickets.every(function(tk) { return !tk.price || tk.price === 0; });
+}
+
+function rsvpPhoneStore(v) {
+  try {
+    if (v === undefined) return localStorage.getItem('tl_phone') || '';
+    localStorage.setItem('tl_phone', v);
+  } catch (e) {}
+  return v || '';
+}
+
+function setupRsvp() {
+  var card = document.getElementById('rsvpCard');
+  var tcard = document.getElementById('ticketsCard');
+  if (!card || !tcard) return;
+  if (!isFreeEvent()) { card.style.display = 'none'; tcard.style.display = ''; return; }
+
+  card.style.display = '';
+  tcard.style.display = 'none';
+
+  document.getElementById('rsvpTitleTxt').textContent = t('rsvpTitle');
+  document.getElementById('rsvpDescTxt').textContent = t('rsvpDesc');
+  var btns = document.querySelectorAll('#rsvpButtons .rsvp-btn');
+  if (btns[0]) btns[0].textContent = t('rsvpYes');
+  if (btns[1]) btns[1].textContent = t('rsvpNo');
+
+  showRsvpCount(event.rsvpGoing, event.rsvpAttending);
+
+  /* If this phone has answered before, show them their own answer rather than
+     asking again. The number is remembered from the last registration on this
+     device - it is the same person on the same phone. */
+  var known = rsvpPhoneStore();
+  if (known) {
+    fetch(API_URL + '/api/events/' + event._id + '/rsvp/me?phone=' + encodeURIComponent(known))
+      .then(function(r) { return r.json(); })
+      .then(function(d) {
+        if (d && d.response) showRsvpAnswer(d.response, null);
+        showRsvpCount(d.going, d.attending);
+      })
+      .catch(function() {});
+  }
+}
+
+function showRsvpCount(going, attending) {
+  var el = document.getElementById('rsvpCount');
+  if (!el) return;
+  var n = attending || going || 0;
+  if (!n) { el.style.display = 'none'; return; }
+  el.style.display = '';
+  el.textContent = '🙋 ' + n + ' ' + (n === 1 ? t('rsvpGoingOne') : t('rsvpGoingMany'));
+}
+
+function showRsvpAnswer(response, ref) {
+  document.getElementById('rsvpButtons').style.display = 'none';
+  var box = document.getElementById('rsvpDone');
+  box.style.display = '';
+  var html = '<div class="rsvp-answer">' +
+    '<div class="headline">' + (response === 'yes' ? '✅ ' + t('rsvpYouSaidYes') : '❌ ' + t('rsvpYouSaidNo')) + '</div>' +
+    '<div class="sub">' + (response === 'yes' ? t('rsvpThanksYes') : t('rsvpThanksNo')) + '</div>';
+  if (response === 'yes' && ref) {
+    html += '<a class="rsvp-link" href="ticket.html?ref=' + encodeURIComponent(ref) + '">🎟️ ' + t('rsvpTicketLink') + '</a>';
+  }
+  html += '<button class="rsvp-change" onclick="resetRsvp()">' + t('rsvpChange') + '</button>';
+  html += '</div>';
+  box.innerHTML = html;
+}
+
+function resetRsvp() {
+  document.getElementById('rsvpDone').style.display = 'none';
+  document.getElementById('rsvpButtons').style.display = 'flex';
+}
+
+function openRsvp(response) {
+  var yes = response === 'yes';
+  var modal = document.createElement('div');
+  modal.id = 'rsvpModal';
+  modal.style.cssText = 'position:fixed;inset:0;z-index:9999;background:rgba(0,0,0,.6);display:flex;align-items:center;justify-content:center;padding:16px';
+  var known = rsvpPhoneStore();
+  modal.innerHTML = '<div style="background:#fff;border-radius:16px;max-width:400px;width:100%;padding:24px;position:relative">' +
+    '<button onclick="this.closest(\'#rsvpModal\').remove()" style="position:absolute;top:12px;right:12px;font-size:1.2rem;background:none;border:none;cursor:pointer">✕</button>' +
+    '<h3 style="font-family:var(--display);margin-bottom:8px">' + (yes ? '✅ ' + t('rsvpYesTitle') : '❌ ' + t('rsvpNoTitle')) + '</h3>' +
+    '<div style="font-size:.85rem;color:var(--text-muted);margin-bottom:14px">' +
+      (yes ? t('freeNote') : t('rsvpNoNote')) + '</div>' +
+    (yes ? '<input id="rsvpName" placeholder="' + t('yourName') + '" style="width:100%;padding:11px;border:1px solid var(--border);border-radius:8px;margin-bottom:8px;font-family:var(--body)">' : '') +
+    '<input id="rsvpPhone" type="tel" value="' + known.replace(/"/g, '&quot;') + '" placeholder="' + t('yourPhone') + '" style="width:100%;padding:11px;border:1px solid var(--border);border-radius:8px;font-family:var(--body)">' +
+    (yes ? '<div style="margin-top:10px"><label style="font-size:.82rem;color:var(--text-muted);display:block;margin-bottom:4px">' + t('rsvpGuests') + '</label>' +
+           '<input id="rsvpGuests" type="number" min="1" max="20" value="1" style="width:100%;padding:11px;border:1px solid var(--border);border-radius:8px;font-family:var(--body)"></div>' : '') +
+    '<button id="rsvpSendBtn" onclick="sendRsvp(\'' + response + '\')" style="width:100%;margin-top:14px;padding:13px;border-radius:10px;font-weight:800;font-size:.95rem;border:none;background:' + (yes ? 'var(--green,#00A651)' : 'var(--primary-blue,#00209F)') + ';color:#fff;cursor:pointer;font-family:var(--body)">' + t('rsvpSend') + '</button>' +
+    '<div id="rsvpError" style="color:#D21034;font-size:.85rem;margin-top:8px;display:none"></div></div>';
+  document.body.appendChild(modal);
+  var f = document.getElementById(yes && !known ? 'rsvpName' : 'rsvpPhone');
+  if (f) f.focus();
+}
+
+function sendRsvp(response) {
+  var yes = response === 'yes';
+  var phoneEl = document.getElementById('rsvpPhone');
+  var nameEl = document.getElementById('rsvpName');
+  var guestEl = document.getElementById('rsvpGuests');
+  var err = document.getElementById('rsvpError');
+  var btn = document.getElementById('rsvpSendBtn');
+
+  var phone = (phoneEl && phoneEl.value || '').trim();
+  var name = (nameEl && nameEl.value || '').trim();
+
+  /* Eight digits is a Haitian mobile. Checked here so the person is told at
+     once instead of after a round trip. */
+  if (phone.replace(/\D/g, '').length < 8) {
+    err.textContent = t('needNamePhone');
+    err.style.display = '';
+    return;
+  }
+  if (yes && !name) {
+    err.textContent = t('needNamePhone');
+    err.style.display = '';
+    return;
+  }
+
+  btn.disabled = true;
+  btn.style.opacity = '.6';
+  err.style.display = 'none';
+  rsvpPhoneStore(phone);
+
+  var guests = guestEl ? Math.max(1, parseInt(guestEl.value) || 1) : 1;
+
+  fetch(API_URL + '/api/events/' + event._id + '/rsvp', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ response: response, name: name, phone: phone, guests: guests })
+  })
+    .then(function(r) { return r.json().then(function(d) { return { ok: r.ok, d: d }; }); })
+    .then(function(res) {
+      if (!res.ok) throw new Error(res.d && res.d.error || 'failed');
+      showRsvpCount(res.d.going, res.d.attending);
+      var m = document.getElementById('rsvpModal');
+
+      /* A "no" is finished here. A "yes" still gets a real ticket with a QR
+         code, so the door works the same way it does for a paid event - the
+         person just was not made to walk through a checkout to get it. */
+      if (!yes) {
+        if (m) m.remove();
+        showRsvpAnswer('no', null);
+        return;
+      }
+      return fetch(API_URL + '/api/payments/buy-ticket', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          eventId: event._id,
+          ticketName: (event.tickets && event.tickets[0] && event.tickets[0].name) || 'Gratis',
+          qty: guests,
+          buyerName: name,
+          buyerPhone: phone,
+          paymentMethod: 'moncash'
+        })
+      })
+        .then(function(r) { return r.json(); })
+        .then(function(tk) {
+          if (m) m.remove();
+          /* If the ticket could not be issued the registration itself is still
+             recorded and the organiser still has the name. Say so plainly
+             rather than pretending there is a ticket to open. */
+          showRsvpAnswer('yes', tk && tk.referenceId ? tk.referenceId : null);
+        });
+    })
+    .catch(function(e) {
+      btn.disabled = false;
+      btn.style.opacity = '';
+      err.textContent = e.message || 'Error';
+      err.style.display = '';
+    });
+}
+
+/* The event type, in the language the reader chose - not the language of
+   whoever created the event. See event-types.js for why this is not simply
+   event.typeLabel any more. A type the organiser typed themselves comes back
+   exactly as they typed it. */
+function typeLabelOf(ev) {
+  if (window.EventTypes) return EventTypes.label(ev, currentLang);
+  return (ev && ((ev.typeCustom || '').trim() || ev.typeLabel)) || '';
+}
+function typeEmojiOf(ev) {
+  if (window.EventTypes) return EventTypes.emoji(ev);
+  return (ev && ev.typeEmoji) || '\ud83d\udccc';
+}
+
 function renderTickets() {
   var html = '';
   event.tickets.forEach(function(tk, i) {
@@ -1177,7 +1519,9 @@ function toggleDesc() {
 /* ═══ SHARE ═══ */
 function getShareUrl() {
   var evId = new URLSearchParams(window.location.search).get('id') || (event._id || event.id);
-  return evId ? API_URL + '/api/events/' + evId + '/share' : window.location.href;
+  /* /e/<id> rather than /api/events/<id>/share: this string is what lands in
+     somebody's WhatsApp, and it should look like a link to an event. */
+  return evId ? shareBase() + '/e/' + evId : window.location.href;
 }
 
 function shareWhatsApp() {
