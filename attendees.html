@@ -52,6 +52,15 @@ input:focus{outline:none;border-color:var(--blue)}
 .btn:disabled{opacity:.55}
 .btn-ghost{background:#fff;color:var(--blue);border:1.5px solid var(--border);font-weight:700}
 
+.lostlink{display:block;margin-top:12px;font-size:.82rem;font-weight:700;color:var(--blue);
+  text-decoration:underline;background:none;border:none;padding:0;text-align:left}
+.issued{background:var(--gold-soft);border:1.5px solid #E8C86A;border-radius:12px;
+  padding:15px;margin-top:14px;text-align:center}
+.issued-title{font-size:.7rem;letter-spacing:.14em;text-transform:uppercase;
+  font-weight:700;color:#7A5A08;margin-bottom:7px}
+.issued-val{font-family:var(--mono);font-size:1.7rem;font-weight:700;letter-spacing:.22em;
+  color:var(--dark);user-select:all}
+.issued-note{font-size:.74rem;color:#7A5A08;line-height:1.5;margin-top:9px}
 .msg{border-radius:10px;padding:13px 15px;font-size:.88rem;line-height:1.5;margin-top:12px;display:none}
 .msg.err{background:#FDECEF;color:var(--red-dark);border:1px solid #F5C6CE;display:block}
 
@@ -120,6 +129,24 @@ input:focus{outline:none;border-color:var(--blue)}
     <button class="btn" id="openBtn" onclick="load()"></button>
     <div class="msg err" id="err"></div>
     <p class="hint" id="hint"></p>
+    <!-- The way back in for an event nobody holds a code for - including every
+         event created before event codes existed, which had no key in the
+         world except the console code. -->
+    <button class="lostlink" id="lostBtn" onclick="showLost()"></button>
+    <div id="lostBox" style="display:none;margin-top:14px;border-top:1px solid var(--border-light);padding-top:14px">
+      <label for="adminCode" id="lblAdmin"></label>
+      <input id="adminCode" autocomplete="off" spellcheck="false">
+      <button class="btn btn-ghost" id="issueBtn" onclick="issueCode()"></button>
+      <p class="hint" id="lostHint"></p>
+    </div>
+  </div>
+
+  <!-- Outside the gate on purpose. Opening the list hides the gate, and this
+       is the one and only time this code can ever be read. -->
+  <div class="issued" id="issued" style="display:none">
+    <div class="issued-title" id="issuedTitle"></div>
+    <div class="issued-val" id="issuedVal"></div>
+    <div class="issued-note" id="issuedNote"></div>
   </div>
 
   <div id="result" style="display:none">
@@ -168,6 +195,14 @@ var API_URL = 'https://haitibiznis-api.onrender.com';
 
 var I18N = {
   ht: {
+    lost:'Mwen pa gen kòd la',
+    lblAdmin:'Kòd konsòl ou',
+    issue:'Ban m yon kòd',
+    lostHint:'Se kòd ou itilize pou konsòl HaitiBiznis la. N ap kreye yon kòd pou evènman sa a epi montre w li yon sèl fwa.',
+    issuedTitle:'Kòd evènman an',
+    issuedNote:'Ekri l kèk kote. Nou p ap ka montre w li ankò.',
+    issuedReplaced:'Sa ranplase ansyen kòd la. Si w te bay yon moun ansyen an, li p ap mache ankò.',
+    badAdmin:'Kòd konsòl la pa bon.',
     back:'Retounen', h1:'Ki moun k ap vini?',
     sub:'Lis moun ki reponn wi oswa non pou evènman ou an.',
     lblCode:'Kòd evènman an', open:'Wè lis la', opening:'N ap chaje...',
@@ -183,6 +218,14 @@ var I18N = {
     privacy:'Lis sa a gen non ak nimewo moun ki fè ou konfyans. Se pou ou sèlman — pa pataje l.'
   },
   fr: {
+    lost:'Je n’ai pas le code',
+    lblAdmin:'Votre code console',
+    issue:'Créer un code',
+    lostHint:'C’est le code que vous utilisez pour la console HaitiBiznis. Nous créons un code pour cet événement et vous le montrons une seule fois.',
+    issuedTitle:'Code de l’événement',
+    issuedNote:'Notez-le. Nous ne pourrons plus vous le montrer.',
+    issuedReplaced:'Cela remplace l’ancien code. Si vous l’aviez donné à quelqu’un, il ne marchera plus.',
+    badAdmin:'Ce code console n’est pas correct.',
     back:'Retour', h1:'Qui vient?',
     sub:'Liste des personnes ayant répondu oui ou non à votre événement.',
     lblCode:'Code de l’événement', open:'Voir la liste', opening:'Chargement...',
@@ -198,6 +241,14 @@ var I18N = {
     privacy:'Cette liste contient des noms et des numéros de personnes qui vous font confiance. Elle est pour vous seul — ne la partagez pas.'
   },
   en: {
+    lost:'I do not have the code',
+    lblAdmin:'Your console code',
+    issue:'Issue a code',
+    lostHint:'This is the code you use for the HaitiBiznis console. We will create a code for this event and show it to you once.',
+    issuedTitle:'Event code',
+    issuedNote:'Write it down. We cannot show it to you again.',
+    issuedReplaced:'This replaced the previous code. If you had given the old one to somebody, it no longer works.',
+    badAdmin:'That console code is not right.',
     back:'Back', h1:'Who is coming?',
     sub:'Everyone who answered yes or no to your event.',
     lblCode:'Event code', open:'Show the list', opening:'Loading...',
@@ -213,6 +264,14 @@ var I18N = {
     privacy:'This list holds the names and numbers of people who trusted you with them. It is for you alone — do not share it.'
   },
   es: {
+    lost:'No tengo el código',
+    lblAdmin:'Tu código de consola',
+    issue:'Crear un código',
+    lostHint:'Es el código que usas para la consola de HaitiBiznis. Crearemos un código para este evento y te lo mostraremos una sola vez.',
+    issuedTitle:'Código del evento',
+    issuedNote:'Anótalo. No podremos volver a mostrártelo.',
+    issuedReplaced:'Esto reemplazó el código anterior. Si se lo diste a alguien, ya no funciona.',
+    badAdmin:'Ese código de consola no es correcto.',
     back:'Volver', h1:'¿Quién viene?',
     sub:'Todas las personas que respondieron sí o no a tu evento.',
     lblCode:'Código del evento', open:'Ver la lista', opening:'Cargando...',
@@ -228,6 +287,14 @@ var I18N = {
     privacy:'Esta lista tiene nombres y números de personas que confiaron en ti. Es solo para ti — no la compartas.'
   },
   pt: {
+    lost:'Não tenho o código',
+    lblAdmin:'Seu código de console',
+    issue:'Criar um código',
+    lostHint:'É o código que você usa para o console HaitiBiznis. Vamos criar um código para este evento e mostrá-lo uma única vez.',
+    issuedTitle:'Código do evento',
+    issuedNote:'Anote-o. Não poderemos mostrá-lo novamente.',
+    issuedReplaced:'Isso substituiu o código anterior. Se você o deu a alguém, ele não funciona mais.',
+    badAdmin:'Esse código de console não está correto.',
     back:'Voltar', h1:'Quem vem?',
     sub:'Todas as pessoas que responderam sim ou não ao seu evento.',
     lblCode:'Código do evento', open:'Ver a lista', opening:'Carregando...',
@@ -274,6 +341,11 @@ function setLang(l){
   document.getElementById('csvBtn').textContent = t('csv');
   document.getElementById('refreshBtn').textContent = t('refresh');
   document.getElementById('privacy').textContent = t('privacy');
+  document.getElementById('lostBtn').textContent = t('lost');
+  document.getElementById('lblAdmin').textContent = t('lblAdmin');
+  document.getElementById('issueBtn').textContent = t('issue');
+  document.getElementById('lostHint').textContent = t('lostHint');
+  document.getElementById('issuedTitle').textContent = t('issuedTitle');
   if (data) render();
 }
 
@@ -402,6 +474,70 @@ function downloadCsv(){
   a.click();
   document.body.removeChild(a);
   setTimeout(function(){ URL.revokeObjectURL(a.href); }, 4000);
+}
+
+
+/* ═══ "Where do we get the event code?" ═════════════════════════════════════
+ *
+ * His question, and the honest answer was: nowhere. The code was generated
+ * when an event was created, kept on that phone, and shown to no one. Worse,
+ * every event made before event codes existed has no code at all - so the
+ * attendee list for those had no key in the world except the console code.
+ *
+ * This is the door back in. It takes the console code, because that is the
+ * only credential that can prove ownership of an event nobody holds a code
+ * for, and it issues a fresh code for that one event.
+ *
+ * It cannot show an existing code - the server keeps a derivation, not the
+ * code. So it replaces. That is why the screen says so when it does: quietly
+ * invalidating a code an organiser is already using would be the kind of
+ * surprise that costs somebody their attendee list on the morning of a
+ * workshop.
+ */
+function showLost() {
+  var box = document.getElementById('lostBox');
+  var open = box.style.display === 'none';
+  box.style.display = open ? 'block' : 'none';
+  if (open) document.getElementById('adminCode').focus();
+}
+
+function issueCode() {
+  var code = (document.getElementById('adminCode').value || '').trim();
+  var errEl = document.getElementById('err');
+  var btn = document.getElementById('issueBtn');
+  errEl.style.display = 'none';
+
+  if (!EVENT_ID) { errEl.textContent = t('noEvent'); errEl.style.display = 'block'; return; }
+  if (!code) { errEl.textContent = t('badAdmin'); errEl.style.display = 'block'; return; }
+
+  var label = btn.textContent;
+  btn.disabled = true;
+  btn.textContent = t('opening');
+
+  fetch(API_URL + '/api/events/' + encodeURIComponent(EVENT_ID) + '/manage-code', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json', 'x-admin-pin': code }
+  })
+    .then(function (r) { return r.json().then(function (d) { return { code: r.status, d: d }; }); })
+    .then(function (res) {
+      if (res.code === 403) { errEl.textContent = t('badAdmin'); errEl.style.display = 'block'; return; }
+      if (res.code === 404) { errEl.textContent = t('noEvent'); errEl.style.display = 'block'; return; }
+      if (res.code >= 400 || !res.d.manageCode) { errEl.textContent = t('err'); errEl.style.display = 'block'; return; }
+
+      document.getElementById('issuedVal').textContent = res.d.manageCode;
+      document.getElementById('issuedNote').textContent =
+        t('issuedNote') + (res.d.replaced ? ' ' + t('issuedReplaced') : '');
+      document.getElementById('issued').style.display = 'block';
+
+      /* Put it in the box above and open the list straight away. He asked
+         where to get the code because he wanted to see who is coming - handing
+         him a code and making him type it back in would be a strange place to
+         stop. */
+      document.getElementById('code').value = res.d.manageCode;
+      load();
+    })
+    .catch(function () { errEl.textContent = t('err'); errEl.style.display = 'block'; })
+    .then(function () { btn.disabled = false; btn.textContent = label; });
 }
 
 document.getElementById('code').addEventListener('keydown', function(e){

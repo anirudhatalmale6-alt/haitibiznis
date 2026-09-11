@@ -244,6 +244,22 @@ img{max-width:100%;display:block}
 .fee-note .icon{font-size:1rem}
 
 /* ═══ SUCCESS MODAL ═══ */
+.mcode-box{
+  background:#FDF3D7;border:1.5px solid #E8C86A;border-radius:12px;
+  padding:16px;margin:4px 0 14px;text-align:center;
+}
+.mcode-title{font-size:.72rem;letter-spacing:.14em;text-transform:uppercase;
+  font-weight:700;color:#7A5A08;margin-bottom:8px}
+.mcode-val{
+  font-family:'JetBrains Mono',ui-monospace,monospace;font-size:1.8rem;
+  font-weight:700;letter-spacing:.24em;color:#0A0E1A;
+  padding:6px 0;user-select:all;
+}
+.mcode-copy{
+  margin-top:6px;font-size:.8rem;font-weight:700;color:#00209F;
+  background:#fff;border:1.5px solid #E8C86A;border-radius:8px;padding:8px 16px;cursor:pointer;
+}
+.mcode-note{font-size:.75rem;color:#7A5A08;line-height:1.5;margin-top:10px}
 .success-overlay{
   position:fixed;inset:0;background:rgba(10,14,26,.7);backdrop-filter:blur(6px);
   z-index:200;display:none;align-items:center;justify-content:center;padding:20px;
@@ -720,6 +736,17 @@ img{max-width:100%;display:block}
         Email
       </button>
       <button class="share-btn copy" onclick="copyLink()"><span data-i18n="copy_link">📋 Kopye Lyen</span></button>
+    </div>
+    <!-- THE EVENT CODE. It is generated once, at this moment, and this is the
+         only screen that can show it - the server keeps a derivation, not the
+         code, so it cannot be looked up again afterwards. It was being stored
+         silently on the phone and shown to nobody, which is exactly why he
+         asked where to get it. -->
+    <div class="mcode-box" id="mcodeBox" style="display:none">
+      <div class="mcode-title" id="mcodeTitle">Kòd evènman ou an</div>
+      <div class="mcode-val" id="mcodeVal">------</div>
+      <button class="mcode-copy" id="mcodeCopy" onclick="copyManageCode()">Kopye kòd la</button>
+      <div class="mcode-note" id="mcodeNote"></div>
     </div>
     <a href="events.html" class="btn btn-blue" style="width:100%" data-i18n="view_event">Gade Evènman Ou</a>
   </div>
@@ -2311,6 +2338,47 @@ function publishEvent() {
     createdAt: new Date().toISOString()
   };
 
+  var MCODE_TXT = {
+    ht: { title:'Kòd evènman ou an', copy:'Kopye kòd la', copied:'Kopye!',
+          note:'Kenbe kòd sa a. Ou bezwen l pou w wè ki moun k ap vini, epi pou w efase evènman an. Nou p ap ka montre w li ankò.' },
+    fr: { title:'Le code de votre événement', copy:'Copier le code', copied:'Copié!',
+          note:'Gardez ce code. Il vous faut pour voir qui vient et pour supprimer l’événement. Nous ne pourrons plus vous le montrer.' },
+    en: { title:'Your event code', copy:'Copy the code', copied:'Copied!',
+          note:'Keep this code. You need it to see who is coming and to delete the event. We cannot show it to you again.' },
+    es: { title:'El código de tu evento', copy:'Copiar el código', copied:'¡Copiado!',
+          note:'Guarda este código. Lo necesitas para ver quién viene y para eliminar el evento. No podremos volver a mostrártelo.' },
+    pt: { title:'O código do seu evento', copy:'Copiar o código', copied:'Copiado!',
+          note:'Guarde este código. Você precisa dele para ver quem vem e para excluir o evento. Não poderemos mostrá-lo novamente.' }
+  };
+
+  function mcodeTxt(k) {
+    var l = MCODE_TXT[curLang] || MCODE_TXT.ht;
+    return l[k] || MCODE_TXT.ht[k];
+  }
+
+  function showManageCode(code) {
+    if (!code) return;
+    var box = document.getElementById('mcodeBox');
+    if (!box) return;
+    document.getElementById('mcodeVal').textContent = code;
+    document.getElementById('mcodeTitle').textContent = mcodeTxt('title');
+    document.getElementById('mcodeCopy').textContent = mcodeTxt('copy');
+    document.getElementById('mcodeNote').textContent = mcodeTxt('note');
+    box.style.display = 'block';
+  }
+
+  function copyManageCode() {
+    var code = document.getElementById('mcodeVal').textContent;
+    var btn = document.getElementById('mcodeCopy');
+    function done() {
+      btn.textContent = mcodeTxt('copied');
+      setTimeout(function () { btn.textContent = mcodeTxt('copy'); }, 2200);
+    }
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(code).then(done).catch(function () {});
+    }
+  }
+
   function showSuccessOverlay(eventId, shareUrl) {
     resetPublishBtn();
     var viewBtn = document.querySelector('#successOverlay .btn-blue');
@@ -2376,6 +2444,7 @@ function publishEvent() {
          refunds and driver approval across the whole platform. The server
          returns it exactly once - if it is not caught here it is gone. */
       keepManageCode(saved._id, saved.manageCode);
+      showManageCode(saved.manageCode);
       /* It is published. The half-finished copy has done its job. */
       clearDraft();
       showSuccessOverlay(saved._id, shareBase() + '/e/' + saved._id);
