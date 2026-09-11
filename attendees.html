@@ -1,0 +1,426 @@
+<!DOCTYPE html>
+<html lang="ht">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ki Moun K Ap Vini — Tikè Lakay</title>
+<meta name="description" content="Lis moun ki di wi ou non pou evènman ou an.">
+<meta name="theme-color" content="#00209F">
+<meta name="robots" content="noindex, nofollow">
+<link rel="icon" type="image/x-icon" href="favicon.ico">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --blue:#00209F;--blue-deep:#001566;--red:#D21034;--red-dark:#B00D2C;
+  --gold:#D4A017;--gold-soft:#FDF3D7;--green:#1B8C3D;--green-light:#E8F5E9;
+  --white:#fff;--off-white:#F5F7FA;--dark:#0A0E1A;--text:#1A2A4A;
+  --text-light:#5A6B8A;--text-muted:#8A95AA;--border:#E2E8F0;--border-light:#F0F3F7;
+  --body:'Plus Jakarta Sans',system-ui,sans-serif;
+  --display:'DM Serif Display',Georgia,serif;
+  --mono:'JetBrains Mono',monospace;
+  --radius:14px;
+}
+body{font-family:var(--body);background:var(--off-white);color:var(--text);-webkit-font-smoothing:antialiased}
+a{text-decoration:none;color:inherit}
+button{font-family:var(--body);cursor:pointer;border:none;background:none}
+.flag-stripe{height:4px;background:linear-gradient(90deg,var(--blue) 50%,var(--red) 50%)}
+.lang-bar{background:var(--dark);display:flex;justify-content:center;gap:2px;padding:5px 8px;flex-wrap:wrap}
+.lang-bar a{font-size:.7rem;font-weight:700;color:rgba(255,255,255,.62);padding:4px 10px;border-radius:6px;cursor:pointer}
+.lang-bar a.active{background:var(--gold);color:var(--dark)}
+.header{position:sticky;top:0;z-index:60;background:rgba(255,255,255,.96);backdrop-filter:blur(16px);
+  border-bottom:1px solid var(--border);padding:0 16px;height:56px;display:flex;align-items:center;justify-content:space-between}
+.header span.brand{font-family:var(--display);font-size:1rem;color:var(--dark)}
+.header span.brand em{color:var(--red);font-style:italic}
+.header-back{display:flex;align-items:center;gap:6px;font-size:.78rem;font-weight:600;
+  color:var(--text-light);border:1px solid var(--border);border-radius:99px;padding:7px 13px}
+
+.wrap{max-width:820px;margin:0 auto;padding:22px 16px 70px}
+h1{font-family:var(--display);font-size:1.6rem;color:var(--dark);line-height:1.2;margin-bottom:6px}
+.sub{color:var(--text-light);font-size:.9rem;line-height:1.55}
+
+.card{background:#fff;border-radius:var(--radius);padding:20px;box-shadow:0 4px 16px rgba(10,14,26,.07);margin-bottom:16px}
+label{display:block;font-size:.75rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;
+  color:var(--text-light);margin-bottom:7px}
+input{width:100%;padding:13px;border:1.5px solid var(--border);border-radius:10px;
+  font-family:var(--mono);font-size:1rem;letter-spacing:1px;text-transform:uppercase}
+input:focus{outline:none;border-color:var(--blue)}
+.btn{width:100%;margin-top:12px;padding:14px;border-radius:10px;font-weight:800;font-size:.98rem;
+  background:var(--blue);color:#fff}
+.btn:disabled{opacity:.55}
+.btn-ghost{background:#fff;color:var(--blue);border:1.5px solid var(--border);font-weight:700}
+
+.msg{border-radius:10px;padding:13px 15px;font-size:.88rem;line-height:1.5;margin-top:12px;display:none}
+.msg.err{background:#FDECEF;color:var(--red-dark);border:1px solid #F5C6CE;display:block}
+
+.tiles{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--border);
+  border-radius:var(--radius);overflow:hidden;margin-bottom:16px}
+.tile{background:#fff;padding:18px 12px;text-align:center}
+.tile .v{font-family:var(--display);font-size:1.9rem;line-height:1;color:var(--dark)}
+.tile.yes .v{color:var(--green)}
+.tile.no .v{color:var(--text-muted)}
+.tile .l{margin-top:7px;font-size:.66rem;letter-spacing:.1em;text-transform:uppercase;
+  color:var(--text-light);font-weight:700;line-height:1.4}
+
+.evtitle{font-family:var(--display);font-size:1.2rem;color:var(--dark);margin-bottom:3px}
+.evdate{font-size:.82rem;color:var(--text-light)}
+
+.filters{display:flex;gap:8px;margin-bottom:14px;flex-wrap:wrap}
+.chip{font-size:.8rem;font-weight:700;padding:8px 14px;border-radius:99px;
+  border:1.5px solid var(--border);background:#fff;color:var(--text-light)}
+.chip.on{background:var(--blue);border-color:var(--blue);color:#fff}
+
+.row{background:#fff;border-radius:12px;padding:14px 16px;margin-bottom:9px;
+  display:flex;align-items:center;gap:12px;box-shadow:0 1px 3px rgba(10,14,26,.06)}
+.mark{width:34px;height:34px;border-radius:50%;display:grid;place-items:center;
+  font-size:1rem;flex:none}
+.mark.yes{background:var(--green-light)}
+.mark.no{background:var(--border-light)}
+.who{flex:1;min-width:0}
+.who .n{font-weight:800;font-size:.95rem;color:var(--dark);white-space:nowrap;
+  overflow:hidden;text-overflow:ellipsis}
+.who .p{font-family:var(--mono);font-size:.8rem;color:var(--text-light);margin-top:2px}
+.who .p a{color:var(--blue)}
+.guests{font-size:.72rem;font-weight:800;color:var(--gold);background:var(--gold-soft);
+  padding:4px 9px;border-radius:99px;white-space:nowrap}
+.empty{text-align:center;padding:34px 18px;color:var(--text-muted);font-size:.9rem}
+.tools{display:flex;gap:9px;margin-top:14px;flex-wrap:wrap}
+.tools button{flex:1;min-width:140px;padding:12px;border-radius:10px;font-weight:700;font-size:.86rem}
+.hint{font-size:.78rem;color:var(--text-muted);margin-top:10px;line-height:1.5}
+.spin{display:inline-block;width:15px;height:15px;border:2px solid rgba(255,255,255,.4);
+  border-top-color:#fff;border-radius:50%;animation:sp .7s linear infinite;vertical-align:-2px}
+@keyframes sp{to{transform:rotate(360deg)}}
+</style>
+</head>
+<body>
+<div class="flag-stripe"></div>
+<div class="lang-bar">
+  <a data-lang="ht" onclick="setLang('ht')">Kreyòl</a>
+  <a data-lang="fr" onclick="setLang('fr')">Français</a>
+  <a data-lang="en" onclick="setLang('en')">English</a>
+  <a data-lang="es" onclick="setLang('es')">Español</a>
+  <a data-lang="pt" onclick="setLang('pt')">Português</a>
+</div>
+<div class="header">
+  <span class="brand">Tikè <em>Lakay</em></span>
+  <a class="header-back" href="events.html">&#8592; <span id="backTxt">Retounen</span></a>
+</div>
+
+<div class="wrap">
+  <h1 id="h1"></h1>
+  <p class="sub" id="sub"></p>
+
+  <!-- The code gate. Filled in automatically on the phone that created the
+       event; typed by hand when the organiser is on a different phone. -->
+  <div class="card" id="gate" style="margin-top:18px">
+    <label for="code" id="lblCode"></label>
+    <input id="code" maxlength="24" autocomplete="off" spellcheck="false" placeholder="------">
+    <button class="btn" id="openBtn" onclick="load()"></button>
+    <div class="msg err" id="err"></div>
+    <p class="hint" id="hint"></p>
+  </div>
+
+  <div id="result" style="display:none">
+    <div class="card" style="padding:16px 18px">
+      <div class="evtitle" id="evTitle"></div>
+      <div class="evdate" id="evDate"></div>
+    </div>
+    <div class="tiles">
+      <div class="tile yes"><div class="v" id="tGoing">0</div><div class="l" id="lGoing"></div></div>
+      <div class="tile"><div class="v" id="tPeople">0</div><div class="l" id="lPeople"></div></div>
+      <div class="tile no"><div class="v" id="tNo">0</div><div class="l" id="lNo"></div></div>
+    </div>
+
+    <div class="filters">
+      <button class="chip on" data-f="yes" onclick="setFilter('yes')"></button>
+      <button class="chip" data-f="no" onclick="setFilter('no')"></button>
+      <button class="chip" data-f="all" onclick="setFilter('all')"></button>
+    </div>
+
+    <div id="list"></div>
+
+    <div class="tools">
+      <button class="btn-ghost" id="csvBtn" onclick="downloadCsv()"></button>
+      <button class="btn-ghost" id="refreshBtn" onclick="load(true)"></button>
+    </div>
+    <p class="hint" id="privacy"></p>
+  </div>
+</div>
+
+<script>
+/* ═══════════════════════════════════════════════════════════════════════════
+   WHO IS COMING.
+
+   His question, 10 September: "How can we see everybody that say yes or no on
+   tike lakay ?"
+
+   Fair question - the two RSVP buttons were built and the answers were being
+   recorded properly, but nothing anywhere showed them to the organiser. A
+   register nobody can read is not a register.
+
+   The list is real people's names and mobile numbers, so it is behind the same
+   gate as editing the event: the event's own manage code, or his console code.
+   It is never part of the public event page, which carries only the count.
+   ═══════════════════════════════════════════════════════════════════════════ */
+var API_URL = 'https://haitibiznis-api.onrender.com';
+
+var I18N = {
+  ht: {
+    back:'Retounen', h1:'Ki moun k ap vini?',
+    sub:'Lis moun ki reponn wi oswa non pou evènman ou an.',
+    lblCode:'Kòd evènman an', open:'Wè lis la', opening:'N ap chaje...',
+    hint:'Se kòd ou te resevwa lè w te kreye evènman an. Si w kreye l sou telefòn sa a, nou ranpli l pou ou.',
+    going:'Wi, m ap vini', people:'Total moun', no:'Pa ka vini',
+    fYes:'Wi', fNo:'Non', fAll:'Tout',
+    emptyYes:'Pèsòn poko di wi.', emptyNo:'Pèsòn poko di non.', emptyAll:'Pèsòn poko reponn.',
+    csv:'Telechaje lis la (Excel)', refresh:'Mete ajou',
+    noEvent:'Nou pa jwenn evènman an. Tcheke lyen an.',
+    wrong:'Kòd la pa bon pou evènman sa a.',
+    err:'Nou pa ka chaje lis la kounye a. Eseye ankò.',
+    guests:'moun',
+    privacy:'Lis sa a gen non ak nimewo moun ki fè ou konfyans. Se pou ou sèlman — pa pataje l.'
+  },
+  fr: {
+    back:'Retour', h1:'Qui vient?',
+    sub:'Liste des personnes ayant répondu oui ou non à votre événement.',
+    lblCode:'Code de l’événement', open:'Voir la liste', opening:'Chargement...',
+    hint:'C’est le code reçu à la création de l’événement. Si vous l’avez créé sur ce téléphone, il est déjà rempli.',
+    going:'Oui, je viens', people:'Total personnes', no:'Ne peut pas venir',
+    fYes:'Oui', fNo:'Non', fAll:'Tous',
+    emptyYes:'Personne n’a encore dit oui.', emptyNo:'Personne n’a encore dit non.', emptyAll:'Aucune réponse pour l’instant.',
+    csv:'Télécharger la liste (Excel)', refresh:'Actualiser',
+    noEvent:'Événement introuvable. Vérifiez le lien.',
+    wrong:'Ce code ne correspond pas à cet événement.',
+    err:'Impossible de charger la liste maintenant. Réessayez.',
+    guests:'personnes',
+    privacy:'Cette liste contient des noms et des numéros de personnes qui vous font confiance. Elle est pour vous seul — ne la partagez pas.'
+  },
+  en: {
+    back:'Back', h1:'Who is coming?',
+    sub:'Everyone who answered yes or no to your event.',
+    lblCode:'Event code', open:'Show the list', opening:'Loading...',
+    hint:'This is the code you were given when you created the event. If you created it on this phone, it is filled in already.',
+    going:'Yes, coming', people:'Total people', no:'Cannot make it',
+    fYes:'Yes', fNo:'No', fAll:'All',
+    emptyYes:'Nobody has said yes yet.', emptyNo:'Nobody has said no yet.', emptyAll:'No answers yet.',
+    csv:'Download the list (Excel)', refresh:'Refresh',
+    noEvent:'Event not found. Check the link.',
+    wrong:'That code does not open this event.',
+    err:'We cannot load the list right now. Try again.',
+    guests:'people',
+    privacy:'This list holds the names and numbers of people who trusted you with them. It is for you alone — do not share it.'
+  },
+  es: {
+    back:'Volver', h1:'¿Quién viene?',
+    sub:'Todas las personas que respondieron sí o no a tu evento.',
+    lblCode:'Código del evento', open:'Ver la lista', opening:'Cargando...',
+    hint:'Es el código que recibiste al crear el evento. Si lo creaste en este teléfono, ya está puesto.',
+    going:'Sí, viene', people:'Total personas', no:'No puede ir',
+    fYes:'Sí', fNo:'No', fAll:'Todos',
+    emptyYes:'Nadie ha dicho sí todavía.', emptyNo:'Nadie ha dicho no todavía.', emptyAll:'Aún no hay respuestas.',
+    csv:'Descargar la lista (Excel)', refresh:'Actualizar',
+    noEvent:'Evento no encontrado. Revisa el enlace.',
+    wrong:'Ese código no abre este evento.',
+    err:'No podemos cargar la lista ahora. Inténtalo de nuevo.',
+    guests:'personas',
+    privacy:'Esta lista tiene nombres y números de personas que confiaron en ti. Es solo para ti — no la compartas.'
+  },
+  pt: {
+    back:'Voltar', h1:'Quem vem?',
+    sub:'Todas as pessoas que responderam sim ou não ao seu evento.',
+    lblCode:'Código do evento', open:'Ver a lista', opening:'Carregando...',
+    hint:'É o código recebido ao criar o evento. Se você o criou neste telefone, já está preenchido.',
+    going:'Sim, vem', people:'Total de pessoas', no:'Não pode ir',
+    fYes:'Sim', fNo:'Não', fAll:'Todos',
+    emptyYes:'Ninguém disse sim ainda.', emptyNo:'Ninguém disse não ainda.', emptyAll:'Ainda sem respostas.',
+    csv:'Baixar a lista (Excel)', refresh:'Atualizar',
+    noEvent:'Evento não encontrado. Verifique o link.',
+    wrong:'Esse código não abre este evento.',
+    err:'Não é possível carregar a lista agora. Tente novamente.',
+    guests:'pessoas',
+    privacy:'Esta lista tem nomes e números de pessoas que confiaram em você. É só sua — não compartilhe.'
+  }
+};
+
+var lang = 'ht';
+var data = null;
+var filter = 'yes';
+var EVENT_ID = new URLSearchParams(location.search).get('id') || '';
+
+function t(k){ return (I18N[lang] && I18N[lang][k]) || I18N.ht[k] || k; }
+
+function setLang(l){
+  if (!I18N[l]) return;
+  lang = l;
+  try { localStorage.setItem('tl_lang', l); } catch(e){}
+  document.querySelectorAll('.lang-bar a').forEach(function(a){
+    a.classList.toggle('active', a.getAttribute('data-lang') === l);
+  });
+  document.documentElement.lang = l;
+  document.getElementById('backTxt').textContent = t('back');
+  document.getElementById('h1').textContent = t('h1');
+  document.getElementById('sub').textContent = t('sub');
+  document.getElementById('lblCode').textContent = t('lblCode');
+  document.getElementById('openBtn').textContent = t('open');
+  document.getElementById('hint').textContent = t('hint');
+  document.getElementById('lGoing').textContent = t('going');
+  document.getElementById('lPeople').textContent = t('people');
+  document.getElementById('lNo').textContent = t('no');
+  document.querySelector('[data-f="yes"]').textContent = t('fYes');
+  document.querySelector('[data-f="no"]').textContent = t('fNo');
+  document.querySelector('[data-f="all"]').textContent = t('fAll');
+  document.getElementById('csvBtn').textContent = t('csv');
+  document.getElementById('refreshBtn').textContent = t('refresh');
+  document.getElementById('privacy').textContent = t('privacy');
+  if (data) render();
+}
+
+function esc(s){
+  return String(s == null ? '' : s).replace(/[&<>"']/g, function(c){
+    return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c];
+  });
+}
+
+function savedCode(){
+  if (!EVENT_ID) return '';
+  try {
+    var m = JSON.parse(localStorage.getItem('tl_manage') || '{}');
+    return m[EVENT_ID] || '';
+  } catch(e){ return ''; }
+}
+
+function load(isRefresh){
+  var code = (document.getElementById('code').value || '').trim();
+  var errEl = document.getElementById('err');
+  var btn = document.getElementById(isRefresh ? 'refreshBtn' : 'openBtn');
+  errEl.style.display = 'none';
+
+  if (!EVENT_ID){ errEl.textContent = t('noEvent'); errEl.style.display = 'block'; return; }
+  if (!code){ errEl.textContent = t('wrong'); errEl.style.display = 'block'; return; }
+
+  var label = btn.textContent;
+  btn.disabled = true;
+  if (!isRefresh) btn.innerHTML = '<span class="spin"></span> ' + t('opening');
+
+  /* Both headers on purpose. The server accepts either the event's own manage
+     code or his console code, and this page cannot know which one was typed -
+     so it offers the code as both and lets the server decide. A wrong value in
+     either header is simply not a match; nothing is locked out. */
+  fetch(API_URL + '/api/events/' + encodeURIComponent(EVENT_ID) + '/rsvps', {
+    headers: { 'x-manage-code': code, 'x-admin-pin': code }
+  })
+    .then(function(r){ return r.json().then(function(d){ return {code:r.status, d:d}; }); })
+    .then(function(res){
+      if (res.code === 403){ errEl.textContent = t('wrong'); errEl.style.display = 'block'; return; }
+      if (res.code === 404){ errEl.textContent = t('noEvent'); errEl.style.display = 'block'; return; }
+      if (res.code >= 400){ errEl.textContent = t('err'); errEl.style.display = 'block'; return; }
+
+      data = res.d;
+      /* Remember the code for this event on this phone so he does not retype
+         it every time he checks the numbers before a workshop. */
+      try {
+        var m = JSON.parse(localStorage.getItem('tl_manage') || '{}');
+        m[EVENT_ID] = code;
+        localStorage.setItem('tl_manage', JSON.stringify(m));
+      } catch(e){}
+      document.getElementById('gate').style.display = 'none';
+      document.getElementById('result').style.display = 'block';
+      render();
+    })
+    .catch(function(){ errEl.textContent = t('err'); errEl.style.display = 'block'; })
+    .then(function(){
+      btn.disabled = false;
+      btn.textContent = label;
+    });
+}
+
+function setFilter(f){
+  filter = f;
+  document.querySelectorAll('.chip').forEach(function(c){
+    c.classList.toggle('on', c.getAttribute('data-f') === f);
+  });
+  render();
+}
+
+function render(){
+  if (!data) return;
+  var ev = data.event || {};
+  document.getElementById('evTitle').textContent = ev.title || '';
+  document.getElementById('evDate').textContent = ev.date || '';
+  document.getElementById('tGoing').textContent = data.going || 0;
+  document.getElementById('tPeople').textContent = data.attending || 0;
+  document.getElementById('tNo').textContent = data.declined || 0;
+
+  var rows = (data.rsvps || []).filter(function(r){
+    return filter === 'all' ? true : r.response === filter;
+  });
+
+  var list = document.getElementById('list');
+  if (!rows.length){
+    list.innerHTML = '<div class="empty">' +
+      esc(filter === 'yes' ? t('emptyYes') : filter === 'no' ? t('emptyNo') : t('emptyAll')) +
+      '</div>';
+    return;
+  }
+
+  list.innerHTML = rows.map(function(r){
+    var yes = r.response === 'yes';
+    var extra = (r.guests && r.guests > 1)
+      ? '<span class="guests">' + r.guests + ' ' + esc(t('guests')) + '</span>' : '';
+    /* The number is a tel: link on purpose - the most likely next thing the
+       organiser wants to do with a name on this list is ring them. */
+    var phone = r.phone
+      ? '<div class="p"><a href="tel:' + esc(String(r.phone).replace(/[^\d+]/g,'')) + '">' +
+        esc(r.phone) + '</a></div>' : '';
+    return '<div class="row">' +
+      '<div class="mark ' + (yes ? 'yes' : 'no') + '">' + (yes ? '✅' : '❌') + '</div>' +
+      '<div class="who"><div class="n">' + esc(r.name || '—') + '</div>' + phone + '</div>' +
+      extra + '</div>';
+  }).join('');
+}
+
+function downloadCsv(){
+  if (!data) return;
+  var head = ['Non','Telefòn','Repons','Konbyen moun','Dat'];
+  var lines = [head.join(',')];
+  (data.rsvps || []).forEach(function(r){
+    lines.push([r.name || '', r.phone || '', r.response === 'yes' ? 'WI' : 'NON',
+                r.guests || 1, (r.createdAt || '').slice(0,10)]
+      .map(function(v){ return '"' + String(v).replace(/"/g,'""') + '"'; }).join(','));
+  });
+  /* The byte order mark is what makes Excel read "Michèle" instead of
+     "MichÃ¨le". Without it every accented Haitian name in the file is mangled,
+     and the person opening it has no idea why. */
+  var blob = new Blob(['﻿' + lines.join('\r\n')], {type:'text/csv;charset=utf-8;'});
+  var a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  var name = ((data.event && data.event.title) || 'evenman').replace(/[^A-Za-z0-9]+/g,'-').slice(0,40);
+  a.download = name + '-lis-moun.csv';
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  setTimeout(function(){ URL.revokeObjectURL(a.href); }, 4000);
+}
+
+document.getElementById('code').addEventListener('keydown', function(e){
+  if (e.key === 'Enter') load();
+});
+
+(function(){
+  var saved = null;
+  try { saved = localStorage.getItem('tl_lang'); } catch(e){}
+  setLang(saved && I18N[saved] ? saved : 'ht');
+
+  var code = savedCode();
+  if (code){
+    document.getElementById('code').value = code;
+    /* This phone created the event, so open the list straight away rather than
+       asking him to press a button to be shown something he already owns. */
+    load();
+  }
+})();
+</script>
+</body>
+</html>
