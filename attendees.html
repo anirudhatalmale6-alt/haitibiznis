@@ -52,8 +52,12 @@ input:focus{outline:none;border-color:var(--blue)}
 .btn:disabled{opacity:.55}
 .btn-ghost{background:#fff;color:var(--blue);border:1.5px solid var(--border);font-weight:700}
 
-.lostlink{display:block;margin-top:12px;font-size:.82rem;font-weight:700;color:var(--blue);
-  text-decoration:underline;background:none;border:none;padding:0;text-align:left}
+.lostlink{
+  display:block;width:100%;margin-top:12px;padding:13px;border-radius:10px;
+  font-size:.88rem;font-weight:700;color:var(--blue);
+  background:#fff;border:1.5px dashed var(--border);text-align:center;
+}
+.lostlink:hover{background:var(--off-white);border-color:var(--blue)}
 .issued{background:var(--gold-soft);border:1.5px solid #E8C86A;border-radius:12px;
   padding:15px;margin-top:14px;text-align:center}
 .issued-title{font-size:.7rem;letter-spacing:.14em;text-transform:uppercase;
@@ -195,6 +199,7 @@ var API_URL = 'https://haitibiznis-api.onrender.com';
 
 var I18N = {
   ht: {
+    noCode: "Ou poko ekri kòd la. Tape kòd evènman an nan bwat la anwo — oswa si w pa genyen l, sèvi ak 'Mwen pa gen kòd la' anba a.",
     lost:'Mwen pa gen kòd la',
     lblAdmin:'Kòd konsòl ou',
     issue:'Ban m yon kòd',
@@ -218,6 +223,7 @@ var I18N = {
     privacy:'Lis sa a gen non ak nimewo moun ki fè ou konfyans. Se pou ou sèlman — pa pataje l.'
   },
   fr: {
+    noCode: "Vous n'avez pas encore saisi de code. Tapez le code de l'événement dans la case ci-dessus — ou, si vous ne l'avez pas, utilisez « Je n'ai pas le code » en dessous.",
     lost:'Je n’ai pas le code',
     lblAdmin:'Votre code console',
     issue:'Créer un code',
@@ -241,6 +247,7 @@ var I18N = {
     privacy:'Cette liste contient des noms et des numéros de personnes qui vous font confiance. Elle est pour vous seul — ne la partagez pas.'
   },
   en: {
+    noCode: "You have not typed a code yet. Enter the event code in the box above - or, if you do not have it, use \"I do not have the code\" below.",
     lost:'I do not have the code',
     lblAdmin:'Your console code',
     issue:'Issue a code',
@@ -264,6 +271,7 @@ var I18N = {
     privacy:'This list holds the names and numbers of people who trusted you with them. It is for you alone — do not share it.'
   },
   es: {
+    noCode: "Todavía no has escrito un código. Escribe el código del evento en la casilla de arriba, o si no lo tienes, usa «No tengo el código» abajo.",
     lost:'No tengo el código',
     lblAdmin:'Tu código de consola',
     issue:'Crear un código',
@@ -287,6 +295,7 @@ var I18N = {
     privacy:'Esta lista tiene nombres y números de personas que confiaron en ti. Es solo para ti — no la compartas.'
   },
   pt: {
+    noCode: "Você ainda não digitou um código. Escreva o código do evento na caixa acima - ou, se não o tiver, use \"Não tenho o código\" abaixo.",
     lost:'Não tenho o código',
     lblAdmin:'Seu código de console',
     issue:'Criar um código',
@@ -370,7 +379,25 @@ function load(isRefresh){
   errEl.style.display = 'none';
 
   if (!EVENT_ID){ errEl.textContent = t('noEvent'); errEl.style.display = 'block'; return; }
-  if (!code){ errEl.textContent = t('wrong'); errEl.style.display = 'block'; return; }
+  /* An empty box is not a wrong code.
+   *
+   * The Academy director pressed the button without typing anything and was
+   * told "this code does not match this event" - so she believed she HAD a
+   * code and that it had been rejected, and asked for a different one. Her
+   * words: "li di code pa koresponn a evenman sa, a lorsque mpat antre okenn
+   * code" - it says the code does not match, when I had not entered any code.
+   *
+   * Nothing was broken except the sentence. Say the true thing. */
+  if (!code){
+    errEl.textContent = t('noCode');
+    errEl.style.display = 'block';
+    document.getElementById('code').focus();
+    /* And open the way out, rather than leaving it as a small link she has
+       already scrolled past once. */
+    var lb = document.getElementById('lostBox');
+    if (lb && lb.style.display === 'none') showLost();
+    return;
+  }
 
   var label = btn.textContent;
   btn.disabled = true;
