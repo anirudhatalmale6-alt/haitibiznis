@@ -1,0 +1,511 @@
+<!DOCTYPE html>
+<html lang="ht">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>LajanMaker Academy — Egzamen Sètifikasyon</title>
+<link rel="icon" href="../favicon.ico">
+<meta name="robots" content="noindex,nofollow">
+<style>
+:root{
+  --navy:#0B2E6F; --navy-d:#08214f; --red:#D21034; --green:#1B8C3D;
+  --gold:#E0A400; --white:#fff; --off:#F3F6FB; --text:#152341;
+  --light:#5A6B8A; --muted:#93A0B8; --border:#DDE4EF; --r:16px;
+  --sans:system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:var(--sans);background:var(--off);color:var(--text);
+  line-height:1.55;-webkit-font-smoothing:antialiased;
+  padding-env:env(safe-area-inset-bottom)}
+.wrap{max-width:620px;margin:0 auto;padding:16px 16px 48px}
+
+.topbar{display:flex;align-items:center;justify-content:space-between;gap:10px;
+  padding:10px 0 16px}
+.brand{font-weight:800;font-size:.95rem;letter-spacing:-.01em;min-width:0;
+  overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.brand b{color:var(--red)}
+.langs{display:flex;gap:6px;flex:0 0 auto}
+.langs button{border:1px solid var(--border);background:var(--white);
+  border-radius:99px;padding:6px 12px;font-size:.78rem;font-weight:800;
+  color:var(--light);cursor:pointer;font-family:inherit}
+.langs button.on{background:var(--navy);color:#fff;border-color:var(--navy)}
+
+.card{background:var(--white);border:1px solid var(--border);border-radius:var(--r);
+  padding:22px;margin-bottom:16px}
+h1{font-size:1.32rem;font-weight:800;letter-spacing:-.02em;margin-bottom:6px}
+h2{font-size:1.05rem;font-weight:800;margin-bottom:10px}
+.sub{color:var(--light);font-size:.93rem}
+
+label{display:block;font-size:.76rem;font-weight:800;color:var(--light);
+  letter-spacing:.05em;text-transform:uppercase;margin:16px 0 6px}
+input[type=text],input[type=tel]{width:100%;padding:15px 16px;font-size:1.02rem;
+  border:2px solid var(--border);border-radius:12px;font-family:inherit;
+  background:var(--white);color:var(--text)}
+input:focus{outline:none;border-color:var(--navy)}
+
+.btn{display:block;width:100%;padding:17px 18px;border:0;border-radius:14px;
+  font-size:1.02rem;font-weight:800;font-family:inherit;cursor:pointer;
+  margin-top:18px;letter-spacing:-.01em;
+  /* the download and WhatsApp buttons are anchors - without this they render
+     underlined like links rather than as buttons */
+  text-decoration:none;text-align:center}
+.btn-main{background:var(--navy);color:#fff;box-shadow:0 6px 18px rgba(11,46,111,.22)}
+.btn-main:disabled{background:#B9C4D6;box-shadow:none;cursor:not-allowed}
+.btn-ghost{background:var(--white);color:var(--navy);border:2px solid var(--navy)}
+.btn-green{background:var(--green);color:#fff}
+
+.err{background:#FFF4F4;border:1px solid rgba(210,16,52,.3);color:var(--red);
+  border-radius:12px;padding:12px 14px;font-size:.9rem;font-weight:700;
+  margin-top:14px;display:none}
+
+/* ---- exam ---- */
+.exbar{display:flex;align-items:center;justify-content:space-between;gap:12px;
+  margin-bottom:12px}
+.qcount{font-size:.82rem;font-weight:800;color:var(--light)}
+.timer{font-variant-numeric:tabular-nums;font-weight:800;font-size:1.05rem;
+  background:var(--white);border:1px solid var(--border);border-radius:99px;
+  padding:7px 15px}
+.timer.low{background:#FFF4F4;border-color:rgba(210,16,52,.35);color:var(--red)}
+.bar{height:7px;background:#E3E9F3;border-radius:99px;overflow:hidden;margin-bottom:18px}
+.bar i{display:block;height:100%;background:var(--navy);border-radius:99px;
+  transition:width .25s ease;width:0}
+.qtext{font-size:1.14rem;font-weight:800;line-height:1.45;margin-bottom:18px}
+.opt{display:flex;gap:12px;align-items:flex-start;width:100%;text-align:left;
+  background:var(--white);border:2px solid var(--border);border-radius:14px;
+  padding:15px 16px;margin-bottom:10px;font-size:1rem;font-family:inherit;
+  color:var(--text);cursor:pointer;line-height:1.45}
+.opt:hover{border-color:#B9C7DE}
+.opt.sel{border-color:var(--navy);background:#F2F6FD}
+.opt .k{flex:0 0 auto;width:28px;height:28px;border-radius:50%;background:#EDF1F8;
+  color:var(--light);font-weight:800;font-size:.85rem;display:flex;
+  align-items:center;justify-content:center;margin-top:1px}
+.opt.sel .k{background:var(--navy);color:#fff}
+
+/* ---- result ---- */
+.score{text-align:center;padding:8px 0 4px}
+.score .big{font-size:3.4rem;font-weight:800;letter-spacing:-.03em;line-height:1}
+.score.pass .big{color:var(--green)}
+.score.fail .big{color:var(--red)}
+.score .lbl{font-size:.95rem;color:var(--light);margin-top:4px}
+.verdict{text-align:center;font-size:1.2rem;font-weight:800;margin:14px 0 4px}
+.verdict.pass{color:var(--green)} .verdict.fail{color:var(--red)}
+
+#certWrap{margin-top:16px}
+#certCanvas{width:100%;height:auto;display:block;border-radius:12px;
+  border:1px solid var(--border);background:#fff}
+.hint{font-size:.83rem;color:var(--muted);text-align:center;margin-top:10px}
+
+.note{background:#FFFCF2;border:1px solid rgba(224,164,0,.4);
+  border-left:4px solid var(--gold);border-radius:12px;padding:14px 16px;
+  font-size:.88rem;color:var(--text);margin-top:16px}
+.note b{display:block;margin-bottom:4px}
+.hidden{display:none!important}
+footer{text-align:center;color:var(--muted);font-size:.8rem;padding-top:18px}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <div class="topbar">
+    <div class="brand">Lajan<b>Maker</b> Academy</div>
+    <div class="langs">
+      <button data-l="ht" class="on">Kreyòl</button>
+      <button data-l="fr">Français</button>
+    </div>
+  </div>
+
+  <!-- ══ START ══ -->
+  <section id="scStart">
+    <div class="card">
+      <h1 data-t="t_title">Egzamen Sètifikasyon</h1>
+      <p class="sub" data-t="t_intro">Ranpli non ou jan ou vle l parèt sou sètifika a.</p>
+
+      <label data-t="t_code">Kòd fòmatè a</label>
+      <input type="text" id="fCode" autocomplete="off" inputmode="text" placeholder="XXXXXX">
+
+      <label data-t="t_name">Non konplè ou</label>
+      <input type="text" id="fName" autocomplete="name" placeholder="Marie Joseph">
+
+      <label data-t="t_phone">Nimewo telefòn ou</label>
+      <input type="tel" id="fPhone" autocomplete="tel" placeholder="37 12 3456">
+
+      <div class="err" id="startErr"></div>
+      <button class="btn btn-main" id="btnStart" data-t="t_start">Kòmanse egzamen an</button>
+
+      <div class="note">
+        <b data-t="t_rules_h">Règ yo</b>
+        <span data-t="t_rules"></span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══ EXAM ══ -->
+  <section id="scExam" class="hidden">
+    <div class="exbar">
+      <div class="qcount" id="qCount"></div>
+      <div class="timer" id="timer">20:00</div>
+    </div>
+    <div class="bar"><i id="barFill"></i></div>
+    <div class="card">
+      <div class="qtext" id="qText"></div>
+      <div id="qOpts"></div>
+      <button class="btn btn-main" id="btnNext" disabled data-t="t_next">Kesyon apre a</button>
+    </div>
+  </section>
+
+  <!-- ══ RESULT ══ -->
+  <section id="scResult" class="hidden">
+    <div class="card">
+      <div class="score" id="scoreBox">
+        <div class="big" id="scorePct">0%</div>
+        <div class="lbl" id="scoreLbl"></div>
+      </div>
+      <div class="verdict" id="verdict"></div>
+      <p class="sub" style="text-align:center" id="verdictSub"></p>
+
+      <div id="certWrap" class="hidden">
+        <canvas id="certCanvas" width="1536" height="1024"></canvas>
+        <p class="hint" data-t="t_save_hint"></p>
+        <a class="btn btn-main" id="btnDl" download>&#11015; <span data-t="t_download">Telechaje sètifika a</span></a>
+        <a class="btn btn-green" id="btnWa" target="_blank" rel="noopener">&#128172; <span data-t="t_send">Voye rezilta a bay fòmatè a</span></a>
+      </div>
+
+      <div id="failWrap" class="hidden">
+        <a class="btn btn-green" id="btnWaFail" target="_blank" rel="noopener">&#128172; <span data-t="t_send">Voye rezilta a bay fòmatè a</span></a>
+        <button class="btn btn-ghost" id="btnRetry" data-t="t_retry">Eseye ankò</button>
+      </div>
+    </div>
+  </section>
+
+  <footer>HaitiBiznis.com &middot; LajanMaker Academy</footer>
+</div>
+
+<script src="kesyon.js"></script>
+<script>
+/* ═══════════════════════════════════════════════════════════════════════════
+ * LajanMaker Academy — certification exam.
+ *
+ * Deliberately self-contained: no backend call anywhere. The workshop room may
+ * have poor wifi, and more importantly there is no student database yet, so
+ * this must not pretend there is one. What it does NOT do is written on the
+ * screen for the student and was written to Jeffery in plain words: there is no
+ * central record and the certificate number is not yet verifiable online. That
+ * comes with the real build.
+ *
+ * The instructor gets the record instead: one tap sends name, score and
+ * certificate number to the Academy WhatsApp.
+ * ═══════════════════════════════════════════════════════════════════════════ */
+
+/* --- things Jeffery may want changed ------------------------------------- */
+var KOD_FOMATE = 'LMA2026';      // the code the instructor reads out to the room
+var WA_NUMBER  = '50946859702';  // HaitiBiznis WhatsApp - same number the rest of the site uses
+var N_QUESTIONS = 15;
+var PASS_PCT    = 80;            // 12 of 15
+var MINUTES     = 20;
+var RETRY_HOURS = 24;
+
+/* --- wording ------------------------------------------------------------- */
+var T = {
+ht:{
+ t_title:"Egzamen Sètifikasyon", t_code:"Kòd fòmatè a", t_name:"Non konplè ou",
+ t_phone:"Nimewo telefòn ou", t_start:"Kòmanse egzamen an", t_next:"Kesyon apre a",
+ t_finish:"Fini egzamen an", t_intro:"Ranpli non ou jan ou vle l parèt sou sètifika a.",
+ t_rules_h:"Règ yo",
+ t_rules:"15 kesyon, youn apre lòt. 20 minit. Ou dwe jwenn 12 sou 15 (80%) pou w sètifye. Chak moun resevwa kesyon yo nan yon lòd diferan.",
+ t_download:"Telechaje sètifika a", t_send:"Voye rezilta a bay fòmatè a",
+ t_retry:"Eseye ankò",
+ t_save_hint:"Si telechajman an pa mache sou telefòn ou, peze sou imaj la epi kenbe l pou anrejistre l.",
+ e_code:"Kòd fòmatè a pa bon. Mande fòmatè a kòd la.",
+ e_name:"Ekri non konplè ou.", e_phone:"Ekri nimewo telefòn ou.",
+ e_wait:"Ou deja pase egzamen an. Ou ka eseye ankò nan {h} èdtan.",
+ pass:"Ou reyisi !", fail:"Ou pa reyisi fwa sa a",
+ pass_sub:"Ou se yon Anbasadè Sètifye LajanMaker kounye a.",
+ fail_sub:"Ou bezwen 12 sou 15. Ou ka eseye ankò nan {h} èdtan.",
+ lbl:"{ok} bon repons sou {n}",
+ wa:"LajanMaker Academy — rezilta egzamen\nNon: {name}\nTelefòn: {phone}\nNòt: {ok}/{n} ({pct}%)\nRezilta: {verdict}\nSètifika: {cert}\nDat: {date}",
+ v_pass:"REYISI", v_fail:"PA REYISI", v_none:"—",
+ time_up:"Tan an fini."
+},
+fr:{
+ t_title:"Examen de certification", t_code:"Code du formateur", t_name:"Votre nom complet",
+ t_phone:"Votre numéro de téléphone", t_start:"Commencer l'examen", t_next:"Question suivante",
+ t_finish:"Terminer l'examen", t_intro:"Écrivez votre nom tel qu'il doit figurer sur le certificat.",
+ t_rules_h:"Les règles",
+ t_rules:"15 questions, une par page. 20 minutes. Il faut 12 bonnes réponses sur 15 (80%) pour être certifié. Chaque personne reçoit les questions dans un ordre différent.",
+ t_download:"Télécharger le certificat", t_send:"Envoyer le résultat au formateur",
+ t_retry:"Réessayer",
+ t_save_hint:"Si le téléchargement ne fonctionne pas sur votre téléphone, appuyez longuement sur l'image pour l'enregistrer.",
+ e_code:"Code du formateur incorrect. Demandez-le au formateur.",
+ e_name:"Écrivez votre nom complet.", e_phone:"Écrivez votre numéro de téléphone.",
+ e_wait:"Vous avez déjà passé l'examen. Vous pourrez réessayer dans {h} heures.",
+ pass:"Réussi !", fail:"Non réussi cette fois",
+ pass_sub:"Vous êtes maintenant Ambassadeur Certifié LajanMaker.",
+ fail_sub:"Il faut 12 sur 15. Vous pourrez réessayer dans {h} heures.",
+ lbl:"{ok} bonnes réponses sur {n}",
+ wa:"LajanMaker Academy — résultat d'examen\nNom : {name}\nTéléphone : {phone}\nNote : {ok}/{n} ({pct}%)\nRésultat : {verdict}\nCertificat : {cert}\nDate : {date}",
+ v_pass:"RÉUSSI", v_fail:"NON RÉUSSI", v_none:"—",
+ time_up:"Le temps est écoulé."
+}};
+
+var lang = 'ht';
+function t(k){ return (T[lang]||T.ht)[k] || k; }
+function fill(s, o){ return s.replace(/\{(\w+)\}/g, function(_,k){ return o[k]!=null?o[k]:''; }); }
+function $(id){ return document.getElementById(id); }
+
+function paint(){
+  document.documentElement.lang = lang;
+  document.querySelectorAll('[data-t]').forEach(function(el){
+    el.textContent = t(el.getAttribute('data-t'));
+  });
+  document.querySelectorAll('.langs button').forEach(function(b){
+    b.classList.toggle('on', b.getAttribute('data-l') === lang);
+  });
+  // A language switch mid-exam must redraw the question, not lose your place.
+  if (!$('scExam').classList.contains('hidden')) showQ();
+}
+document.querySelectorAll('.langs button').forEach(function(b){
+  b.onclick = function(){ lang = b.getAttribute('data-l'); paint(); };
+});
+
+/* --- picking the paper ---------------------------------------------------- */
+function shuffle(a){
+  a = a.slice();
+  for (var i = a.length - 1; i > 0; i--){
+    var j = Math.floor(Math.random() * (i + 1));
+    var tmp = a[i]; a[i] = a[j]; a[j] = tmp;
+  }
+  return a;
+}
+
+function buildPaper(){
+  // Spread the paper across the modules rather than drawing blind from the
+  // whole bank, or a student can get fifteen questions about one product.
+  var byMod = {};
+  KESYON.forEach(function(q){ (byMod[q.m] = byMod[q.m] || []).push(q); });
+  var mods = Object.keys(byMod);
+  var per = Math.floor(N_QUESTIONS / mods.length);
+  var picked = [];
+  mods.forEach(function(m){ picked = picked.concat(shuffle(byMod[m]).slice(0, per)); });
+
+  // Whatever is left over after the even split, take at random from the rest.
+  var rest = shuffle(KESYON.filter(function(q){ return picked.indexOf(q) < 0; }));
+  picked = picked.concat(rest.slice(0, Math.max(0, N_QUESTIONS - picked.length)));
+
+  // Shuffle the order of the questions AND of the four answers under each one,
+  // carrying the correct index along with its text so it cannot drift.
+  return shuffle(picked).map(function(q){
+    var order = shuffle([0,1,2,3]);
+    return { q:q, order:order, correct:order.indexOf(q.c), answer:null };
+  });
+}
+
+/* --- state ---------------------------------------------------------------- */
+var paper = [], idx = 0, student = {}, tEnd = 0, tTimer = null;
+
+function lastAttempt(){
+  try { return parseInt(localStorage.getItem('lma_last') || '0', 10) || 0; } catch(e){ return 0; }
+}
+function hoursLeft(){
+  var ms = (lastAttempt() + RETRY_HOURS * 3600000) - Date.now();
+  return ms > 0 ? Math.ceil(ms / 3600000) : 0;
+}
+
+$('btnStart').onclick = function(){
+  var err = $('startErr');
+  err.style.display = 'none';
+  var code = $('fCode').value.trim().toUpperCase();
+  var name = $('fName').value.trim().replace(/\s+/g, ' ');
+  var phone = $('fPhone').value.trim();
+
+  if (code !== KOD_FOMATE.toUpperCase()){ return show(err, t('e_code')); }
+  if (name.length < 3){ return show(err, t('e_name')); }
+  if (phone.replace(/\D/g,'').length < 8){ return show(err, t('e_phone')); }
+  var h = hoursLeft();
+  if (h > 0){ return show(err, fill(t('e_wait'), {h:h})); }
+
+  student = { name:name, phone:phone };
+  paper = buildPaper();
+  idx = 0;
+  $('scStart').classList.add('hidden');
+  $('scExam').classList.remove('hidden');
+  startTimer();
+  showQ();
+};
+function show(el, msg){ el.textContent = msg; el.style.display = 'block'; }
+
+/* --- timer ---------------------------------------------------------------- */
+function startTimer(){
+  tEnd = Date.now() + MINUTES * 60000;
+  clearInterval(tTimer);
+  tTimer = setInterval(tick, 250);
+  tick();
+}
+function tick(){
+  var left = Math.max(0, tEnd - Date.now());
+  var s = Math.floor(left / 1000);
+  var el = $('timer');
+  el.textContent = Math.floor(s/60) + ':' + ('0' + (s % 60)).slice(-2);
+  el.classList.toggle('low', s <= 120);
+  if (left <= 0){ clearInterval(tTimer); finish(true); }
+}
+
+/* --- one question per page ------------------------------------------------ */
+function showQ(){
+  var it = paper[idx];
+  if (!it) return;
+  var q = it.q[lang] || it.q.ht;
+  $('qCount').textContent = (idx + 1) + ' / ' + paper.length;
+  $('barFill').style.width = ((idx) / paper.length * 100) + '%';
+  $('qText').textContent = q.q;
+
+  var box = $('qOpts');
+  box.innerHTML = '';
+  it.order.forEach(function(origIdx, pos){
+    var b = document.createElement('button');
+    b.type = 'button';
+    b.className = 'opt' + (it.answer === pos ? ' sel' : '');
+    var k = document.createElement('span');
+    k.className = 'k';
+    k.textContent = 'ABCD'[pos];
+    var s = document.createElement('span');
+    s.textContent = q.a[origIdx];
+    b.appendChild(k); b.appendChild(s);
+    b.onclick = function(){
+      it.answer = pos;
+      box.querySelectorAll('.opt').forEach(function(o){ o.classList.remove('sel'); });
+      b.classList.add('sel');
+      $('btnNext').disabled = false;
+    };
+    box.appendChild(b);
+  });
+
+  var last = (idx === paper.length - 1);
+  $('btnNext').textContent = t(last ? 't_finish' : 't_next');
+  $('btnNext').disabled = (it.answer === null);
+  window.scrollTo({ top:0, behavior:'smooth' });
+}
+
+$('btnNext').onclick = function(){
+  if (idx < paper.length - 1){ idx++; showQ(); }
+  else finish(false);
+};
+
+/* --- result --------------------------------------------------------------- */
+function finish(timedOut){
+  clearInterval(tTimer);
+  var ok = paper.filter(function(it){ return it.answer === it.correct; }).length;
+  var n = paper.length;
+  var pct = Math.round(ok / n * 100);
+  var passed = pct >= PASS_PCT;
+
+  try { localStorage.setItem('lma_last', String(Date.now())); } catch(e){}
+
+  $('scExam').classList.add('hidden');
+  $('scResult').classList.remove('hidden');
+  $('scorePct').textContent = pct + '%';
+  $('scoreBox').className = 'score ' + (passed ? 'pass' : 'fail');
+  $('scoreLbl').textContent = fill(t('lbl'), {ok:ok, n:n});
+  $('verdict').textContent = (timedOut ? t('time_up') + ' ' : '') + t(passed ? 'pass' : 'fail');
+  $('verdict').className = 'verdict ' + (passed ? 'pass' : 'fail');
+  $('verdictSub').textContent = passed ? t('pass_sub')
+                                       : fill(t('fail_sub'), {h:RETRY_HOURS});
+
+  var d = new Date();
+  var dateStr = ('0'+d.getDate()).slice(-2) + '/' + ('0'+(d.getMonth()+1)).slice(-2) + '/' + d.getFullYear();
+  var cert = passed ? certNumber(student.name, d) : null;
+
+  var msg = fill(t('wa'), {
+    name:student.name, phone:student.phone, ok:ok, n:n, pct:pct,
+    verdict:t(passed ? 'v_pass' : 'v_fail'),
+    cert:cert || t('v_none'), date:dateStr
+  });
+  var waHref = 'https://wa.me/' + WA_NUMBER + '?text=' + encodeURIComponent(msg);
+  $('btnWa').href = waHref;
+  $('btnWaFail').href = waHref;
+
+  if (passed){
+    $('certWrap').classList.remove('hidden');
+    drawCert(student.name, dateStr, cert);
+  } else {
+    $('failWrap').classList.remove('hidden');
+  }
+  window.scrollTo({ top:0, behavior:'smooth' });
+}
+
+$('btnRetry').onclick = function(){ location.reload(); };
+
+/* A stable reference drawn from the name and the day, so the same person who
+   reprints gets the same number. It is NOT proof of anything on its own - there
+   is no central register yet, and nobody was told otherwise. */
+function certNumber(name, d){
+  var seed = name.toLowerCase().replace(/\s+/g,' ') + '|' + d.toDateString();
+  var h = 2166136261;
+  for (var i = 0; i < seed.length; i++){
+    h ^= seed.charCodeAt(i);
+    h = (h * 16777619) >>> 0;
+  }
+  var n = ('00000' + (h % 1000000)).slice(-6);
+  return 'LMA-' + d.getFullYear() + '-' + n;
+}
+
+/* --- the certificate ------------------------------------------------------ */
+/* Positions measured off the artwork itself, not guessed: the name sits on the
+   blank rule at y=509, the date on the rule above "DATE DE DELIVRANCE", and the
+   number in the empty band between the brand cards and the signature rules. */
+var CERT = {
+  nameCx:771, nameBottom:495, nameMaxW:740,
+  dateCx:427, dateBottom:875,
+  numCx:725,  numBottom:864
+};
+
+function drawCert(name, dateStr, cert){
+  var cv = $('certCanvas'), ctx = cv.getContext('2d');
+  var img = new Image();
+  img.onload = function(){
+    ctx.clearRect(0, 0, cv.width, cv.height);
+    ctx.drawImage(img, 0, 0, cv.width, cv.height);
+    ctx.textAlign = 'center';
+    ctx.textBaseline = 'bottom';
+
+    // A long Haitian name must shrink to fit the rule rather than run over the
+    // gold seal on one side and the border on the other.
+    var size = 52;
+    ctx.fillStyle = '#0B2E6F';
+    do {
+      ctx.font = '700 ' + size + 'px Georgia,"Times New Roman",serif';
+      if (ctx.measureText(name).width <= CERT.nameMaxW) break;
+      size -= 2;
+    } while (size > 22);
+    ctx.fillText(name, CERT.nameCx, CERT.nameBottom);
+
+    ctx.fillStyle = '#1E2A4A';
+    ctx.font = '700 26px system-ui,-apple-system,"Segoe UI",Roboto,sans-serif';
+    ctx.fillText(dateStr, CERT.dateCx, CERT.dateBottom);
+
+    ctx.fillStyle = '#5A6B8A';
+    ctx.font = '700 22px system-ui,-apple-system,"Segoe UI",Roboto,sans-serif';
+    ctx.fillText('SÈTIFIKA No. ' + cert, CERT.numCx, CERT.numBottom);
+
+    try {
+      $('btnDl').href = cv.toDataURL('image/jpeg', 0.92);
+      $('btnDl').setAttribute('download',
+        'LajanMaker-' + cert + '.jpg');
+    } catch(e){ /* the image is on screen either way; long-press still saves it */ }
+  };
+  img.onerror = function(){
+    // Never leave a blank white box where a certificate should be.
+    ctx.fillStyle = '#fff'; ctx.fillRect(0,0,cv.width,cv.height);
+    ctx.fillStyle = '#0B2E6F'; ctx.textAlign = 'center';
+    ctx.font = '700 44px Georgia,serif';
+    ctx.fillText(name, cv.width/2, 480);
+    ctx.font = '700 26px system-ui,sans-serif';
+    ctx.fillText('LajanMaker Academy — ' + cert, cv.width/2, 560);
+    ctx.fillText(dateStr, cv.width/2, 610);
+  };
+  img.src = 'cert-base.jpg';
+}
+
+paint();
+</script>
+</body>
+</html>
