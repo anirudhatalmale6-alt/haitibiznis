@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="ht">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>Kle repons — LajanMaker Academy</title>
+<style>
+:root{--navy:#0B2E6F;--green:#1B8C3D;--red:#D21034;--off:#F3F6FB;--white:#fff;
+  --text:#152341;--light:#5A6B8A;--border:#DDE4EF}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;
+  background:var(--off);color:var(--text);line-height:1.55}
+.wrap{max-width:760px;margin:0 auto;padding:20px 16px 60px}
+h1{font-size:1.3rem;font-weight:800;margin-bottom:4px}
+.sub{color:var(--light);font-size:.92rem;margin-bottom:18px}
+.card{background:var(--white);border:1px solid var(--border);border-radius:14px;
+  padding:18px;margin-bottom:16px}
+input{width:100%;padding:14px 16px;font-size:1rem;border:2px solid var(--border);
+  border-radius:12px;font-family:inherit}
+button{width:100%;padding:15px;margin-top:12px;border:0;border-radius:12px;
+  background:var(--navy);color:#fff;font-weight:800;font-size:1rem;
+  font-family:inherit;cursor:pointer}
+.langs{display:flex;gap:8px;margin-bottom:16px}
+.langs button{width:auto;padding:8px 16px;margin:0;background:var(--white);
+  color:var(--light);border:1px solid var(--border);font-size:.82rem}
+.langs button.on{background:var(--navy);color:#fff}
+.mod{font-size:.72rem;font-weight:800;letter-spacing:.08em;text-transform:uppercase;
+  color:var(--navy);background:rgba(11,46,111,.08);display:inline-block;
+  padding:4px 10px;border-radius:99px;margin-bottom:8px}
+.q{font-weight:800;margin-bottom:10px}
+.a{padding:7px 12px;border-radius:8px;font-size:.95rem;margin-bottom:5px;
+  border:1px solid transparent;display:flex;gap:9px}
+.a.right{background:rgba(27,140,61,.1);border-color:rgba(27,140,61,.35);
+  color:#14682D;font-weight:700}
+.a .k{flex:0 0 auto;font-weight:800;color:var(--light)}
+.a.right .k{color:var(--green)}
+.num{float:right;color:var(--light);font-size:.8rem;font-weight:800}
+.warn{background:#FFF4F4;border:1px solid rgba(210,16,52,.3);border-left:4px solid var(--red);
+  border-radius:10px;padding:14px 16px;font-size:.9rem;margin-bottom:18px}
+.hidden{display:none}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>Kle repons yo</h1>
+  <p class="sub">Answer key — LajanMaker Academy. Pou fòmatè a sèlman.</p>
+
+  <div class="card" id="gate">
+    <label style="font-size:.78rem;font-weight:800;color:#5A6B8A">KÒD FÒMATÈ A</label>
+    <input type="text" id="code" placeholder="XXXXXX" style="margin-top:6px">
+    <button id="go">Louvri</button>
+  </div>
+
+  <div id="body" class="hidden">
+    <div class="warn">
+      Pa montre paj sa a bay elèv yo. Se repons yo ki make an vèt.
+      <br><br>
+      Do not show this page to students. The correct answer is the one in green.
+    </div>
+    <div class="langs">
+      <button data-l="ht" class="on">Kreyòl</button>
+      <button data-l="fr">Français</button>
+    </div>
+    <div id="list"></div>
+  </div>
+</div>
+
+<script src="kesyon.js"></script>
+<script>
+/* The same code the instructor reads out for the exam. This is a workshop
+   handout, not a vault: anyone who reads the page source can find the code, and
+   Jeffery was told that plainly. It keeps a student who guesses the URL out,
+   nothing more. */
+var KOD = 'LMA2026';
+var lang = 'ht';
+var MODS = {
+  msouwout:'MsouWout', myplopplop:'MyPlopPlop', ekosistem:'Ekosistèm HaitiBiznis'
+};
+
+function render(){
+  var by = {};
+  KESYON.forEach(function(q){ (by[q.m] = by[q.m] || []).push(q); });
+  var out = '', n = 0;
+  Object.keys(by).forEach(function(m){
+    out += '<div class="card"><span class="mod">' + (MODS[m]||m) +
+           ' — ' + by[m].length + ' kesyon</span>';
+    by[m].forEach(function(q){
+      n++;
+      var d = q[lang] || q.ht;
+      out += '<div style="margin-top:14px;padding-top:14px;border-top:1px solid #EEF2F8">' +
+             '<div class="q"><span class="num">#' + n + '</span>' + esc(d.q) + '</div>';
+      d.a.forEach(function(a, i){
+        out += '<div class="a' + (i === q.c ? ' right' : '') + '">' +
+               '<span class="k">' + 'ABCD'[i] + '</span><span>' + esc(a) + '</span></div>';
+      });
+      out += '</div>';
+    });
+    out += '</div>';
+  });
+  document.getElementById('list').innerHTML = out;
+}
+function esc(s){ return String(s).replace(/[&<>]/g, function(c){
+  return {'&':'&amp;','<':'&lt;','>':'&gt;'}[c]; }); }
+
+document.getElementById('go').onclick = function(){
+  if (document.getElementById('code').value.trim().toUpperCase() !== KOD){
+    document.getElementById('code').style.borderColor = '#D21034';
+    return;
+  }
+  document.getElementById('gate').classList.add('hidden');
+  document.getElementById('body').classList.remove('hidden');
+  render();
+};
+document.getElementById('code').addEventListener('keydown', function(e){
+  if (e.key === 'Enter') document.getElementById('go').click();
+});
+document.querySelectorAll('.langs button').forEach(function(b){
+  b.onclick = function(){
+    lang = b.getAttribute('data-l');
+    document.querySelectorAll('.langs button').forEach(function(x){
+      x.classList.toggle('on', x === b); });
+    render();
+  };
+});
+</script>
+</body>
+</html>
