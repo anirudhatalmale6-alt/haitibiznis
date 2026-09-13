@@ -99,6 +99,18 @@ input:focus{outline:none;border-color:var(--navy)}
   border-left:4px solid var(--gold);border-radius:12px;padding:14px 16px;
   font-size:.88rem;color:var(--text);margin-top:16px}
 .note b{display:block;margin-bottom:4px}
+/* Practice only: the answer is revealed under the question the moment one is
+   chosen, because practising without being told what was right teaches nothing. */
+#reveal{border-radius:12px;padding:13px 15px;margin:4px 0 2px;font-size:.93rem;font-weight:700}
+#reveal.good{background:rgba(27,140,61,.1);border:1px solid rgba(27,140,61,.35);color:#14682D}
+#reveal.bad{background:#FFF4F4;border:1px solid rgba(210,16,52,.3);color:var(--red)}
+#reveal .ans{display:block;font-weight:800;color:var(--text);margin-top:6px}
+.opt.right{border-color:var(--green);background:rgba(27,140,61,.08)}
+.opt.wrong{border-color:var(--red);background:#FFF4F4}
+.opt[disabled]{cursor:default}
+.pmode{display:inline-block;background:rgba(11,46,111,.09);color:var(--navy);
+  font-size:.72rem;font-weight:800;letter-spacing:.06em;text-transform:uppercase;
+  padding:5px 11px;border-radius:99px}
 .hidden{display:none!important}
 footer{text-align:center;color:var(--muted);font-size:.8rem;padding-top:18px}
 </style>
@@ -131,10 +143,17 @@ footer{text-align:center;color:var(--muted);font-size:.8rem;padding-top:18px}
 
       <div class="err" id="startErr"></div>
       <button class="btn btn-main" id="btnStart" data-t="t_start">Kòmanse egzamen an</button>
+      <button class="btn btn-ghost" id="btnPractice" data-t="t_practice">Pratike anvan</button>
 
       <div class="note">
         <b data-t="t_rules_h">Règ yo</b>
         <span data-t="t_rules"></span>
+      </div>
+
+      <div class="note" style="background:#F2F7FF;border-color:rgba(11,46,111,.28);
+           border-left-color:var(--navy)">
+        <b data-t="t_practice_h">Pratike</b>
+        <span data-t="t_practice_note"></span>
       </div>
     </div>
   </section>
@@ -144,11 +163,13 @@ footer{text-align:center;color:var(--muted);font-size:.8rem;padding-top:18px}
     <div class="exbar">
       <div class="qcount" id="qCount"></div>
       <div class="timer" id="timer">20:00</div>
+      <span class="pmode hidden" id="pBadge" data-t="t_practice_badge">Pratik</span>
     </div>
     <div class="bar"><i id="barFill"></i></div>
     <div class="card">
       <div class="qtext" id="qText"></div>
       <div id="qOpts"></div>
+      <div id="reveal" class="hidden"></div>
       <button class="btn btn-main" id="btnNext" disabled data-t="t_next">Kesyon apre a</button>
     </div>
   </section>
@@ -214,6 +235,14 @@ ht:{
  t_rules:"15 kesyon, youn apre lòt. 20 minit. Ou dwe jwenn 12 sou 15 (80%) pou w sètifye. Chak moun resevwa kesyon yo nan yon lòd diferan.",
  t_download:"Telechaje sètifika a", t_send:"Voye rezilta a bay fòmatè a",
  t_retry:"Eseye ankò",
+ t_practice:"Pratike anvan", t_practice_h:"Pratike",
+ t_practice_note:"Ou ka pratike otan fwa ou vle, san kòd, san chronomèt. Chak fwa ou reponn, li montre w bon repons lan touswit. Pratik pa bay sètifika e li pa konte kont ou.",
+ t_practice_badge:"Pratik",
+ t_good:"Bon repons !", t_bad:"Se pa sa.",
+ t_correct:"Bon repons lan se:",
+ t_p_done:"Ou fini pratik la",
+ t_p_sub:"Pratik pa bay sètifika. Lè ou pare, peze Kòmanse egzamen an.",
+ t_p_again:"Pratike ankò", t_p_toexam:"Ale nan egzamen an",
  t_save_hint:"Si telechajman an pa mache sou telefòn ou, peze sou imaj la epi kenbe l pou anrejistre l.",
  e_code:"Kòd fòmatè a pa bon. Mande fòmatè a kòd la.",
  e_name:"Ekri non konplè ou.", e_phone:"Ekri nimewo telefòn ou.",
@@ -234,6 +263,14 @@ fr:{
  t_rules:"15 questions, une par page. 20 minutes. Il faut 12 bonnes réponses sur 15 (80%) pour être certifié. Chaque personne reçoit les questions dans un ordre différent.",
  t_download:"Télécharger le certificat", t_send:"Envoyer le résultat au formateur",
  t_retry:"Réessayer",
+ t_practice:"S'entraîner d'abord", t_practice_h:"Entraînement",
+ t_practice_note:"Vous pouvez vous entraîner autant de fois que vous voulez, sans code et sans chronomètre. À chaque réponse, la bonne réponse s'affiche aussitôt. L'entraînement ne donne pas de certificat et ne compte pas.",
+ t_practice_badge:"Entraînement",
+ t_good:"Bonne réponse !", t_bad:"Ce n'est pas ça.",
+ t_correct:"La bonne réponse est :",
+ t_p_done:"Entraînement terminé",
+ t_p_sub:"L'entraînement ne donne pas de certificat. Quand vous êtes prêt, appuyez sur Commencer l'examen.",
+ t_p_again:"S'entraîner encore", t_p_toexam:"Passer à l'examen",
  t_save_hint:"Si le téléchargement ne fonctionne pas sur votre téléphone, appuyez longuement sur l'image pour l'enregistrer.",
  e_code:"Code du formateur incorrect. Demandez-le au formateur.",
  e_name:"Écrivez votre nom complet.", e_phone:"Écrivez votre numéro de téléphone.",
@@ -301,6 +338,7 @@ function buildPaper(){
 
 /* --- state ---------------------------------------------------------------- */
 var paper = [], idx = 0, student = {}, tEnd = 0, tTimer = null;
+var mode = 'exam';   // 'exam' | 'practice'
 
 function lastAttempt(){
   try { return parseInt(localStorage.getItem('lma_last') || '0', 10) || 0; } catch(e){ return 0; }
@@ -309,6 +347,22 @@ function hoursLeft(){
   var ms = (lastAttempt() + RETRY_HOURS * 3600000) - Date.now();
   return ms > 0 ? Math.ceil(ms / 3600000) : 0;
 }
+
+$('btnPractice').onclick = function(){
+  // Practice asks for nothing. Requiring the instructor code here would mean
+  // nobody can rehearse until the room is already running, which is the
+  // opposite of what practice is for.
+  mode = 'practice';
+  student = { name: ($('fName').value.trim() || '—'), phone: '' };
+  paper = buildPaper();
+  idx = 0;
+  $('startErr').style.display = 'none';
+  $('scStart').classList.add('hidden');
+  $('scExam').classList.remove('hidden');
+  $('timer').classList.add('hidden');
+  $('pBadge').classList.remove('hidden');
+  showQ();
+};
 
 $('btnStart').onclick = function(){
   var err = $('startErr');
@@ -323,11 +377,14 @@ $('btnStart').onclick = function(){
   var h = hoursLeft();
   if (h > 0){ return show(err, fill(t('e_wait'), {h:h})); }
 
+  mode = 'exam';
   student = { name:name, phone:phone };
   paper = buildPaper();
   idx = 0;
   $('scStart').classList.add('hidden');
   $('scExam').classList.remove('hidden');
+  $('timer').classList.remove('hidden');
+  $('pBadge').classList.add('hidden');
   startTimer();
   showQ();
 };
@@ -371,18 +428,49 @@ function showQ(){
     s.textContent = q.a[origIdx];
     b.appendChild(k); b.appendChild(s);
     b.onclick = function(){
+      if (mode === 'practice' && it.answer !== null) return;   // already answered
       it.answer = pos;
       box.querySelectorAll('.opt').forEach(function(o){ o.classList.remove('sel'); });
       b.classList.add('sel');
       $('btnNext').disabled = false;
+      if (mode === 'practice') revealAnswer(it, box, q);
     };
     box.appendChild(b);
   });
+
+  // Coming back to a question already practised keeps its reveal, so the
+  // learner can re-read what they got wrong instead of losing it.
+  var rev = $('reveal');
+  rev.className = 'hidden';
+  rev.innerHTML = '';
+  if (mode === 'practice' && it.answer !== null) revealAnswer(it, box, q);
 
   var last = (idx === paper.length - 1);
   $('btnNext').textContent = t(last ? 't_finish' : 't_next');
   $('btnNext').disabled = (it.answer === null);
   window.scrollTo({ top:0, behavior:'smooth' });
+}
+
+/* Practice teaches by telling you straight away. The correct option is marked
+   green, a wrong choice red, and the right answer spelled out underneath - the
+   options lock so the answer cannot be quietly changed after seeing it. */
+function revealAnswer(it, box, q){
+  var opts = box.querySelectorAll('.opt');
+  opts.forEach(function(o, i){
+    o.setAttribute('disabled', 'disabled');
+    if (i === it.correct) o.classList.add('right');
+    else if (i === it.answer) o.classList.add('wrong');
+  });
+  var good = (it.answer === it.correct);
+  var rev = $('reveal');
+  rev.className = good ? 'good' : 'bad';
+  rev.textContent = good ? t('t_good') : t('t_bad');
+  if (!good){
+    var span = document.createElement('span');
+    span.className = 'ans';
+    span.textContent = t('t_correct') + ' ' + q.a[it.order[it.correct]];
+    rev.appendChild(span);
+  }
 }
 
 $('btnNext').onclick = function(){
@@ -397,6 +485,10 @@ function finish(timedOut){
   var n = paper.length;
   var pct = Math.round(ok / n * 100);
   var passed = pct >= PASS_PCT;
+
+  // A practice run must never burn the 24 hour retake window, and must never
+  // produce a certificate however well it went.
+  if (mode === 'practice'){ return finishPractice(ok, n, pct); }
 
   try { localStorage.setItem('lma_last', String(Date.now())); } catch(e){}
 
@@ -429,6 +521,22 @@ function finish(timedOut){
   } else {
     $('failWrap').classList.remove('hidden');
   }
+  window.scrollTo({ top:0, behavior:'smooth' });
+}
+
+function finishPractice(ok, n, pct){
+  $('scExam').classList.add('hidden');
+  $('scResult').classList.remove('hidden');
+  $('scorePct').textContent = pct + '%';
+  $('scoreBox').className = 'score';
+  $('scoreLbl').textContent = fill(t('lbl'), {ok:ok, n:n});
+  $('verdict').textContent = t('t_p_done');
+  $('verdict').className = 'verdict';
+  $('verdictSub').textContent = t('t_p_sub');
+  $('certWrap').classList.add('hidden');
+  $('failWrap').classList.remove('hidden');
+  $('btnWaFail').classList.add('hidden');          // nothing to report to anyone
+  $('btnRetry').textContent = t('t_p_again');
   window.scrollTo({ top:0, behavior:'smooth' });
 }
 
