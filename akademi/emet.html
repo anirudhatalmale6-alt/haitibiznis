@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="ht">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>Bay yon sètifika — LajanMaker Academy</title>
+<link rel="icon" href="../favicon.ico">
+<style>
+:root{--navy:#0B2E6F;--red:#D21034;--green:#1B8C3D;--gold:#E0A400;
+  --off:#F3F6FB;--white:#fff;--text:#152341;--light:#5A6B8A;--muted:#93A0B8;
+  --border:#DDE4EF;--sans:system-ui,-apple-system,'Segoe UI',Roboto,sans-serif}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:var(--sans);background:var(--off);color:var(--text);line-height:1.55}
+.wrap{max-width:620px;margin:0 auto;padding:22px 16px 60px}
+h1{font-size:1.3rem;font-weight:800;margin-bottom:4px}
+.sub{color:var(--light);font-size:.93rem;margin-bottom:18px}
+.card{background:var(--white);border:1px solid var(--border);border-radius:16px;
+  padding:20px;margin-bottom:16px}
+label{display:block;font-size:.76rem;font-weight:800;color:var(--light);
+  letter-spacing:.05em;text-transform:uppercase;margin:14px 0 6px}
+input{width:100%;padding:14px 16px;font-size:1.02rem;border:2px solid var(--border);
+  border-radius:12px;font-family:inherit}
+input:focus{outline:none;border-color:var(--navy)}
+.btn{display:block;width:100%;padding:16px;margin-top:16px;border:0;border-radius:14px;
+  font-weight:800;font-size:1rem;font-family:inherit;cursor:pointer;
+  text-align:center;text-decoration:none}
+.btn-main{background:var(--navy);color:#fff}
+.btn-ghost{background:var(--white);color:var(--navy);border:2px solid var(--navy)}
+.btn-green{background:var(--green);color:#fff}
+#out{width:100%;height:auto;display:block;border-radius:12px;
+  border:1px solid var(--border);margin-top:6px}
+.hint{font-size:.83rem;color:var(--muted);text-align:center;margin-top:10px}
+.warn{background:#FFFCF2;border:1px solid rgba(224,164,0,.45);
+  border-left:4px solid var(--gold);border-radius:12px;padding:14px 16px;
+  font-size:.89rem;margin-top:16px}
+.warn b{display:block;margin-bottom:4px}
+.hidden{display:none}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>Bay yon sètifika</h1>
+  <p class="sub">Pou fòmatè a — lè yon elèv reyisi men li pa t rive anrejistre sètifika l.</p>
+
+  <div class="card" id="gate">
+    <label>Kòd fòmatè a</label>
+    <input type="text" id="code" placeholder="XXXXXX" autocomplete="off">
+    <button class="btn btn-main" id="go">Louvri</button>
+  </div>
+
+  <div id="body" class="hidden">
+    <div class="card">
+      <label>Non elèv la</label>
+      <input type="text" id="nm" placeholder="Roziclaire Pamphyle Junior" autocomplete="off">
+      <label>Dat (jj/mm/aaaa)</label>
+      <input type="text" id="dt" placeholder="13/09/2026" inputmode="numeric">
+      <button class="btn btn-main" id="mk">Fè sètifika a</button>
+    </div>
+
+    <div class="card hidden" id="res">
+      <canvas id="cv" width="1536" height="1024" style="display:none"></canvas>
+      <img id="out" alt="Sètifika">
+      <p class="hint" id="num"></p>
+      <p class="hint">Peze sou sètifika a epi kenbe l pou anrejistre l, epi voye l ba li sou WhatsApp.</p>
+      <a class="btn btn-main" id="dl" download>&#11015; Telechaje</a>
+      <a class="btn btn-ghost" id="op" target="_blank" rel="noopener">&#128065; Louvri nan yon lòt paj</a>
+    </div>
+
+    <div class="warn">
+      <b>Sa paj sa a ye, ak sa li pa ye</b>
+      Li jis desine sètifika a ak non ou tape a. Li pa verifye anyen epi li pa konnen
+      ki moun ki pase egzamen an — se ou menm ki reskonsab pou bay li sèlman bay moun
+      ki reyisi vre. Nimewo a menm jan ak sa elèv la ta jwenn nan egzamen an menm jou a.
+    </div>
+  </div>
+</div>
+
+<script>
+/* Same code the exam uses. A workshop handout, not a vault. */
+var KOD = 'LMA2026';
+
+document.getElementById('go').onclick = function(){
+  if (document.getElementById('code').value.trim().toUpperCase() !== KOD){
+    document.getElementById('code').style.borderColor = '#D21034';
+    return;
+  }
+  document.getElementById('gate').classList.add('hidden');
+  document.getElementById('body').classList.remove('hidden');
+  var d = new Date();
+  document.getElementById('dt').value =
+    ('0'+d.getDate()).slice(-2)+'/'+('0'+(d.getMonth()+1)).slice(-2)+'/'+d.getFullYear();
+};
+document.getElementById('code').addEventListener('keydown', function(e){
+  if (e.key === 'Enter') document.getElementById('go').click();
+});
+
+/* Byte-for-byte the exam's own numbering, so a certificate re-issued for the
+   same person on the same day carries the SAME number as the one they lost. */
+function certNumber(name, d){
+  var seed = name.toLowerCase().replace(/\s+/g,' ') + '|' + d.toDateString();
+  var h = 2166136261;
+  for (var i = 0; i < seed.length; i++){
+    h ^= seed.charCodeAt(i);
+    h = (h * 16777619) >>> 0;
+  }
+  return 'LMA-' + d.getFullYear() + '-' + ('00000' + (h % 1000000)).slice(-6);
+}
+
+/* Positions measured off the artwork - identical to the exam page. */
+var CERT = { nameCx:771, nameBottom:495, nameMaxW:740,
+             dateCx:427, dateBottom:875, numCx:725, numBottom:864 };
+
+document.getElementById('mk').onclick = function(){
+  var name = document.getElementById('nm').value.trim().replace(/\s+/g,' ');
+  var ds   = document.getElementById('dt').value.trim();
+  if (name.length < 3){ document.getElementById('nm').style.borderColor='#D21034'; return; }
+  document.getElementById('nm').style.borderColor='';
+
+  var m = ds.match(/^(\d{1,2})\/(\d{1,2})\/(\d{4})$/);
+  var d = m ? new Date(+m[3], +m[2]-1, +m[1]) : new Date();
+  if (isNaN(d.getTime())) d = new Date();
+  var dateStr = ('0'+d.getDate()).slice(-2)+'/'+('0'+(d.getMonth()+1)).slice(-2)+'/'+d.getFullYear();
+  var cert = certNumber(name, d);
+
+  var cv = document.getElementById('cv'), ctx = cv.getContext('2d');
+  var img = new Image();
+  img.onload = function(){
+    ctx.clearRect(0,0,cv.width,cv.height);
+    ctx.drawImage(img, 0, 0, cv.width, cv.height);
+    ctx.textAlign='center'; ctx.textBaseline='bottom';
+
+    var size = 52;
+    ctx.fillStyle = '#0B2E6F';
+    do {
+      ctx.font = '700 ' + size + 'px Georgia,"Times New Roman",serif';
+      if (ctx.measureText(name).width <= CERT.nameMaxW) break;
+      size -= 2;
+    } while (size > 22);
+    ctx.fillText(name, CERT.nameCx, CERT.nameBottom);
+
+    ctx.fillStyle = '#1E2A4A';
+    ctx.font = '700 26px system-ui,-apple-system,"Segoe UI",Roboto,sans-serif';
+    ctx.fillText(dateStr, CERT.dateCx, CERT.dateBottom);
+
+    ctx.fillStyle = '#5A6B8A';
+    ctx.font = '700 22px system-ui,-apple-system,"Segoe UI",Roboto,sans-serif';
+    ctx.fillText('SÈTIFIKA No. ' + cert, CERT.numCx, CERT.numBottom);
+
+    var data = cv.toDataURL('image/jpeg', 0.92);
+    document.getElementById('out').src = data;
+    document.getElementById('dl').href = data;
+    document.getElementById('dl').setAttribute('download', 'LajanMaker-'+cert+'.jpg');
+    document.getElementById('op').href = data;
+    document.getElementById('num').textContent = cert;
+    document.getElementById('res').classList.remove('hidden');
+    document.getElementById('res').scrollIntoView({behavior:'smooth'});
+  };
+  img.onerror = function(){ alert('Pa ka chaje modèl sètifika a. Eseye ankò.'); };
+  img.src = 'cert-base.jpg';
+};
+</script>
+</body>
+</html>

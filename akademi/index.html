@@ -91,7 +91,7 @@ input:focus{outline:none;border-color:var(--navy)}
 .verdict.pass{color:var(--green)} .verdict.fail{color:var(--red)}
 
 #certWrap{margin-top:16px}
-#certCanvas{width:100%;height:auto;display:block;border-radius:12px;
+#certImg{width:100%;height:auto;display:block;border-radius:12px;
   border:1px solid var(--border);background:#fff}
 .hint{font-size:.83rem;color:var(--muted);text-align:center;margin-top:10px}
 
@@ -185,9 +185,15 @@ footer{text-align:center;color:var(--muted);font-size:.8rem;padding-top:18px}
       <p class="sub" style="text-align:center" id="verdictSub"></p>
 
       <div id="certWrap" class="hidden">
-        <canvas id="certCanvas" width="1536" height="1024"></canvas>
+        <!-- The canvas is only the drawing surface. What is SHOWN is an <img>,
+             because you cannot press-and-hold a <canvas> to save it on Android -
+             my own "press and hold the image" hint was pointing at something
+             that can never be saved that way. -->
+        <canvas id="certCanvas" width="1536" height="1024" style="display:none"></canvas>
+        <img id="certImg" alt="Sètifika">
         <p class="hint" data-t="t_save_hint"></p>
         <a class="btn btn-main" id="btnDl" download>&#11015; <span data-t="t_download">Telechaje sètifika a</span></a>
+        <a class="btn btn-ghost" id="btnOpen" target="_blank" rel="noopener">&#128065; <span data-t="t_open">Louvri sètifika a nan yon lòt paj</span></a>
         <a class="btn btn-green" id="btnWa" target="_blank" rel="noopener">&#128172; <span data-t="t_send">Voye rezilta a bay fòmatè a</span></a>
       </div>
 
@@ -243,7 +249,8 @@ ht:{
  t_p_done:"Ou fini pratik la",
  t_p_sub:"Pratik pa bay sètifika. Lè ou pare, peze Kòmanse egzamen an.",
  t_p_again:"Pratike ankò", t_p_toexam:"Ale nan egzamen an",
- t_save_hint:"Si telechajman an pa mache sou telefòn ou, peze sou imaj la epi kenbe l pou anrejistre l.",
+ t_save_hint:"Peze sou sètifika a epi kenbe l pou anrejistre l nan telefòn ou. Si ou louvri paj sa a andedan WhatsApp epi telechajman an pa mache, peze meni an (3 pwen) epi chwazi \u00ab Louvri nan navigatè \u00bb.",
+ t_open:"Louvri sètifika a nan yon lòt paj",
  e_code:"Kòd fòmatè a pa bon. Mande fòmatè a kòd la.",
  e_name:"Ekri non konplè ou.", e_phone:"Ekri nimewo telefòn ou.",
  e_wait:"Ou deja pase egzamen an. Ou ka eseye ankò nan {h} èdtan.",
@@ -271,7 +278,8 @@ fr:{
  t_p_done:"Entraînement terminé",
  t_p_sub:"L'entraînement ne donne pas de certificat. Quand vous êtes prêt, appuyez sur Commencer l'examen.",
  t_p_again:"S'entraîner encore", t_p_toexam:"Passer à l'examen",
- t_save_hint:"Si le téléchargement ne fonctionne pas sur votre téléphone, appuyez longuement sur l'image pour l'enregistrer.",
+ t_save_hint:"Appuyez longuement sur le certificat pour l'enregistrer. Si vous avez ouvert cette page dans WhatsApp et que le téléchargement ne marche pas, ouvrez le menu (3 points) et choisissez \u00ab Ouvrir dans le navigateur \u00bb.",
+ t_open:"Ouvrir le certificat sur une autre page",
  e_code:"Code du formateur incorrect. Demandez-le au formateur.",
  e_name:"Écrivez votre nom complet.", e_phone:"Écrivez votre numéro de téléphone.",
  e_wait:"Vous avez déjà passé l'examen. Vous pourrez réessayer dans {h} heures.",
@@ -595,10 +603,15 @@ function drawCert(name, dateStr, cert){
     ctx.fillText('SÈTIFIKA No. ' + cert, CERT.numCx, CERT.numBottom);
 
     try {
-      $('btnDl').href = cv.toDataURL('image/jpeg', 0.92);
-      $('btnDl').setAttribute('download',
-        'LajanMaker-' + cert + '.jpg');
-    } catch(e){ /* the image is on screen either way; long-press still saves it */ }
+      var data = cv.toDataURL('image/jpeg', 0.92);
+      $('certImg').src = data;                 // this is what she presses and holds
+      $('btnDl').href = data;
+      $('btnDl').setAttribute('download', 'LajanMaker-' + cert + '.jpg');
+      /* A third route out. Inside WhatsApp's own browser a download often does
+         nothing at all; opening the picture on its own page always lets her save
+         it or screenshot it. */
+      $('btnOpen').href = data;
+    } catch(e){ /* nothing else to try - the draw itself failed */ }
   };
   img.onerror = function(){
     // Never leave a blank white box where a certificate should be.
