@@ -1735,13 +1735,35 @@ Object.keys(T_DRAFT).forEach(function(l){if(T[l])Object.assign(T[l],T_DRAFT[l]);
    =================================================================== */
 function lmReg(k){startReg(k);}   /* startReg does the subscription check itself */
 function lmMod(id){const m=modById(id);if(m)openModule(m);}
+/* This used to show a "coming soon" card. The exam and the certificate went
+   live on 13 Sep and this card was never updated, so the one button in the app
+   that says Academy was a dead end - he tapped it looking for the certificate
+   and was told the Academy did not exist yet.
+
+   target=_blank on purpose. Installed as a PWA this app runs with no address
+   bar, and a certificate opened inside an app shell hits the same wall that
+   lost four students their certificates in WhatsApp's browser: press-and-hold
+   and download both die. _blank hands it to the real browser. */
+const ACAD_URL  = 'https://haitibiznis.com/akademi/';
+const ACAD_ISSUE= 'https://haitibiznis.com/akademi/emet.html';
 function openAcademy(){
-  const m=caOverlay(`<div style="text-align:center">
-    <div style="font-size:44px">🎓</div>
-    <div style="font-weight:900;font-size:18px;margin-top:4px">${t('lm_acad_t')}</div>
-    <div style="display:inline-block;background:#f59e0b;color:#fff;font-size:11px;font-weight:800;padding:3px 12px;border-radius:20px;margin:8px 0">${t('soon')}</div>
-    <div class="sub">${t('lm_acad_msg')}</div>
-    <div style="height:12px"></div>
+  const lk=(href,emo,title,sub,c)=>`<a href="${href}" target="_blank" rel="noopener"
+      style="display:flex;gap:12px;align-items:center;text-decoration:none;color:inherit;
+             border:1.5px solid ${c};border-radius:14px;padding:13px 14px;margin-bottom:10px">
+      <span style="font-size:26px;flex:0 0 auto">${emo}</span>
+      <span style="text-align:left">
+        <span style="display:block;font-weight:800;font-size:15px;color:${c}">${title}</span>
+        <span style="display:block;font-size:12.5px;color:#5A6B8A;margin-top:1px">${sub}</span>
+      </span></a>`;
+  const m=caOverlay(`<div>
+    <div style="text-align:center">
+      <div style="font-size:40px">🎓</div>
+      <div style="font-weight:900;font-size:18px;margin-top:2px">${t('lm_acad_t')}</div>
+      <div class="sub" style="margin:6px 0 14px">${t('lm_acad_msg')}</div>
+    </div>
+    ${lk(ACAD_URL,'📝',t('lm_acad_exam'),t('lm_acad_exam_s'),'#0057D9')}
+    ${lk(ACAD_ISSUE,'📜',t('lm_acad_iss'),t('lm_acad_iss_s'),'#12a150')}
+    <div style="font-size:11.5px;color:#93A0B8;text-align:center;margin:2px 0 12px">${t('lm_acad_note')}</div>
     <button class="cta ghost" id="ac_x">${t('back')}</button></div>`);
   m.box.querySelector('#ac_x').onclick=m.close;
 }
@@ -1847,6 +1869,43 @@ const T_LM={
   lm_acad_msg:'O treinamento para se tornar um Agente certificado. Os cursos estão sendo preparados — avisaremos assim que estiverem prontos.'}
 };
 Object.keys(T_LM).forEach(function(l){if(T[l])Object.assign(T[l],T_LM[l]);});
+
+/* The Academy card's wording, merged last so it wins over the "coming soon"
+   text above. Kept as one block rather than five edits inside T_LM so the
+   five languages cannot drift apart. t() falls back to ht, so ht is complete. */
+const T_ACAD={
+ ht:{lm_acad_msg:'Egzamen sètifikasyon an ak sètifika a nan liy kounye a.',
+  lm_acad_exam:'Pran egzamen an',
+  lm_acad_exam_s:'15 kesyon • 20 minit • 80% pou pase. Gen yon mòd pratik gratis san kòd.',
+  lm_acad_iss:'Bay yon sètifika ankò',
+  lm_acad_iss_s:'Pou fòmatè a — lè yon elèv pèdi sètifika l. Mande kòd fòmatè a.',
+  lm_acad_note:'Si sètifika a pa vle anrejistre, louvri paj la nan navigatè a (meni 3 pwen → Open in browser).'},
+ fr:{lm_acad_msg:"L'examen de certification et le certificat sont en ligne.",
+  lm_acad_exam:"Passer l'examen",
+  lm_acad_exam_s:'15 questions • 20 minutes • 80% pour réussir. Mode entraînement gratuit, sans code.',
+  lm_acad_iss:'Rééditer un certificat',
+  lm_acad_iss_s:"Pour le formateur — si un élève a perdu le sien. Code formateur requis.",
+  lm_acad_note:"Si le certificat ne s'enregistre pas, ouvrez la page dans le navigateur (menu 3 points → Ouvrir dans le navigateur)."},
+ en:{lm_acad_msg:'The certification exam and the certificate are online now.',
+  lm_acad_exam:'Take the exam',
+  lm_acad_exam_s:'15 questions • 20 minutes • 80% to pass. Free practice mode, no code needed.',
+  lm_acad_iss:'Re-issue a certificate',
+  lm_acad_iss_s:'For the instructor — when a student loses theirs. Instructor code required.',
+  lm_acad_note:"If the certificate will not save, open the page in your browser (3-dot menu → Open in browser)."},
+ es:{lm_acad_msg:'El examen de certificación y el certificado ya están en línea.',
+  lm_acad_exam:'Hacer el examen',
+  lm_acad_exam_s:'15 preguntas • 20 minutos • 80% para aprobar. Modo de práctica gratis, sin código.',
+  lm_acad_iss:'Reemitir un certificado',
+  lm_acad_iss_s:'Para el formador — si un alumno perdió el suyo. Requiere código del formador.',
+  lm_acad_note:'Si el certificado no se guarda, abre la página en el navegador (menú de 3 puntos → Abrir en el navegador).'},
+ pt:{lm_acad_msg:'O exame de certificação e o certificado já estão no ar.',
+  lm_acad_exam:'Fazer o exame',
+  lm_acad_exam_s:'15 perguntas • 20 minutos • 80% para passar. Modo de treino grátis, sem código.',
+  lm_acad_iss:'Reemitir um certificado',
+  lm_acad_iss_s:'Para o formador — quando um aluno perde o dele. Exige o código do formador.',
+  lm_acad_note:'Se o certificado não salvar, abra a página no navegador (menu de 3 pontos → Abrir no navegador).'}
+};
+Object.keys(T_ACAD).forEach(function(l){if(T[l])Object.assign(T[l],T_ACAD[l]);});
 
 /* ---- merchant category + referral options ----
    These two dropdowns used to be a hardcoded Kreyol list, so a Brazilian lojista
@@ -5133,7 +5192,7 @@ function shareApp(){
    =================================================================== */
 /* Version the seller can read out loud. When someone says "I don't see the new
    button", the first useful question is which build their phone is running. */
-const APP_VER='67';
+const APP_VER='68';
 var swReg=null;
 if('serviceWorker' in navigator){
   window.addEventListener('load',function(){
