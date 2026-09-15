@@ -571,7 +571,7 @@ function certNumber(name, d){
 var CERT = {
   nameCx:771, nameBottom:495, nameMaxW:740,
   dateCx:427, dateBottom:875,
-  numCx:725,  numBottom:864
+  numCx:1130, numBottom:872
 };
 
 function drawCert(name, dateStr, cert){
@@ -599,7 +599,7 @@ function drawCert(name, dateStr, cert){
     ctx.fillText(dateStr, CERT.dateCx, CERT.dateBottom);
 
     ctx.fillStyle = '#5A6B8A';
-    ctx.font = '700 22px system-ui,-apple-system,"Segoe UI",Roboto,sans-serif';
+    ctx.font = '700 20px system-ui,-apple-system,"Segoe UI",Roboto,sans-serif';
     ctx.fillText('SÈTIFIKA No. ' + cert, CERT.numCx, CERT.numBottom);
 
     try {
