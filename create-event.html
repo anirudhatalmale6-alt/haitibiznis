@@ -2462,10 +2462,25 @@ function publishEvent() {
   });
 }
 
+/* Date, hour and place - the three things somebody needs in order to decide
+   whether to come. This used to send the title and a link only, so an organiser
+   sharing straight after publishing gave people no way to know when it was. */
+function draftWhen() {
+  var d = (document.getElementById('evDate') || {}).value || '';
+  var s1 = (document.getElementById('evStart') || {}).value || '';
+  var e1 = (document.getElementById('evEnd') || {}).value || '';
+  var t = [s1, e1].filter(Boolean).join(' – ');
+  return (d ? '📅 ' + d + '\n' : '') + (t ? '⏰ ' + t + '\n' : '');
+}
+
 function shareWhatsApp() {
   var title = document.getElementById('evTitle').value || 'Mon evènman';
+  var loc = (document.getElementById('evLocation') || {}).value || '';
   var url = window._publishedEventUrl || 'https://haitibiznis.com/events';
-  window.open('https://wa.me/?text=' + encodeURIComponent('🎉 ' + title + ' — Achte tikè sou Tikè Lakay!\n' + url), '_blank');
+  var text = '🎉 ' + title + '\n' + draftWhen() +
+             (loc ? '📍 ' + loc + '\n' : '') +
+             '\nAchte tikè sou Tikè Lakay!\n' + url;
+  window.open('https://wa.me/?text=' + encodeURIComponent(text), '_blank');
 }
 
 function shareFacebook() {
@@ -2479,8 +2494,7 @@ function shareEmail() {
   var loc = document.getElementById('evLocation').value || '';
   var url = window._publishedEventUrl || 'https://haitibiznis.com/events';
   var subject = '🎉 ' + title + ' — Tikè Lakay';
-  var body = title + '\n\n' +
-    (date ? '📅 ' + date + '\n' : '') +
+  var body = title + '\n\n' + draftWhen() +
     (loc ? '📍 ' + loc + '\n' : '') +
     '\nAchte tikè sou Tikè Lakay!\n' + url;
   window.location.href = 'mailto:?subject=' + encodeURIComponent(subject) + '&body=' + encodeURIComponent(body);

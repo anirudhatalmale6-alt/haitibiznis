@@ -1524,9 +1524,17 @@ function getShareUrl() {
   return evId ? shareBase() + '/e/' + evId : window.location.href;
 }
 
+/* The hour, written the same way everywhere. shareEmail already showed it and
+   shareWhatsApp did not, which is backwards: in Haiti the WhatsApp share is the
+   one that actually gets used. */
+function eventWhen() {
+  var t = [event.startTime, event.endTime].filter(Boolean).join(' – ');
+  return formatDate(event.date) + (t ? '\n⏰ ' + t : '');
+}
+
 function shareWhatsApp() {
   var url = getShareUrl();
-  var text = (event.typeEmoji || '🎤') + ' ' + event.title + '\n📅 ' + formatDate(event.date) + '\n📍 ' + event.location + '\n\nAchte tikè sou Tikè Lakay!\n' + url;
+  var text = (event.typeEmoji || '🎤') + ' ' + event.title + '\n📅 ' + eventWhen() + '\n📍 ' + event.location + '\n\nAchte tikè sou Tikè Lakay!\n' + url;
   window.open('https://wa.me/?text=' + encodeURIComponent(text), '_blank');
 }
 
@@ -1695,7 +1703,7 @@ function reportEvent() {
 
 /* ═══ KOUTYE ═══ */
 function shareKoutye() {
-  var text = '💰 Touche komisyon lè ou pataje evènman sa a!\n\n🎤 ' + event.title + '\n📅 ' + formatDate(event.date) + '\n\nAchte tikè: ' + window.location.href + '&ref=koutye';
+  var text = '💰 Touche komisyon lè ou pataje evènman sa a!\n\n🎤 ' + event.title + '\n📅 ' + eventWhen() + '\n\nAchte tikè: ' + window.location.href + '&ref=koutye';
   window.open('https://wa.me/?text=' + encodeURIComponent(text), '_blank');
 }
 
