@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+<html lang="ht">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Mòd Pratik — Enskri Chofè, Biznis, Sèvis | LajanMaker Academy</title>
+<link rel="icon" href="../../favicon.ico">
+<meta name="robots" content="noindex,nofollow">
+<style>
+/* ------------------------------------------------------------------
+   Practice mode for agents: the three sign-ups they will do in the
+   field, with the SAME fields and the SAME documents as the real forms.
+
+   The field list below is copied from REG_FORMS in the POS, not invented.
+   A practice module that teaches the wrong fields is worse than none:
+   the agent learns a form that does not exist, then meets the real one
+   in front of a customer.
+
+   Deliberately NO network call anywhere. Nothing is saved, nothing is
+   registered, no account is created. MyPlopPlop and the POS are live
+   production systems and an agent practising must not leave real rows
+   behind for somebody to clean up.
+   ------------------------------------------------------------------ */
+:root{--navy:#0B2E6F;--red:#D21034;--green:#1B8C3D;--gold:#E0A400;
+  --off:#F3F6FB;--white:#fff;--text:#152341;--light:#5A6B8A;--muted:#93A0B8;
+  --border:#DDE4EF;--sans:system-ui,-apple-system,'Segoe UI',Roboto,sans-serif}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:var(--sans);background:var(--off);color:var(--text);line-height:1.55;
+  padding-bottom:40px}
+.bar{background:var(--gold);color:#3A2B00;font-weight:800;font-size:.82rem;
+  text-align:center;padding:9px 12px;letter-spacing:.02em;position:sticky;top:0;z-index:20}
+.wrap{max-width:620px;margin:0 auto;padding:18px 16px}
+h1{font-size:1.28rem;font-weight:800;margin-bottom:4px}
+.sub{color:var(--light);font-size:.92rem;margin-bottom:16px}
+.card{background:var(--white);border:1px solid var(--border);border-radius:16px;
+  padding:18px;margin-bottom:14px}
+.pick{display:flex;gap:12px;align-items:center;width:100%;text-align:left;
+  background:var(--white);border:1.5px solid var(--border);border-radius:14px;
+  padding:14px;margin-bottom:10px;font-family:inherit;cursor:pointer}
+.pick:hover{border-color:var(--navy)}
+.pick .em{font-size:26px;flex:0 0 auto}
+.pick b{display:block;font-size:1rem;color:var(--navy)}
+.pick span{display:block;font-size:.85rem;color:var(--light)}
+label{display:block;font-size:.74rem;font-weight:800;color:var(--light);
+  letter-spacing:.05em;text-transform:uppercase;margin:14px 0 6px}
+label .req{color:var(--red)}
+input,select,textarea{width:100%;padding:13px 15px;font-size:1rem;
+  border:2px solid var(--border);border-radius:12px;font-family:inherit;background:#fff}
+input:focus,select:focus,textarea:focus{outline:none;border-color:var(--navy)}
+textarea{min-height:76px;resize:vertical}
+.err{border-color:var(--red)!important}
+.errtxt{color:var(--red);font-size:.8rem;margin-top:5px;display:none}
+.btn{display:block;width:100%;padding:15px;margin-top:16px;border:0;border-radius:14px;
+  font-weight:800;font-size:1rem;font-family:inherit;cursor:pointer;text-align:center;
+  text-decoration:none}
+.btn-main{background:var(--navy);color:#fff}
+.btn-ghost{background:var(--white);color:var(--navy);border:2px solid var(--navy)}
+.btn-green{background:var(--green);color:#fff}
+.docs{margin-top:6px}
+.doc{display:flex;align-items:center;gap:11px;border:1.5px dashed var(--border);
+  border-radius:12px;padding:12px 13px;margin-bottom:8px;cursor:pointer;background:#fff}
+.doc.on{border-style:solid;border-color:var(--green);background:#F2FBF5}
+.doc .tick{width:24px;height:24px;border-radius:50%;border:2px solid var(--border);
+  flex:0 0 auto;display:flex;align-items:center;justify-content:center;font-size:13px;
+  color:#fff;font-weight:900}
+.doc.on .tick{background:var(--green);border-color:var(--green)}
+.doc .nm{font-size:.93rem;font-weight:600}
+.doc .hint{font-size:.78rem;color:var(--muted)}
+.step{font-size:.76rem;font-weight:800;color:var(--muted);letter-spacing:.06em;
+  text-transform:uppercase;margin-bottom:3px}
+.note{background:#FFFCF2;border:1px solid rgba(224,164,0,.45);border-left:4px solid var(--gold);
+  border-radius:12px;padding:13px 15px;font-size:.88rem;margin-top:14px}
+.note b{display:block;margin-bottom:3px}
+.result li{margin:0 0 9px 20px;font-size:.93rem}
+.ok{color:var(--green);font-weight:700}
+.miss{color:var(--red);font-weight:700}
+.langs{display:flex;gap:8px;justify-content:flex-end;margin-bottom:10px}
+.langs button{padding:6px 14px;border-radius:99px;border:1px solid var(--border);
+  background:#fff;color:var(--light);font-size:.8rem;font-family:inherit;cursor:pointer}
+.langs button.on{background:var(--navy);color:#fff;border-color:var(--navy)}
+.hidden{display:none}
+</style>
+</head>
+<body>
+<div class="bar" id="bar">MÒD PRATIK — anyen pa anrejistre</div>
+
+<div class="wrap">
+  <div class="langs">
+    <button data-l="ht" class="on">Kreyòl</button>
+    <button data-l="fr">Français</button>
+  </div>
+
+  <!-- ---------- choose a flow ---------- -->
+  <div id="scPick">
+    <h1 data-t="t_title">Pratike enskripsyon yo</h1>
+    <p class="sub" data-t="t_sub">Menm kesyon yo, menm dokiman yo. Ou ka fè erè isit la san pwoblèm.</p>
+
+    <button class="pick" data-kind="driver">
+      <span class="em">&#127949;</span>
+      <span><b data-t="k_driver">Enskri yon Chofè</b>
+      <span data-t="k_driver_s">Moto oswa machin — 6 kesyon, 5 dokiman</span></span>
+    </button>
+    <button class="pick" data-kind="merchant">
+      <span class="em">&#127978;</span>
+      <span><b data-t="k_merchant">Enskri yon Biznis</b>
+      <span data-t="k_merchant_s">Machann ak magazen — 8 kesyon, 2 dokiman</span></span>
+    </button>
+    <button class="pick" data-kind="pro">
+      <span class="em">&#128188;</span>
+      <span><b data-t="k_pro">Enskri yon Sèvis</b>
+      <span data-t="k_pro_s">Pwofesyonèl — 5 kesyon, 3 dokiman</span></span>
+    </button>
+
+    <div class="note">
+      <b data-t="n_title">Sa paj sa a ye</b>
+      <span data-t="n_body">Se yon antrenman. Anyen ou tape isit la pa ale nan sistèm nan,
+      pa gen okenn kont ki kreye, epi pèsonn pa resevwa anyen. Lè ou pare pou fè yon vre
+      enskripsyon, sèvi ak aplikasyon LajanMaker la.</span>
+    </div>
+  </div>
+
+  <!-- ---------- the form ---------- -->
+  <div id="scForm" class="hidden">
+    <div class="step" id="fStep"></div>
+    <h1 id="fTitle"></h1>
+    <p class="sub" id="fSub"></p>
+    <div class="card" id="fFields"></div>
+
+    <div class="card">
+      <div class="step" data-t="d_title">Dokiman yo</div>
+      <p class="sub" style="margin-bottom:8px" data-t="d_sub">Peze chak dokiman ou ta mande moun nan.</p>
+      <div class="docs" id="fDocs"></div>
+    </div>
+
+    <button class="btn btn-main" id="fSend" data-t="b_send">Voye enskripsyon an</button>
+    <button class="btn btn-ghost" id="fBack" data-t="b_back">&#8592; Tounen</button>
+  </div>
+
+  <!-- ---------- result ---------- -->
+  <div id="scDone" class="hidden">
+    <h1 data-t="r_title">Men sa ou fè</h1>
+    <p class="sub" id="rSub"></p>
+    <div class="card"><ul class="result" id="rList"></ul></div>
+    <div class="note">
+      <b data-t="r_note_t">Sonje</b>
+      <span data-t="r_note_b">Anyen pa anrejistre. Sa se te yon antrenman sèlman.</span>
+    </div>
+    <button class="btn btn-green" id="rAgain" data-t="b_again">Pratike ankò</button>
+    <button class="btn btn-ghost" id="rPick" data-t="b_other">Eseye yon lòt enskripsyon</button>
+  </div>
+</div>
+
+<script>
+/* The three flows, copied from REG_FORMS in the POS so practice matches the
+   real form field for field. If the real form changes, change this too - a
+   drifting practice module teaches people something that is no longer true. */
+var FLOWS = {
+  driver: {
+    fields: [
+      {k:'name',  t:'f_name',   req:true},
+      {k:'phone', t:'f_phone',  req:true, type:'tel'},
+      {k:'wa',    t:'f_wa',     req:true, type:'tel'},
+      {k:'vehicle',t:'f_vehicle',req:true, sel:['Moto','Machin']},
+      {k:'plate', t:'f_plate',  req:true},
+      {k:'color', t:'f_color',  req:true}
+    ],
+    docs: ['d_lic','d_id','d_ins','d_reg','d_photo']
+  },
+  merchant: {
+    fields: [
+      {k:'biz',      t:'f_biz',      req:true},
+      {k:'category', t:'f_cat',      req:true, sel:['Manje','Rad','Elektwonik','Sante','Sèvis','Lòt']},
+      {k:'name',     t:'f_owner',    req:true},
+      {k:'phone',    t:'f_phone',    req:true, type:'tel'},
+      {k:'wa',       t:'f_wa',       req:true, type:'tel'},
+      {k:'addr',     t:'f_addr',     req:true},
+      {k:'desc',     t:'f_desc',     ta:true},
+      {k:'referral', t:'f_ref',      sel:['FTPH','COTRASMOTHA','StarFlex','Facebook','Zanmi']}
+    ],
+    docs: ['d_store','d_ownerid']
+  },
+  pro: {
+    fields: [
+      {k:'name',      t:'f_name',   req:true},
+      {k:'profession',t:'f_prof',   req:true},
+      {k:'phone',     t:'f_phone',  req:true, type:'tel'},
+      {k:'wa',        t:'f_wa',     req:true, type:'tel'},
+      {k:'addr',      t:'f_addr',   req:true}
+    ],
+    docs: ['d_id','d_diploma','d_exp']
+  }
+};
+
+var T = {
+ ht:{
+  bar:'MÒD PRATIK — anyen pa anrejistre',
+  t_title:'Pratike enskripsyon yo', t_sub:'Menm kesyon yo, menm dokiman yo. Ou ka fè erè isit la san pwoblèm.',
+  k_driver:'Enskri yon Chofè', k_driver_s:'Moto oswa machin — 6 kesyon, 5 dokiman',
+  k_merchant:'Enskri yon Biznis', k_merchant_s:'Machann ak magazen — 8 kesyon, 2 dokiman',
+  k_pro:'Enskri yon Sèvis', k_pro_s:'Pwofesyonèl — 5 kesyon, 3 dokiman',
+  n_title:'Sa paj sa a ye',
+  n_body:'Se yon antrenman. Anyen ou tape isit la pa ale nan sistèm nan, pa gen okenn kont ki kreye, epi pèsonn pa resevwa anyen. Lè ou pare pou fè yon vre enskripsyon, sèvi ak aplikasyon LajanMaker la.',
+  f_name:'Non konplè', f_phone:'Telefòn', f_wa:'WhatsApp', f_vehicle:'Kalite machin',
+  f_plate:'Nimewo plak', f_color:'Koulè', f_biz:'Non biznis la', f_cat:'Kategori',
+  f_owner:'Non mèt biznis la', f_addr:'Adrès', f_desc:'Ki sa biznis la vann',
+  f_ref:'Ki moun ki refere l', f_prof:'Pwofesyon',
+  d_title:'Dokiman yo', d_sub:'Peze chak dokiman ou ta mande moun nan.',
+  d_lic:'Lisans chofè', d_id:'Kat idantite', d_ins:'Asirans',
+  d_reg:'Papye machin', d_photo:'Foto chofè a', d_store:'Foto magazen an',
+  d_ownerid:'Kat idantite mèt la', d_diploma:'Diplòm / Sètifika', d_exp:'Papye eksperyans',
+  b_send:'Voye enskripsyon an', b_back:'← Tounen', b_again:'Pratike ankò',
+  b_other:'Eseye yon lòt enskripsyon',
+  r_title:'Men sa ou fè', r_note_t:'Sonje',
+  r_note_b:'Anyen pa anrejistre. Sa se te yon antrenman sèlman.',
+  e_req:'Ou bliye sa a.', s_choose:'-- Chwazi --',
+  r_all:'Bravo — ou ranpli tout bagay yo.',
+  r_some:'Ou manke kèk bagay. Gade anba a.',
+  r_field:'kesyon', r_doc:'dokiman',
+  ttl_driver:'Enskri yon Chofè', ttl_merchant:'Enskri yon Biznis', ttl_pro:'Enskri yon Sèvis',
+  sub_driver:'Menm fòm ou pral sèvi sou teren an.',
+  sub_merchant:'Menm fòm ou pral sèvi sou teren an.',
+  sub_pro:'Menm fòm ou pral sèvi sou teren an.',
+  step:'ANTRENMAN'
+ },
+ fr:{
+  bar:"MODE ENTRAÎNEMENT — rien n'est enregistré",
+  t_title:'Entraînez-vous aux inscriptions', t_sub:'Mêmes questions, mêmes documents. Ici, vous pouvez vous tromper sans conséquence.',
+  k_driver:'Inscrire un Chauffeur', k_driver_s:'Moto ou voiture — 6 questions, 5 documents',
+  k_merchant:'Inscrire un Commerce', k_merchant_s:'Marchands et magasins — 8 questions, 2 documents',
+  k_pro:'Inscrire un Service', k_pro_s:'Professionnel — 5 questions, 3 documents',
+  n_title:'Ce que fait cette page',
+  n_body:"C'est un entraînement. Rien de ce que vous tapez ici n'entre dans le système, aucun compte n'est créé et personne ne reçoit quoi que ce soit. Pour une vraie inscription, utilisez l'application LajanMaker.",
+  f_name:'Nom complet', f_phone:'Téléphone', f_wa:'WhatsApp', f_vehicle:'Type de véhicule',
+  f_plate:'Numéro de plaque', f_color:'Couleur', f_biz:'Nom du commerce', f_cat:'Catégorie',
+  f_owner:'Nom du propriétaire', f_addr:'Adresse', f_desc:'Ce que vend le commerce',
+  f_ref:'Qui l a référé', f_prof:'Profession',
+  d_title:'Les documents', d_sub:'Touchez chaque document que vous demanderiez à la personne.',
+  d_lic:'Permis de conduire', d_id:"Carte d'identité", d_ins:'Assurance',
+  d_reg:'Carte grise', d_photo:'Photo du chauffeur', d_store:'Photo du magasin',
+  d_ownerid:"Pièce d'identité du propriétaire", d_diploma:'Diplôme / Certificat',
+  d_exp:"Justificatifs d'expérience",
+  b_send:"Envoyer l'inscription", b_back:'← Retour', b_again:"S'entraîner encore",
+  b_other:'Essayer une autre inscription',
+  r_title:'Voici ce que vous avez fait', r_note_t:'Rappel',
+  r_note_b:"Rien n'a été enregistré. C'était un entraînement.",
+  e_req:'Vous avez oublié celui-ci.', s_choose:'-- Choisir --',
+  r_all:'Bravo — vous avez tout rempli.',
+  r_some:'Il manque des éléments. Voir ci-dessous.',
+  r_field:'question', r_doc:'document',
+  ttl_driver:'Inscrire un Chauffeur', ttl_merchant:'Inscrire un Commerce', ttl_pro:'Inscrire un Service',
+  sub_driver:'Le formulaire exact que vous utiliserez sur le terrain.',
+  sub_merchant:'Le formulaire exact que vous utiliserez sur le terrain.',
+  sub_pro:'Le formulaire exact que vous utiliserez sur le terrain.',
+  step:'ENTRAÎNEMENT'
+ }
+};
+
+var lang = 'ht', kind = null, docState = {};
+function t(k){ return (T[lang] && T[lang][k]) || T.ht[k] || k; }
+function $(id){ return document.getElementById(id); }
+function show(id){ ['scPick','scForm','scDone'].forEach(function(s){
+  $(s).classList.toggle('hidden', s !== id); }); window.scrollTo(0,0); }
+
+function paintStatic(){
+  document.querySelectorAll('[data-t]').forEach(function(el){
+    el.textContent = t(el.getAttribute('data-t'));
+  });
+  $('bar').textContent = t('bar');
+}
+
+function buildForm(k){
+  kind = k; docState = {};
+  var f = FLOWS[k];
+  $('fStep').textContent = t('step');
+  $('fTitle').textContent = t('ttl_' + k);
+  $('fSub').textContent = t('sub_' + k);
+
+  var html = '';
+  f.fields.forEach(function(fd){
+    var id = 'in_' + fd.k;
+    html += '<label for="' + id + '">' + t(fd.t) +
+            (fd.req ? ' <span class="req">*</span>' : '') + '</label>';
+    if (fd.sel){
+      html += '<select id="' + id + '"><option value="">' + t('s_choose') + '</option>' +
+        fd.sel.map(function(o){ return '<option>' + o + '</option>'; }).join('') + '</select>';
+    } else if (fd.ta){
+      html += '<textarea id="' + id + '"></textarea>';
+    } else {
+      html += '<input id="' + id + '" type="' + (fd.type || 'text') + '">';
+    }
+    html += '<div class="errtxt" id="e_' + fd.k + '">' + t('e_req') + '</div>';
+  });
+  $('fFields').innerHTML = html;
+
+  $('fDocs').innerHTML = f.docs.map(function(d){
+    return '<div class="doc" data-d="' + d + '"><span class="tick">&#10003;</span>' +
+           '<span><span class="nm">' + t(d) + '</span></span></div>';
+  }).join('');
+  $('fDocs').querySelectorAll('.doc').forEach(function(el){
+    el.onclick = function(){
+      var d = el.getAttribute('data-d');
+      docState[d] = !docState[d];
+      el.classList.toggle('on', !!docState[d]);
+    };
+  });
+  show('scForm');
+}
+
+$('fSend').onclick = function(){
+  var f = FLOWS[kind], missing = [];
+  f.fields.forEach(function(fd){
+    var el = $('in_' + fd.k), err = $('e_' + fd.k);
+    var empty = !el.value.trim();
+    /* Only required fields count as a miss - marking an optional one wrong
+       would teach the agent to demand something the real form does not. */
+    var bad = fd.req && empty;
+    el.classList.toggle('err', bad);
+    err.style.display = bad ? 'block' : 'none';
+    if (bad) missing.push({ type: 'field', label: t(fd.t) });
+  });
+  f.docs.forEach(function(d){
+    if (!docState[d]) missing.push({ type: 'doc', label: t(d) });
+  });
+
+  var done = (f.fields.filter(function(x){ return x.req; }).length + f.docs.length) - missing.length;
+  var total = f.fields.filter(function(x){ return x.req; }).length + f.docs.length;
+  $('rSub').textContent = done + ' / ' + total;
+  $('rList').innerHTML = missing.length
+    ? '<li class="miss">' + t('r_some') + '</li>' + missing.map(function(m){
+        return '<li>' + (m.type === 'doc' ? '&#128206; ' : '&#9998; ') + m.label + '</li>';
+      }).join('')
+    : '<li class="ok">' + t('r_all') + '</li>';
+  show('scDone');
+};
+
+$('fBack').onclick = function(){ show('scPick'); };
+$('rAgain').onclick = function(){ buildForm(kind); };
+$('rPick').onclick = function(){ show('scPick'); };
+
+document.querySelectorAll('.pick').forEach(function(b){
+  b.onclick = function(){ buildForm(b.getAttribute('data-kind')); };
+});
+document.querySelectorAll('.langs button').forEach(function(b){
+  b.onclick = function(){
+    lang = b.getAttribute('data-l');
+    document.querySelectorAll('.langs button').forEach(function(x){
+      x.classList.toggle('on', x === b); });
+    paintStatic();
+    if (!$('scForm').classList.contains('hidden')) buildForm(kind);
+  };
+});
+
+paintStatic();
+</script>
+</body>
+</html>

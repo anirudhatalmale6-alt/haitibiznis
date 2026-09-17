@@ -1746,6 +1746,7 @@ function lmMod(id){const m=modById(id);if(m)openModule(m);}
    and download both die. _blank hands it to the real browser. */
 const ACAD_URL  = 'https://haitibiznis.com/akademi/';
 const ACAD_ISSUE= 'https://haitibiznis.com/akademi/emet.html';
+const ACAD_PRATIK='https://haitibiznis.com/akademi/pratik/';
 function openAcademy(){
   const lk=(href,emo,title,sub,c)=>`<a href="${href}" target="_blank" rel="noopener"
       style="display:flex;gap:12px;align-items:center;text-decoration:none;color:inherit;
@@ -1762,6 +1763,7 @@ function openAcademy(){
       <div class="sub" style="margin:6px 0 14px">${t('lm_acad_msg')}</div>
     </div>
     ${lk(ACAD_URL,'📝',t('lm_acad_exam'),t('lm_acad_exam_s'),'#0057D9')}
+    ${lk(ACAD_PRATIK,'🧰',t('lm_acad_prat'),t('lm_acad_prat_s'),'#B45309')}
     ${lk(ACAD_ISSUE,'📜',t('lm_acad_iss'),t('lm_acad_iss_s'),'#12a150')}
     <div style="font-size:11.5px;color:#93A0B8;text-align:center;margin:2px 0 12px">${t('lm_acad_note')}</div>
     <button class="cta ghost" id="ac_x">${t('back')}</button></div>`);
@@ -1879,30 +1881,40 @@ const T_ACAD={
   lm_acad_exam_s:'15 kesyon • 20 minit • 80% pou pase. Gen yon mòd pratik gratis san kòd.',
   lm_acad_iss:'Bay yon sètifika ankò',
   lm_acad_iss_s:'Pou fòmatè a — lè yon elèv pèdi sètifika l. Mande kòd fòmatè a.',
+  lm_acad_prat:'Pratike enskripsyon yo',
+  lm_acad_prat_s:'Chofè, biznis, sèvis — menm fòm yo. Anyen pa anrejistre.',
   lm_acad_note:'Si sètifika a pa vle anrejistre, louvri paj la nan navigatè a (meni 3 pwen → Open in browser).'},
  fr:{lm_acad_msg:"L'examen de certification et le certificat sont en ligne.",
   lm_acad_exam:"Passer l'examen",
   lm_acad_exam_s:'15 questions • 20 minutes • 80% pour réussir. Mode entraînement gratuit, sans code.',
   lm_acad_iss:'Rééditer un certificat',
   lm_acad_iss_s:"Pour le formateur — si un élève a perdu le sien. Code formateur requis.",
+  lm_acad_prat:'Entraînez-vous aux inscriptions',
+  lm_acad_prat_s:"Chauffeur, commerce, service — mêmes formulaires. Rien n'est enregistré.",
   lm_acad_note:"Si le certificat ne s'enregistre pas, ouvrez la page dans le navigateur (menu 3 points → Ouvrir dans le navigateur)."},
  en:{lm_acad_msg:'The certification exam and the certificate are online now.',
   lm_acad_exam:'Take the exam',
   lm_acad_exam_s:'15 questions • 20 minutes • 80% to pass. Free practice mode, no code needed.',
   lm_acad_iss:'Re-issue a certificate',
   lm_acad_iss_s:'For the instructor — when a student loses theirs. Instructor code required.',
+  lm_acad_prat:'Practise the sign-ups',
+  lm_acad_prat_s:'Driver, business, service — the real forms. Nothing is saved.',
   lm_acad_note:"If the certificate will not save, open the page in your browser (3-dot menu → Open in browser)."},
  es:{lm_acad_msg:'El examen de certificación y el certificado ya están en línea.',
   lm_acad_exam:'Hacer el examen',
   lm_acad_exam_s:'15 preguntas • 20 minutos • 80% para aprobar. Modo de práctica gratis, sin código.',
   lm_acad_iss:'Reemitir un certificado',
   lm_acad_iss_s:'Para el formador — si un alumno perdió el suyo. Requiere código del formador.',
+  lm_acad_prat:'Practica las inscripciones',
+  lm_acad_prat_s:'Conductor, negocio, servicio — los formularios reales. No se guarda nada.',
   lm_acad_note:'Si el certificado no se guarda, abre la página en el navegador (menú de 3 puntos → Abrir en el navegador).'},
  pt:{lm_acad_msg:'O exame de certificação e o certificado já estão no ar.',
   lm_acad_exam:'Fazer o exame',
   lm_acad_exam_s:'15 perguntas • 20 minutos • 80% para passar. Modo de treino grátis, sem código.',
   lm_acad_iss:'Reemitir um certificado',
   lm_acad_iss_s:'Para o formador — quando um aluno perde o dele. Exige o código do formador.',
+  lm_acad_prat:'Treine os cadastros',
+  lm_acad_prat_s:'Motorista, negócio, serviço — os formulários reais. Nada é salvo.',
   lm_acad_note:'Se o certificado não salvar, abra a página no navegador (menu de 3 pontos → Abrir no navegador).'}
 };
 Object.keys(T_ACAD).forEach(function(l){if(T[l])Object.assign(T[l],T_ACAD[l]);});
@@ -5192,7 +5204,7 @@ function shareApp(){
    =================================================================== */
 /* Version the seller can read out loud. When someone says "I don't see the new
    button", the first useful question is which build their phone is running. */
-const APP_VER='68';
+const APP_VER='69';
 var swReg=null;
 if('serviceWorker' in navigator){
   window.addEventListener('load',function(){
