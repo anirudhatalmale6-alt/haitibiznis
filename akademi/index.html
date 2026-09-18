@@ -352,6 +352,13 @@ function paint(){
   });
   // A language switch mid-exam must redraw the question, not lose your place.
   if (!$('scExam').classList.contains('hidden')) showQ();
+  /* An error already on screen must follow the language too. At the training a
+     student saw the Kreyol "you already sat this" message on a page she had
+     switched to French, which reads like a broken page rather than a rule. */
+  var err = $('startErr');
+  if (err && err.style.display === 'block' && err.dataset.key){
+    err.textContent = fill(t(err.dataset.key), { h: err.dataset.h || RETRY_HOURS });
+  }
 }
 document.querySelectorAll('.langs button').forEach(function(b){
   b.onclick = function(){ lang = b.getAttribute('data-l'); paint(); };
@@ -393,11 +400,31 @@ function buildPaper(){
 var paper = [], idx = 0, student = {}, tEnd = 0, tTimer = null;
 var mode = 'exam';   // 'exam' | 'practice'
 
-function lastAttempt(){
-  try { return parseInt(localStorage.getItem('lma_last') || '0', 10) || 0; } catch(e){ return 0; }
+/* The 24-hour retake lock, keyed on the STUDENT, not the handset.
+ *
+ * It used to be one key for the whole browser - 'lma_last' - with nobody's
+ * identity in it. At the 18 September training that locked people out who had
+ * never sat the exam: not everyone in the room owns a smartphone, so phones get
+ * passed along, and the second person to borrow one was told they had already
+ * taken it. Two of them were photographed being refused.
+ *
+ * Keyed on the phone number they type, it now blocks the person who just sat
+ * it, and lets the next borrower straight through.
+ *
+ * ⚠️ Still per-device, and still not a real guard - someone determined can use
+ * another phone, or clear their browser. That needs the results to live on the
+ * server, which is the verification spine. This fixes the case that actually
+ * hurt: honest people being refused. */
+function lockKey(phone){
+  var digits = String(phone || '').replace(/\D/g, '');
+  return digits ? ('lma_last_' + digits) : 'lma_last_anon';
 }
-function hoursLeft(){
-  var ms = (lastAttempt() + RETRY_HOURS * 3600000) - Date.now();
+function lastAttempt(phone){
+  try { return parseInt(localStorage.getItem(lockKey(phone)) || '0', 10) || 0; }
+  catch(e){ return 0; }
+}
+function hoursLeft(phone){
+  var ms = (lastAttempt(phone) + RETRY_HOURS * 3600000) - Date.now();
   return ms > 0 ? Math.ceil(ms / 3600000) : 0;
 }
 
@@ -424,11 +451,11 @@ $('btnStart').onclick = function(){
   var name = $('fName').value.trim().replace(/\s+/g, ' ');
   var phone = $('fPhone').value.trim();
 
-  if (code !== KOD_FOMATE.toUpperCase()){ return show(err, t('e_code')); }
-  if (name.length < 3){ return show(err, t('e_name')); }
-  if (phone.replace(/\D/g,'').length < 8){ return show(err, t('e_phone')); }
-  var h = hoursLeft();
-  if (h > 0){ return show(err, fill(t('e_wait'), {h:h})); }
+  if (code !== KOD_FOMATE.toUpperCase()){ return show(err, t('e_code'), 'e_code'); }
+  if (name.length < 3){ return show(err, t('e_name'), 'e_name'); }
+  if (phone.replace(/\D/g,'').length < 8){ return show(err, t('e_phone'), 'e_phone'); }
+  var h = hoursLeft(phone);
+  if (h > 0){ return show(err, fill(t('e_wait'), {h:h}), 'e_wait', h); }
 
   mode = 'exam';
   student = { name:name, phone:phone };
@@ -441,7 +468,13 @@ $('btnStart').onclick = function(){
   startTimer();
   showQ();
 };
-function show(el, msg){ el.textContent = msg; el.style.display = 'block'; }
+function show(el, msg, key, h){
+  el.textContent = msg; el.style.display = 'block';
+  /* Remember WHICH message this is, so paint() can re-render it in the new
+     language instead of leaving yesterday's words on screen. */
+  if (key) { el.dataset.key = key; if (h != null) el.dataset.h = h; }
+  else { delete el.dataset.key; delete el.dataset.h; }
+}
 
 /* --- timer ---------------------------------------------------------------- */
 function startTimer(){
@@ -543,7 +576,7 @@ function finish(timedOut){
   // produce a certificate however well it went.
   if (mode === 'practice'){ return finishPractice(ok, n, pct); }
 
-  try { localStorage.setItem('lma_last', String(Date.now())); } catch(e){}
+  try { localStorage.setItem(lockKey(student.phone), String(Date.now())); } catch(e){}
 
   $('scExam').classList.add('hidden');
   $('scResult').classList.remove('hidden');
