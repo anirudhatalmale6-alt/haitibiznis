@@ -274,7 +274,8 @@ ht:{
  t_p_done:"Ou fini pratik la",
  t_p_sub:"Pratik pa bay sètifika. Lè ou pare, peze Kòmanse egzamen an.",
  t_p_again:"Pratike ankò", t_p_toexam:"Ale nan egzamen an",
-  t_tab_card:"Kat biznis",
+  cred_foot:"Sètifye pa LajanMaker Academy · Yon pati nan HaitiBiznis Technologies",
+ t_tab_card:"Kat biznis",
  t_tab_badge:"Badj",
  t_cred_dl:"Telechaje",
  t_cred_open:"Louvri nan yon lòt paj",
@@ -312,7 +313,8 @@ fr:{
  t_p_done:"Entraînement terminé",
  t_p_sub:"L'entraînement ne donne pas de certificat. Quand vous êtes prêt, appuyez sur Commencer l'examen.",
  t_p_again:"S'entraîner encore", t_p_toexam:"Passer à l'examen",
-  t_tab_card:"Carte de visite",
+  cred_foot:"Certifié par LajanMaker Academy · Membre de HaitiBiznis Technologies",
+ t_tab_card:"Carte de visite",
  t_tab_badge:"Badge",
  t_cred_dl:"Télécharger",
  t_cred_open:"Ouvrir dans un autre onglet",
@@ -570,6 +572,7 @@ function finish(timedOut){
     $('certWrap').classList.remove('hidden');
     drawCert(student.name, dateStr, cert);
     credState.name = student.name; credState.id = cert; credState.date = dateStr;
+    credState.phone = student.phone || '';
     renderCred();
   } else {
     $('failWrap').classList.remove('hidden');
@@ -690,7 +693,7 @@ function drawCert(name, dateStr, cert){
    =================================================================== */
 var NAVY = '#0B2E6F', RED = '#D21034', GOLD = '#E0A400', INK = '#152341';
 var credAssets = { logo:null, qr:null, want:2, got:0 };
-var credState = { name:'', id:'', date:'', kind:'card' };
+var credState = { name:'', id:'', date:'', phone:'', kind:'card' };
 
 function loadCredAssets(done){
   if (credAssets.got >= credAssets.want) return done();
@@ -815,15 +818,40 @@ function drawBadge(){
   ctx.font = '800 36px "SF Mono",Menlo,Consolas,monospace';
   ctx.fillText(credState.id, W / 2, 612);
 
-  if (credAssets.qr) ctx.drawImage(credAssets.qr, W / 2 - 150, 672, 300, 300);
-  ctx.fillStyle = '#93A0B8';
-  ctx.font = '600 16px system-ui,-apple-system,"Segoe UI",Roboto,sans-serif';
-  ctx.fillText(t('cred_scan'), W / 2, 1002);
+  if (credState.phone){
+    ctx.fillStyle = '#152341';
+    ctx.font = '700 22px system-ui,-apple-system,"Segoe UI",Roboto,sans-serif';
+    ctx.fillText('\u260E  +509 ' + credState.phone, W / 2, 656);
+  }
 
-  ctx.fillStyle = NAVY; ctx.fillRect(0, H - 86, W, 86);
+  if (credAssets.qr) ctx.drawImage(credAssets.qr, W / 2 - 122, 686, 244, 244);
+  ctx.fillStyle = '#93A0B8';
+  ctx.font = '600 15px system-ui,-apple-system,"Segoe UI",Roboto,sans-serif';
+  ctx.fillText(t('cred_scan'), W / 2, 952);
+
+  /* The six services an agent actually sells, in the platform's own colours.
+     Straight from his badge design - it is what turns a name badge into a
+     reason for the person opposite to ask a question. */
+  var SVC = [['MsouWout', '#D21034'], ['MyPlopPlop', '#0057D9'], ['Tike Lakay', '#1B8C3D'],
+             ['Academy', '#E07B00'], ['48HoursReady', '#6D28D9'], ['Sol', '#B8860B']];
+  var tw = 280, th = 52, gap = 10, x0 = (W - (tw * 3 + gap * 2)) / 2, y0 = 984;
+  ctx.font = '800 17px system-ui,-apple-system,"Segoe UI",Roboto,sans-serif';
+  SVC.forEach(function(sv, i){
+    var cx = x0 + (i % 3) * (tw + gap), cy = y0 + Math.floor(i / 3) * (th + gap);
+    ctx.fillStyle = sv[1];
+    roundRect(ctx, cx, cy, tw, th, 10); ctx.fill();
+    ctx.fillStyle = '#fff';
+    var sz = fitText(ctx, sv[0], tw - 18, 17, '800', 'system-ui,-apple-system,"Segoe UI",Roboto,sans-serif');
+    ctx.fillText(sv[0], cx + tw / 2, cy + th / 2 + sz / 3);
+  });
+
+  ctx.fillStyle = NAVY; ctx.fillRect(0, H - 76, W, 76);
   ctx.fillStyle = '#fff';
-  ctx.font = '700 22px system-ui,-apple-system,"Segoe UI",Roboto,sans-serif';
-  ctx.fillText('lajanmaker.com', W / 2, H - 34);
+  ctx.font = '700 17px system-ui,-apple-system,"Segoe UI",Roboto,sans-serif';
+  ctx.fillText(t('cred_foot'), W / 2, H - 44);
+  ctx.fillStyle = 'rgba(255,255,255,.8)';
+  ctx.font = '600 15px system-ui,-apple-system,"Segoe UI",Roboto,sans-serif';
+  ctx.fillText('lajanmaker.com', W / 2, H - 20);
   return cv;
 }
 
