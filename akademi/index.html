@@ -91,6 +91,14 @@ input:focus{outline:none;border-color:var(--navy)}
 .verdict.pass{color:var(--green)} .verdict.fail{color:var(--red)}
 
 #certWrap{margin-top:16px}
+.credwrap{margin-top:26px;padding-top:20px;border-top:2px solid var(--border)}
+.credtabs{display:flex;gap:8px;margin-bottom:12px}
+.credtab{flex:1;padding:11px;border-radius:12px;border:2px solid var(--border);
+  background:#fff;color:var(--light);font-weight:800;font-size:.9rem;
+  font-family:inherit;cursor:pointer}
+.credtab.on{background:var(--navy);color:#fff;border-color:var(--navy)}
+#credImg{width:100%;height:auto;display:block;border-radius:12px;
+  border:1px solid var(--border);background:#fff}
 #certImg{width:100%;height:auto;display:block;border-radius:12px;
   border:1px solid var(--border);background:#fff}
 .hint{font-size:.83rem;color:var(--muted);text-align:center;margin-top:10px}
@@ -195,6 +203,23 @@ footer{text-align:center;color:var(--muted);font-size:.8rem;padding-top:18px}
         <a class="btn btn-main" id="btnDl" download>&#11015; <span data-t="t_download">Telechaje sètifika a</span></a>
         <a class="btn btn-ghost" id="btnOpen" target="_blank" rel="noopener">&#128065; <span data-t="t_open">Louvri sètifika a nan yon lòt paj</span></a>
         <a class="btn btn-green" id="btnWa" target="_blank" rel="noopener">&#128172; <span data-t="t_send">Voye rezilta a bay fòmatè a</span></a>
+
+        <!-- Business card and badge. Same three exits as the certificate: an
+             <img> to press and hold, a download, and open-on-its-own-page -
+             because in WhatsApp's browser the download alone does nothing, and
+             that is exactly how four students lost their certificates. -->
+        <div class="credwrap">
+          <div class="credtabs">
+            <button class="credtab on" data-cred="card" data-t="t_tab_card">Kat biznis</button>
+            <button class="credtab" data-cred="badge" data-t="t_tab_badge">Badj</button>
+          </div>
+          <canvas id="cardCanvas" width="1050" height="600" style="display:none"></canvas>
+          <canvas id="badgeCanvas" width="900" height="1200" style="display:none"></canvas>
+          <img id="credImg" alt="">
+          <p class="hint" id="credHint"></p>
+          <a class="btn btn-main" id="btnCredDl" download>&#11015; <span data-t="t_cred_dl">Telechaje</span></a>
+          <a class="btn btn-ghost" id="btnCredOpen" target="_blank" rel="noopener">&#128065; <span data-t="t_cred_open">Louvri nan yon lòt paj</span></a>
+        </div>
       </div>
 
       <div id="failWrap" class="hidden">
@@ -249,7 +274,16 @@ ht:{
  t_p_done:"Ou fini pratik la",
  t_p_sub:"Pratik pa bay sètifika. Lè ou pare, peze Kòmanse egzamen an.",
  t_p_again:"Pratike ankò", t_p_toexam:"Ale nan egzamen an",
- t_save_hint:"Peze sou sètifika a epi kenbe l pou anrejistre l nan telefòn ou. Si ou louvri paj sa a andedan WhatsApp epi telechajman an pa mache, peze meni an (3 pwen) epi chwazi \u00ab Louvri nan navigatè \u00bb.",
+  t_tab_card:"Kat biznis",
+ t_tab_badge:"Badj",
+ t_cred_dl:"Telechaje",
+ t_cred_open:"Louvri nan yon lòt paj",
+ cred_title:"Ajan Sètifye LajanMaker",
+ cred_id:"NIMEWO AJAN",
+ cred_since:"Sètifye depi",
+ cred_scan:"Eskane pou konnen plis",
+ cred_hint:"Peze sou imaj la epi kenbe l pou anrejistre l. Montre l sou telefòn ou pou kounye a — pa enprime anpil kopi toujou.",
+t_save_hint:"Peze sou sètifika a epi kenbe l pou anrejistre l nan telefòn ou. Si ou louvri paj sa a andedan WhatsApp epi telechajman an pa mache, peze meni an (3 pwen) epi chwazi \u00ab Louvri nan navigatè \u00bb.",
  t_open:"Louvri sètifika a nan yon lòt paj",
  e_code:"Kòd fòmatè a pa bon. Mande fòmatè a kòd la.",
  e_name:"Ekri non konplè ou.", e_phone:"Ekri nimewo telefòn ou.",
@@ -278,7 +312,16 @@ fr:{
  t_p_done:"Entraînement terminé",
  t_p_sub:"L'entraînement ne donne pas de certificat. Quand vous êtes prêt, appuyez sur Commencer l'examen.",
  t_p_again:"S'entraîner encore", t_p_toexam:"Passer à l'examen",
- t_save_hint:"Appuyez longuement sur le certificat pour l'enregistrer. Si vous avez ouvert cette page dans WhatsApp et que le téléchargement ne marche pas, ouvrez le menu (3 points) et choisissez \u00ab Ouvrir dans le navigateur \u00bb.",
+  t_tab_card:"Carte de visite",
+ t_tab_badge:"Badge",
+ t_cred_dl:"Télécharger",
+ t_cred_open:"Ouvrir dans un autre onglet",
+ cred_title:"Agent Certifié LajanMaker",
+ cred_id:"NUMÉRO AGENT",
+ cred_since:"Certifié depuis",
+ cred_scan:"Scannez pour en savoir plus",
+ cred_hint:"Appuyez longuement sur l'image pour l'enregistrer. Montrez-la sur votre téléphone pour l'instant — n'imprimez pas encore en quantité.",
+t_save_hint:"Appuyez longuement sur le certificat pour l'enregistrer. Si vous avez ouvert cette page dans WhatsApp et que le téléchargement ne marche pas, ouvrez le menu (3 points) et choisissez \u00ab Ouvrir dans le navigateur \u00bb.",
  t_open:"Ouvrir le certificat sur une autre page",
  e_code:"Code du formateur incorrect. Demandez-le au formateur.",
  e_name:"Écrivez votre nom complet.", e_phone:"Écrivez votre numéro de téléphone.",
@@ -526,6 +569,8 @@ function finish(timedOut){
   if (passed){
     $('certWrap').classList.remove('hidden');
     drawCert(student.name, dateStr, cert);
+    credState.name = student.name; credState.id = cert; credState.date = dateStr;
+    renderCred();
   } else {
     $('failWrap').classList.remove('hidden');
   }
@@ -625,6 +670,186 @@ function drawCert(name, dateStr, cert){
   };
   img.src = 'cert-base-v2.jpg';
 }
+
+/* ===================================================================
+   BUSINESS CARD + BADGE
+   ------------------------------------------------------------------
+   Drawn from EXACTLY the same three facts the certificate uses - name,
+   date, and the Agent ID - so a card can never disagree with the
+   certificate it came from.
+
+   The QR is the real lajanmaker.com code, the same one already decoded
+   by two independent readers and printed on the training-room poster.
+
+   🔑 It does NOT encode a per-agent verification address, and the card
+   does NOT say "scan to verify". There is no verification page yet, and
+   printing "scan to verify" on a card that verifies nothing is the same
+   sin as the decorative QR codes I keep finding in supplied artwork.
+   When the verification spine is built, this QR becomes per-agent and
+   the wording can change with it.
+   =================================================================== */
+var NAVY = '#0B2E6F', RED = '#D21034', GOLD = '#E0A400', INK = '#152341';
+var credAssets = { logo:null, qr:null, want:2, got:0 };
+var credState = { name:'', id:'', date:'', kind:'card' };
+
+function loadCredAssets(done){
+  if (credAssets.got >= credAssets.want) return done();
+  ['lm-logo.png', 'qr-lajanmaker.png'].forEach(function(src, i){
+    var im = new Image();
+    im.onload = function(){
+      if (i === 0) credAssets.logo = im; else credAssets.qr = im;
+      if (++credAssets.got >= credAssets.want) done();
+    };
+    /* If an asset will not load we still draw - a card without the logo
+       beats a blank box, and the student has already passed. */
+    im.onerror = function(){ if (++credAssets.got >= credAssets.want) done(); };
+    im.src = src;
+  });
+}
+
+function fitText(ctx, text, max, start, weight, family){
+  var size = start;
+  do {
+    ctx.font = weight + ' ' + size + 'px ' + family;
+    if (ctx.measureText(text).width <= max) break;
+    size -= 2;
+  } while (size > 12);
+  return size;
+}
+
+function roundRect(ctx, x, y, w, h, r){
+  ctx.beginPath();
+  ctx.moveTo(x + r, y);
+  ctx.arcTo(x + w, y, x + w, y + h, r);
+  ctx.arcTo(x + w, y + h, x, y + h, r);
+  ctx.arcTo(x, y + h, x, y, r);
+  ctx.arcTo(x, y, x + w, y, r);
+  ctx.closePath();
+}
+
+function drawCard(){
+  var cv = $('cardCanvas'), ctx = cv.getContext('2d');
+  var W = cv.width, H = cv.height;
+  ctx.clearRect(0, 0, W, H);
+
+  ctx.fillStyle = '#fff'; ctx.fillRect(0, 0, W, H);
+  /* Navy band down the left, red hairline - the platform's own colours
+     rather than a generic card. */
+  ctx.fillStyle = NAVY; ctx.fillRect(0, 0, 300, H);
+  ctx.fillStyle = RED;  ctx.fillRect(300, 0, 9, H);
+
+  if (credAssets.logo) ctx.drawImage(credAssets.logo, 66, 96, 168, 168);
+  ctx.textAlign = 'center';
+  ctx.fillStyle = '#fff';
+  ctx.font = '800 34px system-ui,-apple-system,"Segoe UI",Roboto,sans-serif';
+  ctx.fillText('LajanMaker', 150, 322);
+  ctx.fillStyle = GOLD;
+  ctx.font = '800 17px system-ui,-apple-system,"Segoe UI",Roboto,sans-serif';
+  ctx.fillText('ACADEMY', 150, 350);
+  ctx.fillStyle = 'rgba(255,255,255,.75)';
+  ctx.font = '600 15px system-ui,-apple-system,"Segoe UI",Roboto,sans-serif';
+  ctx.fillText('lajanmaker.com', 150, 512);
+
+  ctx.textAlign = 'left';
+  var x = 352;
+  ctx.fillStyle = INK;
+  fitText(ctx, credState.name, 460, 46, '800', 'system-ui,-apple-system,"Segoe UI",Roboto,sans-serif');
+  ctx.fillText(credState.name, x, 150);
+
+  ctx.fillStyle = RED;
+  ctx.font = '800 20px system-ui,-apple-system,"Segoe UI",Roboto,sans-serif';
+  ctx.fillText(t('cred_title').toUpperCase(), x, 190);
+
+  ctx.fillStyle = '#5A6B8A';
+  ctx.font = '700 15px system-ui,-apple-system,"Segoe UI",Roboto,sans-serif';
+  ctx.fillText(t('cred_id'), x, 268);
+  ctx.fillStyle = NAVY;
+  ctx.font = '800 27px "SF Mono",Menlo,Consolas,monospace';
+  ctx.fillText(credState.id, x, 302);
+
+  ctx.fillStyle = '#5A6B8A';
+  ctx.font = '700 15px system-ui,-apple-system,"Segoe UI",Roboto,sans-serif';
+  ctx.fillText(t('cred_since') + ' ' + credState.date, x, 348);
+
+  if (credAssets.qr) ctx.drawImage(credAssets.qr, 792, 388, 176, 176);
+  ctx.fillStyle = '#93A0B8';
+  ctx.font = '600 13px system-ui,-apple-system,"Segoe UI",Roboto,sans-serif';
+  ctx.textAlign = 'center';
+  ctx.fillText(t('cred_scan'), 880, 583);
+  return cv;
+}
+
+function drawBadge(){
+  var cv = $('badgeCanvas'), ctx = cv.getContext('2d');
+  var W = cv.width, H = cv.height;
+  ctx.clearRect(0, 0, W, H);
+  ctx.fillStyle = '#fff'; ctx.fillRect(0, 0, W, H);
+
+  ctx.fillStyle = NAVY; ctx.fillRect(0, 0, W, 300);
+  ctx.fillStyle = GOLD; ctx.fillRect(0, 300, W, 10);
+
+  /* Lanyard slot, so it reads as a badge even before it is printed. */
+  ctx.fillStyle = 'rgba(255,255,255,.28)';
+  roundRect(ctx, W / 2 - 78, 44, 156, 26, 13); ctx.fill();
+
+  if (credAssets.logo) ctx.drawImage(credAssets.logo, W / 2 - 66, 96, 132, 132);
+  ctx.textAlign = 'center';
+  ctx.fillStyle = '#fff';
+  ctx.font = '800 30px system-ui,-apple-system,"Segoe UI",Roboto,sans-serif';
+  ctx.fillText('LajanMaker Academy', W / 2, 272);
+
+  ctx.fillStyle = INK;
+  fitText(ctx, credState.name, W - 120, 56, '800', 'system-ui,-apple-system,"Segoe UI",Roboto,sans-serif');
+  ctx.fillText(credState.name, W / 2, 420);
+
+  ctx.fillStyle = RED;
+  roundRect(ctx, W / 2 - 230, 452, 460, 52, 26); ctx.fill();
+  ctx.fillStyle = '#fff';
+  ctx.font = '800 22px system-ui,-apple-system,"Segoe UI",Roboto,sans-serif';
+  ctx.fillText(t('cred_title').toUpperCase(), W / 2, 487);
+
+  ctx.fillStyle = '#5A6B8A';
+  ctx.font = '700 17px system-ui,-apple-system,"Segoe UI",Roboto,sans-serif';
+  ctx.fillText(t('cred_id'), W / 2, 566);
+  ctx.fillStyle = NAVY;
+  ctx.font = '800 36px "SF Mono",Menlo,Consolas,monospace';
+  ctx.fillText(credState.id, W / 2, 612);
+
+  if (credAssets.qr) ctx.drawImage(credAssets.qr, W / 2 - 150, 672, 300, 300);
+  ctx.fillStyle = '#93A0B8';
+  ctx.font = '600 16px system-ui,-apple-system,"Segoe UI",Roboto,sans-serif';
+  ctx.fillText(t('cred_scan'), W / 2, 1002);
+
+  ctx.fillStyle = NAVY; ctx.fillRect(0, H - 86, W, 86);
+  ctx.fillStyle = '#fff';
+  ctx.font = '700 22px system-ui,-apple-system,"Segoe UI",Roboto,sans-serif';
+  ctx.fillText('lajanmaker.com', W / 2, H - 34);
+  return cv;
+}
+
+function renderCred(){
+  loadCredAssets(function(){
+    var cv = credState.kind === 'badge' ? drawBadge() : drawCard();
+    try {
+      var data = cv.toDataURL('image/png');
+      $('credImg').src = data;
+      $('btnCredDl').href = data;
+      $('btnCredDl').setAttribute('download',
+        'LajanMaker-' + credState.kind + '-' + credState.id + '.png');
+      $('btnCredOpen').href = data;
+    } catch(e){ /* the draw itself failed; nothing else to try */ }
+    $('credHint').textContent = t('cred_hint');
+  });
+}
+
+document.querySelectorAll('.credtab').forEach(function(b){
+  b.onclick = function(){
+    credState.kind = b.getAttribute('data-cred');
+    document.querySelectorAll('.credtab').forEach(function(x){
+      x.classList.toggle('on', x === b); });
+    renderCred();
+  };
+});
 
 paint();
 </script>
