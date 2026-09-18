@@ -2470,7 +2470,7 @@ function draftWhen() {
   var s1 = (document.getElementById('evStart') || {}).value || '';
   var e1 = (document.getElementById('evEnd') || {}).value || '';
   var t = [s1, e1].filter(Boolean).join(' – ');
-  return (d ? '📅 ' + d + '\n' : '') + (t ? '⏰ ' + t + '\n' : '');
+  return (d ? '' + d + '\n' : '') + (t ? '⏰ ' + t + '\n' : '');
 }
 
 function shareWhatsApp() {

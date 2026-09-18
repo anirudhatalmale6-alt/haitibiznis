@@ -1527,6 +1527,13 @@ function getShareUrl() {
 /* The hour, written the same way everywhere. shareEmail already showed it and
    shareWhatsApp did not, which is backwards: in Haiti the WhatsApp share is the
    one that actually gets used. */
+/* No calendar emoji on the date line.
+   U+1F4C5 is a PICTURE of a calendar with a date already drawn on it - Samsung
+   draws 24 February, Apple draws 17 July - and it sits directly beside the real
+   date. Jeffery's agents read the emoji, not the text, and asked why the
+   training had moved to the 24th. There is no way to make it show the right
+   day, so the date line carries no emoji at all. The clock and the pin are
+   safe: neither has a number on it. */
 function eventWhen() {
   var t = [event.startTime, event.endTime].filter(Boolean).join(' – ');
   return formatDate(event.date) + (t ? '\n⏰ ' + t : '');
@@ -1534,7 +1541,7 @@ function eventWhen() {
 
 function shareWhatsApp() {
   var url = getShareUrl();
-  var text = (event.typeEmoji || '🎤') + ' ' + event.title + '\n📅 ' + eventWhen() + '\n📍 ' + event.location + '\n\nAchte tikè sou Tikè Lakay!\n' + url;
+  var text = (event.typeEmoji || '🎤') + ' ' + event.title + '\n' + eventWhen() + '\n📍 ' + event.location + '\n\nAchte tikè sou Tikè Lakay!\n' + url;
   window.open('https://wa.me/?text=' + encodeURIComponent(text), '_blank');
 }
 
@@ -1545,7 +1552,7 @@ function shareFacebook() {
 function shareEmail() {
   var subject = (event.typeEmoji || '') + ' ' + event.title + ' — Tikè Lakay';
   var body = event.title + '\n\n' +
-    '📅 ' + formatDate(event.date) + ' · ' + (event.startTime || '') + (event.endTime ? ' – ' + event.endTime : '') + '\n' +
+    '' + formatDate(event.date) + ' · ' + (event.startTime || '') + (event.endTime ? ' – ' + event.endTime : '') + '\n' +
     '📍 ' + (event.location || '') + '\n\n' +
     (event.description ? event.description + '\n\n' : '') +
     'Achte tikè sou Tikè Lakay!\n' + getShareUrl();
@@ -1703,7 +1710,7 @@ function reportEvent() {
 
 /* ═══ KOUTYE ═══ */
 function shareKoutye() {
-  var text = '💰 Touche komisyon lè ou pataje evènman sa a!\n\n🎤 ' + event.title + '\n📅 ' + eventWhen() + '\n\nAchte tikè: ' + window.location.href + '&ref=koutye';
+  var text = '💰 Touche komisyon lè ou pataje evènman sa a!\n\n🎤 ' + event.title + '\n' + eventWhen() + '\n\nAchte tikè: ' + window.location.href + '&ref=koutye';
   window.open('https://wa.me/?text=' + encodeURIComponent(text), '_blank');
 }
 
