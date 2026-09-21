@@ -121,6 +121,8 @@ input:focus{outline:none;border-color:var(--navy)}
   padding:5px 11px;border-radius:99px}
 .hidden{display:none!important}
 footer{text-align:center;color:var(--muted);font-size:.8rem;padding-top:18px}
+.photorow{display:flex;gap:8px;flex-wrap:wrap;justify-content:center;margin-top:10px}
+.photorow .btn{flex:1 1 auto;min-width:0}
 </style>
 </head>
 <body>
@@ -213,6 +215,23 @@ footer{text-align:center;color:var(--muted);font-size:.8rem;padding-top:18px}
             <button class="credtab on" data-cred="card" data-t="t_tab_card">Kat biznis</button>
             <button class="credtab" data-cred="badge" data-t="t_tab_badge">Badj</button>
           </div>
+          <!-- Jeffery: "The photo can be taken as a selfie or from their library".
+               ⛔ Deliberately NO capture="user": adding it FORCES the selfie
+               camera and removes the gallery option entirely, which is half of
+               what he asked for. accept="image/*" on its own makes Android offer
+               Camera and Gallery in the same picker. -->
+          <input type="file" id="photoInput" accept="image/*"
+                 style="position:absolute;width:1px;height:1px;opacity:0;pointer-events:none">
+          <div class="photorow">
+            <button class="btn btn-ghost" type="button" id="btnPhoto">
+              &#128247; <span data-t="t_photo_add">Mete foto ou</span>
+            </button>
+            <button class="btn btn-ghost hidden" type="button" id="btnPhotoDel">
+              &#10005; <span data-t="t_photo_del">Retire foto a</span>
+            </button>
+          </div>
+          <p class="hint" id="photoHint"></p>
+
           <canvas id="cardCanvas" width="1050" height="600" style="display:none"></canvas>
           <canvas id="badgeCanvas" width="900" height="1200" style="display:none"></canvas>
           <img id="credImg" alt="">
@@ -277,6 +296,9 @@ ht:{
   cred_foot:"Sètifye pa LajanMaker Academy · Yon pati nan HaitiBiznis Technologies",
  t_tab_card:"Kat biznis",
  t_tab_badge:"Badj",
+ t_photo_add:"Mete foto ou", t_photo_del:"Retire foto a",
+ t_photo_bad:"Nou pa ka li foto sa a. Eseye yon lòt.",
+ t_photo_hint:"Foto a rete sou telefòn ou. Li parèt sou badj la sèlman.",
  t_cred_dl:"Telechaje",
  t_cred_open:"Louvri nan yon lòt paj",
  cred_title:"Ajan Sètifye LajanMaker",
@@ -316,6 +338,9 @@ fr:{
   cred_foot:"Certifié par LajanMaker Academy · Membre de HaitiBiznis Technologies",
  t_tab_card:"Carte de visite",
  t_tab_badge:"Badge",
+ t_photo_add:"Ajouter votre photo", t_photo_del:"Retirer la photo",
+ t_photo_bad:"Impossible de lire cette photo. Essayez-en une autre.",
+ t_photo_hint:"La photo reste sur votre téléphone. Elle n'apparaît que sur le badge.",
  t_cred_dl:"Télécharger",
  t_cred_open:"Ouvrir dans un autre onglet",
  cred_title:"Agent Certifié LajanMaker",
@@ -606,7 +631,9 @@ function finish(timedOut){
     drawCert(student.name, dateStr, cert);
     credState.name = student.name; credState.id = cert; credState.date = dateStr;
     credState.phone = student.phone || '';
-    renderCred();
+    /* photoKey() reads credState.phone, so the phone must be set FIRST - load
+       the saved photo only after it, or an agent gets the anonymous slot. */
+    setPhoto(savedPhoto(), renderCred);
   } else {
     $('failWrap').classList.remove('hidden');
   }
@@ -728,6 +755,82 @@ var NAVY = '#0B2E6F', RED = '#D21034', GOLD = '#E0A400', INK = '#152341';
 var credAssets = { logo:null, qr:null, want:2, got:0 };
 var credState = { name:'', id:'', date:'', phone:'', kind:'card' };
 
+/* ── The agent's photo ────────────────────────────────────────────────────
+   Kept per agent, keyed on the same digits the retake lock uses, so two
+   agents sharing one handset do not end up wearing each other's face.
+   Stored small on purpose: a full phone photo as a data URL is several MB and
+   localStorage gives us about 5MB in total, so one badge would fill it. */
+var PHOTO_MAX = 460;                 /* px, square - plenty for a 176px circle */
+var credPhoto = null;                /* an <img>, once loaded */
+
+function photoKey(){
+  var d = String(credState.phone || '').replace(/\D/g, '');
+  return d ? ('lma_photo_' + d) : 'lma_photo_anon';
+}
+function savedPhoto(){
+  try { return localStorage.getItem(photoKey()); } catch (e) { return null; }
+}
+
+/* Draw the file into a square canvas at PHOTO_MAX, cover-cropped and centred.
+   createImageBitmap with imageOrientation:'from-image' applies the EXIF
+   rotation; without it a photo taken in portrait arrives on its side, which on
+   a credential badge is the first thing anyone notices. */
+function photoFromFile(file, ok, fail){
+  function paint(src, w, h){
+    var c = document.createElement('canvas');
+    c.width = c.height = PHOTO_MAX;
+    var g = c.getContext('2d');
+    var scale = Math.max(PHOTO_MAX / w, PHOTO_MAX / h);
+    var dw = w * scale, dh = h * scale;
+    g.drawImage(src, (PHOTO_MAX - dw) / 2, (PHOTO_MAX - dh) / 2, dw, dh);
+    try { ok(c.toDataURL('image/jpeg', 0.86)); } catch (e) { fail(); }
+  }
+  if (window.createImageBitmap) {
+    createImageBitmap(file, { imageOrientation: 'from-image' })
+      .then(function(bm){ paint(bm, bm.width, bm.height); })
+      .catch(function(){ viaImg(); });
+  } else { viaImg(); }
+
+  function viaImg(){
+    var fr = new FileReader();
+    fr.onerror = fail;
+    fr.onload = function(){
+      var im = new Image();
+      im.onload = function(){ paint(im, im.naturalWidth, im.naturalHeight); };
+      im.onerror = fail;
+      im.src = fr.result;
+    };
+    fr.readAsDataURL(file);
+  }
+}
+
+function setPhoto(dataUrl, then){
+  if (!dataUrl){ credPhoto = null; return then && then(); }
+  var im = new Image();
+  im.onload = function(){ credPhoto = im; then && then(); };
+  im.onerror = function(){ credPhoto = null; then && then(); };
+  im.src = dataUrl;
+}
+
+/* A circular, cover-cropped portrait. Returns false when there is no photo so
+   the caller can lay the badge out without one - a badge with an empty grey
+   disc on it looks broken, not incomplete. */
+function drawPhotoCircle(ctx, cx, cy, r){
+  if (!credPhoto) return false;
+  ctx.save();
+  ctx.beginPath(); ctx.arc(cx, cy, r, 0, Math.PI * 2); ctx.closePath(); ctx.clip();
+  var iw = credPhoto.naturalWidth || credPhoto.width;
+  var ih = credPhoto.naturalHeight || credPhoto.height;
+  var sc = Math.max((r * 2) / iw, (r * 2) / ih);
+  ctx.drawImage(credPhoto, cx - iw * sc / 2, cy - ih * sc / 2, iw * sc, ih * sc);
+  ctx.restore();
+  ctx.lineWidth = 10; ctx.strokeStyle = '#fff';
+  ctx.beginPath(); ctx.arc(cx, cy, r, 0, Math.PI * 2); ctx.stroke();
+  ctx.lineWidth = 3; ctx.strokeStyle = GOLD;
+  ctx.beginPath(); ctx.arc(cx, cy, r + 6, 0, Math.PI * 2); ctx.stroke();
+  return true;
+}
+
 function loadCredAssets(done){
   if (credAssets.got >= credAssets.want) return done();
   ['lm-logo.png', 'qr-lajanmaker.png'].forEach(function(src, i){
@@ -834,40 +937,51 @@ function drawBadge(){
   ctx.font = '800 30px system-ui,-apple-system,"Segoe UI",Roboto,sans-serif';
   ctx.fillText('LajanMaker Academy', W / 2, 272);
 
+  /* With a photo everything below has to move down to make room, so the two
+     layouts are spelled out rather than nudged. ⛔ WITHOUT a photo the numbers
+     are byte-for-byte the ones Jeffery approved - his design is not disturbed
+     for an agent who has not added one. */
+  var hasPhoto = drawPhotoCircle(ctx, W / 2, 372, 88);
+  var L = hasPhoto
+    ? { name:530, pill:560, pillTx:595, idLab:662, id:706, phone:746,
+        qr:766, qrSize:190, scan:980, tiles:996, th:48, gap:8 }
+    : { name:420, pill:452, pillTx:487, idLab:566, id:612, phone:656,
+        qr:686, qrSize:244, scan:952, tiles:984, th:52, gap:10 };
+
   ctx.fillStyle = INK;
   fitText(ctx, credState.name, W - 120, 56, '800', 'system-ui,-apple-system,"Segoe UI",Roboto,sans-serif');
-  ctx.fillText(credState.name, W / 2, 420);
+  ctx.fillText(credState.name, W / 2, L.name);
 
   ctx.fillStyle = RED;
-  roundRect(ctx, W / 2 - 230, 452, 460, 52, 26); ctx.fill();
+  roundRect(ctx, W / 2 - 230, L.pill, 460, 52, 26); ctx.fill();
   ctx.fillStyle = '#fff';
   ctx.font = '800 22px system-ui,-apple-system,"Segoe UI",Roboto,sans-serif';
-  ctx.fillText(t('cred_title').toUpperCase(), W / 2, 487);
+  ctx.fillText(t('cred_title').toUpperCase(), W / 2, L.pillTx);
 
   ctx.fillStyle = '#5A6B8A';
   ctx.font = '700 17px system-ui,-apple-system,"Segoe UI",Roboto,sans-serif';
-  ctx.fillText(t('cred_id'), W / 2, 566);
+  ctx.fillText(t('cred_id'), W / 2, L.idLab);
   ctx.fillStyle = NAVY;
   ctx.font = '800 36px "SF Mono",Menlo,Consolas,monospace';
-  ctx.fillText(credState.id, W / 2, 612);
+  ctx.fillText(credState.id, W / 2, L.id);
 
   if (credState.phone){
     ctx.fillStyle = '#152341';
     ctx.font = '700 22px system-ui,-apple-system,"Segoe UI",Roboto,sans-serif';
-    ctx.fillText('\u260E  +509 ' + credState.phone, W / 2, 656);
+    ctx.fillText('\u260E  +509 ' + credState.phone, W / 2, L.phone);
   }
 
-  if (credAssets.qr) ctx.drawImage(credAssets.qr, W / 2 - 122, 686, 244, 244);
+  if (credAssets.qr) ctx.drawImage(credAssets.qr, W / 2 - L.qrSize / 2, L.qr, L.qrSize, L.qrSize);
   ctx.fillStyle = '#93A0B8';
   ctx.font = '600 15px system-ui,-apple-system,"Segoe UI",Roboto,sans-serif';
-  ctx.fillText(t('cred_scan'), W / 2, 952);
+  ctx.fillText(t('cred_scan'), W / 2, L.scan);
 
   /* The six services an agent actually sells, in the platform's own colours.
      Straight from his badge design - it is what turns a name badge into a
      reason for the person opposite to ask a question. */
   var SVC = [['MsouWout', '#D21034'], ['MyPlopPlop', '#0057D9'], ['Tike Lakay', '#1B8C3D'],
              ['Academy', '#E07B00'], ['48HoursReady', '#6D28D9'], ['Sol', '#B8860B']];
-  var tw = 280, th = 52, gap = 10, x0 = (W - (tw * 3 + gap * 2)) / 2, y0 = 984;
+  var tw = 280, th = L.th, gap = L.gap, x0 = (W - (tw * 3 + gap * 2)) / 2, y0 = L.tiles;
   ctx.font = '800 17px system-ui,-apple-system,"Segoe UI",Roboto,sans-serif';
   SVC.forEach(function(sv, i){
     var cx = x0 + (i % 3) * (tw + gap), cy = y0 + Math.floor(i / 3) * (th + gap);
@@ -900,8 +1014,54 @@ function renderCred(){
       $('btnCredOpen').href = data;
     } catch(e){ /* the draw itself failed; nothing else to try */ }
     $('credHint').textContent = t('cred_hint');
+    syncPhotoUI();
   });
 }
+
+/* The photo belongs to the badge; the business card has no room for one, so the
+   controls are hidden there rather than sitting dead on screen. */
+function syncPhotoUI(){
+  var row = document.querySelector('.photorow');
+  var del = $('btnPhotoDel'), hint = $('photoHint');
+  if (!row) return;
+  var onBadge = credState.kind === 'badge';
+  row.style.display = onBadge ? '' : 'none';
+  if (hint){
+    hint.textContent = onBadge ? t('t_photo_hint') : '';
+  }
+  del.classList.toggle('hidden', !credPhoto);
+}
+
+/* ── Photo controls ──────────────────────────────────────────────────────── */
+(function wirePhoto(){
+  var input = $('photoInput'), add = $('btnPhoto'), del = $('btnPhotoDel');
+  if (!input || !add) return;
+
+  add.onclick = function(){
+    /* Clearing the value first means picking the SAME file twice still fires
+       change - otherwise a retake of an identical-looking shot does nothing. */
+    input.value = '';
+    input.click();
+  };
+
+  input.onchange = function(){
+    var f = input.files && input.files[0];
+    if (!f) return;
+    $('photoHint').textContent = '...';
+    photoFromFile(f, function(dataUrl){
+      try { localStorage.setItem(photoKey(), dataUrl); }
+      catch (e) { /* quota - the badge still gets the photo this session */ }
+      setPhoto(dataUrl, function(){ renderCred(); });
+    }, function(){
+      $('photoHint').textContent = t('t_photo_bad');
+    });
+  };
+
+  del.onclick = function(){
+    try { localStorage.removeItem(photoKey()); } catch (e) {}
+    setPhoto(null, function(){ renderCred(); });
+  };
+})();
 
 document.querySelectorAll('.credtab').forEach(function(b){
   b.onclick = function(){
