@@ -158,7 +158,18 @@ img{max-width:100%;display:block}
 /* ============ FEATURED ============ */
 .featured{background:var(--card);border:1.5px solid var(--gold);border-radius:var(--r-lg);
   padding:20px 22px;box-shadow:var(--sh);position:relative;overflow:hidden}
+/* 🚨 23 Sep, Jennifer: "Bouton sa pa mache. Lem klike li pa bay anyen."
+   This decorative gold blob is 200x200 and pinned to the RIGHT of the card -
+   which is exactly where .learn sits, because .learn has margin-left:auto. It
+   is invisible, it is on top, and without pointer-events:none it swallowed the
+   tap. The button was never broken; it was covered.
+   Measured on the live page: blocked at 600px wide and up, fine at 540px and
+   below - because the media query at the bottom of this block drops .learn onto
+   its own full-width row and out from under the blob. Jeffery is on a phone and
+   never saw it; Jennifer is on a tablet and always did.
+   VISIBLE IS NOT CLICKABLE. */
 .featured::before{content:'';position:absolute;top:-30%;right:-10%;width:200px;height:200px;
+  pointer-events:none;
   background:radial-gradient(circle,rgba(212,160,23,.14),transparent 70%)}
 .featured .tag{display:inline-flex;align-items:center;gap:6px;background:var(--grad-gold);color:#3a2a00;
   font-weight:800;font-size:.68rem;text-transform:uppercase;letter-spacing:.08em;padding:5px 12px;border-radius:999px}
@@ -167,7 +178,8 @@ img{max-width:100%;display:block}
 .featured h3{font-family:var(--display);font-size:1.5rem;color:var(--ink)}
 .featured p{font-size:.9rem;color:var(--muted);font-weight:500;margin-top:2px}
 .featured .learn{margin-left:auto;flex:0 0 auto;background:var(--blue);color:#fff;font-weight:800;font-size:.86rem;
-  padding:11px 18px;border-radius:999px;white-space:nowrap;transition:.2s}
+  padding:11px 18px;border-radius:999px;white-space:nowrap;transition:.2s;
+  position:relative;z-index:1}   /* belt and braces: keep it above the blob */
 .featured .learn:hover{background:var(--blue-light)}
 @media(max-width:540px){.featured .row{flex-wrap:wrap}.featured .learn{margin-left:0;width:100%;text-align:center}}
 
