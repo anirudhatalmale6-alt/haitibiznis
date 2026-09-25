@@ -779,6 +779,8 @@ var translations = {
     rsvpYesTitle: 'Bèl bagay! Ann jwenn ou',
     rsvpNoTitle: 'Mèsi paske w fè nou konnen',
     rsvpNoNote: 'Nou jis bezwen nimewo w pou nou pa konte w de fwa.',
+    rsvpFull: 'Evenman an konplè. Pa gen plas ki rete.',
+    rsvpOnlyLeft: 'Gen sèlman {n} plas ki rete. Chanje kantite moun yo.',
     rsvpSend: 'Voye repons mwen',
     rsvpGoingOne: 'moun ap vini',
     rsvpGoingMany: 'moun ap vini',
@@ -838,6 +840,8 @@ var translations = {
     rsvpYesTitle: 'Parfait! Retrouvons-nous',
     rsvpNoTitle: 'Merci de nous prévenir',
     rsvpNoNote: 'Nous avons juste votre numéro pour ne pas vous compter deux fois.',
+    rsvpFull: 'Cet événement est complet. Il ne reste aucune place.',
+    rsvpOnlyLeft: 'Il ne reste que {n} place(s). Modifiez le nombre de personnes.',
     rsvpSend: 'Envoyer ma réponse',
     rsvpGoingOne: 'personne vient',
     rsvpGoingMany: 'personnes viennent',
@@ -897,6 +901,8 @@ var translations = {
     rsvpYesTitle: 'Great! Let us find you',
     rsvpNoTitle: 'Thanks for letting us know',
     rsvpNoNote: 'We only need your number so we do not count you twice.',
+    rsvpFull: 'This event is full. There are no places left.',
+    rsvpOnlyLeft: 'Only {n} place(s) left. Change the number of people.',
     rsvpSend: 'Send my answer',
     rsvpGoingOne: 'person coming',
     rsvpGoingMany: 'people coming',
@@ -956,6 +962,8 @@ var translations = {
     rsvpYesTitle: 'Ótimo! Vamos encontrá-lo',
     rsvpNoTitle: 'Obrigado por avisar',
     rsvpNoNote: 'Precisamos apenas do seu número para não contar você duas vezes.',
+    rsvpFull: 'Este evento está lotado. Não há vagas.',
+    rsvpOnlyLeft: 'Restam apenas {n} vaga(s). Altere o número de pessoas.',
     rsvpSend: 'Enviar minha resposta',
     rsvpGoingOne: 'pessoa vem',
     rsvpGoingMany: 'pessoas vêm',
@@ -1015,6 +1023,8 @@ var translations = {
     rsvpYesTitle: '¡Genial! Vamos a encontrarte',
     rsvpNoTitle: 'Gracias por avisarnos',
     rsvpNoNote: 'Solo necesitamos tu número para no contarte dos veces.',
+    rsvpFull: 'Este evento está completo. No quedan plazas.',
+    rsvpOnlyLeft: 'Solo quedan {n} plaza(s). Cambie el número de personas.',
     rsvpSend: 'Enviar mi respuesta',
     rsvpGoingOne: 'persona viene',
     rsvpGoingMany: 'personas vienen',
@@ -1369,7 +1379,19 @@ function sendRsvp(response) {
   })
     .then(function(r) { return r.json().then(function(d) { return { ok: r.ok, d: d }; }); })
     .then(function(res) {
-      if (!res.ok) throw new Error(res.d && res.d.error || 'failed');
+      if (!res.ok) {
+        /* 🚨 The event can now be FULL. The server answers in English; the
+           person reading it may not. Build the sentence here, where the
+           language is known, from the numbers the server sent. */
+        var d = res.d || {};
+        if (d.full) {
+          var msg = (d.places_left > 0)
+            ? t('rsvpOnlyLeft').replace('{n}', d.places_left)
+            : t('rsvpFull');
+          var e2 = new Error(msg); e2.handled = true; throw e2;
+        }
+        throw new Error(d.error || 'failed');
+      }
       showRsvpCount(res.d.going, res.d.attending);
       var m = document.getElementById('rsvpModal');
 
