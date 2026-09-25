@@ -789,6 +789,7 @@ var translations = {
     rsvpChange: 'Chanje repons mwen',
     rsvpYouSaidYes: 'Ou di w ap vini',
     rsvpYouSaidNo: 'Ou di w pa ka vini',
+    rsvpGuestName: 'Non moun nimewo {n}',
     rsvpGuests: 'Konbyen moun ansanm ak ou?',
     rsvpTicketLink: 'Louvri tikè mwen'
   },
@@ -850,6 +851,7 @@ var translations = {
     rsvpChange: 'Changer ma réponse',
     rsvpYouSaidYes: 'Vous avez dit que vous venez',
     rsvpYouSaidNo: 'Vous avez dit que vous ne pouvez pas',
+    rsvpGuestName: 'Nom de la personne {n}',
     rsvpGuests: 'Combien de personnes avec vous?',
     rsvpTicketLink: 'Ouvrir mon billet'
   },
@@ -911,6 +913,7 @@ var translations = {
     rsvpChange: 'Change my answer',
     rsvpYouSaidYes: 'You said you are coming',
     rsvpYouSaidNo: 'You said you cannot make it',
+    rsvpGuestName: 'Name of person {n}',
     rsvpGuests: 'How many people with you?',
     rsvpTicketLink: 'Open my ticket'
   },
@@ -972,6 +975,7 @@ var translations = {
     rsvpChange: 'Mudar minha resposta',
     rsvpYouSaidYes: 'Você disse que vem',
     rsvpYouSaidNo: 'Você disse que não pode ir',
+    rsvpGuestName: 'Nome da pessoa {n}',
     rsvpGuests: 'Quantas pessoas com você?',
     rsvpTicketLink: 'Abrir meu ingresso'
   },
@@ -1033,6 +1037,7 @@ var translations = {
     rsvpChange: 'Cambiar mi respuesta',
     rsvpYouSaidYes: 'Dijiste que vas a venir',
     rsvpYouSaidNo: 'Dijiste que no puedes ir',
+    rsvpGuestName: 'Nombre de la persona {n}',
     rsvpGuests: '¿Cuántas personas contigo?',
     rsvpTicketLink: 'Abrir mi boleto'
   }
@@ -1333,12 +1338,49 @@ function openRsvp(response) {
     (yes ? '<input id="rsvpName" placeholder="' + t('yourName') + '" style="width:100%;padding:11px;border:1px solid var(--border);border-radius:8px;margin-bottom:8px;font-family:var(--body)">' : '') +
     '<input id="rsvpPhone" type="tel" value="' + known.replace(/"/g, '&quot;') + '" placeholder="' + t('yourPhone') + '" style="width:100%;padding:11px;border:1px solid var(--border);border-radius:8px;font-family:var(--body)">' +
     (yes ? '<div style="margin-top:10px"><label style="font-size:.82rem;color:var(--text-muted);display:block;margin-bottom:4px">' + t('rsvpGuests') + '</label>' +
-           '<input id="rsvpGuests" type="number" min="1" max="20" value="1" style="width:100%;padding:11px;border:1px solid var(--border);border-radius:8px;font-family:var(--body)"></div>' : '') +
+           '<input id="rsvpGuests" type="number" min="1" max="20" value="1" oninput="renderGuestNames()" style="width:100%;padding:11px;border:1px solid var(--border);border-radius:8px;font-family:var(--body)">' +
+           '<div id="rsvpGuestNames"></div></div>' : '') +
     '<button id="rsvpSendBtn" onclick="sendRsvp(\'' + response + '\')" style="width:100%;margin-top:14px;padding:13px;border-radius:10px;font-weight:800;font-size:.95rem;border:none;background:' + (yes ? 'var(--green,#00A651)' : 'var(--primary-blue,#00209F)') + ';color:#fff;cursor:pointer;font-family:var(--body)">' + t('rsvpSend') + '</button>' +
     '<div id="rsvpError" style="color:#D21034;font-size:.85rem;margin-top:8px;display:none"></div></div>';
   document.body.appendChild(modal);
   var f = document.getElementById(yes && !known ? 'rsvpName' : 'rsvpPhone');
   if (f) f.focus();
+}
+
+/* 🚨 25 Sep, Jeffery: "When an attendee RSVP +1 or 2 they should the option to
+   put the name of the extra people."
+   A number tells the organiser how many chairs to put out. It does not tell
+   the person on the door who is allowed through - which is exactly the problem
+   Jennifer hit with 22 answers and 26 people.
+   Boxes appear as the count goes up, and anything already typed is kept, so
+   changing 2 to 3 does not wipe the name you just entered. Optional on
+   purpose: nobody is stopped from saying yes because they have not asked a
+   friend's surname yet. */
+function renderGuestNames() {
+  var wrap = document.getElementById('rsvpGuestNames');
+  var countEl = document.getElementById('rsvpGuests');
+  if (!wrap || !countEl) return;
+  var extra = Math.max(0, Math.min(19, (parseInt(countEl.value) || 1) - 1));
+  var kept = Array.prototype.map.call(
+    wrap.querySelectorAll('input'), function (i) { return i.value; });
+  var html = '';
+  for (var i = 0; i < extra; i++) {
+    html += '<input class="rsvp-guest-name" type="text" maxlength="80" placeholder="' +
+            t('rsvpGuestName').replace('{n}', i + 1) +
+            '" style="width:100%;margin-top:6px;padding:10px;border:1px solid var(--border);' +
+            'border-radius:8px;font-family:var(--body)">';
+  }
+  wrap.innerHTML = html;
+  var boxes = wrap.querySelectorAll('input');
+  for (var j = 0; j < boxes.length; j++) if (kept[j]) boxes[j].value = kept[j];
+}
+
+function collectGuestNames() {
+  var wrap = document.getElementById('rsvpGuestNames');
+  if (!wrap) return [];
+  return Array.prototype.map.call(wrap.querySelectorAll('input'), function (i) {
+    return (i.value || '').trim();
+  }).filter(function (x) { return x; });
 }
 
 function sendRsvp(response) {
@@ -1375,7 +1417,8 @@ function sendRsvp(response) {
   fetch(API_URL + '/api/events/' + event._id + '/rsvp', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ response: response, name: name, phone: phone, guests: guests })
+    body: JSON.stringify({ response: response, name: name, phone: phone, guests: guests,
+                           guest_names: collectGuestNames() })
   })
     .then(function(r) { return r.json().then(function(d) { return { ok: r.ok, d: d }; }); })
     .then(function(res) {
