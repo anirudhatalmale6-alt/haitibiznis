@@ -1356,6 +1356,10 @@ var i18nMore = {
     need_ticket_name: 'Bay chak tikè yon non. Tikè ki poko gen non: ',
     publish_failed: 'Evènman an pa pibliye. Sèvè a di: ',
     publish_offline: 'Evènman an pa pibliye - koneksyon an pa pase. Nou kenbe tout sa ou tape sou telefòn sa a. Peze "Pibliye Evènman" ankò lè ou gen entènèt.',
+    edit_save: 'Anrejistre chanjman yo', edit_banner: 'W ap modifye yon evènman ki deja pibliye',
+    edit_saved: 'Chanjman ou yo anrejistre.', edit_failed: 'Nou pa ka anrejistre chanjman an. ',
+    edit_noright: 'Se sèlman moun ki kreye evènman an ki ka modifye l.',
+    edit_loadfail: 'Nou pa ka chaje evènman sa a.',
     publishing: 'Ap pibliye...',
     draw_text: 'Ekri tit la sou imaj la',
     draw_text_note: 'Flyer ou a rete jan l ye. Dekoche si ou pa vle nou ekri anyen sou li.',
@@ -1372,6 +1376,10 @@ var i18nMore = {
     need_ticket_name: 'Chaque billet doit avoir un nom. Billets sans nom : ',
     publish_failed: "L'événement n'est pas publié. Le serveur répond : ",
     publish_offline: "L'événement n'est pas publié - la connexion n'est pas passée. Tout ce que vous avez saisi est conservé sur ce téléphone. Appuyez de nouveau sur « Publier l'Événement » une fois connecté.",
+    edit_save: 'Enregistrer les modifications', edit_banner: 'Vous modifiez un événement déjà publié',
+    edit_saved: 'Vos modifications sont enregistrées.', edit_failed: 'Impossible d\'enregistrer la modification. ',
+    edit_noright: 'Seul l\'organisateur qui a créé cet événement peut le modifier.',
+    edit_loadfail: 'Impossible de charger cet événement.',
     publishing: 'Publication...',
     draw_text: "Écrire le titre sur l'image",
     draw_text_note: "Votre flyer reste tel quel. Décochez si vous ne voulez rien d'écrit dessus.",
@@ -1388,6 +1396,10 @@ var i18nMore = {
     need_ticket_name: 'Every ticket needs a name. Tickets with no name: ',
     publish_failed: 'The event was NOT published. The server said: ',
     publish_offline: 'The event was NOT published - the connection did not go through. Everything you typed is kept on this phone. Press "Publish Event" again once you are online.',
+    edit_save: 'Save changes', edit_banner: 'Editing a published event',
+    edit_saved: 'Your changes are saved.', edit_failed: 'We could not save that change. ',
+    edit_noright: 'Only the organizer who created this event can edit it.',
+    edit_loadfail: 'We could not load that event.',
     publishing: 'Publishing...',
     draw_text: 'Write the title on the image',
     draw_text_note: 'Your flyer stays exactly as it is. Untick this if you do not want anything written over it.',
@@ -1404,6 +1416,10 @@ var i18nMore = {
     need_ticket_name: 'Cada ingresso precisa de um nome. Ingressos sem nome: ',
     publish_failed: 'O evento NÃO foi publicado. O servidor respondeu: ',
     publish_offline: 'O evento NÃO foi publicado - a conexão não passou. Tudo o que você digitou está guardado neste telefone. Toque em "Publicar evento" de novo quando tiver internet.',
+    edit_save: 'Guardar alterações', edit_banner: 'Está a editar um evento já publicado',
+    edit_saved: 'As suas alterações foram guardadas.', edit_failed: 'Não foi possível guardar a alteração. ',
+    edit_noright: 'Apenas o organizador que criou este evento pode editá-lo.',
+    edit_loadfail: 'Não foi possível carregar esse evento.',
     publishing: 'Publicando...',
     draw_text: 'Escrever o título sobre a imagem',
     draw_text_note: 'Seu flyer fica exatamente como está. Desmarque se não quiser nada escrito em cima.',
@@ -1420,6 +1436,10 @@ var i18nMore = {
     need_ticket_name: 'Cada boleto necesita un nombre. Boletos sin nombre: ',
     publish_failed: 'El evento NO se publicó. El servidor responde: ',
     publish_offline: 'El evento NO se publicó - la conexión no pasó. Todo lo que escribió queda guardado en este teléfono. Pulse "Publicar Evento" otra vez cuando tenga internet.',
+    edit_save: 'Guardar cambios', edit_banner: 'Está editando un evento ya publicado',
+    edit_saved: 'Sus cambios se guardaron.', edit_failed: 'No pudimos guardar ese cambio. ',
+    edit_noright: 'Solo el organizador que creó este evento puede editarlo.',
+    edit_loadfail: 'No pudimos cargar ese evento.',
     publishing: 'Publicando...',
     draw_text: 'Escribir el título sobre la imagen',
     draw_text_note: 'Su flyer queda tal cual. Desmarque si no quiere nada escrito encima.',
@@ -2261,6 +2281,86 @@ function resetPublishBtn() {
   b.querySelector('span').textContent = t.publish_event;
 }
 
+/* ═══ EDIT AN EVENT YOU ALREADY PUBLISHED ═══════════════════════════════
+   Asked for twice by Jennifer and twice by Jeffery. Until now the only way to
+   correct a typo in a published event was to delete it and build it again -
+   which throws away every RSVP and every ticket already sold.
+
+   No new screen: this is the same form, loaded with what is already there.
+   Two things make it safe:
+
+   - The manage code. It was handed to the organiser once, when they published,
+     and lives on THEIR phone. Without it the server refuses, so nobody edits
+     somebody else's event. It is not the console code, which opens escrow and
+     refunds across the whole platform.
+   - The sold counts are NOT sent back. The server preserves them by ticket
+     name anyway, but the form must not even appear to reset them - Jennifer's
+     workshop has 25 tickets sold against it. */
+var EDIT_ID = null, EDIT_CODE = null, EDIT_SOURCE = null;
+
+function manageCodeFor(id) {
+  try { return (JSON.parse(localStorage.getItem('tl_manage') || '{}'))[id] || null; }
+  catch (e) { return null; }
+}
+
+function enterEditMode(ev) {
+  EDIT_SOURCE = ev;
+  choosePath('manual');
+
+  applyAiData({
+    title: ev.title, type: ev.type, date: ev.date,
+    startTime: ev.startTime, endTime: ev.endTime,
+    location: ev.location, description: ev.description,
+    organizer: ev.organizer, organizerPhone: ev.organizerPhone,
+    tickets: ev.tickets
+  });
+  /* applyAiData ends with an "AI filled this in" badge, which is a lie here. */
+  var badge = document.querySelector('#step1 .form-card > div');
+  if (badge && badge.textContent.indexOf('AI') >= 0) badge.remove();
+
+  if (ev.typeCustom) setVal('evTypeCustom', ev.typeCustom);
+  if (typeof onTypeChange === 'function') { try { onTypeChange(); } catch (e) {} }
+
+  (ev.paymentMethods ? Object.keys(ev.paymentMethods) : []).forEach(function (k) {
+    document.querySelectorAll('.pay-check input[type="checkbox"]').forEach(function (cb) {
+      if (cb.value === k) cb.checked = !!ev.paymentMethods[k];
+    });
+  });
+  setVal('evMoncash', ev.moncashNumber);
+  setVal('evNatcash', ev.natcashNumber);
+
+  var t = i18n[curLang] || i18n.ht;
+  var pb = document.getElementById('publishBtn');
+  if (pb) {
+    var sp = pb.querySelector('span');
+    if (sp) sp.textContent = t.edit_save || 'Save changes';
+  }
+  var banner = document.createElement('div');
+  banner.id = 'editBanner';
+  banner.textContent = (t.edit_banner || 'Editing a published event') + ' — ' + (ev.title || '');
+  banner.style.cssText = 'background:#FFF8E6;border:1px solid rgba(212,160,23,.5);color:#6B5B2A;' +
+    'border-radius:10px;padding:10px 14px;font-size:.85rem;font-weight:700;margin-bottom:12px;text-align:center';
+  var card = document.querySelector('#step1 .form-card');
+  if (card) card.insertBefore(banner, card.firstChild);
+}
+
+(function initEditMode() {
+  var id = null;
+  try { id = new URLSearchParams(location.search).get('edit'); } catch (e) {}
+  if (!id) return;
+  var code = manageCodeFor(id);
+  var t = i18n[curLang] || i18n.ht;
+  if (!code) { alert(t.edit_noright || 'Only the organizer who created this event can edit it.'); return; }
+  EDIT_ID = id; EDIT_CODE = code;
+  fetch(API_URL + '/api/events/' + id)
+    .then(function (r) { return r.json(); })
+    .then(function (ev) {
+      if (!ev || !ev._id) throw new Error('not found');
+      enterEditMode(ev);
+    })
+    .catch(function () { alert(t.edit_loadfail || 'We could not load that event.'); });
+})();
+
 function publishEvent() {
   if (!checkEventReady()) return;
 
@@ -2428,6 +2528,36 @@ function publishEvent() {
      the server accepted it. Every other outcome says so, out loud, and leaves
      the button ready to press again. */
   var t = i18n[curLang] || i18n.ht;
+
+  /* Editing: same form, same object, different verb - and the manage code,
+     which is what proves this is the organiser's own event. The sold counts
+     are stripped before sending; the server keeps its own. */
+  if (EDIT_ID) {
+    var patch = JSON.parse(JSON.stringify(eventObj));
+    delete patch.id; delete patch._id;
+    if (Array.isArray(patch.tickets)) patch.tickets.forEach(function (x) { delete x.sold; });
+    fetch(API_URL + '/api/events/' + EDIT_ID, {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json', 'x-manage-code': EDIT_CODE },
+      body: JSON.stringify(patch)
+    }).then(function (r) {
+      return r.json().catch(function () { return { error: 'HTTP ' + r.status }; });
+    }).then(function (saved) {
+      if (saved && saved._id) {
+        clearDraft();
+        alert(t.edit_saved || 'Your changes are saved.');
+        location.href = 'events.html';
+        return;
+      }
+      resetPublishBtn();
+      alert((t.edit_failed || 'We could not save that change. ') + ((saved && saved.error) || '?'));
+    }).catch(function () {
+      resetPublishBtn();
+      alert(t.publish_offline);
+    });
+    return;
+  }
+
   fetch(API_URL + '/api/events', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },

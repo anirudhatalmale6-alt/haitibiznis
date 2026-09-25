@@ -1674,23 +1674,23 @@ function forgetEvent(id) {
 }
 
 var TL_MANAGE_TXT = {
-  ht: { who: '👥 Ki moun k ap vini', del: '🗑️ Efase', confirm: 'Efase evènman sa a nèt?', deleting: 'N ap efase...',
+  ht: { edit: '✏️ Modifye', who: '👥 Ki moun k ap vini', del: '🗑️ Efase', confirm: 'Efase evènman sa a nèt?', deleting: 'N ap efase...',
         sold: 'Gen {n} tikè ki deja achte pou evènman sa a. Si w efase l, tikè sa yo ap pèdi evènman yo. Anile l pito — tikè yo rete bon epi evènman an soti nan lis piblik la.\n\nAnile evènman an?',
         cancelled: 'Evènman an anile.', failed: 'Nou pa ka efase l kounye a.',
         noRight: 'Se sèlman moun ki kreye evènman an ki ka efase l.' },
-  fr: { who: '👥 Qui vient', del: '🗑️ Supprimer', confirm: 'Supprimer définitivement cet événement?', deleting: 'Suppression...',
+  fr: { edit: '✏️ Modifier', who: '👥 Qui vient', del: '🗑️ Supprimer', confirm: 'Supprimer définitivement cet événement?', deleting: 'Suppression...',
         sold: '{n} billet(s) ont déjà été achetés pour cet événement. En le supprimant, ces billets ne renverront plus à rien. Annulez-le plutôt — les billets restent valables et l\'événement quitte la liste publique.\n\nAnnuler l\'événement?',
         cancelled: 'Événement annulé.', failed: 'Suppression impossible pour le moment.',
         noRight: 'Seul l\'organisateur qui a créé cet événement peut le supprimer.' },
-  en: { who: '👥 Who is coming', del: '🗑️ Delete', confirm: 'Delete this event permanently?', deleting: 'Deleting...',
+  en: { edit: '✏️ Edit', who: '👥 Who is coming', del: '🗑️ Delete', confirm: 'Delete this event permanently?', deleting: 'Deleting...',
         sold: '{n} ticket(s) have already been bought for this event. Deleting it would leave those tickets pointing at nothing. Cancel it instead — the tickets stay valid and the event leaves the public list.\n\nCancel the event?',
         cancelled: 'Event cancelled.', failed: 'We cannot delete it right now.',
         noRight: 'Only the organizer who created this event can delete it.' },
-  es: { who: '👥 Quién viene', del: '🗑️ Eliminar', confirm: '¿Eliminar este evento definitivamente?', deleting: 'Eliminando...',
+  es: { edit: '✏️ Editar', who: '👥 Quién viene', del: '🗑️ Eliminar', confirm: '¿Eliminar este evento definitivamente?', deleting: 'Eliminando...',
         sold: 'Ya se compraron {n} boleto(s) para este evento. Si lo eliminas, esos boletos no apuntarán a nada. Mejor cancélalo — los boletos siguen válidos y el evento sale de la lista pública.\n\n¿Cancelar el evento?',
         cancelled: 'Evento cancelado.', failed: 'No podemos eliminarlo ahora.',
         noRight: 'Solo el organizador que creó este evento puede eliminarlo.' },
-  pt: { who: '👥 Quem vem', del: '🗑️ Excluir', confirm: 'Excluir este evento definitivamente?', deleting: 'Excluindo...',
+  pt: { edit: '✏️ Editar', who: '👥 Quem vem', del: '🗑️ Excluir', confirm: 'Excluir este evento definitivamente?', deleting: 'Excluindo...',
         sold: '{n} ingresso(s) já foram comprados para este evento. Excluí-lo deixaria esses ingressos sem destino. Cancele-o em vez disso — os ingressos continuam válidos e o evento sai da lista pública.\n\nCancelar o evento?',
         cancelled: 'Evento cancelado.', failed: 'Não é possível excluir agora.',
         noRight: 'Apenas o organizador que criou este evento pode excluí-lo.' }
@@ -1818,6 +1818,13 @@ function renderEventCards(events) {
            no". This is the way in. */
         '<a class="ev-mini" href="attendees.html?id=' + evLinkId + '">' +
         TL_TXT('who') + '</a>' +
+        /* 🚨 Asked for twice by Jennifer and twice by Jeffery. Until now the
+           only way to correct a typo in a published event was to delete it and
+           rebuild it - which throws away every RSVP and every ticket sold.
+           It opens the SAME form she filled in, loaded with what is already
+           there, and it only appears on events this phone holds a code for. */
+        '<a class="ev-mini" href="create-event.html?edit=' + evLinkId + '">' +
+        TL_TXT('edit') + '</a>' +
         '<button class="ev-mini" onclick="deleteMyEvent(\'' + evLinkId + '\',this)">' +
         TL_TXT('del') + '</button></div>' : '') +
       '</div></div>';
