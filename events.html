@@ -1674,23 +1674,33 @@ function forgetEvent(id) {
 }
 
 var TL_MANAGE_TXT = {
-  ht: { edit: '✏️ Modifye', who: '👥 Ki moun k ap vini', del: '🗑️ Efase', confirm: 'Efase evènman sa a nèt?', deleting: 'N ap efase...',
+  ht: { unpub: 'PA PIBLIYE', drop: '🧹 Retire l sou telefòn sa',
+        dropConfirm: 'Evènman sa a pa janm rive sou sèvè a — se yon kopi ki rete sou telefòn ou. Retire l?',
+        edit: '✏️ Modifye', who: '👥 Ki moun k ap vini', del: '🗑️ Efase', confirm: 'Efase evènman sa a nèt?', deleting: 'N ap efase...',
         sold: 'Gen {n} tikè ki deja achte pou evènman sa a. Si w efase l, tikè sa yo ap pèdi evènman yo. Anile l pito — tikè yo rete bon epi evènman an soti nan lis piblik la.\n\nAnile evènman an?',
         cancelled: 'Evènman an anile.', failed: 'Nou pa ka efase l kounye a.',
         noRight: 'Se sèlman moun ki kreye evènman an ki ka efase l.' },
-  fr: { edit: '✏️ Modifier', who: '👥 Qui vient', del: '🗑️ Supprimer', confirm: 'Supprimer définitivement cet événement?', deleting: 'Suppression...',
+  fr: { unpub: 'NON PUBLIÉ', drop: '🧹 Retirer de ce téléphone',
+        dropConfirm: 'Cet événement n\'est jamais arrivé sur le serveur — c\'est une copie restée sur votre téléphone. La retirer?',
+        edit: '✏️ Modifier', who: '👥 Qui vient', del: '🗑️ Supprimer', confirm: 'Supprimer définitivement cet événement?', deleting: 'Suppression...',
         sold: '{n} billet(s) ont déjà été achetés pour cet événement. En le supprimant, ces billets ne renverront plus à rien. Annulez-le plutôt — les billets restent valables et l\'événement quitte la liste publique.\n\nAnnuler l\'événement?',
         cancelled: 'Événement annulé.', failed: 'Suppression impossible pour le moment.',
         noRight: 'Seul l\'organisateur qui a créé cet événement peut le supprimer.' },
-  en: { edit: '✏️ Edit', who: '👥 Who is coming', del: '🗑️ Delete', confirm: 'Delete this event permanently?', deleting: 'Deleting...',
+  en: { unpub: 'NOT PUBLISHED', drop: '🧹 Remove from this phone',
+        dropConfirm: 'This event never reached the server — it is a copy left on your phone. Remove it?',
+        edit: '✏️ Edit', who: '👥 Who is coming', del: '🗑️ Delete', confirm: 'Delete this event permanently?', deleting: 'Deleting...',
         sold: '{n} ticket(s) have already been bought for this event. Deleting it would leave those tickets pointing at nothing. Cancel it instead — the tickets stay valid and the event leaves the public list.\n\nCancel the event?',
         cancelled: 'Event cancelled.', failed: 'We cannot delete it right now.',
         noRight: 'Only the organizer who created this event can delete it.' },
-  es: { edit: '✏️ Editar', who: '👥 Quién viene', del: '🗑️ Eliminar', confirm: '¿Eliminar este evento definitivamente?', deleting: 'Eliminando...',
+  es: { unpub: 'NO PUBLICADO', drop: '🧹 Quitar de este teléfono',
+        dropConfirm: 'Este evento nunca llegó al servidor — es una copia en su teléfono. ¿Quitarla?',
+        edit: '✏️ Editar', who: '👥 Quién viene', del: '🗑️ Eliminar', confirm: '¿Eliminar este evento definitivamente?', deleting: 'Eliminando...',
         sold: 'Ya se compraron {n} boleto(s) para este evento. Si lo eliminas, esos boletos no apuntarán a nada. Mejor cancélalo — los boletos siguen válidos y el evento sale de la lista pública.\n\n¿Cancelar el evento?',
         cancelled: 'Evento cancelado.', failed: 'No podemos eliminarlo ahora.',
         noRight: 'Solo el organizador que creó este evento puede eliminarlo.' },
-  pt: { edit: '✏️ Editar', who: '👥 Quem vem', del: '🗑️ Excluir', confirm: 'Excluir este evento definitivamente?', deleting: 'Excluindo...',
+  pt: { unpub: 'NÃO PUBLICADO', drop: '🧹 Remover deste telemóvel',
+        dropConfirm: 'Este evento nunca chegou ao servidor — é uma cópia no seu telemóvel. Remover?',
+        edit: '✏️ Editar', who: '👥 Quem vem', del: '🗑️ Excluir', confirm: 'Excluir este evento definitivamente?', deleting: 'Excluindo...',
         sold: '{n} ingresso(s) já foram comprados para este evento. Excluí-lo deixaria esses ingressos sem destino. Cancele-o em vez disso — os ingressos continuam válidos e o evento sai da lista pública.\n\nCancelar o evento?',
         cancelled: 'Evento cancelado.', failed: 'Não é possível excluir agora.',
         noRight: 'Apenas o organizador que criou este evento pode excluí-lo.' }
@@ -1699,6 +1709,15 @@ var TL_MANAGE_TXT = {
 function TL_TXT(k) {
   var l = localStorage.getItem('tl_lang') || 'ht';
   return (TL_MANAGE_TXT[l] && TL_MANAGE_TXT[l][k]) || TL_MANAGE_TXT.ht[k] || k;
+}
+
+/* A card that never reached the server. Nothing to ask permission for and
+   nothing to delete remotely - it is this phone's own leftover, so it just
+   goes. */
+function dropLocalEvent(id) {
+  if (!confirm(TL_TXT('dropConfirm'))) return;
+  forgetEvent(id);
+  location.reload();
 }
 
 function deleteMyEvent(id, btn) {
@@ -1792,6 +1811,16 @@ function renderEventCards(events) {
     var delayClass = idx > 0 ? ' reveal-d' + Math.min(idx, 3) : '';
 
     var evLinkId = ev._id || ev.id;
+    /* 🚨 25 Sep, Jennifer: "Pa gen anyen ki parèt la. M bezwen efase li" -
+       nothing shows on that card and she needs to delete it.
+       She was right and it is not an event. When publishing fails - the phone
+       loses the network mid-press - the form keeps a copy on the phone so her
+       typing is not lost. That copy has a local id and NO server id, and it was
+       then drawn in "Evenman Ou Kreye" looking exactly like a published event:
+       an RSVP button that cannot work, no manage buttons because there is no
+       manage code, and a tap that leads to "event not found".
+       It is a leftover on her phone, so say so, and let her sweep it away. */
+    var onlyOnThisPhone = !ev._id;
     /* A manage button appears only on events THIS phone created - the ones we
        hold a code for. The Academy director's second point was that after publishing an
        event there is no way to remove it; this is where that lives, because
@@ -1809,8 +1838,15 @@ function renderEventCards(events) {
       '<div class="ev-meta-row"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>' + (ev.location || '—') + '</div>' +
       (timeStr ? '<div class="ev-meta-row"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>' + timeStr + '</div>' : '') +
       '</div>' +
-      '<div class="ev-footer">' + priceHtml + btnHtml + '</div>' +
-      (mine ? '<div class="ev-manage" onclick="event.stopPropagation()">' +
+      '<div class="ev-footer">' + priceHtml +
+        (onlyOnThisPhone
+          ? '<span class="ev-price" style="background:#FFF3CD;color:#8A6D00;border:1px solid #F0D98C">'
+            + TL_TXT('unpub') + '</span>'
+          : btnHtml) + '</div>' +
+      (onlyOnThisPhone ? '<div class="ev-manage" onclick="event.stopPropagation()">' +
+        '<button class="ev-mini" onclick="dropLocalEvent(\'' + evLinkId + '\')">' +
+        TL_TXT('drop') + '</button></div>' :
+       mine ? '<div class="ev-manage" onclick="event.stopPropagation()">' +
         /* "Who is coming" sits next to Delete because they are the two things
            an organiser wants after publishing: check the turnout, or remove a
            duplicate. The attendee list was being recorded and had nowhere to
