@@ -55,11 +55,20 @@ input:focus{outline:none;border-color:var(--navy)}
       <input type="text" id="nm" placeholder="Roziclaire Pamphyle Junior" autocomplete="off">
       <label>Dat (jj/mm/aaaa)</label>
       <input type="text" id="dt" placeholder="13/09/2026" inputmode="numeric">
+      <label>Nimewo telefòn (si ou vle l sou badj la)</label>
+      <div style="display:flex;align-items:center;gap:8px">
+        <span style="font-weight:800;color:#5A6B8A">+509</span>
+        <input type="tel" id="ph" placeholder="3616 2367" inputmode="numeric" style="flex:1">
+      </div>
       <button class="btn btn-main" id="mk">Fè sètifika a</button>
+      <button class="btn btn-main" id="mkb" style="margin-top:8px;background:#0B2E6F">Fè badj la</button>
+      <button class="btn btn-main" id="mkc" style="margin-top:8px;background:#E0A400">Fè kat la</button>
     </div>
 
     <div class="card hidden" id="res">
       <canvas id="cv" width="1536" height="1024" style="display:none"></canvas>
+      <canvas id="badgeCanvas" width="900" height="1200" style="display:none"></canvas>
+      <canvas id="cardCanvas" width="1012" height="638" style="display:none"></canvas>
       <img id="out" alt="Sètifika">
       <p class="hint" id="num"></p>
       <p class="hint">Peze sou sètifika a epi kenbe l pou anrejistre l, epi voye l ba li sou WhatsApp.</p>
@@ -76,6 +85,7 @@ input:focus{outline:none;border-color:var(--navy)}
   </div>
 </div>
 
+<script src="badge.js?v=1"></script>
 <script>
 /* Same code the exam uses. A workshop handout, not a vault. */
 var KOD = 'LMA2026';
@@ -110,6 +120,64 @@ function certNumber(name, d){
 /* Positions measured off the artwork - identical to the exam page. */
 var CERT = { nameCx:771, nameBottom:495, nameMaxW:740,
              dateCx:427, dateBottom:875, numCx:1130, numBottom:872 };
+
+/* 🚨 28 Sep. Jennifer: "Moun sa pat gentan pran badge AK carte lan... Koman m
+   k fè poum pran yo pou yo?" — this student never got their badge and card.
+   Until now this page could only re-issue the CERTIFICATE; the badge existed
+   only inside the exam, so if a student closed the page before saving it,
+   nobody could produce it again and Jennifer had to come to me.
+
+   The drawing is not copied here - it is the SAME badge.js the exam uses, so a
+   re-issued badge cannot drift from the one handed out at the workshop.
+   The agent number is the certificate number, worked out from the name and the
+   date exactly as the exam does, so all three documents carry one number. */
+function readForm(){
+  var name = document.getElementById('nm').value.trim().replace(/\s+/g,' ');
+  if (name.length < 3){ document.getElementById('nm').style.borderColor='#D21034'; return null; }
+  document.getElementById('nm').style.borderColor='';
+  var ds = document.getElementById('dt').value.trim();
+  var m = ds.match(/^(\d{1,2})\/(\d{1,2})\/(\d{4})$/);
+  var d = m ? new Date(+m[3], +m[2]-1, +m[1]) : new Date();
+  if (isNaN(d.getTime())) d = new Date();
+  return {
+    name: name, date: d,
+    dateStr: ('0'+d.getDate()).slice(-2)+'/'+('0'+(d.getMonth()+1)).slice(-2)+'/'+d.getFullYear(),
+    cert: certNumber(name, d),
+    /* ⚠️ Pass through exactly what is typed, spaces and all. The exam stores
+       the student's own input verbatim and the badge prints it verbatim, so
+       stripping it here produced "+509 36162367" against the workshop's
+       "+509 3616 2367" - the same number and a visibly different badge.
+       Caught by comparing the two images, not by reading the code. */
+    phone: document.getElementById('ph').value.trim()
+  };
+}
+
+function makeCredential(kind){
+  var f = readForm();
+  if (!f) return;
+  credState.name  = f.name;
+  credState.id    = f.cert;
+  credState.date  = f.dateStr;
+  credState.phone = f.phone;
+  credState.kind  = kind;
+  credPhoto = null;            /* no photo on a re-issue - the approved layout */
+  loadCredAssets(function(){
+    var cv;
+    try { cv = kind === 'badge' ? drawBadge() : drawCard(); }
+    catch (e) { alert('Pa ka fè l kounye a. Eseye ankò.'); return; }
+    var data = cv.toDataURL('image/png');
+    document.getElementById('out').src = data;
+    document.getElementById('dl').href = data;
+    document.getElementById('dl').setAttribute('download',
+      'LajanMaker-' + kind + '-' + f.cert + '.png');
+    document.getElementById('op').href = data;
+    document.getElementById('num').textContent = f.cert;
+    document.getElementById('res').classList.remove('hidden');
+    document.getElementById('res').scrollIntoView({behavior:'smooth'});
+  });
+}
+document.getElementById('mkb').onclick = function(){ makeCredential('badge'); };
+document.getElementById('mkc').onclick = function(){ makeCredential('card'); };
 
 document.getElementById('mk').onclick = function(){
   var name = document.getElementById('nm').value.trim().replace(/\s+/g,' ');
