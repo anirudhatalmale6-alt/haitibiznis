@@ -3438,7 +3438,17 @@ function startReg(kind){
     else if(key==='vehicle'){card.innerHTML+=`<label class="fl">${t('vehicle')}</label><div class="row2" style="margin-bottom:14px"><button class="cta ghost" id="veh_moto" style="margin:0">🏍️ Moto</button><button class="cta ghost" id="veh_car" style="margin:0">🚗 Machin</button></div>`;}
     else{card.innerHTML+=`<label class="fl">${t(lbl)}</label><input type="${key==='email'?'email':(key==='phone'||key==='wa'?'tel':'text')}" id="rf_${key}">`;}
   });
-  const feeKey=sc.feeKey;if(feeKey){card.innerHTML+=`<label class="fl">${tm('set_regfee_'+(kind==='driver'?'d':kind==='rider'?'r':kind==='merchant'?'m':'p'))||'Frè (GDES)'}</label><input type="number" id="rf_fee" inputmode="decimal" value="${fxOut(getCfg()[feeKey]||0)}">`;}
+  /* 🚨 29 Sep, Jeffery: "Can you please remove sign up fees ! People get
+     confused". Every registration form injected a fee box pre-filled with 0,
+     and a 0 in a money box reads as "there is a charge here" - then the button
+     said PEYE instead of ANREJISTRE, so the agent thought he had to collect
+     something. Nobody is charging a registration fee today: all four defaults
+     are 0.
+     ⛔ The feature is NOT deleted. He can still charge one by setting an amount
+     in Settings, and the box comes back the moment he does. It simply stops
+     appearing when there is nothing to collect. */
+  const feeKey=(sc.feeKey && Number(getCfg()[sc.feeKey]||0)>0) ? sc.feeKey : null;
+  if(feeKey){card.innerHTML+=`<label class="fl">${tm('set_regfee_'+(kind==='driver'?'d':kind==='rider'?'r':kind==='merchant'?'m':'p'))||'Frè (GDES)'}</label><input type="number" id="rf_fee" inputmode="decimal" value="${fxOut(getCfg()[feeKey]||0)}">`;}
   body.appendChild(card);
   if(sc.uploads.length){const dh=document.createElement('div');dh.className='docs-h';dh.setAttribute('data-i18n','docs_h');dh.textContent=t('docs_h');body.appendChild(dh);}
   sc.uploads.forEach(u=>{const ul=upT(u);
@@ -3465,7 +3475,7 @@ function startReg(kind){
       })(0);
     };
     body.appendChild(lab);});
-  const btn=document.createElement('button');btn.className='cta';btn.textContent=sc.feeKey?t('pay_do'):t('save');btn.onclick=()=>saveReg(kind);body.appendChild(btn);
+  const btn=document.createElement('button');btn.className='cta';btn.textContent=(sc.feeKey&&Number(getCfg()[sc.feeKey]||0)>0)?t('pay_do'):t('save');btn.onclick=()=>saveReg(kind);body.appendChild(btn);
   go('reg');
   if(sc.fields.some(f=>f[0]==='vehicle')){document.getElementById('veh_moto').classList.remove('ghost');
     document.getElementById('veh_moto').onclick=()=>{reg.vehType='moto';document.getElementById('veh_moto').classList.remove('ghost');document.getElementById('veh_car').classList.add('ghost');};
@@ -3483,7 +3493,9 @@ function saveReg(kind){const sc=REG_FORMS[kind];const name=document.getElementBy
   sc.fields.forEach(f=>{const key=f[0];if(key==='vehicle'){data.vehicle=reg.vehType==='moto'?'Moto':'Machin';}
     else{const el=document.getElementById('rf_'+key);if(el){data[key]=el.value.trim();
       if(el.tagName==='SELECT'&&el.selectedIndex>0)dataLbl[key]=el.options[el.selectedIndex].textContent;}}});
-  const fee=sc.feeKey?fxIn('rf_fee',0):0;
+  /* Reads the box only when the box was actually rendered; fxIn returns the
+     default when the element is absent, so a hidden fee can never be charged. */
+  const fee=(sc.feeKey&&document.getElementById('rf_fee'))?fxIn('rf_fee',0):0;
   const docsFlat=[];Object.keys(reg.docs).forEach(k=>reg.docs[k].forEach(function(d){
     /* older drafts stored a bare filename string; keep reading those */
     if(typeof d==='string')docsFlat.push({name:k+': '+d});
