@@ -77,6 +77,38 @@ button,input{font-family:var(--body)}
   </div>
 
   <div id="listBox" class="hide">
+
+    <!-- ═══ ATTACH SOMEBODY WHO SIGNED UP WITHOUT THE LINK ═══════════════
+         Jeffery, 2 Oct: Jennifer brought five people and Dukens brought more,
+         and none of them used the referral link - so they counted for nobody.
+         Until now the connection could only be made at the moment of sign-up.
+         ⛔ This screen does not invent any rule: the server hands the person to
+         the same code the sign-up path uses, so an unknown code, a suspended
+         agent, self-referral and somebody already claimed are all still
+         refused, and it says which. -->
+    <div class="panel" id="attachBox">
+      <h2 style="margin:0 0 6px;font-size:1.05rem">Mete moun anba yon ajan</h2>
+      <p style="margin:0 0 12px;font-size:.86rem;line-height:1.5;color:#475569">
+        Pou moun ki te enskri <b>san</b> lyen parenaj la. Chèche non oswa nimewo yo,
+        make yo, epi chwazi ajan an. Konte 12 mwa a kòmanse <b>jodi a</b>.
+      </p>
+
+      <label for="atCode" style="font-size:.8rem;font-weight:700">Kòd ajan an</label>
+      <input id="atCode" autocomplete="off" autocapitalize="characters" spellcheck="false"
+             placeholder="egz. JC-Jenn7" style="text-transform:uppercase">
+
+      <label for="atQ" style="font-size:.8rem;font-weight:700;margin-top:10px;display:block">Chèche moun nan</label>
+      <div style="display:flex;gap:8px">
+        <input id="atQ" autocomplete="off" placeholder="non oswa nimewo telefòn" style="flex:1">
+        <button class="btn" id="atFind" style="width:auto;padding:0 16px">Chèche</button>
+      </div>
+
+      <div id="atResults" style="margin-top:12px"></div>
+      <button class="btn hide" id="atGo" style="margin-top:12px">Mete yo anba ajan an</button>
+      <div class="err" id="atErr"></div>
+      <div id="atDone" style="margin-top:10px;font-size:.86rem;line-height:1.6"></div>
+    </div>
+
     <div class="panel" style="display:flex;justify-content:space-between;align-items:center;gap:10px">
       <div><div style="font-weight:800;font-size:.95rem" id="cnt">—</div>
         <div style="font-size:.75rem;color:var(--tl)" id="cntSub"></div></div>
@@ -265,6 +297,73 @@ $('go').onclick=function(){
   }).then(function(){b.disabled=false;b.textContent='Louvri lis la';});
 };
 $('pin').addEventListener('keydown',function(e){if(e.key==='Enter')$('go').click();});
+
+/* ═══ METE MOUN ANBA YON AJAN ═══════════════════════════════════════════
+   ⛔ Every decision is the server's. This screen only collects the choice and
+   shows back, person by person, what the server said. */
+var atFound = [];
+
+function atRender(){
+  var box = document.getElementById('atResults');
+  if(!atFound.length){ box.innerHTML = '<p style="font-size:.85rem;color:#64748B">Pa gen rezilta.</p>';
+    document.getElementById('atGo').classList.add('hide'); return; }
+  box.innerHTML = atFound.map(function(p,i){
+    var taken = p.claimedBy
+      ? '<span style="color:#B45309;font-size:.78rem"> &middot; deja anba ' + esc(p.claimedBy.code) + '</span>'
+      : '';
+    return '<label style="display:flex;gap:10px;align-items:flex-start;padding:9px 0;'
+         + 'border-bottom:1px solid #EDF1F7">'
+         + '<input type="checkbox" data-at="' + i + '"' + (p.claimedBy ? ' disabled' : '') + '>'
+         + '<span style="flex:1;font-size:.9rem"><b>' + esc(p.name || 'San non') + '</b>' + taken
+         + '<br><span style="color:#64748B;font-size:.8rem">' + esc(p.phone || '') + '</span></span>'
+         + '</label>';
+  }).join('');
+  document.getElementById('atGo').classList.remove('hide');
+}
+
+function esc(x){ return String(x == null ? '' : x)
+  .replace(/[&<>"']/g, function(c){ return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]; }); }
+
+document.getElementById('atFind').addEventListener('click', function(){
+  var q = document.getElementById('atQ').value.trim();
+  var err = document.getElementById('atErr'); err.textContent = '';
+  document.getElementById('atDone').innerHTML = '';
+  if(q.length < 3){ err.textContent = 'Ekri omwen 3 lèt.'; return; }
+  this.disabled = true;
+  api('GET','/api/admin-pin/referrals/find?q=' + encodeURIComponent(q))
+    .then(function(r){ atFound = r.people || []; atRender(); })
+    .catch(function(e){ err.textContent = e.message; })
+    .then(function(){ document.getElementById('atFind').disabled = false; });
+});
+
+document.getElementById('atGo').addEventListener('click', function(){
+  var code = document.getElementById('atCode').value.trim();
+  var err = document.getElementById('atErr'); err.textContent = '';
+  if(!code){ err.textContent = 'Ki kòd ajan an?'; return; }
+  var ids = [];
+  document.querySelectorAll('#atResults input[data-at]:checked').forEach(function(c){
+    var p = atFound[Number(c.getAttribute('data-at'))];
+    if(p) ids.push(p.id);
+  });
+  if(!ids.length){ err.textContent = 'Make omwen yon moun.'; return; }
+  this.disabled = true;
+  api('POST','/api/admin-pin/referrals/attach', { code: code, userIds: ids })
+    .then(function(r){
+      /* ⛔ Report what the server actually said for EACH person, not a tick. */
+      var why = { ok:'mete anba ajan an', already_referred:'deja anba yon lòt ajan',
+                  unknown_code:'kòd ajan an pa egziste', inactive_agent:'ajan an pa aktif',
+                  self_referral:'se ajan an li menm', no_code:'pa gen kòd' };
+      document.getElementById('atDone').innerHTML =
+        '<b>' + r.attached + ' sou ' + r.of + ' moun mete anba ' + esc(code) + '.</b><br>'
+        + (r.results||[]).map(function(x){
+            return (x.ok ? '✅ ' : '⛔ ') + esc(x.name || x.id) + ' — '
+                 + esc(why[x.reason] || x.reason); }).join('<br>');
+      return load();
+    })
+    .catch(function(e){ err.textContent = e.message; })
+    .then(function(){ document.getElementById('atGo').disabled = false; });
+});
+
 </script>
 </body>
 </html>
