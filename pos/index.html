@@ -3866,7 +3866,13 @@ function collectPayment(ref,amount,method){
     const stat=box.querySelector('#pgStat');
     timer=setInterval(async()=>{
       let v=null;try{v=await pgVerify(ref);}catch(e){return;}
-      if(v&&v.trans_status==='yes'){stat.textContent=t('pg_paid');stat.style.color='#16a34a';stat.style.fontWeight='800';setTimeout(()=>finish('paid'),800);}
+      /* 🚨🚨 4 Oct 2026: this said 'yes'. The gateway sends 'ok' - that is what
+         haitibiznis-backend/utils/verifyPayment.js checks after watching four
+         real transactions, and what confirmed MW-3UPWWIP yesterday. So this
+         poll NEVER matched: an agent paid with MonCash or NatCash, the screen
+         sat on "waiting" for ever, and the only way past it was the manual
+         button. Every subscription renewal through the POS was affected. */
+      if(v&&v.trans_status==='ok'){stat.textContent=t('pg_paid');stat.style.color='#16a34a';stat.style.fontWeight='800';setTimeout(()=>finish('paid'),800);}
     },4000);
   });
 }
