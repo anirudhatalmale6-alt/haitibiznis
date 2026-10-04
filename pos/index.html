@@ -3089,7 +3089,11 @@ function startFlow(moduleId,preItems){
   /* Same reason as startReg: every way into a sale goes through here. */
   if(!licGate())return;
   flow={module:moduleId,customer:null,items:preItems||[],amount:0,docs:[],payment:null,extra:{},intake:{}};
-  if(['website','hbtech'].includes(moduleId)){flow.extra.pkg=null;flow.extra.sel=[];flow.extra.sub=null;flow.extra.menu=(moduleId==='hbtech')?'web':null;}
+  if(['website','hbtech'].includes(moduleId)){flow.extra.pkg=null;flow.extra.sel=[];flow.extra.sub=null;flow.extra.menu=(moduleId==='hbtech')?'brand':null;}
+  /* 4 Oct 2026, Jeffery: "make the business package the default when opening
+     the digital products instead of Internet Sites." TWO places set this -
+     here on opening the module, and again in renderDetail() when it is still
+     null. Both must say 'brand', or the default depends on which ran first. */
   if(moduleId==='bizreg'){flow.extra.reg=null;}
   {const _m=modById(moduleId);document.getElementById('flowSvcLabel').textContent=_m?(_m.nmKey?t(_m.nmKey):_m.nm):moduleId;}
   go('flow');fstep=1;showFlowStep();renderCustSearch();
@@ -3141,7 +3145,7 @@ function renderDetail(){
 
   if(m==='website'){renderWebPkgs(body);}
   else if(m==='hbtech'){
-    if(flow.extra.menu==null)flow.extra.menu='web';
+    if(flow.extra.menu==null)flow.extra.menu='brand';   /* see the note above */
     const tog=document.createElement('div');tog.style.cssText='display:flex;gap:8px;margin-bottom:12px';
     const mk=(key,lbl,em)=>`<button type="button" class="mtb" data-menu="${key}" style="flex:1;padding:11px 6px;border-radius:12px;border:2px solid ${flow.extra.menu===key?'var(--blue)':'#e2e6f0'};background:${flow.extra.menu===key?'var(--blue)':'#fff'};color:${flow.extra.menu===key?'#fff':'#334'};font-weight:800;font-size:13px">${em} ${lbl}</button>`;
     tog.innerHTML=mk('web',t('menu_web'),'🌐')+mk('brand',t('menu_brand'),'💼');
