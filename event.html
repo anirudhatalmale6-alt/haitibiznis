@@ -1508,7 +1508,11 @@ function renderTickets() {
       html += '<div class="ticket-price"><span class="currency">HTG</span> ' + formatPrice(tk.price) + '</div>';
     }
     html += '</div>';
-    html += '<div class="ticket-desc">' + tk.desc + '</div>';
+    /* 🚨 4 Oct, event day: tk.desc is optional and this printed the literal
+       word "undefined" under the price on the live ticket card - today's
+       training had no description, so every buyer saw it. Only draw the line
+       when there is something to put in it. */
+    if (tk.desc) html += '<div class="ticket-desc">' + tk.desc + '</div>';
     html += '<div class="ticket-bottom">';
     html += '<div class="ticket-avail' + availClass + '"><span class="dot"></span> ' + availText + '</div>';
     if (remaining > 0) {
