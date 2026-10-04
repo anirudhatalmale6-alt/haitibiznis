@@ -553,7 +553,7 @@ img{max-width:100%;display:block}
 <div class="koutye-banner reveal" id="koutyeBanner" style="display:none">
   <div class="koutye-banner-inner">
     <div class="koutye-banner-title"><span class="icon">💰</span> <span data-i18n="koutyeTitle">Pataje ak touche komisyon!</span></div>
-    <div class="koutye-banner-desc" data-i18n="koutyeDesc">Ou ka touche 5% sou chak tikè vann atravè lyen pa ou.</div>
+    <div class="koutye-banner-desc" data-i18n="koutyeDesc">Ou ka touche 3% sou chak tikè vann atravè lyen pa ou.</div>
     <button class="koutye-btn" onclick="shareKoutye()">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 12v8a2 2 0 002 2h12a2 2 0 002-2v-8M16 6l-4-4-4 4M12 2v13"/></svg>
       <span data-i18n="shareNow">Pataje Kounye a</span>
@@ -754,7 +754,7 @@ var translations = {
     contact: 'Kontakte',
     reportEvent: 'Rapòte Evènman',
     koutyeTitle: 'Pataje ak touche komisyon!',
-    koutyeDesc: 'Ou ka touche 5% sou chak tikè vann atravè lyen pa ou.',
+    koutyeDesc: 'Ou ka touche 3% sou chak tikè vann atravè lyen pa ou.',
     shareNow: 'Pataje Kounye a',
     similarEvents: 'Evènman Similè',
     navHome: 'Akèy',
@@ -763,7 +763,7 @@ var translations = {
     navTickets: 'Tikè',
     navAccount: 'Kont',
     choosePayment: 'Chwazi Metòd Peman',
-    platformFee: 'Frè platfòm (5%)',
+    platformFee: 'Frè platfòm (7.5%)',
     yourName: 'Non ou',
     yourPhone: 'Nimewo telefòn',
     creditCard: 'Kat Kredi',
@@ -816,7 +816,7 @@ var translations = {
     contact: 'Contacter',
     reportEvent: "Signaler l'Événement",
     koutyeTitle: 'Partagez et gagnez des commissions!',
-    koutyeDesc: 'Vous gagnez 5% sur chaque billet vendu via votre lien.',
+    koutyeDesc: 'Vous gagnez 3% sur chaque billet vendu via votre lien.',
     shareNow: 'Partager Maintenant',
     similarEvents: 'Événements Similaires',
     navHome: 'Accueil',
@@ -825,7 +825,7 @@ var translations = {
     navTickets: 'Billets',
     navAccount: 'Compte',
     choosePayment: 'Choisir le Mode de Paiement',
-    platformFee: 'Frais de plateforme (5%)',
+    platformFee: 'Frais de plateforme (7.5%)',
     yourName: 'Votre nom',
     yourPhone: 'Numéro de téléphone',
     creditCard: 'Carte de Crédit',
@@ -878,7 +878,7 @@ var translations = {
     contact: 'Contact',
     reportEvent: 'Report Event',
     koutyeTitle: 'Share and earn commissions!',
-    koutyeDesc: 'You earn 5% on every ticket sold through your link.',
+    koutyeDesc: 'You earn 3% on every ticket sold through your link.',
     shareNow: 'Share Now',
     similarEvents: 'Similar Events',
     navHome: 'Home',
@@ -887,7 +887,7 @@ var translations = {
     navTickets: 'Tickets',
     navAccount: 'Account',
     choosePayment: 'Choose Payment Method',
-    platformFee: 'Platform fee (5%)',
+    platformFee: 'Platform fee (7.5%)',
     yourName: 'Your name',
     yourPhone: 'Phone number',
     creditCard: 'Credit Card',
@@ -940,7 +940,7 @@ var translations = {
     contact: 'Contato',
     reportEvent: 'Denunciar evento',
     koutyeTitle: 'Compartilhe e ganhe comissões!',
-    koutyeDesc: 'Você ganha 5% em cada ingresso vendido pelo seu link.',
+    koutyeDesc: 'Você ganha 3% em cada ingresso vendido pelo seu link.',
     shareNow: 'Compartilhar agora',
     similarEvents: 'Eventos parecidos',
     navHome: 'Início',
@@ -949,7 +949,7 @@ var translations = {
     navTickets: 'Ingressos',
     navAccount: 'Conta',
     choosePayment: 'Escolha a forma de pagamento',
-    platformFee: 'Taxa da plataforma (5%)',
+    platformFee: 'Taxa da plataforma (7.5%)',
     yourName: 'Seu nome',
     yourPhone: 'Número de telefone',
     creditCard: 'Cartão de crédito',
@@ -1002,7 +1002,7 @@ var translations = {
     contact: 'Contactar',
     reportEvent: 'Reportar Evento',
     koutyeTitle: 'Comparte y gana comisiones!',
-    koutyeDesc: 'Ganas 5% en cada boleto vendido por tu enlace.',
+    koutyeDesc: 'Ganas 3% en cada boleto vendido por tu enlace.',
     shareNow: 'Compartir Ahora',
     similarEvents: 'Eventos Similares',
     navHome: 'Inicio',
@@ -1011,7 +1011,7 @@ var translations = {
     navTickets: 'Boletos',
     navAccount: 'Cuenta',
     choosePayment: 'Elegir Método de Pago',
-    platformFee: 'Tarifa de plataforma (5%)',
+    platformFee: 'Tarifa de plataforma (7.5%)',
     yourName: 'Tu nombre',
     yourPhone: 'Número de teléfono',
     creditCard: 'Tarjeta de Crédito',
@@ -1703,7 +1703,10 @@ function requireBuyer() {
 }
 
 function showPaymentModal(ticket, total) {
-  var fee = Math.round(total * 0.05);
+  /* 🔑 MUST MATCH THE SERVER. haitibiznis-backend/routes/payments.js charges
+     PLATFORM_FEE_PCT and adds it on top; if this number drifts from that one
+     the buyer is quoted one figure and charged another. */
+  var fee = Math.round(total * 0.075);
   var grandTotal = total + fee;
   var modal = document.createElement('div');
   modal.id = 'paymentModal';
@@ -1713,7 +1716,7 @@ function showPaymentModal(ticket, total) {
     '<h3 style="font-family:var(--display);margin-bottom:16px">💳 ' + (t('choosePayment') || 'Chwazi Metòd Peman') + '</h3>' +
     '<div style="background:var(--off-white);border-radius:10px;padding:12px;margin-bottom:16px">' +
     '<div style="display:flex;justify-content:space-between;font-size:.9rem"><span>' + ticket.qty + 'x ' + ticket.name + '</span><span>HTG ' + formatPrice(total) + '</span></div>' +
-    '<div style="display:flex;justify-content:space-between;font-size:.8rem;color:var(--text-muted);margin-top:4px"><span>' + (t('platformFee') || 'Frè platfòm (5%)') + '</span><span>HTG ' + formatPrice(fee) + '</span></div>' +
+    '<div style="display:flex;justify-content:space-between;font-size:.8rem;color:var(--text-muted);margin-top:4px"><span>' + (t('platformFee') || 'Frè platfòm (7.5%)') + '</span><span>HTG ' + formatPrice(fee) + '</span></div>' +
     '<hr style="border:none;border-top:1px solid var(--border);margin:8px 0">' +
     '<div style="display:flex;justify-content:space-between;font-weight:700"><span>Total</span><span>HTG ' + formatPrice(grandTotal) + '</span></div></div>' +
     '<div style="margin-bottom:12px"><input id="buyerName" placeholder="' + (t('yourName') || 'Non ou') + '" style="width:100%;padding:10px;border:1px solid var(--border);border-radius:8px;margin-bottom:8px;font-family:var(--body)">' +
