@@ -1,0 +1,544 @@
+<!DOCTYPE html>
+<html lang="ht">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Jesyon Kou Anliy — HaitiBiznis</title>
+<meta name="robots" content="noindex,nofollow">
+<meta name="theme-color" content="#0A0E1A">
+<link rel="icon" type="image/x-icon" href="favicon.ico">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --blue:#00209F;--red:#D21034;--red-dark:#B00D2C;
+  --gold:#D4A017;--gold-soft:#FDF3D7;
+  --green:#1B8C3D;--green-light:#E8F5E9;--green-deep:#126B2C;
+  --white:#FFF;--off-white:#F5F7FA;
+  --dark:#0A0E1A;--text:#1A2A4A;--text-light:#5A6B8A;--text-muted:#8A95AA;
+  --border:#E2E8F0;--border-light:#F0F3F7;
+  --body:'Plus Jakarta Sans',system-ui,sans-serif;
+  --display:'DM Serif Display',Georgia,serif;
+  --mono:'JetBrains Mono',monospace;
+  --shadow-sm:0 1px 3px rgba(10,14,26,.06);
+  --shadow-md:0 4px 16px rgba(10,14,26,.08);
+  --radius:14px;--radius-lg:20px;
+}
+body{font-family:var(--body);background:var(--off-white);color:var(--text);-webkit-font-smoothing:antialiased}
+a{text-decoration:none;color:inherit}
+button{font-family:var(--body);cursor:pointer;border:none;background:none}
+.flag-stripe{height:4px;background:linear-gradient(90deg,var(--blue) 50%,var(--red) 50%)}
+.header{background:var(--dark);color:#fff;padding:0 16px;height:54px;display:flex;align-items:center;justify-content:space-between}
+.header span{font-family:var(--display);font-size:1rem}
+.header span em{color:var(--gold);font-style:normal}
+.header a{font-size:.75rem;font-weight:600;color:rgba(255,255,255,.65);border:1px solid rgba(255,255,255,.2);border-radius:99px;padding:6px 12px}
+
+.wrap{max-width:640px;margin:0 auto;padding:20px 14px 70px}
+.card{background:var(--white);border-radius:var(--radius-lg);padding:18px;box-shadow:var(--shadow-md);margin-bottom:14px}
+h1{font-family:var(--display);font-size:1.45rem;color:var(--dark);margin-bottom:6px}
+.lead{font-size:.86rem;color:var(--text-light);line-height:1.55;margin-bottom:14px}
+h2{font-size:1rem;font-weight:800;color:var(--dark);margin-bottom:10px}
+
+label{display:block;font-size:.76rem;font-weight:800;color:var(--text-light);margin:12px 0 5px;text-transform:uppercase;letter-spacing:.4px}
+input,textarea,select{width:100%;padding:12px;border:1.5px solid var(--border);border-radius:11px;
+  font-family:var(--body);font-size:.95rem;background:#fff}
+input[type=password],input[type=number],input.mono{font-family:var(--mono)}
+textarea{min-height:84px;resize:vertical;line-height:1.5}
+input:focus,textarea:focus,select:focus{outline:none;border-color:var(--blue)}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.chk{display:flex;align-items:center;gap:9px;margin-top:11px;font-size:.88rem;font-weight:600;color:var(--text)}
+.chk input{width:20px;height:20px;flex:0 0 auto}
+.why{font-size:.75rem;color:var(--text-muted);margin-top:5px;line-height:1.45}
+
+.btn{width:100%;margin-top:14px;padding:14px;border-radius:11px;font-weight:800;font-size:.95rem;
+  background:var(--blue);color:#fff}
+.btn.g{background:var(--green)}
+.btn.r{background:var(--red)}
+.btn.o{background:#fff;color:var(--text-light);border:1.5px solid var(--border)}
+.btn:disabled{opacity:.5}
+.btn.sm{width:auto;padding:9px 14px;font-size:.8rem;margin:0}
+
+.msg{border-radius:11px;padding:13px;font-size:.86rem;line-height:1.5;margin-bottom:12px;display:none}
+.msg.err{background:#FDECEF;color:var(--red-dark);border:1px solid #F5C6CE}
+.msg.ok{background:var(--green-light);color:var(--green-deep);border:1px solid #BEE5C6}
+.msg.warn{background:var(--gold-soft);color:#7A5C0A;border:1px solid #EBD9A0}
+
+.crow{background:var(--white);border:1px solid var(--border-light);border-radius:var(--radius);
+  box-shadow:var(--shadow-sm);padding:15px;margin-bottom:11px}
+.crow-top{display:flex;justify-content:space-between;align-items:flex-start;gap:10px}
+.crow-t{font-weight:800;font-size.98rem;font-size:.98rem;color:var(--dark);line-height:1.3}
+.crow-m{font-size:.78rem;color:var(--text-light);margin-top:4px;line-height:1.5}
+.tag{font-size:.65rem;font-weight:800;padding:4px 9px;border-radius:99px;white-space:nowrap;text-transform:uppercase;letter-spacing:.3px}
+.tag.pub{background:var(--green-light);color:var(--green)}
+.tag.draft{background:var(--gold-soft);color:#7A5C0A}
+.tag.closed{background:var(--border-light);color:var(--text-muted)}
+.nums{display:grid;grid-template-columns:repeat(4,1fr);gap:7px;margin-top:11px}
+.num{background:var(--off-white);border-radius:10px;padding:9px 6px;text-align:center}
+.num b{display:block;font-family:var(--mono);font-size:1.05rem;color:var(--dark)}
+.num span{font-size:.64rem;color:var(--text-muted);text-transform:uppercase;letter-spacing:.3px}
+.acts{display:flex;gap:7px;margin-top:11px;flex-wrap:wrap}
+
+.st{border-bottom:1px solid var(--border-light);padding:13px 0}
+.st:last-child{border-bottom:none}
+.st-top{display:flex;justify-content:space-between;align-items:flex-start;gap:8px}
+.st-n{font-weight:700;font-size:.92rem;color:var(--dark)}
+.st-e{font-family:var(--mono);font-size:.8rem;color:var(--blue);word-break:break-all;margin-top:3px}
+.st-m{font-size:.76rem;color:var(--text-light);margin-top:4px}
+.st-a{display:flex;gap:6px;margin-top:9px;flex-wrap:wrap}
+.pill{font-size:.66rem;font-weight:800;padding:4px 9px;border-radius:99px;white-space:nowrap}
+.pill.ok{background:var(--green-light);color:var(--green)}
+.pill.wait{background:var(--gold-soft);color:#7A5C0A}
+.pill.dead{background:#FDECEF;color:var(--red-dark)}
+.pill.cl0{background:var(--border-light);color:var(--text-muted)}
+.pill.cl1{background:#E6EEFF;color:var(--blue)}
+.pill.cl2{background:var(--green-light);color:var(--green)}
+.over{background:#FDECEF;color:var(--red-dark);font-size:.72rem;font-weight:700;
+  border-radius:8px;padding:6px 9px;margin-top:7px}
+.hide{display:none}
+.spin{display:inline-block;width:14px;height:14px;border:2px solid rgba(255,255,255,.4);
+  border-top-color:#fff;border-radius:50%;animation:sp .7s linear infinite;vertical-align:-2px}
+@keyframes sp{to{transform:rotate(360deg)}}
+.foot{text-align:center;font-size:.72rem;color:var(--text-muted);margin-top:22px;line-height:1.6}
+</style>
+</head>
+<body>
+<div class="flag-stripe"></div>
+<div class="header">
+  <span>Jesyon <em>Kou Anliy</em></span>
+  <a href="kou.html">Paj piblik</a>
+</div>
+
+<div class="wrap">
+
+  <!-- ── 1. THE GATE ─────────────────────────────────────────────────────── -->
+  <div class="card" id="gate">
+    <h1>Jesyon Kou Anliy</h1>
+    <p class="lead">Mete kòd konsòl ou a. Se menm kòd ou itilize pou lòt zouti admin yo.</p>
+    <div class="msg err" id="gateErr"></div>
+    <label for="pin">Kòd konsòl</label>
+    <input type="password" id="pin" autocomplete="off" inputmode="text">
+    <button class="btn" id="gateBtn" onclick="unlock()">Louvri</button>
+  </div>
+
+  <!-- ── 2. THE DESK ─────────────────────────────────────────────────────── -->
+  <div id="desk" class="hide">
+    <div class="msg ok" id="okBox"></div>
+    <div class="msg err" id="errBox"></div>
+
+    <div class="card">
+      <h2>Kou yo</h2>
+      <p class="lead" id="tot"></p>
+      <button class="btn g" onclick="newCourse()">+ Nouvo kou</button>
+    </div>
+
+    <div id="list"></div>
+
+    <!-- The editor. Hidden until a course is being created or changed. -->
+    <div class="card hide" id="editor">
+      <h2 id="edTitle">Nouvo kou</h2>
+      <div class="msg err" id="edErr"></div>
+
+      <label for="fTitle">Non kou a *</label>
+      <input type="text" id="fTitle" maxlength="140">
+
+      <label for="fDesc">Deskripsyon</label>
+      <textarea id="fDesc" maxlength="4000"></textarea>
+
+      <label for="fProf">Pwofesè</label>
+      <input type="text" id="fProf" maxlength="120">
+
+      <div class="two">
+        <div><label for="fStart">Kòmanse</label><input type="date" id="fStart"></div>
+        <div><label for="fEnd">Fini</label><input type="date" id="fEnd"></div>
+      </div>
+
+      <div class="chk">
+        <input type="checkbox" id="fFree" onchange="freeToggle()">
+        <label for="fFree" style="margin:0;text-transform:none;letter-spacing:0;font-size:.9rem">Kou sa a GRATIS</label>
+      </div>
+
+      <label for="fPrice">Pri (HTG)</label>
+      <input type="number" id="fPrice" min="0" step="1" class="mono">
+      <div class="why">Etidyan an peye egzakteman kantite sa a. Pa gen frè sèvis ki ajoute sou kou yo.</div>
+
+      <label for="fMax">Kantite plas (0 = pa gen limit)</label>
+      <input type="number" id="fMax" min="0" step="1" class="mono">
+
+      <label for="fImg">Foto kou a (lyen)</label>
+      <input type="text" id="fImg" placeholder="https://...">
+
+      <label for="fLink">Lyen Google Classroom *</label>
+      <input type="text" id="fLink" placeholder="https://classroom.google.com/c/...">
+      <div class="why">⛔ Lyen sa a PA janm parèt sou paj piblik la. Sèvè a bay li sèlman apre peman an konfime.</div>
+
+      <label for="fCode">Kòd klas la (si genyen)</label>
+      <input type="text" id="fCode" class="mono" placeholder="abcd123">
+
+      <label for="fInst">Enstriksyon pou etidyan an</label>
+      <textarea id="fInst" maxlength="2000" placeholder="Egzanp: Aksepte envitasyon an nan Gmail ou, apre sa klas la kòmanse lendi 8è."></textarea>
+
+      <label>Metòd peman</label>
+      <div class="chk"><input type="checkbox" id="fMon" checked><label for="fMon" style="margin:0;text-transform:none;letter-spacing:0;font-size:.9rem">MonCash</label></div>
+      <div class="chk"><input type="checkbox" id="fNat" checked><label for="fNat" style="margin:0;text-transform:none;letter-spacing:0;font-size:.9rem">NatCash</label></div>
+      <div class="chk"><input type="checkbox" id="fCard" checked><label for="fCard" style="margin:0;text-transform:none;letter-spacing:0;font-size:.9rem">Kat kredi (Stripe)</label></div>
+
+      <label for="fStatus">Eta</label>
+      <select id="fStatus">
+        <option value="draft">Bouyon — pèsonn pa wè l</option>
+        <option value="published">Pibliye — louvri pou enskripsyon</option>
+        <option value="closed">Fèmen — pa gen nouvo enskripsyon</option>
+      </select>
+
+      <button class="btn" id="saveBtn" onclick="saveCourse()">Sove</button>
+      <button class="btn o" onclick="closeEditor()">Anile</button>
+    </div>
+
+    <!-- The student list for one course. -->
+    <div class="card hide" id="students">
+      <h2 id="stTitle">Etidyan yo</h2>
+      <div class="nums" id="stNums"></div>
+      <div class="acts">
+        <button class="btn sm o" onclick="exportCsv()">&#11015; Telechaje lis la (CSV)</button>
+        <button class="btn sm o" onclick="closeStudents()">Fèmen</button>
+      </div>
+      <div class="msg warn" id="stWarn" style="margin-top:12px"></div>
+      <div id="stList" style="margin-top:6px"></div>
+    </div>
+  </div>
+
+  <div class="foot">
+    HaitiBiznis fè enskripsyon, peman ak kontwòl aksè.<br>
+    Google Classroom fè ansèyman an — leson, dokiman, devwa.
+  </div>
+</div>
+
+<script>
+/* ═══════════════════════════════════════════════════════════════════════════
+   THE ADMIN SIDE OF THE CLASSES MODULE
+
+   Jeffery's point 7: courses, students registered, paid, unpaid, amount
+   collected, student Gmail, Classroom invitation status, Mark Invited / Access
+   Granted, export student list. That is this page and nothing more.
+
+   The Gmail address is the most important thing on it. In version 1 the
+   invitation is sent by hand in Google Classroom, so until somebody reads an
+   address off this page and invites it, a student has paid and cannot get in.
+   That is why it is shown in full, in a monospace font, with a one-tap copy.
+
+   The console code is held in a variable for this page only, never in
+   localStorage - the same as pos-devices.html. Reloading asks again.
+   ═══════════════════════════════════════════════════════════════════════════ */
+var API = 'https://haitibiznis-api.onrender.com';
+var pin = '';
+var courses = [];
+var editing = null;        /* course id being edited, or null for a new one */
+var viewing = null;        /* course id whose student list is open */
+
+function $(id) { return document.getElementById(id); }
+function esc(s) {
+  return String(s == null ? '' : s).replace(/[&<>"']/g, function(c) {
+    return { '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;' }[c];
+  });
+}
+function money(n) { return Number(n || 0).toLocaleString('en-US'); }
+function say(id, text, ms) {
+  var el = $(id);
+  el.textContent = text || '';
+  el.style.display = text ? 'block' : 'none';
+  if (text && ms) setTimeout(function() { el.style.display = 'none'; }, ms);
+}
+
+function api(method, path, body) {
+  var opt = { method: method, headers: { 'x-admin-pin': pin } };
+  if (body) { opt.headers['Content-Type'] = 'application/json'; opt.body = JSON.stringify(body); }
+  return fetch(API + path, opt).then(function(r) {
+    return r.json().catch(function() { return {}; }).then(function(j) {
+      if (!r.ok) { var e = new Error(j.error || ('Erè ' + r.status)); e.status = r.status; throw e; }
+      return j;
+    });
+  });
+}
+
+/* ─── GATE ──────────────────────────────────────────────────────────────── */
+function unlock() {
+  var v = ($('pin').value || '').trim();
+  if (!v) return say('gateErr', 'Mete kòd la.');
+  say('gateErr', '');
+  var b = $('gateBtn');
+  b.disabled = true; b.innerHTML = '<span class="spin"></span> N ap tcheke...';
+  pin = v;
+  api('GET', '/api/courses/admin/list')
+    .then(function(j) {
+      $('gate').classList.add('hide');
+      $('desk').classList.remove('hide');
+      courses = j.courses || [];
+      draw();
+    })
+    .catch(function(e) {
+      pin = '';
+      say('gateErr', e.status === 403 ? 'Kòd la pa bon.' : e.message);
+    })
+    .then(function() { b.disabled = false; b.textContent = 'Louvri'; });
+}
+
+function reload() {
+  return api('GET', '/api/courses/admin/list').then(function(j) {
+    courses = j.courses || [];
+    draw();
+  }).catch(function(e) { say('errBox', e.message, 6000); });
+}
+
+/* ─── THE COURSE LIST ───────────────────────────────────────────────────── */
+function draw() {
+  var paid = 0, money_ = 0;
+  courses.forEach(function(c) { paid += c.counts.paid; money_ += c.counts.collected; });
+  $('tot').textContent = courses.length + ' kou · ' + paid + ' etidyan ki peye · ' +
+                         money(money_) + ' HTG kolekte';
+
+  var html = '';
+  courses.forEach(function(c) {
+    var tag = c.status === 'published' ? '<span class="tag pub">Pibliye</span>'
+            : c.status === 'draft' ? '<span class="tag draft">Bouyon</span>'
+            : '<span class="tag closed">Fèmen</span>';
+    html += '<div class="crow">' +
+      '<div class="crow-top"><div><div class="crow-t">' + esc(c.title) + '</div>' +
+        '<div class="crow-m">' +
+          (c.instructor ? esc(c.instructor) + ' · ' : '') +
+          (c.isFree ? 'GRATIS' : money(c.price) + ' HTG') +
+          (c.startDate ? ' · ' + esc(c.startDate) : '') +
+          (c.maxStudents ? ' · ' + c.seatsTaken + '/' + c.maxStudents + ' plas' : '') +
+        '</div></div>' + tag + '</div>' +
+      '<div class="nums">' +
+        '<div class="num"><b>' + c.counts.registered + '</b><span>Enskri</span></div>' +
+        '<div class="num"><b>' + c.counts.paid + '</b><span>Peye</span></div>' +
+        '<div class="num"><b>' + c.counts.unpaid + '</b><span>Pa peye</span></div>' +
+        '<div class="num"><b>' + money(c.counts.collected) + '</b><span>HTG</span></div>' +
+      '</div>' +
+      '<div class="acts">' +
+        '<button class="btn sm" onclick="openStudents(\'' + c._id + '\')">Etidyan yo</button>' +
+        '<button class="btn sm o" onclick="editCourse(\'' + c._id + '\')">Chanje</button>' +
+        '<button class="btn sm o" onclick="share(\'' + c._id + '\')">Pataje</button>' +
+        (c.counts.paid === 0 ? '<button class="btn sm o" style="color:#B00D2C" ' +
+           'onclick="delCourse(\'' + c._id + '\')">Efase</button>' : '') +
+      '</div></div>';
+  });
+  $('list').innerHTML = html;
+}
+
+function share(id) {
+  var url = 'https://haitibiznis.com/kou.html?id=' + id;
+  if (navigator.clipboard) {
+    navigator.clipboard.writeText(url).then(function() {
+      say('okBox', 'Lyen an kopye: ' + url, 6000);
+    }).catch(function() { say('okBox', url, 9000); });
+  } else { say('okBox', url, 9000); }
+}
+
+/* ─── THE EDITOR ────────────────────────────────────────────────────────── */
+function freeToggle() {
+  var free = $('fFree').checked;
+  $('fPrice').disabled = free;
+  if (free) $('fPrice').value = '0';
+}
+
+function fill(c, secret) {
+  $('fTitle').value = (c && c.title) || '';
+  $('fDesc').value = (c && c.description) || '';
+  $('fProf').value = (c && c.instructor) || '';
+  $('fStart').value = (c && c.startDate) || '';
+  $('fEnd').value = (c && c.endDate) || '';
+  $('fFree').checked = !!(c && c.isFree);
+  $('fPrice').value = c ? c.price : '';
+  $('fMax').value = c ? c.maxStudents : 0;
+  $('fImg').value = (c && c.imageUrl) || '';
+  $('fLink').value = (secret && secret.classroomLink) || '';
+  $('fCode').value = (secret && secret.classroomCode) || '';
+  $('fInst').value = (secret && secret.accessInstructions) || '';
+  var pm = (c && c.paymentMethods) || { moncash: true, natcash: true, card: true };
+  $('fMon').checked = pm.moncash !== false;
+  $('fNat').checked = pm.natcash !== false;
+  $('fCard').checked = pm.card !== false;
+  $('fStatus').value = (c && c.status) || 'draft';
+  freeToggle();
+}
+
+function newCourse() {
+  editing = null;
+  $('edTitle').textContent = 'Nouvo kou';
+  say('edErr', '');
+  fill(null, null);
+  $('editor').classList.remove('hide');
+  $('editor').scrollIntoView({ behavior: 'smooth', block: 'start' });
+}
+
+function editCourse(id) {
+  var c = courses.filter(function(x) { return String(x._id) === String(id); })[0];
+  if (!c) return;
+  editing = id;
+  $('edTitle').textContent = 'Chanje kou a';
+  say('edErr', '');
+  /* The Classroom link is not in the list payload - select:false keeps it out
+     of every query that does not name it. Fetched separately, behind the code. */
+  api('GET', '/api/courses/admin/' + id + '/classroom')
+    .then(function(s) { fill(c, s); })
+    .catch(function() { fill(c, null); })
+    .then(function() {
+      $('editor').classList.remove('hide');
+      $('editor').scrollIntoView({ behavior: 'smooth', block: 'start' });
+    });
+}
+
+function closeEditor() { $('editor').classList.add('hide'); editing = null; }
+
+function saveCourse() {
+  var free = $('fFree').checked;
+  var body = {
+    title: $('fTitle').value.trim(),
+    description: $('fDesc').value.trim(),
+    instructor: $('fProf').value.trim(),
+    startDate: $('fStart').value,
+    endDate: $('fEnd').value,
+    isFree: free,
+    price: free ? 0 : (parseInt($('fPrice').value, 10) || 0),
+    maxStudents: parseInt($('fMax').value, 10) || 0,
+    imageUrl: $('fImg').value.trim(),
+    classroomLink: $('fLink').value.trim(),
+    classroomCode: $('fCode').value.trim(),
+    accessInstructions: $('fInst').value.trim(),
+    paymentMethods: { moncash: $('fMon').checked, natcash: $('fNat').checked, card: $('fCard').checked },
+    status: $('fStatus').value
+  };
+  if (!body.title) return say('edErr', 'Mete non kou a.');
+  if (!free && body.price <= 0) return say('edErr', 'Yon kou ki pa gratis bezwen yon pri pi gwo pase 0.');
+  /* Said before saving rather than discovered by a student who has paid. */
+  if (body.status === 'published' && !body.classroomLink) {
+    return say('edErr', 'Mete lyen Google Classroom la anvan ou pibliye kou a, ' +
+                        'otreman yon etidyan ka peye epi pa gen kote pou l antre.');
+  }
+  say('edErr', '');
+  var b = $('saveBtn');
+  b.disabled = true; b.innerHTML = '<span class="spin"></span> N ap sove...';
+  var p = editing ? api('PUT', '/api/courses/admin/' + editing, body)
+                  : api('POST', '/api/courses/admin', body);
+  p.then(function() {
+    closeEditor();
+    say('okBox', 'Sove.', 4000);
+    return reload();
+  }).catch(function(e) { say('edErr', e.message); })
+    .then(function() { b.disabled = false; b.textContent = 'Sove'; });
+}
+
+function delCourse(id) {
+  var c = courses.filter(function(x) { return String(x._id) === String(id); })[0];
+  if (!c) return;
+  if (!confirm('Efase "' + c.title + '"? Sa pa ka defè.')) return;
+  api('DELETE', '/api/courses/admin/' + id)
+    .then(function() { say('okBox', 'Efase.', 4000); return reload(); })
+    .catch(function(e) { say('errBox', e.message, 8000); });
+}
+
+/* ─── THE STUDENT LIST ──────────────────────────────────────────────────── */
+function openStudents(id) {
+  viewing = id;
+  var c = courses.filter(function(x) { return String(x._id) === String(id); })[0];
+  $('stTitle').textContent = 'Etidyan — ' + ((c && c.title) || '');
+  $('stNums').innerHTML = '';
+  $('stList').innerHTML = '<p class="lead">N ap chaje...</p>';
+  say('stWarn', '');
+  $('students').classList.remove('hide');
+  $('students').scrollIntoView({ behavior: 'smooth', block: 'start' });
+
+  api('GET', '/api/courses/admin/' + id + '/students').then(function(j) {
+    var T = j.totals || {};
+    $('stNums').innerHTML =
+      '<div class="num"><b>' + T.registered + '</b><span>Enskri</span></div>' +
+      '<div class="num"><b>' + T.paid + '</b><span>Peye</span></div>' +
+      '<div class="num"><b>' + T.unpaid + '</b><span>Pa peye</span></div>' +
+      '<div class="num"><b>' + money(T.collected) + '</b><span>HTG</span></div>';
+
+    var toInvite = (j.students || []).filter(function(s) {
+      return s.status === 'completed' && s.classroomStatus === 'none'; }).length;
+    if (toInvite) {
+      say('stWarn', toInvite + ' etidyan ki peye poko envite nan Google Classroom. ' +
+          'Envite Gmail yo nan Classroom, apre sa peze "Envite" sou chak liy.');
+    }
+    drawStudents(j.students || []);
+  }).catch(function(e) {
+    $('stList').innerHTML = '';
+    say('errBox', e.message, 8000);
+  });
+}
+
+function closeStudents() { $('students').classList.add('hide'); viewing = null; }
+
+function drawStudents(rows) {
+  if (!rows.length) { $('stList').innerHTML = '<p class="lead">Pèsonn poko enskri.</p>'; return; }
+  var html = '';
+  rows.forEach(function(s) {
+    var pay = s.status === 'completed' ? '<span class="pill ok">&#10003; Peye</span>'
+            : s.status === 'pending' ? '<span class="pill wait">Pa peye</span>'
+            : '<span class="pill dead">' + esc(s.status) + '</span>';
+    var cl = s.classroomStatus === 'active' ? '<span class="pill cl2">Nan klas la</span>'
+           : s.classroomStatus === 'invited' ? '<span class="pill cl1">Envite</span>'
+           : '<span class="pill cl0">Poko envite</span>';
+    html += '<div class="st">' +
+      '<div class="st-top"><div>' +
+        '<div class="st-n">' + esc(s.studentName) + '</div>' +
+        '<div class="st-e" onclick="copyMail(\'' + esc(s.email).replace(/'/g, '') + '\')">' +
+          esc(s.email) + '</div>' +
+        '<div class="st-m">' + esc(s.phone || '') + ' · ' + money(s.amount) + ' HTG' +
+          (s.paymentMethod ? ' · ' + esc(s.paymentMethod) : '') + '</div>' +
+      '</div><div style="text-align:right">' + pay + '<br>' + cl + '</div></div>' +
+      (s.overCapacity ? '<div class="over">⚠️ Li peye apre kou a te konplè. Desizyon an pou ou.</div>' : '') +
+      '<div class="st-a">' +
+        (s.status === 'completed' ? (
+          s.classroomStatus === 'none'
+            ? '<button class="btn sm" onclick="mark(\'' + s.referenceId + '\',\'invited\')">Make "Envite"</button>'
+            : (s.classroomStatus === 'invited'
+                ? '<button class="btn sm g" onclick="mark(\'' + s.referenceId + '\',\'active\')">Make "Nan klas la"</button>'
+                : '<button class="btn sm o" onclick="mark(\'' + s.referenceId + '\',\'invited\')">Tounen "Envite"</button>')
+        ) : '<span class="st-m">Poko peye — pa envite l.</span>') +
+      '</div></div>';
+  });
+  $('stList').innerHTML = html;
+}
+
+function copyMail(m) {
+  if (navigator.clipboard) {
+    navigator.clipboard.writeText(m).then(function() { say('okBox', 'Kopye: ' + m, 3500); });
+  }
+}
+
+function mark(ref, status) {
+  api('POST', '/api/courses/admin/registration/' + ref + '/classroom', { status: status })
+    .then(function() { say('okBox', 'Make.', 3000); if (viewing) openStudents(viewing); })
+    .catch(function(e) { say('errBox', e.message, 8000); });
+}
+
+/* The export. A fetch rather than a plain link, because the console code
+   travels in a header - a link cannot carry one, and putting the code in the
+   query string would write it into the browser history and every proxy log. */
+function exportCsv() {
+  if (!viewing) return;
+  fetch(API + '/api/courses/admin/' + viewing + '/students.csv', { headers: { 'x-admin-pin': pin } })
+    .then(function(r) {
+      if (!r.ok) throw new Error('Erè ' + r.status);
+      var name = (r.headers.get('content-disposition') || '').match(/filename="([^"]+)"/);
+      return r.blob().then(function(b) { return { blob: b, name: name ? name[1] : 'etidyan.csv' }; });
+    })
+    .then(function(f) {
+      var u = URL.createObjectURL(f.blob);
+      var a = document.createElement('a');
+      a.href = u; a.download = f.name;
+      document.body.appendChild(a); a.click(); a.remove();
+      setTimeout(function() { URL.revokeObjectURL(u); }, 2000);
+    })
+    .catch(function(e) { say('errBox', e.message, 8000); });
+}
+
+$('pin').addEventListener('keydown', function(e) { if (e.key === 'Enter') unlock(); });
+</script>
+</body>
+</html>

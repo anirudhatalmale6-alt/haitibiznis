@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="ht">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Kou Mwen Yo — HaitiBiznis</title>
+<meta name="description" content="Jwenn kou ou enskri yo ak nimewo telefòn ou, epi antre nan klas la sou Google Classroom.">
+<meta name="theme-color" content="#00209F">
+<link rel="canonical" href="https://haitibiznis.com/kou-mwen.html">
+<link rel="icon" type="image/x-icon" href="favicon.ico">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --blue:#00209F;--red:#D21034;--red-dark:#B00D2C;
+  --gold:#D4A017;--gold-soft:#FDF3D7;
+  --green:#1B8C3D;--green-light:#E8F5E9;--green-deep:#126B2C;
+  --white:#FFFFFF;--off-white:#F5F7FA;
+  --dark:#0A0E1A;--text:#1A2A4A;--text-light:#5A6B8A;--text-muted:#8A95AA;
+  --border:#E2E8F0;--border-light:#F0F3F7;
+  --body:'Plus Jakarta Sans',system-ui,sans-serif;
+  --display:'DM Serif Display',Georgia,serif;
+  --mono:'JetBrains Mono',monospace;
+  --shadow-sm:0 1px 3px rgba(10,14,26,.06);
+  --shadow-md:0 4px 16px rgba(10,14,26,.08);
+  --radius:14px;--radius-lg:20px;
+}
+body{font-family:var(--body);background:var(--off-white);color:var(--text);-webkit-font-smoothing:antialiased;min-height:100vh}
+a{text-decoration:none;color:inherit}
+button{font-family:var(--body);cursor:pointer;border:none;background:none}
+.flag-stripe{height:4px;background:linear-gradient(90deg,var(--blue) 50%,var(--red) 50%)}
+.lang-bar{background:var(--dark);display:flex;justify-content:center;gap:2px;padding:5px 8px;flex-wrap:wrap}
+.lang-bar a{font-size:.7rem;font-weight:700;color:rgba(255,255,255,.62);padding:4px 10px;border-radius:6px;cursor:pointer}
+.lang-bar a.active{background:var(--gold);color:var(--dark)}
+.header{position:sticky;top:0;z-index:100;background:rgba(255,255,255,.95);backdrop-filter:blur(16px);
+  border-bottom:1px solid var(--border);padding:0 16px;height:56px;
+  display:flex;align-items:center;justify-content:space-between}
+.header-left span{font-family:var(--display);font-size:1rem;color:var(--dark)}
+.header-left span em{color:var(--red);font-style:italic}
+.header-back{font-size:.78rem;font-weight:600;color:var(--text-light);
+  border:1px solid var(--border);border-radius:99px;padding:7px 13px}
+
+.wrap{max-width:540px;margin:0 auto;padding:22px 16px 60px}
+.hero{text-align:center;margin-bottom:20px}
+.hero h1{font-family:var(--display);font-size:1.7rem;line-height:1.2;color:var(--dark);margin-bottom:8px}
+.hero p{font-size:.9rem;color:var(--text-light);line-height:1.55}
+
+.card{background:var(--white);border-radius:var(--radius-lg);padding:20px;box-shadow:var(--shadow-md);margin-bottom:16px}
+label{display:block;font-size:.8rem;font-weight:800;color:var(--text-light);margin-bottom:6px}
+input[type=tel]{width:100%;padding:14px;border:1.5px solid var(--border);border-radius:12px;
+  font-family:var(--mono);font-size:1.05rem;letter-spacing:.5px}
+input[type=tel]:focus{outline:none;border-color:var(--blue)}
+.btn{width:100%;margin-top:12px;padding:15px;border-radius:12px;font-weight:800;font-size:1rem;
+  background:var(--blue);color:#fff;box-shadow:0 6px 18px rgba(0,32,159,.25)}
+.btn:disabled{opacity:.55}
+.hint{font-size:.78rem;color:var(--text-muted);margin-top:10px;line-height:1.5}
+
+.msg{border-radius:12px;padding:14px;font-size:.88rem;line-height:1.5;margin-bottom:14px;display:none}
+.msg.err{background:#FDECEF;color:var(--red-dark);border:1px solid #F5C6CE}
+.msg.none{background:var(--gold-soft);color:#7A5C0A;border:1px solid #EBD9A0}
+
+.ko{background:var(--white);border-radius:var(--radius);box-shadow:var(--shadow-sm);
+  border:1px solid var(--border-light);padding:16px;margin-bottom:12px}
+.ko-top{display:flex;justify-content:space-between;align-items:flex-start;gap:10px;margin-bottom:6px}
+.ko-title{font-weight:800;font-size:1rem;color:var(--dark);line-height:1.3}
+.ko-meta{font-size:.8rem;color:var(--text-light);line-height:1.55;margin-bottom:10px}
+.pill{font-size:.7rem;font-weight:800;padding:5px 10px;border-radius:99px;white-space:nowrap}
+.pill.ok{background:var(--green-light);color:var(--green)}
+.pill.wait{background:var(--gold-soft);color:#7A5C0A}
+.pill.dead{background:#FDECEF;color:var(--red-dark)}
+.enter{display:block;text-align:center;padding:13px;border-radius:11px;font-weight:800;font-size:.92rem;
+  background:var(--green);color:#fff;margin-top:4px}
+.enter.off{background:var(--border-light);color:var(--text-muted)}
+.look{display:block;text-align:center;padding:11px;border-radius:11px;font-weight:700;font-size:.86rem;
+  color:var(--blue);border:1.5px solid var(--blue);margin-top:7px}
+.cls{font-size:.78rem;color:var(--text-light);margin-top:8px;line-height:1.5}
+.code{font-family:var(--mono);font-weight:700;background:var(--border-light);padding:2px 6px;border-radius:5px}
+.spin{display:inline-block;width:15px;height:15px;border:2px solid rgba(255,255,255,.4);
+  border-top-color:#fff;border-radius:50%;animation:sp .7s linear infinite;vertical-align:-2px}
+@keyframes sp{to{transform:rotate(360deg)}}
+</style>
+</head>
+<body>
+<div class="flag-stripe"></div>
+<div class="lang-bar">
+  <a data-lang="ht" onclick="setLang('ht')">Kreyòl</a>
+  <a data-lang="fr" onclick="setLang('fr')">Français</a>
+  <a data-lang="en" onclick="setLang('en')">English</a>
+</div>
+<div class="header">
+  <div class="header-left"><span>Kou <em>Anliy</em></span></div>
+  <a class="header-back" href="kou.html">&#8592; <span id="backTxt">Kou yo</span></a>
+</div>
+
+<div class="wrap">
+  <div class="hero">
+    <h1 id="h1"></h1>
+    <p id="sub"></p>
+  </div>
+
+  <div class="card">
+    <label id="lblPhone" for="phone"></label>
+    <input type="tel" id="phone" inputmode="tel" autocomplete="tel" placeholder="3xxx xxxx">
+    <button class="btn" id="findBtn" onclick="find()"></button>
+    <div class="hint" id="hint"></div>
+  </div>
+
+  <div class="msg err" id="errBox"></div>
+  <div class="msg none" id="noneBox"></div>
+  <div id="results"></div>
+</div>
+
+<script>
+/* ═══════════════════════════════════════════════════════════════════════════
+   KOU MWEN YO
+
+   The same handle the ticket module uses, for the same reason: the only thing
+   a student in Haiti reliably has is their phone number, so that is what finds
+   their registration again. Looking a course up also reconciles it, which
+   means somebody who was told "pending" an hour ago can come here and simply
+   find a confirmed place in the class.
+
+   ⚠️ Stated plainly rather than buried: this is not authentication. Anybody
+   who types a number that registered sees what that number registered for.
+   The alternative was an account system for students who mostly have no email
+   they can receive at - and what is behind it is a Google Classroom invitation
+   that still has to be accepted inside somebody else's own Gmail.
+   ═══════════════════════════════════════════════════════════════════════════ */
+var API_URL = 'https://haitibiznis-api.onrender.com';
+
+var I18N = {
+  ht: {
+    back:'Kou yo', h1:'Kou mwen yo',
+    sub:'Antre nimewo telefòn ou te itilize lè w te enskri a. Nou pral jwenn tout kou ou yo.',
+    lbl:'Nimewo telefòn ou', btn:'Chèche kou mwen yo', btnBusy:'N ap chèche...',
+    hint:'Se menm nimewo w te bay lè w t ap enskri a. Ou pa bezwen okenn kont ni modpas.',
+    short:'Mete nimewo telefòn ou nèt (8 chif).',
+    none:'Nou pa jwenn okenn kou ak nimewo sa a. Tcheke si se bon nimewo a.',
+    err:'Nou pa ka chèche kounye a. Tanpri eseye ankò nan yon ti moman.',
+    tooMany:'Twòp rechèch. Tanpri tann kèk minit epi eseye ankò.',
+    found1:'Nou jwenn 1 kou', foundN:'Nou jwenn {n} kou',
+    ok:'Peye', wait:'N ap tann peman', dead:'Anile',
+    by:'Pwofesè', startL:'Kòmanse', free:'GRATIS',
+    enter:'ANTRE NAN KOU A &#8594;', noLink:'Lyen klas la poko pare',
+    open:'Wè detay peman an', codeL:'Kòd klas la:',
+    stNone:'Envitasyon Google Classroom poko voye — n ap voye l nan Gmail ou.',
+    stInvited:'Envitasyon an voye nan Gmail ou. Aksepte l epi antre.',
+    stActive:'Ou nan klas la.'
+  },
+  fr: {
+    back:'Les cours', h1:'Mes cours',
+    sub:'Entrez le numéro de téléphone utilisé lors de l’inscription. Nous retrouverons tous vos cours.',
+    lbl:'Votre numéro de téléphone', btn:'Chercher mes cours', btnBusy:'Recherche...',
+    hint:'Le même numéro que vous avez donné en vous inscrivant. Aucun compte ni mot de passe.',
+    short:'Entrez votre numéro complet (8 chiffres).',
+    none:'Aucun cours trouvé avec ce numéro. Vérifiez le numéro.',
+    err:'Recherche impossible pour le moment. Réessayez dans un instant.',
+    tooMany:'Trop de recherches. Attendez quelques minutes et réessayez.',
+    found1:'1 cours trouvé', foundN:'{n} cours trouvés',
+    ok:'Payé', wait:'Paiement en attente', dead:'Annulé',
+    by:'Professeur', startL:'Début', free:'GRATUIT',
+    enter:'ENTRER DANS LE COURS &#8594;', noLink:'Lien de classe pas encore prêt',
+    open:'Voir le détail du paiement', codeL:'Code de la classe :',
+    stNone:'Invitation Google Classroom pas encore envoyée — elle arrive dans votre Gmail.',
+    stInvited:'Invitation envoyée dans votre Gmail. Acceptez-la puis entrez.',
+    stActive:'Vous êtes dans la classe.'
+  },
+  en: {
+    back:'Courses', h1:'My courses',
+    sub:'Enter the phone number you used when you registered. We will find all your courses.',
+    lbl:'Your phone number', btn:'Find my courses', btnBusy:'Searching...',
+    hint:'The same number you gave when registering. No account and no password needed.',
+    short:'Enter your full number (8 digits).',
+    none:'No courses found for that number. Please check the number.',
+    err:'We cannot search right now. Please try again in a moment.',
+    tooMany:'Too many searches. Please wait a few minutes and try again.',
+    found1:'1 course found', foundN:'{n} courses found',
+    ok:'Paid', wait:'Awaiting payment', dead:'Cancelled',
+    by:'Instructor', startL:'Starts', free:'FREE',
+    enter:'ENTER THE COURSE &#8594;', noLink:'Classroom link not ready yet',
+    open:'See payment details', codeL:'Class code:',
+    stNone:'Google Classroom invitation not sent yet — it is coming to your Gmail.',
+    stInvited:'Invitation sent to your Gmail. Accept it, then come in.',
+    stActive:'You are in the class.'
+  }
+};
+var lang = 'ht';
+function t(k) { return (I18N[lang] && I18N[lang][k]) || I18N.ht[k] || k; }
+
+function setLang(l) {
+  if (!I18N[l]) return;
+  lang = l;
+  try { localStorage.setItem('tl_lang', l); } catch (e) {}
+  document.querySelectorAll('.lang-bar a').forEach(function(a) {
+    a.classList.toggle('active', a.getAttribute('data-lang') === l);
+  });
+  document.documentElement.lang = l;
+  document.getElementById('backTxt').textContent = t('back');
+  document.getElementById('h1').textContent = t('h1');
+  document.getElementById('sub').textContent = t('sub');
+  document.getElementById('lblPhone').textContent = t('lbl');
+  document.getElementById('findBtn').textContent = t('btn');
+  document.getElementById('hint').textContent = t('hint');
+  if (window._last) render(window._last);
+}
+
+function esc(s) {
+  return String(s == null ? '' : s).replace(/[&<>"']/g, function(c) {
+    return { '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;' }[c];
+  });
+}
+function show(id, text) {
+  var el = document.getElementById(id);
+  el.textContent = text;
+  el.style.display = text ? 'block' : 'none';
+}
+function money(n) { return Number(n || 0).toLocaleString('en-US'); }
+function safeUrl(u) {
+  var s = String(u || '').trim();
+  return /^https?:\/\//i.test(s) ? s : '';
+}
+
+function pill(r) {
+  if (r.status === 'completed') return '<span class="pill ok">&#10003; ' + t('ok') + '</span>';
+  if (r.status === 'pending') return '<span class="pill wait">' + t('wait') + '</span>';
+  return '<span class="pill dead">' + t('dead') + '</span>';
+}
+
+function classWord(s) {
+  if (s === 'active') return t('stActive');
+  if (s === 'invited') return t('stInvited');
+  return t('stNone');
+}
+
+function render(rows) {
+  window._last = rows;
+  var out = document.getElementById('results');
+  if (!rows.length) { out.innerHTML = ''; return; }
+  var head = rows.length === 1 ? t('found1') : t('foundN').replace('{n}', rows.length);
+  var html = '<div style="font-weight:800;font-size:.9rem;margin:4px 0 12px">' + esc(head) + '</div>';
+
+  rows.forEach(function(r) {
+    var c = r.course || {};
+    var cr = r.classroom || {};
+    var link = safeUrl(cr.link);
+    html += '<div class="ko">' +
+      '<div class="ko-top"><div class="ko-title">' +
+        esc(r.courseTitle || c.title || '—') + '</div>' + pill(r) + '</div>' +
+      '<div class="ko-meta">' +
+        (c.instructor ? t('by') + ': ' + esc(c.instructor) + '<br>' : '') +
+        (c.startDate ? t('startL') + ': ' + esc(c.startDate) + '<br>' : '') +
+        (Number(r.amount) > 0 ? money(r.amount) + ' ' + esc(r.currency || 'HTG') : t('free')) +
+      '</div>';
+
+    if (r.status === 'completed') {
+      html += '<div class="cls">' + classWord(r.classroomStatus) + '</div>';
+      if (cr.code) html += '<div class="cls">' + t('codeL') +
+        ' <span class="code">' + esc(cr.code) + '</span></div>';
+      /* ANTRE NAN KOU A - only ever rendered when the server sent a link,
+         which it only does for a paid registration. */
+      html += link
+        ? '<a class="enter" href="' + esc(link) + '" target="_blank" rel="noopener">' + t('enter') + '</a>'
+        : '<div class="enter off">' + t('noLink') + '</div>';
+    }
+    html += '<a class="look" href="kou-konfime.html?ref=' + encodeURIComponent(r.referenceId) + '">' +
+            t('open') + '</a>';
+    html += '</div>';
+  });
+  out.innerHTML = html;
+}
+
+function find() {
+  var raw = (document.getElementById('phone').value || '').trim();
+  var digits = raw.replace(/\D/g, '');
+  show('errBox', ''); show('noneBox', '');
+  document.getElementById('results').innerHTML = '';
+  window._last = null;
+  if (digits.length < 8) { show('errBox', t('short')); return; }
+
+  var btn = document.getElementById('findBtn');
+  btn.disabled = true;
+  btn.innerHTML = '<span class="spin"></span> ' + t('btnBusy');
+  try { localStorage.setItem('tl_phone', raw); } catch (e) {}
+
+  fetch(API_URL + '/api/courses/my-courses?phone=' + encodeURIComponent(raw))
+    .then(function(r) { return r.json().then(function(d) { return { code: r.status, d: d }; }); })
+    .then(function(res) {
+      if (res.code === 429) { show('errBox', t('tooMany')); return; }
+      if (res.code >= 400) { show('errBox', (res.d && res.d.error) || t('err')); return; }
+      var rows = (res.d && res.d.courses) || [];
+      if (!rows.length) { show('noneBox', t('none')); return; }
+      render(rows);
+    })
+    .catch(function() { show('errBox', t('err')); })
+    .then(function() { btn.disabled = false; btn.textContent = t('btn'); });
+}
+
+document.getElementById('phone').addEventListener('keydown', function(e) {
+  if (e.key === 'Enter') find();
+});
+
+(function() {
+  var saved = null;
+  try { saved = localStorage.getItem('tl_lang'); } catch (e) {}
+  setLang(saved && I18N[saved] ? saved : 'ht');
+  var known = null;
+  try { known = localStorage.getItem('tl_phone'); } catch (e) {}
+  if (known) document.getElementById('phone').value = known;
+  var q = new URLSearchParams(location.search).get('phone');
+  if (q) { document.getElementById('phone').value = q; find(); }
+  else if (known) find();
+})();
+</script>
+</body>
+</html>

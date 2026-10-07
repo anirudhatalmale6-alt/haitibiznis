@@ -1,0 +1,470 @@
+<!DOCTYPE html>
+<html lang="ht">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Kou Anliy — HaitiBiznis</title>
+<meta name="description" content="Enskri nan kou anliy yo. Peye ak MonCash, NatCash oswa kat kredi, epi jwenn aksè nan Google Classroom.">
+<meta name="theme-color" content="#00209F">
+<meta property="og:title" content="Kou Anliy — HaitiBiznis">
+<meta property="og:description" content="Enskri, peye, epi antre nan klas la sou Google Classroom.">
+<meta property="og:url" content="https://haitibiznis.com/kou.html">
+<meta property="og:type" content="website">
+<link rel="canonical" href="https://haitibiznis.com/kou.html">
+<link rel="icon" type="image/x-icon" href="favicon.ico">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --blue:#00209F;--blue-deep:#001566;--blue-light:#0A3ACC;
+  --red:#D21034;--red-dark:#B00D2C;
+  --gold:#D4A017;--gold-light:#E8B82E;--gold-soft:#FDF3D7;
+  --green:#1B8C3D;--green-light:#E8F5E9;
+  --white:#FFFFFF;--off-white:#F5F7FA;
+  --dark:#0A0E1A;--text:#1A2A4A;--text-light:#5A6B8A;--text-muted:#8A95AA;
+  --border:#E2E8F0;--border-light:#F0F3F7;
+  --body:'Plus Jakarta Sans',system-ui,sans-serif;
+  --display:'DM Serif Display',Georgia,serif;
+  --mono:'JetBrains Mono',monospace;
+  --shadow-sm:0 1px 3px rgba(10,14,26,.06);
+  --shadow-md:0 4px 16px rgba(10,14,26,.08);
+  --radius:14px;--radius-lg:20px;
+}
+body{font-family:var(--body);background:var(--off-white);color:var(--text);-webkit-font-smoothing:antialiased;min-height:100vh}
+a{text-decoration:none;color:inherit}
+button{font-family:var(--body);cursor:pointer;border:none;background:none}
+
+.flag-stripe{height:4px;background:linear-gradient(90deg,var(--blue) 50%,var(--red) 50%)}
+.lang-bar{background:var(--dark);display:flex;justify-content:center;gap:2px;padding:5px 8px;flex-wrap:wrap}
+.lang-bar a{font-size:.7rem;font-weight:700;color:rgba(255,255,255,.62);padding:4px 10px;border-radius:6px;cursor:pointer}
+.lang-bar a.active{background:var(--gold);color:var(--dark)}
+.header{position:sticky;top:0;z-index:100;background:rgba(255,255,255,.95);backdrop-filter:blur(16px);
+  border-bottom:1px solid var(--border);padding:0 16px;height:56px;
+  display:flex;align-items:center;justify-content:space-between}
+.header-left span{font-family:var(--display);font-size:1rem;color:var(--dark)}
+.header-left span em{color:var(--red);font-style:italic}
+.header-back{display:flex;align-items:center;gap:6px;font-size:.78rem;font-weight:600;
+  color:var(--text-light);border:1px solid var(--border);border-radius:99px;padding:7px 13px}
+
+.wrap{max-width:560px;margin:0 auto;padding:22px 16px 60px}
+.hero{text-align:center;margin-bottom:20px}
+.hero h1{font-family:var(--display);font-size:1.75rem;line-height:1.2;color:var(--dark);margin-bottom:8px}
+.hero p{font-size:.9rem;color:var(--text-light);line-height:1.55}
+.hero .mine{display:inline-block;margin-top:12px;font-size:.8rem;font-weight:700;color:var(--blue);
+  border:1.5px solid var(--blue);border-radius:99px;padding:8px 16px}
+
+.msg{border-radius:12px;padding:14px;font-size:.88rem;line-height:1.5;margin-bottom:14px;display:none}
+.msg.err{background:#FDECEF;color:var(--red-dark);border:1px solid #F5C6CE}
+.msg.none{background:var(--gold-soft);color:#7A5C0A;border:1px solid #EBD9A0}
+.msg.ok{background:var(--green-light);color:#126B2C;border:1px solid #BEE5C6}
+
+.ko{background:var(--white);border-radius:var(--radius-lg);box-shadow:var(--shadow-sm);
+  border:1px solid var(--border-light);margin-bottom:14px;overflow:hidden;cursor:pointer}
+.ko-img{width:100%;height:130px;object-fit:cover;display:block;background:var(--border-light)}
+.ko-body{padding:16px}
+.ko-top{display:flex;justify-content:space-between;align-items:flex-start;gap:10px;margin-bottom:6px}
+.ko-title{font-weight:800;font-size:1.05rem;color:var(--dark);line-height:1.3}
+.ko-prof{font-size:.82rem;color:var(--text-light);margin-bottom:8px}
+.ko-desc{font-size:.85rem;color:var(--text-light);line-height:1.5;margin-bottom:10px}
+.ko-foot{display:flex;justify-content:space-between;align-items:center;gap:8px;flex-wrap:wrap}
+.price{font-family:var(--mono);font-weight:700;font-size:1.05rem;color:var(--blue)}
+.price.free{color:var(--green)}
+.pill{font-size:.7rem;font-weight:800;padding:5px 10px;border-radius:99px;white-space:nowrap}
+.pill.seats{background:var(--gold-soft);color:#7A5C0A}
+.pill.full{background:#FDECEF;color:var(--red-dark)}
+.pill.date{background:var(--border-light);color:var(--text-light)}
+.go{font-size:.82rem;font-weight:800;color:var(--blue)}
+
+.sheet{position:fixed;inset:0;z-index:300;background:rgba(10,14,26,.55);display:none;
+  align-items:flex-end;justify-content:center;padding:0}
+.sheet.on{display:flex}
+.sheet-in{background:var(--white);width:100%;max-width:560px;border-radius:22px 22px 0 0;
+  padding:20px 18px 26px;max-height:92vh;overflow:auto}
+.sheet-bar{width:42px;height:4px;border-radius:99px;background:var(--border);margin:0 auto 14px}
+.sheet h2{font-family:var(--display);font-size:1.35rem;color:var(--dark);line-height:1.25;margin-bottom:4px}
+.sheet .who{font-size:.85rem;color:var(--text-light);margin-bottom:12px}
+.sheet .det{font-size:.85rem;color:var(--text);line-height:1.55;margin-bottom:14px;white-space:pre-wrap}
+.rowline{display:flex;justify-content:space-between;font-size:.85rem;padding:9px 0;border-bottom:1px solid var(--border-light)}
+.rowline span:first-child{color:var(--text-light)}
+.rowline span:last-child{font-weight:700;color:var(--dark)}
+
+label{display:block;font-size:.78rem;font-weight:800;color:var(--text-light);margin:14px 0 6px}
+input[type=text],input[type=tel],input[type=email]{width:100%;padding:13px;border:1.5px solid var(--border);
+  border-radius:12px;font-family:var(--body);font-size:1rem}
+input[type=tel],input[type=email]{font-family:var(--mono);font-size:.98rem}
+input:focus{outline:none;border-color:var(--blue)}
+.why{font-size:.76rem;color:var(--text-muted);margin-top:5px;line-height:1.45}
+.pays{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:6px}
+.pay{border:1.5px solid var(--border);border-radius:12px;padding:12px 8px;text-align:center;
+  font-size:.82rem;font-weight:700;color:var(--text)}
+.pay.on{border-color:var(--blue);background:#F2F5FF;color:var(--blue)}
+.btn{width:100%;margin-top:16px;padding:15px;border-radius:12px;font-weight:800;font-size:1rem;
+  background:var(--blue);color:#fff;box-shadow:0 6px 18px rgba(0,32,159,.25)}
+.btn.g{background:var(--green);box-shadow:0 6px 18px rgba(27,140,61,.25)}
+.btn:disabled{opacity:.55}
+.btn2{width:100%;margin-top:9px;padding:13px;border-radius:12px;font-weight:700;font-size:.9rem;
+  color:var(--text-light);border:1.5px solid var(--border)}
+.spin{display:inline-block;width:15px;height:15px;border:2px solid rgba(255,255,255,.4);
+  border-top-color:#fff;border-radius:50%;animation:sp .7s linear infinite;vertical-align:-2px}
+@keyframes sp{to{transform:rotate(360deg)}}
+.skel{height:150px;border-radius:var(--radius-lg);background:linear-gradient(90deg,#EEF1F6,#F7F9FC,#EEF1F6);
+  background-size:200% 100%;animation:sh 1.2s infinite;margin-bottom:14px}
+@keyframes sh{to{background-position:-200% 0}}
+.foot{text-align:center;font-size:.74rem;color:var(--text-muted);margin-top:26px;line-height:1.6}
+</style>
+</head>
+<body>
+<div class="flag-stripe"></div>
+<div class="lang-bar">
+  <a data-lang="ht" onclick="setLang('ht')">Kreyòl</a>
+  <a data-lang="fr" onclick="setLang('fr')">Français</a>
+  <a data-lang="en" onclick="setLang('en')">English</a>
+</div>
+<div class="header">
+  <div class="header-left"><span>Kou <em>Anliy</em></span></div>
+  <a class="header-back" href="index.html">&#8592; <span id="backTxt">Retounen</span></a>
+</div>
+
+<div class="wrap">
+  <div class="hero">
+    <h1 id="h1"></h1>
+    <p id="sub"></p>
+    <a class="mine" href="kou-mwen.html" id="mineTxt"></a>
+  </div>
+
+  <div class="msg err" id="errBox"></div>
+  <div class="msg none" id="noneBox"></div>
+  <div id="list"><div class="skel"></div><div class="skel"></div></div>
+
+  <div class="foot" id="footTxt"></div>
+</div>
+
+<!-- The registration sheet. Built by JS, so nothing in here carries a
+     data-i18n attribute - setLang() only ever touches the static chrome. -->
+<div class="sheet" id="sheet" onclick="if(event.target===this)closeSheet()">
+  <div class="sheet-in">
+    <div class="sheet-bar"></div>
+    <div id="sheetBody"></div>
+  </div>
+</div>
+
+<script>
+/* ═══════════════════════════════════════════════════════════════════════════
+   ENSKRI NAN YON KOU ANLIY
+
+   Jeffery, 7 Oct 2026:
+     "HaitiBiznis = Registration + Payment + Access Control
+      Google Classroom = Teaching + Lessons + Assignments"
+
+   So this page sells a seat and nothing else. There is no lesson, no video and
+   no assignment anywhere in it, and there is deliberately no Google Classroom
+   link either - not even hidden in the HTML for somebody to find with View
+   Source. The server will not send one until it has asked the gateway whether
+   the money arrived, so there is nothing here to hide.
+
+   The email field is the one that matters and it is the one people will get
+   wrong, because every other form on this platform asks only for a phone
+   number. Google Classroom runs on Google accounts, so without a working Gmail
+   address a student can pay and still never get in. That is why the label says
+   Gmail, why the hint explains the reason, and why the server checks the shape
+   of it before taking any money.
+   ═══════════════════════════════════════════════════════════════════════════ */
+var API_URL = 'https://haitibiznis-api.onrender.com';
+
+var I18N = {
+  ht: {
+    back:'Retounen', h1:'Kou anliy', mine:'Kou mwen yo &#8594;',
+    sub:'Enskri, peye, epi antre nan klas la sou Google Classroom. Pwofesè a ap mete tout leson yo la.',
+    none:'Pa gen kou ki louvri pou enskripsyon kounye a. Tounen pi devan.',
+    err:'Nou pa ka chaje kou yo kounye a. Tanpri eseye ankò nan yon ti moman.',
+    free:'GRATIS', seats:'{n} plas ki rete', full:'KONPLÈ', by:'Pwofesè',
+    go:'Enskri &#8594;', from:'Kòmanse', to:'Fini',
+    priceL:'Pri', dateL:'Dat', students:'Plas',
+    nameL:'Non konplè w', phoneL:'Telefòn / WhatsApp', emailL:'Adrès Gmail ou',
+    emailWhy:'Nou bezwen yon adrès Gmail paske Google Classroom travay ak kont Google. Se la pwofesè a ap voye envitasyon an.',
+    payL:'Kijan w vle peye?', pay:'Peye {n} HTG', payFree:'Enskri gratis',
+    paying:'N ap louvri peman an...', cancel:'Anile',
+    needAll:'Tanpri ranpli non, telefòn ak Gmail ou.',
+    badEmail:'Imèl la pa sanble bon. Egzanp: non@gmail.com',
+    unlimited:'Pa gen limit',
+    footer:'Peman yo fèt ak MonCash, NatCash oswa kat kredi. Ou pap jwenn lyen klas la anvan peman w konfime.'
+  },
+  fr: {
+    back:'Retour', h1:'Cours en ligne', mine:'Mes cours &#8594;',
+    sub:'Inscrivez-vous, payez, puis entrez dans la classe sur Google Classroom. Le professeur y met toutes les leçons.',
+    none:'Aucun cours n’est ouvert aux inscriptions pour le moment. Revenez plus tard.',
+    err:'Impossible de charger les cours. Réessayez dans un instant.',
+    free:'GRATUIT', seats:'{n} places restantes', full:'COMPLET', by:'Professeur',
+    go:'S’inscrire &#8594;', from:'Début', to:'Fin',
+    priceL:'Prix', dateL:'Dates', students:'Places',
+    nameL:'Votre nom complet', phoneL:'Téléphone / WhatsApp', emailL:'Votre adresse Gmail',
+    emailWhy:'Il faut une adresse Gmail car Google Classroom fonctionne avec les comptes Google. C’est là que l’invitation sera envoyée.',
+    payL:'Comment voulez-vous payer ?', pay:'Payer {n} HTG', payFree:'Inscription gratuite',
+    paying:'Ouverture du paiement...', cancel:'Annuler',
+    needAll:'Veuillez remplir nom, téléphone et Gmail.',
+    badEmail:'L’adresse ne semble pas valide. Exemple : nom@gmail.com',
+    unlimited:'Sans limite',
+    footer:'Paiement par MonCash, NatCash ou carte bancaire. Le lien de la classe n’est donné qu’après confirmation du paiement.'
+  },
+  en: {
+    back:'Back', h1:'Online classes', mine:'My courses &#8594;',
+    sub:'Register, pay, then join the class in Google Classroom. The instructor posts every lesson there.',
+    none:'No courses are open for registration right now. Please come back later.',
+    err:'We cannot load the courses right now. Please try again in a moment.',
+    free:'FREE', seats:'{n} seats left', full:'FULL', by:'Instructor',
+    go:'Register &#8594;', from:'Starts', to:'Ends',
+    priceL:'Price', dateL:'Dates', students:'Seats',
+    nameL:'Your full name', phoneL:'Phone / WhatsApp', emailL:'Your Gmail address',
+    emailWhy:'We need a Gmail address because Google Classroom runs on Google accounts. That is where your invitation is sent.',
+    payL:'How would you like to pay?', pay:'Pay {n} HTG', payFree:'Register free',
+    paying:'Opening payment...', cancel:'Cancel',
+    needAll:'Please fill in your name, phone and Gmail.',
+    badEmail:'That address does not look right. Example: name@gmail.com',
+    unlimited:'No limit',
+    footer:'Payment by MonCash, NatCash or card. The classroom link is only given once your payment is confirmed.'
+  }
+};
+var lang = 'ht';
+function t(k) { return (I18N[lang] && I18N[lang][k]) || I18N.ht[k] || k; }
+
+function setLang(l) {
+  if (!I18N[l]) return;
+  lang = l;
+  try { localStorage.setItem('tl_lang', l); } catch (e) {}
+  document.querySelectorAll('.lang-bar a').forEach(function(a) {
+    a.classList.toggle('active', a.getAttribute('data-lang') === l);
+  });
+  document.documentElement.lang = l;
+  document.getElementById('backTxt').textContent = t('back');
+  document.getElementById('h1').textContent = t('h1');
+  document.getElementById('sub').textContent = t('sub');
+  document.getElementById('mineTxt').innerHTML = t('mine');
+  document.getElementById('footTxt').textContent = t('footer');
+  if (window._courses) render(window._courses);
+  if (window._open) openCourse(window._open._id);
+}
+
+function esc(s) {
+  return String(s == null ? '' : s).replace(/[&<>"']/g, function(c) {
+    return { '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;' }[c];
+  });
+}
+function show(id, text) {
+  var el = document.getElementById(id);
+  el.textContent = text;
+  el.style.display = text ? 'block' : 'none';
+}
+function money(n) { return Number(n || 0).toLocaleString('en-US'); }
+function looksLikeEmail(s) { return /^[^\s@]+@[^\s@]+\.[A-Za-z]{2,}$/.test(String(s || '').trim()); }
+
+function render(list) {
+  window._courses = list;
+  var out = document.getElementById('list');
+  if (!list.length) { out.innerHTML = ''; show('noneBox', t('none')); return; }
+  var html = '';
+  list.forEach(function(c) {
+    var full = c.seatsLeft === 0;
+    var seatPill = c.seatsLeft === null || c.seatsLeft === undefined
+      ? '' : (full ? '<span class="pill full">' + t('full') + '</span>'
+                   : '<span class="pill seats">' + t('seats').replace('{n}', c.seatsLeft) + '</span>');
+    var when = c.startDate || '';
+    html += '<div class="ko" onclick="openCourse(\'' + c._id + '\')">' +
+      (c.imageUrl ? '<img class="ko-img" src="' + esc(c.imageUrl) + '" alt="" ' +
+          'onerror="this.style.display=\'none\'">' : '') +
+      '<div class="ko-body">' +
+        '<div class="ko-top"><div class="ko-title">' + esc(c.title) + '</div>' + seatPill + '</div>' +
+        (c.instructor ? '<div class="ko-prof">' + t('by') + ': ' + esc(c.instructor) + '</div>' : '') +
+        (c.description ? '<div class="ko-desc">' + esc(String(c.description).slice(0, 170)) +
+            (String(c.description).length > 170 ? '…' : '') + '</div>' : '') +
+        '<div class="ko-foot">' +
+          '<span class="price' + (c.isFree ? ' free' : '') + '">' +
+            (c.isFree ? t('free') : money(c.price) + ' HTG') + '</span>' +
+          (when ? '<span class="pill date">' + esc(when) + '</span>' : '') +
+          '<span class="go">' + t('go') + '</span>' +
+        '</div>' +
+      '</div></div>';
+  });
+  out.innerHTML = html;
+}
+
+/* ─── THE REGISTRATION SHEET ─────────────────────────────────────────────── */
+var _pay = null;
+
+function openCourse(id) {
+  var c = (window._courses || []).filter(function(x) { return String(x._id) === String(id); })[0];
+  if (!c) return;
+  window._open = c;
+  var full = c.seatsLeft === 0;
+  var pm = c.paymentMethods || { moncash: true, natcash: true, card: true };
+  _pay = null;
+
+  var saved = { name:'', phone:'', email:'' };
+  try {
+    saved.name = localStorage.getItem('hb_name') || '';
+    saved.phone = localStorage.getItem('tl_phone') || '';
+    saved.email = localStorage.getItem('hb_email') || '';
+  } catch (e) {}
+
+  var h = '<h2>' + esc(c.title) + '</h2>';
+  if (c.instructor) h += '<div class="who">' + t('by') + ': ' + esc(c.instructor) + '</div>';
+  if (c.description) h += '<div class="det">' + esc(c.description) + '</div>';
+  h += '<div class="rowline"><span>' + t('priceL') + '</span><span>' +
+         (c.isFree ? t('free') : money(c.price) + ' HTG') + '</span></div>';
+  if (c.startDate) h += '<div class="rowline"><span>' + t('from') + '</span><span>' + esc(c.startDate) + '</span></div>';
+  if (c.endDate) h += '<div class="rowline"><span>' + t('to') + '</span><span>' + esc(c.endDate) + '</span></div>';
+  h += '<div class="rowline"><span>' + t('students') + '</span><span>' +
+        (c.maxStudents ? (c.seatsLeft + ' / ' + c.maxStudents) : t('unlimited')) + '</span></div>';
+
+  if (full) {
+    h += '<div class="msg full" style="display:block;background:#FDECEF;color:#B00D2C;' +
+         'border:1px solid #F5C6CE;margin-top:16px">' + t('full') + '</div>' +
+         '<button class="btn2" onclick="closeSheet()">' + t('cancel') + '</button>';
+    document.getElementById('sheetBody').innerHTML = h;
+    document.getElementById('sheet').classList.add('on');
+    return;
+  }
+
+  h += '<label for="rName">' + t('nameL') + '</label>' +
+       '<input type="text" id="rName" autocomplete="name" value="' + esc(saved.name) + '">' +
+       '<label for="rPhone">' + t('phoneL') + '</label>' +
+       '<input type="tel" id="rPhone" inputmode="tel" autocomplete="tel" placeholder="3xxx xxxx" value="' + esc(saved.phone) + '">' +
+       '<label for="rEmail">' + t('emailL') + '</label>' +
+       '<input type="email" id="rEmail" inputmode="email" autocomplete="email" placeholder="non@gmail.com" value="' + esc(saved.email) + '">' +
+       '<div class="why">' + t('emailWhy') + '</div>';
+
+  if (!c.isFree) {
+    h += '<label>' + t('payL') + '</label><div class="pays">';
+    if (pm.moncash) h += '<div class="pay" data-m="moncash" onclick="pickPay(this)">MonCash</div>';
+    if (pm.natcash) h += '<div class="pay" data-m="natcash" onclick="pickPay(this)">NatCash</div>';
+    if (pm.card) h += '<div class="pay" data-m="card" onclick="pickPay(this)">&#128179; Kat kredi</div>';
+    h += '</div>';
+  }
+
+  h += '<div class="msg err" id="formErr"></div>' +
+       '<button class="btn' + (c.isFree ? ' g' : '') + '" id="goBtn" onclick="submitReg()">' +
+         (c.isFree ? t('payFree') : t('pay').replace('{n}', money(c.price))) + '</button>' +
+       '<button class="btn2" onclick="closeSheet()">' + t('cancel') + '</button>';
+
+  document.getElementById('sheetBody').innerHTML = h;
+  document.getElementById('sheet').classList.add('on');
+}
+
+function closeSheet() {
+  document.getElementById('sheet').classList.remove('on');
+  window._open = null;
+}
+
+function pickPay(el) {
+  document.querySelectorAll('.pay').forEach(function(p) { p.classList.remove('on'); });
+  el.classList.add('on');
+  _pay = el.getAttribute('data-m');
+}
+
+function submitReg() {
+  var c = window._open;
+  if (!c) return;
+  var name = (document.getElementById('rName').value || '').trim();
+  var phone = (document.getElementById('rPhone').value || '').trim();
+  var email = (document.getElementById('rEmail').value || '').trim();
+  var err = document.getElementById('formErr');
+  var fail = function(m) { err.textContent = m; err.style.display = 'block'; };
+  err.style.display = 'none';
+
+  if (!name || !phone || !email) return fail(t('needAll'));
+  /* Checked here as well as on the server. Not because the server cannot be
+     trusted to, but because being told at once is the difference between
+     fixing a typo and paying for a course you then cannot get into. */
+  if (!looksLikeEmail(email)) return fail(t('badEmail'));
+  if (!c.isFree && !_pay) return fail(t('payL'));
+
+  try {
+    localStorage.setItem('hb_name', name);
+    localStorage.setItem('tl_phone', phone);
+    localStorage.setItem('hb_email', email);
+  } catch (e) {}
+
+  var btn = document.getElementById('goBtn');
+  btn.disabled = true;
+  btn.innerHTML = '<span class="spin"></span> ' + t('paying');
+
+  /* The tab is claimed NOW, on the tap, while this is still the user's own
+     gesture. Opening it after the server answers is a pop-up as far as the
+     browser is concerned, and it is blocked silently - which looks exactly
+     like a payment button that does nothing. */
+  var held = c.isFree ? null : window.open('', '_blank');
+
+  fetch(API_URL + '/api/courses/register', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ courseId: c._id, studentName: name, phone: phone,
+                           email: email, paymentMethod: _pay })
+  }).then(function(r) { return r.json().then(function(d) { return { code: r.status, d: d }; }); })
+    .then(function(res) {
+      var d = res.d || {};
+      if (res.code >= 400 || d.error) {
+        if (held) held.close();
+        btn.disabled = false;
+        btn.innerHTML = c.isFree ? t('payFree') : t('pay').replace('{n}', money(c.price));
+        return fail(d.error || t('err'));
+      }
+      /* Free, or already registered and paid: straight to the confirmation. */
+      if (d.free || d.alreadyRegistered || !d.paymentUrl) {
+        if (held) held.close();
+        location.href = 'kou-konfime.html?ref=' + encodeURIComponent(d.referenceId);
+        return;
+      }
+      if (held && !held.closed) {
+        /* Pay in the tab we claimed; THIS tab becomes the place they come back
+           to, and it keeps asking the server until the money is confirmed. */
+        held.location.href = d.paymentUrl;
+        location.href = 'kou-konfime.html?ref=' + encodeURIComponent(d.referenceId);
+      } else {
+        /* The browser refused the tab. Go to the payment page in this one -
+           the gateway's return_url brings them back to the confirmation.
+           ⛔ Not both: setting location twice means the second wins and the
+           payment page never opens at all. */
+        location.href = d.paymentUrl;
+      }
+    })
+    .catch(function() {
+      if (held) held.close();
+      btn.disabled = false;
+      btn.innerHTML = c.isFree ? t('payFree') : t('pay').replace('{n}', money(c.price));
+      fail(t('err'));
+    });
+}
+
+/* ─── BOOT ──────────────────────────────────────────────────────────────── */
+function load() {
+  fetch(API_URL + '/api/courses')
+    .then(function(r) { return r.json(); })
+    .then(function(d) {
+      document.getElementById('list').innerHTML = '';
+      render((d && d.courses) || []);
+    })
+    .catch(function() {
+      document.getElementById('list').innerHTML = '';
+      show('errBox', t('err'));
+    });
+}
+
+(function() {
+  var saved = null;
+  try { saved = localStorage.getItem('tl_lang'); } catch (e) {}
+  setLang(saved && I18N[saved] ? saved : 'ht');
+  load();
+  /* ?id= so one course can be shared on WhatsApp and open straight away. */
+  var want = new URLSearchParams(location.search).get('id');
+  if (want) {
+    var tries = 0;
+    var wait = setInterval(function() {
+      if (window._courses) { clearInterval(wait); openCourse(want); }
+      else if (++tries > 40) clearInterval(wait);
+    }, 150);
+  }
+})();
+</script>
+</body>
+</html>
