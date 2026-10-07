@@ -766,6 +766,8 @@ var translations = {
     platformFee: 'Frè platfòm (7.5%)',
     yourName: 'Non ou',
     yourPhone: 'Nimewo telefòn',
+    yourEmail: 'Imèl ou (opsyonèl)',
+    emailWhyTicket: 'Si w mete imèl ou, n ap voye tikè a ba ou tou.',
     creditCard: 'Kat Kredi',
     freeTitle: 'Enskripsyon Gratis',
     freeConfirm: 'Konfime Enskripsyon Mwen',
@@ -828,6 +830,8 @@ var translations = {
     platformFee: 'Frais de plateforme (7.5%)',
     yourName: 'Votre nom',
     yourPhone: 'Numéro de téléphone',
+    yourEmail: 'Votre email (facultatif)',
+    emailWhyTicket: 'Si vous mettez votre email, nous vous enverrons aussi le billet.',
     creditCard: 'Carte de Crédit',
     freeTitle: 'Inscription Gratuite',
     freeConfirm: 'Confirmer mon inscription',
@@ -890,6 +894,8 @@ var translations = {
     platformFee: 'Platform fee (7.5%)',
     yourName: 'Your name',
     yourPhone: 'Phone number',
+    yourEmail: 'Your email (optional)',
+    emailWhyTicket: 'If you add your email, we will send you the ticket there too.',
     creditCard: 'Credit Card',
     freeTitle: 'Free Registration',
     freeConfirm: 'Confirm my registration',
@@ -952,6 +958,8 @@ var translations = {
     platformFee: 'Taxa da plataforma (7.5%)',
     yourName: 'Seu nome',
     yourPhone: 'Número de telefone',
+    yourEmail: 'O seu email (opcional)',
+    emailWhyTicket: 'Se puser o seu email, enviamos o bilhete para lá também.',
     creditCard: 'Cartão de crédito',
     freeTitle: 'Inscrição Gratuita',
     freeConfirm: 'Confirmar minha inscrição',
@@ -1014,6 +1022,8 @@ var translations = {
     platformFee: 'Tarifa de plataforma (7.5%)',
     yourName: 'Tu nombre',
     yourPhone: 'Número de teléfono',
+    yourEmail: 'Tu correo (opcional)',
+    emailWhyTicket: 'Si pones tu correo, también te enviaremos el boleto.',
     creditCard: 'Tarjeta de Crédito',
     freeTitle: 'Inscripción Gratuita',
     freeConfirm: 'Confirmar mi inscripción',
@@ -1682,7 +1692,14 @@ function showFreeModal(ticket) {
     '<div style="display:flex;justify-content:space-between;font-size:.9rem;font-weight:700"><span>' + ticket.qty + 'x ' + ticket.name + '</span><span style="color:var(--green)">GRATIS</span></div></div>' +
     '<div style="font-size:.85rem;color:var(--text-muted);margin-bottom:10px">' + (t('freeNote') || 'Nou bezwen non ou pou nou ka jwenn ou nan pòt la.') + '</div>' +
     '<div style="margin-bottom:12px"><input id="buyerName" placeholder="' + (t('yourName') || 'Non ou') + '" style="width:100%;padding:10px;border:1px solid var(--border);border-radius:8px;margin-bottom:8px;font-family:var(--body)">' +
-    '<input id="buyerPhone" placeholder="' + (t('yourPhone') || 'Nimewo telefòn') + '" type="tel" style="width:100%;padding:10px;border:1px solid var(--border);border-radius:8px;font-family:var(--body)"></div>' +
+    '<input id="buyerPhone" placeholder="' + (t('yourPhone') || 'Nimewo telefòn') + '" type="tel" style="width:100%;padding:10px;border:1px solid var(--border);border-radius:8px;margin-bottom:8px;font-family:var(--body)">' +
+    /* OPTIONAL, and it says so. The server can now email a ticket, but this
+       checkout has only ever asked for a phone number - so there was no
+       address to send to. Optional because a great many buyers here do not
+       have an email at all, and making it required would stop them buying. */
+    '<input id="buyerEmail" placeholder="' + (t('yourEmail') || 'Imèl ou (opsyonèl)') + '" type="email" inputmode="email" style="width:100%;padding:10px;border:1px solid var(--border);border-radius:8px;font-family:var(--body)">' +
+    '<div style="font-size:.74rem;color:var(--text-muted);margin-top:6px;line-height:1.45">' +
+      (t('emailWhyTicket') || 'Si w mete imèl ou, n ap voye tikè a ba ou tou.') + '</div></div>' +
     '<div style="display:flex;flex-direction:column;gap:8px" id="payMethodBtns">' +
     '<button id="freeConfirmBtn" onclick="processPayment(\'free\')" style="padding:12px;border-radius:10px;font-weight:700;font-size:.95rem;border:none;background:var(--green,#00A651);color:#fff;cursor:pointer;font-family:var(--body)">✓ ' + (t('freeConfirm') || 'Konfime Enskripsyon Mwen') + '</button>' +
     '</div><div id="payError" style="color:#D21034;font-size:.85rem;margin-top:8px;display:none"></div></div>';
@@ -1724,7 +1741,14 @@ function showPaymentModal(ticket, total) {
     '<hr style="border:none;border-top:1px solid var(--border);margin:8px 0">' +
     '<div style="display:flex;justify-content:space-between;font-weight:700"><span>Total</span><span>HTG ' + formatPrice(grandTotal) + '</span></div></div>' +
     '<div style="margin-bottom:12px"><input id="buyerName" placeholder="' + (t('yourName') || 'Non ou') + '" style="width:100%;padding:10px;border:1px solid var(--border);border-radius:8px;margin-bottom:8px;font-family:var(--body)">' +
-    '<input id="buyerPhone" placeholder="' + (t('yourPhone') || 'Nimewo telefòn') + '" type="tel" style="width:100%;padding:10px;border:1px solid var(--border);border-radius:8px;font-family:var(--body)"></div>' +
+    '<input id="buyerPhone" placeholder="' + (t('yourPhone') || 'Nimewo telefòn') + '" type="tel" style="width:100%;padding:10px;border:1px solid var(--border);border-radius:8px;margin-bottom:8px;font-family:var(--body)">' +
+    /* OPTIONAL, and it says so. The server can now email a ticket, but this
+       checkout has only ever asked for a phone number - so there was no
+       address to send to. Optional because a great many buyers here do not
+       have an email at all, and making it required would stop them buying. */
+    '<input id="buyerEmail" placeholder="' + (t('yourEmail') || 'Imèl ou (opsyonèl)') + '" type="email" inputmode="email" style="width:100%;padding:10px;border:1px solid var(--border);border-radius:8px;font-family:var(--body)">' +
+    '<div style="font-size:.74rem;color:var(--text-muted);margin-top:6px;line-height:1.45">' +
+      (t('emailWhyTicket') || 'Si w mete imèl ou, n ap voye tikè a ba ou tou.') + '</div></div>' +
     '<div style="display:flex;flex-direction:column;gap:8px" id="payMethodBtns">' +
     '<button onclick="processPayment(\'moncash\')" style="padding:12px;border-radius:10px;font-weight:700;font-size:.95rem;border:none;background:#E31937;color:#fff;cursor:pointer;font-family:var(--body)">📱 MonCash</button>' +
     '<button onclick="processPayment(\'natcash\')" style="padding:12px;border-radius:10px;font-weight:700;font-size:.95rem;border:none;background:#00A651;color:#fff;cursor:pointer;font-family:var(--body)">📱 NatCash</button>' +
@@ -1743,7 +1767,8 @@ function processPayment(method, freeTicket) {
     eventId: evId, ticketName: ticket.name, qty: ticket.qty,
     paymentMethod: method,
     buyerName: document.getElementById('buyerName') ? document.getElementById('buyerName').value : '',
-    buyerPhone: document.getElementById('buyerPhone') ? document.getElementById('buyerPhone').value : ''
+    buyerPhone: document.getElementById('buyerPhone') ? document.getElementById('buyerPhone').value : '',
+    buyerEmail: document.getElementById('buyerEmail') ? document.getElementById('buyerEmail').value.trim() : ''
   };
   var btns = document.getElementById('payMethodBtns');
   if (btns) btns.style.opacity = '0.5';

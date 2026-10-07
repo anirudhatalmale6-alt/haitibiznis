@@ -92,6 +92,8 @@ input:focus,textarea:focus,select:focus{outline:none;border-color:var(--blue)}
 .pill.wait{background:var(--gold-soft);color:#7A5C0A}
 .pill.dead{background:#FDECEF;color:var(--red-dark)}
 .pill.cl0{background:var(--border-light);color:var(--text-muted)}
+.pill.sent{background:#E6EEFF;color:var(--blue)}
+.pill.unsent{background:#FDECEF;color:var(--red-dark)}
 .pill.cl1{background:#E6EEFF;color:var(--blue)}
 .pill.cl2{background:var(--green-light);color:var(--green)}
 .over{background:#FDECEF;color:var(--red-dark);font-size:.72rem;font-weight:700;
@@ -483,6 +485,11 @@ function drawStudents(rows) {
     var cl = s.classroomStatus === 'active' ? '<span class="pill cl2">Nan klas la</span>'
            : s.classroomStatus === 'invited' ? '<span class="pill cl1">Envite</span>'
            : '<span class="pill cl0">Poko envite</span>';
+    /* Whether the student was actually SENT anything. Shown for paid students
+       only - an unpaid one is not supposed to have received a confirmation. */
+    var dl = s.status !== 'completed' ? ''
+           : (s.delivered ? '<span class="pill sent">Voye (' + esc(s.deliveryChannel || '?') + ')</span>'
+                          : '<span class="pill unsent">Poko voye</span>');
     html += '<div class="st">' +
       '<div class="st-top"><div>' +
         '<div class="st-n">' + esc(s.studentName) + '</div>' +
@@ -490,8 +497,15 @@ function drawStudents(rows) {
           esc(s.email) + '</div>' +
         '<div class="st-m">' + esc(s.phone || '') + ' · ' + money(s.amount) + ' HTG' +
           (s.paymentMethod ? ' · ' + esc(s.paymentMethod) : '') + '</div>' +
-      '</div><div style="text-align:right">' + pay + '<br>' + cl + '</div></div>' +
+      '</div><div style="text-align:right">' + pay + '<br>' + cl +
+        (dl ? '<br>' + dl : '') + '</div></div>' +
       (s.overCapacity ? '<div class="over">⚠️ Li peye apre kou a te konplè. Desizyon an pou ou.</div>' : '') +
+      /* The honest reason, not a shrug. "No channel is configured on the
+         server" and "no usable phone number" need completely different
+         actions, so the student list says which one it is. */
+      (s.status === 'completed' && !s.delivered && s.deliveryError
+        ? '<div class="over" style="background:#FDF3D7;color:#7A5C0A">Pa voye: ' +
+          esc(s.deliveryError) + '</div>' : '') +
       '<div class="st-a">' +
         (s.status === 'completed' ? (
           s.classroomStatus === 'none'
@@ -500,9 +514,25 @@ function drawStudents(rows) {
                 ? '<button class="btn sm g" onclick="mark(\'' + s.referenceId + '\',\'active\')">Make "Nan klas la"</button>'
                 : '<button class="btn sm o" onclick="mark(\'' + s.referenceId + '\',\'invited\')">Tounen "Envite"</button>')
         ) : '<span class="st-m">Poko peye — pa envite l.</span>') +
+        (s.status === 'completed'
+          ? '<button class="btn sm o" onclick="resend(\'' + s.referenceId + '\')">Voye konfimasyon an ankò</button>'
+          : '') +
       '</div></div>';
   });
   $('stList').innerHTML = html;
+}
+
+/* Send a paid student their confirmation again. Reports what actually
+   happened - a button that always says "sent!" is how a confirmation goes
+   undelivered without anybody noticing. */
+function resend(ref) {
+  api('POST', '/api/courses/admin/registration/' + ref + '/resend')
+    .then(function(r) {
+      if (r.sent) say('okBox', 'Voye pa ' + (r.channel || '?') + '.', 5000);
+      else say('errBox', 'Pa voye: ' + (r.reason || 'erè'), 12000);
+      if (viewing) openStudents(viewing);
+    })
+    .catch(function(e) { say('errBox', e.message, 8000); });
 }
 
 function copyMail(m) {
