@@ -79,6 +79,11 @@ input:focus,textarea:focus,select:focus{outline:none;border-color:var(--blue)}
 .num b{display:block;font-family:var(--mono);font-size:1.05rem;color:var(--dark)}
 .num span{font-size:.64rem;color:var(--text-muted);text-transform:uppercase;letter-spacing:.3px}
 .acts{display:flex;gap:7px;margin-top:11px;flex-wrap:wrap}
+/* Added with the instructor card. `.mono` existed only as input.mono, so a
+   span using it was silently rendering in the body face - the email address
+   is the thing on this page people read character by character. */
+.mono{font-family:var(--mono)}
+.irow{border:1px solid var(--border);border-radius:11px;padding:12px;margin-bottom:9px}
 
 .st{border-bottom:1px solid var(--border-light);padding:13px 0}
 .st:last-child{border-bottom:none}
@@ -208,6 +213,49 @@ input:focus,textarea:focus,select:focus{outline:none;border-color:var(--blue)}
       <div class="msg warn" id="stWarn" style="margin-top:12px"></div>
       <div id="stList" style="margin-top:6px"></div>
     </div>
+
+    <!-- ── 3. INSTRUCTORS ───────────────────────────────────────────────────
+         Jeffery, 8 Oct: instructors get their own login and see only their own
+         courses and students. This card is where an account is created and a
+         course is handed over; everything an instructor then does happens on
+         kou-pwof.html, which cannot reach a price.
+         ─────────────────────────────────────────────────────────────────── -->
+    <div class="card" style="margin-top:18px">
+      <h2>Enstriktè yo</h2>
+      <p class="lead" id="inTot">N ap chaje...</p>
+      <div class="msg warn" id="inWarn"></div>
+      <div class="acts">
+        <button class="btn sm g" onclick="newInstructor()">+ Nouvo enstriktè</button>
+        <button class="btn sm o" onclick="window.open('kou-pwof.html','_blank')">Paj enstriktè a</button>
+      </div>
+
+      <!-- The one-time password. Shown once, never retrievable. -->
+      <div class="msg ok hide" id="pwBox" style="margin-top:12px"></div>
+
+      <div class="hide" id="inForm" style="margin-top:14px;border-top:1px solid #e6e6e6;padding-top:14px">
+        <div class="msg err" id="inErr"></div>
+        <label for="inName">Non konplè *</label>
+        <input type="text" id="inName" maxlength="120">
+        <label for="inEmail">Email (se sa l ap itilize pou l konekte) *</label>
+        <input type="email" id="inEmail" maxlength="160" autocomplete="off">
+        <label for="inPhone">Telefòn</label>
+        <input type="text" id="inPhone" maxlength="40">
+        <button class="btn" id="inSave" onclick="saveInstructor()">Kreye kont lan</button>
+        <button class="btn o" onclick="closeInstructor()">Anile</button>
+      </div>
+
+      <div id="inList" style="margin-top:12px"></div>
+
+      <!-- Handing a course to an instructor. -->
+      <div style="margin-top:16px;border-top:1px solid #e6e6e6;padding-top:14px">
+        <h3 style="font-size:1rem;margin-bottom:8px">Bay yon enstriktè yon kou</h3>
+        <label for="asCourse">Kou</label>
+        <select id="asCourse"></select>
+        <label for="asWho">Enstriktè</label>
+        <select id="asWho"></select>
+        <button class="btn sm" onclick="assignCourse()">Bay li</button>
+      </div>
+    </div>
   </div>
 
   <div class="foot">
@@ -271,12 +319,23 @@ function unlock() {
   var b = $('gateBtn');
   b.disabled = true; b.innerHTML = '<span class="spin"></span> N ap tcheke...';
   pin = v;
+  /* 🚨 This used to fetch the course list and draw it inline, which meant the
+     unlock path and the reload path loaded DIFFERENT things. When the
+     instructor card was added to reload(), the first screen after signing in
+     had an empty one that said "N ap chaje..." for ever, and it only filled
+     in after some other action happened to call reload(). Found by driving
+     the page rather than by reading it.
+     One call fetches the course list, proves the code, and then reload()
+     is the single place that loads everything on the desk. */
   api('GET', '/api/courses/admin/list')
     .then(function(j) {
       $('gate').classList.add('hide');
       $('desk').classList.remove('hide');
       courses = j.courses || [];
       draw();
+      return loadInstructors().catch(function(e) {
+        say('inWarn', 'Lis enstriktè yo pa chaje: ' + e.message);
+      });
     })
     .catch(function(e) {
       pin = '';
@@ -289,7 +348,151 @@ function reload() {
   return api('GET', '/api/courses/admin/list').then(function(j) {
     courses = j.courses || [];
     draw();
+    /* Instructors depend on the course list for the assign dropdown, so they
+       are loaded after it rather than in parallel. A failure here must not
+       take the course list down with it - the course list is the job. */
+    return loadInstructors().catch(function(e) {
+      say('inWarn', 'Lis enstriktè yo pa chaje: ' + e.message);
+    });
   }).catch(function(e) { say('errBox', e.message, 6000); });
+}
+
+/* ═══ INSTRUCTORS ═══════════════════════════════════════════════════════════
+   The admin half. Creating an account here hands back a one-time password
+   which is shown ONCE and is not stored anywhere readable - if it is lost the
+   answer is a reset, not a lookup, and the screen says so rather than letting
+   him find out later.
+   ═════════════════════════════════════════════════════════════════════════ */
+var instructors = [];
+
+function loadInstructors() {
+  return api('GET', '/api/instructors/admin/list').then(function(j) {
+    instructors = j.instructors || [];
+    $('inTot').textContent = instructors.length + ' enstriktè' +
+      (j.unassignedCourses ? ' · ' + j.unassignedCourses + ' kou ki poko gen enstriktè' : '');
+    drawInstructors();
+    fillAssign();
+  });
+}
+
+function drawInstructors() {
+  if (!instructors.length) {
+    $('inList').innerHTML = '<p class="lead">Poko gen enstriktè. Kreye youn pou l ka wè ' +
+      'etidyan li yo pou kont li.</p>';
+    return;
+  }
+  var h = '';
+  instructors.forEach(function(i) {
+    h += '<div class="irow">' +
+         '<div><b>' + esc(i.name) + '</b>' +
+         (i.active ? '' : ' <span style="color:#b00">(kont fèmen)</span>') +
+         '<br><span class="mono" style="font-size:.85rem">' + esc(i.email) + '</span>' +
+         '<br><span style="font-size:.82rem;color:#666">' +
+         i.counts.courses + ' kou · ' + i.counts.students + ' etidyan' +
+         (i.mustChangePassword ? ' · <b>poko chanje modpas li</b>' : '') +
+         (i.lastLoginAt ? ' · dènye koneksyon ' + new Date(i.lastLoginAt).toLocaleDateString()
+                        : ' · poko janm konekte') +
+         '</span></div>' +
+         '<div class="acts" style="margin-top:8px">' +
+         '<button class="btn sm o" onclick="resetInstructor(\'' + i.id + '\')">Nouvo modpas</button>' +
+         '<button class="btn sm o" onclick="toggleInstructor(\'' + i.id + '\',' +
+            (i.active ? 'false' : 'true') + ')">' +
+            (i.active ? 'Fèmen kont lan' : 'Louvri kont lan') + '</button>' +
+         '<button class="btn sm r" onclick="delInstructor(\'' + i.id + '\')">Efase</button>' +
+         '</div></div>';
+  });
+  $('inList').innerHTML = h;
+}
+
+function fillAssign() {
+  var a = $('asCourse'), b = $('asWho');
+  a.innerHTML = courses.map(function(c) {
+    var who = '';
+    if (c.instructorId) {
+      var m = instructors.filter(function(i) { return i.id === String(c.instructorId); })[0];
+      who = ' — ' + (m ? m.name : 'yon enstriktè');
+    }
+    return '<option value="' + c._id + '">' + esc(c.title) + esc(who) + '</option>';
+  }).join('');
+  b.innerHTML = '<option value="">(retire enstriktè a)</option>' +
+    instructors.map(function(i) {
+      return '<option value="' + i.id + '">' + esc(i.name) + '</option>';
+    }).join('');
+}
+
+function newInstructor() {
+  $('inForm').classList.remove('hide');
+  $('pwBox').classList.add('hide');
+  say('inErr', '');
+  $('inName').value = ''; $('inEmail').value = ''; $('inPhone').value = '';
+  $('inName').focus();
+}
+function closeInstructor() { $('inForm').classList.add('hide'); say('inErr', ''); }
+
+/* The password is put on screen with the plain warning that it cannot be
+   looked up again. ⛔ It is never written to localStorage - this page already
+   refuses to remember the console code for the same reason. */
+function showPassword(name, pw) {
+  var el = $('pwBox');
+  el.innerHTML = '<b>Modpas pou ' + esc(name) + ':</b> ' +
+    '<span class="mono" style="font-size:1.15rem;letter-spacing:.08em">' + esc(pw) + '</span>' +
+    '<br><br>Ekri l kounye a epi voye l ba li. <b>Nou pa ka montre l ankò</b> — ' +
+    'si li pèdi, w ap bezwen bay yon nouvo modpas.';
+  el.classList.remove('hide');
+  el.style.display = 'block';
+}
+
+function saveInstructor() {
+  var name = ($('inName').value || '').trim();
+  var email = ($('inEmail').value || '').trim();
+  if (!name) return say('inErr', 'Mete non an.');
+  if (!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(email)) return say('inErr', 'Mete yon email ki bon.');
+  say('inErr', '');
+  var b = $('inSave');
+  b.disabled = true; b.innerHTML = '<span class="spin"></span> N ap kreye...';
+  api('POST', '/api/instructors/admin',
+      { name: name, email: email, phone: ($('inPhone').value || '').trim() })
+    .then(function(j) {
+      closeInstructor();
+      showPassword(j.instructor.name, j.temporaryPassword);
+      return loadInstructors();
+    })
+    .catch(function(e) { say('inErr', e.message); })
+    .then(function() { b.disabled = false; b.textContent = 'Kreye kont lan'; });
+}
+
+function resetInstructor(id) {
+  var who = instructors.filter(function(i) { return i.id === id; })[0] || { name: '' };
+  if (!confirm('Bay ' + who.name + ' yon nouvo modpas? L ap dekonekte toupatou.')) return;
+  api('POST', '/api/instructors/admin/' + id + '/password', {})
+    .then(function(j) { showPassword(who.name, j.temporaryPassword); return loadInstructors(); })
+    .catch(function(e) { say('inWarn', e.message, 7000); });
+}
+
+function toggleInstructor(id, active) {
+  api('PUT', '/api/instructors/admin/' + id, { active: active })
+    .then(loadInstructors)
+    .catch(function(e) { say('inWarn', e.message, 7000); });
+}
+
+function delInstructor(id) {
+  var who = instructors.filter(function(i) { return i.id === id; })[0] || { name: '' };
+  if (!confirm('Efase kont ' + who.name + '? Sa pa ka defèt.')) return;
+  api('DELETE', '/api/instructors/admin/' + id)
+    .then(loadInstructors)
+    /* The server refuses while courses are still attached and says how many.
+       Shown as written rather than replaced with a generic failure. */
+    .catch(function(e) { say('inWarn', e.message, 9000); });
+}
+
+function assignCourse() {
+  var courseId = $('asCourse').value;
+  var instructorId = $('asWho').value || null;
+  if (!courseId) return say('inWarn', 'Chwazi yon kou.', 5000);
+  api('POST', '/api/instructors/admin/assign',
+      { courseId: courseId, instructorId: instructorId })
+    .then(function() { say('okBox', 'Sa fèt.', 4000); return reload(); })
+    .catch(function(e) { say('inWarn', e.message, 7000); });
 }
 
 /* ─── THE COURSE LIST ───────────────────────────────────────────────────── */

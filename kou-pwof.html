@@ -1,0 +1,514 @@
+<!DOCTYPE html>
+<html lang="ht">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Espas Enstriktè — HaitiBiznis</title>
+<meta name="robots" content="noindex,nofollow">
+<meta name="theme-color" content="#0A0E1A">
+<link rel="icon" type="image/x-icon" href="favicon.ico">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --blue:#00209F;--red:#D21034;--red-dark:#B00D2C;
+  --gold:#D4A017;--gold-soft:#FDF3D7;
+  --green:#1B8C3D;--green-light:#E8F5E9;--green-deep:#126B2C;
+  --white:#FFF;--off-white:#F5F7FA;
+  --dark:#0A0E1A;--text:#1A2A4A;--text-light:#5A6B8A;--text-muted:#8A95AA;
+  --border:#E2E8F0;--border-light:#F0F3F7;
+  --body:'Plus Jakarta Sans',system-ui,sans-serif;
+  --display:'DM Serif Display',Georgia,serif;
+  --mono:'JetBrains Mono',monospace;
+  --shadow-sm:0 1px 3px rgba(10,14,26,.06);
+  --shadow-md:0 4px 16px rgba(10,14,26,.08);
+  --radius:14px;--radius-lg:20px;
+}
+body{font-family:var(--body);background:var(--off-white);color:var(--text);-webkit-font-smoothing:antialiased}
+a{text-decoration:none;color:inherit}
+button{font-family:var(--body);cursor:pointer;border:none;background:none}
+.flag-stripe{height:4px;background:linear-gradient(90deg,var(--blue) 50%,var(--red) 50%)}
+.header{background:var(--dark);color:#fff;padding:0 16px;height:54px;display:flex;
+  align-items:center;justify-content:space-between}
+.header span{font-family:var(--display);font-size:1rem}
+.header span em{color:var(--gold);font-style:normal}
+.header button{font-size:.75rem;font-weight:600;color:rgba(255,255,255,.65);
+  border:1px solid rgba(255,255,255,.2);border-radius:99px;padding:6px 12px}
+
+.wrap{max-width:640px;margin:0 auto;padding:20px 14px 70px}
+.card{background:var(--white);border-radius:var(--radius-lg);padding:18px;
+  box-shadow:var(--shadow-md);margin-bottom:14px}
+h1{font-family:var(--display);font-size:1.45rem;color:var(--dark);margin-bottom:6px}
+.lead{font-size:.86rem;color:var(--text-light);line-height:1.55;margin-bottom:14px}
+h2{font-size:1rem;font-weight:800;color:var(--dark);margin-bottom:10px}
+h3{font-size:.92rem;font-weight:800;color:var(--dark);margin-bottom:8px}
+
+label{display:block;font-size:.76rem;font-weight:800;color:var(--text-light);
+  margin:12px 0 5px;text-transform:uppercase;letter-spacing:.4px}
+input{width:100%;padding:12px;border:1.5px solid var(--border);border-radius:11px;
+  font-family:var(--body);font-size:.95rem;background:#fff}
+input[type=password]{font-family:var(--mono)}
+input:focus{outline:none;border-color:var(--blue)}
+
+.btn{width:100%;margin-top:14px;padding:14px;border-radius:11px;font-weight:800;
+  font-size:.95rem;background:var(--blue);color:#fff}
+.btn.g{background:var(--green)}
+.btn.o{background:#fff;color:var(--text-light);border:1.5px solid var(--border)}
+.btn:disabled{opacity:.5}
+.btn.sm{width:auto;padding:9px 14px;font-size:.8rem;margin:0}
+
+.msg{border-radius:11px;padding:13px;font-size:.86rem;line-height:1.5;
+  margin-bottom:12px;display:none}
+.msg.err{background:#FDECEF;color:var(--red-dark);border:1px solid #F5C6CE}
+.msg.ok{background:var(--green-light);color:var(--green-deep);border:1px solid #BEE5C6}
+.msg.warn{background:var(--gold-soft);color:#7A5C0A;border:1px solid #EBD9A0}
+
+.crow{background:var(--white);border:1px solid var(--border-light);border-radius:var(--radius);
+  box-shadow:var(--shadow-sm);padding:15px;margin-bottom:11px}
+.crow-t{font-weight:800;font-size:.98rem;color:var(--dark);line-height:1.3}
+.crow-m{font-size:.78rem;color:var(--text-light);margin-top:4px;line-height:1.5}
+.tag{font-size:.65rem;font-weight:800;padding:4px 9px;border-radius:99px;white-space:nowrap;
+  text-transform:uppercase;letter-spacing:.3px}
+.tag.pub{background:var(--green-light);color:var(--green)}
+.tag.draft{background:var(--gold-soft);color:#7A5C0A}
+.tag.closed{background:var(--border-light);color:var(--text-muted)}
+.nums{display:grid;grid-template-columns:repeat(4,1fr);gap:7px;margin-top:11px}
+.num{background:var(--off-white);border-radius:10px;padding:9px 6px;text-align:center}
+.num b{display:block;font-family:var(--mono);font-size:1.05rem;color:var(--dark)}
+.num span{font-size:.64rem;color:var(--text-muted);text-transform:uppercase;letter-spacing:.3px}
+.acts{display:flex;gap:7px;margin-top:11px;flex-wrap:wrap}
+
+.st{border-bottom:1px solid var(--border-light);padding:13px 0}
+.st:last-child{border-bottom:none}
+.st-top{display:flex;justify-content:space-between;align-items:flex-start;gap:8px}
+.st-n{font-weight:700;font-size:.92rem;color:var(--dark)}
+.st-e{font-family:var(--mono);font-size:.8rem;color:var(--blue);word-break:break-all;margin-top:3px}
+.st-m{font-size:.76rem;color:var(--text-light);margin-top:4px}
+.st-a{display:flex;gap:6px;margin-top:9px;flex-wrap:wrap}
+.pill{font-size:.66rem;font-weight:800;padding:4px 9px;border-radius:99px;white-space:nowrap}
+.pill.ok{background:var(--green-light);color:var(--green)}
+.pill.wait{background:var(--gold-soft);color:#7A5C0A}
+.pill.cl0{background:var(--border-light);color:var(--text-muted)}
+.pill.cl1{background:#E6EEFF;color:var(--blue)}
+.pill.cl2{background:var(--green-light);color:var(--green)}
+.box{background:var(--off-white);border-radius:11px;padding:12px;margin-top:11px;
+  font-size:.82rem;line-height:1.55;word-break:break-all}
+.box b{display:block;font-size:.68rem;text-transform:uppercase;letter-spacing:.5px;
+  color:var(--text-muted);margin-bottom:5px}
+.mono{font-family:var(--mono)}
+.hide{display:none}
+.spin{display:inline-block;width:14px;height:14px;border:2px solid rgba(255,255,255,.4);
+  border-top-color:#fff;border-radius:50%;animation:sp .7s linear infinite;vertical-align:-2px}
+@keyframes sp{to{transform:rotate(360deg)}}
+.foot{text-align:center;font-size:.72rem;color:var(--text-muted);margin-top:22px;line-height:1.6}
+</style>
+</head>
+<body>
+<div class="flag-stripe"></div>
+<div class="header">
+  <span>Espas <em>Enstriktè</em></span>
+  <button id="outBtn" class="hide" onclick="signOut()">Dekonekte</button>
+</div>
+
+<div class="wrap">
+
+  <!-- ── SIGN IN ────────────────────────────────────────────────────────── -->
+  <div class="card" id="gate">
+    <h1>Espas Enstriktè</h1>
+    <p class="lead">Konekte ak email ou ak modpas administrasyon an ba ou.</p>
+    <div class="msg err" id="gateErr"></div>
+    <label for="em">Email</label>
+    <input type="email" id="em" autocomplete="username" inputmode="email">
+    <label for="pw">Modpas</label>
+    <input type="password" id="pw" autocomplete="current-password">
+    <button class="btn" id="gateBtn" onclick="signIn()">Konekte</button>
+    <p class="lead" style="margin:14px 0 0">Ou pa gen modpas? Mande administrasyon an.
+      Nou pa ka voye l pa email.</p>
+  </div>
+
+  <!-- ── MUST CHANGE PASSWORD ───────────────────────────────────────────── -->
+  <div class="card hide" id="chg">
+    <h2>Chanje modpas ou</h2>
+    <p class="lead">Modpas administrasyon an ba ou a se yon modpas tanporè. Chwazi pa ou
+      kounye a — se ou sèl k ap konnen l.</p>
+    <div class="msg err" id="chgErr"></div>
+    <div class="msg ok" id="chgOk"></div>
+    <label for="cOld">Modpas aktyèl la</label>
+    <input type="password" id="cOld" autocomplete="current-password">
+    <label for="cNew">Nouvo modpas (8 karaktè omwen)</label>
+    <input type="password" id="cNew" autocomplete="new-password">
+    <button class="btn" id="chgBtn" onclick="changePw()">Sove</button>
+    <button class="btn o" id="chgSkip" onclick="hideChange()">Pita</button>
+  </div>
+
+  <!-- ── MY COURSES ─────────────────────────────────────────────────────── -->
+  <div id="desk" class="hide">
+    <div class="msg ok" id="okBox"></div>
+    <div class="msg err" id="errBox"></div>
+
+    <div class="card">
+      <h2 id="hello"></h2>
+      <p class="lead" id="tot"></p>
+      <div class="acts">
+        <button class="btn sm o" onclick="showChange()">Chanje modpas</button>
+      </div>
+    </div>
+
+    <div id="list"></div>
+
+    <!-- one course -->
+    <div class="card hide" id="one">
+      <h2 id="oneTitle"></h2>
+      <p class="lead" id="oneWhen"></p>
+      <div class="nums" id="oneNums"></div>
+
+      <div class="box hide" id="clBox"></div>
+
+      <div class="acts">
+        <button class="btn sm o" onclick="copyEmails()">&#128203; Kopye email ki poko envite</button>
+        <button class="btn sm o" onclick="exportCsv()">&#11015; Telechaje lis la (CSV)</button>
+        <button class="btn sm o" onclick="closeOne()">Fèmen</button>
+      </div>
+      <div class="msg warn" id="oneWarn" style="margin-top:12px"></div>
+      <div id="stList" style="margin-top:6px"></div>
+    </div>
+  </div>
+
+  <div class="foot">
+    Ou wè sèlman kou ou yo ak etidyan ou yo.<br>
+    Pri ak peman se administrasyon an ki okipe yo.
+  </div>
+</div>
+
+<script>
+/* ═══════════════════════════════════════════════════════════════════════════
+   THE INSTRUCTOR'S OWN SCREEN
+
+   Jeffery, 8 Oct: "their own simple secure login… see only their courses and
+   students… access student Gmails… mark invited… view schedules and
+   enrolment", and NOT prices, financial settings, or anybody else's students.
+
+   🔑 There is nothing on this page that could show a price, because the
+   server does not send one. The isolation is not a UI decision either - the
+   API filters every query by the signed-in instructor, so a tampered page
+   gets 404s rather than somebody else's class list.
+
+   🔑 THE TOKEN LIVES IN sessionStorage, NOT localStorage. These are shared
+   phones and borrowed tablets in Haiti; closing the browser should end the
+   session. The console page refuses to remember its code for the same reason.
+   ═════════════════════════════════════════════════════════════════════════ */
+var API = 'https://haitibiznis-api.onrender.com';
+var KEY = 'hbz_pwof_token';
+var token = '';
+var me = null;
+var courses = [];
+var open1 = null;      /* the course currently open */
+var emails = { all: [], notYetInvited: [] };
+
+function $(id) { return document.getElementById(id); }
+function esc(s) {
+  return String(s == null ? '' : s).replace(/[&<>"']/g, function(c) {
+    return { '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;' }[c];
+  });
+}
+function say(id, text, ms) {
+  var el = $(id);
+  if (!el) return;
+  el.textContent = text || '';
+  el.style.display = text ? 'block' : 'none';
+  if (text && ms) setTimeout(function() { el.style.display = 'none'; }, ms);
+}
+
+/* Every call carries the token. A 401 means the session is over - a reset by
+   the admin, a changed password, or twelve hours gone - and the honest answer is
+   the sign-in screen, not an error the instructor cannot act on. */
+function api(method, path, body) {
+  var opt = { method: method, headers: { Authorization: 'Bearer ' + token } };
+  if (body) { opt.headers['Content-Type'] = 'application/json'; opt.body = JSON.stringify(body); }
+  return fetch(API + path, opt).then(function(r) {
+    if (r.status === 401) { signOut(true); throw new Error('Sesyon an fini. Konekte ankò.'); }
+    return r.json().catch(function() { return {}; }).then(function(j) {
+      if (!r.ok) { var e = new Error(j.error || ('Erè ' + r.status)); e.status = r.status; throw e; }
+      return j;
+    });
+  });
+}
+
+/* ─── SIGN IN ───────────────────────────────────────────────────────────── */
+function signIn() {
+  var email = ($('em').value || '').trim();
+  var pw = $('pw').value || '';
+  if (!email || !pw) return say('gateErr', 'Mete email ou ak modpas ou.');
+  say('gateErr', '');
+  var b = $('gateBtn');
+  b.disabled = true; b.innerHTML = '<span class="spin"></span> N ap tcheke...';
+  fetch(API + '/api/instructors/login', {
+    method: 'POST', headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ email: email, password: pw })
+  }).then(function(r) {
+    return r.json().catch(function() { return {}; }).then(function(j) {
+      if (!r.ok) throw new Error(j.error || ('Erè ' + r.status));
+      return j;
+    });
+  }).then(function(j) {
+    token = j.token;
+    try { sessionStorage.setItem(KEY, token); } catch (e) {}
+    /* ⛔ The password field is cleared immediately. A shared tablet with a
+       filled password box is a password anybody can reveal. */
+    $('pw').value = '';
+    me = j.instructor;
+    enter(!!j.instructor.mustChangePassword);
+  }).catch(function(e) {
+    say('gateErr', e.message);
+  }).then(function() {
+    b.disabled = false; b.textContent = 'Konekte';
+  });
+}
+
+function signOut(quiet) {
+  token = ''; me = null; courses = []; open1 = null;
+  try { sessionStorage.removeItem(KEY); } catch (e) {}
+  $('desk').classList.add('hide');
+  $('chg').classList.add('hide');
+  $('one').classList.add('hide');
+  $('outBtn').classList.add('hide');
+  $('gate').classList.remove('hide');
+  $('pw').value = '';
+  if (!quiet) say('gateErr', '');
+}
+
+function enter(mustChange) {
+  $('gate').classList.add('hide');
+  $('outBtn').classList.remove('hide');
+  $('desk').classList.remove('hide');
+  if (mustChange) showChange(true);
+  load();
+}
+
+function showChange(forced) {
+  $('chg').classList.remove('hide');
+  say('chgErr', ''); say('chgOk', '');
+  $('cOld').value = ''; $('cNew').value = '';
+  /* When it is the first sign-in the "later" button is still there - being
+     locked on a password screen on a borrowed phone helps nobody - but the
+     admin list shows who has not changed theirs. */
+  $('chgSkip').textContent = forced ? 'Pita' : 'Fèmen';
+  $('chg').scrollIntoView({ behavior: 'smooth', block: 'start' });
+}
+function hideChange() { $('chg').classList.add('hide'); }
+
+function changePw() {
+  var o = $('cOld').value || '', n = $('cNew').value || '';
+  if (!o || !n) return say('chgErr', 'Mete tou de modpas yo.');
+  if (n.length < 8) return say('chgErr', 'Nouvo modpas la dwe gen 8 karaktè omwen.');
+  say('chgErr', '');
+  var b = $('chgBtn');
+  b.disabled = true; b.innerHTML = '<span class="spin"></span> N ap sove...';
+  api('POST', '/api/instructors/password', { currentPassword: o, newPassword: n })
+    .then(function(j) {
+      /* The old token died the moment the password changed - the server sends
+         a new one back so she is not thrown out for doing the right thing. */
+      token = j.token;
+      try { sessionStorage.setItem(KEY, token); } catch (e) {}
+      $('cOld').value = ''; $('cNew').value = '';
+      say('chgOk', 'Modpas ou chanje.');
+      setTimeout(hideChange, 1600);
+    })
+    .catch(function(e) { say('chgErr', e.message); })
+    .then(function() { b.disabled = false; b.textContent = 'Sove'; });
+}
+
+/* ─── MY COURSES ────────────────────────────────────────────────────────── */
+function load() {
+  return api('GET', '/api/instructors/me').then(function(j) {
+    me = j.instructor;
+    $('hello').textContent = 'Bonjou ' + (me.name || '');
+    return api('GET', '/api/instructors/courses');
+  }).then(function(j) {
+    courses = j.courses || [];
+    draw();
+  }).catch(function(e) { say('errBox', e.message, 7000); });
+}
+
+function draw() {
+  var enrolled = 0;
+  courses.forEach(function(c) { enrolled += c.counts.enrolled; });
+  $('tot').textContent = courses.length === 0
+    ? 'Ou poko gen kou. Administrasyon an ap bay ou youn.'
+    : courses.length + ' kou · ' + enrolled + ' etidyan enskri';
+  if (!courses.length) { $('list').innerHTML = ''; return; }
+  var h = '';
+  courses.forEach(function(c) {
+    var cls = c.status === 'published' ? 'pub' : (c.status === 'draft' ? 'draft' : 'closed');
+    var lbl = c.status === 'published' ? 'Pibliye' : (c.status === 'draft' ? 'Bouyon' : 'Fèmen');
+    h += '<div class="crow">' +
+      '<div style="display:flex;justify-content:space-between;gap:10px;align-items:flex-start">' +
+      '<div><div class="crow-t">' + esc(c.title) + '</div>' +
+      '<div class="crow-m">' + esc(when(c)) + '</div></div>' +
+      '<span class="tag ' + cls + '">' + lbl + '</span></div>' +
+      '<div class="nums">' +
+        num(c.counts.enrolled, 'Enskri') +
+        num(c.counts.pending, 'Ap tann') +
+        num(c.counts.registered, 'Total') +
+        num(c.maxStudents ? c.maxStudents : '∞', 'Plas') +
+      '</div>' +
+      '<div class="acts"><button class="btn sm" onclick="openCourse(\'' + c.id +
+        '\')">Wè etidyan yo</button></div>' +
+      '</div>';
+  });
+  $('list').innerHTML = h;
+}
+function num(v, l) { return '<div class="num"><b>' + esc(v) + '</b><span>' + l + '</span></div>'; }
+function when(c) {
+  if (c.startDate && c.endDate) return c.startDate + ' → ' + c.endDate;
+  if (c.startDate) return 'Kòmanse ' + c.startDate;
+  return 'Dat poko fikse';
+}
+
+function openCourse(id) {
+  say('oneWarn', '');
+  api('GET', '/api/instructors/courses/' + id).then(function(j) {
+    open1 = j.course;
+    $('oneTitle').textContent = j.course.title;
+    $('oneWhen').textContent = when(j.course);
+    $('oneNums').innerHTML =
+      num(j.totals.enrolled, 'Enskri') + num(j.totals.pending, 'Ap tann') +
+      num(j.totals.invited, 'Envite') + num(j.totals.registered, 'Total');
+
+    /* The Classroom details, for this instructor's own course only. */
+    var cl = '';
+    if (j.course.classroomLink) {
+      cl += '<b>Lyen Google Classroom</b><a href="' + esc(j.course.classroomLink) +
+            '" target="_blank" rel="noopener" style="color:var(--blue)">' +
+            esc(j.course.classroomLink) + '</a>';
+    }
+    if (j.course.classroomCode) {
+      cl += '<div style="margin-top:9px"><b>Kòd klas la</b>' +
+            '<span class="mono">' + esc(j.course.classroomCode) + '</span></div>';
+    }
+    if (j.course.accessInstructions) {
+      cl += '<div style="margin-top:9px"><b>Enstriksyon pou etidyan yo</b>' +
+            esc(j.course.accessInstructions) + '</div>';
+    }
+    if (cl) { $('clBox').innerHTML = cl; $('clBox').classList.remove('hide'); }
+    else { $('clBox').classList.add('hide'); }
+
+    drawStudents(j.students);
+    $('one').classList.remove('hide');
+    $('one').scrollIntoView({ behavior: 'smooth', block: 'start' });
+    return api('GET', '/api/instructors/courses/' + id + '/emails');
+  }).then(function(j) {
+    emails = j || { all: [], notYetInvited: [] };
+  }).catch(function(e) { say('errBox', e.message, 7000); });
+}
+function closeOne() { $('one').classList.add('hide'); open1 = null; }
+
+function drawStudents(rows) {
+  if (!rows.length) {
+    $('stList').innerHTML = '<p class="lead">Poko gen etidyan sou kou sa a.</p>';
+    return;
+  }
+  var h = '';
+  rows.forEach(function(s) {
+    var clp = s.classroomStatus === 'active'
+      ? '<span class="pill cl2">Nan klas la</span>'
+      : (s.classroomStatus === 'invited'
+          ? '<span class="pill cl1">Envite</span>'
+          : '<span class="pill cl0">Poko envite</span>');
+    /* ⛔ Enrolment, not money. The server never sends an amount and this page
+       never asks for one. */
+    var pay = s.enrolled
+      ? '<span class="pill ok">Enskri</span>'
+      : '<span class="pill wait">Ap tann peman</span>';
+    h += '<div class="st">' +
+      '<div class="st-top"><div><div class="st-n">' + esc(s.studentName) + '</div>' +
+      '<div class="st-e">' + esc(s.email) + '</div>' +
+      (s.phone ? '<div class="st-m">' + esc(s.phone) + '</div>' : '') +
+      '</div><div style="text-align:right">' + pay + '<br>' + clp + '</div></div>' +
+      '<div class="st-a">' +
+      '<button class="btn sm o" onclick="copyOne(\'' + esc(s.email) + '\')">Kopye email</button>' +
+      (s.enrolled && s.classroomStatus === 'none'
+        ? '<button class="btn sm g" onclick="mark(\'' + s.referenceId +
+          '\',\'invited\')">Make kòm envite</button>' : '') +
+      (s.enrolled && s.classroomStatus === 'invited'
+        ? '<button class="btn sm g" onclick="mark(\'' + s.referenceId +
+          '\',\'active\')">Li antre nan klas la</button>' : '') +
+      '</div></div>';
+  });
+  $('stList').innerHTML = h;
+}
+
+function mark(ref, status) {
+  if (!open1) return;
+  api('POST', '/api/instructors/courses/' + open1.id + '/students/' + ref + '/classroom',
+      { status: status })
+    .then(function() { return openCourse(open1.id); })
+    .then(function() { say('okBox', 'Sa fèt.', 3000); })
+    .catch(function(e) { say('oneWarn', e.message, 8000); });
+}
+
+/* Copying. navigator.clipboard needs https and a user gesture and is missing
+   on some older Android browsers, so there is a textarea fallback - a copy
+   button that silently does nothing is worse than no button. */
+function copyText(t, okMsg) {
+  function fallback() {
+    var a = document.createElement('textarea');
+    a.value = t; a.setAttribute('readonly', '');
+    a.style.position = 'fixed'; a.style.opacity = '0';
+    document.body.appendChild(a); a.select();
+    var done = false;
+    try { done = document.execCommand('copy'); } catch (e) { done = false; }
+    document.body.removeChild(a);
+    say(done ? 'okBox' : 'errBox',
+        done ? okMsg : 'Nou pa ka kopye sou navigatè sa a. Make tèks la ak men ou.', 4000);
+  }
+  if (navigator.clipboard && navigator.clipboard.writeText) {
+    navigator.clipboard.writeText(t).then(function() { say('okBox', okMsg, 3000); }, fallback);
+  } else fallback();
+}
+function copyOne(email) { copyText(email, 'Email kopye.'); }
+function copyEmails() {
+  var list = (emails.notYetInvited && emails.notYetInvited.length)
+    ? emails.notYetInvited : emails.all;
+  if (!list || !list.length) return say('oneWarn', 'Pa gen email pou kopye.', 4000);
+  copyText(list.join(', '), list.length + ' email kopye. Kole yo nan Google Classroom.');
+}
+
+/* The CSV is behind the token, so it cannot be a plain link - fetch it and
+   hand the browser a blob. */
+function exportCsv() {
+  if (!open1) return;
+  fetch(API + '/api/instructors/courses/' + open1.id + '/students.csv',
+        { headers: { Authorization: 'Bearer ' + token } })
+    .then(function(r) {
+      if (r.status === 401) { signOut(true); throw new Error('Sesyon an fini.'); }
+      if (!r.ok) throw new Error('Erè ' + r.status);
+      return r.blob();
+    })
+    .then(function(b) {
+      var u = URL.createObjectURL(b);
+      var a = document.createElement('a');
+      a.href = u;
+      a.download = 'etidyan.csv';
+      document.body.appendChild(a); a.click(); document.body.removeChild(a);
+      setTimeout(function() { URL.revokeObjectURL(u); }, 4000);
+    })
+    .catch(function(e) { say('oneWarn', e.message, 7000); });
+}
+
+/* A reload inside the twelve hours should not ask again. */
+(function boot() {
+  var t = '';
+  try { t = sessionStorage.getItem(KEY) || ''; } catch (e) {}
+  if (!t) return;
+  token = t;
+  api('GET', '/api/instructors/me').then(function(j) {
+    me = j.instructor;
+    enter(!!j.instructor.mustChangePassword);
+  }).catch(function() { signOut(true); });
+})();
+</script>
+</body>
+</html>
