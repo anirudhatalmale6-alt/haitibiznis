@@ -649,6 +649,36 @@ function shareBase() { return TL_SHARE_BASE || API_URL; }
 var event = demoEvent;
 var needsAsyncLoad = false;
 
+/* 🚨🚨 11 Oct 2026 — SOMEBODY'S REAL EVENT LINK SHOWED A FICTIONAL CONFERENCE.
+   Jeffery: "if you are not registered yet its a technology conference event
+   that pops up". He is right, and here is why.
+
+   The page starts as demoEvent and the real one arrives later. A visitor who
+   has used Tikè Lakay before has the event in localStorage, so the swap is
+   instant and nobody notices. A FIRST-TIME visitor has nothing cached, so the
+   page has to wait for the API - and the API is on a free tier that cold-starts
+   in anything up to a minute.
+
+   For that whole minute, somebody who clicked a WhatsApp link to the
+   LajanMaker training was reading "Gran Konferans Teknoloji 2026", at the
+   Karibe Hotel, with four invented ticket prices and 152 tickets sold.
+
+   🔑 The failure case was already fixed - showLoadFailure() exists, with the
+   right note on it: "Better an honest empty page than a convincing wrong one."
+   The LOADING case was missed. Same fiction, different moment.
+
+   So: the instant we know a real event is coming, the demo is thrown away.
+   An empty frame that says "loading" is honest. A fictional conference with
+   prices on it is not. */
+function blankEvent() {
+  return {
+    title: '', type: '', typeLabel: '', typeEmoji: '⏳',
+    date: '', startTime: '', endTime: '', location: '', onlineLink: '',
+    description: '', organizer: '', organizerPhone: '', hostedBy: '',
+    koutyeEnabled: false, tickets: [], _loading: true
+  };
+}
+
 (function loadEventFromUrl() {
   var params = new URLSearchParams(window.location.search);
   var evId = params.get('id');
@@ -675,8 +705,39 @@ var needsAsyncLoad = false;
     return;
   }
 
+  /* ⛔ Not cached, so a real event is on its way. Drop the demo NOW, before
+     anything paints - not after the fetch returns. */
   needsAsyncLoad = evId;
+  event = blankEvent();
 })();
+
+/* The tickets area while we wait. Mirrors showLoadFailure(): say what is
+   happening, and show no price that is not real. */
+/* 🚨 AND THE MESSAGE HAS TO BE SOMEWHERE SHE CAN SEE IT.
+   Writing into #ticketsList is not enough. An event with no tickets looks FREE
+   to isFreeEvent(), so setupRsvp() hides the whole tickets card and shows the
+   RSVP card instead. A blank event-while-loading is exactly that shape - so
+   the first version of this wrote an honest message into a hidden box, and the
+   visitor was asked "are you going?" about a paid event we had not loaded yet.
+   ⛔ Put the card back before writing into it. showLoadFailure() had the same
+   hole and gets the same treatment. */
+function showStatusInTickets(message) {
+  var tcard = document.getElementById('ticketsCard');
+  var rcard = document.getElementById('rsvpCard');
+  if (tcard) tcard.style.display = '';
+  if (rcard) rcard.style.display = 'none';
+  var list = document.getElementById('ticketsList');
+  if (list) {
+    list.innerHTML = '<div style="padding:18px;text-align:center;color:var(--text-muted);' +
+      'border:1px dashed var(--border);border-radius:12px">' + message + '</div>';
+  }
+  var buy = document.querySelector('.buy-btn');
+  if (buy) buy.style.display = 'none';      /* nothing to buy until we know what */
+}
+
+function showLoadingState() {
+  showStatusInTickets(t('loading') || 'N ap chaje evènman an…');
+}
 
 function loadEventFromAPI(evId) {
   fetch(API_URL + '/api/events/' + evId)
@@ -709,14 +770,8 @@ function loadEventFromAPI(evId) {
 /* Better an honest empty page than a convincing wrong one. Without this the
    fallback was a fictional conference with four ticket prices on it. */
 function showLoadFailure() {
-  var list = document.getElementById('ticketsList');
-  if (list) {
-    list.innerHTML = '<div style="padding:18px;text-align:center;color:var(--text-muted);' +
-      'border:1px dashed var(--border);border-radius:12px">' +
-      (t('loadFailed') || 'Nou pa ka chaje evènman sa a kounye a. Tanpri eseye ankò.') + '</div>';
-  }
-  var buy = document.querySelector('.buy-btn');
-  if (buy) buy.style.display = 'none';
+  showStatusInTickets(
+    t('loadFailed') || 'Nou pa ka chaje evènman sa a kounye a. Tanpri eseye ankò.');
 }
 
 /* Similar events demo */
@@ -774,6 +829,7 @@ var translations = {
     needNamePhone: 'Mete non ou ak nimewo telefòn ou',
     freeNote: 'Nou bezwen non ou pou nou ka jwenn ou nan pòt la.',
     loadFailed: 'Nou pa ka chaje evènman sa a kounye a. Tanpri eseye ankò.',
+    loading: 'N ap chaje evènman an…',
     rsvpTitle: 'Èske w ap vini?',
     rsvpDesc: 'Evènman sa a gratis. Fè òganizatè a konnen si w ap la.',
     rsvpYes: '✅ Wi, m ap vini',
@@ -838,6 +894,7 @@ var translations = {
     needNamePhone: 'Entrez votre nom et votre numéro de téléphone',
     freeNote: 'Nous avons besoin de votre nom pour vous retrouver à la porte.',
     loadFailed: "Impossible de charger cet événement pour le moment. Réessayez.",
+    loading: 'Chargement de l\u2019événement…',
     rsvpTitle: 'Serez-vous présent?',
     rsvpDesc: 'Cet événement est gratuit. Dites à l\'organisateur si vous venez.',
     rsvpYes: '✅ Oui, je viens',
@@ -902,6 +959,7 @@ var translations = {
     needNamePhone: 'Enter your name and phone number',
     freeNote: 'We need your name so we can find you at the door.',
     loadFailed: 'We cannot load this event right now. Please try again.',
+    loading: 'Loading this event…',
     rsvpTitle: 'Are you coming?',
     rsvpDesc: 'This event is free. Let the organizer know if you will be there.',
     rsvpYes: '✅ Yes, I\'m Coming',
@@ -966,6 +1024,7 @@ var translations = {
     needNamePhone: 'Digite seu nome e seu número de telefone',
     freeNote: 'Precisamos do seu nome para encontrá-lo na porta.',
     loadFailed: 'Não foi possível carregar este evento agora. Tente novamente.',
+    loading: 'A carregar este evento…',
     rsvpTitle: 'Você vem?',
     rsvpDesc: 'Este evento é gratuito. Avise o organizador se você virá.',
     rsvpYes: '✅ Sim, eu vou',
@@ -1030,6 +1089,7 @@ var translations = {
     needNamePhone: 'Escribe tu nombre y tu número de teléfono',
     freeNote: 'Necesitamos tu nombre para encontrarte en la puerta.',
     loadFailed: 'No podemos cargar este evento ahora. Inténtalo de nuevo.',
+    loading: 'Cargando este evento…',
     rsvpTitle: '¿Vas a venir?',
     rsvpDesc: 'Este evento es gratis. Avísale al organizador si vas a estar.',
     rsvpYes: '✅ Sí, voy a ir',
@@ -1109,8 +1169,16 @@ var monthNames = {
   pt: ['Jan','Fev','Mar','Abr','Mai','Jun','Jul','Ago','Set','Out','Nov','Dez']
 };
 
+/* ⚠️ formatTime() below already refuses an empty value. This did not, and the
+   difference showed: with no date it built "undefined, NaN undefined NaN" out
+   of an Invalid Date and printed it on the page. I hit it with the loading
+   placeholder, but a real event saved without a date would have done the same
+   thing. Guarded here, so every caller is covered rather than each one
+   remembering. */
 function formatDate(dateStr) {
+  if (!dateStr) return '';
   var d = new Date(dateStr + 'T00:00:00');
+  if (isNaN(d.getTime())) return '';
   var days = dayNames[currentLang] || dayNames.ht;
   var months = monthNames[currentLang] || monthNames.ht;
   return days[d.getDay()] + ', ' + d.getDate() + ' ' + months[d.getMonth()] + ' ' + d.getFullYear();
@@ -1836,7 +1904,13 @@ document.querySelectorAll('.reveal').forEach(function(el) { observer.observe(el)
 /* Set initial language from localStorage (or default ht) */
 setLang(currentLang);
 
-if (needsAsyncLoad) loadEventFromAPI(needsAsyncLoad);
+if (needsAsyncLoad) {
+  /* setLang() above has already painted the page once. With event blanked it
+     paints an empty frame rather than the demo, and this puts an honest
+     message where the invented ticket prices used to be. */
+  showLoadingState();
+  loadEventFromAPI(needsAsyncLoad);
+}
 </script>
 </body>
 </html>
