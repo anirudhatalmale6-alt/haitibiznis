@@ -5539,6 +5539,13 @@ function canAddStaff(){
   if(!staffList().length)return true;   /* the owner's own first account */
   if(admUnlocked())return true;         /* him */
   if(isTeam())return true;              /* our own agents' phones */
+  /* 15 Oct 2026, Jeffery: "I approve providing StarFlex with complimentary
+     access to the LajanMaker Business plan." A phone he marks free in his
+     device console (grant team/lifetime) already skipped the payment screen,
+     but still could not add staff - that check only looked at a PAID plan.
+     Now the console switch gives the Business feature too. Per phone,
+     revocable by him in one tap, and nobody else's 2,500 plan changes. */
+  if(srvGranted())return true;
   var l=lic();
   return MULTI_USER_PLANS.indexOf(l.plan)>=0&&!licExpired(l);
 }
