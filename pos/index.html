@@ -2577,7 +2577,7 @@ const REG_FORMS={
    fields:[['name','f_name',1],['profession','profession'],['phone','f_phone'],['wa','f_wa'],['addr','address']],
    uploads:['National ID','Diploma / Certification','Experience Documents']},
  affiliate:{titleKey:'reg_t_affiliate',statusSet:null,prefix:'AFF',feeKey:null,
-   fields:[['name','f_name',1],['phone','f_phone'],['wa','f_wa'],['email','f_email']],uploads:[],referral:true}
+   fields:[['name','f_name',1],['phone','f_phone',1],['wa','f_wa'],['email','f_email']],uploads:[],referral:true}
 };
 
 /* ---------- FAB speed-dial (Nouvo Enskripsyon) ---------- */
@@ -3488,7 +3488,9 @@ function startReg(kind){
 function saveReg(kind){const sc=REG_FORMS[kind];const name=document.getElementById('rf_name').value.trim();if(!name){alert(t('need_name'));return;}
   /* A merchant's phone is how they log in to MyPlopPlop afterwards, so for this
      one form it is required - without it we cannot create their account. */
-  if(kind==='merchant'){const ph=(document.getElementById('rf_phone').value||'').replace(/[^0-9]/g,'');
+  /* The same for an affiliate since 15 Oct: the Ajan engine knows a person by
+     their phone, and the Parenaj code is issued against it. */
+  if(kind==='merchant'||kind==='affiliate'){const ph=(document.getElementById('rf_phone').value||'').replace(/[^0-9]/g,'');
     if(ph.length<8){alert(t('need_phone'));return;}}
   /* dataLbl keeps the words the agent actually saw, for the receipt. data keeps the
      stable value, which for a dropdown is now a key like "bakery" rather than a
@@ -3511,7 +3513,13 @@ function saveReg(kind){const sc=REG_FORMS[kind];const name=document.getElementBy
     items:metaBits.map(m=>({label:m,amt:0})),amount:fee,payment:fee>0?'cash':null,fields:data,
     docs:docsFlat,status:(sc.statusSet?STATUS[sc.statusSet][0].id:'pending'),ts:nowStamp()};
   /* affiliate referral code */
-  if(sc.referral){rec.refCode='HB-'+name.replace(/[^A-Za-z]/g,'').slice(0,4).toUpperCase()+String(1000+orders.length+1);}
+  /* 15 Oct 2026: this used to invent 'HB-XXXX1001' on the phone. That code was
+     never sent anywhere, so the Ajan engine had never heard of it: every
+     affiliate registered here handed out a QR that credited nobody.
+     Now the registration goes to the same place as the website form
+     (/api/koutye/register-public) and the code shown is the one the server
+     issues. Queued first, so no signal = it goes when the signal comes back. */
+  if(sc.referral){rec.refCode='';rec.aff={status:'pending'};}
   applyCommission(rec);orders.push(stampStaff(rec));save('hb_orders',orders);
   /* also add as customer for future lookup */
   const custs=customers();if(!custs.find(c=>c.phone&&c.phone===rec.phone&&rec.phone)){custs.push({id:'C-'+(custs.length+1),name,phone:rec.phone,wa:rec.wa,email:rec.email,addr:'',ts:nowStamp()});save('hb_customers',custs);}
@@ -3521,7 +3529,8 @@ function saveReg(kind){const sc=REG_FORMS[kind];const name=document.getElementBy
     const os=load('hb_orders',[]),me=os.find(x=>x.id===rec.id);if(me){me.mpp=rec.mpp;save('hb_orders',os);}
     const q=mppQueue();q.push({id:rec.id,name:rec.name,phone:rec.phone,fields:data,pin:rec.mpp.pin,tries:0});
     save('hb_mpp_queue',q);mppWatch=rec.id;}
-  if(sc.referral){showReferral(rec);}else{showReceipt(rec);}
+  if(sc.referral){const q=affQueue();q.push({id:rec.id,name:rec.name,phone:rec.phone,tries:0});
+    save('hb_aff_queue',q);affWatch=rec.id;showReferral(rec);affFlush();}else{showReceipt(rec);}
   if(kind==='merchant'){mppPanel(rec.id);mppFlush();}
   refreshBadges();
 }
@@ -3620,6 +3629,61 @@ function mppPanel(id){
   box.innerHTML='<div class="mppbox '+cls+'"><div class="mpp-note" style="margin:0">'+esc(msg)+'</div></div>';
 }
 window.addEventListener('online',function(){mppFlush();});
+
+/* ═══ AFFILIATE (PARENAJ) -> A REAL AJAN CODE (15 Oct 2026) ═════════════════
+   Same queue discipline as the merchant hand-off above: written before the
+   receipt shows, retried on the next signal, honest after eight failures.
+   ⚠️ The code is real at once but ACTIVE only after HaitiBiznis approves the
+   signup in the console - the same rule as the website form - and the screen
+   says so rather than promising earnings that cannot happen yet. */
+let affWatch='';
+function affQueue(){return load('hb_aff_queue',[]);}
+function affMark(id,patch){const os=load('hb_orders',[]);const o=os.find(x=>x.id===id);if(!o)return null;
+  o.aff=Object.assign({},o.aff||{},patch);if(patch.code)o.refCode=patch.code;save('hb_orders',os);return o;}
+async function affFlush(){
+  if(affFlush._busy)return;affFlush._busy=true;
+  try{
+    const q=affQueue();if(!q.length)return;
+    if(navigator.onLine===false){if(affWatch)affPaint(load('hb_orders',[]).find(x=>x.id===affWatch));return;}
+    const keep=[];
+    for(const job of q){
+      let res=null;
+      try{res=await mppPost('/api/koutye/register-public',{name:job.name,phone:job.phone});}catch(e){res=null;}
+      if(res&&res.ok&&res.body&&res.body.koutyeCode){
+        affMark(job.id,{status:'done',code:res.body.koutyeCode,link:res.body.referralLink||'',already:!!res.body.alreadyRegistered});
+      }else if(res&&res.status>=400&&res.status<500){
+        /* A refusal (missing phone, bad data) will not change on retry. */
+        affMark(job.id,{status:'failed',why:(res.body&&res.body.message)||('HTTP '+res.status)});
+      }else{
+        job.tries=(job.tries||0)+1;
+        if(job.tries<8){keep.push(job);affMark(job.id,{status:'pending'});}
+        else affMark(job.id,{status:'failed',why:'server'});
+      }
+    }
+    save('hb_aff_queue',keep);
+    if(affWatch){const o=load('hb_orders',[]).find(x=>x.id===affWatch);if(o){affPaint(o);
+      const row=document.getElementById('affCodeRow');if(row)row.textContent=o.refCode||'⏳';}}
+  }finally{affFlush._busy=false;}
+}
+window.addEventListener('online',function(){affFlush();});
+const T_AFF={
+ ht:{aff_wait:'⏳ N ap kreye kòd Parenaj la…',aff_queued:'📴 Pa gen entènèt. Kòd la ap kreye pou kont li lè siyal la tounen.',
+     aff_pending_ok:'✅ Kòd la anrejistre. L ap aktif depi HaitiBiznis apwouve l.',aff_already:'ℹ️ Moun sa a te deja enskri — se kòd li a.',
+     aff_fail:'⚠️ Nou pa t ka kreye kòd la ({why}). Tcheke telefòn nan epi eseye ankò.'},
+ fr:{aff_wait:'⏳ Création du code Parenaj…',aff_queued:'📴 Pas d’internet. Le code sera créé tout seul au retour du signal.',
+     aff_pending_ok:'✅ Code enregistré. Il sera actif dès que HaitiBiznis l’approuve.',aff_already:'ℹ️ Cette personne était déjà inscrite — voici son code.',
+     aff_fail:'⚠️ Impossible de créer le code ({why}). Vérifiez le téléphone et réessayez.'},
+ en:{aff_wait:'⏳ Creating the Parenaj code…',aff_queued:'📴 No internet. The code will be created by itself when the signal comes back.',
+     aff_pending_ok:'✅ Code registered. It becomes active once HaitiBiznis approves it.',aff_already:'ℹ️ This person was already registered — here is their code.',
+     aff_fail:'⚠️ Could not create the code ({why}). Check the phone number and try again.'},
+ es:{aff_wait:'⏳ Creando el código Parenaj…',aff_queued:'📴 Sin internet. El código se creará solo cuando vuelva la señal.',
+     aff_pending_ok:'✅ Código registrado. Se activa cuando HaitiBiznis lo apruebe.',aff_already:'ℹ️ Esta persona ya estaba inscrita — este es su código.',
+     aff_fail:'⚠️ No se pudo crear el código ({why}). Revisa el teléfono e inténtalo de nuevo.'},
+ pt:{aff_wait:'⏳ Criando o código Parenaj…',aff_queued:'📴 Sem internet. O código será criado sozinho quando o sinal voltar.',
+     aff_pending_ok:'✅ Código registrado. Fica ativo assim que a HaitiBiznis aprovar.',aff_already:'ℹ️ Esta pessoa já estava cadastrada — este é o código dela.',
+     aff_fail:'⚠️ Não foi possível criar o código ({why}). Verifique o telefone e tente de novo.'}
+};
+Object.keys(T_AFF).forEach(function(l){if(T[l])Object.assign(T[l],T_AFF[l]);});
 
 /* ---------- Driver Verification (checklist) ---------- */
 function openVerify(){const body=document.getElementById('regBody');{const rt=document.getElementById('regTitle');rt.style.display='';rt.textContent=t('verify_t');rt.setAttribute('data-i18n','verify_t');}
@@ -3919,13 +3983,31 @@ function showTicket(o,ev){const url=qrDataURL(o.ticketCode);
     <div class="rf">${t('thanks')}</div>`;
   setupWA(o);go('done');
 }
-function showReferral(o){const url=qrDataURL(o.refCode);
-  document.getElementById('doneExtra').innerHTML=`<div class="qrbox">${url?`<img src="${url}" alt="QR">`:''}<div class="qrcode-txt">${o.refCode}</div></div>`;
+function affPaint(o){
+  const box=document.getElementById('doneExtra');if(!box||!o)return;
+  const a=o.aff||{},esc=function(x){return String(x==null?'':x).replace(/[&<>"]/g,function(c){return{'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c];});};
+  /* An old record (before 15 Oct) has its local code and no aff state: show
+     it as it always was rather than pretend it is pending. */
+  if(!o.aff&&o.refCode){const u=qrDataURL(o.refCode);
+    box.innerHTML=`<div class="qrbox">${u?`<img src="${u}" alt="QR">`:''}<div class="qrcode-txt">${esc(o.refCode)}</div></div>`;return;}
+  if(a.status==='done'&&a.code){
+    /* The QR opens the Ajan's own page, so whoever scans it lands where the
+       code is recorded - not on a bare string they have to type somewhere. */
+    const link=a.link||('https://haitibiznis.com/koutye.html?ref='+encodeURIComponent(a.code));
+    const u=qrDataURL(link);
+    box.innerHTML=`<div class="qrbox">${u?`<img src="${u}" alt="QR">`:''}<div class="qrcode-txt">${esc(a.code)}</div>`+
+      `<div class="mpp-note" style="margin-top:8px">${esc(a.already?t('aff_already'):t('aff_pending_ok'))}</div></div>`;
+    return;
+  }
+  const msg=a.status==='failed'?t('aff_fail').replace('{why}',a.why||''):navigator.onLine===false?t('aff_queued'):t('aff_wait');
+  box.innerHTML=`<div class="mppbox ${a.status==='failed'?'warn':'wait'}"><div class="mpp-note" style="margin:0">${esc(msg)}</div></div>`;
+}
+function showReferral(o){affPaint(o);
   document.getElementById('receiptBox').innerHTML=`
     <div class="rh"><img src="${brandLogo()}" alt=""><div class="bt">${t('aff_qr')}</div><div class="st">Parenaj Biznis</div></div>
     <div class="rrow"><span>${t('order_no')}</span><b>${o.id}</b></div>
     <div class="rrow"><span>${t('customer')}</span><span>${o.name}</span></div>
-    <div class="rrow"><span>${t('qr_ref')}</span><b>${o.refCode}</b></div>
+    <div class="rrow"><span>${t('qr_ref')}</span><b id="affCodeRow">${o.refCode||'⏳'}</b></div>
     <div class="rf">${t('thanks')}</div>`;
   setupWA(o);go('done');
 }
@@ -5696,6 +5778,7 @@ applyI18n();renderHome();refreshBadges();renderDraftBar();
 try{showInstallUI();}catch(e){}   /* after applyI18n, so the in-app-browser wording survives */
 /* Any merchant registered while the phone had no signal goes out now. */
 setTimeout(function(){try{mppFlush();}catch(e){}},1500);
+setTimeout(function(){try{affFlush();}catch(e){}},2000);
 /* Register this phone and ask who it is. If the last answer was "blocked" the
    lock goes up straight away, before the server is even reached - otherwise a
    blocked phone would get a few working seconds on every launch, and would
