@@ -823,6 +823,7 @@ var translations = {
     yourPhone: 'Nimewo telefòn',
     yourEmail: 'Imèl ou (opsyonèl)',
     emailWhyTicket: 'Si w mete imèl ou, n ap voye tikè a ba ou tou.',
+    findTicketLater: '📌 Apre ou peye, ou ka toujou jwenn tikè ou sou haitibiznis.com/my-tickets.html ak nimewo telefòn ou.',
     creditCard: 'Kat Kredi',
     freeTitle: 'Enskripsyon Gratis',
     freeConfirm: 'Konfime Enskripsyon Mwen',
@@ -888,6 +889,7 @@ var translations = {
     yourPhone: 'Numéro de téléphone',
     yourEmail: 'Votre email (facultatif)',
     emailWhyTicket: 'Si vous mettez votre email, nous vous enverrons aussi le billet.',
+    findTicketLater: '📌 Après le paiement, retrouvez votre billet à tout moment sur haitibiznis.com/my-tickets.html avec votre numéro de téléphone.',
     creditCard: 'Carte de Crédit',
     freeTitle: 'Inscription Gratuite',
     freeConfirm: 'Confirmer mon inscription',
@@ -953,6 +955,7 @@ var translations = {
     yourPhone: 'Phone number',
     yourEmail: 'Your email (optional)',
     emailWhyTicket: 'If you add your email, we will send you the ticket there too.',
+    findTicketLater: '📌 After paying, you can always find your ticket at haitibiznis.com/my-tickets.html with your phone number.',
     creditCard: 'Credit Card',
     freeTitle: 'Free Registration',
     freeConfirm: 'Confirm my registration',
@@ -1018,6 +1021,7 @@ var translations = {
     yourPhone: 'Número de telefone',
     yourEmail: 'O seu email (opcional)',
     emailWhyTicket: 'Se puser o seu email, enviamos o bilhete para lá também.',
+    findTicketLater: '📌 Depois de pagar, você sempre encontra o seu ingresso em haitibiznis.com/my-tickets.html com o seu número de telefone.',
     creditCard: 'Cartão de crédito',
     freeTitle: 'Inscrição Gratuita',
     freeConfirm: 'Confirmar minha inscrição',
@@ -1083,6 +1087,7 @@ var translations = {
     yourPhone: 'Número de teléfono',
     yourEmail: 'Tu correo (opcional)',
     emailWhyTicket: 'Si pones tu correo, también te enviaremos el boleto.',
+    findTicketLater: '📌 Después de pagar, siempre puedes encontrar tu boleto en haitibiznis.com/my-tickets.html con tu número de teléfono.',
     creditCard: 'Tarjeta de Crédito',
     freeTitle: 'Inscripción Gratuita',
     freeConfirm: 'Confirmar mi inscripción',
@@ -1767,7 +1772,12 @@ function showFreeModal(ticket) {
        have an email at all, and making it required would stop them buying. */
     '<input id="buyerEmail" placeholder="' + (t('yourEmail') || 'Imèl ou (opsyonèl)') + '" type="email" inputmode="email" style="width:100%;padding:10px;border:1px solid var(--border);border-radius:8px;font-family:var(--body)">' +
     '<div style="font-size:.74rem;color:var(--text-muted);margin-top:6px;line-height:1.45">' +
-      (t('emailWhyTicket') || 'Si w mete imèl ou, n ap voye tikè a ba ou tou.') + '</div></div>' +
+      (t('emailWhyTicket') || 'Si w mete imèl ou, n ap voye tikè a ba ou tou.') + '</div>' +
+    /* 15 Oct 2026, Jeffery: buyers must know how to get their ticket back even
+       with no email and no WhatsApp. Said BEFORE they pay, because the page
+       after MonCash is the least reliable step on a Haitian phone. */
+    '<div style="font-size:.78rem;color:var(--text);margin-top:8px;line-height:1.45;background:#F0F7FF;border-radius:8px;padding:8px 10px">' +
+      t('findTicketLater') + '</div></div>' +
     '<div style="display:flex;flex-direction:column;gap:8px" id="payMethodBtns">' +
     '<button id="freeConfirmBtn" onclick="processPayment(\'free\')" style="padding:12px;border-radius:10px;font-weight:700;font-size:.95rem;border:none;background:var(--green,#00A651);color:#fff;cursor:pointer;font-family:var(--body)">✓ ' + (t('freeConfirm') || 'Konfime Enskripsyon Mwen') + '</button>' +
     '</div><div id="payError" style="color:#D21034;font-size:.85rem;margin-top:8px;display:none"></div></div>';
@@ -1816,7 +1826,12 @@ function showPaymentModal(ticket, total) {
        have an email at all, and making it required would stop them buying. */
     '<input id="buyerEmail" placeholder="' + (t('yourEmail') || 'Imèl ou (opsyonèl)') + '" type="email" inputmode="email" style="width:100%;padding:10px;border:1px solid var(--border);border-radius:8px;font-family:var(--body)">' +
     '<div style="font-size:.74rem;color:var(--text-muted);margin-top:6px;line-height:1.45">' +
-      (t('emailWhyTicket') || 'Si w mete imèl ou, n ap voye tikè a ba ou tou.') + '</div></div>' +
+      (t('emailWhyTicket') || 'Si w mete imèl ou, n ap voye tikè a ba ou tou.') + '</div>' +
+    /* 15 Oct 2026, Jeffery: buyers must know how to get their ticket back even
+       with no email and no WhatsApp. Said BEFORE they pay, because the page
+       after MonCash is the least reliable step on a Haitian phone. */
+    '<div style="font-size:.78rem;color:var(--text);margin-top:8px;line-height:1.45;background:#F0F7FF;border-radius:8px;padding:8px 10px">' +
+      t('findTicketLater') + '</div></div>' +
     '<div style="display:flex;flex-direction:column;gap:8px" id="payMethodBtns">' +
     '<button onclick="processPayment(\'moncash\')" style="padding:12px;border-radius:10px;font-weight:700;font-size:.95rem;border:none;background:#E31937;color:#fff;cursor:pointer;font-family:var(--body)">📱 MonCash</button>' +
     '<button onclick="processPayment(\'natcash\')" style="padding:12px;border-radius:10px;font-weight:700;font-size:.95rem;border:none;background:#00A651;color:#fff;cursor:pointer;font-family:var(--body)">📱 NatCash</button>' +
