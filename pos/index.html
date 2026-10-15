@@ -2502,6 +2502,18 @@ const T_BLOCK={
      lic_granted:'Acesso completo — sem assinatura a pagar',dev_id:'Número deste celular'}
 };
 Object.keys(T_BLOCK).forEach(function(l){if(T[l])Object.assign(T[l],T_BLOCK[l]);});
+/* Enterprise Partners (15 Oct 2026). Jeffery: "LajanMaker should serve as the
+   central system for managing Enterprise Partners." The organisations live in
+   one place on the server (shared by MsouWout, MyPlopPlop and Tikè Lakay);
+   this is the door to it from the admin panel, next to the devices door. */
+const T_ENT={
+ ht:{ent_h:'Patnè Antrepriz (Enterprise)',ent_s:'Kreye yon Antrepriz, ba li kòd aksè li, mete oswa retire Ajan li yo. Okenn pousantaj komisyon pa chanje la a.',ent_open:'Jere Antrepriz yo',ent_dash:'Tablo yon Antrepriz (sa yo wè)'},
+ fr:{ent_h:'Partenaires Entreprise',ent_s:'Créer une Entreprise, lui donner son code d’accès, ajouter ou retirer ses Ajan. Aucun taux de commission ne change ici.',ent_open:'Gérer les Entreprises',ent_dash:'Tableau d’une Entreprise (ce qu’elle voit)'},
+ en:{ent_h:'Enterprise Partners',ent_s:'Create an Enterprise, give it its access code, add or remove its Ajan. No commission rate changes here.',ent_open:'Manage Enterprises',ent_dash:'An Enterprise’s dashboard (what they see)'},
+ es:{ent_h:'Socios Empresa',ent_s:'Crear una Empresa, darle su código de acceso, añadir o quitar sus Ajan. Aquí no cambia ninguna tasa de comisión.',ent_open:'Gestionar Empresas',ent_dash:'Panel de una Empresa (lo que ven)'},
+ pt:{ent_h:'Parceiros Empresa',ent_s:'Criar uma Empresa, dar o código de acesso, adicionar ou retirar os seus Ajan. Nenhuma taxa de comissão muda aqui.',ent_open:'Gerir Empresas',ent_dash:'Painel de uma Empresa (o que eles veem)'}
+};
+Object.keys(T_ENT).forEach(function(l){if(T[l])Object.assign(T[l],T_ENT[l]);});
 
 /* -------------------------------------------------------------------------
    Sèvis Administratif, Sèvis Legal, Kominike Laprès and Asirans have no fixed
@@ -5077,6 +5089,13 @@ function admPanel(){
     +'<a class="cta" href="/pos-devices.html" target="_blank" rel="noopener" style="display:block;text-align:center;text-decoration:none;margin-bottom:6px">📱 '+t('dev_open')+'</a>'
     +'<div class="sub" style="margin-bottom:12px">'+t('dev_id')+': <b style="letter-spacing:2px">'+posDeviceShort()+'</b></div>'
     +'<hr style="border:none;border-top:1px solid var(--line);margin:16px 0">'
+    /* Absolute addresses: this app is also opened from lajanmaker.com, where
+       /organizations.html does not exist. */
+    +'<div style="font-weight:800;margin:2px 0 4px">🏢 '+t('ent_h')+'</div>'
+    +'<div class="sub" style="margin-bottom:8px">'+t('ent_s')+'</div>'
+    +'<a class="cta" id="admEnt" href="https://haitibiznis.com/organizations.html" target="_blank" rel="noopener" style="display:block;text-align:center;text-decoration:none;margin-bottom:6px">🏢 '+t('ent_open')+'</a>'
+    +'<a class="cta ghost" id="admEntDash" href="https://myplopplop.com/partner-dashboard.html" target="_blank" rel="noopener" style="display:block;text-align:center;text-decoration:none;margin-bottom:6px">📊 '+t('ent_dash')+'</a>'
+    +'<hr style="border:none;border-top:1px solid var(--line);margin:16px 0">'
     +'<button class="cta ghost" id="admLock">🔒 '+t('adm_lock')+'</button>'
     +'<button class="cta ghost" id="admClose" style="margin-top:8px">'+t('back')+'</button>');
   m.ov.style.zIndex='96';
@@ -5614,7 +5633,7 @@ function shareApp(){
    =================================================================== */
 /* Version the seller can read out loud. When someone says "I don't see the new
    button", the first useful question is which build their phone is running. */
-const APP_VER='69';
+const APP_VER='70';
 var swReg=null;
 if('serviceWorker' in navigator){
   window.addEventListener('load',function(){
