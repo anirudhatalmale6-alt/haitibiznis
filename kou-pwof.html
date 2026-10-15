@@ -98,6 +98,12 @@ input:focus{outline:none;border-color:var(--blue)}
 .box b{display:block;font-size:.68rem;text-transform:uppercase;letter-spacing:.5px;
   color:var(--text-muted);margin-bottom:5px}
 .mono{font-family:var(--mono)}
+.how{word-break:normal}
+.how div{margin-top:7px;padding-left:28px;position:relative}
+.how .stepn{position:absolute;left:0;top:0;width:20px;height:20px;border-radius:50%;background:var(--blue);color:#fff;
+  font-size:.72rem;font-weight:800;display:flex;align-items:center;justify-content:center}
+.how b.inl{display:inline;font-size:inherit;text-transform:none;letter-spacing:0;color:var(--dark);margin:0}
+.how .note{padding-left:0;margin-top:10px;color:#7A5C0A}
 .hide{display:none}
 .spin{display:inline-block;width:14px;height:14px;border:2px solid rgba(255,255,255,.4);
   border-top-color:#fff;border-radius:50%;animation:sp .7s linear infinite;vertical-align:-2px}
@@ -166,12 +172,26 @@ input:focus{outline:none;border-color:var(--blue)}
 
       <div class="box hide" id="clBox"></div>
 
+      <!-- 15 Oct: Jennifer's first look. Nothing on this screen said what to DO.
+           Her whole job is three steps; they are written here, in order, and
+           the two buttons she needs carry the step numbers. -->
+      <div class="box how" id="howTo">
+        <b>Kijan pou w envite etidyan yo</b>
+        <div><span class="stepn">1</span> Peze <b class="inl">Kopye email yo</b>. Se sèlman etidyan ki <u>peye</u> e ki poko envite.</div>
+        <div><span class="stepn">2</span> Peze <b class="inl">Louvri Google Classroom</b> → <i>Moun</i> (People) → <i>Envite etidyan</i> → kole email yo → <i>Envite</i>.</div>
+        <div><span class="stepn">3</span> Tounen isit la, epi peze <b class="inl">Make kòm envite</b> anba non chak etidyan ou envite.</div>
+        <div class="note">Etidyan ki make <b class="inl">Ap tann peman</b> yo: pa envite yo toujou. Administrasyon an ap konfime peman an.</div>
+      </div>
       <div class="acts">
-        <button class="btn sm o" onclick="copyEmails()">&#128203; Kopye email ki poko envite</button>
+        <button class="btn sm" onclick="copyEmails()">&#128203; 1. Kopye email yo</button>
+        <a class="btn sm" id="clOpen" target="_blank" rel="noopener" style="text-decoration:none">&#127891; 2. Louvri Google Classroom</a>
+      </div>
+      <div class="msg ok" id="oneOk" style="margin-top:10px"></div>
+      <div class="msg warn" id="oneWarn" style="margin-top:12px"></div>
+      <div class="acts">
         <button class="btn sm o" onclick="exportCsv()">&#11015; Telechaje lis la (CSV)</button>
         <button class="btn sm o" onclick="closeOne()">Fèmen</button>
       </div>
-      <div class="msg warn" id="oneWarn" style="margin-top:12px"></div>
       <div id="stList" style="margin-top:6px"></div>
     </div>
   </div>
@@ -350,7 +370,7 @@ function draw() {
       '<span class="tag ' + cls + '">' + lbl + '</span></div>' +
       '<div class="nums">' +
         num(c.counts.enrolled, 'Enskri') +
-        num(c.counts.pending, 'Ap tann') +
+        num(c.counts.pending, 'Ap tann peman') +
         num(c.counts.registered, 'Total') +
         num(c.maxStudents ? c.maxStudents : '∞', 'Plas') +
       '</div>' +
@@ -374,7 +394,7 @@ function openCourse(id) {
     $('oneTitle').textContent = j.course.title;
     $('oneWhen').textContent = when(j.course);
     $('oneNums').innerHTML =
-      num(j.totals.enrolled, 'Enskri') + num(j.totals.pending, 'Ap tann') +
+      num(j.totals.enrolled, 'Enskri') + num(j.totals.pending, 'Ap tann peman') +
       num(j.totals.invited, 'Envite') + num(j.totals.registered, 'Total');
 
     /* The Classroom details, for this instructor's own course only. */
@@ -394,6 +414,12 @@ function openCourse(id) {
     }
     if (cl) { $('clBox').innerHTML = cl; $('clBox').classList.remove('hide'); }
     else { $('clBox').classList.add('hide'); }
+    /* Step 2 opens the class itself. No link set on the course yet: no
+       button, rather than one that goes nowhere. */
+    var co = $('clOpen');
+    if (j.course.classroomLink) { co.href = j.course.classroomLink; co.style.display = ''; }
+    else { co.removeAttribute('href'); co.style.display = 'none'; }
+    say('oneOk', '');
 
     drawStudents(j.students);
     $('one').classList.remove('hide');
@@ -445,14 +471,18 @@ function mark(ref, status) {
   api('POST', '/api/instructors/courses/' + open1.id + '/students/' + ref + '/classroom',
       { status: status })
     .then(function() { return openCourse(open1.id); })
-    .then(function() { say('okBox', 'Sa fèt.', 3000); })
+    .then(function() { say('oneOk', 'Sa fèt.', 3000); })
     .catch(function(e) { say('oneWarn', e.message, 8000); });
 }
 
 /* Copying. navigator.clipboard needs https and a user gesture and is missing
    on some older Android browsers, so there is a textarea fallback - a copy
    button that silently does nothing is worse than no button. */
-function copyText(t, okMsg) {
+/* `where`: the message box next to the button that was pressed. The one at
+   the top of the page is out of sight once a course is open and scrolled,
+   so a successful copy looked like nothing had happened. */
+function copyText(t, okMsg, where) {
+  var okId = where || (open1 ? 'oneOk' : 'okBox');
   function fallback() {
     var a = document.createElement('textarea');
     a.value = t; a.setAttribute('readonly', '');
@@ -461,19 +491,26 @@ function copyText(t, okMsg) {
     var done = false;
     try { done = document.execCommand('copy'); } catch (e) { done = false; }
     document.body.removeChild(a);
-    say(done ? 'okBox' : 'errBox',
-        done ? okMsg : 'Nou pa ka kopye sou navigatè sa a. Make tèks la ak men ou.', 4000);
+    say(done ? okId : (open1 ? 'oneWarn' : 'errBox'),
+        done ? okMsg : 'Nou pa ka kopye sou navigatè sa a. Make tèks la ak men ou.', 6000);
   }
   if (navigator.clipboard && navigator.clipboard.writeText) {
-    navigator.clipboard.writeText(t).then(function() { say('okBox', okMsg, 3000); }, fallback);
+    navigator.clipboard.writeText(t).then(function() { say(okId, okMsg, 6000); }, fallback);
   } else fallback();
 }
 function copyOne(email) { copyText(email, 'Email kopye.'); }
+/* Only the students who PAID and are not invited yet. It used to fall back to
+   EVERYONE when that list was empty, so a second tap quietly re-copied the
+   whole class to be invited again. Now it says so instead; one address can
+   still be copied from its own row. */
 function copyEmails() {
-  var list = (emails.notYetInvited && emails.notYetInvited.length)
-    ? emails.notYetInvited : emails.all;
-  if (!list || !list.length) return say('oneWarn', 'Pa gen email pou kopye.', 4000);
-  copyText(list.join(', '), list.length + ' email kopye. Kole yo nan Google Classroom.');
+  var list = emails.notYetInvited || [];
+  if (!list.length) {
+    return say('oneWarn', (emails.all && emails.all.length)
+      ? 'Tout etidyan ki peye yo deja envite. Pa gen anyen pou kopye.'
+      : 'Poko gen etidyan ki peye sou kou sa a.', 6000);
+  }
+  copyText(list.join(', '), list.length + ' email kopye. Kounye a, peze "2. Louvri Google Classroom" epi kole yo.', 'oneOk');
 }
 
 /* The CSV is behind the token, so it cannot be a plain link - fetch it and
