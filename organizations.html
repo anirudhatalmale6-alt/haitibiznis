@@ -56,6 +56,15 @@ input:focus{outline:none;border-color:var(--blue)}
 .code .l{font-size:.7rem;color:var(--tl);font-weight:700}
 .hide{display:none}
 .secth{font-weight:800;font-size:.9rem;margin:22px 2px 2px}
+.ajp{border-top:1px dashed var(--border);margin-top:12px;padding-top:10px}
+.ajp textarea{width:100%;border:1.5px solid var(--border);border-radius:10px;padding:10px 12px;font-family:var(--mono);font-size:.9rem;min-height:70px;text-transform:uppercase;resize:vertical}
+.ajp textarea:focus{outline:none;border-color:var(--blue)}
+.ajrow{display:flex;justify-content:space-between;align-items:center;gap:8px;padding:7px 0;border-bottom:1px solid #f0f2f6;font-size:.82rem}
+.ajrow code{font-family:var(--mono);font-weight:700}
+.ajrow button{border:1.5px solid #fca5a5;color:#b91c1c;background:#fff;border-radius:8px;padding:6px 10px;font-weight:700;font-size:.72rem;cursor:pointer;flex-shrink:0}
+.ajnote{font-size:.74rem;color:var(--tl);line-height:1.5;margin-top:8px}
+.ajres{margin-top:8px;font-size:.8rem;line-height:1.6}
+.ajres .y{color:#0b6b37}.ajres .w{color:#b45309}.ajres .n{color:#b91c1c}.ajres .i{color:var(--tl)}
 .foot{text-align:center;font-size:.72rem;color:var(--tm);padding:20px 16px 30px;line-height:1.6}
 </style>
 </head>
@@ -156,7 +165,8 @@ function draw(){
         +(o.status==='suspended'
           ? '<button data-status="active" data-slug="'+esc(o.slug)+'">↩︎ Reactivate</button>'
           : '<button class="dg" data-status="suspended" data-slug="'+esc(o.slug)+'">Suspend</button>')
-      +'</div></div>';
+        +'<button data-ajan="'+esc(o.slug)+'">🤝 Ajan</button>'
+      +'</div><div class="ajp hide" data-ajp="'+esc(o.slug)+'"></div></div>';
   }).join('') || '<div class="panel" style="color:var(--tm)">No organizations yet.</div>';
 
   $('cnt').textContent=orgs.length+' organization'+(orgs.length===1?'':'s');
@@ -177,6 +187,15 @@ function draw(){
         .then(function(){showCode(b.dataset.code,c);return load();})
         .catch(function(e){alert(e.message);b.disabled=false;});
     };});
+  Array.prototype.forEach.call(document.querySelectorAll('[data-ajan]'),function(b){
+    b.onclick=function(){
+      var slug=b.dataset.ajan;
+      if(openAj===slug){openAj='';ajPanel(slug).classList.add('hide');return;}
+      if(openAj&&ajPanel(openAj))ajPanel(openAj).classList.add('hide');
+      openAj=slug;showAjan(slug);
+    };});
+  /* draw() rebuilds every card; keep the Ajan panel that was open, open. */
+  if(openAj&&ajPanel(openAj))showAjan(openAj);
   Array.prototype.forEach.call(document.querySelectorAll('[data-status]'),function(b){
     b.onclick=function(){
       b.disabled=true;
@@ -185,6 +204,99 @@ function draw(){
         .catch(function(e){alert(e.message);b.disabled=false;});
     };});
 }
+/* ═══ LINK / UNLINK AJAN (15 Oct 2026) ═══════════════════════════════════════
+   Jeffery: "make sure we can create additional Enterprise Partners directly
+   from the admin dashboard without needing a developer each time."
+   ALWAYS check first: the codes are looked up and the result shown in plain
+   words; only then does a "Link" button appear, and it links exactly the
+   codes that were checked and found free. An Ajan who already belongs to
+   another organisation is never moved silently - that needs its own button
+   and its own confirmation. Linking changes no commission rate. */
+var openAj='', ajChecked={};
+function ajPanel(slug){return document.querySelector('[data-ajp="'+CSS.escape(slug)+'"]');}
+var AJ_SAY={
+  would_link:['y','✓','ready to link'],
+  linked:['y','✓','linked'],
+  moved:['y','✓','moved here'],
+  already_linked:['i','•','already in this organization'],
+  belongs_to_other:['w','⚠','belongs to another organization: '],
+  not_found:['n','✗','no Ajan has this code'],
+  unlinked:['i','•','unlinked'],
+  not_linked:['n','✗','was not linked here']
+};
+function ajLine(r){
+  var t=AJ_SAY[r.outcome]||['i','•',r.outcome];
+  var extra=r.outcome==='belongs_to_other'?esc(r.organization||''):(r.outcome==='moved'&&r.from?' (from '+esc(r.from)+')':'');
+  return '<div class="'+t[0]+'">'+t[1]+' <b>'+esc(r.code)+'</b>'+(r.name?' — '+esc(r.name):'')+' — '+t[2]+extra+'</div>';
+}
+function showAjan(slug){
+  var box=ajPanel(slug); if(!box) return;
+  box.classList.remove('hide');
+  box.innerHTML='<div class="ajnote">Loading…</div>';
+  api('GET','/api/organizations/'+encodeURIComponent(slug)+'/agents').then(function(t){
+    var ag=t.agents||[];
+    box.innerHTML='<div style="font-weight:800;font-size:.85rem">Ajan in '+esc(slug)+' ('+ag.length+')</div>'
+      +(ag.length?ag.map(function(a){
+          return '<div class="ajrow"><div><code>'+esc(a.code)+'</code> '+esc(a.name||'')
+            +'<div style="font-size:.7rem;color:var(--tl)">'+(a.referrals||0)+' recruited</div></div>'
+            +'<button data-unlink="'+esc(a.code)+'">Unlink</button></div>';
+        }).join(''):'<div class="ajnote">No Ajan linked yet.</div>')
+      +'<label>Add Ajan: paste their codes (separated by commas, spaces or new lines)</label>'
+      +'<textarea data-ajcodes spellcheck="false" autocapitalize="characters" placeholder="CODE1, CODE2"></textarea>'
+      +'<button class="btn g" data-ajcheck>1. Check these codes</button>'
+      +'<div class="ajres" data-ajres></div>'
+      +'<button class="btn hide" data-ajlink></button>'
+      +'<button class="btn r hide" data-ajmove></button>'
+      +'<div class="ajnote">Linking changes no commission rate. From the moment of linking, the people an Ajan recruits are credited to '
+      +esc(slug)+', and their commission is recorded for '+esc(slug)+', not paid to the Ajan. People recruited before stay where they were.</div>';
+    wireAjan(slug,box);
+  }).catch(function(e){box.innerHTML='<div class="err">'+esc(e.message)+'</div>';});
+}
+function wireAjan(slug,box){
+  var q=function(sel){return box.querySelector(sel);};
+  var ta=q('[data-ajcodes]'), res=q('[data-ajres]'), bl=q('[data-ajlink]'), bm=q('[data-ajmove]');
+  /* Editing the codes after a check throws the check away: a Link button must
+     never act on a list nobody has looked at. */
+  ta.oninput=function(){ajChecked[slug]=null;bl.classList.add('hide');bm.classList.add('hide');res.innerHTML='';};
+  q('[data-ajcheck]').onclick=function(){
+    var b=this, codes=ta.value.trim();
+    if(!codes){res.innerHTML='<div class="n">Paste at least one code.</div>';return;}
+    b.disabled=true;b.textContent='Checking…';
+    api('POST','/api/organizations/'+encodeURIComponent(slug)+'/agents',{codes:codes,dryRun:true}).then(function(j){
+      var r=j.result||[];
+      var free=r.filter(function(x){return x.outcome==='would_link';}).map(function(x){return x.code;});
+      var other=r.filter(function(x){return x.outcome==='belongs_to_other';}).map(function(x){return x.code;});
+      ajChecked[slug]={free:free,other:other};
+      res.innerHTML=r.map(ajLine).join('')+'<div class="i" style="margin-top:4px">Nothing has changed yet.</div>';
+      bl.textContent='2. Link '+free.length+' Ajan to '+slug; bl.classList.toggle('hide',!free.length);
+      bm.textContent='Move '+other.length+' Ajan from their current organization to '+slug; bm.classList.toggle('hide',!other.length);
+    }).catch(function(e){res.innerHTML='<div class="n">'+esc(e.message)+'</div>';})
+      .then(function(){b.disabled=false;b.textContent='1. Check these codes';});
+  };
+  var doLink=function(codes,move,btn){
+    btn.disabled=true;
+    api('POST','/api/organizations/'+encodeURIComponent(slug)+'/agents',{codes:codes,move:move}).then(function(j){
+      var done=(j.result||[]).map(ajLine).join('');
+      showAjan(slug);
+      setTimeout(function(){var r2=ajPanel(slug)&&ajPanel(slug).querySelector('[data-ajres]');if(r2)r2.innerHTML=done;},900);
+    }).catch(function(e){alert(e.message);btn.disabled=false;});
+  };
+  bl.onclick=function(){var c=ajChecked[slug];if(!c||!c.free.length)return;doLink(c.free,false,bl);};
+  bm.onclick=function(){
+    var c=ajChecked[slug];if(!c||!c.other.length)return;
+    if(!confirm('Move '+c.other.join(', ')+' to '+slug+'?\n\nThey leave their current organization. People they already recruited stay credited to the old one.'))return;
+    doLink(c.other,true,bm);
+  };
+  Array.prototype.forEach.call(box.querySelectorAll('[data-unlink]'),function(b){
+    b.onclick=function(){
+      var code=b.dataset.unlink;
+      if(!confirm('Unlink '+code+' from '+slug+'?\n\nPeople they already recruited stay credited to '+slug+'. New recruits will be theirs alone.'))return;
+      b.disabled=true;
+      api('POST','/api/organizations/'+encodeURIComponent(slug)+'/agents/remove',{codes:[code]})
+        .then(function(){showAjan(slug);}).catch(function(e){alert(e.message);b.disabled=false;});
+    };});
+}
+
 /* Shown once, big, and said plainly. A code that flashes past is worse than
    none at all. */
 function showCode(name,code){
