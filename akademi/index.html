@@ -252,7 +252,7 @@ footer{text-align:center;color:var(--muted);font-size:.8rem;padding-top:18px}
 </div>
 
 <script src="kesyon.js"></script>
-<script src="badge.js?v=1"></script>
+<script src="badge.js?v=2"></script>
 <script>
 /* ═══════════════════════════════════════════════════════════════════════════
  * LajanMaker Academy — certification exam.
@@ -761,7 +761,7 @@ function drawCert(name, dateStr, cert){
    agents sharing one handset do not end up wearing each other's face.
    Stored small on purpose: a full phone photo as a data URL is several MB and
    localStorage gives us about 5MB in total, so one badge would fill it. */
-var PHOTO_MAX = 460;                 /* px, square - plenty for a 176px circle */
+/* PHOTO_MAX now in badge.js */
 /* now in badge.js */
 
 function photoKey(){
@@ -772,38 +772,7 @@ function savedPhoto(){
   try { return localStorage.getItem(photoKey()); } catch (e) { return null; }
 }
 
-/* Draw the file into a square canvas at PHOTO_MAX, cover-cropped and centred.
-   createImageBitmap with imageOrientation:'from-image' applies the EXIF
-   rotation; without it a photo taken in portrait arrives on its side, which on
-   a credential badge is the first thing anyone notices. */
-function photoFromFile(file, ok, fail){
-  function paint(src, w, h){
-    var c = document.createElement('canvas');
-    c.width = c.height = PHOTO_MAX;
-    var g = c.getContext('2d');
-    var scale = Math.max(PHOTO_MAX / w, PHOTO_MAX / h);
-    var dw = w * scale, dh = h * scale;
-    g.drawImage(src, (PHOTO_MAX - dw) / 2, (PHOTO_MAX - dh) / 2, dw, dh);
-    try { ok(c.toDataURL('image/jpeg', 0.86)); } catch (e) { fail(); }
-  }
-  if (window.createImageBitmap) {
-    createImageBitmap(file, { imageOrientation: 'from-image' })
-      .then(function(bm){ paint(bm, bm.width, bm.height); })
-      .catch(function(){ viaImg(); });
-  } else { viaImg(); }
-
-  function viaImg(){
-    var fr = new FileReader();
-    fr.onerror = fail;
-    fr.onload = function(){
-      var im = new Image();
-      im.onload = function(){ paint(im, im.naturalWidth, im.naturalHeight); };
-      im.onerror = fail;
-      im.src = fr.result;
-    };
-    fr.readAsDataURL(file);
-  }
-}
+/* photoFromFile now in badge.js (shared with the re-issue page, 16 Oct 2026) */
 
 function setPhoto(dataUrl, then){
   if (!dataUrl){ credPhoto = null; return then && then(); }

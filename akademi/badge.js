@@ -44,6 +44,44 @@ function t(k){ return credLabels[k] || k; }
    leaves it null, which is the no-photo layout Jeffery approved. */
 var credPhoto = null;
 
+/* 16 Oct 2026: the photo preparation lives HERE too, moved unchanged from the
+   exam page, so a photo added by Jennifer on the re-issue page is cropped
+   exactly like one the agent added at the exam. */
+var PHOTO_MAX = 460;                 /* px, square - plenty for a 176px circle */
+/* Draw the file into a square canvas at PHOTO_MAX, cover-cropped and centred.
+   createImageBitmap with imageOrientation:'from-image' applies the EXIF
+   rotation; without it a photo taken in portrait arrives on its side, which on
+   a credential badge is the first thing anyone notices. */
+function photoFromFile(file, ok, fail){
+  function paint(src, w, h){
+    var c = document.createElement('canvas');
+    c.width = c.height = PHOTO_MAX;
+    var g = c.getContext('2d');
+    var scale = Math.max(PHOTO_MAX / w, PHOTO_MAX / h);
+    var dw = w * scale, dh = h * scale;
+    g.drawImage(src, (PHOTO_MAX - dw) / 2, (PHOTO_MAX - dh) / 2, dw, dh);
+    try { ok(c.toDataURL('image/jpeg', 0.86)); } catch (e) { fail(); }
+  }
+  if (window.createImageBitmap) {
+    createImageBitmap(file, { imageOrientation: 'from-image' })
+      .then(function(bm){ paint(bm, bm.width, bm.height); })
+      .catch(function(){ viaImg(); });
+  } else { viaImg(); }
+
+  function viaImg(){
+    var fr = new FileReader();
+    fr.onerror = fail;
+    fr.onload = function(){
+      var im = new Image();
+      im.onload = function(){ paint(im, im.naturalWidth, im.naturalHeight); };
+      im.onerror = fail;
+      im.src = fr.result;
+    };
+    fr.readAsDataURL(file);
+  }
+}
+
+
 /* The exam page has its own $() one-liner. This module must not depend on a
    page's helpers, so it carries the two lines it needs. */
 function $(id){ return document.getElementById(id); }

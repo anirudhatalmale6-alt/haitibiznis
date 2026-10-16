@@ -60,6 +60,19 @@ input:focus{outline:none;border-color:var(--navy)}
         <span style="font-weight:800;color:#5A6B8A">+509</span>
         <input type="tel" id="ph" placeholder="3616 2367" inputmode="numeric" style="flex:1">
       </div>
+      <!-- 16 Oct 2026, Jeffery: "Many of our certified agents weren't able to
+           upload their badge picture... Jennifer need to upload their images."
+           The photo goes on the BADGE only, exactly like at the exam. It stays
+           on this phone - nothing is uploaded anywhere. -->
+      <label>Foto ajan an (pou badj la)</label>
+      <input type="file" id="phf" accept="image/*"
+             style="position:absolute;width:1px;height:1px;opacity:0;pointer-events:none">
+      <div style="display:flex;align-items:center;gap:12px">
+        <img id="phv" alt="" style="display:none;width:64px;height:64px;border-radius:50%;object-fit:cover;border:3px solid #0B2E6F">
+        <button class="btn btn-ghost" type="button" id="phb" style="margin-top:0;flex:1">&#128247; Mete foto a</button>
+        <button class="btn btn-ghost" type="button" id="phx" style="display:none;margin-top:0;width:auto;padding:16px 18px">&#10005;</button>
+      </div>
+      <p class="hint" id="phh" style="text-align:left">Foto a parèt sou badj la sèlman. Li rete sou telefòn sa a.</p>
       <button class="btn btn-main" id="mk">Fè sètifika a</button>
       <button class="btn btn-main" id="mkb" style="margin-top:8px;background:#0B2E6F">Fè badj la</button>
       <button class="btn btn-main" id="mkc" style="margin-top:8px;background:#E0A400">Fè kat la</button>
@@ -85,7 +98,7 @@ input:focus{outline:none;border-color:var(--navy)}
   </div>
 </div>
 
-<script src="badge.js?v=1"></script>
+<script src="badge.js?v=2"></script>
 <script>
 /* Same code the exam uses. A workshop handout, not a vault. */
 var KOD = 'LMA2026';
@@ -160,7 +173,9 @@ function makeCredential(kind){
   credState.date  = f.dateStr;
   credState.phone = f.phone;
   credState.kind  = kind;
-  credPhoto = null;            /* no photo on a re-issue - the approved layout */
+  /* 16 Oct 2026: with a photo when Jennifer added one (the exam's photo
+     layout), without one otherwise (the no-photo layout he approved). */
+  credPhoto = (kind === 'badge') ? emetPhoto : null;
   loadCredAssets(function(){
     var cv;
     try { cv = kind === 'badge' ? drawBadge() : drawCard(); }
@@ -176,6 +191,34 @@ function makeCredential(kind){
     document.getElementById('res').scrollIntoView({behavior:'smooth'});
   });
 }
+/* The agent's photo for the badge. Prepared by badge.js's photoFromFile - the
+   SAME crop the exam uses. Cleared for the next agent with the ✕ button. */
+var emetPhoto = null;
+(function(){
+  var f = document.getElementById('phf'), b = document.getElementById('phb'),
+      x = document.getElementById('phx'), v = document.getElementById('phv'),
+      h = document.getElementById('phh');
+  var HINT = h.textContent;
+  b.onclick = function(){ f.value = ''; f.click(); };
+  f.onchange = function(){
+    var file = f.files && f.files[0];
+    if (!file) return;
+    h.textContent = '...';
+    photoFromFile(file, function(dataUrl){
+      var im = new Image();
+      im.onload = function(){
+        emetPhoto = im; v.src = dataUrl; v.style.display = ''; x.style.display = '';
+        b.innerHTML = '&#128247; Chanje foto a'; h.textContent = HINT;
+      };
+      im.onerror = function(){ h.textContent = 'Nou pa ka li foto sa a. Eseye yon lòt.'; };
+      im.src = dataUrl;
+    }, function(){ h.textContent = 'Nou pa ka li foto sa a. Eseye yon lòt (JPG oswa PNG).'; });
+  };
+  x.onclick = function(){
+    emetPhoto = null; v.style.display = 'none'; v.removeAttribute('src'); x.style.display = 'none';
+    b.innerHTML = '&#128247; Mete foto a'; h.textContent = HINT;
+  };
+})();
 document.getElementById('mkb').onclick = function(){ makeCredential('badge'); };
 document.getElementById('mkc').onclick = function(){ makeCredential('card'); };
 
