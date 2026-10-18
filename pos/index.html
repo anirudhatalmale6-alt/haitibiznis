@@ -358,6 +358,29 @@ textarea{min-height:58px;resize:vertical}.hint{font-size:12px;color:var(--muted)
 .lm-n{font-size:11px;font-weight:800;line-height:1.2;color:var(--ink)}
 .lm-s{font-size:9.5px;font-weight:600;color:var(--muted);line-height:1.2}
 @media(max-width:342px){.lm-grid{gap:7px}.lm-n{font-size:10px}.lm-s{font-size:9px}}
+/* ---- 18 Oct 2026: identity block under the welcome card. Jeffery: the first
+   screen must answer in seconds "What is LajanMaker? What can I do with it?
+   How can I earn from it?" ---- */
+.lm-id{background:#fff;border:1px solid var(--line);border-radius:18px;padding:14px 13px 12px;
+  margin:0 0 14px;box-shadow:var(--shadow);text-align:center}
+.lm-id-t{font-size:13.5px;font-weight:900;letter-spacing:.06em;color:#0B2E6F}
+.lm-id-s{font-size:12.5px;font-weight:800;margin-top:2px}
+.lm-id-s b:nth-of-type(1){color:#E31B23}.lm-id-s b:nth-of-type(2){color:#f59e0b}.lm-id-s b:nth-of-type(3){color:#00B050}
+.lm-id-s i{color:#cbd3e0;font-style:normal;margin:0 5px}
+.lm-id-d{font-size:12px;color:var(--muted);line-height:1.45;margin:7px 2px 11px}
+.lm-id-g{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px}
+.lm-id-c{border-radius:14px;padding:10px 5px 9px;background:var(--bg2,#f6f8fc);border-top:3px solid var(--c);
+  display:flex;flex-direction:column;align-items:center;gap:4px}
+.lm-id-c .e{font-size:22px;line-height:1}
+.lm-id-c .n{font-size:11.5px;font-weight:900;color:var(--c);letter-spacing:.03em}
+.lm-id-c .s{font-size:9.8px;font-weight:600;color:var(--muted);line-height:1.25}
+.lm-how{margin-top:10px;width:100%;border:1.5px solid #0B2E6F;background:#fff;color:#0B2E6F;border-radius:12px;
+  padding:9px 10px;font:inherit;font-weight:800;font-size:12.5px;cursor:pointer}
+.lm-steps{display:none;margin-top:9px;font-size:12.5px;font-weight:800;color:var(--ink);line-height:1.5}
+.lm-steps.on{display:flex;align-items:center;justify-content:center;flex-wrap:wrap;gap:4px 6px}
+.lm-steps span{background:#eef3ff;border-radius:999px;padding:4px 10px}
+.lm-steps i{color:#93A0B8;font-style:normal}
+@media(max-width:342px){.lm-id-c .n{font-size:10.5px}.lm-id-c .s{font-size:9px}}
 </style>
 </head>
 <body>
@@ -1769,6 +1792,22 @@ function openAcademy(){
     <button class="cta ghost" id="ac_x">${t('back')}</button></div>`);
   m.box.querySelector('#ac_x').onclick=m.close;
 }
+function renderIdent(){
+  const el=document.getElementById('homeIdent');if(!el)return;
+  if(isBR()){el.innerHTML='';return;}
+  el.innerHTML=`<div class="lm-id">
+    <div class="lm-id-t">${t('lm_id_t')}</div>
+    <div class="lm-id-s"><b>${t('lm_s1')}</b><i>•</i><b>${t('lm_s2')}</b><i>•</i><b>${t('lm_s3')}</b></div>
+    <div class="lm-id-d">${t('lm_id_d')}</div>
+    <div class="lm-id-g">
+      <div class="lm-id-c" style="--c:#E31B23"><span class="e">🎓</span><span class="n">${t('lm_s1')}</span><span class="s">${t('lm_id_c1')}</span></div>
+      <div class="lm-id-c" style="--c:#d97706"><span class="e">🛍️</span><span class="n">${t('lm_s2')}</span><span class="s">${t('lm_id_c2')}</span></div>
+      <div class="lm-id-c" style="--c:#00a046"><span class="e">💰</span><span class="n">${t('lm_s3')}</span><span class="s">${t('lm_id_c3')}</span></div>
+    </div>
+    <button class="lm-how" type="button" onclick="var s=this.nextElementSibling;s.classList.toggle('on')">${t('lm_how')}</button>
+    <div class="lm-steps"><span>${t('lm_step1')}</span><i>→</i><span>${t('lm_step2')}</span><i>→</i><span>${t('lm_step3')}</span></div>
+  </div>`;
+}
 function renderWhy(){
   const el=document.getElementById('homeWhy');if(!el)return;
   if(isBR()){el.innerHTML='';return;}
@@ -1780,7 +1819,6 @@ function renderWhy(){
     ['📊','lm_track',"go('earn')",'#0057D9'],
     ['🎓','lm_learn',"openAcademy()",'#f59e0b']];
   el.innerHTML=`<div class="lm-why">
-   <div class="lm-slog"><span style="color:#E31B23">${t('lm_s1')}</span><i>●</i><span style="color:#f59e0b">${t('lm_s2')}</span><i>●</i><span style="color:#00B050">${t('lm_s3')}</span></div>
    <div class="lm-h">${t('lm_why_t')}</div>
    <div class="lm-grid">${TILES.map(function(x){
      return `<button class="lm-t" onclick="${x[2]}" style="--c:${x[3]}"><span class="lm-e">${x[0]}</span><span class="lm-n">${t(x[1])}</span><span class="lm-s">${t(x[1]+'_s')}</span></button>`;
@@ -1871,6 +1909,56 @@ const T_LM={
   lm_acad_msg:'O treinamento para se tornar um Agente certificado. Os cursos estão sendo preparados — avisaremos assim que estiverem prontos.'}
 };
 Object.keys(T_LM).forEach(function(l){if(T[l])Object.assign(T[l],T_LM[l]);});
+
+/* 18 Oct 2026 - Jeffery's home-screen wording: identity block + clearer tiles.
+   One block, merged after T_LM so it wins; t() falls back to ht. */
+const T_HOME={
+ ht:{lm_id_t:'LAJANMAKER MULTISERVICE APP',
+  lm_id_d:'Yon aplikasyon pou aprann, vann sèvis, konekte kliyan ak biznis, epi touche komisyon.',
+  lm_id_c1:'Fòmasyon ak LajanMaker Academy',lm_id_c2:'Sèvis dijital, chofè ak biznis',lm_id_c3:'Referral, lavant ak komisyon',
+  lm_how:'Kijan LajanMaker mache?',lm_step1:'1. Aprann',lm_step2:'2. Vann / Refer',lm_step3:'3. Touche',
+  lm_why_t:'Kijan LajanMaker ede w fè lajan',
+  lm_drivers:'Enskri Chofè',lm_drivers_s:'MsouWout Moto & Machin',
+  lm_biz:'Enskri Biznis',lm_biz_s:'MyPlopPlop',
+  lm_digital:'Vann Sèvis Dijital',lm_digital_s:'Logo • Flyer • Kat Biznis • Website',
+  lm_comm:'Fè Komisyon',lm_comm_s:'Referral & Parenaj',
+  lm_track:'Swiv Revni',lm_track_s:'Komisyon • Balans • Peman',
+  lm_learn:'LajanMaker Academy',lm_learn_s:'Fòmasyon & Sètifikasyon'},
+ fr:{lm_id_t:'LAJANMAKER MULTISERVICE APP',
+  lm_id_d:'Une application pour apprendre, vendre des services, connecter clients et commerces, et toucher des commissions.',
+  lm_id_c1:'Formation avec LajanMaker Academy',lm_id_c2:'Services digitaux, chauffeurs et commerces',lm_id_c3:'Parrainage, ventes et commissions',
+  lm_how:'Comment fonctionne LajanMaker ?',lm_step1:'1. Apprendre',lm_step2:'2. Vendre / Parrainer',lm_step3:'3. Gagner',
+  lm_why_t:'Comment LajanMaker vous aide à gagner',
+  lm_drivers:'Inscrire chauffeurs',lm_drivers_s:'MsouWout Moto & Voiture',
+  lm_biz:'Inscrire commerces',lm_biz_s:'MyPlopPlop',
+  lm_digital:'Vendre services digitaux',lm_digital_s:'Logo • Flyer • Carte • Site web',
+  lm_comm:'Gagner des commissions',lm_comm_s:'Parrainage & Parenaj',
+  lm_track:'Suivre vos revenus',lm_track_s:'Commissions • Solde • Paiements',
+  lm_learn:'LajanMaker Academy',lm_learn_s:'Formation & Certification'},
+ en:{lm_id_t:'LAJANMAKER MULTISERVICE APP',
+  lm_id_d:'One app to learn, sell services, connect customers with businesses, and earn commissions.',
+  lm_id_c1:'Training with LajanMaker Academy',lm_id_c2:'Digital services, drivers and businesses',lm_id_c3:'Referrals, sales and commissions',
+  lm_how:'How does LajanMaker work?',lm_step1:'1. Learn',lm_step2:'2. Sell / Refer',lm_step3:'3. Earn',
+  lm_why_t:'How LajanMaker helps you earn',
+  lm_drivers:'Sign up drivers',lm_drivers_s:'MsouWout Moto & Car',
+  lm_biz:'Sign up businesses',lm_biz_s:'MyPlopPlop',
+  lm_digital:'Sell digital services',lm_digital_s:'Logo • Flyer • Business card • Website',
+  lm_comm:'Earn commissions',lm_comm_s:'Referrals & Parenaj',
+  lm_track:'Track earnings',lm_track_s:'Commissions • Balance • Payments',
+  lm_learn:'LajanMaker Academy',lm_learn_s:'Training & Certification'},
+ es:{lm_id_t:'LAJANMAKER MULTISERVICE APP',
+  lm_id_d:'Una aplicación para aprender, vender servicios, conectar clientes con negocios y ganar comisiones.',
+  lm_id_c1:'Formación con LajanMaker Academy',lm_id_c2:'Servicios digitales, conductores y negocios',lm_id_c3:'Referidos, ventas y comisiones',
+  lm_how:'¿Cómo funciona LajanMaker?',lm_step1:'1. Aprende',lm_step2:'2. Vende / Refiere',lm_step3:'3. Gana',
+  lm_why_t:'Cómo LajanMaker te ayuda a ganar',
+  lm_drivers:'Inscribir conductores',lm_drivers_s:'MsouWout Moto y Carro',
+  lm_biz:'Inscribir negocios',lm_biz_s:'MyPlopPlop',
+  lm_digital:'Vender servicios digitales',lm_digital_s:'Logo • Flyer • Tarjeta • Sitio web',
+  lm_comm:'Ganar comisiones',lm_comm_s:'Referidos y Parenaj',
+  lm_track:'Seguir ingresos',lm_track_s:'Comisiones • Saldo • Pagos',
+  lm_learn:'LajanMaker Academy',lm_learn_s:'Formación y Certificación'}
+};
+Object.keys(T_HOME).forEach(function(l){if(T[l])Object.assign(T[l],T_HOME[l]);});
 
 /* The Academy card's wording, merged last so it wins over the "coming soon"
    text above. Kept as one block rather than five edits inside T_LM so the
@@ -2680,6 +2768,7 @@ function renderHome(){
        <button class="gicon" onclick="go('set')" aria-label="account">👤</button>
      </div>
    </div>
+   <div id="homeIdent"></div>
    <div class="dash">
      <div class="dcard c-rev"><div class="dtop"><span class="dlabel">${t('dash_rev')}</span><span class="dicon">💰</span></div><div class="dnum">${dnum(revToday)}</div></div>
      <div class="dcard c-wal"><div class="dtop"><span class="dlabel">${t('dash_wallet')}</span><span class="dicon">👛</span></div><div class="dnum">${dnum(walletBal)}</div></div>
@@ -2708,6 +2797,7 @@ function renderHome(){
      <span style="font-weight:800;font-size:13px"><span style="color:${si[0]}">●</span> ${planName(l.plan)} · ${days} ${t('lic_days').toLowerCase()}</span>
      <span style="color:var(--blue);font-weight:700;font-size:12px">${t('hub_manage')} →</span>
    </button>`}`;
+  renderIdent();
   renderWhy();
   document.getElementById('homeQuick').innerHTML=`
    <div class="h2" style="font-size:17px;margin:16px 0 10px">${t('hub_quick')}</div>
