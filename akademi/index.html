@@ -252,7 +252,8 @@ footer{text-align:center;color:var(--muted);font-size:.8rem;padding-top:18px}
 </div>
 
 <script src="kesyon.js"></script>
-<script src="badge.js?v=2"></script>
+<script src="qrcode.js"></script>
+<script src="badge.js?v=3"></script>
 <script>
 /* ═══════════════════════════════════════════════════════════════════════════
  * LajanMaker Academy — certification exam.
@@ -305,7 +306,9 @@ ht:{
  cred_title:"Ajan Sètifye LajanMaker",
  cred_id:"NIMEWO AJAN",
  cred_since:"Sètifye depi",
- cred_scan:"Eskane pou konnen plis",
+ cred_scan:"Eskane pou verifye ajan an",
+ cred_reg_wait:"Badj ou anrejistre. HaitiBiznis ap verifye l anvan paj la di VERIFYE. Paj verifikasyon ou:",
+ cred_reg_fail:"Nou pa t ka anrejistre badj la sou sèvè a (koneksyon). Eseye ankò pita oswa voye l bay HaitiBiznis sou WhatsApp.",
  cred_hint:"Peze sou imaj la epi kenbe l pou anrejistre l. Montre l sou telefòn ou pou kounye a — pa enprime anpil kopi toujou.",
 t_save_hint:"Peze sou sètifika a epi kenbe l pou anrejistre l nan telefòn ou. Si ou louvri paj sa a andedan WhatsApp epi telechajman an pa mache, peze meni an (3 pwen) epi chwazi \u00ab Louvri nan navigatè \u00bb.",
  t_open:"Louvri sètifika a nan yon lòt paj",
@@ -347,7 +350,9 @@ fr:{
  cred_title:"Agent Certifié LajanMaker",
  cred_id:"NUMÉRO AGENT",
  cred_since:"Certifié depuis",
- cred_scan:"Scannez pour en savoir plus",
+ cred_scan:"Scannez pour vérifier l'agent",
+ cred_reg_wait:"Votre badge est enregistré. HaitiBiznis le vérifie avant que la page affiche VÉRIFIÉ. Votre page de vérification :",
+ cred_reg_fail:"Le badge n'a pas pu être enregistré sur le serveur (connexion). Réessayez plus tard ou envoyez-le à HaitiBiznis sur WhatsApp.",
  cred_hint:"Appuyez longuement sur l'image pour l'enregistrer. Montrez-la sur votre téléphone pour l'instant — n'imprimez pas encore en quantité.",
 t_save_hint:"Appuyez longuement sur le certificat pour l'enregistrer. Si vous avez ouvert cette page dans WhatsApp et que le téléchargement ne marche pas, ouvrez le menu (3 points) et choisissez \u00ab Ouvrir dans le navigateur \u00bb.",
  t_open:"Ouvrir le certificat sur une autre page",
@@ -635,10 +640,28 @@ function finish(timedOut){
     /* photoKey() reads credState.phone, so the phone must be set FIRST - load
        the saved photo only after it, or an agent gets the anonymous slot. */
     setPhoto(savedPhoto(), renderCred);
+    /* 21 Oct 2026: record the certification on the server (PENDING until
+       HaitiBiznis approves it), so the badge QR has something to verify. */
+    regInfo = { name: student.name, d: d, id: cert, phone: student.phone || '', source: 'exam' };
+    registerCred();
   } else {
     $('failWrap').classList.remove('hidden');
   }
   window.scrollTo({ top:0, behavior:'smooth' });
+}
+
+var regInfo = null;
+function registerCred(){
+  if (!regInfo) return;
+  regInfo.photo = savedPhoto();
+  credRegister(regInfo, function(err){
+    var p = $('credVerify');
+    if (!p) { p = document.createElement('p'); p.id = 'credVerify'; p.className = 'hint'; $('credHint').parentNode.insertBefore(p, $('credHint').nextSibling); }
+    var url = 'https://haitibiznis.com/ajan/?id=' + encodeURIComponent(regInfo.id);
+    p.innerHTML = '';
+    p.appendChild(document.createTextNode(t(err ? 'cred_reg_fail' : 'cred_reg_wait') + ' '));
+    if (!err) { var a = document.createElement('a'); a.href = url; a.target = '_blank'; a.rel = 'noopener'; a.textContent = url.replace('https://', ''); p.appendChild(a); }
+  });
 }
 
 function finishPractice(ok, n, pct){
@@ -853,7 +876,7 @@ function syncPhotoUI(){
     photoFromFile(f, function(dataUrl){
       try { localStorage.setItem(photoKey(), dataUrl); }
       catch (e) { /* quota - the badge still gets the photo this session */ }
-      setPhoto(dataUrl, function(){ renderCred(); });
+      setPhoto(dataUrl, function(){ renderCred(); registerCred(); });
     }, function(){
       $('photoHint').textContent = t('t_photo_bad');
     });

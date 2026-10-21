@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="ht">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="robots" content="noindex">
+<meta name="color-scheme" content="light">
+<title>Verifikasyon Ajan — LajanMaker · HaitiBiznis</title>
+<meta name="description" content="Verifye yon Ajan Sètifye LajanMaker: foto, non, nimewo ajan ak estati.">
+<link rel="icon" type="image/png" sizes="32x32" href="../assets/favicon-32.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&family=JetBrains+Mono:wght@600;700&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+:root{color-scheme:light;--navy:#0B2E6F;--red:#D21034;--gold:#E0A400;--green:#16803A;--ink:#152341;
+  --muted:#5A6B8A;--line:#E2E8F0;--off:#F3F6FB;--body:'Plus Jakarta Sans',system-ui,sans-serif;--mono:'JetBrains Mono',ui-monospace,monospace}
+body{font-family:var(--body);background:var(--off);color:var(--ink);min-height:100vh;line-height:1.5}
+button,input{font-family:var(--body)}
+.flag{height:5px;background:linear-gradient(90deg,var(--navy) 50%,var(--red) 50%)}
+.top{background:var(--navy);color:#fff;padding:14px 16px}
+.top .w{max-width:560px;margin:0 auto;display:flex;align-items:center;gap:12px}
+.top img{width:42px;height:42px;border-radius:10px;background:#fff;object-fit:contain;padding:3px}
+.top b{display:block;font-size:1rem;font-weight:800}
+.top small{opacity:.8;font-size:.78rem}
+.langs{margin-left:auto;display:flex;gap:4px}
+.langs button{background:rgba(255,255,255,.12);border:0;color:#fff;font-weight:700;font-size:.72rem;padding:7px 9px;border-radius:7px;cursor:pointer}
+.langs button.on{background:#fff;color:var(--navy)}
+main{max-width:560px;margin:0 auto;padding:16px 16px 40px}
+.status{border-radius:16px;padding:16px 18px;color:#fff;display:flex;gap:12px;align-items:center;margin-bottom:14px;box-shadow:0 8px 24px rgba(0,0,0,.12)}
+.status .ic{font-size:1.9rem;line-height:1}
+.status b{display:block;font-size:1.15rem;font-weight:800;letter-spacing:.02em}
+.status small{display:block;opacity:.92;font-size:.86rem}
+.status.ok{background:linear-gradient(135deg,#128838,#16803A)}
+.status.warn{background:linear-gradient(135deg,#B3122B,#D21034)}
+.status.fake{background:linear-gradient(135deg,#3B0A12,#7A0E22)}
+.card{background:#fff;border:1px solid var(--line);border-radius:18px;overflow:hidden;box-shadow:0 10px 30px rgba(11,46,111,.08)}
+.card .band{height:84px;background:var(--navy);position:relative}
+.card .band::after{content:'';position:absolute;left:0;right:0;bottom:0;height:6px;background:var(--gold)}
+.avatar{width:128px;height:128px;border-radius:50%;margin:-64px auto 0;position:relative;z-index:1;border:6px solid #fff;box-shadow:0 0 0 3px var(--gold);background:#E8EDF5 center/cover no-repeat;display:grid;place-items:center;font-size:2.6rem;font-weight:800;color:var(--muted)}
+.who{text-align:center;padding:12px 18px 6px}
+.who h1{font-size:1.45rem;font-weight:800;line-height:1.2}
+.pill{display:inline-block;margin-top:8px;background:var(--red);color:#fff;font-weight:800;font-size:.78rem;letter-spacing:.06em;padding:7px 14px;border-radius:99px;text-transform:uppercase}
+.idbox{margin:14px auto 4px;text-align:center}
+.idbox small{display:block;font-size:.72rem;font-weight:700;letter-spacing:.1em;color:var(--muted)}
+.idbox span{font:700 1.3rem var(--mono);color:var(--navy)}
+.rows{padding:10px 18px 4px}
+.row{display:flex;justify-content:space-between;gap:12px;padding:10px 0;border-bottom:1px solid var(--line);font-size:.93rem}
+.row:last-child{border-bottom:0}
+.row span{color:var(--muted)}
+.row b{text-align:right}
+.svc{padding:6px 18px 16px}
+.svc h3,.ref h3{font-size:.78rem;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);margin:8px 0 8px}
+.chips{display:flex;flex-wrap:wrap;gap:6px}
+.chip{color:#fff;font-weight:700;font-size:.8rem;padding:6px 11px;border-radius:9px}
+.ref{padding:0 18px 16px}
+.refbox{display:flex;align-items:center;justify-content:space-between;gap:10px;background:var(--off);border:1px dashed #B9C6DA;border-radius:12px;padding:10px 12px}
+.refbox b{font:700 1.05rem var(--mono);color:var(--navy);word-break:break-all}
+.refbox button{border:0;background:var(--navy);color:#fff;font-weight:700;font-size:.8rem;padding:8px 12px;border-radius:8px;cursor:pointer;flex-shrink:0}
+.actions{display:grid;gap:10px;margin:16px 0}
+.btn{display:flex;align-items:center;justify-content:center;gap:9px;min-height:52px;border-radius:13px;font-weight:800;font-size:1rem;text-decoration:none;border:0;cursor:pointer;width:100%}
+.btn.primary{background:var(--red);color:#fff}
+.btn.blue{background:var(--navy);color:#fff}
+.btn.line{background:#fff;color:var(--navy);border:2px solid var(--navy)}
+.btn.wa{background:#1FA855;color:#fff}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.sheet{display:none;background:#fff;border:1px solid var(--line);border-radius:16px;padding:14px;margin-top:-2px}
+.sheet.open{display:block}
+.sheet p{font-size:.88rem;color:var(--muted);margin-bottom:10px}
+.opt{display:flex;gap:12px;align-items:center;padding:12px;border:1px solid var(--line);border-radius:12px;text-decoration:none;color:var(--ink);margin-bottom:8px}
+.opt .e{font-size:1.5rem}
+.opt b{display:block;font-size:.97rem}
+.opt small{color:var(--muted);font-size:.82rem}
+.safe{background:#FFF8E6;border:1px solid #F3DE9F;border-radius:14px;padding:14px 16px;font-size:.92rem;margin-top:14px}
+.safe p{display:flex;gap:10px;margin:6px 0}
+.report{display:block;text-align:center;margin-top:16px;color:var(--red);font-weight:700;font-size:.92rem}
+.lookup{background:#fff;border:1px solid var(--line);border-radius:16px;padding:18px}
+.lookup h1{font-size:1.2rem;margin-bottom:6px}
+.lookup p{color:var(--muted);font-size:.9rem;margin-bottom:12px}
+.lookup input{width:100%;min-height:52px;border:2px solid var(--line);border-radius:12px;padding:12px 14px;font:700 1.1rem var(--mono);text-transform:uppercase;margin-bottom:10px}
+.muted{color:var(--muted);text-align:center;padding:40px 0}
+footer{text-align:center;color:var(--muted);font-size:.78rem;padding:20px 16px 30px}
+</style>
+</head>
+<body>
+<div class="flag"></div>
+<header class="top"><div class="w">
+  <img src="../akademi/lm-logo.png" alt="LajanMaker">
+  <div><b data-t="head">Verifikasyon Ajan Ofisyèl</b><small>LajanMaker Academy · HaitiBiznis</small></div>
+  <div class="langs"><button data-l="ht">KR</button><button data-l="fr">FR</button><button data-l="en">EN</button></div>
+</div></header>
+
+<main id="app"><p class="muted" data-t="loading">Ap verifye…</p></main>
+
+<footer data-t="foot">Paj ofisyèl HaitiBiznis Technologies. Enfòmasyon an soti dirèkteman nan rejis ajan sètifye yo.</footer>
+
+<script>
+/* ═══ The page the badge QR opens: haitibiznis.com/ajan/?id=LMA-2026-######
+   Every fact comes from the server, which says VERIFYE only for an agent a
+   person at HaitiBiznis approved. ════════════════════════════════════════ */
+var API = 'https://haitibiznis-api.onrender.com';
+var HB_WA = '50946859702';
+var SVC_COLORS = { 'MsouWout':'#D21034', 'MyPlopPlop':'#0057D9', 'Tikè Lakay':'#1B8C3D',
+  'LajanMaker Academy':'#E07B00', 'Digital Services':'#0E7490', '48HoursReady':'#6D28D9' };
+
+var T = {
+  ht: {
+    head:'Verifikasyon Ajan Ofisyèl', loading:'Ap verifye…',
+    foot:'Paj ofisyèl HaitiBiznis Technologies. Enfòmasyon an soti dirèkteman nan rejis ajan sètifye yo.',
+    ok_t:'✅ VERIFYE / AKTIF', ok_s:'Ajan sa a otorize pou reprezante HaitiBiznis.',
+    exp_t:'⚠️ BADGE EKSPIRE', exp_s:'Badj sa a pa valab ankò depi {d}.',
+    off_t:'⚠️ AJAN SA A PA AKTIF', sus_s:'Ajan sa a pa otorize reprezante HaitiBiznis kounye a.',
+    pen_s:'Badj sa a poko apwouve pa HaitiBiznis.', rev_s:'Sètifikasyon sa a anile.',
+    fake_t:'⛔ NIMEWO SA A PA EGZISTE', fake_s:'Pa gen okenn ajan sètifye ak nimewo sa a. Pa fè l konfyans, pa ba l lajan, epi rapòte l.',
+    title:'Ajan Sètifye LajanMaker', id:'NIMEWO AJAN',
+    r_cert:'Dat sètifikasyon', r_exp:'Valab jiska', r_city:'Zòn travay', r_spon:'Sponsò / Rekritè',
+    svc:'Sèvis li otorize reprezante', ref:'Kòd referans pèsonèl', copy:'Kopye', copied:'Kopye ✓',
+    work:'🤝 Travay ak ajan sa a', join:'📝 Enskri atravè ajan sa a', contact:'📞 Kontakte ajan an',
+    call:'📞 Rele', wa:'💬 WhatsApp',
+    join_p:'Chwazi kisa w ap enskri pou. Kòd ajan an ap anrejistre otomatikman.',
+    j_drv:'Chofè MsouWout', j_drv_s:'Taxi, moto, livrezon',
+    j_mpp:'Biznis oswa kliyan MyPlopPlop', j_mpp_s:'Ouvri boutik ou oswa achte',
+    safe1:'Foto ak non moun devan ou dwe matche ak enfòmasyon ki sou paj sa a.',
+    safe2:'Tout peman dwe fèt atravè chanèl ofisyèl HaitiBiznis. Pa bay yon ajan lajan san otorizasyon.',
+    report:'Rapòte yon pwoblèm ak ajan sa a',
+    look_t:'Verifye yon ajan', look_p:'Antre nimewo ajan ki sou badj la (egz: LMA-2026-589352).', look_b:'Verifye',
+    wa_work:'Bonjou {n}, mwen wè badj Ajan Sètifye LajanMaker ou ({id}). Mwen ta renmen travay avè w.',
+    wa_report:'Bonjou HaitiBiznis, mwen vle rapòte yon pwoblèm ak ajan {id}.',
+    err:'Nou pa ka verifye kounye a. Verifye koneksyon ou epi eseye ankò.', retry:'Eseye ankò'
+  },
+  fr: {
+    head:'Vérification d\'agent officielle', loading:'Vérification…',
+    foot:'Page officielle de HaitiBiznis Technologies. Les informations viennent directement du registre des agents certifiés.',
+    ok_t:'✅ VÉRIFIÉ / ACTIF', ok_s:'Cet agent est autorisé à représenter HaitiBiznis.',
+    exp_t:'⚠️ BADGE EXPIRÉ', exp_s:'Ce badge n\'est plus valable depuis le {d}.',
+    off_t:'⚠️ AGENT NON ACTIF', sus_s:'Cet agent n\'est pas autorisé à représenter HaitiBiznis actuellement.',
+    pen_s:'Ce badge n\'a pas encore été approuvé par HaitiBiznis.', rev_s:'Cette certification a été annulée.',
+    fake_t:'⛔ CE NUMÉRO N\'EXISTE PAS', fake_s:'Aucun agent certifié ne porte ce numéro. Ne lui faites pas confiance, ne lui donnez pas d\'argent, et signalez-le.',
+    title:'Agent Certifié LajanMaker', id:'NUMÉRO D\'AGENT',
+    r_cert:'Date de certification', r_exp:'Valable jusqu\'au', r_city:'Zone de travail', r_spon:'Parrain / Recruteur',
+    svc:'Services qu\'il est autorisé à représenter', ref:'Code de parrainage personnel', copy:'Copier', copied:'Copié ✓',
+    work:'🤝 Travailler avec cet agent', join:'📝 S\'inscrire via cet agent', contact:'📞 Contacter l\'agent',
+    call:'📞 Appeler', wa:'💬 WhatsApp',
+    join_p:'Choisissez votre inscription. Le code de l\'agent est enregistré automatiquement.',
+    j_drv:'Chauffeur MsouWout', j_drv_s:'Taxi, moto, livraison',
+    j_mpp:'Commerce ou client MyPlopPlop', j_mpp_s:'Ouvrir votre boutique ou acheter',
+    safe1:'La photo et le nom de la personne devant vous doivent correspondre à cette page.',
+    safe2:'Tout paiement passe par les canaux officiels HaitiBiznis. Ne donnez jamais d\'argent à un agent sans autorisation.',
+    report:'Signaler un problème avec cet agent',
+    look_t:'Vérifier un agent', look_p:'Entrez le numéro d\'agent inscrit sur le badge (ex. LMA-2026-589352).', look_b:'Vérifier',
+    wa_work:'Bonjour {n}, j\'ai vu votre badge d\'Agent Certifié LajanMaker ({id}). J\'aimerais travailler avec vous.',
+    wa_report:'Bonjour HaitiBiznis, je veux signaler un problème avec l\'agent {id}.',
+    err:'Vérification impossible pour le moment. Vérifiez votre connexion et réessayez.', retry:'Réessayer'
+  },
+  en: {
+    head:'Official Agent Verification', loading:'Verifying…',
+    foot:'Official HaitiBiznis Technologies page. The details come straight from the register of certified agents.',
+    ok_t:'✅ VERIFIED / ACTIVE', ok_s:'This agent is authorised to represent HaitiBiznis.',
+    exp_t:'⚠️ BADGE EXPIRED', exp_s:'This badge has not been valid since {d}.',
+    off_t:'⚠️ AGENT NOT ACTIVE', sus_s:'This agent is not authorised to represent HaitiBiznis right now.',
+    pen_s:'This badge has not been approved by HaitiBiznis yet.', rev_s:'This certification has been cancelled.',
+    fake_t:'⛔ THIS NUMBER DOES NOT EXIST', fake_s:'No certified agent has this number. Do not trust them, do not give them money, and report it.',
+    title:'LajanMaker Certified Agent', id:'AGENT ID',
+    r_cert:'Certified on', r_exp:'Valid until', r_city:'Work area', r_spon:'Sponsor / Recruiter',
+    svc:'Services they are authorised to represent', ref:'Personal referral code', copy:'Copy', copied:'Copied ✓',
+    work:'🤝 Work with this agent', join:'📝 Sign up through this agent', contact:'📞 Contact the agent',
+    call:'📞 Call', wa:'💬 WhatsApp',
+    join_p:'Choose what you are signing up for. The agent\'s code is recorded automatically.',
+    j_drv:'MsouWout driver', j_drv_s:'Taxi, moto, delivery',
+    j_mpp:'MyPlopPlop business or customer', j_mpp_s:'Open your shop or shop',
+    safe1:'The photo and name of the person in front of you must match this page.',
+    safe2:'All payments go through official HaitiBiznis channels. Never give an agent money without authorisation.',
+    report:'Report a problem with this agent',
+    look_t:'Verify an agent', look_p:'Enter the agent ID printed on the badge (e.g. LMA-2026-589352).', look_b:'Verify',
+    wa_work:'Hello {n}, I saw your LajanMaker Certified Agent badge ({id}). I would like to work with you.',
+    wa_report:'Hello HaitiBiznis, I want to report a problem with agent {id}.',
+    err:'We cannot verify right now. Check your connection and try again.', retry:'Try again'
+  }
+};
+
+/* Kreyòl unless the visitor picked another language here: a badge scanned in
+   Haiti opens in Kreyòl whatever language the phone itself is set to. */
+var lang = (function(){ try { var l = localStorage.getItem('hb_lang'); if (T[l]) return l; } catch(e){} return 'ht'; })();
+function t(k, v){ var s = (T[lang]||T.ht)[k] || T.ht[k] || k; if (v) Object.keys(v).forEach(function(x){ s = s.split('{'+x+'}').join(v[x]); }); return s; }
+function esc(s){ return String(s==null?'':s).replace(/[&<>"']/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c];}); }
+var MONTHS = { ht:['janvye','fevriye','mas','avril','me','jen','jiyè','out','septanm','oktòb','novanm','desanm'],
+  fr:['janvier','février','mars','avril','mai','juin','juillet','août','septembre','octobre','novembre','décembre'],
+  en:['January','February','March','April','May','June','July','August','September','October','November','December'] };
+function fmt(iso){ if (!iso) return '—'; var d = new Date(iso); if (isNaN(d)) return '—';
+  return d.getUTCDate() + ' ' + MONTHS[lang][d.getUTCMonth()] + ' ' + d.getUTCFullYear(); }
+function waNum(p){ var d = String(p||'').replace(/\D/g,''); if (d.length === 8) d = '509' + d; return d; }
+
+var data = null, agentId = '';
+
+function applyStatic(){
+  document.documentElement.lang = lang === 'ht' ? 'ht' : lang;
+  document.querySelectorAll('[data-t]').forEach(function(el){ el.textContent = t(el.getAttribute('data-t')); });
+  document.querySelectorAll('.langs button').forEach(function(b){ b.classList.toggle('on', b.getAttribute('data-l') === lang); });
+}
+document.querySelectorAll('.langs button').forEach(function(b){
+  b.onclick = function(){ lang = b.getAttribute('data-l'); try { localStorage.setItem('hb_lang', lang); } catch(e){} applyStatic(); render(); };
+});
+
+function statusBox(){
+  var s = data.state;
+  if (s === 'active') return '<div class="status ok"><div><b>'+t('ok_t')+'</b><small>'+t('ok_s')+'</small></div></div>';
+  if (s === 'expired') return '<div class="status warn"><div><b>'+t('exp_t')+'</b><small>'+esc(t('exp_s',{d:fmt(data.expiresAt)}))+'</small></div></div>';
+  var sub = s === 'pending' ? t('pen_s') : s === 'revoked' ? t('rev_s') : t('sus_s');
+  return '<div class="status warn"><div><b>'+t('off_t')+'</b><small>'+sub+'</small></div></div>';
+}
+
+function render(){
+  var app = document.getElementById('app');
+  if (!agentId) { renderLookup(); return; }
+  if (data === 'error') {
+    app.innerHTML = '<div class="lookup"><p>'+t('err')+'</p><button class="btn blue" id="retry">'+t('retry')+'</button></div>';
+    document.getElementById('retry').onclick = load; return;
+  }
+  if (!data) return;
+  if (!data.found) {
+    app.innerHTML = '<div class="status fake"><div><b>'+t('fake_t')+'</b><small>'+t('fake_s')+'</small></div></div>' +
+      '<div class="idbox"><small>'+t('id')+'</small><span>'+esc(agentId)+'</span></div>' + safeBox() + reportLink() + '<div style="margin-top:18px">'+lookupHtml()+'</div>';
+    wireLookup(); return;
+  }
+  var active = data.state === 'active';
+  var photo = data.photo ? 'style="background-image:url(\''+API+'/api/agents/photo/'+encodeURIComponent(data.agentId)+'\')"' : '';
+  var initials = data.photo ? '' : esc(String(data.name||'?').split(/\s+/).map(function(w){return w[0];}).slice(0,2).join('').toUpperCase());
+  var rows = '';
+  if (data.certifiedAt) rows += '<div class="row"><span>'+t('r_cert')+'</span><b>'+fmt(data.certifiedAt)+'</b></div>';
+  if (data.expiresAt) rows += '<div class="row"><span>'+t('r_exp')+'</span><b>'+fmt(data.expiresAt)+'</b></div>';
+  if (data.city) rows += '<div class="row"><span>'+t('r_city')+'</span><b>'+esc(data.city)+'</b></div>';
+  if (data.sponsor) rows += '<div class="row"><span>'+t('r_spon')+'</span><b>'+esc(data.sponsor)+'</b></div>';
+  var svc = (data.services && data.services.length && active) ? '<div class="svc"><h3>'+t('svc')+'</h3><div class="chips">' +
+    data.services.map(function(s){ return '<span class="chip" style="background:'+(SVC_COLORS[s]||'#0B2E6F')+'">'+esc(s)+'</span>'; }).join('') + '</div></div>' : '';
+  var ref = (active && data.referralCode) ? '<div class="ref"><h3>'+t('ref')+'</h3><div class="refbox"><b id="refc">'+esc(data.referralCode)+'</b><button id="copy">'+t('copy')+'</button></div></div>' : '';
+
+  var html = statusBox() +
+    '<div class="card"><div class="band"></div><div class="avatar" '+photo+'>'+initials+'</div>' +
+    '<div class="who"><h1>'+esc(data.name)+'</h1><span class="pill">'+t('title')+'</span>' +
+    '<div class="idbox"><small>'+t('id')+'</small><span>'+esc(data.agentId)+'</span></div></div>' +
+    (rows ? '<div class="rows">'+rows+'</div>' : '') + svc + ref + '</div>';
+
+  if (active) {
+    var code = encodeURIComponent(data.referralCode || '');
+    var wa = waNum(data.phone);
+    html += '<div class="actions">' +
+      (wa ? '<a class="btn primary" target="_blank" rel="noopener" href="https://wa.me/'+wa+'?text='+encodeURIComponent(t('wa_work',{n:data.name,id:data.agentId}))+'">'+t('work')+'</a>' : '') +
+      (data.referralCode ? '<button class="btn blue" id="joinBtn">'+t('join')+'</button>' +
+        '<div class="sheet" id="sheet"><p>'+t('join_p')+'</p>' +
+          '<a class="opt" data-go href="https://msouwout.com/driver-register.html?ref='+code+'"><span class="e">🚗</span><span><b>'+t('j_drv')+'</b><small>'+t('j_drv_s')+'</small></span></a>' +
+          '<a class="opt" data-go href="https://myplopplop.com/login.html?ref='+code+'#signup"><span class="e">🛒</span><span><b>'+t('j_mpp')+'</b><small>'+t('j_mpp_s')+'</small></span></a>' +
+        '</div>' : '') +
+      (wa ? '<div class="two"><a class="btn line" href="tel:+'+wa+'">'+t('call')+'</a><a class="btn wa" target="_blank" rel="noopener" href="https://wa.me/'+wa+'">'+t('wa')+'</a></div>' : '') +
+      '</div>';
+  }
+  html += safeBox() + reportLink();
+  app.innerHTML = html;
+
+  var c = document.getElementById('copy');
+  if (c) c.onclick = function(){
+    var v = data.referralCode;
+    (navigator.clipboard ? navigator.clipboard.writeText(v) : Promise.reject()).then(function(){ c.textContent = t('copied'); },
+      function(){ var r = document.createRange(); r.selectNodeContents(document.getElementById('refc')); var s = getSelection(); s.removeAllRanges(); s.addRange(r); });
+  };
+  var j = document.getElementById('joinBtn');
+  if (j) j.onclick = function(){ document.getElementById('sheet').classList.toggle('open'); };
+  /* Keep the code on this site too, so a sign-up started later on HaitiBiznis
+     itself still knows who sent the person. */
+  document.querySelectorAll('[data-go]').forEach(function(a){
+    a.addEventListener('click', function(){ try { localStorage.setItem('hb_ref_code', data.referralCode); } catch(e){} });
+  });
+}
+
+function safeBox(){
+  return '<div class="safe"><p><span>🛡️</span><span>'+t('safe1')+'</span></p><p><span>💰</span><span>'+t('safe2')+'</span></p></div>';
+}
+function reportLink(){
+  return '<a class="report" target="_blank" rel="noopener" href="https://wa.me/'+HB_WA+'?text='+encodeURIComponent(t('wa_report',{id:agentId||'—'}))+'">⚑ '+t('report')+'</a>';
+}
+function lookupHtml(){
+  return '<div class="lookup"><h1>'+t('look_t')+'</h1><p>'+t('look_p')+'</p>' +
+    '<input id="lk" inputmode="text" autocomplete="off" placeholder="LMA-2026-000000" value="'+esc(agentId)+'"><button class="btn blue" id="lkb">'+t('look_b')+'</button></div>';
+}
+function renderLookup(){ document.getElementById('app').innerHTML = lookupHtml() + safeBox(); wireLookup(); }
+function wireLookup(){
+  var go = function(){ var v = document.getElementById('lk').value.trim().toUpperCase().replace(/\s+/g,'');
+    if (!v) return; location.search = '?id=' + encodeURIComponent(v); };
+  document.getElementById('lkb').onclick = go;
+  document.getElementById('lk').onkeydown = function(e){ if (e.key === 'Enter') go(); };
+}
+
+function load(){
+  data = null; render();
+  document.getElementById('app').innerHTML = '<p class="muted">'+t('loading')+'</p>';
+  var ctl = ('AbortController' in window) ? new AbortController() : null;
+  var tm = setTimeout(function(){ if (ctl) ctl.abort(); }, 25000);   /* Render can take ~20s to wake */
+  fetch(API + '/api/agents/verify/' + encodeURIComponent(agentId), ctl ? { signal: ctl.signal, cache: 'no-store' } : { cache: 'no-store' })
+    .then(function(r){ if (r.status === 404) return { found:false }; if (!r.ok) throw new Error(r.status); return r.json(); })
+    .then(function(d){ clearTimeout(tm); data = d; render(); })
+    .catch(function(){ clearTimeout(tm); data = 'error'; render(); });
+}
+
+agentId = (new URLSearchParams(location.search).get('id') || '').trim().toUpperCase().replace(/\s+/g,'');
+applyStatic();
+if (agentId) load(); else render();
+</script>
+</body>
+</html>

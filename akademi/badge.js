@@ -35,7 +35,7 @@ var credState = { name:'', id:'', date:'', phone:'', kind:'card' };
 var credLabels = {
   cred_title: 'Ajan Sètifye LajanMaker',
   cred_id:    'NIMEWO AJAN',
-  cred_scan:  'Eskane pou konnen plis',
+  cred_scan:  'Eskane pou verifye ajan an',
   cred_foot:  'Sètifye pa LajanMaker Academy · Yon pati nan HaitiBiznis Technologies'
 };
 function t(k){ return credLabels[k] || k; }
@@ -43,6 +43,53 @@ function t(k){ return credLabels[k] || k; }
 /* The photo, when the agent added one. Both pages set this; the re-issue page
    leaves it null, which is the no-photo layout Jeffery approved. */
 var credPhoto = null;
+
+/* ─── 21 Oct 2026: the QR now opens the agent's OWN verification page ───
+   Jeffery: "I want the QR to open an official HaitiBiznis/LajanMaker
+   verification page, not just a generic link."
+   The code is drawn module by module (qrcode.js, the same library the POS
+   uses), so it is sharp at any print size and needs no image to load. It
+   encodes https://haitibiznis.com/ajan/?id=LMA-…, and that page asks the
+   server - which only says VERIFYE for an agent HaitiBiznis approved. */
+var CRED_VERIFY = 'https://haitibiznis.com/ajan/?id=';
+var CRED_API = 'https://haitibiznis-api.onrender.com';
+
+function drawVerifyQr(ctx, x, y, size){
+  if (!credState.id || typeof qrcode !== 'function') {
+    if (credAssets.qr) { ctx.drawImage(credAssets.qr, x, y, size, size); return true; }
+    return false;
+  }
+  var q;
+  try { q = qrcode(0, 'M'); q.addData(CRED_VERIFY + credState.id); q.make(); }
+  catch (e) { if (credAssets.qr) ctx.drawImage(credAssets.qr, x, y, size, size); return false; }
+  var n = q.getModuleCount(), quiet = 2, cell = size / (n + quiet * 2);
+  ctx.fillStyle = '#fff'; ctx.fillRect(x, y, size, size);
+  ctx.fillStyle = '#0B2E6F';
+  for (var r = 0; r < n; r++) for (var c = 0; c < n; c++) {
+    if (q.isDark(r, c)) ctx.fillRect(Math.floor(x + (c + quiet) * cell), Math.floor(y + (r + quiet) * cell),
+                                     Math.ceil(cell), Math.ceil(cell));
+  }
+  return true;
+}
+
+/* Record the certification on the server as PENDING. A person at HaitiBiznis
+   approves it in ajan-admin.html; until then the QR page says NOT ACTIVE.
+   `info`: { name, d (Date), id, phone, photo (data URL or null), source } */
+function credRegister(info, done){
+  var d = info.d;
+  var ymd = d.getFullYear() + '-' + ('0' + (d.getMonth() + 1)).slice(-2) + '-' + ('0' + d.getDate()).slice(-2);
+  var body = { name: info.name, date: ymd, agentId: info.id, source: info.source || 'exam',
+               phone: info.phone ? ('+509 ' + String(info.phone).trim()) : '' };
+  if (info.photo) body.photo = info.photo;
+  var tries = 0;
+  (function send(){
+    fetch(CRED_API + '/api/agents/register', { method: 'POST',
+      headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(body) })
+      .then(function(r){ return r.json().then(function(j){ if (!r.ok) throw new Error(j.error || r.status); return j; }); })
+      .then(function(j){ done && done(null, j); })
+      .catch(function(e){ if (++tries < 2) return setTimeout(send, 4000); done && done(e); });
+  })();
+}
 
 /* 16 Oct 2026: the photo preparation lives HERE too, moved unchanged from the
    exam page, so a photo added by Jennifer on the re-issue page is cropped
@@ -181,7 +228,7 @@ function drawCard(){
   ctx.font = '700 15px system-ui,-apple-system,"Segoe UI",Roboto,sans-serif';
   ctx.fillText(t('cred_since') + ' ' + credState.date, x, 348);
 
-  if (credAssets.qr) ctx.drawImage(credAssets.qr, 792, 388, 176, 176);
+  drawVerifyQr(ctx, 792, 388, 176);
   ctx.fillStyle = '#93A0B8';
   ctx.font = '600 13px system-ui,-apple-system,"Segoe UI",Roboto,sans-serif';
   ctx.textAlign = 'center';
@@ -242,7 +289,7 @@ function drawBadge(){
     ctx.fillText('\u260E  +509 ' + credState.phone, W / 2, L.phone);
   }
 
-  if (credAssets.qr) ctx.drawImage(credAssets.qr, W / 2 - L.qrSize / 2, L.qr, L.qrSize, L.qrSize);
+  drawVerifyQr(ctx, W / 2 - L.qrSize / 2, L.qr, L.qrSize);
   ctx.fillStyle = '#93A0B8';
   ctx.font = '600 15px system-ui,-apple-system,"Segoe UI",Roboto,sans-serif';
   ctx.fillText(t('cred_scan'), W / 2, L.scan);

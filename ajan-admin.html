@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="ht">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="robots" content="noindex, nofollow">
+<meta name="color-scheme" content="light">
+<title>Ajan Sètifye — Konsòl</title>
+<link rel="icon" type="image/png" sizes="32x32" href="assets/favicon-32.png">
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&family=JetBrains+Mono:wght@600&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+:root{color-scheme:light;--navy:#0B2E6F;--red:#D21034;--green:#16803A;--gold:#E0A400;--ink:#152341;--muted:#5A6B8A;--line:#E2E8F0;--off:#F3F6FB}
+body{font-family:'Plus Jakarta Sans',system-ui,sans-serif;background:var(--off);color:var(--ink);min-height:100vh}
+button,input,select{font-family:inherit}
+.flag{height:4px;background:linear-gradient(90deg,var(--navy) 50%,var(--red) 50%)}
+.top{background:#fff;border-bottom:1px solid var(--line);padding:12px 16px}
+.top b{font-size:1.05rem}
+.top small{color:var(--muted);display:block;font-size:.8rem}
+.w{max-width:760px;margin:0 auto;padding:16px}
+.box{background:#fff;border:1px solid var(--line);border-radius:14px;padding:16px;margin-bottom:14px}
+label{display:block;font-size:.8rem;font-weight:700;color:var(--muted);margin:10px 0 4px}
+input,select{width:100%;min-height:46px;border:1.5px solid var(--line);border-radius:10px;padding:10px 12px;font-size:.95rem;background:#fff}
+.mono{font-family:'JetBrains Mono',monospace;text-transform:uppercase}
+.btn{min-height:44px;border:0;border-radius:10px;padding:10px 14px;font-weight:800;font-size:.9rem;cursor:pointer;background:var(--navy);color:#fff}
+.btn.g{background:var(--green)} .btn.r{background:var(--red)} .btn.o{background:#fff;color:var(--navy);border:1.5px solid var(--navy)} .btn.gr{background:#EEF2F7;color:var(--ink)}
+.full{width:100%;margin-top:12px}
+.tabs{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:12px}
+.tabs button{border:1.5px solid var(--line);background:#fff;border-radius:99px;padding:8px 14px;font-weight:700;font-size:.85rem;cursor:pointer;color:var(--muted)}
+.tabs button.on{background:var(--navy);border-color:var(--navy);color:#fff}
+.ag{background:#fff;border:1px solid var(--line);border-radius:14px;padding:14px;margin-bottom:10px}
+.ag .h{display:flex;gap:12px;align-items:center}
+.ph{width:64px;height:64px;border-radius:50%;background:#E8EDF5 center/cover no-repeat;flex-shrink:0;display:grid;place-items:center;font-weight:800;color:var(--muted)}
+.ag .n{font-weight:800;font-size:1.02rem}
+.ag .id{font-family:'JetBrains Mono',monospace;color:var(--navy);font-size:.9rem}
+.st{display:inline-block;font-size:.7rem;font-weight:800;letter-spacing:.06em;padding:3px 9px;border-radius:99px;margin-left:6px;vertical-align:middle}
+.st.pending{background:#FFF3D6;color:#8A5A00}.st.active{background:#E2F4E8;color:#11632C}.st.expired,.st.suspended{background:#FDE7EA;color:#A30F27}.st.revoked{background:#EEE;color:#555}
+.meta{font-size:.84rem;color:var(--muted);margin-top:8px;line-height:1.6}
+.acts{display:flex;gap:6px;flex-wrap:wrap;margin-top:10px}
+.acts .btn{min-height:38px;padding:8px 12px;font-size:.82rem}
+.edit{display:none;border-top:1px solid var(--line);margin-top:12px;padding-top:4px}
+.edit.open{display:block}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:0 10px}
+.svcs{display:flex;flex-wrap:wrap;gap:6px 14px;font-size:.88rem;margin-top:4px}
+.svcs label{display:flex;gap:6px;align-items:center;margin:0;color:var(--ink);font-weight:600}
+.svcs input{width:18px;height:18px;min-height:0}
+.msg{font-size:.86rem;margin-top:8px;font-weight:700}
+.msg.err{color:var(--red)} .msg.ok{color:var(--green)}
+.counts{font-size:.85rem;color:var(--muted);margin-bottom:8px}
+.hide{display:none}
+@media(max-width:520px){.grid2{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<div class="flag"></div>
+<div class="top"><div class="w" style="padding:0"><b>Ajan Sètifye LajanMaker — Konsòl</b><small>Apwouve, sispann, oswa anile badj ajan yo. Sa w fè isit la parèt touswit sou paj verifikasyon an.</small></div></div>
+
+<div class="w">
+  <div class="box" id="gate">
+    <label for="pin">Kòd konsòl la</label>
+    <input id="pin" class="mono" autocomplete="off" autocapitalize="characters" spellcheck="false" placeholder="CONSOLE CODE">
+    <button class="btn full" id="open">Louvri</button>
+    <div class="msg err" id="gateMsg"></div>
+  </div>
+
+  <div id="main" class="hide">
+    <div class="tabs" id="tabs">
+      <button data-s="pending" class="on">An atant</button>
+      <button data-s="active">Aktif</button>
+      <button data-s="suspended">Sispann</button>
+      <button data-s="revoked">Anile</button>
+      <button data-s="">Tout</button>
+    </div>
+    <input id="q" placeholder="Chèche: non, nimewo LMA, telefòn">
+    <div class="counts" id="counts" style="margin-top:8px"></div>
+    <div id="list"></div>
+
+    <div class="box" style="margin-top:18px">
+      <b>Ajoute yon ajan alamen</b>
+      <div class="meta" style="margin-top:4px">Pou yon moun ki te pase egzamen an avan sistèm sa a. Non an ak dat egzamen an bay menm nimewo LMA ki sou sètifika li.</div>
+      <div class="grid2">
+        <div><label>Non konplè (menm jan ak sètifika a)</label><input id="nName"></div>
+        <div><label>Dat egzamen an</label><input id="nDate" type="date"></div>
+      </div>
+      <label>Telefòn</label><input id="nPhone" inputmode="tel" placeholder="+509 ...">
+      <button class="btn full" id="nAdd">Ajoute (an atant)</button>
+      <div class="msg" id="nMsg"></div>
+    </div>
+  </div>
+</div>
+
+<script>
+var API = 'https://haitibiznis-api.onrender.com';
+var PUBLIC = 'https://haitibiznis.com/ajan/?id=';
+var pin = '', tab = 'pending', agents = [], services = [];
+var STATE_LABEL = { pending:'AN ATANT', active:'AKTIF', expired:'EKSPIRE', suspended:'SISPANN', revoked:'ANILE' };
+
+function $(id){ return document.getElementById(id); }
+function esc(s){ return String(s==null?'':s).replace(/[&<>"']/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c];}); }
+function day(iso){ if (!iso) return ''; return String(iso).slice(0,10); }
+function req(method, path, body){
+  var o = { method: method, headers: { 'x-admin-pin': pin } };
+  if (body !== undefined) { o.headers['Content-Type'] = 'application/json'; o.body = JSON.stringify(body); }
+  return fetch(API + path, o).then(function(r){
+    if (r.status === 403) { var e = new Error('Kòd konsòl la pa bon.'); e.pin = true; throw e; }
+    return r.json().then(function(d){ if (!r.ok) throw new Error(d.error || ('Erè ' + r.status)); return d; });
+  });
+}
+
+$('open').onclick = function(){
+  pin = $('pin').value.trim(); if (!pin) return;
+  $('open').disabled = true; $('gateMsg').textContent = 'Ap louvri… (premye fwa a ka pran 20 segonn)';
+  load().then(function(){ $('gate').classList.add('hide'); $('main').classList.remove('hide'); })
+    .catch(function(e){ $('gateMsg').textContent = e.message; })
+    .then(function(){ $('open').disabled = false; });
+};
+$('pin').onkeydown = function(e){ if (e.key === 'Enter') $('open').click(); };
+document.querySelectorAll('#tabs button').forEach(function(b){
+  b.onclick = function(){ tab = b.getAttribute('data-s'); document.querySelectorAll('#tabs button').forEach(function(x){ x.classList.toggle('on', x === b); }); load(); };
+});
+var qt; $('q').oninput = function(){ clearTimeout(qt); qt = setTimeout(load, 300); };
+
+function load(){
+  var qs = '?status=' + encodeURIComponent(tab) + '&q=' + encodeURIComponent($('q').value.trim());
+  return req('GET', '/api/agents/admin/list' + qs).then(function(d){
+    agents = d.agents || []; services = d.services || [];
+    var c = d.counts || {};
+    $('counts').textContent = 'An atant: ' + (c.pending||0) + ' · Aktif: ' + (c.active||0) + ' · Sispann: ' + (c.suspended||0) + ' · Anile: ' + (c.revoked||0);
+    draw();
+  });
+}
+
+function draw(){
+  $('list').innerHTML = agents.map(function(a, i){
+    var svc = services.map(function(s){ return '<label><input type="checkbox" data-svc="'+esc(s)+'" '+(a.services.indexOf(s)>=0?'checked':'')+'> '+esc(s)+'</label>'; }).join('');
+    var acts = '';
+    if (a.status === 'pending') acts += '<button class="btn g" data-act="approve">✅ Apwouve</button>';
+    if (a.status === 'active') acts += '<button class="btn r" data-act="suspend">⏸ Sispann</button>';
+    if (a.status === 'suspended' || a.status === 'revoked') acts += '<button class="btn g" data-act="approve">↩︎ Reaktive</button>';
+    if (a.status !== 'revoked') acts += '<button class="btn gr" data-act="revoke">⛔ Anile</button>';
+    acts += '<button class="btn o" data-act="edit">✏️ Modifye</button><a class="btn o" style="text-decoration:none;display:inline-flex;align-items:center" target="_blank" rel="noopener" href="'+PUBLIC+encodeURIComponent(a.agentId)+'">👁 Paj piblik</a>';
+    return '<div class="ag" data-i="'+i+'"><div class="h"><div class="ph" id="ph'+i+'">'+(a.photo?'':esc((a.name||'?').charAt(0)))+'</div>' +
+      '<div><div class="n">'+esc(a.name)+'<span class="st '+a.state+'">'+STATE_LABEL[a.state]+'</span></div><div class="id">'+esc(a.agentId)+'</div></div></div>' +
+      '<div class="meta">☎ '+esc(a.phone||'—')+' · Sètifye: '+day(a.certifiedAt)+(a.expiresAt?' · Valab jiska: '+day(a.expiresAt):'')+
+        '<br>Zòn: '+esc(a.city||'—')+' · Sponsò: '+esc(a.sponsor||'—')+' · Kòd referans: '+esc(a.referralCode||'—')+
+        '<br>Soti nan: '+({exam:'egzamen',reissue:'re-emisyon',admin:'konsòl'}[a.source]||a.source)+(a.submissions>1?' · soumèt '+a.submissions+' fwa':'')+(a.statusNote?' · Nòt: '+esc(a.statusNote):'')+'</div>' +
+      '<div class="acts">'+acts+'</div>' +
+      '<div class="edit" id="ed'+i+'"><div class="grid2">' +
+        '<div><label>Non</label><input data-f="name" value="'+esc(a.name)+'"></div>' +
+        '<div><label>Telefòn (pou kontak)</label><input data-f="phone" value="'+esc(a.phone)+'"></div>' +
+        '<div><label>Zòn travay / vil</label><input data-f="city" value="'+esc(a.city)+'"></div>' +
+        '<div><label>Sponsò / rekritè</label><input data-f="sponsor" value="'+esc(a.sponsor)+'"></div>' +
+        '<div><label>Kòd referans (kòd Ajan)</label><input data-f="referralCode" class="mono" value="'+esc(a.referralCode)+'"></div>' +
+        '<div><label>Valab jiska</label><input data-f="expiresAt" type="date" value="'+day(a.expiresAt)+'"></div>' +
+      '</div><label>Sèvis li ka reprezante</label><div class="svcs">'+svc+'</div>' +
+      '<label>Foto</label><input type="file" accept="image/*" data-photo>' +
+      '<button class="btn full" data-act="save">Anrejistre</button></div>' +
+      '<div class="msg" id="m'+i+'"></div></div>';
+  }).join('') || '<div class="box" style="text-align:center;color:var(--muted)">Pa gen ajan nan lis sa a.</div>';
+
+  agents.forEach(function(a, i){
+    if (!a.photo) return;
+    fetch(API + '/api/agents/admin/' + encodeURIComponent(a.agentId) + '/photo', { headers: { 'x-admin-pin': pin } })
+      .then(function(r){ return r.ok ? r.blob() : null; })
+      .then(function(b){ if (b) $('ph'+i).style.backgroundImage = 'url(' + URL.createObjectURL(b) + ')'; }).catch(function(){});
+  });
+  document.querySelectorAll('.ag [data-act]').forEach(function(btn){
+    btn.onclick = function(){ act(+btn.closest('.ag').getAttribute('data-i'), btn.getAttribute('data-act'), btn); };
+  });
+}
+
+function say(i, text, ok){ var m = $('m'+i); m.className = 'msg ' + (ok ? 'ok' : 'err'); m.textContent = text; }
+
+function fields(i){
+  var ed = $('ed'+i), body = {};
+  ed.querySelectorAll('[data-f]').forEach(function(x){ body[x.getAttribute('data-f')] = x.value; });
+  body.referralCode = (body.referralCode||'').trim().toUpperCase();
+  body.services = Array.prototype.map.call(ed.querySelectorAll('[data-svc]:checked'), function(x){ return x.getAttribute('data-svc'); });
+  return body;
+}
+
+/* A referral code that does not exist would send every sign-up to nobody. */
+function checkCode(code){
+  if (!code) return Promise.resolve(true);
+  return fetch('https://myplopplop-api.onrender.com/api/referrals/validate/' + encodeURIComponent(code))
+    .then(function(r){ return r.json().then(function(d){ return r.ok && d.success && d.kind === 'koutye'; }); })
+    .catch(function(){ return true; });   /* a network hiccup must not block an approval */
+}
+
+function photoData(file){
+  return new Promise(function(ok, fail){
+    var fr = new FileReader(); fr.onerror = fail;
+    fr.onload = function(){ var im = new Image(); im.onerror = fail; im.onload = function(){
+      var S = 460, c = document.createElement('canvas'); c.width = c.height = S;
+      var sc = Math.max(S / im.naturalWidth, S / im.naturalHeight), w = im.naturalWidth * sc, h = im.naturalHeight * sc;
+      c.getContext('2d').drawImage(im, (S - w) / 2, (S - h) / 2, w, h); ok(c.toDataURL('image/jpeg', 0.86)); }; im.src = fr.result; };
+    fr.readAsDataURL(file);
+  });
+}
+
+function act(i, what, btn){
+  var a = agents[i];
+  if (what === 'edit') { $('ed'+i).classList.toggle('open'); return; }
+  var body;
+  if (what === 'approve') {
+    if (!$('ed'+i).classList.contains('open') && !a.referralCode) {
+      $('ed'+i).classList.add('open'); say(i, 'Ranpli zòn, sponsò ak kòd referans li, epi peze "Apwouve" ankò.', false);
+      btn.textContent = '✅ Apwouve kounye a'; btn.setAttribute('data-act', 'approve2'); return;
+    }
+    what = 'approve2';
+  }
+  if (what === 'approve2') body = Object.assign(fields(i), { status: 'active' });
+  if (what === 'save') body = fields(i);
+  if (what === 'suspend') { var why = prompt('Poukisa ou sispann ajan sa a? (nòt entèn)'); if (why === null) return; body = { status: 'suspended', statusNote: why }; }
+  if (what === 'revoke') { if (!confirm('Anile badj ' + a.agentId + ' nèt? Paj la ap di AJAN SA A PA AKTIF.')) return; body = { status: 'revoked' }; }
+  btn.disabled = true;
+  var file = $('ed'+i).querySelector('[data-photo]').files[0];
+  (body.referralCode !== undefined ? checkCode(body.referralCode) : Promise.resolve(true)).then(function(good){
+    if (!good) throw new Error('Kòd referans "' + body.referralCode + '" pa egziste oswa pa aktif nan sistèm Ajan an.');
+    return req('PATCH', '/api/agents/admin/' + encodeURIComponent(a.agentId), body);
+  }).then(function(){
+    if (file) return photoData(file).then(function(p){ return req('POST', '/api/agents/admin/' + encodeURIComponent(a.agentId) + '/photo', { photo: p }); });
+  }).then(function(){ return load(); })
+    .catch(function(e){ say(i, e.message, false); btn.disabled = false; });
+}
+
+$('nAdd').onclick = function(){
+  var b = { name: $('nName').value, date: $('nDate').value, phone: $('nPhone').value };
+  if (!b.name.trim() || !b.date) { $('nMsg').className = 'msg err'; $('nMsg').textContent = 'Non ak dat obligatwa.'; return; }
+  req('POST', '/api/agents/admin', b).then(function(d){
+    $('nMsg').className = 'msg ok'; $('nMsg').textContent = 'Ajoute: ' + d.agent.agentId + ' (an atant).';
+    $('nName').value = $('nPhone').value = ''; tab = 'pending'; return load();
+  }).catch(function(e){ $('nMsg').className = 'msg err'; $('nMsg').textContent = e.message === 'exists' ? 'Moun sa a deja nan lis la.' : e.message; });
+};
+</script>
+</body>
+</html>

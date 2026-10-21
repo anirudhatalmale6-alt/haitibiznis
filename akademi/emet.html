@@ -72,7 +72,7 @@ input:focus{outline:none;border-color:var(--navy)}
         <button class="btn btn-ghost" type="button" id="phb" style="margin-top:0;flex:1">&#128247; Mete foto a</button>
         <button class="btn btn-ghost" type="button" id="phx" style="display:none;margin-top:0;width:auto;padding:16px 18px">&#10005;</button>
       </div>
-      <p class="hint" id="phh" style="text-align:left">Foto a parèt sou badj la sèlman. Li rete sou telefòn sa a.</p>
+      <p class="hint" id="phh" style="text-align:left">Foto a parèt sou badj la, epi li ale nan rejis ajan yo pou paj verifikasyon an (apre HaitiBiznis apwouve ajan an).</p>
       <button class="btn btn-main" id="mk">Fè sètifika a</button>
       <button class="btn btn-main" id="mkb" style="margin-top:8px;background:#0B2E6F">Fè badj la</button>
       <button class="btn btn-main" id="mkc" style="margin-top:8px;background:#E0A400">Fè kat la</button>
@@ -94,11 +94,13 @@ input:focus{outline:none;border-color:var(--navy)}
       Li jis desine sètifika a ak non ou tape a. Li pa verifye anyen epi li pa konnen
       ki moun ki pase egzamen an — se ou menm ki reskonsab pou bay li sèlman bay moun
       ki reyisi vre. Nimewo a menm jan ak sa elèv la ta jwenn nan egzamen an menm jou a.
+      Chak ajan ou fè isit la anrejistre <b>an atant</b>: se HaitiBiznis ki apwouve l nan konsòl la anvan QR badj la di VERIFYE.
     </div>
   </div>
 </div>
 
-<script src="badge.js?v=2"></script>
+<script src="qrcode.js"></script>
+<script src="badge.js?v=3"></script>
 <script>
 /* Same code the exam uses. A workshop handout, not a vault. */
 var KOD = 'LMA2026';
@@ -189,6 +191,24 @@ function makeCredential(kind){
     document.getElementById('num').textContent = f.cert;
     document.getElementById('res').classList.remove('hidden');
     document.getElementById('res').scrollIntoView({behavior:'smooth'});
+  });
+  registerReissue(f);
+}
+
+/* 21 Oct 2026: every re-issue is recorded on the server as PENDING. The badge
+   QR opens haitibiznis.com/ajan/?id=…, which says VERIFYE only once someone at
+   HaitiBiznis approves the agent in ajan-admin.html. */
+function registerReissue(f){
+  var st = document.getElementById('regst');
+  if (!st) { st = document.createElement('p'); st.id = 'regst'; st.className = 'hint';
+             var num = document.getElementById('num'); num.parentNode.insertBefore(st, num.nextSibling); }
+  st.textContent = 'Ap anrejistre ajan an…';
+  credRegister({ name: f.name, d: f.date, id: f.cert, phone: f.phone,
+                 photo: emetPhoto ? emetPhoto.src : null, source: 'reissue' }, function(err, j){
+    if (err) { st.textContent = 'Pa t ka anrejistre ajan an sou sèvè a (koneksyon). Eseye ankò.'; return; }
+    var lbl = { pending: 'AN ATANT — HaitiBiznis dwe apwouve l nan konsòl la (ajan-admin)',
+                active: 'AKTIF — deja verifye', expired: 'EKSPIRE', suspended: 'SISPANN', revoked: 'ANILE' }[j.state] || j.state;
+    st.textContent = 'Rejis: ' + lbl + ' · haitibiznis.com/ajan/?id=' + f.cert;
   });
 }
 /* The agent's photo for the badge. Prepared by badge.js's photoFromFile - the
