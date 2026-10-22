@@ -75,15 +75,17 @@ input,select{width:100%;min-height:46px;border:1.5px solid var(--line);border-ra
     <div class="counts" id="counts" style="margin-top:8px"></div>
     <div id="list"></div>
 
-    <div class="box" style="margin-top:18px">
-      <b>Ajoute yon ajan alamen</b>
-      <div class="meta" style="margin-top:4px">Pou yon moun ki te pase egzamen an avan sistèm sa a. Non an ak dat egzamen an bay menm nimewo LMA ki sou sètifika li.</div>
+    <div class="box" style="margin-top:18px" id="addBox">
+      <b>Anrejistre yon badj ki deja enprime</b>
+      <div class="meta" style="margin-top:4px">Pou ajan ki gen badj yo deja. Tape non an ak nimewo a <b>egzakteman jan yo ekri sou badj la</b>. Sistèm nan verifye nimewo a epi li jwenn dat la poukont li. Pa gen okenn nouvo nimewo. Ajan an rete <b>an atant</b> jiskaske w apwouve l.</div>
       <div class="grid2">
-        <div><label>Non konplè (menm jan ak sètifika a)</label><input id="nName"></div>
-        <div><label>Dat egzamen an</label><input id="nDate" type="date"></div>
+        <div><label>Non konplè (jan li ekri sou badj la)</label><input id="nName" placeholder="Alix Jacques"></div>
+        <div><label>Nimewo ki sou badj la</label><input id="nId" class="mono" placeholder="LMA-2026-813912"></div>
+        <div><label>Telefòn (pou kontak)</label><input id="nPhone" inputmode="tel" placeholder="+509 ..."></div>
+        <div><label>Dat sou badj la <span style="font-weight:400">(si w konnen l)</span></label><input id="nDate" type="date"></div>
       </div>
-      <label>Telefòn</label><input id="nPhone" inputmode="tel" placeholder="+509 ...">
-      <button class="btn full" id="nAdd">Ajoute (an atant)</button>
+      <label class="hide" id="forceRow" style="display:none;gap:8px;align-items:flex-start;font-weight:600;color:var(--ink)"><input type="checkbox" id="nForce" style="width:20px;height:20px;min-height:0;margin-top:2px"> <span>Mwen gade badj la: kenbe nimewo a jan li enprime a (mete dat ki sou badj la anlè a).</span></label>
+      <button class="btn full" id="nAdd">Anrejistre (an atant)</button>
       <div class="msg" id="nMsg"></div>
     </div>
   </div>
@@ -142,14 +144,14 @@ function draw(){
     return '<div class="ag" data-i="'+i+'"><div class="h"><div class="ph" id="ph'+i+'">'+(a.photo?'':esc((a.name||'?').charAt(0)))+'</div>' +
       '<div><div class="n">'+esc(a.name)+'<span class="st '+a.state+'">'+STATE_LABEL[a.state]+'</span></div><div class="id">'+esc(a.agentId)+'</div></div></div>' +
       '<div class="meta">☎ '+esc(a.phone||'—')+' · Sètifye: '+day(a.certifiedAt)+(a.expiresAt?' · Valab jiska: '+day(a.expiresAt):'')+
-        '<br>Zòn: '+esc(a.city||'—')+' · Sponsò: '+esc(a.sponsor||'—')+' · Kòd referans: '+esc(a.referralCode||'—')+
-        '<br>Soti nan: '+({exam:'egzamen',reissue:'re-emisyon',admin:'konsòl'}[a.source]||a.source)+(a.submissions>1?' · soumèt '+a.submissions+' fwa':'')+(a.statusNote?' · Nòt: '+esc(a.statusNote):'')+'</div>' +
+        '<br>Zòn: '+esc(a.city||'—')+' · Òganizasyon/Sponsò: '+esc(a.sponsor||'—')+' · Kòd referans: '+esc(a.referralCode||'—')+
+        '<br>Soti nan: '+({exam:'egzamen',reissue:'re-emisyon',admin:'konsòl'}[a.source]||a.source)+(a.submissions>1?' · soumèt '+a.submissions+' fwa':'')+(a.statusNote?' · Nòt: '+esc(a.statusNote):'')+(a.idMatched===false?'<br><b style="color:#A30F27">⚠ Nimewo kenbe jan li enprime a (non + dat pa t ka repwodui l)</b>':'')+'</div>' +
       '<div class="acts">'+acts+'</div>' +
       '<div class="edit" id="ed'+i+'"><div class="grid2">' +
         '<div><label>Non</label><input data-f="name" value="'+esc(a.name)+'"></div>' +
         '<div><label>Telefòn (pou kontak)</label><input data-f="phone" value="'+esc(a.phone)+'"></div>' +
         '<div><label>Zòn travay / vil</label><input data-f="city" value="'+esc(a.city)+'"></div>' +
-        '<div><label>Sponsò / rekritè</label><input data-f="sponsor" value="'+esc(a.sponsor)+'"></div>' +
+        '<div><label>Òganizasyon / sponsò</label><input data-f="sponsor" value="'+esc(a.sponsor)+'"></div>' +
         '<div><label>Kòd referans (kòd Ajan)</label><input data-f="referralCode" class="mono" value="'+esc(a.referralCode)+'"></div>' +
         '<div><label>Valab jiska</label><input data-f="expiresAt" type="date" value="'+day(a.expiresAt)+'"></div>' +
       '</div><label>Sèvis li ka reprezante</label><div class="svcs">'+svc+'</div>' +
@@ -225,12 +227,28 @@ function act(i, what, btn){
 }
 
 $('nAdd').onclick = function(){
-  var b = { name: $('nName').value, date: $('nDate').value, phone: $('nPhone').value };
-  if (!b.name.trim() || !b.date) { $('nMsg').className = 'msg err'; $('nMsg').textContent = 'Non ak dat obligatwa.'; return; }
+  var b = { name: $('nName').value, printedId: $('nId').value.trim().toUpperCase().replace(/\s+/g,''), date: $('nDate').value, phone: $('nPhone').value };
+  if ($('nForce').checked) b.force = true;
+  var m = $('nMsg');
+  function bad(t){ m.className = 'msg err'; m.textContent = t; }
+  if (!b.name.trim()) return bad('Ekri non an.');
+  if (!b.printedId && !b.date) return bad('Ekri nimewo ki sou badj la.');
+  if (b.printedId && !/^LMA-\d{4}-\d{6}$/.test(b.printedId)) return bad('Nimewo a dwe sanble LMA-2026-813912.');
+  if (b.force && !b.date) return bad('Mete dat ki sou badj la pou kenbe nimewo a.');
+  if (!b.printedId) delete b.printedId;
+  $('nAdd').disabled = true;
   req('POST', '/api/agents/admin', b).then(function(d){
-    $('nMsg').className = 'msg ok'; $('nMsg').textContent = 'Ajoute: ' + d.agent.agentId + ' (an atant).';
-    $('nName').value = $('nPhone').value = ''; tab = 'pending'; return load();
-  }).catch(function(e){ $('nMsg').className = 'msg err'; $('nMsg').textContent = e.message === 'exists' ? 'Moun sa a deja nan lis la.' : e.message; });
+    m.className = 'msg ok';
+    m.textContent = '✓ ' + d.agent.name + ' — ' + d.agent.agentId + ' anrejistre (dat: ' + d.dateUsed + '). Li AN ATANT: apwouve l anba a.';
+    $('nName').value = $('nId').value = $('nPhone').value = $('nDate').value = ''; $('nForce').checked = false; $('forceRow').style.display = 'none';
+    tab = 'pending'; document.querySelectorAll('#tabs button').forEach(function(x){ x.classList.toggle('on', x.getAttribute('data-s') === 'pending'); });
+    return load();
+  }).catch(function(e){
+    if (e.message === 'exists') bad('Ajan sa a deja nan lis la.');
+    else if (e.message === 'no_match') { bad('Non sa a pa bay nimewo sa a sou okenn dat. Verifye òtograf non an jan li ekri sou badj la. Si badj la gen yon erè, tcheke kare a anba a epi mete dat ki sou badj la.'); $('forceRow').style.display = 'flex'; }
+    else if (e.message === 'bad_id') bad('Nimewo a pa bon.');
+    else bad(e.message);
+  }).then(function(){ $('nAdd').disabled = false; });
 };
 </script>
 </body>
