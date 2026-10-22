@@ -82,7 +82,7 @@ input,select{width:100%;min-height:46px;border:1.5px solid var(--line);border-ra
         <div><label>Non konplè (jan li ekri sou badj la)</label><input id="nName" placeholder="Alix Jacques"></div>
         <div><label>Nimewo ki sou badj la</label><input id="nId" class="mono" placeholder="LMA-2026-813912"></div>
         <div><label>Telefòn (pou kontak)</label><input id="nPhone" inputmode="tel" placeholder="+509 ..."></div>
-        <div><label>Dat sou badj la <span style="font-weight:400">(si w konnen l)</span></label><input id="nDate" type="date"></div>
+        <div><label>Dat sou badj la <span style="font-weight:400">— kite l VID: sistèm nan jwenn li</span></label><input id="nDate" type="date"></div>
       </div>
       <label class="hide" id="forceRow" style="display:none;gap:8px;align-items:flex-start;font-weight:600;color:var(--ink)"><input type="checkbox" id="nForce" style="width:20px;height:20px;min-height:0;margin-top:2px"> <span>Mwen gade badj la: kenbe nimewo a jan li enprime a (mete dat ki sou badj la anlè a).</span></label>
       <button class="btn full" id="nAdd">Anrejistre (an atant)</button>
@@ -315,7 +315,7 @@ function act(i, what, btn){
 }
 
 $('nAdd').onclick = function(){
-  var b = { name: $('nName').value, printedId: $('nId').value.trim().toUpperCase().replace(/\s+/g,''), date: $('nDate').value, phone: $('nPhone').value };
+  var b = { name: $('nName').value.trim().replace(/\s+/g, ' '), printedId: $('nId').value.trim().toUpperCase().replace(/\s+/g,''), date: $('nDate').value, phone: $('nPhone').value };
   if ($('nForce').checked) b.force = true;
   var m = $('nMsg');
   function bad(t){ m.className = 'msg err'; m.textContent = t; }
