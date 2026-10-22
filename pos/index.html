@@ -3629,7 +3629,7 @@ function saveReg(kind){const sc=REG_FORMS[kind];const name=document.getElementBy
      survives the agent closing the app or losing signal a second later. */
   if(kind==='merchant'){rec.mpp={status:'pending',pin:mppPin()};
     const os=load('hb_orders',[]),me=os.find(x=>x.id===rec.id);if(me){me.mpp=rec.mpp;save('hb_orders',os);}
-    const q=mppQueue();q.push({id:rec.id,name:rec.name,phone:rec.phone,fields:data,pin:rec.mpp.pin,tries:0});
+    const q=mppQueue();q.push({id:rec.id,name:rec.name,phone:rec.phone,fields:data,pin:rec.mpp.pin,tries:0,agentPhone:agentPhone()});
     save('hb_mpp_queue',q);mppWatch=rec.id;}
   if(sc.referral){const q=affQueue();q.push({id:rec.id,name:rec.name,phone:rec.phone,tries:0});
     save('hb_aff_queue',q);affWatch=rec.id;showReferral(rec);affFlush();}else{showReceipt(rec);}
@@ -3678,7 +3678,10 @@ async function mppSyncMerchant(job){
   if(!reg.ok)return reg.status===400?{status:'exists'}:Promise.reject(new Error('register '+reg.status));
   const st=await mppPost('/api/stores',{name:f.biz||job.name,category:MPP_CAT[f.category]||'other',
     phone:job.phone,description:f.desc||'',address:{street:f.addr||''},
-    deliveryOptions:{delivery:true,selfPickup:true},status:'active'},reg.body.token);
+    deliveryOptions:{delivery:true,selfPickup:true},status:'active',
+    /* 22 Oct 2026: credit the Ajan who registered this shop (his pilot results
+       counted nothing from the POS). The server finds his code by phone. */
+    agentPhone:job.agentPhone||agentPhone()},reg.body.token);
   if(!st.ok)throw new Error('store '+st.status);
   const d=st.body.data||{};
   return {status:'live',slug:d.slug||'',storeId:d._id||'',pin:job.pin};
