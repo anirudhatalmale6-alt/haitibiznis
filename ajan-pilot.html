@@ -1,0 +1,368 @@
+<!DOCTYPE html>
+<html lang="ht">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="robots" content="noindex, nofollow">
+<meta name="color-scheme" content="light">
+<title>Ajan Pilòt — Konsòl</title>
+<link rel="icon" type="image/png" sizes="32x32" href="assets/favicon-32.png">
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&family=JetBrains+Mono:wght@600&display=swap" rel="stylesheet">
+<!-- ════════════════════════════════════════════════════════════════════════
+     22 Oct 2026 — Jeffery: 30 days FREE LajanMaker for the 15 certified Ajan,
+     managed by Jennifer herself, as a PERFORMANCE EVALUATION, not just free
+     access. The free days are the phone's own trial date on haitibiznis-api
+     (routes/agents.js /admin/pilot/*); the results come from the referral
+     engine on myplopplop-api (/api/admin-pin/ajan-performance), counted from
+     each Ajan's activation date.
+     ⛔ Only the chosen Ajan: everybody else keeps the normal seven days.
+     ⛔ A paid plan is never touched and nothing here can charge anyone.
+     ════════════════════════════════════════════════════════════════════════ -->
+<style>
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+:root{color-scheme:light;--navy:#0B2E6F;--red:#D21034;--green:#16803A;--gold:#E0A400;--ink:#152341;--muted:#5A6B8A;--line:#E2E8F0;--off:#F3F6FB}
+body{font-family:'Plus Jakarta Sans',system-ui,sans-serif;background:var(--off);color:var(--ink);min-height:100vh}
+button,input,select{font-family:inherit}
+.flag{height:4px;background:linear-gradient(90deg,var(--navy) 50%,var(--red) 50%)}
+.top{background:#fff;border-bottom:1px solid var(--line);padding:12px 16px}
+.top b{font-size:1.05rem}
+.top small{color:var(--muted);display:block;font-size:.8rem}
+.top a{color:var(--navy);font-weight:700;font-size:.8rem}
+.w{max-width:1100px;margin:0 auto;padding:16px}
+#found .ag{max-width:760px}
+.box{background:#fff;border:1px solid var(--line);border-radius:14px;padding:16px;margin-bottom:14px}
+.box h2{font-size:1rem;font-weight:800;margin-bottom:4px}
+label{display:block;font-size:.8rem;font-weight:700;color:var(--muted);margin:10px 0 4px}
+input,select{width:100%;min-height:46px;border:1.5px solid var(--line);border-radius:10px;padding:10px 12px;font-size:.95rem;background:#fff;color:var(--ink)}
+.mono{font-family:'JetBrains Mono',monospace}
+.btn{min-height:44px;border:0;border-radius:10px;padding:10px 14px;font-weight:800;font-size:.9rem;cursor:pointer;background:var(--navy);color:#fff}
+.btn:disabled{opacity:.45;cursor:not-allowed}
+.btn.g{background:var(--green)} .btn.r{background:var(--red)} .btn.o{background:#fff;color:var(--navy);border:1.5px solid var(--navy)} .btn.gr{background:#EEF2F7;color:var(--ink)}
+.full{width:100%;margin-top:12px}
+.row{display:flex;gap:8px;align-items:stretch}
+.row input{flex:1;min-width:0}
+.meta{font-size:.84rem;color:var(--muted);margin-top:6px;line-height:1.6}
+.msg{font-size:.86rem;margin-top:8px;font-weight:700}
+.msg.err{color:var(--red)} .msg.ok{color:var(--green)}
+.hide{display:none}
+.ag{border:1px solid var(--line);border-radius:14px;padding:14px;margin-top:12px;background:#fff}
+.ag .n{font-weight:800;font-size:1.02rem}
+.ag .id{font-family:'JetBrains Mono',monospace;color:var(--navy);font-size:.88rem}
+.st{display:inline-block;font-size:.7rem;font-weight:800;letter-spacing:.05em;padding:3px 9px;border-radius:99px;margin-left:6px;vertical-align:middle}
+.st.active{background:#E2F4E8;color:#11632C}.st.pending{background:#FFF3D6;color:#8A5A00}.st.expired,.st.suspended,.st.cancelled{background:#FDE7EA;color:#A30F27}.st.revoked,.st.ended{background:#EEE;color:#555}
+.checks{list-style:none;margin-top:10px;display:grid;gap:4px;font-size:.88rem}
+.checks li{display:flex;gap:8px;align-items:flex-start}
+.checks .ok{color:var(--green);font-weight:800}.checks .no{color:var(--red);font-weight:800}.checks .wait{color:var(--gold);font-weight:800}
+.dates{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:8px;margin-top:10px}
+.dates div{background:var(--off);border-radius:10px;padding:8px 10px;font-size:.8rem;color:var(--muted)}
+.dates b{display:block;color:var(--ink);font-size:.95rem;margin-top:2px}
+.acts{display:flex;gap:6px;flex-wrap:wrap;margin-top:12px;align-items:center}
+.acts input{width:90px;min-height:44px;flex:0 0 auto}
+.hist{margin-top:10px;font-size:.8rem;color:var(--muted);line-height:1.6;border-top:1px dashed var(--line);padding-top:8px}
+.kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:8px;margin-top:10px}
+.kpis div{background:var(--off);border-radius:12px;padding:10px 12px}
+.kpis small{display:block;font-size:.74rem;color:var(--muted);font-weight:700}
+.kpis b{font-size:1.25rem}
+.tw{overflow-x:auto;margin-top:10px;-webkit-overflow-scrolling:touch}
+table{border-collapse:collapse;width:100%;font-size:.82rem;min-width:760px}
+th,td{padding:8px 6px;border-bottom:1px solid var(--line);text-align:right;white-space:nowrap}
+th{font-size:.72rem;color:var(--muted);text-transform:uppercase;letter-spacing:.04em}
+th:first-child,td:first-child,th:nth-child(2),td:nth-child(2){text-align:left}
+td .sub{display:block;color:var(--muted);font-size:.72rem}
+tr.top1 td:first-child::before{content:'🥇 '} tr.top2 td:first-child::before{content:'🥈 '} tr.top3 td:first-child::before{content:'🥉 '}
+.note{font-size:.8rem;color:var(--muted);margin-top:8px;line-height:1.5}
+.svc{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px}
+.svc span{background:var(--off);border-radius:99px;padding:5px 10px;font-size:.78rem;font-weight:700}
+#cards{display:none;margin-top:10px}
+.pc{border:1px solid var(--line);border-radius:12px;padding:12px;margin-bottom:8px}
+.pc .hd{display:flex;justify-content:space-between;gap:8px;align-items:flex-start}
+.pc .rk{font-weight:800;font-size:1.1rem;min-width:44px;text-align:right}
+.pc .sub{display:block;color:var(--muted);font-size:.74rem;margin-top:2px}
+.pc .nums{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;margin-top:10px}
+.pc .nums div{background:var(--off);border-radius:8px;padding:6px 8px;font-size:.7rem;color:var(--muted);font-weight:700}
+.pc .nums b{display:block;font-size:1rem;color:var(--ink)}
+@media(max-width:640px){.tw{display:none}#cards{display:block}}
+</style>
+</head>
+<body>
+<div class="flag"></div>
+<div class="top"><div class="w" style="padding:0"><b>Ajan Pilòt — LajanMaker gratis pou Ajan sètifye yo</b><small>Bay jou gratis, swiv rezilta chak Ajan pandan pilòt la. Lòt itilizatè yo kenbe 7 jou nòmal yo. <a href="ajan-admin.html">← Konsòl badj yo</a></small></div></div>
+
+<div class="w">
+  <div class="box" id="gate">
+    <label for="pin">Kòd konsòl la</label>
+    <input id="pin" class="mono" autocomplete="off" autocapitalize="characters" spellcheck="false" placeholder="CONSOLE CODE">
+    <label for="who">Non ou (li parèt nan istwa chak chanjman)</label>
+    <input id="who" autocomplete="name" placeholder="Egzanp: Jennifer">
+    <button class="btn full" id="open">Louvri</button>
+    <div class="msg err" id="gateMsg"></div>
+  </div>
+
+  <div id="main" class="hide">
+    <div class="box">
+      <h2>1. Chèche yon Ajan</h2>
+      <div class="row"><input id="q" placeholder="Telefòn oswa nimewo LMA (oswa non)" autocomplete="off"><button class="btn" id="go">Chèche</button></div>
+      <div class="msg" id="qMsg"></div>
+      <div id="found"></div>
+    </div>
+
+    <div class="box" id="mpBox" style="display:none">
+      <h2>Kòd konsòl MyPlopPlop</h2>
+      <div class="meta">Rezilta yo ak kòd referans yo sou sistèm MyPlopPlop la. Kòd konsòl li a pa menm jan ak sa a: tape kòd ou itilize sou paj "Apwouve ajan yo".</div>
+      <div class="row" style="margin-top:8px"><input id="mpPin" class="mono" autocomplete="off" autocapitalize="characters" placeholder="CONSOLE CODE MYPLOPPLOP"><button class="btn" id="mpGo">OK</button></div>
+      <div class="msg err" id="mpMsg"></div>
+    </div>
+
+    <div class="box">
+      <h2>2. Rezilta pilòt la</h2>
+      <div class="meta" id="sum">—</div>
+      <div class="kpis" id="kpis"></div>
+      <div class="svc" id="svc"></div>
+      <label for="sort">Klasman pa</label>
+      <select id="sort">
+        <option value="score">Pwen total (tout rezilta ansanm)</option>
+        <option value="commissions">Komisyon</option>
+        <option value="sales">Vant (HTG)</option>
+        <option value="drivers">Chofè</option>
+        <option value="businesses">Biznis</option>
+        <option value="customers">Kliyan</option>
+        <option value="digitalCount">Sèvis dijital</option>
+      </select>
+      <div id="cards"></div>
+      <div class="tw"><table><thead><tr><th>#</th><th>Ajan</th><th>Eta</th><th>Jou ki rete</th><th>App</th><th>Chofè</th><th>Biznis</th><th>Kliyan</th><th>Dijital</th><th>Vant HTG</th><th>Komisyon HTG</th></tr></thead><tbody id="rows"></tbody></table></div>
+      <div class="note">Rezilta yo konte depi jou pilòt chak Ajan kòmanse, ak kòd referans pèsonèl li. Pwen total = chofè ×3 + biznis ×3 + kliyan ×1 + sèvis dijital ×2 + 1 pwen pou chak 100 HTG komisyon. Vant LajanMaker POS (sou telefòn Ajan an) pa sou sèvè a, kidonk yo pa konte isit la.</div>
+      <button class="btn o full" id="reload">↻ Mete rezilta yo ajou</button>
+    </div>
+  </div>
+</div>
+
+<script>
+var HB = 'https://haitibiznis-api.onrender.com';
+var MP = 'https://myplopplop-api.onrender.com';
+var pin = '', mpPin = '', who = '', pilots = [], perf = {}, mpOk = null, link = null;
+var STATE = { active:'AKTIF', pending:'AN ATANT', expired:'BADJ EKSPIRE', suspended:'SISPANN', revoked:'ANILE' };
+var PSTATE = { active:'PILÒT AKTIF', ended:'PILÒT FINI', cancelled:'PILÒT ANILE' };
+var PLATFORM = { msouwout:'MsouWout', myplopplop:'MyPlopPlop', '48hoursready':'48HoursReady', utility:'Bòdwo / Utility', tikelakay:'Tikè Lakay', sol:'Sòl', prolakay:'ProLakay' };
+var ERR = {
+  name_required: 'Mete non ou anlè paj la (pou istwa a).',
+  bad_days: 'Kantite jou a dwe ant 1 ak 90.',
+  pilot_exists: 'Ajan sa a deja nan pilòt la. Itilize "Ajoute jou" pou bay plis jou.',
+  phone_in_pilot: 'Telefòn sa a deja nan pilòt la ak yon lòt badj.',
+  code_on_other_badge: 'Kòd referans sa a deja sou yon lòt badj.',
+  not_eligible: 'Ajan sa a poko kalifye (gade lis tcheke a).',
+  not_approved: 'Ajan an pa aktif (sispann, anile oswa badj ekspire): pa gen plis jou.',
+  not_active: 'Pilòt la pa aktif ankò.',
+  no_pilot: 'Ajan sa a pa nan pilòt la.',
+  not_found: 'Ajan sa a pa egziste.'
+};
+
+function $(id){ return document.getElementById(id); }
+function esc(s){ return String(s==null?'':s).replace(/[&<>"']/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c];}); }
+function d(iso){ if (!iso) return '—'; var x = new Date(iso); return x.toLocaleDateString('fr-HT', { day:'2-digit', month:'short', year:'numeric' }); }
+function dt(iso){ if (!iso) return '—'; var x = new Date(iso); return d(iso) + ' ' + x.toLocaleTimeString('fr-HT', { hour:'2-digit', minute:'2-digit' }); }
+function htg(n){ return Math.round(Number(n)||0).toLocaleString('fr-HT'); }
+function store(k, v){ try { if (v === undefined) return localStorage.getItem(k); localStorage.setItem(k, v); } catch (e) { return null; } }
+
+function call(base, key, method, path, body){
+  var o = { method: method, headers: { 'x-admin-pin': key } };
+  if (body !== undefined) { o.headers['Content-Type'] = 'application/json'; o.body = JSON.stringify(body); }
+  return fetch(base + path, o).then(function(r){
+    return r.json().catch(function(){ return {}; }).then(function(j){
+      if (r.status === 403) { var e = new Error('Kòd konsòl la pa bon.'); e.pin = true; throw e; }
+      if (!r.ok) { var x = new Error(ERR[j.error] || j.error || ('Erè ' + r.status)); x.code = j.error; x.data = j; x.status = r.status; throw x; }
+      return j;
+    });
+  });
+}
+function hb(m, p, b){ return call(HB, pin, m, p, b); }
+function mp(m, p, b){ return call(MP, mpPin, m, p, b); }
+
+who = store('ajanPilotWho') || '';
+$('who').value = who;
+
+$('open').onclick = function(){
+  pin = $('pin').value.trim(); who = $('who').value.trim();
+  if (!pin) return;
+  if (who.length < 2) { $('gateMsg').textContent = 'Mete non ou.'; return; }
+  store('ajanPilotWho', who);
+  $('open').disabled = true; $('gateMsg').textContent = 'Ap louvri… (premye fwa a ka pran 20 segonn)';
+  hb('GET', '/api/agents/admin/pilot/list').then(function(j){
+    pilots = j.pilots || [];
+    $('gate').classList.add('hide'); $('main').classList.remove('hide');
+    mpPin = pin;
+    return checkMp().then(loadPerf).then(function(){ if ($('q').value.trim()) search(); });
+  }).catch(function(e){ $('gateMsg').textContent = e.message; })
+    .then(function(){ $('open').disabled = false; });
+  var h = decodeURIComponent((location.hash || '').slice(1));
+  if (h) $('q').value = h;
+};
+$('pin').onkeydown = $('who').onkeydown = function(e){ if (e.key === 'Enter') $('open').click(); };
+
+/* Results and referral codes come from MyPlopPlop. Normally through this
+   console's own server (link); if that link is down, straight to MyPlopPlop,
+   whose console may have its own code. */
+function checkMp(){
+  return hb('POST', '/api/agents/admin/pilot/performance', { agents: [] }).then(function(){ link = true; mpOk = true; $('mpBox').style.display = 'none'; },
+    function(e){ if (e.code !== 'link_unavailable') throw e; link = false; return checkMpDirect(); });
+}
+function checkMpDirect(){
+  return mp('GET', '/api/admin-pin/ajan-code?phone=00000000').then(function(){ mpOk = true; $('mpBox').style.display = 'none'; })
+    .catch(function(e){ mpOk = false; if (e.pin) { $('mpBox').style.display = ''; } else { $('mpMsg').textContent = e.message; $('mpBox').style.display = ''; } });
+}
+$('mpGo').onclick = function(){
+  mpPin = $('mpPin').value.trim(); if (!mpPin) return;
+  $('mpMsg').textContent = '';
+  checkMpDirect().then(function(){ if (mpOk) { loadPerf(); if ($('q').value.trim()) search(); } else $('mpMsg').textContent = 'Kòd sa a pa mache sou MyPlopPlop.'; });
+};
+
+/* ── 1. search + actions ─────────────────────────────────────────────── */
+$('go').onclick = search;
+$('q').onkeydown = function(e){ if (e.key === 'Enter') search(); };
+var found = [];
+
+function search(){
+  var q = $('q').value.trim(); if (!q) return;
+  $('qMsg').className = 'msg'; $('qMsg').textContent = 'Ap chèche…'; $('found').innerHTML = '';
+  return hb('GET', '/api/agents/admin/pilot/find?q=' + encodeURIComponent(q)).then(function(j){
+    found = j.results || [];
+    $('qMsg').textContent = found.length ? '' : 'Pa gen Ajan ak sa. Anrejistre badj li sou konsòl badj yo an premye.';
+    return Promise.all(found.map(function(r){
+      /* The server already asked the engine: use its answer. */
+      if (r.eligibility.owner === true || r.eligibility.owner === false) {
+        r.owner = { phoneMatch: r.eligibility.owner, name: r.eligibility.ownerName, organization: r.eligibility.organization };
+        return null;
+      }
+      if (!mpOk || link || !r.agent.referralCode) return null;
+      return mp('GET', '/api/admin-pin/ajan-code?phone=' + encodeURIComponent(r.agent.phone || '') + '&code=' + encodeURIComponent(r.agent.referralCode))
+        .then(function(x){ r.owner = x.byCode; }).catch(function(){ r.owner = undefined; });
+    }));
+  }).then(drawFound).catch(function(e){ $('qMsg').className = 'msg err'; $('qMsg').textContent = e.message; });
+}
+
+function ownerOk(r){ return r.owner && r.owner.phoneMatch === true; }
+function ready(r){ var e = r.eligibility; return e.id && e.approved && e.phone && e.code && ownerOk(r); }
+
+function drawFound(){
+  $('found').innerHTML = found.map(function(r, i){
+    var a = r.agent, e = r.eligibility, p = r.pilot, t = r.trial;
+    function li(ok, text, wait){ return '<li><span class="' + (ok ? 'ok' : (wait ? 'wait' : 'no')) + '">' + (ok ? '✓' : (wait ? '…' : '✗')) + '</span><span>' + text + '</span></li>'; }
+    var own;
+    if (!a.referralCode) own = li(false, 'Kòd referans pèsonèl: <b>pa genyen</b> — mete l sou konsòl badj yo ("Chèche kòd li" / "Kreye kòd pou li").');
+    else if (!e.code) own = li(false, 'Kòd referans <b class="mono">' + esc(a.referralCode) + '</b> ' + (e.codeChecked ? 'pa egziste oswa pa aktif.' : 'pa t ka verifye (MyPlopPlop pa reponn) — eseye ankò.'), !e.codeChecked);
+    else if (r.owner === undefined) own = li(false, 'Kòd <b class="mono">' + esc(a.referralCode) + '</b> egziste, men nou pa t ka tcheke si se pou li — mete kòd konsòl MyPlopPlop la anba a.', true);
+    else if (!r.owner) own = li(false, 'Kòd <b class="mono">' + esc(a.referralCode) + '</b> pa jwenn.');
+    else if (!r.owner.phoneMatch) own = li(false, 'Kòd <b class="mono">' + esc(a.referralCode) + '</b> se pou <b>yon lòt moun</b> (' + esc(r.owner.name || '?') + '), pa telefòn Ajan sa a.');
+    else own = li(true, 'Kòd referans pèsonèl <b class="mono">' + esc(a.referralCode) + '</b> — se pou li (menm telefòn)' + (r.owner.organization ? ' · Òganizasyon: ' + esc(r.owner.organization) : ' · Endepandan'));
+    var checks = '<ul class="checks">' +
+      li(e.id, 'Nimewo LMA verifye' + (e.id ? '' : ' — nimewo a pa t ka repwodui ak non + dat la')) +
+      li(e.approved, 'Pwofil apwouve' + (e.approved ? '' : ' — eta kounye a: ' + (STATE[a.state] || a.state))) +
+      li(e.phone, 'Telefòn: ' + (a.phone ? esc(a.phone) : '<b>pa genyen</b>') + ' <span style="color:var(--muted)">(dwe menm nimewo li tape nan app LajanMaker la)</span>') +
+      own + '</ul>';
+    var app = !t ? 'Telefòn sa a poko louvri LajanMaker' : (t.seenCount > 0 ? 'Louvri ' + t.seenCount + ' fwa · dènye fwa: ' + dt(t.lastSeen) : 'Poko louvri app la');
+    var dates = '<div class="dates">' +
+      (p ? '<div>Pilòt kòmanse<b>' + d(p.startedAt) + '</b></div><div>Pilòt fini<b>' + d(p.endsAt) + '</b></div><div>Jou ki rete<b>' + (p.state === 'active' ? p.daysLeft : 0) + '</b></div>'
+         : '<div>Esè gratis kounye a fini<b>' + (t ? d(t.trialEndsAt) : '—') + '</b></div>') +
+      '<div>Aktivite app<b style="font-size:.82rem">' + esc(app) + '</b></div></div>';
+    var acts = '';
+    if (!p) {
+      var ok = ready(r);
+      acts = '<div class="acts"><button class="btn g" data-a="grant" data-d="30" ' + (ok?'':'disabled') + '>🎁 Bay 30 jou gratis</button>' +
+        '<button class="btn o" data-a="grant" data-d="7" ' + (ok?'':'disabled') + '>Bay 7 jou</button>' +
+        '<input type="number" min="1" max="90" placeholder="Jou" data-days ' + (ok?'':'disabled') + '><button class="btn o" data-a="grant" data-d="custom" ' + (ok?'':'disabled') + '>Bay jou sa yo</button></div>' +
+        (ok ? '' : '<div class="meta">Bouton yo ap mache lè tout 4 tcheke yo vèt.</div>');
+    } else {
+      acts = '<div class="acts"><input type="number" min="1" max="90" value="7" data-days><button class="btn g" data-a="extend">➕ Ajoute jou</button>' +
+        (p.state === 'active' ? '<button class="btn r" data-a="cancel">⛔ Anile pilòt la</button>' : '') + '</div>';
+    }
+    var hist = p && p.history && p.history.length ? '<div class="hist">' + p.history.slice().reverse().map(function(h){
+      return dt(h.at) + ' — <b>' + esc(h.by) + '</b>: ' + ({activate:'aktive', extend:'ajoute', cancel:'anile'}[h.action] || esc(h.action)) +
+        (h.days ? ' ' + h.days + ' jou' : '') + (h.endsAt ? ' → fini ' + d(h.endsAt) : '') + (h.note ? ' (' + esc(h.note) + ')' : '');
+    }).join('<br>') + '</div>' : '';
+    return '<div class="ag" data-i="' + i + '"><div class="n">' + esc(a.name) + '<span class="st ' + (p ? p.state : a.state) + '">' + (p ? PSTATE[p.state] : (STATE[a.state] || a.state)) + '</span></div>' +
+      '<div class="id">' + esc(a.agentId) + '</div>' + checks + dates + acts + hist + '<div class="msg" data-m></div></div>';
+  }).join('');
+  document.querySelectorAll('#found [data-a]').forEach(function(b){ b.onclick = function(){ act(b); }; });
+}
+
+function act(btn){
+  var card = btn.closest('.ag'), r = found[+card.getAttribute('data-i')], m = card.querySelector('[data-m]');
+  var a = btn.getAttribute('data-a'), days = btn.getAttribute('data-d');
+  if (a !== 'cancel') {
+    if (days === 'custom' || a === 'extend') days = card.querySelector('[data-days]').value;
+    days = Math.floor(Number(days));
+    if (!(days >= 1 && days <= 90)) { m.className = 'msg err'; m.textContent = ERR.bad_days; return; }
+  }
+  var path = '/api/agents/admin/pilot/' + encodeURIComponent(r.agent.agentId), body = { by: who };
+  if (a === 'grant') { if (!confirm('Bay ' + r.agent.name + ' ' + days + ' jou LajanMaker gratis, depi jodi a?')) return; body.days = days; }
+  if (a === 'extend') { if (!confirm('Ajoute ' + days + ' jou pou ' + r.agent.name + '?')) return; path += '/extend'; body.days = days; }
+  if (a === 'cancel') { var why = prompt('Anile pilòt ' + r.agent.name + ' jodi a? App la ap mande abònman nòmal la.\nPoukisa? (nòt)'); if (why === null) return; path += '/cancel'; body.note = why; }
+  btn.disabled = true; m.className = 'msg'; m.textContent = 'Ap anrejistre…';
+  hb('POST', path, body).then(function(){
+    return search();
+  }).then(function(){ return hb('GET', '/api/agents/admin/pilot/list'); })
+    .then(function(j){ pilots = j.pilots || []; return loadPerf(); })
+    .catch(function(e){ m.className = 'msg err'; m.textContent = e.message; btn.disabled = false; });
+}
+
+/* ── 2. results + leaderboard ────────────────────────────────────────── */
+$('reload').onclick = function(){ hb('GET', '/api/agents/admin/pilot/list').then(function(j){ pilots = j.pilots || []; return loadPerf(); }); };
+$('sort').onchange = drawTable;
+
+function loadPerf(){
+  drawTable();
+  if (!mpOk || !pilots.length) return Promise.resolve();
+  var ask = pilots.filter(function(x){ return x.pilot.referralCode; }).map(function(x){ return { code: x.pilot.referralCode, from: x.pilot.startedAt }; });
+  return (link ? hb('POST', '/api/agents/admin/pilot/performance', { agents: ask }) : mp('POST', '/api/admin-pin/ajan-performance', { agents: ask })).then(function(j){
+    perf = {}; (j.results || []).forEach(function(r){ perf[String(r.code).toUpperCase()] = r; });
+    drawTable();
+  }).catch(function(e){ $('sum').textContent = 'Rezilta yo pa t ka chaje: ' + e.message; });
+}
+
+function score(r){ return r ? (r.drivers*3 + r.businesses*3 + r.customers + r.digitalCount*2 + Math.floor(r.commissions/100)) : 0; }
+
+function drawTable(){
+  var key = $('sort').value, now = Date.now();
+  var rows = pilots.map(function(x){
+    var r = perf[String(x.pilot.referralCode || '').toUpperCase()] || null;
+    return { x: x, r: r, v: r ? (key === 'score' ? score(r) : (r[key] || 0)) : -1 };
+  });
+  rows.sort(function(a, b){ return (b.v - a.v) || (score(b.r) - score(a.r)) || String(a.x.pilot.name).localeCompare(b.x.pilot.name); });
+  var T = { drivers:0, businesses:0, customers:0, digitalCount:0, sales:0, commissions:0, active:0, opened:0 }, P = {};
+  rows.forEach(function(o){
+    if (o.x.pilot.state === 'active') T.active++;
+    if (o.x.trial && o.x.trial.seenCount > 0) T.opened++;
+    if (!o.r) return;
+    ['drivers','businesses','customers','digitalCount','sales','commissions'].forEach(function(k){ T[k] += o.r[k] || 0; });
+    Object.keys(o.r.byPlatform || {}).forEach(function(k){ var b = o.r.byPlatform[k]; P[k] = (P[k] || 0) + (b.referrals || 0) + (b.salesCount || 0); });
+  });
+  $('sum').textContent = pilots.length ? (pilots.length + ' Ajan nan pilòt la · ' + T.active + ' aktif · ' + T.opened + ' louvri app la deja' + (mpOk ? '' : ' · ⚠ rezilta yo bezwen kòd konsòl MyPlopPlop la')) : 'Pa gen Ajan nan pilòt la ankò.';
+  $('kpis').innerHTML = [['Chofè', T.drivers], ['Biznis', T.businesses], ['Kliyan', T.customers], ['Sèvis dijital', T.digitalCount], ['Vant HTG', htg(T.sales)], ['Komisyon HTG', htg(T.commissions)]]
+    .map(function(k){ return '<div><small>' + k[0] + '</small><b>' + k[1] + '</b></div>'; }).join('');
+  var svc = Object.keys(P).sort(function(a, b){ return P[b] - P[a]; });
+  $('svc').innerHTML = svc.length ? '<span style="background:none;padding-left:0">Sèvis ki pi aktif:</span>' + svc.map(function(k){ return '<span>' + esc(PLATFORM[k] || k) + ' · ' + P[k] + '</span>'; }).join('') : '';
+  var rank = 0, cards = [];
+  $('rows').innerHTML = rows.map(function(o){
+    var p = o.x.pilot, t = o.x.trial, r = o.r, has = r && r.found;
+    if (has && score(r) > 0) rank++;
+    var cls = has && score(r) > 0 && rank <= 3 ? 'top' + rank : '';
+    var app = !t || !t.seenCount ? 'poko' : t.seenCount + '× · ' + d(t.lastSeen);
+    function n(k, money){ return has ? (money ? htg(r[k]) : r[k]) : '—'; }
+    var medal = { top1:'🥇', top2:'🥈', top3:'🥉' }[cls] || '';
+    cards.push('<div class="pc"><div class="hd"><div><b>' + esc(p.name) + '</b> <span class="st ' + p.state + '">' + PSTATE[p.state] + '</span>' +
+      '<span class="sub mono">' + esc(p.agentId) + ' · ' + esc(p.referralCode) + '</span>' +
+      '<span class="sub">' + d(p.startedAt) + ' → ' + d(p.endsAt) + ' · ' + (p.state === 'active' ? p.daysLeft : 0) + ' jou ki rete · App: ' + esc(app) + '</span>' +
+      (o.x.agent && o.x.agent.phoneChanged ? '<span class="sub" style="color:var(--red)">⚠ telefòn badj la chanje depi pilòt la</span>' : '') + '</div>' +
+      '<div class="rk">' + medal + (has && score(r) > 0 ? ' ' + rank : '') + '</div></div>' +
+      '<div class="nums"><div>Chofè<b>' + n('drivers') + '</b></div><div>Biznis<b>' + n('businesses') + '</b></div><div>Kliyan<b>' + n('customers') + '</b></div>' +
+      '<div>Dijital<b>' + n('digitalCount') + '</b></div><div>Vant HTG<b>' + n('sales', 1) + '</b></div><div>Komisyon<b>' + n('commissions', 1) + '</b></div></div></div>');
+    return '<tr class="' + cls + '"><td>' + (has && score(r) > 0 ? rank : '') + '</td><td><b>' + esc(p.name) + '</b><span class="sub mono">' + esc(p.agentId) + ' · ' + esc(p.referralCode) + '</span>' +
+      (o.x.agent && o.x.agent.phoneChanged ? '<span class="sub" style="color:var(--red)">⚠ telefòn badj la chanje depi pilòt la</span>' : '') + '</td>' +
+      '<td><span class="st ' + p.state + '">' + PSTATE[p.state] + '</span><span class="sub">' + d(p.startedAt) + ' → ' + d(p.endsAt) + '</span></td>' +
+      '<td>' + (p.state === 'active' ? p.daysLeft : 0) + '</td><td>' + esc(app) + '</td>' +
+      '<td>' + n('drivers') + '</td><td>' + n('businesses') + '</td><td>' + n('customers') + '</td><td>' + n('digitalCount') + '</td><td>' + n('sales', 1) + '</td><td>' + n('commissions', 1) + '</td></tr>';
+  }).join('') || '<tr><td colspan="11" style="text-align:center;color:var(--muted)">—</td></tr>';
+  $('cards').innerHTML = cards.join('') || '<div class="meta" style="text-align:center">—</div>';
+}
+</script>
+</body>
+</html>

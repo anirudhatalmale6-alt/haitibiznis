@@ -53,7 +53,7 @@ input,select{width:100%;min-height:46px;border:1.5px solid var(--line);border-ra
 </head>
 <body>
 <div class="flag"></div>
-<div class="top"><div class="w" style="padding:0"><b>Ajan Sètifye LajanMaker — Konsòl</b><small>Apwouve, sispann, oswa anile badj ajan yo. Sa w fè isit la parèt touswit sou paj verifikasyon an.</small></div></div>
+<div class="top"><div class="w" style="padding:0"><b>Ajan Sètifye LajanMaker — Konsòl</b><small>Apwouve, sispann, oswa anile badj ajan yo. Sa w fè isit la parèt touswit sou paj verifikasyon an. <a href="ajan-pilot.html" style="color:var(--navy);font-weight:700">🎁 Ajan Pilòt (jou gratis + rezilta) →</a></small></div></div>
 
 <div class="w">
   <div class="box" id="gate">
@@ -137,7 +137,7 @@ function draw(){
     var svc = services.map(function(s){ return '<label><input type="checkbox" data-svc="'+esc(s)+'" '+(a.services.indexOf(s)>=0?'checked':'')+'> '+esc(s)+'</label>'; }).join('');
     var acts = '';
     if (a.status === 'pending') acts += '<button class="btn g" data-act="approve">✅ Apwouve</button>';
-    if (a.status === 'active') acts += '<button class="btn r" data-act="suspend">⏸ Sispann</button>';
+    if (a.status === 'active') acts += '<button class="btn r" data-act="suspend">⏸ Sispann</button><a class="btn g" style="text-decoration:none;display:inline-flex;align-items:center" href="ajan-pilot.html#'+encodeURIComponent(a.agentId)+'">🎁 Pilòt</a>';
     if (a.status === 'suspended' || a.status === 'revoked') acts += '<button class="btn g" data-act="approve">↩︎ Reaktive</button>';
     if (a.status !== 'revoked') acts += '<button class="btn gr" data-act="revoke">⛔ Anile</button>';
     acts += '<button class="btn o" data-act="edit">✏️ Modifye</button><a class="btn o" style="text-decoration:none;display:inline-flex;align-items:center" target="_blank" rel="noopener" href="'+PUBLIC+encodeURIComponent(a.agentId)+'">👁 Paj piblik</a>';
@@ -152,7 +152,8 @@ function draw(){
         '<div><label>Telefòn (pou kontak)</label><input data-f="phone" value="'+esc(a.phone)+'"></div>' +
         '<div><label>Zòn travay / vil</label><input data-f="city" value="'+esc(a.city)+'"></div>' +
         '<div><label>Òganizasyon / sponsò</label><input data-f="sponsor" value="'+esc(a.sponsor)+'"></div>' +
-        '<div><label>Kòd referans (kòd Ajan)</label><input data-f="referralCode" class="mono" value="'+esc(a.referralCode)+'"></div>' +
+        '<div><label>Kòd referans pèsonèl (pa nimewo LMA a)</label><input data-f="referralCode" class="mono" value="'+esc(a.referralCode)+'" placeholder="KB-…">' +
+          '<div class="acts" style="margin-top:6px"><button class="btn o" data-act="findcode">🔎 Chèche kòd li</button><button class="btn o" data-act="makecode">➕ Kreye kòd pou li</button></div></div>' +
         '<div><label>Valab jiska</label><input data-f="expiresAt" type="date" value="'+day(a.expiresAt)+'"></div>' +
       '</div><label>Sèvis li ka reprezante</label><div class="svcs">'+svc+'</div>' +
       '<label>Foto</label><input type="file" accept="image/*" data-photo>' +
@@ -181,12 +182,98 @@ function fields(i){
   return body;
 }
 
-/* A referral code that does not exist would send every sign-up to nobody. */
-function checkCode(code){
+/* 22 Oct 2026 — Jeffery: "How do we verify that the referral code is valid
+   and belongs to the correct Ajan?" Codes that EARN live on myplopplop-api
+   (Koutye), behind ITS console code - usually the same one; asked once if not.
+   The LMA number is the badge; the referral code is a different thing. */
+var MP = 'https://myplopplop-api.onrender.com';
+var mpPin = null;
+function mp(method, path, body, retried){
+  var o = { method: method, headers: { 'x-admin-pin': mpPin === null ? pin : mpPin } };
+  if (body !== undefined) { o.headers['Content-Type'] = 'application/json'; o.body = JSON.stringify(body); }
+  return fetch(MP + path, o).then(function(r){
+    if (r.status === 403 && !retried) {
+      var k = prompt('Kòd konsòl MyPlopPlop la (sa ou itilize sou paj "Apwouve ajan yo"):');
+      if (!k) throw new Error('Bezwen kòd konsòl MyPlopPlop la pou kòd referans yo.');
+      mpPin = k.trim();
+      return mp(method, path, body, true);
+    }
+    if (r.status === 403) { mpPin = null; throw new Error('Kòd konsòl MyPlopPlop la pa bon.'); }
+    return r.json().then(function(d){ if (!r.ok) { var e = new Error(d.error || ('Erè ' + r.status)); e.code = d.error; throw e; } return d; });
+  });
+}
+/* Through this console's own server first (one console code for everything);
+   straight to MyPlopPlop with ITS console code only if that link is down. */
+function codeApi(method, qs, body){
+  return req(method, '/api/agents/admin/code' + (qs || ''), body).catch(function(e){
+    if (e.message !== 'link_unavailable') throw e;
+    return mp(method, '/api/admin-pin/ajan-code' + (qs || ''), body);
+  });
+}
+var CODE_ERR = {
+  code_on_other_badge: 'Kòd referans sa a deja sou yon lòt badj. Yon kòd = yon sèl Ajan.',
+  code_is_badge_number: 'Sa se nimewo badj la (LMA). Kòd referans lan se yon lòt bagay (egzanp KB-ALI7X2Q).',
+  code_taken: 'Kòd sa a deja pou yon lòt moun. Kite kare a vid pou sistèm nan fè youn.',
+  bad_code: 'Kòd la dwe gen 3 a 20 lèt/chif.',
+  phone_required: 'Mete telefòn Ajan an an premye (menm nimewo li tape nan app LajanMaker la).',
+  name_required: 'Mete non Ajan an.'
+};
+
+/* A code that does not exist would send every sign-up to nobody, and a code
+   that belongs to SOMEONE ELSE would pay them. */
+function checkCode(code, phone){
   if (!code) return Promise.resolve(true);
-  return fetch('https://myplopplop-api.onrender.com/api/referrals/validate/' + encodeURIComponent(code))
-    .then(function(r){ return r.json().then(function(d){ return r.ok && d.success && d.kind === 'koutye'; }); })
-    .catch(function(){ return true; });   /* a network hiccup must not block an approval */
+  if (/^LMA-?\d{4}/i.test(code)) return Promise.reject(new Error(CODE_ERR.code_is_badge_number));
+  return codeApi('GET', '?phone=' + encodeURIComponent(phone || '') + '&code=' + encodeURIComponent(code))
+    .then(function(d){
+      var c = d.byCode;
+      if (!c || c.status !== 'active') return false;
+      if (c.phoneMatch === false) throw new Error('Kòd "' + code + '" se pou ' + (c.name || 'yon lòt moun') + ', pa pou telefòn Ajan sa a. Peze "🔎 Chèche kòd li" pou jwenn pa l.');
+      return true;
+    }, function(e){
+      if (/MyPlopPlop/.test(e.message)) throw e;
+      /* Engine unreachable: fall back to "does it exist", as before. */
+      return fetch(MP + '/api/referrals/validate/' + encodeURIComponent(code))
+        .then(function(r){ return r.json().then(function(d){ return r.ok && d.success && d.kind === 'koutye'; }); })
+        .catch(function(){ return true; });
+    });
+}
+
+function saveCode(i, code){
+  return req('PATCH', '/api/agents/admin/' + encodeURIComponent(agents[i].agentId), { referralCode: code })
+    .then(function(d){ agents[i].referralCode = d.agent.referralCode; $('ed'+i).querySelector('[data-f="referralCode"]').value = d.agent.referralCode; });
+}
+
+function codeTool(i, what, btn){
+  var ed = $('ed'+i), a = agents[i];
+  var phone = ed.querySelector('[data-f="phone"]').value.trim(), name = ed.querySelector('[data-f="name"]').value.trim();
+  var typed = ed.querySelector('[data-f="referralCode"]').value.trim().toUpperCase();
+  if (!phone) return say(i, CODE_ERR.phone_required, false);
+  btn.disabled = true; say(i, 'Ap chèche…', true);
+  var p;
+  if (what === 'findcode') {
+    p = codeApi('GET', '?phone=' + encodeURIComponent(phone)).then(function(d){
+      if (d.byPhone) return saveCode(i, d.byPhone.code).then(function(){
+        say(i, '✓ Kòd li: ' + d.byPhone.code + (d.byPhone.status !== 'active' ? ' (⚠ PA AKTIF)' : '') + ' · ' + (d.byPhone.organization ? 'Òganizasyon: ' + d.byPhone.organization : 'Endepandan') + '. Anrejistre sou badj la.', d.byPhone.status === 'active');
+      });
+      if (d.pendingSignup) return say(i, 'Li te enskri sou koutye.html ak kòd ' + d.pendingSignup.code + ', men li poko apwouve. Peze "➕ Kreye kòd pou li" pou apwouve KÒD SA A (pa gen nouvo kòd).', false);
+      say(i, 'Pa gen kòd pou telefòn sa a. Peze "➕ Kreye kòd pou li".', false);
+    });
+  } else {
+    if (!confirm('Kreye (oswa jwenn) kòd referans pèsonèl ' + name + ' pou telefòn ' + phone + '?' + (typed && typed !== a.referralCode ? '\nKòd li chwazi: ' + typed : ''))) { btn.disabled = false; say(i, '', true); return; }
+    var body = { name: name, phone: phone };
+    if (typed && typed !== a.referralCode) body.customCode = typed;
+    p = codeApi('POST', '', body).then(function(d){
+      var c = d.agent.code;
+      return saveCode(i, c).then(function(){
+        var t = d.existing ? '✓ Li te deja gen yon kòd: ' + c + '. Anrejistre sou badj la.'
+          : '✓ Kòd kreye: ' + c + (d.fromSignup ? ' (kòd li te chwazi sou koutye.html)' : '') + '. Anrejistre sou badj la.';
+        if (d.tempPin) t += ' Kont MyPlopPlop li: telefòn ' + phone + ' + PIN ' + d.tempPin + ' — bay Ajan an li, li p ap parèt ankò.';
+        say(i, t, true);
+      });
+    });
+  }
+  p.catch(function(e){ say(i, CODE_ERR[e.code] || CODE_ERR[e.message] || e.message, false); }).then(function(){ btn.disabled = false; });
 }
 
 function photoData(file){
@@ -203,6 +290,7 @@ function photoData(file){
 function act(i, what, btn){
   var a = agents[i];
   if (what === 'edit') { $('ed'+i).classList.toggle('open'); return; }
+  if (what === 'findcode' || what === 'makecode') return codeTool(i, what, btn);
   var body;
   if (what === 'approve') {
     if (!$('ed'+i).classList.contains('open') && !a.referralCode) {
@@ -217,13 +305,13 @@ function act(i, what, btn){
   if (what === 'revoke') { if (!confirm('Anile badj ' + a.agentId + ' nèt? Paj la ap di AJAN SA A PA AKTIF.')) return; body = { status: 'revoked' }; }
   btn.disabled = true;
   var file = $('ed'+i).querySelector('[data-photo]').files[0];
-  (body.referralCode !== undefined ? checkCode(body.referralCode) : Promise.resolve(true)).then(function(good){
+  (body.referralCode !== undefined ? checkCode(body.referralCode, body.phone !== undefined ? body.phone : a.phone) : Promise.resolve(true)).then(function(good){
     if (!good) throw new Error('Kòd referans "' + body.referralCode + '" pa egziste oswa pa aktif nan sistèm Ajan an.');
     return req('PATCH', '/api/agents/admin/' + encodeURIComponent(a.agentId), body);
   }).then(function(){
     if (file) return photoData(file).then(function(p){ return req('POST', '/api/agents/admin/' + encodeURIComponent(a.agentId) + '/photo', { photo: p }); });
   }).then(function(){ return load(); })
-    .catch(function(e){ say(i, e.message, false); btn.disabled = false; });
+    .catch(function(e){ say(i, CODE_ERR[e.message] || e.message, false); btn.disabled = false; });
 }
 
 $('nAdd').onclick = function(){
