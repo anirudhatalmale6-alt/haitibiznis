@@ -64,7 +64,7 @@ input,select{width:100%;min-height:46px;border:1.5px solid var(--line);border-ra
 .kpis small{display:block;font-size:.74rem;color:var(--muted);font-weight:700}
 .kpis b{font-size:1.25rem}
 .tw{overflow-x:auto;margin-top:10px;-webkit-overflow-scrolling:touch}
-table{border-collapse:collapse;width:100%;font-size:.82rem;min-width:760px}
+table{border-collapse:collapse;width:100%;font-size:.82rem;min-width:1040px}
 th,td{padding:8px 6px;border-bottom:1px solid var(--line);text-align:right;white-space:nowrap}
 th{font-size:.72rem;color:var(--muted);text-transform:uppercase;letter-spacing:.04em}
 th:first-child,td:first-child,th:nth-child(2),td:nth-child(2){text-align:left}
@@ -127,10 +127,11 @@ tr.top1 td:first-child::before{content:'🥇 '} tr.top2 td:first-child::before{c
         <option value="businesses">Biznis</option>
         <option value="customers">Kliyan</option>
         <option value="digitalCount">Sèvis dijital</option>
+        <option value="pos">Vant LajanMaker POS</option>
       </select>
       <div id="cards"></div>
-      <div class="tw"><table><thead><tr><th>#</th><th>Ajan</th><th>Eta</th><th>Jou ki rete</th><th>App</th><th>Chofè</th><th>Biznis</th><th>Kliyan</th><th>Dijital</th><th>Vant HTG</th><th>Komisyon HTG</th></tr></thead><tbody id="rows"></tbody></table></div>
-      <div class="note">Rezilta yo konte depi jou pilòt chak Ajan kòmanse, ak kòd referans pèsonèl li. Pwen total = chofè ×3 + biznis ×3 + kliyan ×1 + sèvis dijital ×2 + 1 pwen pou chak 100 HTG komisyon. Vant LajanMaker POS (sou telefòn Ajan an) pa sou sèvè a, kidonk yo pa konte isit la.</div>
+      <div class="tw"><table><thead><tr><th>#</th><th>Ajan</th><th>Eta</th><th>Jou ki rete</th><th>App</th><th>Chofè</th><th>Biznis</th><th>Kliyan</th><th>Dijital</th><th>Vant HTG</th><th>Komisyon HTG</th><th>POS anrejistre</th><th>POS konfime</th><th>Anile / Ranbouse</th></tr></thead><tbody id="rows"></tbody></table></div>
+      <div class="note">Rezilta yo konte depi jou pilòt chak Ajan kòmanse, ak kòd referans pèsonèl li. Pwen total = chofè ×3 + biznis ×3 + kliyan ×1 + sèvis dijital ×2 + 1 pwen pou chak 100 HTG komisyon + 1 pwen pou chak 500 HTG vant LajanMaker POS. « POS konfime » = peman MonCash/NatCash sèvè a verifye; vant an kach rete « anrejistre ». Vant POS ki anile pa konte; sa ki ranbouse konte pou sa ki rete.</div>
       <button class="btn o full" id="reload">↻ Mete rezilta yo ajou</button>
     </div>
   </div>
@@ -139,7 +140,7 @@ tr.top1 td:first-child::before{content:'🥇 '} tr.top2 td:first-child::before{c
 <script>
 var HB = 'https://haitibiznis-api.onrender.com';
 var MP = 'https://myplopplop-api.onrender.com';
-var pin = '', mpPin = '', who = '', pilots = [], perf = {}, mpOk = null, link = null;
+var pin = '', mpPin = '', who = '', pilots = [], perf = {}, mpOk = null, link = null, posUnattributed = 0;
 var STATE = { active:'AKTIF', pending:'AN ATANT', expired:'BADJ EKSPIRE', suspended:'SISPANN', revoked:'ANILE' };
 var PSTATE = { active:'PILÒT AKTIF', ended:'PILÒT FINI', cancelled:'PILÒT ANILE' };
 var PLATFORM = { msouwout:'MsouWout', myplopplop:'MyPlopPlop', '48hoursready':'48HoursReady', utility:'Bòdwo / Utility', tikelakay:'Tikè Lakay', sol:'Sòl', prolakay:'ProLakay' };
@@ -187,7 +188,7 @@ $('open').onclick = function(){
   store('ajanPilotWho', who);
   $('open').disabled = true; $('gateMsg').textContent = 'Ap louvri… (premye fwa a ka pran 20 segonn)';
   hb('GET', '/api/agents/admin/pilot/list').then(function(j){
-    pilots = j.pilots || [];
+    pilots = j.pilots || []; posUnattributed = j.posUnattributed || 0;
     $('gate').classList.add('hide'); $('main').classList.remove('hide');
     mpPin = pin;
     return checkMp().then(loadPerf).then(function(){ if ($('q').value.trim()) search(); });
@@ -300,12 +301,12 @@ function act(btn){
   hb('POST', path, body).then(function(){
     return search();
   }).then(function(){ return hb('GET', '/api/agents/admin/pilot/list'); })
-    .then(function(j){ pilots = j.pilots || []; return loadPerf(); })
+    .then(function(j){ pilots = j.pilots || []; posUnattributed = j.posUnattributed || 0; return loadPerf(); })
     .catch(function(e){ m.className = 'msg err'; m.textContent = e.message; btn.disabled = false; });
 }
 
 /* ── 2. results + leaderboard ────────────────────────────────────────── */
-$('reload').onclick = function(){ hb('GET', '/api/agents/admin/pilot/list').then(function(j){ pilots = j.pilots || []; return loadPerf(); }); };
+$('reload').onclick = function(){ hb('GET', '/api/agents/admin/pilot/list').then(function(j){ pilots = j.pilots || []; posUnattributed = j.posUnattributed || 0; return loadPerf(); }); };
 $('sort').onchange = drawTable;
 
 function loadPerf(){
@@ -318,33 +319,42 @@ function loadPerf(){
   }).catch(function(e){ $('sum').textContent = 'Rezilta yo pa t ka chaje: ' + e.message; });
 }
 
-function score(r){ return r ? (r.drivers*3 + r.businesses*3 + r.customers + r.digitalCount*2 + Math.floor(r.commissions/100)) : 0; }
+/* 22 Oct 2026: LajanMaker POS sales (server copy, routes/pos.js) count too:
+   1 point per 500 HTG still standing after cancellations and refunds. */
+function posOf(x){ return (x && x.pos) || { recorded: 0, recordedAmount: 0, confirmed: 0, confirmedAmount: 0, cancelled: 0, refunded: 0, refundedAmount: 0, share: 0 }; }
+function score(r, x){ return (r ? (r.drivers*3 + r.businesses*3 + r.customers + r.digitalCount*2 + Math.floor(r.commissions/100)) : 0) + Math.floor(posOf(x).recordedAmount / 500); }
 
 function drawTable(){
   var key = $('sort').value, now = Date.now();
   var rows = pilots.map(function(x){
     var r = perf[String(x.pilot.referralCode || '').toUpperCase()] || null;
-    return { x: x, r: r, v: r ? (key === 'score' ? score(r) : (r[key] || 0)) : -1 };
+    var v = key === 'score' ? score(r, x) : key === 'pos' ? posOf(x).recordedAmount : (r ? (r[key] || 0) : -1);
+    return { x: x, r: r, v: v };
   });
-  rows.sort(function(a, b){ return (b.v - a.v) || (score(b.r) - score(a.r)) || String(a.x.pilot.name).localeCompare(b.x.pilot.name); });
-  var T = { drivers:0, businesses:0, customers:0, digitalCount:0, sales:0, commissions:0, active:0, opened:0 }, P = {};
+  rows.sort(function(a, b){ return (b.v - a.v) || (score(b.r, b.x) - score(a.r, a.x)) || String(a.x.pilot.name).localeCompare(b.x.pilot.name); });
+  var T = { drivers:0, businesses:0, customers:0, digitalCount:0, sales:0, commissions:0, active:0, opened:0, pos:0, posOk:0 }, P = {};
   rows.forEach(function(o){
+    T.pos += posOf(o.x).recordedAmount; T.posOk += posOf(o.x).confirmedAmount;
     if (o.x.pilot.state === 'active') T.active++;
     if (o.x.trial && o.x.trial.seenCount > 0) T.opened++;
     if (!o.r) return;
     ['drivers','businesses','customers','digitalCount','sales','commissions'].forEach(function(k){ T[k] += o.r[k] || 0; });
     Object.keys(o.r.byPlatform || {}).forEach(function(k){ var b = o.r.byPlatform[k]; P[k] = (P[k] || 0) + (b.referrals || 0) + (b.salesCount || 0); });
   });
-  $('sum').textContent = pilots.length ? (pilots.length + ' Ajan nan pilòt la · ' + T.active + ' aktif · ' + T.opened + ' louvri app la deja' + (mpOk ? '' : ' · ⚠ rezilta yo bezwen kòd konsòl MyPlopPlop la')) : 'Pa gen Ajan nan pilòt la ankò.';
-  $('kpis').innerHTML = [['Chofè', T.drivers], ['Biznis', T.businesses], ['Kliyan', T.customers], ['Sèvis dijital', T.digitalCount], ['Vant HTG', htg(T.sales)], ['Komisyon HTG', htg(T.commissions)]]
+  $('sum').textContent = pilots.length ? (pilots.length + ' Ajan nan pilòt la · ' + T.active + ' aktif · ' + T.opened + ' louvri app la deja' + (mpOk ? '' : ' · ⚠ rezilta yo bezwen kòd konsòl MyPlopPlop la') + (posUnattributed ? ' · ' + posUnattributed + ' vant POS pa atribiye (telefòn san badj apwouve)' : '')) : 'Pa gen Ajan nan pilòt la ankò.';
+  $('kpis').innerHTML = [['Chofè', T.drivers], ['Biznis', T.businesses], ['Kliyan', T.customers], ['Sèvis dijital', T.digitalCount], ['Vant HTG', htg(T.sales)], ['Komisyon HTG', htg(T.commissions)], ['POS anrejistre HTG', htg(T.pos)], ['POS konfime HTG', htg(T.posOk)]]
     .map(function(k){ return '<div><small>' + k[0] + '</small><b>' + k[1] + '</b></div>'; }).join('');
   var svc = Object.keys(P).sort(function(a, b){ return P[b] - P[a]; });
   $('svc').innerHTML = svc.length ? '<span style="background:none;padding-left:0">Sèvis ki pi aktif:</span>' + svc.map(function(k){ return '<span>' + esc(PLATFORM[k] || k) + ' · ' + P[k] + '</span>'; }).join('') : '';
   var rank = 0, cards = [];
   $('rows').innerHTML = rows.map(function(o){
     var p = o.x.pilot, t = o.x.trial, r = o.r, has = r && r.found;
-    if (has && score(r) > 0) rank++;
-    var cls = has && score(r) > 0 && rank <= 3 ? 'top' + rank : '';
+    var sc = score(r, o.x), ps = posOf(o.x);
+    if (sc > 0) rank++;
+    var cls = sc > 0 && rank <= 3 ? 'top' + rank : '';
+    var posRec = ps.recorded ? ps.recorded + ' · ' + htg(ps.recordedAmount) + '<span class="sub">pa Ajan: ' + htg(ps.share) + '</span>' : '0';
+    var posOk = ps.confirmed ? ps.confirmed + ' · ' + htg(ps.confirmedAmount) : '0';
+    var posVoid = (ps.cancelled || ps.refunded) ? ps.cancelled + ' / ' + ps.refunded + (ps.refundedAmount ? '<span class="sub">' + htg(ps.refundedAmount) + ' ranbouse</span>' : '') : '0 / 0';
     var app = !t || !t.seenCount ? 'poko' : t.seenCount + '× · ' + d(t.lastSeen);
     function n(k, money){ return has ? (money ? htg(r[k]) : r[k]) : '—'; }
     var medal = { top1:'🥇', top2:'🥈', top3:'🥉' }[cls] || '';
@@ -352,15 +362,17 @@ function drawTable(){
       '<span class="sub mono">' + esc(p.agentId) + ' · ' + esc(p.referralCode) + '</span>' +
       '<span class="sub">' + d(p.startedAt) + ' → ' + d(p.endsAt) + ' · ' + (p.state === 'active' ? p.daysLeft : 0) + ' jou ki rete · App: ' + esc(app) + '</span>' +
       (o.x.agent && o.x.agent.phoneChanged ? '<span class="sub" style="color:var(--red)">⚠ telefòn badj la chanje depi pilòt la</span>' : '') + '</div>' +
-      '<div class="rk">' + medal + (has && score(r) > 0 ? ' ' + rank : '') + '</div></div>' +
+      '<div class="rk">' + medal + (sc > 0 ? ' ' + rank : '') + '</div></div>' +
       '<div class="nums"><div>Chofè<b>' + n('drivers') + '</b></div><div>Biznis<b>' + n('businesses') + '</b></div><div>Kliyan<b>' + n('customers') + '</b></div>' +
-      '<div>Dijital<b>' + n('digitalCount') + '</b></div><div>Vant HTG<b>' + n('sales', 1) + '</b></div><div>Komisyon<b>' + n('commissions', 1) + '</b></div></div></div>');
-    return '<tr class="' + cls + '"><td>' + (has && score(r) > 0 ? rank : '') + '</td><td><b>' + esc(p.name) + '</b><span class="sub mono">' + esc(p.agentId) + ' · ' + esc(p.referralCode) + '</span>' +
+      '<div>Dijital<b>' + n('digitalCount') + '</b></div><div>Vant HTG<b>' + n('sales', 1) + '</b></div><div>Komisyon<b>' + n('commissions', 1) + '</b></div>' +
+      '<div>POS anrejistre<b>' + posRec + '</b></div><div>POS konfime<b>' + posOk + '</b></div><div>Anile / Ranb.<b>' + posVoid + '</b></div></div></div>');
+    return '<tr class="' + cls + '"><td>' + (sc > 0 ? rank : '') + '</td><td><b>' + esc(p.name) + '</b><span class="sub mono">' + esc(p.agentId) + ' · ' + esc(p.referralCode) + '</span>' +
       (o.x.agent && o.x.agent.phoneChanged ? '<span class="sub" style="color:var(--red)">⚠ telefòn badj la chanje depi pilòt la</span>' : '') + '</td>' +
       '<td><span class="st ' + p.state + '">' + PSTATE[p.state] + '</span><span class="sub">' + d(p.startedAt) + ' → ' + d(p.endsAt) + '</span></td>' +
       '<td>' + (p.state === 'active' ? p.daysLeft : 0) + '</td><td>' + esc(app) + '</td>' +
-      '<td>' + n('drivers') + '</td><td>' + n('businesses') + '</td><td>' + n('customers') + '</td><td>' + n('digitalCount') + '</td><td>' + n('sales', 1) + '</td><td>' + n('commissions', 1) + '</td></tr>';
-  }).join('') || '<tr><td colspan="11" style="text-align:center;color:var(--muted)">—</td></tr>';
+      '<td>' + n('drivers') + '</td><td>' + n('businesses') + '</td><td>' + n('customers') + '</td><td>' + n('digitalCount') + '</td><td>' + n('sales', 1) + '</td><td>' + n('commissions', 1) + '</td>' +
+      '<td>' + posRec + '</td><td>' + posOk + '</td><td>' + posVoid + '</td></tr>';
+  }).join('') || '<tr><td colspan="14" style="text-align:center;color:var(--muted)">—</td></tr>';
   $('cards').innerHTML = cards.join('') || '<div class="meta" style="text-align:center">—</div>';
 }
 </script>

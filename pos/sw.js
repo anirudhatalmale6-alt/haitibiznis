@@ -1,5 +1,5 @@
 /* LajanMaker Center — service worker (offline app shell) */
-var CACHE = 'hb-pos-v75';
+var CACHE = 'hb-pos-v76';
 var SHELL = [
   './',
   './index.html',
@@ -53,6 +53,10 @@ function isDocRequest(req) {
 
 self.addEventListener('fetch', function (e) {
   if (e.request.method !== 'GET') return;
+
+  /* Promo videos go straight to the network: they are large, the player asks
+     for them in pieces (Range), and they must never fill the offline cache. */
+  if (/\.mp4(\?|$)/i.test(e.request.url)) return;
 
   /* The page itself is NETWORK-FIRST.
      This used to be cache-first like everything else, and that is why a seller
