@@ -54,6 +54,10 @@ button,input{font-family:var(--body)}
 .hide{display:none}
 .secth{font-weight:800;font-size:.9rem;margin:22px 2px 2px}
 .foot{text-align:center;font-size:.72rem;color:var(--tm);padding:20px 16px 30px;line-height:1.6}
+.lbl{display:inline-block;border-radius:999px;padding:2px 9px;font-size:.7rem;font-weight:800;white-space:nowrap}
+.lbl.c{background:#dcfce7;color:#166534}.lbl.v{background:#fef3c7;color:#92400e}.lbl.k{background:#dbeafe;color:#1e40af}
+.lbl.x{background:#fee2e2;color:#991b1b}.lbl.u{background:#f1f5f9;color:#475569}
+.cert{margin-top:6px;font-size:.74rem;line-height:1.5;color:var(--tl)}
 </style>
 </head>
 <body>
@@ -61,10 +65,17 @@ button,input{font-family:var(--body)}
 <div class="topbar"><span class="brand">Haiti<em>Biznis</em> · Ajan LajanMaker</span></div>
 
 <div class="intro">
-  <h1>Apwouve ajan yo</h1>
-  <p>Chak moun ki enskri sou paj parenaj la parèt isit la. Lè ou apwouve yon moun,
-  kòd li a kòmanse travay menm kote a: si yon moun enskri ak lyen li, sistèm nan
-  make referans lan epi li kalkile komisyon an pou li otomatikman.</p>
+  <h1>Kòd parenaj (Koutye Biznis)</h1>
+  <p>Chak moun ki ranpli fòm parenaj la (koutye.html) parèt isit la. Lè ou aktive kòd yon moun,
+  kòd li a kòmanse travay: si yon moun enskri ak lyen li, sistèm nan make referans lan epi li
+  kalkile komisyon an pou li.</p>
+  <p style="margin-top:8px"><b>Aktive yon kòd parenaj PA sètifye moun nan.</b> Sètifikasyon Ajan LajanMaker
+  (badj, nimewo LMA-…) fèt sèlman nan konsòl Akademi an (ajan-admin.html).</p>
+  <div style="margin-top:10px;font-size:.8rem;line-height:1.7;color:var(--tl)">
+    <span class="lbl c">✅ Ajan LajanMaker sètifye</span> badj li aktif nan rejis la ·
+    <span class="lbl v">⏳ Verifikasyon an atant</span> badj li anrejistre men poko apwouve ·
+    <span class="lbl k">🔵 Manm Koutye Biznis — pa sètifye</span> pa gen badj nan rejis la
+  </div>
 </div>
 
 <div class="wrap">
@@ -140,6 +151,42 @@ button,input{font-family:var(--body)}
 var API = 'https://myplopplop-api.onrender.com';
 var pin = '';
 var signups = [];
+/* 23 Oct 2026 (Jeffery): READ-ONLY labels. Each referral sign-up is matched,
+   by the last 8 digits of the phone, against the certified-Ajan registry on the
+   HaitiBiznis server. Nothing is linked, merged or changed by this - it only
+   shows who is a certified Ajan and who is a referral member only.
+   null = the registry could not be read (the label says so, never guesses). */
+var HB = 'https://haitibiznis-api.onrender.com';
+var registry = null;
+function key8(p){ var d=String(p||'').replace(/\D/g,''); return d.length>=8 ? d.slice(-8) : ''; }
+var RANK = { active: 0, pending: 1, suspended: 2, revoked: 3 };
+function certOf(s){
+  if (registry === null) return { k: 'u' };
+  var k = key8(s.phone); if (!k) return { k: 'k', none: true };
+  var hits = registry.filter(function(a){ return key8(a.phone) === k; })
+                     .sort(function(a,b){ return (RANK[a.status]||9) - (RANK[b.status]||9); });
+  if (!hits.length) return { k: 'k' };
+  var a = hits[0];
+  return { k: a.status === 'active' ? 'c' : a.status === 'pending' ? 'v' : 'x', a: a, more: hits.length - 1 };
+}
+function certHtml(s){
+  var c = certOf(s), a = c.a;
+  var chip = { c: '<span class="lbl c">✅ Ajan LajanMaker sètifye</span>',
+               v: '<span class="lbl v">⏳ Verifikasyon an atant</span>',
+               k: '<span class="lbl k">🔵 Manm Koutye Biznis — pa sètifye</span>',
+               x: '<span class="lbl x">⛔ Badj sispann / anile</span>',
+               u: '<span class="lbl u">❔ Rejis Ajan an pa disponib</span>' }[c.k];
+  var line = '';
+  if (a) {
+    line = 'Badj ' + esc(a.agentId) + ' · ' + esc(a.name);
+    if (a.referralCode && s.koutyeCode && a.referralCode.toUpperCase() !== String(s.koutyeCode).toUpperCase())
+      line += '<br>⚠️ Kòd li nan rejis Ajan an: <b>' + esc(a.referralCode) + '</b> — diferan de kòd parenaj sa a. Pa gen anyen ki chanje; pou enfòmasyon sèlman.';
+    if (c.more > 0) line += '<br>⚠️ ' + c.more + ' lòt badj gen menm nimewo telefòn sa a.';
+  } else if (c.none) {
+    line = 'Pa gen nimewo telefòn pou nou verifye.';
+  }
+  return chip + (line ? '<div class="cert">' + line + '</div>' : '');
+}
 
 function $(i){return document.getElementById(i);}
 function esc(s){return String(s==null?'':s).replace(/[&<>"']/g,function(c){
@@ -168,8 +215,14 @@ function load(){
     api('GET','/api/admin-pin/agent-signups?status=all'),
     /* A missing commission list must not blank the whole page - the agent list
        is the part he opens this for. */
-    api('GET','/api/admin-pin/commissions?status=pending').catch(function(){return {commissions:[]};})
+    api('GET','/api/admin-pin/commissions?status=pending').catch(function(){return {commissions:[]};}),
+    /* the certified-Ajan registry, read-only; a failure only greys the labels */
+    fetch(HB+'/api/agents/admin/list',{headers:{'x-admin-pin':pin}})
+      .then(function(r){ return r.ok ? r.json() : null; })
+      .then(function(j){ return j && j.agents ? j.agents : null; })
+      .catch(function(){ return null; })
   ]).then(function(r){
+    registry = r[2];
     signups=r[0].signups||[];
     draw(r[0].approved);
     drawComms(r[1].commissions||[]);
@@ -220,26 +273,34 @@ function draw(approvedAgents){
   $('pendBox').innerHTML = pend.length
     ? pend.map(function(s){
         return '<div class="row"><div class="r1"><div>'
-          +'<div class="nm">'+esc(s.name)+' <span class="tag p">Ap tann</span></div>'
+          +'<div class="nm">'+esc(s.name)+' <span class="tag p">Kòd an atant</span></div>'
           +'<div class="meta">enskri '+esc(ago(s.createdAt))+' pase'
-            +(s.referredBy?(' · yon moun ki rele "'+esc(s.referredBy)+'" voye l'):'')+'</div></div>'
+            +(s.referredBy?(' · yon moun ki rele "'+esc(s.referredBy)+'" voye l'):'')+'</div>'
+          +'<div style="margin-top:6px">'+certHtml(s)+'</div></div>'
           +'<div class="code">'+esc(s.koutyeCode)+'</div></div>'
-          +'<button class="btn ok" data-ap="'+esc(s._id)+'" style="margin-top:10px">✓ Apwouve '+esc(s.name.split(' ')[0])+'</button>'
+          +'<button class="btn ok" data-ap="'+esc(s._id)+'" style="margin-top:10px">✓ Aktive kòd parenaj '+esc(s.name.split(' ')[0])+'</button>'
           +'</div>';
       }).join('')
     : '<div class="panel" style="color:var(--tm)">Pa gen pèsonn k ap tann.</div>';
 
-  $('all').className = pend.length>1 ? 'btn ok' : 'btn ok hide';
-  $('doneH').textContent = done.length ? ('Ajan ki ap travay ('+done.length+')') : '';
+  /* Jeffery, 23 Oct: approval stays one person at a time - the "approve
+     everyone" button is never shown. */
+  $('all').className = 'btn ok hide';
+  $('doneH').textContent = done.length ? ('Kòd parenaj aktif ('+done.length+')') : '';
   $('doneBox').innerHTML = done.map(function(s){
     return '<div class="row done"><div class="r1"><div>'
-      +'<div class="nm">'+esc(s.name)+' <span class="tag a">Aktif</span></div>'
-      +'<div class="meta">kòd li a ap travay — lyen: haitibiznis.com/koutye.html?ref='+esc(s.koutyeCode)+'</div></div>'
+      +'<div class="nm">'+esc(s.name)+' <span class="tag a">Kòd aktif</span></div>'
+      +'<div class="meta">kòd li a ap travay — lyen: haitibiznis.com/koutye.html?ref='+esc(s.koutyeCode)+'</div>'
+      +'<div style="margin-top:6px">'+certHtml(s)+'</div></div>'
       +'<div class="code">'+esc(s.koutyeCode)+'</div></div></div>';
   }).join('');
 
-  $('cnt').textContent = pend.length+' ap tann · '+done.length+' aktif';
-  $('cntSub').textContent = (approvedAgents!=null? approvedAgents+' kont ajan sou sèvè a':'');
+  $('cnt').textContent = pend.length+' kòd an atant · '+done.length+' kòd aktif';
+  var tally = { c: 0, v: 0, k: 0, x: 0, u: 0 };
+  signups.forEach(function(s){ tally[certOf(s).k]++; });
+  $('cntSub').textContent = registry === null
+    ? 'Rejis Ajan sètifye a pa t ka li (kòd konsòl HaitiBiznis la?) — etikèt yo pa disponib.'
+    : ('✅ ' + tally.c + ' sètifye · ⏳ ' + tally.v + ' an atant · 🔵 ' + tally.k + ' pa sètifye' + (tally.x ? ' · ⛔ ' + tally.x + ' sispann' : ''));
 
   Array.prototype.forEach.call(document.querySelectorAll('[data-ap]'),function(b){
     b.onclick=function(){approve(b.dataset.ap,b);};
