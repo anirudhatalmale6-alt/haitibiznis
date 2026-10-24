@@ -437,7 +437,7 @@ function showDashboard() {
    code: what he sets is stored, salted, in each database. One code opens both
    APIs, so a change has to land on both or not count.
    --------------------------------------------------------------------------- */
-function secOpen() { document.getElementById('secModal').style.display = 'flex'; secAdminList(); }
+function secOpen() { document.getElementById('secModal').style.display = 'flex'; secAdminList(); dlList(); }
 function secClose() { document.getElementById('secModal').style.display = 'none'; }
 
 function secPost(base, path, body, usePin) {
@@ -542,6 +542,72 @@ function secGrantAdmin() {
   }).catch(function () {
     btn.disabled = false;
     say('#b91c1c', 'Koneksyon echwe. Eseye ankò.');
+  });
+}
+
+/* Taking admin back - so a second person can be made admin for ONE approval
+   (Jeffery's own driver profile, which he may not approve himself) and then
+   returned to what they were. The server restores their previous role. */
+function secRevokeAdmin() {
+  var phone = document.getElementById('gaPhone').value.trim();
+  var msg = document.getElementById('gaMsg');
+  function say(cls, txt) { msg.style.color = cls; msg.textContent = txt; }
+  if (!phone) { say('#b91c1c', 'Antre nimewo telefòn nan'); return; }
+  if (!confirm('Retire dwa administratè ' + phone + '?')) return;
+  say('#6b7280', 'Ap retire dwa a...');
+  secPost(MP_API, '/revoke-admin', { phone: phone }, pin).then(function (r) {
+    if (r.ok && r.d && r.d.success) {
+      document.getElementById('gaPhone').value = '';
+      say('#0f9d55', (r.d.name || phone) + ' pa administratè ankò.');
+      secAdminList();
+    } else if (r.status === 404) {
+      say('#b91c1c', 'Nou pa jwenn okenn kont ak nimewo sa a.');
+    } else {
+      say('#b91c1c', (r.d && r.d.error) || 'Sa pa t mache. Eseye ankò.');
+    }
+  }).catch(function () { say('#b91c1c', 'Koneksyon echwe. Eseye ankò.'); });
+}
+
+/* ═══ DEMO LOCK (24 Oct 2026) ═══ A shop's deliveries reserved for ONE driver,
+   enforced by the server; switched off here the moment filming is over. */
+function dlCall(method, path, body) {
+  return fetch(MP_API + path, { method: method, headers: { 'Content-Type': 'application/json', 'x-admin-pin': pin },
+    body: body ? JSON.stringify(body) : undefined })
+    .then(function (r) { return r.json().catch(function () { return {}; }).then(function (d) { return { ok: r.ok, status: r.status, d: d }; }); });
+}
+function dlEsc(v) { return String(v == null ? '' : v).replace(/[&<>"']/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]; }); }
+function dlList() {
+  var el = document.getElementById('dlList'); if (!el) return;
+  dlCall('GET', '/dispatch-lock').then(function (r) {
+    var L = (r.d && r.d.locks) || [];
+    if (!r.ok) { el.innerHTML = '<span style="color:#b91c1c">Nou pa ka li eta a.</span>'; return; }
+    el.innerHTML = L.length ? L.map(function (x) {
+      return '<div style="border:2px solid #f59e0b;background:#fffbeb;border-radius:10px;padding:10px;margin-top:8px">'
+        + '<b>🔒 ' + dlEsc(x.name) + '</b><br><span style="font-size:12px">Sèlman: ' + x.drivers.map(function (d) { return dlEsc(d.name + ' (' + d.phone + ')'); }).join(', ')
+        + (x.since ? '<br>Depi ' + dlEsc(new Date(x.since).toLocaleString()) : '') + '</span>'
+        + '<button onclick="dlOff(\'' + dlEsc(x.storeId) + '\')" style="width:100%;margin-top:8px;padding:10px;border:none;border-radius:9px;background:#D21034;color:#fff;font-weight:800;cursor:pointer">🔓 Retire kadna a (livrezon nòmal)</button></div>';
+    }).join('') : '<span style="color:#0f9d55;font-weight:700">🔓 Pa gen okenn boutik ki fèmen. Tout livrezon nòmal.</span>';
+  }).catch(function () { el.textContent = 'Koneksyon echwe.'; });
+}
+function dlOn() {
+  var st = document.getElementById('dlStore').value.trim(), ph = document.getElementById('dlPhone').value.trim();
+  var msg = document.getElementById('dlMsg');
+  function say(cls, txt) { msg.style.color = cls; msg.textContent = txt; }
+  if (!st || !ph) { say('#b91c1c', 'Mete boutik la ak nimewo chofè a'); return; }
+  say('#6b7280', 'Ap mete kadna a...');
+  dlCall('POST', '/dispatch-lock', { store: st, phone: ph }).then(function (r) {
+    if (r.ok && r.d.success) {
+      say('#0f9d55', 'Kadna a aktive. Livrezon ' + r.d.lock.name + ' ale SÈLMAN bay ' + r.d.lock.drivers[0].name
+        + (r.d.driverStatus === 'approved' ? '.' : ' — ATANSYON: pwofil chofè a poko apwouve, kòmand lan ap tann.'));
+      dlList();
+    } else say('#b91c1c', (r.d && r.d.error) || 'Sa pa t mache.');
+  }).catch(function () { say('#b91c1c', 'Koneksyon echwe. Eseye ankò.'); });
+}
+function dlOff(id) {
+  if (!confirm('Retire kadna a? Livrezon boutik sa a ap tounen nòmal touswit.')) return;
+  dlCall('DELETE', '/dispatch-lock/' + encodeURIComponent(id)).then(function (r) {
+    document.getElementById('dlMsg').textContent = r.ok ? 'Kadna a retire.' : ((r.d && r.d.error) || 'Sa pa t mache.');
+    dlList();
   });
 }
 
@@ -1341,8 +1407,19 @@ function showToast(msg) {
       <p style="margin:0 0 12px;font-size:13px;color:#6b7280;line-height:1.5">Sa a louvri paj admin MyPlopPlop yo (chofè, machann, kòmand) pou nimewo sa a. Se sèl fason pou vin administratè. Bay tèt ou dwa a anvan tout moun.</p>
       <input id="gaPhone" placeholder="+50931234567" style="width:100%;padding:11px;border:1px solid #d1d5db;border-radius:9px;margin-bottom:10px;font-size:15px">
       <button id="gaBtn" onclick="secGrantAdmin()" style="width:100%;padding:12px;border:none;border-radius:9px;background:#0f9d55;color:#fff;font-weight:800;font-size:15px;cursor:pointer">Bay dwa administratè</button>
+      <button onclick="secRevokeAdmin()" style="width:100%;margin-top:8px;padding:11px;border:1px solid #fca5a5;border-radius:9px;background:#fff;color:#b91c1c;font-weight:800;font-size:14px;cursor:pointer">Retire dwa administratè a</button>
       <div id="gaMsg" style="font-size:13px;font-weight:700;margin-top:8px;min-height:18px"></div>
       <div id="gaList" style="font-size:12px;color:#6b7280;margin-top:8px;line-height:1.6"></div>
+    </div>
+
+    <div style="border:1px solid #e5e7eb;border-radius:12px;padding:16px;margin-bottom:14px">
+      <h4 style="margin:0 0 4px;font-size:15px;font-weight:800">🔒 Kadna demonstrasyon (livrezon)</h4>
+      <p style="margin:0 0 12px;font-size:13px;color:#6b7280;line-height:1.5">Livrezon boutik sa a ap ofri SÈLMAN bay chofè sa a. Si li pa an liy oswa li pa apwouve, kòmand lan TANN — li pa janm ale bay yon lòt chofè. Lòt boutik yo pa chanje. Retire kadna a touswit apre demonstrasyon an.</p>
+      <input id="dlStore" value="boutik-demo-haitibiznis-mvjsa5b3" placeholder="Lyen oswa non boutik la" style="width:100%;padding:11px;border:1px solid #d1d5db;border-radius:9px;margin-bottom:8px;font-size:15px">
+      <input id="dlPhone" placeholder="Telefòn chofè a (egz. 46859702)" style="width:100%;padding:11px;border:1px solid #d1d5db;border-radius:9px;margin-bottom:10px;font-size:15px">
+      <button onclick="dlOn()" style="width:100%;padding:12px;border:none;border-radius:9px;background:#00209F;color:#fff;font-weight:800;font-size:15px;cursor:pointer">🔒 Mete kadna a</button>
+      <div id="dlMsg" style="font-size:13px;font-weight:700;margin-top:8px;min-height:18px"></div>
+      <div id="dlList" style="font-size:13px;margin-top:4px;line-height:1.5"></div>
     </div>
 
     <button onclick="secClose()" style="width:100%;padding:12px;border:1px solid #d1d5db;border-radius:9px;background:#fff;font-weight:700;font-size:15px;cursor:pointer">Fèmen</button>
