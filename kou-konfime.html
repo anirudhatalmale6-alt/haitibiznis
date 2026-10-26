@@ -158,6 +158,7 @@ var I18N = {
     sTiny:'Ou ka tounen sou paj sa a nenpòt lè ak menm lyen an, oswa chèche enskripsyon w ak nimewo telefòn ou.',
     retry:'Tcheke ankò', notFound:'Nou pa jwenn enskripsyon sa a. Tcheke lyen an.',
     err:'Nou pa ka tcheke kounye a. Eseye ankò nan yon ti moman.',
+    readyIp:'PLAS OU REZÈVE', whereT:'Ki kote ak ki lè', timeL:'Lè', cityL:'Vil', addrL:'Adrès', emailIpL:'Imèl ou', ipNote:'Vini ak referans sa a. Si w gen kesyon, ekri nou sou WhatsApp.',
     noRef:'Pa gen referans nan lyen an.', noLink:'Lyen klas la poko mete. Moun ki responsab kou a ap ajoute l — n ap voye l ba ou.'
   },
   fr: {
@@ -179,6 +180,7 @@ var I18N = {
     sTiny:'Vous pouvez revenir sur cette page à tout moment avec le même lien, ou retrouver votre inscription avec votre numéro de téléphone.',
     retry:'Vérifier à nouveau', notFound:'Inscription introuvable. Vérifiez le lien.',
     err:'Vérification impossible pour le moment. Réessayez dans un instant.',
+    readyIp:'VOTRE PLACE EST RÉSERVÉE', whereT:'Où et quand', timeL:'Heure', cityL:'Ville', addrL:'Adresse', emailIpL:'Votre e-mail', ipNote:'Venez avec cette référence. Une question ? Écrivez-nous sur WhatsApp.',
     noRef:'Aucune référence dans le lien.', noLink:'Le lien de la classe n’est pas encore configuré. Le responsable du cours va l’ajouter — nous vous l’enverrons.'
   },
   en: {
@@ -200,6 +202,7 @@ var I18N = {
     sTiny:'You can come back to this page any time with the same link, or find your registration with your phone number.',
     retry:'Check again', notFound:'We cannot find that registration. Please check the link.',
     err:'We cannot check right now. Please try again in a moment.',
+    readyIp:'YOUR SEAT IS BOOKED', whereT:'Where and when', timeL:'Time', cityL:'Town', addrL:'Address', emailIpL:'Your email', ipNote:'Bring this reference. Questions? Message us on WhatsApp.',
     noRef:'No reference in the link.', noLink:'The classroom link has not been set up yet. The course organiser is adding it — we will send it to you.'
   }
 };
@@ -263,6 +266,9 @@ function paint(d) {
   var c = d.course || {};
   var cr = d.classroom || {};
   var link = safeUrl(cr.link);
+  /* 26 Oct 2026: an in-person class. The server sends `venue` only for a
+     PAID registration - the address is what the seat buys. */
+  if (d.venue) return paintVenue(d, c, cr, out);
   var h = '<div class="ok-card">' +
     '<div class="ok-top">' +
       '<div class="tick">&#9989;</div>' +
@@ -309,6 +315,32 @@ function paint(d) {
   }
 
   h += '<a class="btn2" href="kou-mwen.html">' + t('mine') + '</a>' +
+    '</div></div>';
+  out.innerHTML = h;
+}
+
+function paintVenue(d, c, cr, out) {
+  var v = d.venue;
+  var when = esc(v.startDate || '') + (v.endDate && v.endDate !== v.startDate ? ' &#8594; ' + esc(v.endDate) : '');
+  var h = '<div class="ok-card">' +
+    '<div class="ok-top"><div class="tick">&#9989;</div><h1>' + t('paid') + '</h1><p>' + t('readyIp') + '</p></div>' +
+    '<div class="ok-body">' +
+      '<h2>' + esc(d.courseTitle || c.title || '') + '</h2>' +
+      (c.instructor ? '<div class="who">' + t('by') + ': ' + esc(c.instructor) + '</div>' : '') +
+      '<div class="rowline"><span>' + t('amountL') + '</span><span>' +
+        (Number(d.amount) > 0 ? money(d.amount) + ' ' + esc(d.currency || 'HTG') : t('free')) + '</span></div>' +
+      '<div class="rowline"><span>' + t('emailIpL') + '</span><span>' + esc(d.email || '') + '</span></div>' +
+      '<div class="rowline"><span>' + t('refL') + '</span><span class="ref">' + esc(d.referenceId) + '</span></div>' +
+      '<div class="steps"><h3>&#127979; ' + t('whereT') + '</h3>' +
+        '<div class="rowline"><span>' + t('dateL') + '</span><span>' + when + '</span></div>' +
+        (v.sessionTime ? '<div class="rowline"><span>' + t('timeL') + '</span><span>' + esc(v.sessionTime) + '</span></div>' : '') +
+        (v.city ? '<div class="rowline"><span>' + t('cityL') + '</span><span>' + esc(v.city) + '</span></div>' : '') +
+        '<div class="code-box" style="text-align:left"><div class="lbl">' + t('addrL') + '</div>' +
+          '<div class="val" style="font-family:inherit;font-size:1rem;white-space:pre-wrap">' + esc(v.location || '') + '</div></div>' +
+      '</div>' +
+      (cr.instructions ? '<div class="inst">' + esc(cr.instructions) + '</div>' : '') +
+      '<div class="inst" style="background:var(--green-light);color:var(--green-deep)">' + t('ipNote') + '</div>' +
+      '<a class="btn2" href="kou-mwen.html">' + t('mine') + '</a>' +
     '</div></div>';
   out.innerHTML = h;
 }

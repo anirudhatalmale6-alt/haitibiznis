@@ -147,6 +147,7 @@ var I18N = {
     open:'Wè detay peman an', codeL:'Kòd klas la:',
     stNone:'Envitasyon Google Classroom poko voye — n ap voye l nan Gmail ou.',
     stInvited:'Envitasyon an voye nan Gmail ou. Aksepte l epi antre.',
+    ipT:'&#127979; Fòmasyon an pèsòn', addrL:'Adrès', timeL:'Lè', cityL:'Vil',
     stActive:'Ou nan klas la.'
   },
   fr: {
@@ -165,6 +166,7 @@ var I18N = {
     open:'Voir le détail du paiement', codeL:'Code de la classe :',
     stNone:'Invitation Google Classroom pas encore envoyée — elle arrive dans votre Gmail.',
     stInvited:'Invitation envoyée dans votre Gmail. Acceptez-la puis entrez.',
+    ipT:'&#127979; Formation en présentiel', addrL:'Adresse', timeL:'Heure', cityL:'Ville',
     stActive:'Vous êtes dans la classe.'
   },
   en: {
@@ -183,6 +185,7 @@ var I18N = {
     open:'See payment details', codeL:'Class code:',
     stNone:'Google Classroom invitation not sent yet — it is coming to your Gmail.',
     stInvited:'Invitation sent to your Gmail. Accept it, then come in.',
+    ipT:'&#127979; In-person training', addrL:'Address', timeL:'Time', cityL:'Town',
     stActive:'You are in the class.'
   }
 };
@@ -254,7 +257,15 @@ function render(rows) {
         (Number(r.amount) > 0 ? money(r.amount) + ' ' + esc(r.currency || 'HTG') : t('free')) +
       '</div>';
 
-    if (r.status === 'completed') {
+    if (r.status === 'completed' && r.venue) {
+      /* in person: the server sends the venue only for a PAID registration */
+      var v = r.venue;
+      html += '<div class="cls"><b>' + t('ipT') + '</b><br>' +
+        esc(v.startDate || '') + (v.endDate && v.endDate !== v.startDate ? ' &#8594; ' + esc(v.endDate) : '') +
+        (v.sessionTime ? ' · ' + esc(v.sessionTime) : '') + '<br>' +
+        t('addrL') + ': ' + esc(v.location || '') + (v.city ? ', ' + esc(v.city) : '') + '</div>';
+      if (cr.instructions) html += '<div class="cls">' + esc(cr.instructions) + '</div>';
+    } else if (r.status === 'completed') {
       html += '<div class="cls">' + classWord(r.classroomStatus) + '</div>';
       if (cr.code) html += '<div class="cls">' + t('codeL') +
         ' <span class="code">' + esc(cr.code) + '</span></div>';

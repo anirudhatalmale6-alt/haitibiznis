@@ -75,6 +75,8 @@ button{font-family:var(--body);cursor:pointer;border:none;background:none}
 .pill.seats{background:var(--gold-soft);color:#7A5C0A}
 .pill.full{background:#FDECEF;color:var(--red-dark)}
 .pill.date{background:var(--border-light);color:var(--text-light)}
+.pill.mode{background:#E8EEFB;color:#00209F}
+.pill.mode.ip{background:#FDECEF;color:#B00D2C}
 .go{font-size:.82rem;font-weight:800;color:var(--blue)}
 
 .sheet{position:fixed;inset:0;z-index:300;background:rgba(10,14,26,.55);display:none;
@@ -189,6 +191,9 @@ var I18N = {
     needAll:'Tanpri ranpli non, telefòn ak Gmail ou.',
     badEmail:'Imèl la pa sanble bon. Egzanp: non@gmail.com',
     unlimited:'Pa gen limit',
+    inPerson:'&#127979; AN PÈSÒN', online:'&#128187; ANLIY', timeL:'Lè', cityL:'Vil',
+    emailLip:'Adrès imèl ou', emailWhyIp:'Se la nou voye konfimasyon an ak adrès egzak fòmasyon an.',
+    addrAfter:'Adrès egzak la ap parèt apre peman w konfime.',
     footer:'Peman yo fèt ak MonCash, NatCash oswa kat kredi. Ou pap jwenn lyen klas la anvan peman w konfime.'
   },
   fr: {
@@ -206,6 +211,9 @@ var I18N = {
     needAll:'Veuillez remplir nom, téléphone et Gmail.',
     badEmail:'L’adresse ne semble pas valide. Exemple : nom@gmail.com',
     unlimited:'Sans limite',
+    inPerson:'&#127979; EN PRÉSENTIEL', online:'&#128187; EN LIGNE', timeL:'Heure', cityL:'Ville',
+    emailLip:'Votre adresse e-mail', emailWhyIp:'C’est là que nous envoyons la confirmation et l’adresse exacte de la formation.',
+    addrAfter:'L’adresse exacte s’affiche après la confirmation du paiement.',
     footer:'Paiement par MonCash, NatCash ou carte bancaire. Le lien de la classe n’est donné qu’après confirmation du paiement.'
   },
   en: {
@@ -223,6 +231,9 @@ var I18N = {
     needAll:'Please fill in your name, phone and Gmail.',
     badEmail:'That address does not look right. Example: name@gmail.com',
     unlimited:'No limit',
+    inPerson:'&#127979; IN PERSON', online:'&#128187; ONLINE', timeL:'Time', cityL:'Town',
+    emailLip:'Your email address', emailWhyIp:'We send the confirmation and the exact address of the training there.',
+    addrAfter:'The exact address appears once your payment is confirmed.',
     footer:'Payment by MonCash, NatCash or card. The classroom link is only given once your payment is confirmed.'
   }
 };
@@ -269,7 +280,8 @@ function render(list) {
     var seatPill = c.seatsLeft === null || c.seatsLeft === undefined
       ? '' : (full ? '<span class="pill full">' + t('full') + '</span>'
                    : '<span class="pill seats">' + t('seats').replace('{n}', c.seatsLeft) + '</span>');
-    var when = c.startDate || '';
+    var ip = c.mode === 'in_person';
+    var when = (c.startDate || '') + (ip && c.sessionTime ? ' · ' + c.sessionTime : '');
     html += '<div class="ko" onclick="openCourse(\'' + c._id + '\')">' +
       (c.imageUrl ? '<img class="ko-img" src="' + esc(c.imageUrl) + '" alt="" ' +
           'onerror="this.style.display=\'none\'">' : '') +
@@ -281,6 +293,8 @@ function render(list) {
         '<div class="ko-foot">' +
           '<span class="price' + (c.isFree ? ' free' : '') + '">' +
             (c.isFree ? t('free') : money(c.price) + ' HTG') + '</span>' +
+          '<span class="pill mode' + (ip ? ' ip' : '') + '">' + t(ip ? 'inPerson' : 'online') + '</span>' +
+          (ip && c.city ? '<span class="pill date">&#128205; ' + esc(c.city) + '</span>' : '') +
           (when ? '<span class="pill date">' + esc(when) + '</span>' : '') +
           '<span class="go">' + t('go') + '</span>' +
         '</div>' +
@@ -314,6 +328,11 @@ function openCourse(id) {
          (c.isFree ? t('free') : money(c.price) + ' HTG') + '</span></div>';
   if (c.startDate) h += '<div class="rowline"><span>' + t('from') + '</span><span>' + esc(c.startDate) + '</span></div>';
   if (c.endDate) h += '<div class="rowline"><span>' + t('to') + '</span><span>' + esc(c.endDate) + '</span></div>';
+  var ip = c.mode === 'in_person';
+  h += '<div class="rowline"><span></span><span class="pill mode' + (ip ? ' ip' : '') + '">' + t(ip ? 'inPerson' : 'online') + '</span></div>';
+  if (ip && c.sessionTime) h += '<div class="rowline"><span>' + t('timeL') + '</span><span>' + esc(c.sessionTime) + '</span></div>';
+  if (ip && c.city) h += '<div class="rowline"><span>' + t('cityL') + '</span><span>' + esc(c.city) + '</span></div>';
+  if (ip) h += '<div class="why" style="margin-top:6px">' + t('addrAfter') + '</div>';
   h += '<div class="rowline"><span>' + t('students') + '</span><span>' +
         (c.maxStudents ? (c.seatsLeft + ' / ' + c.maxStudents) : t('unlimited')) + '</span></div>';
 
@@ -330,9 +349,9 @@ function openCourse(id) {
        '<input type="text" id="rName" autocomplete="name" value="' + esc(saved.name) + '">' +
        '<label for="rPhone">' + t('phoneL') + '</label>' +
        '<input type="tel" id="rPhone" inputmode="tel" autocomplete="tel" placeholder="3xxx xxxx" value="' + esc(saved.phone) + '">' +
-       '<label for="rEmail">' + t('emailL') + '</label>' +
+       '<label for="rEmail">' + t(ip ? 'emailLip' : 'emailL') + '</label>' +
        '<input type="email" id="rEmail" inputmode="email" autocomplete="email" placeholder="non@gmail.com" value="' + esc(saved.email) + '">' +
-       '<div class="why">' + t('emailWhy') + '</div>';
+       '<div class="why">' + t(ip ? 'emailWhyIp' : 'emailWhy') + '</div>';
 
   if (!c.isFree) {
     h += '<label>' + t('payL') + '</label><div class="pays">';
@@ -399,7 +418,8 @@ function submitReg() {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({ courseId: c._id, studentName: name, phone: phone,
-                           email: email, paymentMethod: _pay })
+                           email: email, paymentMethod: _pay,
+                           source: TRACK.src, refCode: TRACK.ref })
   }).then(function(r) { return r.json().then(function(d) { return { code: r.status, d: d }; }); })
     .then(function(res) {
       var d = res.d || {};
@@ -435,6 +455,22 @@ function submitReg() {
       fail(t('err'));
     });
 }
+
+/* ─── WHERE THE STUDENT CAME FROM ────────────────────────────────────────
+   26 Oct 2026: ?src= (which advert) and ?ref= (which Ajan code) arrive from
+   the Academy page. Kept for this visit so a student who browses first still
+   carries them. Recorded on the registration only - nothing is credited. */
+var TRACK = (function() {
+  var q = new URLSearchParams(location.search), out = { src: '', ref: '' };
+  try {
+    out.src = q.get('src') || sessionStorage.getItem('ko_src') || '';
+    out.ref = q.get('ref') || sessionStorage.getItem('ko_ref') || '';
+    if (out.src) sessionStorage.setItem('ko_src', out.src);
+    if (out.ref) sessionStorage.setItem('ko_ref', out.ref);
+  } catch (e) { out.src = q.get('src') || ''; out.ref = q.get('ref') || ''; }
+  out.src = out.src.slice(0, 60); out.ref = out.ref.slice(0, 40);
+  return out;
+})();
 
 /* ─── BOOT ──────────────────────────────────────────────────────────────── */
 function load() {

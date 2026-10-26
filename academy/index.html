@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="ht">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>LajanMaker Academy — Enskri</title>
+<meta name="description" content="Fòmasyon LajanMaker Academy: an pèsòn oswa anliy. Enskri, peye ak MonCash oswa NatCash, pase egzamen an epi jwenn sètifika w.">
+<meta name="theme-color" content="#00209F">
+<meta property="og:title" content="LajanMaker Academy — Enskri kounye a">
+<meta property="og:description" content="An pèsòn oswa anliy. Aprann • Vann • Fè Lajan.">
+<meta property="og:url" content="https://haitibiznis.com/academy/">
+<meta property="og:type" content="website">
+<meta property="og:image" content="https://haitibiznis.com/assets/lajanmaker-logo.png">
+<link rel="canonical" href="https://haitibiznis.com/academy/">
+<link rel="icon" type="image/x-icon" href="../favicon.ico">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --blue:#00209F;--blue-deep:#001566;--red:#D21034;--gold:#D4A017;--gold-soft:#FDF3D7;
+  --green:#1B8C3D;--green-soft:#E8F5E9;
+  --bg:#F5F7FA;--card:#FFFFFF;--text:#1A2A4A;--muted:#5A6B8A;--border:#E2E8F0;
+  --chip:#F0F3F7;
+  --body:'Plus Jakarta Sans',system-ui,sans-serif;--display:'DM Serif Display',Georgia,serif;
+}
+@media (prefers-color-scheme: dark){
+  :root{--bg:#0B1020;--card:#141B2E;--text:#E8ECF5;--muted:#A3AEC4;--border:#27304A;--chip:#1C2540;
+        --gold-soft:#3A3115;--green-soft:#143022}
+}
+body{font-family:var(--body);background:var(--bg);color:var(--text);-webkit-font-smoothing:antialiased;min-height:100vh}
+a{color:inherit;text-decoration:none}
+button{font-family:var(--body);cursor:pointer;border:none;background:none;color:inherit}
+.flag{height:4px;background:linear-gradient(90deg,var(--blue) 50%,var(--red) 50%)}
+.lang{display:flex;justify-content:center;gap:4px;padding:6px 8px;background:#0A0E1A}
+.lang button{font-size:.72rem;font-weight:700;color:rgba(255,255,255,.65);padding:4px 10px;border-radius:6px}
+.lang button.on{background:var(--gold);color:#0A0E1A}
+.wrap{max-width:560px;margin:0 auto;padding:0 16px 40px}
+
+.hero{text-align:center;padding:26px 4px 6px}
+.hero img{width:84px;height:84px;border-radius:20px;object-fit:cover;box-shadow:0 6px 18px rgba(0,0,0,.15);background:#fff}
+.hero h1{font-family:var(--display);font-size:2rem;line-height:1.1;margin:14px 0 6px;letter-spacing:-.3px}
+.slogan{font-weight:900;font-size:.95rem;letter-spacing:2px;color:var(--red);margin-bottom:10px}
+.hero p{color:var(--muted);font-size:.95rem;line-height:1.55}
+.cta{display:block;width:100%;margin:18px 0 6px;padding:17px;border-radius:16px;background:var(--red);color:#fff;
+     font-weight:900;font-size:1.08rem;letter-spacing:.5px;text-align:center;box-shadow:0 6px 16px rgba(210,16,52,.28)}
+
+.sec{margin-top:26px}
+.sec h2{font-size:1.05rem;font-weight:900;margin-bottom:12px}
+.choice{background:var(--card);border:2px solid var(--border);border-radius:20px;padding:18px;margin-bottom:14px}
+.choice.ip{border-color:rgba(210,16,52,.35)}
+.choice.on{border-color:rgba(0,32,159,.35)}
+.ch-top{display:flex;align-items:center;justify-content:space-between;gap:10px}
+.ch-name{font-size:1.15rem;font-weight:900}
+.ch-price{font-weight:900;font-size:1.1rem;white-space:nowrap}
+.ch-sub{color:var(--muted);font-size:.88rem;line-height:1.5;margin-top:6px}
+.sess{display:flex;align-items:center;justify-content:space-between;gap:10px;background:var(--chip);
+      border-radius:14px;padding:12px;margin-top:10px}
+.sess b{display:block;font-size:.92rem}
+.sess span{color:var(--muted);font-size:.8rem}
+.go{flex:none;padding:11px 14px;border-radius:12px;background:var(--blue);color:#fff;font-weight:800;font-size:.86rem}
+.choice.ip .go{background:var(--red)}
+.go.full{background:var(--border);color:var(--muted);pointer-events:none}
+.none{color:var(--muted);font-size:.85rem;margin-top:10px;font-style:italic}
+
+.gets{background:var(--card);border-radius:20px;padding:16px 18px;border:1px solid var(--border)}
+.gets li{list-style:none;padding:7px 0;font-size:.92rem;line-height:1.45;display:flex;gap:10px}
+.steps{counter-reset:s}
+.steps li{list-style:none;position:relative;padding:8px 0 8px 40px;font-size:.92rem;line-height:1.45}
+.steps li::before{counter-increment:s;content:counter(s);position:absolute;left:0;top:6px;width:28px;height:28px;
+  border-radius:50%;background:var(--blue);color:#fff;font-weight:900;font-size:.85rem;display:flex;align-items:center;justify-content:center}
+.foot{margin-top:26px;text-align:center;font-size:.85rem;color:var(--muted);line-height:1.7}
+.foot a{color:var(--blue);font-weight:800}
+@media (prefers-color-scheme: dark){ .foot a{color:#8FA8FF} }
+.err{background:#FDECEF;color:#B00D2C;border-radius:12px;padding:12px;font-size:.88rem;margin-top:12px;display:none}
+.skel{height:64px;border-radius:14px;background:var(--chip);margin-top:10px;animation:p 1.2s ease-in-out infinite}
+@keyframes p{50%{opacity:.5}}
+</style>
+</head>
+<body>
+<div class="flag"></div>
+<div class="lang">
+  <button data-l="ht" onclick="setLang('ht')">Kreyòl</button>
+  <button data-l="fr" onclick="setLang('fr')">Français</button>
+  <button data-l="en" onclick="setLang('en')">English</button>
+</div>
+
+<div class="wrap">
+  <div class="hero">
+    <img src="../assets/lajanmaker-logo.png" alt="LajanMaker" onerror="this.style.display='none'">
+    <h1>LajanMaker Academy</h1>
+    <div class="slogan" data-t="slogan"></div>
+    <p data-t="intro"></p>
+    <a class="cta" href="#choose" data-t="cta"></a>
+  </div>
+
+  <div class="sec" id="choose">
+    <h2 data-t="chooseH"></h2>
+
+    <div class="choice ip">
+      <div class="ch-top"><div class="ch-name" data-t="ipName"></div><div class="ch-price" id="ipPrice"></div></div>
+      <div class="ch-sub" data-t="ipSub"></div>
+      <div id="ipList"><div class="skel"></div></div>
+    </div>
+
+    <div class="choice on">
+      <div class="ch-top"><div class="ch-name" data-t="onName"></div><div class="ch-price" id="onPrice"></div></div>
+      <div class="ch-sub" data-t="onSub"></div>
+      <div id="onList"><div class="skel"></div></div>
+    </div>
+    <div class="err" id="err"></div>
+  </div>
+
+  <div class="sec">
+    <h2 data-t="getsH"></h2>
+    <ul class="gets">
+      <li><span>&#9989;</span><span data-t="get1"></span></li>
+      <li><span>&#9989;</span><span data-t="get2"></span></li>
+      <li><span>&#9989;</span><span data-t="get3"></span></li>
+    </ul>
+  </div>
+
+  <div class="sec">
+    <h2 data-t="howH"></h2>
+    <ol class="steps">
+      <li data-t="how1"></li>
+      <li data-t="how2"></li>
+      <li data-t="how3"></li>
+      <li data-t="how4"></li>
+    </ol>
+  </div>
+
+  <div class="foot">
+    <a href="../kou-mwen.html" data-t="mine"></a><br>
+    <span data-t="help"></span> <a href="https://wa.me/50946859702" target="_blank" rel="noopener">WhatsApp</a>
+  </div>
+</div>
+
+<script>
+/* ═══ LAJANMAKER ACADEMY — THE PAGE THE FACEBOOK AD OPENS ═══════════════════
+ * 26 Oct 2026, Jeffery: Facebook Ad → this page → registration → payment.
+ * It sells nothing itself: every button goes to the EXISTING registration +
+ * payment (kou.html), for a course the admin marked programme
+ * "lajanmaker-academy". Prices, dates and seats come from those courses, never
+ * from this file, so the page can never advertise a figure nobody set.
+ * ?src= (which advert) and ?ref= (which Ajan) are passed along untouched.
+ * ═══════════════════════════════════════════════════════════════════════════ */
+var API_URL = 'https://haitibiznis-api.onrender.com';
+var PROGRAM = 'lajanmaker-academy';
+
+var I18N = {
+  ht: {
+    slogan:'APRANN • VANN • FÈ LAJAN',
+    intro:'Fòmasyon pou vin Ajan LajanMaker sètifye. Chwazi: vin nan sal la, oswa swiv li anliy kote w ye an Ayiti.',
+    cta:'ENSKRI KOUNYE A', chooseH:'Chwazi fòmasyon w',
+    ipName:'&#127979; AN PÈSÒN', ipSub:'Nan yon sal, ak yon fòmatè. Dat, lè ak vil yo anba a. Adrès egzak la ba ou apre peman.',
+    onName:'&#128187; ANLIY', onSub:'Sou Google Classroom, nenpòt kote an Ayiti. Ou jwenn aksè apre peman.',
+    pick:'Enskri', full:'KONPLÈ', seats:'{n} plas ki rete', noIp:'Pa gen sesyon an pèsòn ki louvri kounye a. Tounen pi devan.',
+    noOn:'Fòmasyon anliy lan poko louvri. Tounen pi devan.', err:'Nou pa ka chaje fòmasyon yo kounye a. Eseye ankò nan yon ti moman.',
+    getsH:'Sa w resevwa', get1:'Fòmasyon konplè LajanMaker (an pèsòn oswa anliy)',
+    get2:'Egzamen sètifikasyon + sètifika w lè w pase',
+    get3:'30 jou LajanMaker Multiservice App GRATIS apre w pase egzamen an',
+    howH:'Kijan sa mache', how1:'Chwazi an pèsòn oswa anliy, epi peze Enskri.',
+    how2:'Mete non w, telefòn ou ak imèl ou.', how3:'Peye ak MonCash, NatCash oswa kat — konfimasyon an otomatik.',
+    how4:'Ou resevwa enstriksyon yo touswit: dat, lè ak adrès, oswa aksè Google Classroom.',
+    mine:'Mwen deja enskri → Kou mwen yo', help:'Kesyon?', from:'apati'
+  },
+  fr: {
+    slogan:'APPRENDRE • VENDRE • GAGNER',
+    intro:'La formation pour devenir Agent LajanMaker certifié. Au choix : en salle, ou en ligne partout en Haïti.',
+    cta:'S’INSCRIRE MAINTENANT', chooseH:'Choisissez votre formation',
+    ipName:'&#127979; EN PRÉSENTIEL', ipSub:'En salle, avec un formateur. Dates, heures et villes ci-dessous. L’adresse exacte est donnée après le paiement.',
+    onName:'&#128187; EN LIGNE', onSub:'Sur Google Classroom, partout en Haïti. Accès après le paiement.',
+    pick:'S’inscrire', full:'COMPLET', seats:'{n} places restantes', noIp:'Aucune session en présentiel ouverte pour le moment.',
+    noOn:'La formation en ligne n’est pas encore ouverte.', err:'Impossible de charger les formations. Réessayez dans un instant.',
+    getsH:'Ce que vous recevez', get1:'La formation complète LajanMaker (présentiel ou en ligne)',
+    get2:'L’examen de certification + votre certificat après réussite',
+    get3:'30 jours de LajanMaker Multiservice App GRATUITS après la réussite de l’examen',
+    howH:'Comment ça marche', how1:'Choisissez présentiel ou en ligne, puis S’inscrire.',
+    how2:'Indiquez votre nom, téléphone et e-mail.', how3:'Payez par MonCash, NatCash ou carte — confirmation automatique.',
+    how4:'Vous recevez aussitôt les instructions : date, heure et adresse, ou l’accès Google Classroom.',
+    mine:'Déjà inscrit → Mes cours', help:'Une question ?', from:'à partir de'
+  },
+  en: {
+    slogan:'LEARN • SELL • EARN',
+    intro:'The training to become a certified LajanMaker Agent. Your choice: in a classroom, or online anywhere in Haiti.',
+    cta:'REGISTER NOW', chooseH:'Choose your training',
+    ipName:'&#127979; IN PERSON', ipSub:'In a room, with a trainer. Dates, times and towns below. The exact address is given after payment.',
+    onName:'&#128187; ONLINE', onSub:'On Google Classroom, anywhere in Haiti. Access after payment.',
+    pick:'Register', full:'FULL', seats:'{n} seats left', noIp:'No in-person session is open right now.',
+    noOn:'The online training is not open yet.', err:'Could not load the trainings. Please try again shortly.',
+    getsH:'What you get', get1:'The full LajanMaker training (in person or online)',
+    get2:'The certification exam + your certificate when you pass',
+    get3:'30 days of LajanMaker Multiservice App FREE after you pass the exam',
+    howH:'How it works', how1:'Choose in person or online, then Register.',
+    how2:'Enter your name, phone and email.', how3:'Pay with MonCash, NatCash or card — confirmed automatically.',
+    how4:'You get your instructions at once: date, time and address, or Google Classroom access.',
+    mine:'Already registered → My courses', help:'Questions?', from:'from'
+  }
+};
+var lang = 'ht';
+function t(k) { return (I18N[lang] && I18N[lang][k]) || I18N.ht[k] || k; }
+function esc(s) { return String(s == null ? '' : s).replace(/[&<>"']/g, function(c) {
+  return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]; }); }
+function money(n) { return Number(n || 0).toLocaleString('en-US'); }
+
+/* the advert and the Ajan, passed through to the registration */
+var Q = new URLSearchParams(location.search);
+var PASS = '';
+['src', 'ref'].forEach(function(k) {
+  var v = (Q.get(k) || '').replace(/[^A-Za-z0-9_.@#-]/g, '').slice(0, 60);
+  if (v) PASS += '&' + k + '=' + encodeURIComponent(v);
+});
+
+var COURSES = null;
+function setLang(l) {
+  lang = I18N[l] ? l : 'ht';
+  try { localStorage.setItem('tl_lang', lang); } catch (e) {}
+  document.documentElement.lang = lang === 'ht' ? 'ht' : lang;
+  document.querySelectorAll('[data-t]').forEach(function(el) { el.innerHTML = t(el.getAttribute('data-t')); });
+  document.querySelectorAll('.lang button').forEach(function(b) { b.classList.toggle('on', b.getAttribute('data-l') === lang); });
+  if (COURSES) draw();
+}
+
+function row(c) {
+  var full = c.seatsLeft === 0;
+  var ip = c.mode === 'in_person';
+  var when = (c.startDate || '') + (c.endDate && c.endDate !== c.startDate ? ' → ' + c.endDate : '');
+  var line1 = ip ? [when, c.sessionTime].filter(Boolean).join(' · ') : (c.title || '');
+  var line2 = ip ? [c.city, (c.seatsLeft == null ? '' : (full ? t('full') : t('seats').replace('{n}', c.seatsLeft)))].filter(Boolean).join(' · ')
+                 : [when, (c.isFree ? '' : money(c.price) + ' HTG')].filter(Boolean).join(' · ');
+  return '<div class="sess"><div><b>' + esc(line1) + '</b><span>' + esc(line2) + '</span></div>' +
+    '<a class="go' + (full ? ' full' : '') + '" href="../kou.html?id=' + encodeURIComponent(c._id) + PASS + '">' +
+    (full ? t('full') : t('pick') + ' &#8594;') + '</a></div>';
+}
+
+function priceOf(list) {
+  var p = list.filter(function(c) { return !c.isFree; }).map(function(c) { return c.price; });
+  if (!p.length) return '';
+  var lo = Math.min.apply(null, p), hi = Math.max.apply(null, p);
+  return (lo === hi ? '' : t('from') + ' ') + money(lo) + ' HTG';
+}
+
+function draw() {
+  var ip = COURSES.filter(function(c) { return c.mode === 'in_person'; });
+  var on = COURSES.filter(function(c) { return c.mode !== 'in_person'; });
+  document.getElementById('ipList').innerHTML = ip.length ? ip.map(row).join('') : '<div class="none">' + t('noIp') + '</div>';
+  document.getElementById('onList').innerHTML = on.length ? on.map(row).join('') : '<div class="none">' + t('noOn') + '</div>';
+  document.getElementById('ipPrice').textContent = priceOf(ip);
+  document.getElementById('onPrice').textContent = priceOf(on);
+}
+
+function load() {
+  fetch(API_URL + '/api/courses?program=' + PROGRAM)
+    .then(function(r) { return r.json(); })
+    .then(function(d) { COURSES = (d && d.courses) || []; draw(); })
+    .catch(function() {
+      COURSES = [];
+      draw();
+      var e = document.getElementById('err'); e.textContent = t('err'); e.style.display = 'block';
+    });
+}
+
+(function() {
+  var saved = null;
+  try { saved = localStorage.getItem('tl_lang'); } catch (e) {}
+  setLang(Q.get('lang') || saved || 'ht');
+  load();
+})();
+</script>
+</body>
+</html>

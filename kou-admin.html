@@ -72,6 +72,11 @@ input:focus,textarea:focus,select:focus{outline:none;border-color:var(--blue)}
 .crow-m{font-size:.78rem;color:var(--text-light);margin-top:4px;line-height:1.5}
 .tag{font-size:.65rem;font-weight:800;padding:4px 9px;border-radius:99px;white-space:nowrap;text-transform:uppercase;letter-spacing:.3px}
 .tag.pub{background:var(--green-light);color:var(--green)}
+.tag.on{background:#E8EEFB;color:#00209F}
+.tag.ip{background:#FDECEF;color:#B00D2C}
+.filt{display:flex;gap:8px;flex-wrap:wrap;margin:10px 0 0}
+.filt button{border:1.5px solid var(--border);background:#fff;border-radius:99px;padding:7px 14px;font-weight:700;font-size:.82rem;cursor:pointer}
+.filt button.on{background:#00209F;color:#fff;border-color:#00209F}
 .tag.draft{background:var(--gold-soft);color:#7A5C0A}
 .tag.closed{background:var(--border-light);color:var(--text-muted)}
 .nums{display:grid;grid-template-columns:repeat(4,1fr);gap:7px;margin-top:11px}
@@ -138,6 +143,12 @@ input:focus,textarea:focus,select:focus{outline:none;border-color:var(--blue)}
       <h2>Kou yo</h2>
       <p class="lead" id="tot"></p>
       <button class="btn g" onclick="newCourse()">+ Nouvo kou</button>
+      <!-- 26 Oct 2026: online and in-person courses, one list -->
+      <div class="filt" id="filt">
+        <button data-f="" class="on" onclick="setFilter('')">Tout</button>
+        <button data-f="online" onclick="setFilter('online')">&#128187; Anliy</button>
+        <button data-f="in_person" onclick="setFilter('in_person')">&#127979; An pèsòn</button>
+      </div>
     </div>
 
     <div id="list"></div>
@@ -149,6 +160,16 @@ input:focus,textarea:focus,select:focus{outline:none;border-color:var(--blue)}
 
       <label for="fTitle">Non kou a *</label>
       <input type="text" id="fTitle" maxlength="140">
+
+      <label for="fMode">Kalite kou a</label>
+      <select id="fMode" onchange="modeToggle()">
+        <option value="online">&#128187; Anliy — Google Classroom</option>
+        <option value="in_person">&#127979; An pèsòn — nan yon sal</option>
+      </select>
+
+      <label for="fProg">Pwogram (opsyonèl)</label>
+      <input type="text" id="fProg" maxlength="60" placeholder="lajanmaker-academy">
+      <div class="why">Mete <b>lajanmaker-academy</b> pou kou a parèt sou paj haitibiznis.com/academy la.</div>
 
       <label for="fDesc">Deskripsyon</label>
       <textarea id="fDesc" maxlength="4000"></textarea>
@@ -176,12 +197,27 @@ input:focus,textarea:focus,select:focus{outline:none;border-color:var(--blue)}
       <label for="fImg">Foto kou a (lyen)</label>
       <input type="text" id="fImg" placeholder="https://...">
 
+      <!-- in person: when and where. The TOWN is public; the ADDRESS is shown
+           only after payment, like the Classroom link. -->
+      <div id="ipBox" class="hide">
+        <label for="fTime">Lè *</label>
+        <input type="text" id="fTime" maxlength="60" placeholder="9:00 – 13:00">
+        <label for="fCity">Vil *</label>
+        <input type="text" id="fCity" maxlength="80" placeholder="Pòtoprens">
+        <div class="why">Vil la parèt sou paj piblik la.</div>
+        <label for="fLoc">Adrès egzak *</label>
+        <textarea id="fLoc" maxlength="400" placeholder="HaitiBiznis Center, #123 Avenue Martin Luther King"></textarea>
+        <div class="why">⛔ Adrès egzak la PA janm parèt sou paj piblik la. Etidyan an wè l sèlman apre peman an konfime.</div>
+      </div>
+
+      <div id="onBox">
       <label for="fLink">Lyen Google Classroom *</label>
       <input type="text" id="fLink" placeholder="https://classroom.google.com/c/...">
       <div class="why">⛔ Lyen sa a PA janm parèt sou paj piblik la. Sèvè a bay li sèlman apre peman an konfime.</div>
 
       <label for="fCode">Kòd klas la (si genyen)</label>
       <input type="text" id="fCode" class="mono" placeholder="abcd123">
+      </div>
 
       <label for="fInst">Enstriksyon pou etidyan an</label>
       <textarea id="fInst" maxlength="2000" placeholder="Egzanp: Aksepte envitasyon an nan Gmail ou, apre sa klas la kòmanse lendi 8è."></textarea>
@@ -496,6 +532,17 @@ function assignCourse() {
 }
 
 /* ─── THE COURSE LIST ───────────────────────────────────────────────────── */
+var modeFilter = '';
+function setFilter(f) {
+  modeFilter = f;
+  document.querySelectorAll('#filt button').forEach(function(b) { b.classList.toggle('on', b.getAttribute('data-f') === f); });
+  draw();
+}
+function modeOf(c) { return c.mode === 'in_person' ? 'in_person' : 'online'; }
+function modeTag(c) {
+  return modeOf(c) === 'in_person' ? '<span class="tag ip">An pèsòn</span>' : '<span class="tag on">Anliy</span>';
+}
+
 function draw() {
   var paid = 0, money_ = 0;
   courses.forEach(function(c) { paid += c.counts.paid; money_ += c.counts.collected; });
@@ -503,7 +550,7 @@ function draw() {
                          money(money_) + ' HTG kolekte';
 
   var html = '';
-  courses.forEach(function(c) {
+  courses.filter(function(c) { return !modeFilter || modeOf(c) === modeFilter; }).forEach(function(c) {
     var tag = c.status === 'published' ? '<span class="tag pub">Pibliye</span>'
             : c.status === 'draft' ? '<span class="tag draft">Bouyon</span>'
             : '<span class="tag closed">Fèmen</span>';
@@ -513,8 +560,10 @@ function draw() {
           (c.instructor ? esc(c.instructor) + ' · ' : '') +
           (c.isFree ? 'GRATIS' : money(c.price) + ' HTG') +
           (c.startDate ? ' · ' + esc(c.startDate) : '') +
+          (modeOf(c) === 'in_person' && c.sessionTime ? ' · ' + esc(c.sessionTime) : '') +
+          (modeOf(c) === 'in_person' && c.city ? ' · ' + esc(c.city) : '') +
           (c.maxStudents ? ' · ' + c.seatsTaken + '/' + c.maxStudents + ' plas' : '') +
-        '</div></div>' + tag + '</div>' +
+        '</div></div><div>' + modeTag(c) + ' ' + tag + '</div></div>' +
       '<div class="nums">' +
         '<div class="num"><b>' + c.counts.registered + '</b><span>Enskri</span></div>' +
         '<div class="num"><b>' + c.counts.paid + '</b><span>Peye</span></div>' +
@@ -548,8 +597,19 @@ function freeToggle() {
   if (free) $('fPrice').value = '0';
 }
 
+function modeToggle() {
+  var ip = $('fMode').value === 'in_person';
+  $('ipBox').classList.toggle('hide', !ip);
+  $('onBox').classList.toggle('hide', ip);
+}
+
 function fill(c, secret) {
   $('fTitle').value = (c && c.title) || '';
+  $('fMode').value = (c && c.mode === 'in_person') ? 'in_person' : 'online';
+  $('fProg').value = (c && c.program) || '';
+  $('fTime').value = (c && c.sessionTime) || '';
+  $('fCity').value = (c && c.city) || '';
+  $('fLoc').value = (secret && secret.location) || '';
   $('fDesc').value = (c && c.description) || '';
   $('fProf').value = (c && c.instructor) || '';
   $('fStart').value = (c && c.startDate) || '';
@@ -567,6 +627,7 @@ function fill(c, secret) {
   $('fCard').checked = pm.card !== false;
   $('fStatus').value = (c && c.status) || 'draft';
   freeToggle();
+  modeToggle();
 }
 
 function newCourse() {
@@ -613,12 +674,22 @@ function saveCourse() {
     classroomCode: $('fCode').value.trim(),
     accessInstructions: $('fInst').value.trim(),
     paymentMethods: { moncash: $('fMon').checked, natcash: $('fNat').checked, card: $('fCard').checked },
-    status: $('fStatus').value
+    status: $('fStatus').value,
+    mode: $('fMode').value,
+    program: $('fProg').value.trim().toLowerCase(),
+    sessionTime: $('fTime').value.trim(),
+    city: $('fCity').value.trim(),
+    location: $('fLoc').value.trim()
   };
   if (!body.title) return say('edErr', 'Mete non kou a.');
   if (!free && body.price <= 0) return say('edErr', 'Yon kou ki pa gratis bezwen yon pri pi gwo pase 0.');
   /* Said before saving rather than discovered by a student who has paid. */
-  if (body.status === 'published' && !body.classroomLink) {
+  if (body.status === 'published' && body.mode === 'in_person') {
+    var miss = [];
+    if (!body.startDate) miss.push('dat'); if (!body.sessionTime) miss.push('lè');
+    if (!body.city) miss.push('vil'); if (!body.location) miss.push('adrès');
+    if (miss.length) return say('edErr', 'Pou pibliye yon kou an pèsòn, mete: ' + miss.join(', ') + '.');
+  } else if (body.status === 'published' && !body.classroomLink) {
     return say('edErr', 'Mete lyen Google Classroom la anvan ou pibliye kou a, ' +
                         'otreman yon etidyan ka peye epi pa gen kote pou l antre.');
   }
@@ -648,7 +719,8 @@ function delCourse(id) {
 function openStudents(id) {
   viewing = id;
   var c = courses.filter(function(x) { return String(x._id) === String(id); })[0];
-  $('stTitle').textContent = 'Etidyan — ' + ((c && c.title) || '');
+  $('stTitle').textContent = 'Etidyan — ' + ((c && c.title) || '') +
+    (c && c.mode === 'in_person' ? ' (an pèsòn' + (c.city ? ', ' + c.city : '') + ')' : ' (anliy)');
   $('stNums').innerHTML = '';
   $('stList').innerHTML = '<p class="lead">N ap chaje...</p>';
   say('stWarn', '');
@@ -665,7 +737,7 @@ function openStudents(id) {
 
     var toInvite = (j.students || []).filter(function(s) {
       return s.status === 'completed' && s.classroomStatus === 'none'; }).length;
-    if (toInvite) {
+    if (toInvite && !(c && c.mode === 'in_person')) {
       say('stWarn', toInvite + ' etidyan ki peye poko envite nan Google Classroom. ' +
           'Envite Gmail yo nan Classroom, apre sa peze "Envite" sou chak liy.');
     }

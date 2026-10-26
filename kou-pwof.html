@@ -382,9 +382,11 @@ function draw() {
 }
 function num(v, l) { return '<div class="num"><b>' + esc(v) + '</b><span>' + l + '</span></div>'; }
 function when(c) {
-  if (c.startDate && c.endDate) return c.startDate + ' → ' + c.endDate;
-  if (c.startDate) return 'Kòmanse ' + c.startDate;
-  return 'Dat poko fikse';
+  var ip = c.mode === 'in_person';
+  var extra = ip ? ' · An pèsòn' + (c.sessionTime ? ' · ' + c.sessionTime : '') + (c.city ? ' · ' + c.city : '') : '';
+  if (c.startDate && c.endDate) return c.startDate + ' → ' + c.endDate + extra;
+  if (c.startDate) return 'Kòmanse ' + c.startDate + extra;
+  return 'Dat poko fikse' + extra;
 }
 
 function openCourse(id) {
@@ -399,6 +401,13 @@ function openCourse(id) {
 
     /* The Classroom details, for this instructor's own course only. */
     var cl = '';
+    /* 26 Oct 2026: an in-person course - the instructor teaches in that room,
+       so they get the address of their OWN course. */
+    if (j.course.mode === 'in_person') {
+      cl += '<b>&#127979; Fòmasyon an pèsòn</b>' +
+            esc(when(j.course)) + '<div style="margin-top:9px"><b>Adrès</b>' +
+            esc(j.course.location || '—') + '</div>';
+    }
     if (j.course.classroomLink) {
       cl += '<b>Lyen Google Classroom</b><a href="' + esc(j.course.classroomLink) +
             '" target="_blank" rel="noopener" style="color:var(--blue)">' +
