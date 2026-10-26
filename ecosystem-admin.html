@@ -215,6 +215,12 @@ tr:hover td{background:rgba(0,32,159,.02)}
   .section-tabs,.sub-tabs{overflow-x:auto;flex-wrap:nowrap;-webkit-overflow-scrolling:touch}
   .s-tab,.sub-tab{white-space:nowrap;flex-shrink:0}
   .platform-badges{overflow-x:auto;flex-wrap:nowrap}
+  /* 26 Oct 2026: on a phone the four links ran off the right edge - "Sekirite"
+     (admins, PIN reset, demo lock) sat at x=430 on a 390px screen and he could
+     not find it. Wrap the bar instead. */
+  .top-bar{flex-wrap:wrap;gap:8px;padding:10px 14px}
+  .top-bar-right{flex-wrap:wrap;width:100%}
+  .top-bar-right a{font-size:.8rem;padding:6px 12px}
 }
 </style>
 </head>
@@ -229,7 +235,7 @@ tr:hover td{background:rgba(0,32,159,.02)}
   <div class="top-bar-right">
     <a href="https://haitibiznis.com" target="_blank">HaitiBiznis</a>
     <a href="https://myplopplop.com" target="_blank">MyPlopPlop</a>
-    <a onclick="secOpen()">Sekirite</a>
+    <a onclick="secOpen()" style="color:#fff;border-color:#f59e0b;background:rgba(245,158,11,.18)">🔒 Sekirite</a>
     <a onclick="logout()">Logout</a>
   </div>
 </div>
