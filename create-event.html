@@ -683,7 +683,7 @@ img{max-width:100%;display:block}
 
   <div class="fee-note">
     <span class="icon">💡</span>
-    <span data-i18n="platform_fee">Frè platfòm: 5% sou chak tikè vann. Evènman gratis = san frè.</span>
+    <span data-i18n="platform_fee">Ou resevwa tout pri tikè ou mete a. Moun k ap achte a peye yon frè sèvis 7.5% anplis. Evènman gratis = san frè.</span>
   </div>
 
   <div class="summary-card" id="summaryCard">
@@ -910,7 +910,7 @@ var i18n = {
     creator_payout_desc: 'Bay pwomotè % sou chak tikè yo vann',
     creator_pct: 'Pousantaj Creator (%)',
     hosted_badge: '"Hosted by" Badge',
-    platform_fee: 'Frè platfòm: 5% sou chak tikè vann. Evènman gratis = san frè.',
+    platform_fee: 'Ou resevwa tout pri tikè ou mete a. Moun k ap achte a peye yon frè sèvis 7.5% anplis. Evènman gratis = san frè.',
     event_summary: 'Rezime Evènman',
     sum_title: 'Tit',
     sum_date: 'Dat',
@@ -1009,7 +1009,7 @@ var i18n = {
     creator_payout_desc: 'Donner aux promoteurs un % sur chaque billet vendu',
     creator_pct: 'Pourcentage Créateur (%)',
     hosted_badge: 'Badge "Hébergé par"',
-    platform_fee: 'Frais de plateforme: 5% sur chaque billet vendu. Événement gratuit = sans frais.',
+    platform_fee: 'Vous recevez le prix complet de vos billets. L\'acheteur paie des frais de service de 7,5 % en plus. Événement gratuit = sans frais.',
     event_summary: "Résumé de l'Événement",
     sum_title: 'Titre',
     sum_date: 'Date',
@@ -1108,7 +1108,7 @@ var i18n = {
     creator_payout_desc: 'Give promoters a % on each ticket sold',
     creator_pct: 'Creator Percentage (%)',
     hosted_badge: '"Hosted by" Badge',
-    platform_fee: 'Platform fee: 5% on each ticket sold. Free events = no fee.',
+    platform_fee: 'You receive the full ticket price. The buyer pays a 7.5% service fee on top. Free events = no fee.',
     event_summary: 'Event Summary',
     sum_title: 'Title',
     sum_date: 'Date',
@@ -1207,7 +1207,7 @@ var i18n = {
     creator_payout_desc: 'Dê aos divulgadores uma % em cada ingresso vendido',
     creator_pct: 'Porcentagem do divulgador (%)',
     hosted_badge: 'Selo "Apresentado por"',
-    platform_fee: 'Taxa da plataforma: 5% em cada ingresso vendido. Eventos gratuitos = sem taxa.',
+    platform_fee: 'Você recebe o preço total do ingresso. O comprador paga uma taxa de serviço de 7,5% a mais. Eventos gratuitos = sem taxa.',
     event_summary: 'Resumo do evento',
     sum_title: 'Título',
     sum_date: 'Data',
@@ -1306,7 +1306,7 @@ var i18n = {
     creator_payout_desc: 'Dar a promotores un % en cada boleto vendido',
     creator_pct: 'Porcentaje del Creador (%)',
     hosted_badge: 'Insignia "Presentado por"',
-    platform_fee: 'Tarifa de plataforma: 5% en cada boleto vendido. Evento gratuito = sin cargo.',
+    platform_fee: 'Usted recibe el precio completo del boleto. El comprador paga una tarifa de servicio de 7,5% adicional. Evento gratuito = sin cargo.',
     event_summary: 'Resumen del Evento',
     sum_title: 'Título',
     sum_date: 'Fecha',
@@ -1621,11 +1621,11 @@ function applyAiData(data) {
   if (data.organizer) document.getElementById('evOrgName').value = data.organizer;
   if (data.organizerPhone) document.getElementById('evOrgPhone').value = data.organizerPhone;
 
-  if (data.flyerBase64) {
-    var img = new Image();
-    img.onload = function() { flyerImage = img; renderCanvas(); };
-    img.src = data.flyerBase64;
-  }
+  /* Through setFlyer, like a flyer picked by hand. Setting flyerImage directly
+     skipped the rule below that turns our text OFF for a finished flyer - so the
+     AI path wrote the title a second time over the organiser's own artwork -
+     and it never reached the draft either. */
+  if (data.flyerBase64) setFlyer(data.flyerBase64, 'flyer');
 
   if (data.tickets && data.tickets.length) {
     document.getElementById('ticketsList').innerHTML = '';
@@ -1756,6 +1756,15 @@ function renderCanvas() {
     }
   }
 
+  /* His logo is HIS, not ours: it goes on whether or not we write the text.
+     It used to sit below the early return, so anyone who uploaded a photo
+     (which turns the text off) and then a logo got a download without it. */
+  if (logoImage) {
+    var lh = h * 0.1;
+    var lw = (logoImage.width / logoImage.height) * lh;
+    ctx.drawImage(logoImage, (w - lw) / 2, h * 0.08, lw, lh);
+  }
+
   /* Unticked means exactly that: his picture, and nothing of ours on top of it. */
   if (!withText) return;
 
@@ -1787,12 +1796,6 @@ function renderCanvas() {
     ctx.globalAlpha = 0.5;
     ctx.fillText(hostTxt, w / 2, h * 0.74);
     ctx.globalAlpha = 1;
-  }
-
-  if (logoImage) {
-    var lh = h * 0.1;
-    var lw = (logoImage.width / logoImage.height) * lh;
-    ctx.drawImage(logoImage, (w - lw) / 2, h * 0.08, lw, lh);
   }
 
   ctx.font = '600 ' + Math.floor(h * 0.025) + 'px "Plus Jakarta Sans", sans-serif';
