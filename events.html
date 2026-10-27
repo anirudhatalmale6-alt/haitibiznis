@@ -1,8 +1,5 @@
 <!DOCTYPE html>
-<html lang="ht">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<html lang="ht"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Tikè Lakay — Kreye Evènman. Invite Moun. Vann Tikè.</title>
 <meta name="description" content="Desine bèl envitasyon, vann tikè, ak jere envite ou nan yon sèl plas. Premye platfòm evènman Ayiti.">
 <meta name="theme-color" content="#00209F">
@@ -15,1646 +12,276 @@
 <meta property="og:type" content="website">
 <link rel="canonical" href="https://haitibiznis.com/events.html">
 <link rel="icon" type="image/x-icon" href="favicon.ico">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=Plus+Jakarta+Sans:wght@500;600;700;800&display=swap" rel="stylesheet">
 <style>
-*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
-:root{
-  --blue:#00209F;--blue-deep:#001566;--blue-light:#0A3ACC;
-  --red:#D21034;--red-dark:#B00D2C;--red-glow:rgba(210,16,52,.15);
-  --gold:#D4A017;--gold-light:#E8B82E;--gold-soft:#FDF3D7;--gold-glow:rgba(212,160,23,.2);
-  --green:#1B8C3D;--green-light:#E8F5E9;
-  --white:#FFFFFF;--off-white:#F5F7FA;--cream:#FAFBFD;
-  --dark:#0A0E1A;--text:#1A2A4A;--text-light:#5A6B8A;--text-muted:#8A95AA;
-  --border:#E2E8F0;--border-light:#F0F3F7;
-  --body:'Plus Jakarta Sans',system-ui,sans-serif;
-  --display:'DM Serif Display',Georgia,serif;
-  --shadow-sm:0 1px 3px rgba(10,14,26,.06);
-  --shadow-md:0 4px 16px rgba(10,14,26,.08);
-  --shadow-lg:0 12px 40px rgba(10,14,26,.12);
-  --radius:14px;--radius-lg:20px;
-}
+:root{--blue:#00209F;--blue-deep:#001566;--red:#D21034;--gold:#D4A017;--gold-soft:#FDF3D7;--green:#1B8C3D;--dark:#0A0E1A;--text:#1A2A4A;--light:#5A6B8A;--muted:#8A95AA;--line:#E2E8F0;--bg:#F5F7FA;--card:#fff}
+*{box-sizing:border-box;margin:0;padding:0}
 html{scroll-behavior:smooth}
-body{font-family:var(--body);background:var(--off-white);color:var(--text);overflow-x:hidden;-webkit-font-smoothing:antialiased}
-a{text-decoration:none;color:inherit}
-button{font-family:var(--body);cursor:pointer;border:none;background:none}
-img{max-width:100%;display:block}
-
-/* FLAG */
-.flag-stripe{height:4px;background:linear-gradient(90deg,var(--blue) 50%,var(--red) 50%);position:relative;z-index:1002}
-
-/* LANG */
-.lang-bar{
-  background:var(--dark);padding:6px 20px;
-  display:flex;align-items:center;justify-content:center;gap:4px;
-  font-size:.68rem;z-index:1001;position:relative;
-}
-.lang-bar a{
-  color:rgba(255,255,255,.5);padding:3px 12px;border-radius:100px;
-  font-weight:600;transition:all .2s;cursor:pointer;
-}
-.lang-bar a:hover{color:#fff;background:rgba(255,255,255,.08)}
-.lang-bar a.active{color:var(--gold);background:rgba(212,160,23,.15)}
-
-/* HEADER */
-.header{
-  position:sticky;top:0;z-index:100;
-  background:rgba(255,255,255,.95);backdrop-filter:blur(16px);
-  border-bottom:1px solid var(--border);padding:0 20px;height:60px;
-  display:flex;align-items:center;justify-content:space-between;
-}
-.header-logo{display:flex;align-items:center;gap:10px}
-.header-logo img{height:38px;border-radius:10px;object-fit:cover}
-.header-logo span{font-family:var(--display);font-size:1.15rem;color:var(--dark)}
-.header-logo span em{color:var(--red);font-style:italic}
-.header-back{
-  font-size:.78rem;font-weight:600;color:var(--text-light);
-  display:flex;align-items:center;gap:5px;padding:8px 14px;border-radius:8px;transition:all .2s;
-}
-.header-back:hover{background:rgba(0,32,159,.06);color:var(--blue)}
-.header-back svg{width:16px;height:16px}
-
-/* ═══ HERO ═══ */
-.hero{
-  background:linear-gradient(160deg,var(--dark) 0%,#0A1235 25%,var(--blue-deep) 50%,var(--blue) 80%,var(--blue-light) 100%);
-  color:#fff;padding:52px 20px 64px;text-align:center;
-  position:relative;overflow:hidden;min-height:420px;
-  display:flex;align-items:center;justify-content:center;
-}
-.hero::before{
-  content:'';position:absolute;inset:0;
-  background:
-    radial-gradient(ellipse 500px 350px at 15% 85%, rgba(210,16,52,.1) 0%, transparent 70%),
-    radial-gradient(ellipse 400px 400px at 85% 15%, rgba(212,160,23,.08) 0%, transparent 70%),
-    radial-gradient(ellipse 300px 300px at 50% 50%, rgba(255,255,255,.03) 0%, transparent 70%);
-  pointer-events:none;
-}
-.hero-confetti{position:absolute;inset:0;pointer-events:none;overflow:hidden}
-.confetti-dot{
-  position:absolute;border-radius:50%;
-  animation:confettiFall linear infinite;
-  opacity:0;
-}
-@keyframes confettiFall{
-  0%{transform:translateY(-20px) rotate(0deg) scale(0);opacity:0}
-  10%{opacity:1;transform:translateY(0) rotate(45deg) scale(1)}
-  90%{opacity:.6}
-  100%{transform:translateY(calc(100vh + 20px)) rotate(360deg) scale(.5);opacity:0}
-}
-.hero-content{position:relative;z-index:1;max-width:620px}
-.hero-logo-wrap{
-  display:inline-block;background:var(--white);border-radius:16px;
-  padding:8px 16px;margin-bottom:22px;
-  box-shadow:0 8px 40px rgba(0,0,0,.25);
-}
-.hero-logo-wrap img{height:64px}
-.hero h1{
-  font-family:var(--display);font-size:clamp(2rem,5.5vw,3.2rem);
-  line-height:1.15;margin-bottom:14px;
-  text-shadow:0 2px 20px rgba(0,0,0,.3);
-}
-.hero h1 .dot{color:var(--gold-light)}
-.hero h1 em{color:var(--gold-light);font-style:italic}
-.hero-sub{
-  font-size:clamp(.88rem,2vw,1.02rem);color:rgba(255,255,255,.7);
-  line-height:1.6;margin-bottom:28px;max-width:460px;margin-left:auto;margin-right:auto;
-}
-.hero-ctas{display:flex;gap:12px;justify-content:center;flex-wrap:wrap;margin-bottom:32px}
-.btn{
-  display:inline-flex;align-items:center;justify-content:center;gap:8px;
-  font-size:.88rem;font-weight:700;padding:14px 26px;border-radius:12px;
-  transition:all .25s cubic-bezier(.4,0,.2,1);white-space:nowrap;
-}
-.btn svg{width:18px;height:18px;flex-shrink:0}
-.btn-red{
-  background:linear-gradient(135deg,var(--red),var(--red-dark));color:#fff;
-  box-shadow:0 4px 20px rgba(210,16,52,.35);
-}
-.btn-red:hover{transform:translateY(-2px);box-shadow:0 8px 28px rgba(210,16,52,.5)}
-.btn-outline{background:transparent;color:#fff;border:2px solid rgba(255,255,255,.3)}
-.btn-outline:hover{background:rgba(255,255,255,.1);border-color:rgba(255,255,255,.5)}
-.btn-gold{background:linear-gradient(135deg,var(--gold),#C4900F);color:#fff;box-shadow:0 4px 20px var(--gold-glow)}
-.btn-gold:hover{transform:translateY(-2px);box-shadow:0 8px 28px rgba(212,160,23,.4)}
-.hero-stats{display:flex;gap:24px;justify-content:center;flex-wrap:wrap}
-.hero-stat{text-align:center}
-.hero-stat .num{font-family:var(--display);font-size:1.3rem;color:var(--gold-light)}
-.hero-stat .label{font-size:.68rem;color:rgba(255,255,255,.45);margin-top:2px;text-transform:uppercase;letter-spacing:.06em;font-weight:600}
-
-/* ═══ DIAGONAL ═══ */
-.diag{position:relative;margin-top:-36px;height:36px;z-index:2;overflow:hidden}
-.diag::before{content:'';position:absolute;bottom:0;left:-5%;width:110%;height:72px;background:var(--off-white);transform:skewY(-1.3deg);transform-origin:bottom left}
-
-/* ═══ SECTION ═══ */
-.section{padding:44px 20px;max-width:960px;margin:0 auto}
-.section-tag{
-  display:inline-flex;align-items:center;gap:6px;
-  font-size:.68rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;
-  color:var(--blue);background:rgba(0,32,159,.08);
-  padding:5px 14px;border-radius:100px;margin-bottom:12px;
-}
-.section-title{font-family:var(--display);font-size:clamp(1.5rem,4vw,2.1rem);color:var(--dark);margin-bottom:6px;line-height:1.2}
-.section-title em{color:var(--red);font-style:italic}
-.section-desc{font-size:.9rem;color:var(--text-light);max-width:480px;line-height:1.6;margin-bottom:24px}
-
-/* ═══ CATEGORIES ═══ */
-.cats{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}
-.cat-card{
-  background:var(--white);border:1.5px solid var(--border);border-radius:var(--radius);
-  padding:16px 8px;text-align:center;cursor:pointer;transition:all .25s;
-  position:relative;overflow:hidden;
-}
-.cat-card::after{
-  content:'';position:absolute;bottom:0;left:0;right:0;height:3px;
-  background:linear-gradient(90deg,var(--blue),var(--red));
-  transform:scaleX(0);transition:transform .3s;
-}
-.cat-card:hover{transform:translateY(-3px);box-shadow:var(--shadow-md);border-color:var(--blue)}
-.cat-card:hover::after{transform:scaleX(1)}
-.cat-icon{font-size:1.8rem;display:block;margin-bottom:6px}
-.cat-name{font-size:.72rem;font-weight:700;color:var(--text);letter-spacing:.01em}
-.cat-count{font-size:.65rem;color:var(--text-muted);margin-top:2px}
-@media(max-width:500px){.cats{grid-template-columns:repeat(2,1fr)}}
-
-/* ═══ EVENTS ═══ */
-.events-scroll{
-  display:flex;gap:16px;overflow-x:auto;overflow-y:visible;
-  scroll-snap-type:x mandatory;-webkit-overflow-scrolling:touch;
-  padding:4px 0 16px;margin:0 -20px;padding-left:20px;padding-right:20px;
-}
-.events-scroll::-webkit-scrollbar{display:none}
-.ev-card{
-  min-width:270px;max-width:290px;scroll-snap-align:start;flex-shrink:0;
-  background:var(--white);border:1px solid var(--border);border-radius:var(--radius-lg);
-  overflow:hidden;transition:all .3s;cursor:pointer;
-}
-.ev-card:hover{transform:translateY(-4px);box-shadow:var(--shadow-lg)}
-.ev-img{height:160px;position:relative;overflow:hidden}
-.ev-img-bg{width:100%;height:100%;display:flex;align-items:center;justify-content:center;font-size:2.8rem}
-.ev-type-tag{
-  position:absolute;top:10px;left:10px;
-  font-size:.62rem;font-weight:700;letter-spacing:.05em;text-transform:uppercase;
-  padding:4px 10px;border-radius:6px;
-  backdrop-filter:blur(8px);color:#fff;
-}
-.ev-date-badge{
-  position:absolute;top:10px;right:10px;
-  background:var(--white);border-radius:10px;padding:6px 10px;text-align:center;
-  box-shadow:0 2px 10px rgba(0,0,0,.15);min-width:48px;
-}
-.ev-date-badge .month{font-size:.58rem;font-weight:700;text-transform:uppercase;color:var(--red);letter-spacing:.06em}
-.ev-date-badge .day{font-size:1.1rem;font-weight:900;color:var(--dark);line-height:1}
-.ev-body{padding:14px}
-.ev-title{font-weight:700;font-size:.92rem;color:var(--dark);margin-bottom:6px;line-height:1.3}
-.ev-meta{display:flex;flex-direction:column;gap:4px;margin-bottom:12px}
-.ev-meta-row{display:flex;align-items:center;gap:6px;font-size:.78rem;color:var(--text-light)}
-.ev-meta-row svg{width:14px;height:14px;flex-shrink:0;color:var(--text-muted)}
-.ev-footer{display:flex;align-items:center;justify-content:space-between}
-.ev-price{font-size:1rem;font-weight:800;color:var(--dark)}
-.ev-manage{display:flex;justify-content:flex-end;gap:14px;padding:0 0 2px;align-items:center}
-.ev-mini{font-size:.74rem;font-weight:700;color:var(--text-muted,#8A95AA);background:none;border:none;
-  padding:6px 2px;cursor:pointer;font-family:inherit}
-.ev-mini:hover{color:#D21034}
-.ev-mini:disabled{opacity:.5;cursor:default}
-.ev-price.free{color:var(--green);font-size:.85rem}
-.ev-buy{
-  height:36px;padding:0 16px;border-radius:8px;font-size:.78rem;font-weight:700;
-  display:flex;align-items:center;gap:5px;transition:all .2s;
-}
-.ev-buy.ticket{background:var(--red);color:#fff}
-.ev-buy.ticket:hover{background:var(--red-dark)}
-.ev-buy.rsvp{background:var(--green-light);color:var(--green);border:1px solid rgba(27,140,61,.2)}
-.ev-buy.rsvp:hover{background:var(--green);color:#fff}
-
-/* ═══ HOW IT WORKS ═══ */
-.steps{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;counter-reset:step}
-.step{
-  background:var(--white);border:1px solid var(--border);border-radius:var(--radius-lg);
-  padding:22px 16px;text-align:center;position:relative;
-  transition:all .3s;
-}
-.step:hover{transform:translateY(-3px);box-shadow:var(--shadow-md)}
-.step-num{
-  width:36px;height:36px;border-radius:10px;margin:0 auto 12px;
-  display:flex;align-items:center;justify-content:center;
-  font-size:.82rem;font-weight:800;color:#fff;
-  background:linear-gradient(135deg,var(--blue),var(--blue-light));
-  counter-increment:step;
-}
-.step-num::after{content:counter(step)}
-.step-icon{font-size:1.6rem;display:block;margin-bottom:8px}
-.step h4{font-size:.88rem;font-weight:700;color:var(--dark);margin-bottom:4px}
-.step p{font-size:.78rem;color:var(--text-light);line-height:1.5}
-.step-arrow{
-  position:absolute;right:-18px;top:50%;transform:translateY(-50%);
-  color:var(--border);font-size:1.2rem;z-index:1;
-}
-.step:last-child .step-arrow{display:none}
-@media(max-width:700px){
-  .steps{grid-template-columns:1fr 1fr}
-  .step-arrow{display:none!important}
-}
-@media(max-width:400px){.steps{grid-template-columns:1fr}}
-
-/* ═══ BENEFITS ═══ */
-.benefits{display:grid;grid-template-columns:1fr 1fr;gap:14px}
-.benefit{
-  background:var(--white);border:1px solid var(--border);border-radius:var(--radius-lg);
-  padding:22px 18px;transition:all .3s;position:relative;overflow:hidden;
-}
-.benefit:hover{transform:translateY(-3px);box-shadow:var(--shadow-md)}
-.benefit::before{
-  content:'';position:absolute;top:0;left:0;right:0;height:3px;
-  border-radius:var(--radius-lg) var(--radius-lg) 0 0;
-}
-.benefit:nth-child(1)::before{background:linear-gradient(90deg,var(--red),var(--gold))}
-.benefit:nth-child(2)::before{background:linear-gradient(90deg,var(--blue),var(--blue-light))}
-.benefit:nth-child(3)::before{background:linear-gradient(90deg,var(--green),#2DB855)}
-.benefit:nth-child(4)::before{background:linear-gradient(90deg,var(--gold),var(--red))}
-.benefit-icon{font-size:1.6rem;display:block;margin-bottom:10px}
-.benefit h4{font-size:.92rem;font-weight:700;color:var(--dark);margin-bottom:4px}
-.benefit p{font-size:.8rem;color:var(--text-light);line-height:1.5}
-@media(max-width:500px){.benefits{grid-template-columns:1fr}}
-
-/* ═══ KOUTYE ═══ */
-.koutye-section{
-  background:linear-gradient(140deg,var(--dark) 0%,var(--blue-deep) 40%,var(--blue) 80%,var(--red-dark) 100%);
-  padding:52px 20px;text-align:center;color:#fff;position:relative;overflow:hidden;
-}
-.koutye-section::before{
-  content:'';position:absolute;inset:0;
-  background:url("data:image/svg+xml,%3Csvg width='60' height='60' xmlns='http://www.w3.org/2000/svg'%3E%3Ccircle cx='30' cy='30' r='1.5' fill='%23fff' opacity='.03'/%3E%3C/svg%3E");
-  pointer-events:none;
-}
-.koutye-inner{position:relative;z-index:1;max-width:520px;margin:0 auto}
-.koutye-icon{font-size:2rem;display:block;margin-bottom:14px}
-.koutye-section h2{font-family:var(--display);font-size:clamp(1.5rem,4vw,2rem);margin-bottom:10px}
-.koutye-section h2 em{color:var(--gold-light);font-style:italic}
-.koutye-section p{font-size:.92rem;color:rgba(255,255,255,.7);line-height:1.6;margin-bottom:22px}
-
-/* ═══ CTA SECTION ═══ */
-.cta-section{
-  padding:48px 20px;text-align:center;
-  background:var(--white);border-top:1px solid var(--border-light);border-bottom:1px solid var(--border-light);
-}
-.cta-inner{max-width:500px;margin:0 auto}
-.cta-section h2{font-family:var(--display);font-size:clamp(1.5rem,4vw,2rem);color:var(--dark);margin-bottom:8px}
-.cta-section h2 em{color:var(--red);font-style:italic}
-.cta-section>p,.cta-inner>p{font-size:.9rem;color:var(--text-light);margin-bottom:24px;line-height:1.5}
-.cta-btn{
-  display:inline-flex;align-items:center;gap:10px;
-  background:linear-gradient(135deg,var(--red),var(--red-dark));color:#fff;
-  font-size:1rem;font-weight:800;padding:16px 36px;border-radius:14px;
-  box-shadow:0 6px 28px rgba(210,16,52,.35);transition:all .25s;margin-bottom:24px;
-}
-.cta-btn:hover{transform:translateY(-3px);box-shadow:0 10px 36px rgba(210,16,52,.5)}
-.cta-btn svg{width:20px;height:20px}
-.trust-badges{display:flex;gap:20px;justify-content:center;flex-wrap:wrap}
-.trust-badge{display:flex;align-items:center;gap:6px;font-size:.78rem;font-weight:600;color:var(--text-light)}
-.trust-badge-icon{
-  width:28px;height:28px;border-radius:8px;
-  display:flex;align-items:center;justify-content:center;font-size:.85rem;
-  background:var(--green-light);
-}
-
-/* ═══ FOOTER ═══ */
-.footer{
-  background:var(--dark);color:rgba(255,255,255,.6);
-  padding:40px 20px 100px;text-align:center;
-}
-.footer-logo{font-family:var(--display);font-size:1.1rem;color:#fff;margin-bottom:6px}
-.footer-logo em{color:var(--gold-light);font-style:italic}
-.footer-text{font-size:.78rem;line-height:1.6;margin-bottom:16px}
-.footer-eco{
-  display:inline-flex;align-items:center;gap:6px;
-  font-size:.72rem;font-weight:600;color:rgba(255,255,255,.4);
-  padding:6px 14px;border-radius:100px;border:1px solid rgba(255,255,255,.08);
-}
-.footer-eco img{height:18px;border-radius:4px}
-.footer-links{display:flex;gap:16px;justify-content:center;margin-top:14px;flex-wrap:wrap}
-.footer-links a{font-size:.75rem;color:rgba(255,255,255,.4);transition:color .2s}
-.footer-links a:hover{color:var(--gold-light)}
-.footer-copy{font-size:.7rem;color:rgba(255,255,255,.2);margin-top:14px}
-
-/* ═══ BOTTOM NAV ═══ */
-.bottom-nav{
-  position:fixed;bottom:0;left:0;right:0;z-index:100;
-  background:rgba(255,255,255,.95);backdrop-filter:blur(16px);
-  border-top:1px solid var(--border);display:flex;height:56px;
-}
-.bottom-nav a{
-  flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;
-  color:var(--text-muted);font-size:.6rem;font-weight:600;transition:color .2s;
-  text-transform:uppercase;letter-spacing:.04em;
-}
-.bottom-nav a.active{color:var(--blue)}
-.bottom-nav a svg{width:22px;height:22px}
-.bottom-nav .create-tab{
-  position:relative;margin-top:-12px;
-}
-.bottom-nav .create-dot{
-  width:44px;height:44px;border-radius:14px;
-  background:linear-gradient(135deg,var(--red),var(--red-dark));
-  display:flex;align-items:center;justify-content:center;
-  box-shadow:0 4px 16px rgba(210,16,52,.3);
-}
-.bottom-nav .create-dot svg{color:#fff}
-
-@media(min-width:768px){
-  .bottom-nav{display:none}
-  .footer{padding-bottom:40px}
-  body{padding-bottom:0}
-}
-@media(max-width:767px){
-  body{padding-bottom:56px}
-  .header-back span{display:none}
-}
-
-/* ═══ REVEAL ═══ */
-.reveal{opacity:0;transform:translateY(20px);transition:opacity .5s ease,transform .5s ease}
-.reveal.visible{opacity:1;transform:translateY(0)}
-.reveal-d1{transition-delay:.1s}
-.reveal-d2{transition-delay:.2s}
-.reveal-d3{transition-delay:.3s}
-</style>
-</head>
+body{font-family:'Plus Jakarta Sans',system-ui,sans-serif;background:var(--bg);color:var(--text);padding-bottom:64px}
+a{color:inherit}
+.note{background:#FFF4D6;color:#6B4E00;font-size:.78rem;font-weight:700;text-align:center;padding:8px 16px;border-bottom:1px solid #F0DC9C}
+.wrap{max-width:1040px;margin:0 auto;padding:0 16px}
+/* 1 HEADER */
+.lang{background:var(--dark);display:flex;justify-content:center;gap:4px;padding:6px 8px;overflow-x:auto}
+.lang a{color:#9AA6BF;font-size:.72rem;font-weight:700;padding:4px 10px;border-radius:999px;text-decoration:none;white-space:nowrap}
+.lang a.on{color:var(--gold);background:rgba(212,160,23,.15)}
+.stripe{height:3px;background:linear-gradient(90deg,var(--blue) 50%,var(--red) 50%)}
+header{background:#fff;border-bottom:1px solid var(--line);position:sticky;top:0;z-index:20}
+header .wrap{display:flex;align-items:center;gap:8px;height:52px}
+header img{height:36px}
+header .brand{font-family:'DM Serif Display',serif;font-size:1.12rem;color:var(--dark);flex:1}
+header .brand em{color:var(--red)}
+header .brand small{display:block;font-family:'Plus Jakarta Sans';font-size:.62rem;font-weight:700;color:var(--muted);letter-spacing:.06em;margin-top:-3px}
+.btn-create{background:var(--red);color:#fff;text-decoration:none;font-weight:800;font-size:.78rem;padding:9px 12px;border-radius:12px;white-space:nowrap;box-shadow:0 6px 16px -6px rgba(210,16,52,.6)}
+nav.top{display:none;gap:18px;font-weight:700;font-size:.88rem}
+nav.top a{text-decoration:none;color:var(--light)}
+@media(min-width:820px){nav.top{display:flex}}
+/* 2 HERO */
+.hero{background:radial-gradient(120% 90% at 85% 0%,#1d3fd6 0%,var(--blue) 40%,var(--blue-deep) 100%);color:#fff;padding:20px 0 18px;position:relative;overflow:hidden}
+.hero:after{content:"";position:absolute;right:-60px;top:-60px;width:220px;height:220px;border-radius:50%;background:rgba(212,160,23,.18)}
+.hero .wrap{position:relative;z-index:1}
+.hero .kick{font-size:.8rem;font-weight:800;letter-spacing:.12em;color:var(--gold)}
+.hero h1{font-family:'DM Serif Display',serif;font-weight:400;font-size:clamp(1.5rem,6vw,2.6rem);line-height:1.08;margin:4px 0 6px}
+.hero p{color:#C9D6FF;font-size:.95rem;max-width:34em}
+.hero .ctas{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:14px;max-width:560px}
+.cta{display:flex;align-items:center;justify-content:center;gap:6px;padding:13px 12px;border-radius:13px;font-weight:800;font-size:.9rem;text-align:center;text-decoration:none;color:#fff;border:0;cursor:pointer;font-family:inherit}
+.cta.g{background:var(--green);box-shadow:0 10px 22px -10px rgba(27,140,61,.8)}
+.cta.b{background:#fff;color:var(--blue)}
+.cta.r{background:var(--red);box-shadow:0 10px 22px -10px rgba(210,16,52,.7)}
+.chips-line{margin-top:12px;font-size:.82rem;color:#C9D6FF;font-weight:600;line-height:1.7}
+/* sections */
+section{padding:18px 0;scroll-margin-top:58px}
+.sec-h{font-family:'DM Serif Display',serif;font-weight:400;font-size:clamp(1.2rem,5vw,1.5rem);line-height:1.15;color:var(--dark)}
+.sec-sub{color:var(--light);font-size:.92rem;margin-top:4px}
+/* 3 EVENTS */
+.grid{display:grid;grid-template-columns:1fr;gap:16px;margin-top:16px}
+@media(min-width:640px){.grid{grid-template-columns:1fr 1fr}}
+@media(min-width:960px){.grid{grid-template-columns:1fr 1fr 1fr}}
+.ev{background:var(--card);border:1px solid var(--line);border-radius:20px;overflow:hidden;display:flex;flex-direction:column;box-shadow:0 10px 26px -18px rgba(10,14,26,.45)}
+.ev .fl{aspect-ratio:1/1;background:#ddd center/cover no-repeat;position:relative;display:grid;place-items:center;font-size:4rem}
+.ev .fl img{position:absolute;inset:0;width:100%;height:100%;object-fit:contain;background:#0A0E1A}
+.ev .badge{position:absolute;left:12px;top:12px;z-index:2;background:rgba(10,14,26,.78);color:#fff;font-size:.7rem;font-weight:800;padding:5px 10px;border-radius:999px;letter-spacing:.04em}
+.ev .st{position:absolute;right:12px;top:12px;z-index:2;font-size:.7rem;font-weight:800;padding:5px 10px;border-radius:999px}
+.st.ok{background:#E9F7EE;color:var(--green)}
+.st.out{background:var(--red);color:#fff}
+.ev .bd{padding:12px 14px 14px;display:flex;flex-direction:column;gap:6px;flex:1}
+.ev h3{font-size:1.08rem;font-weight:800;line-height:1.3}
+.ev .m{font-size:.85rem;color:var(--light);display:flex;gap:6px}
+.ev .row{display:flex;align-items:center;justify-content:space-between;margin-top:auto;padding-top:10px;gap:10px}
+.ev .pr{font-weight:900;font-size:1.1rem}
+.ev .pr.free{color:var(--green)}
+.ev .buy{background:var(--green);color:#fff;text-decoration:none;font-weight:800;font-size:.9rem;padding:11px 14px;border-radius:12px;white-space:nowrap}
+.ev .buy.off{background:#CBD2DE;pointer-events:none}
+.empty{background:linear-gradient(135deg,#fff,#FDF3D7);border:2px dashed #E8C766;border-radius:20px;padding:18px 16px;text-align:center;margin-top:16px}
+.empty b{display:block;font-size:1.25rem;font-weight:900;color:var(--dark)}
+.empty p{color:var(--light);margin:6px 0 16px}
+.empty a.lnk{color:var(--red);font-weight:800;text-decoration:none}
+.small-link{display:inline-block;margin-top:12px;color:var(--blue);font-weight:800;font-size:.9rem;text-decoration:none}
+.help{display:inline-flex;align-items:center;gap:6px;margin-top:10px;background:#25D366;color:#fff;font-weight:800;font-size:.85rem;padding:9px 14px;border-radius:999px;text-decoration:none}
+.loading{color:var(--light);font-size:.9rem;margin-top:16px;display:flex;align-items:center;gap:10px}
+.spin{width:18px;height:18px;border-radius:50%;border:3px solid var(--line);border-top-color:var(--blue);animation:sp 1s linear infinite}
+@keyframes sp{to{transform:rotate(360deg)}}
+/* 4 SEARCH */
+.search{display:flex;gap:8px;margin-top:14px}
+.search input{flex:1;min-width:0;border:2px solid var(--line);border-radius:14px;padding:13px 14px;font:600 .95rem 'Plus Jakarta Sans',sans-serif;background:#fff}
+.search input:focus{outline:0;border-color:var(--blue)}
+.cats{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:12px}
+@media(min-width:640px){.cats{grid-template-columns:repeat(6,1fr)}}
+.cat{background:#fff;border:2px solid var(--line);border-radius:14px;padding:10px 6px;text-align:center;font-weight:800;font-size:.86rem;cursor:pointer;font-family:inherit;color:var(--text)}
+.cat i{display:block;font-style:normal;font-size:1.45rem;margin-bottom:2px}
+.cat.on{border-color:var(--blue);background:#EEF1FB;color:var(--blue)}
+.allcats{display:none;flex-wrap:wrap;gap:8px;margin-top:12px}
+.allcats.show{display:flex}
+.allcats button{border:1px solid var(--line);background:#fff;border-radius:999px;padding:7px 12px;font:700 .8rem 'Plus Jakarta Sans',sans-serif;cursor:pointer;color:var(--text)}
+.allcats button.on{background:var(--blue);color:#fff;border-color:var(--blue)}
+.link-btn{display:inline-block;margin-top:12px;background:none;border:0;color:var(--blue);font:800 .88rem 'Plus Jakarta Sans',sans-serif;cursor:pointer;padding:4px 0}
+.results-note{margin-top:12px;font-size:.88rem;color:var(--light)}
+/* 5 ORGANIZERS */
+.org{background:var(--dark);color:#fff;border-radius:22px;padding:20px 16px;margin-top:0}
+.org .sec-h{color:#fff}
+.org .sec-h em{font-style:normal;color:var(--gold)}
+.org .sec-sub{color:#AFBAD3}
+.ben{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:14px}
+@media(min-width:760px){.ben{grid-template-columns:repeat(4,1fr)}}
+.ben div{background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);border-radius:14px;padding:11px}
+.ben i{font-style:normal;font-size:1.6rem}
+.ben b{display:block;margin-top:6px;font-size:.95rem}
+.ben span{display:block;font-size:.8rem;color:#AFBAD3;margin-top:2px;line-height:1.4}
+.org .cta{margin-top:20px;max-width:420px}
+.fee{font-size:.8rem;color:#AFBAD3;margin-top:10px;line-height:1.5;max-width:40em}
+.fee b{color:#fff}
+/* 6 INVITES */
+.inv{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:12px}
+@media(min-width:760px){.inv{grid-template-columns:repeat(4,1fr)}}
+.inv a{border-radius:16px;padding:14px 10px;text-decoration:none;text-align:center;font-weight:800;color:#3a2a10;min-height:76px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;box-shadow:0 8px 20px -14px rgba(0,0,0,.5)}
+.inv a i{font-style:normal;font-size:1.8rem}
+.inv .w{background:linear-gradient(135deg,#F5E6D0,#E8C9A0)}
+.inv .bd{background:linear-gradient(135deg,#FFE0EA,#FFB8CC)}
+.inv .gr{background:linear-gradient(135deg,#DCE6FF,#AFC4FF);color:#10204a}
+.inv .bp{background:linear-gradient(135deg,#DDF1F8,#A9D6EA);color:#0e3346}
+.center{text-align:center;margin-top:18px}
+.cta.o{background:#fff;color:var(--blue);border:2px solid var(--blue);display:inline-flex}
+/* 7 HOW */
+.how{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:12px}
+@media(min-width:760px){.how{grid-template-columns:repeat(4,1fr)}}
+.how div{background:#fff;border:1px solid var(--line);border-radius:14px;padding:11px}
+.how .n{display:inline-grid;place-items:center;width:24px;height:24px;border-radius:9px;background:var(--blue);color:#fff;font-weight:900;font-size:.9rem}
+.how b{display:block;margin-top:5px;font-size:.95rem;letter-spacing:.03em}
+.how span{display:block;font-size:.82rem;color:var(--light);margin-top:2px;line-height:1.4}
+/* 8 AJAN */
+.ajan{background:linear-gradient(135deg,#FDF3D7,#FBE6A6);border-radius:20px;padding:18px 16px}
+.ajan ul{list-style:none;margin-top:10px;display:grid;gap:4px}
+.ajan li{font-weight:700;font-size:.92rem}
+.ajan .cta{margin-top:12px;display:inline-flex;background:var(--dark)}
+/* 9 TRUST */
+.trust{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px}
+.trust span{background:#fff;border:1px solid var(--line);border-radius:999px;padding:8px 14px;font-weight:700;font-size:.85rem}
+/* 10 FOOTER */
+footer{background:var(--dark);color:#AFBAD3;padding:20px 0 16px;margin-top:12px}
+footer b{color:#fff;font-family:'DM Serif Display',serif;font-weight:400;font-size:1.3rem}
+footer .links{display:flex;flex-wrap:wrap;gap:6px 16px;margin:14px 0}
+footer .links a{color:#D6DEF0;font-size:.85rem;font-weight:600;text-decoration:none}
+footer small{font-size:.75rem;color:#6F7C99}
+/* bottom nav */
+.bnav{position:fixed;left:0;right:0;bottom:0;background:#fff;border-top:1px solid var(--line);display:flex;z-index:30}
+.bnav a{flex:1;text-align:center;padding:6px 0 8px;font-size:.66rem;font-weight:800;color:var(--muted);text-decoration:none}
+.bnav a i{display:block;font-style:normal;font-size:1.1rem}
+.bnav a.on{color:var(--blue)}
+@media(min-width:820px){.bnav{display:none}body{padding-bottom:0}}
+/* KONT: this phone's own events (the old "Evènman Ou Kreye") */
+#kont{display:none}#kont.show{display:block}
+.mine{background:#fff;border:1px solid var(--line);border-radius:14px;padding:12px;margin-top:10px}
+.mine b{display:block;font-size:.98rem}.mine small{color:var(--light);font-size:.8rem}
+.mine .acts{display:flex;flex-wrap:wrap;gap:8px;margin-top:8px}
+.mine .acts a,.mine .acts button{border:1px solid var(--line);background:#fff;border-radius:999px;padding:7px 11px;font:700 .78rem 'Plus Jakarta Sans',sans-serif;color:var(--text);cursor:pointer;text-decoration:none}
+/* preview-only sample */
+.sample{border:2px dashed #E8C766;border-radius:22px;padding:16px;background:#FFFBEF;margin-top:10px}
+.sample .lbl{font-size:.75rem;font-weight:800;color:#7A4B00;margin-bottom:10px}
+</style></head>
 <body>
 
-<!-- FLAG -->
-<div class="flag-stripe"></div>
+<!-- 1 HEADER -->
+<div class="stripe"></div>
+<header><div class="wrap">
+  <img src="assets/tike-lakay-logo.png" alt="Tikè Lakay">
+  <div class="brand">Tikè <em>Lakay</em><small>PA HAITIBIZNIS</small></div>
+  <nav class="top"><a href="#">Akèy</a><a href="#evenman">Evènman</a><a href="my-tickets.html">Tikè Mwen</a></nav>
+  <a class="btn-create" href="create-event.html">➕ Kreye Evènman</a>
+</div></header>
 
-<!-- LANG -->
-<div class="lang-bar">
-  <a class="active" data-lang="ht">Kreyòl</a>
-  <a data-lang="fr">Français</a>
-  <a data-lang="en">English</a>
-  <a data-lang="es">Español</a>
-  <a data-lang="pt">Português</a>
-</div>
-
-<!-- HEADER -->
-<header class="header">
-  <a href="events.html" class="header-logo">
-    <img src="assets/tike-lakay-logo.png" alt="Tikè Lakay">
-    <span data-i18n="header_logo">Tikè <em>Lakay</em></span>
-  </a>
-  <a href="index.html" class="header-back">
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M19 12H5M12 5l-7 7 7 7"/></svg>
-    <span>HaitiBiznis</span>
-  </a>
-</header>
-
-<!-- ═══ 1. HERO ═══ -->
-<section class="hero">
-  <div class="hero-confetti" id="confetti"></div>
-  <div class="hero-content">
-    <div class="hero-logo-wrap">
-      <img src="assets/tike-lakay-logo.png" alt="Tikè Lakay">
-    </div>
-    <h1 data-i18n="hero_heading">Kreye Evènman<span class="dot">.</span> Invite Moun<span class="dot">.</span> <em>Vann Tikè</em><span class="dot">.</span></h1>
-    <p class="hero-sub" data-i18n="hero_sub">Desine bèl envitasyon, vann tikè, ak jere envite ou nan yon sèl plas. Premye platfòm evènman Ayiti.</p>
-    <div class="hero-ctas">
-      <a href="create-event.html" class="btn btn-red">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg>
-        <span data-i18n="hero_cta_create">Kreye Evènman</span>
-      </a>
-      <a href="#events" class="btn btn-outline">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg>
-        <span data-i18n="hero_cta_browse">Gade Evènman</span>
-      </a>
-    </div>
-    <div class="hero-stats">
-      <div class="hero-stat"><div class="num">500+</div><div class="label" data-i18n="stat_events">Evènman Kreye</div></div>
-      <div class="hero-stat"><div class="num">10,000+</div><div class="label" data-i18n="stat_tickets">Tikè Vann</div></div>
-      <div class="hero-stat"><div class="num">200+</div><div class="label" data-i18n="stat_organizers">Ògannizatè</div></div>
-    </div>
+<!-- 2 HERO -->
+<div class="hero"><div class="wrap">
+  <div class="kick">🎟️ TIKÈ LAKAY</div>
+  <h1>TOUT EVÈNMAN AYITI NAN MEN OU!</h1>
+  <p>Dekouvri evènman. Achte tikè. Kreye pwòp evènman pa w.</p>
+  <div class="ctas">
+    <a class="cta g" href="#evenman">🎟️ ACHTE TIKÈ</a>
+    <a class="cta b" href="create-event.html">➕ KREYE EVÈNMAN GRATIS</a>
   </div>
-</section>
+  <div class="chips-line">🎵 Konsè • 🎓 Fòmasyon • 🎉 Fèt • 💼 Konferans • ⛪ Legliz</div>
+</div></div>
 
-<!-- ═══ 2. CATEGORIES ═══ -->
-<div class="diag"></div>
-<section class="section">
-  <div class="section-tag reveal" data-i18n="tag_categories">📂 Kategori</div>
-  <h2 class="section-title reveal" data-i18n="cat_title">Tout Tip <em>Evènman</em></h2>
-  <p class="section-desc reveal" data-i18n="cat_desc">Konferans, fèt, maryaj, batèm, gradyasyon, Nwèl — tout gen plas sou platfòm lan.</p>
-  <div class="cats reveal">
-    <div class="cat-card" data-cat="conference">
-      <span class="cat-icon">🎤</span>
-      <span class="cat-name" data-i18n="cat_conference">Konferans</span>
-      <span class="cat-count" data-i18n="cat_conference_count">45 evènman</span>
-    </div>
-    <div class="cat-card" data-cat="party">
-      <span class="cat-icon">🎉</span>
-      <span class="cat-name" data-i18n="cat_party">Fèt / Party</span>
-      <span class="cat-count" data-i18n="cat_party_count">128 evènman</span>
-    </div>
-    <div class="cat-card" data-cat="fundraiser">
-      <span class="cat-icon">💝</span>
-      <span class="cat-name" data-i18n="cat_fundraiser">Gala / Kolèk</span>
-      <span class="cat-count" data-i18n="cat_fundraiser_count">32 evènman</span>
-    </div>
-    <div class="cat-card" data-cat="seminar">
-      <span class="cat-icon">📚</span>
-      <span class="cat-name" data-i18n="cat_seminar">Seminè</span>
-      <span class="cat-count" data-i18n="cat_seminar_count">67 evènman</span>
-    </div>
-    <div class="cat-card" data-cat="wedding">
-      <span class="cat-icon">💍</span>
-      <span class="cat-name" data-i18n="cat_wedding">Maryaj</span>
-      <span class="cat-count" data-i18n="cat_wedding_count">89 evènman</span>
-    </div>
-    <div class="cat-card" data-cat="church">
-      <span class="cat-icon">⛪</span>
-      <span class="cat-name" data-i18n="cat_church">Legliz</span>
-      <span class="cat-count" data-i18n="cat_church_count">156 evènman</span>
-    </div>
-    <div class="cat-card" data-cat="business">
-      <span class="cat-icon">💼</span>
-      <span class="cat-name" data-i18n="cat_business">Biznis</span>
-      <span class="cat-count" data-i18n="cat_business_count">78 evènman</span>
-    </div>
-    <div class="cat-card" data-cat="concert">
-      <span class="cat-icon">🎵</span>
-      <span class="cat-name" data-i18n="cat_concert">Konsè</span>
-      <span class="cat-count" data-i18n="cat_concert_count">94 evènman</span>
-    </div>
-    <div class="cat-card" data-cat="workshop">
-      <span class="cat-icon">🎓</span>
-      <span class="cat-name" data-i18n="cat_workshop">Fòmasyon</span>
-      <span class="cat-count" data-i18n="cat_workshop_count">53 evènman</span>
-    </div>
-    <div class="cat-card" data-cat="communion">
-      <span class="cat-icon">🕊️</span>
-      <span class="cat-name" data-i18n="cat_communion">Premye Kominyon</span>
-      <span class="cat-count" data-i18n="cat_communion_count">41 evènman</span>
-    </div>
-    <div class="cat-card" data-cat="baptism">
-      <span class="cat-icon">💧</span>
-      <span class="cat-name" data-i18n="cat_baptism">Batèm</span>
-      <span class="cat-count" data-i18n="cat_baptism_count">38 evènman</span>
-    </div>
-    <div class="cat-card" data-cat="graduation">
-      <span class="cat-icon">🎓</span>
-      <span class="cat-name" data-i18n="cat_graduation">Gradyasyon</span>
-      <span class="cat-count" data-i18n="cat_graduation_count">62 evènman</span>
-    </div>
-    <div class="cat-card" data-cat="bal">
-      <span class="cat-icon">💃</span>
-      <span class="cat-name" data-i18n="cat_bal">Bàl</span>
-      <span class="cat-count" data-i18n="cat_bal_count">47 evènman</span>
-    </div>
-    <div class="cat-card" data-cat="mothers-day">
-      <span class="cat-icon">🌸</span>
-      <span class="cat-name" data-i18n="cat_mothers_day">Fèt dè Mè</span>
-      <span class="cat-count" data-i18n="cat_mothers_day_count">35 evènman</span>
-    </div>
-    <div class="cat-card" data-cat="fathers-day">
-      <span class="cat-icon">👔</span>
-      <span class="cat-name" data-i18n="cat_fathers_day">Fèt dè Pè</span>
-      <span class="cat-count" data-i18n="cat_fathers_day_count">28 evènman</span>
-    </div>
-    <div class="cat-card" data-cat="jmj">
-      <span class="cat-icon">✝️</span>
-      <span class="cat-name" data-i18n="cat_jmj">JMJ</span>
-      <span class="cat-count" data-i18n="cat_jmj_count">22 evènman</span>
-    </div>
-    <div class="cat-card" data-cat="valentines">
-      <span class="cat-icon">❤️</span>
-      <span class="cat-name" data-i18n="cat_valentines">St Valentin</span>
-      <span class="cat-count" data-i18n="cat_valentines_count">56 evènman</span>
-    </div>
-    <div class="cat-card" data-cat="christmas">
-      <span class="cat-icon">🎄</span>
-      <span class="cat-name" data-i18n="cat_christmas">Nwèl</span>
-      <span class="cat-count" data-i18n="cat_christmas_count">73 evènman</span>
-    </div>
-    <div class="cat-card" data-cat="new-year">
-      <span class="cat-icon">🎆</span>
-      <span class="cat-name" data-i18n="cat_new_year">Nouvel Ane</span>
-      <span class="cat-count" data-i18n="cat_new_year_count">81 evènman</span>
-    </div>
-    <div class="cat-card" data-cat="football">
-      <span class="cat-icon">⚽</span>
-      <span class="cat-name" data-i18n="cat_football">Foutbòl</span>
-      <span class="cat-count" data-i18n="cat_football_count">112 evènman</span>
-    </div>
-    <div class="cat-card" data-cat="basketball">
-      <span class="cat-icon">🏀</span>
-      <span class="cat-name" data-i18n="cat_basketball">Baskètbòl</span>
-      <span class="cat-count" data-i18n="cat_basketball_count">45 evènman</span>
-    </div>
-    <div class="cat-card" data-cat="volleyball">
-      <span class="cat-icon">🏐</span>
-      <span class="cat-name" data-i18n="cat_volleyball">Volebòl</span>
-      <span class="cat-count" data-i18n="cat_volleyball_count">33 evènman</span>
-    </div>
-    <div class="cat-card" data-cat="tennis">
-      <span class="cat-icon">🎾</span>
-      <span class="cat-name" data-i18n="cat_tennis">Tenis</span>
-      <span class="cat-count" data-i18n="cat_tennis_count">18 evènman</span>
-    </div>
-    <div class="cat-card" data-cat="badminton">
-      <span class="cat-icon">🏸</span>
-      <span class="cat-name" data-i18n="cat_badminton">Badmintonn</span>
-      <span class="cat-count" data-i18n="cat_badminton_count">12 evènman</span>
-    </div>
-    <div class="cat-card" data-cat="boxing">
-      <span class="cat-icon">🥊</span>
-      <span class="cat-name" data-i18n="cat_boxing">Bòks</span>
-      <span class="cat-count" data-i18n="cat_boxing_count">67 evènman</span>
-    </div>
-    <div class="cat-card" data-cat="martial-arts">
-      <span class="cat-icon">🥋</span>
-      <span class="cat-name" data-i18n="cat_martial_arts">Karate / Judo</span>
-      <span class="cat-count" data-i18n="cat_martial_arts_count">24 evènman</span>
-    </div>
-    <div class="cat-card" data-cat="sports-other">
-      <span class="cat-icon">🏆</span>
-      <span class="cat-name" data-i18n="cat_other_sports">Lòt Spò</span>
-      <span class="cat-count" data-i18n="cat_other_sports_count">39 evènman</span>
-    </div>
+<!-- 3 UPCOMING -->
+<section id="evenman"><span id="events"></span><div class="wrap">
+  <h2 class="sec-h">🔥 EVÈNMAN K AP VINI</h2>
+  <div id="evArea"><div class="loading"><span class="spin"></span>Ap chaje evènman yo… (sa ka pran yon ti moman)</div></div>
+</div></section>
+
+<!-- 4 SEARCH + CATEGORIES -->
+<section style="padding-top:6px"><div class="wrap">
+  <h2 class="sec-h">🔎 KI EVÈNMAN W AP CHÈCHE?</h2>
+  <div class="search"><input id="q" type="search" placeholder="Non evènman, kote, òganizatè…" autocomplete="off"></div>
+  <div class="cats" id="cats"></div>
+  <button class="link-btn" id="allBtn">WÈ TOUT KATEGORI YO ›</button>
+  <div class="allcats" id="allcats"></div>
+  <div class="results-note" id="resNote"></div>
+</div></section>
+
+<!-- 5 ORGANIZERS -->
+<section><div class="wrap"><div class="org">
+  <h2 class="sec-h">🎤 OU GEN YON EVÈNMAN?<br><em>KREYE L GRATIS SOU TIKÈ LAKAY!</em></h2>
+  <p class="sec-sub">Vann tikè, envite moun, epi jere evènman ou fasil.</p>
+  <div class="ben">
+    <div><i>🎟️</i><b>Vann Tikè</b><span>Vann tikè sou entènèt fasil.</span></div>
+    <div><i>💳</i><b>Resevwa Peman</b><span>MonCash, NatCash ak kat kredi.</span></div>
+    <div><i>📱</i><b>QR Code</b><span>Verifye tikè lè envite yo rive.</span></div>
+    <div><i>📊</i><b>Swiv Lavant Ou</b><span>Gade kantite tikè ou vann.</span></div>
   </div>
-</section>
+  <a class="cta r" href="create-event.html">🚀 KREYE EVÈNMAN GRATIS</a>
+  <div><a class="help" href="https://wa.me/50946859702?text=Bonjou%20Tik%C3%A8%20Lakay%2C%20mwen%20bezwen%20%C3%A8d%20pou%20evenman%20mwen.">💬 Bezwen Èd?</a></div>
+  <p class="fee"><b>Pa gen frè pou kreye evènman ou.</b> Evènman gratis: pa gen okenn frè. Evènman peye: moun k ap achte a peye yon frè sèvis 7.5% anplis pri tikè a, epi ou resevwa tout pri tikè ou mete a.</p>
+</div></div></section>
 
-<!-- ═══ YOUR EVENTS (dynamic from localStorage) ═══ -->
-<section class="section" id="yourEventsSection" style="background:var(--off-white);max-width:100%;border-top:1px solid var(--border-light);border-bottom:1px solid var(--border-light);padding-left:0;padding-right:0;display:none;overflow:hidden">
-  <div style="max-width:960px;margin:0 auto;padding:0 20px">
-    <div class="section-tag reveal" data-i18n="tag_your_events">✨ Evènman Ou Yo</div>
-    <h2 class="section-title reveal" data-i18n="your_events_title">Evènman <em>Ou Kreye</em></h2>
-    <p class="section-desc reveal" data-i18n="your_events_desc">Evènman ou pibliye sou Tikè Lakay.</p>
+<!-- 6 INVITATIONS -->
+<section style="padding-top:4px"><div class="wrap">
+  <h2 class="sec-h">💌 ENVITASYON POU TOUT OKAZYON</h2>
+  <p class="sec-sub">Ou pa bezwen vann tikè pou itilize Tikè Lakay.</p>
+  <div class="inv">
+    <a class="w" href="create-event.html"><i>💍</i>Maryaj</a>
+    <a class="bd" href="create-event.html"><i>🎂</i>Anivèsè</a>
+    <a class="gr" href="create-event.html"><i>🎓</i>Gradyasyon</a>
+    <a class="bp" href="create-event.html"><i>⛪</i>Batèm</a>
   </div>
-  <div class="events-scroll" id="yourEventsScroll" style="padding-left:max(20px, calc((100% - 960px)/2 + 20px))">
+  <div class="center"><a class="small-link" href="create-event.html">🎨 Kreye envitasyon ›</a></div>
+</div></section>
+
+<!-- 7 HOW -->
+<section style="padding-top:4px"><div class="wrap">
+  <h2 class="sec-h">⚡ KIJAN TIKÈ LAKAY FONKSYONE?</h2>
+  <div class="how">
+    <div><span class="n">1</span><b>KREYE</b><span>Kreye evènman ou gratis.</span></div>
+    <div><span class="n">2</span><b>PATAJE</b><span>Pataje evènman an sou WhatsApp ak Facebook.</span></div>
+    <div><span class="n">3</span><b>VANN</b><span>Kliyan yo achte tikè epi peye sou entènèt.</span></div>
+    <div><span class="n">4</span><b>VERIFYE</b><span>Eskane QR Code tikè yo lè envite yo rive.</span></div>
   </div>
-</section>
 
-<!-- ═══ 3. FEATURED EVENTS ═══ -->
-<section class="section" id="events" style="background:var(--white);max-width:100%;border-top:1px solid var(--border-light);border-bottom:1px solid var(--border-light);padding-left:0;padding-right:0;overflow:hidden">
-  <div style="max-width:960px;margin:0 auto;padding:0 20px">
-    <div class="section-tag reveal" data-i18n="tag_popular">🔥 Popilè</div>
-    <h2 class="section-title reveal" data-i18n="popular_title">Evènman <em>Popilè</em></h2>
-    <p class="section-desc reveal" data-i18n="popular_desc">Evènman ki pi cho nan peyi a kounye a.</p>
-  </div>
-  <div class="events-scroll" style="padding-left:max(20px, calc((100% - 960px)/2 + 20px))">
+</div></section>
 
-    <div class="ev-card reveal" onclick="alert('Paj evènman ap vini byento!')">
-      <div class="ev-img">
-        <div class="ev-img-bg" style="background:linear-gradient(135deg,#0A1235,#00209F,#0A3ACC)">🎤</div>
-        <span class="ev-type-tag" style="background:rgba(0,32,159,.85)" data-i18n="ev1_tag">Konferans</span>
-        <div class="ev-date-badge"><div class="month">JUN</div><div class="day">15</div></div>
-      </div>
-      <div class="ev-body">
-        <div class="ev-title" data-i18n="ev1_title">Konferans Biznis Ayiti 2026</div>
-        <div class="ev-meta">
-          <div class="ev-meta-row">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>
-            Port-au-Prince, Karibe Hotel
-          </div>
-          <div class="ev-meta-row">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
-            9:00 AM — 5:00 PM
-          </div>
-        </div>
-        <div class="ev-footer">
-          <span class="ev-price">HTG 2,500</span>
-          <button class="ev-buy ticket" data-i18n="buy_ticket">Achte Tikè</button>
-        </div>
-      </div>
-    </div>
+<!-- 8 AJAN -->
+<section style="padding-top:4px"><div class="wrap"><div class="ajan">
+  <h2 class="sec-h">💰 FÈ LAJAN AK TIKÈ LAKAY</h2>
+  <p class="sec-sub" style="color:#5a4a1a">Vin yon Ajan LajanMaker. Ede òganizatè mete evènman yo sou Tikè Lakay.</p>
+  <ul><li>🤝 Rekrite òganizatè.</li><li>📲 Pataje evènman.</li><li>💰 Touche komisyon sou tranzaksyon ki kalifye.</li></ul>
+  <a class="cta" href="koutye.html">VIN YON AJAN LAJANMAKER</a>
+</div></div></section>
 
-    <div class="ev-card reveal reveal-d1" onclick="alert('Paj evènman ap vini byento!')">
-      <div class="ev-img">
-        <div class="ev-img-bg" style="background:linear-gradient(135deg,#5a1a3a,#D21034,#FF4466)">🎉</div>
-        <span class="ev-type-tag" style="background:rgba(210,16,52,.85)" data-i18n="ev2_tag">Party</span>
-        <div class="ev-date-badge"><div class="month">JUL</div><div class="day">04</div></div>
-      </div>
-      <div class="ev-body">
-        <div class="ev-title" data-i18n="ev2_title">Soirée Tropicale</div>
-        <div class="ev-meta">
-          <div class="ev-meta-row">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>
-            Pétion-Ville, Yanvalou Lounge
-          </div>
-          <div class="ev-meta-row">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
-            9:00 PM — 3:00 AM
-          </div>
-        </div>
-        <div class="ev-footer">
-          <span class="ev-price">HTG 1,500</span>
-          <button class="ev-buy ticket" data-i18n="buy_ticket_2">Achte Tikè</button>
-        </div>
-      </div>
-    </div>
+<!-- 9 TRUST -->
+<section style="padding-top:4px"><div class="wrap">
+  <h2 class="sec-h" style="font-size:1.25rem">🔒 ACHTE TIKÈ OU AK KONFYANS</h2>
+  <div class="trust"><span>🟠 MonCash</span><span>🔵 NatCash</span><span>💳 Kat kredi</span><span>🎟️ Tikè ak QR Code</span></div>
+</div></section>
 
-    <div class="ev-card reveal reveal-d2" onclick="alert('Paj evènman ap vini byento!')">
-      <div class="ev-img">
-        <div class="ev-img-bg" style="background:linear-gradient(135deg,#1a3a1a,#D4A017,#E8B82E)">💝</div>
-        <span class="ev-type-tag" style="background:rgba(212,160,23,.9)" data-i18n="ev3_tag">Gala</span>
-        <div class="ev-date-badge"><div class="month" data-i18n="ev3_month">AOU</div><div class="day">22</div></div>
-      </div>
-      <div class="ev-body">
-        <div class="ev-title" data-i18n="ev3_title">Gala Solidarité</div>
-        <div class="ev-meta">
-          <div class="ev-meta-row">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>
-            Cap-Haïtien, Habitation Labadie
-          </div>
-          <div class="ev-meta-row">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
-            7:00 PM — 11:00 PM
-          </div>
-        </div>
-        <div class="ev-footer">
-          <span class="ev-price">HTG 5,000</span>
-          <button class="ev-buy ticket" data-i18n="buy_ticket_3">Achte Tikè</button>
-        </div>
-      </div>
-    </div>
 
-    <div class="ev-card reveal reveal-d3" onclick="alert('Paj evènman ap vini byento!')">
-      <div class="ev-img">
-        <div class="ev-img-bg" style="background:linear-gradient(135deg,#f5e6d0,#e8c9a0,#d4a870)">💍</div>
-        <span class="ev-type-tag" style="background:rgba(180,140,80,.9)" data-i18n="ev4_tag">Maryaj</span>
-        <div class="ev-date-badge"><div class="month">SEP</div><div class="day">06</div></div>
-      </div>
-      <div class="ev-body">
-        <div class="ev-title" data-i18n="ev4_title">Maryaj Jean &amp; Marie</div>
-        <div class="ev-meta">
-          <div class="ev-meta-row">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>
-            Jacmel, Hôtel Florita
-          </div>
-          <div class="ev-meta-row">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
-            4:00 PM — 11:00 PM
-          </div>
-        </div>
-        <div class="ev-footer">
-          <span class="ev-price free" data-i18n="ev4_price">✓ RSVP Gratis</span>
-          <button class="ev-buy rsvp">RSVP</button>
-        </div>
-      </div>
-    </div>
+<!-- KONT (bottom nav): Tikè mwen + the events THIS phone created, with
+     the manage buttons the old page had - edit, who is coming, delete.
+     An organiser's only way back to their own event must not disappear with
+     the redesign. Hidden until "Kont" is tapped. -->
+<section id="kont"><div class="wrap">
+  <h2 class="sec-h">👤 Kont mwen</h2>
+  <div class="trust" style="margin-top:10px"><a class="small-link" style="margin:0" href="my-tickets.html">🎫 Tikè mwen ›</a></div>
+  <h3 style="margin-top:16px;font-size:1rem">📋 Evènman mwen kreye</h3>
+  <div id="mineList"><p class="sec-sub">Evènman ou kreye sou telefòn sa a ap parèt isit la.</p></div>
+</div></section>
 
-    <div class="ev-card reveal" onclick="alert('Paj evènman ap vini byento!')">
-      <div class="ev-img">
-        <div class="ev-img-bg" style="background:linear-gradient(135deg,#2a1a5a,#5a3a8a,#8a6abd)">⛪</div>
-        <span class="ev-type-tag" style="background:rgba(90,58,138,.85)" data-i18n="ev5_tag">Legliz</span>
-        <div class="ev-date-badge"><div class="month" data-i18n="ev5_month">MAI</div><div class="day">18</div></div>
-      </div>
-      <div class="ev-body">
-        <div class="ev-title" data-i18n="ev5_title">Louanj ak Adorasyon</div>
-        <div class="ev-meta">
-          <div class="ev-meta-row">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>
-            Delmas, Église Shalom
-          </div>
-          <div class="ev-meta-row">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
-            6:00 PM — 9:00 PM
-          </div>
-        </div>
-        <div class="ev-footer">
-          <span class="ev-price free" data-i18n="ev5_price">✓ Gratis</span>
-          <button class="ev-buy rsvp">RSVP</button>
-        </div>
-      </div>
-    </div>
+<!-- 10 FOOTER -->
+<footer><div class="wrap">
+  <b>TIKÈ LAKAY</b>
+  <div>Yon platfòm HaitiBiznis Technologies.</div>
+  <div class="links">
+    <a href="#">Akèy</a><a href="#evenman">Evènman</a><a href="create-event.html">Kreye Evènman</a>
+    <a href="my-tickets.html">Tikè Mwen</a><a href="https://wa.me/50946859702">💬 Bezwen Èd? / Kontakte Nou</a>  </div>
+  <small>© 2026 HaitiBiznis Technologies.</small>
+</div></footer>
 
-    <div class="ev-card reveal" onclick="alert('Paj evènman ap vini byento!')">
-      <div class="ev-img">
-        <div class="ev-img-bg" style="background:linear-gradient(135deg,#0a2a4a,#00209F,#D4A017)">🏠</div>
-        <span class="ev-type-tag" style="background:rgba(0,32,159,.85)" data-i18n="ev6_tag">Konferans</span>
-        <div class="ev-date-badge"><div class="month">JUN</div><div class="day">28</div></div>
-      </div>
-      <div class="ev-body">
-        <div class="ev-title" data-i18n="ev6_title">Konferans Immobilye Pwofesyonèl Lakay</div>
-        <div class="ev-meta">
-          <div class="ev-meta-row">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>
-            Tabarre, Pwofesyonèl Lakay HQ
-          </div>
-          <div class="ev-meta-row">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
-            10:00 AM — 4:00 PM
-          </div>
-        </div>
-        <div class="ev-footer">
-          <span class="ev-price">HTG 3,000</span>
-          <button class="ev-buy ticket" data-i18n="buy_ticket_6">Achte Tikè</button>
-        </div>
-      </div>
-    </div>
-
-  </div>
-</section>
-
-<!-- ═══ 4. HOW IT WORKS ═══ -->
-<section class="section">
-  <div class="section-tag reveal" data-i18n="tag_how">⚡ Kòman sa Mache</div>
-  <h2 class="section-title reveal" data-i18n="how_title">4 Etap pou <em>Kreye Evènman</em></h2>
-  <p class="section-desc reveal" data-i18n="how_desc">Kreye, envite, vann — tout nan kèk minit.</p>
-  <div class="steps reveal">
-    <div class="step">
-      <div class="step-num"></div>
-      <span class="step-icon">📝</span>
-      <h4 data-i18n="step1_title">Kreye Evènman</h4>
-      <p data-i18n="step1_desc">Non, dat, lè, kote — mete tout detay yo.</p>
-      <span class="step-arrow">→</span>
-    </div>
-    <div class="step">
-      <div class="step-num"></div>
-      <span class="step-icon">🎨</span>
-      <h4 data-i18n="step2_title">Desine Envitasyon</h4>
-      <p data-i18n="step2_desc">Chwazi template, mete logo ou, personalize tout.</p>
-      <span class="step-arrow">→</span>
-    </div>
-    <div class="step">
-      <div class="step-num"></div>
-      <span class="step-icon">🎟️</span>
-      <h4 data-i18n="step3_title">Ajoute Tikè</h4>
-      <p data-i18n="step3_desc">General, VIP, Early Bird — mete pri ak kantite.</p>
-      <span class="step-arrow">→</span>
-    </div>
-    <div class="step">
-      <div class="step-num"></div>
-      <span class="step-icon">🚀</span>
-      <h4 data-i18n="step4_title">Pataje &amp; Vann</h4>
-      <p data-i18n="step4_desc">Pataje sou WhatsApp, Facebook. Lajan rive nan MonCash ou.</p>
-    </div>
-  </div>
-</section>
-
-<!-- ═══ 5. BENEFITS ═══ -->
-<section class="section" style="background:var(--cream);max-width:100%;border-top:1px solid var(--border-light);padding-left:20px;padding-right:20px">
-  <div style="max-width:960px;margin:0 auto">
-    <div class="section-tag reveal" data-i18n="tag_benefits">✨ Avantaj</div>
-    <h2 class="section-title reveal" data-i18n="benefits_title">Poukisa Chwazi <em>Tikè Lakay?</em></h2>
-    <p class="section-desc reveal" data-i18n="benefits_desc">Tout sa ou bezwen pou fè evènman ou yon siksè.</p>
-    <div class="benefits reveal">
-      <div class="benefit">
-        <span class="benefit-icon">🎨</span>
-        <h4 data-i18n="benefit1_title">Envitasyon Pwofesyonèl</h4>
-        <p data-i18n="benefit1_desc">Bèl template pou tout okazyon. Personalize koulè, logo, tèks — fè l parèt tankou pa ou.</p>
-      </div>
-      <div class="benefit">
-        <span class="benefit-icon">📱</span>
-        <h4 data-i18n="benefit2_title">Tikè ak QR Code</h4>
-        <p data-i18n="benefit2_desc">Chak tikè gen yon QR code inik. Skan lè envite rive — pa gen fwòd, pa gen dezòd.</p>
-      </div>
-      <div class="benefit">
-        <span class="benefit-icon">💳</span>
-        <h4 data-i18n="benefit3_title">Peman Fasil</h4>
-        <p data-i18n="benefit3_desc">MonCash, NatCash, kat kredi — aksepte tout kalite peman. Lajan rive dirèkteman.</p>
-      </div>
-      <div class="benefit">
-        <span class="benefit-icon">💰</span>
-        <h4 data-i18n="benefit4_title">Parenaj Biznis</h4>
-        <p data-i18n="benefit4_desc">Pataje evènman ak lyen referral ou. Chak tikè ki vann = komisyon pou ou.</p>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- ═══ 6. KOUTYE ═══ -->
-<section class="koutye-section">
-  <div class="koutye-inner">
-    <span class="koutye-icon reveal">💰</span>
-    <h2 class="reveal" data-i18n="koutye_title">Fè Lajan ak <em>Evènman</em></h2>
-    <p class="reveal" data-i18n="koutye_desc">Pataje evènman, touche komisyon sou chak tikè vann. Lyen referral yo swiv otomatikman. Plis ou pataje, plis ou touche.</p>
-    <div class="reveal" style="display:flex;gap:12px;justify-content:center;flex-wrap:wrap">
-      <a href="koutye.html" class="btn btn-gold">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 000 7h5a3.5 3.5 0 010 7H6"/></svg>
-        <span data-i18n="koutye_cta">Vin yon Parenaj Biznis</span>
-      </a>
-      <a href="koutye.html#how" class="btn btn-outline" data-i18n="koutye_commission">Gade Komisyon yo</a>
-    </div>
-  </div>
-</section>
-
-<!-- ═══ 7. CREATE CTA ═══ -->
-<section class="cta-section">
-  <div class="cta-inner">
-    <h2 class="reveal" data-i18n="cta_title">Prè pou Kreye <em>Evènman Ou?</em></h2>
-    <p class="reveal" data-i18n="cta_desc">Gratis pou kòmanse. San frè jiskaske ou vann tikè.</p>
-    <a href="create-event.html" class="cta-btn reveal">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg>
-      <span data-i18n="cta_button">Kreye Evènman Gratis</span>
-    </a>
-    <div class="trust-badges reveal">
-      <div class="trust-badge">
-        <div class="trust-badge-icon">🔒</div>
-        <span data-i18n="trust1">San Frè Kache</span>
-      </div>
-      <div class="trust-badge">
-        <div class="trust-badge-icon">💬</div>
-        <span data-i18n="trust2">Sipò 24/7</span>
-      </div>
-      <div class="trust-badge">
-        <div class="trust-badge-icon">✅</div>
-        <span data-i18n="trust3">Peman Sekirize</span>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- ═══ FOOTER ═══ -->
-<footer class="footer">
-  <div class="footer-logo">Haiti<em>Biznis</em> Events</div>
-  <p class="footer-text" data-i18n="footer_text">Premye platfòm evènman an Ayiti — kreye, envite, vann tikè ak konfyans.</p>
-  <div class="footer-eco">
-    <img src="assets/haitibiznis-icon.png" alt="HaitiBiznis">
-    <span data-i18n="footer_eco">Yon Platfòm HaitiBiznis</span>
-  </div>
-  <div class="footer-links">
-    <a href="index.html">HaitiBiznis</a>
-    <a href="prolakay.html">Pwofesyonèl Lakay</a>
-    <a href="koutye.html">Parenaj Biznis</a>
-    <a href="utility-hub.html">Utility Hub</a>
-  </div>
-  <p class="footer-copy" data-i18n="footer_copy">&copy; 2026 Tikè Lakay by HaitiBiznis. Tout dwa rezève.</p>
-  <div data-social-bar></div>
-</footer>
-
-<!-- ═══ BOTTOM NAV ═══ -->
-<nav class="bottom-nav">
-  <a href="#" class="active" onclick="event.preventDefault();window.scrollTo({top:0,behavior:'smooth'})">
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
-    <span data-i18n="nav_home">Akèy</span>
-  </a>
-  <a href="#events" onclick="event.preventDefault();document.getElementById('events').scrollIntoView({behavior:'smooth'})">
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>
-    <span data-i18n="nav_events">Evènman</span>
-  </a>
-  <a href="create-event.html" class="create-tab">
-    <div class="create-dot">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" style="width:22px;height:22px"><path d="M12 5v14M5 12h14"/></svg>
-    </div>
-    <span style="margin-top:4px" data-i18n="nav_create">Kreye</span>
-  </a>
-  <a href="koutye.html">
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 000 7h5a3.5 3.5 0 010 7H6"/></svg>
-    <span data-i18n="nav_broker">Parenaj Biznis</span>
-  </a>
-  <a href="#">
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4-4v2"/><circle cx="12" cy="7" r="4"/></svg>
-    <span data-i18n="nav_account">Kont</span>
-  </a>
+<nav class="bnav">
+  <a class="on" href="#"><i>🏠</i>Akèy</a><a href="#evenman"><i>🔎</i>Evènman</a>
+  <a href="my-tickets.html"><i>🎫</i>Tikè Mwen</a><a href="#kont" id="kontLink"><i>👤</i>Kont</a>
 </nav>
 
-<script src="event-types.js"></script>
 <script>
-/* ═══ CONFETTI PARTICLES ═══ */
-(function(){
-  var container = document.getElementById('confetti');
-  var colors = ['#D21034','#D4A017','#E8B82E','#FF6B8A','#FFD700','#FFFFFF','#00209F','#1B8C3D'];
-  var shapes = ['circle','square'];
-  for (var i = 0; i < 35; i++) {
-    var dot = document.createElement('div');
-    dot.className = 'confetti-dot';
-    var color = colors[Math.floor(Math.random() * colors.length)];
-    var size = 4 + Math.random() * 8;
-    var isSquare = Math.random() > 0.6;
-    dot.style.cssText =
-      'left:' + (Math.random() * 100) + '%;' +
-      'width:' + size + 'px;height:' + size + 'px;' +
-      'background:' + color + ';' +
-      'animation-duration:' + (5 + Math.random() * 8) + 's;' +
-      'animation-delay:' + (Math.random() * 6) + 's;' +
-      (isSquare ? 'border-radius:2px;' : '') +
-      'opacity:0;';
-    container.appendChild(dot);
-  }
-})();
-
-/* ═══ SCROLL REVEAL ═══ */
-var observer = new IntersectionObserver(function(entries){
-  entries.forEach(function(entry){
-    if (entry.isIntersecting) entry.target.classList.add('visible');
-  });
-}, {threshold:0.1, rootMargin:'0px 0px -30px 0px'});
-document.querySelectorAll('.reveal').forEach(function(el){ observer.observe(el); });
-
-/* ═══ TRANSLATIONS ═══ */
-var translations = {
-  ht: {
-    header_logo: 'Tikè <em>Lakay</em>',
-    hero_heading: 'Kreye Evènman<span class="dot">.</span> Invite Moun<span class="dot">.</span> <em>Vann Tikè</em><span class="dot">.</span>',
-    hero_sub: 'Desine bèl envitasyon, vann tikè, ak jere envite ou nan yon sèl plas. Premye platfòm evènman Ayiti.',
-    hero_cta_create: 'Kreye Evènman',
-    hero_cta_browse: 'Gade Evènman',
-    stat_events: 'Evènman Kreye',
-    stat_tickets: 'Tikè Vann',
-    stat_organizers: 'Ògannizatè',
-    tag_categories: '📂 Kategori',
-    cat_title: 'Tout Tip <em>Evènman</em>',
-    cat_desc: 'Konferans, fèt, maryaj, batèm, gradyasyon, Nwèl — tout gen plas sou platfòm lan.',
-    cat_conference: 'Konferans',
-    cat_conference_count: '45 evènman',
-    cat_party: 'Fèt / Party',
-    cat_party_count: '128 evènman',
-    cat_fundraiser: 'Gala / Kolèk',
-    cat_fundraiser_count: '32 evènman',
-    cat_seminar: 'Seminè',
-    cat_seminar_count: '67 evènman',
-    cat_wedding: 'Maryaj',
-    cat_wedding_count: '89 evènman',
-    cat_church: 'Legliz',
-    cat_church_count: '156 evènman',
-    cat_business: 'Biznis',
-    cat_business_count: '78 evènman',
-    cat_concert: 'Konsè',
-    cat_concert_count: '94 evènman',
-    cat_workshop: 'Fòmasyon',
-    cat_workshop_count: '53 evènman',
-    cat_communion: 'Premye Kominyon',
-    cat_communion_count: '41 evènman',
-    cat_baptism: 'Batèm',
-    cat_baptism_count: '38 evènman',
-    cat_graduation: 'Gradyasyon',
-    cat_graduation_count: '62 evènman',
-    cat_bal: 'Bàl',
-    cat_bal_count: '47 evènman',
-    cat_mothers_day: 'Fèt dè Mè',
-    cat_mothers_day_count: '35 evènman',
-    cat_fathers_day: 'Fèt dè Pè',
-    cat_fathers_day_count: '28 evènman',
-    cat_jmj: 'JMJ',
-    cat_jmj_count: '22 evènman',
-    cat_valentines: 'St Valentin',
-    cat_valentines_count: '56 evènman',
-    cat_christmas: 'Nwèl',
-    cat_christmas_count: '73 evènman',
-    cat_new_year: 'Nouvel Ane',
-    cat_new_year_count: '81 evènman',
-    cat_football: 'Foutbòl',
-    cat_football_count: '112 evènman',
-    cat_basketball: 'Baskètbòl',
-    cat_basketball_count: '45 evènman',
-    cat_volleyball: 'Volebòl',
-    cat_volleyball_count: '33 evènman',
-    cat_tennis: 'Tenis',
-    cat_tennis_count: '18 evènman',
-    cat_badminton: 'Badmintonn',
-    cat_badminton_count: '12 evènman',
-    cat_boxing: 'Bòks',
-    cat_boxing_count: '67 evènman',
-    cat_martial_arts: 'Karate / Judo',
-    cat_martial_arts_count: '24 evènman',
-    cat_other_sports: 'Lòt Spò',
-    cat_other_sports_count: '39 evènman',
-    tag_your_events: '✨ Evènman Ou Yo',
-    your_events_title: 'Evènman <em>Ou Kreye</em>',
-    your_events_desc: 'Evènman ou pibliye sou Tikè Lakay.',
-    tag_popular: '🔥 Popilè',
-    popular_title: 'Evènman <em>Popilè</em>',
-    popular_desc: 'Evènman ki pi cho nan peyi a kounye a.',
-    ev1_tag: 'Konferans',
-    ev1_title: 'Konferans Biznis Ayiti 2026',
-    buy_ticket: 'Achte Tikè',
-    ev2_tag: 'Party',
-    ev2_title: 'Soirée Tropicale',
-    buy_ticket_2: 'Achte Tikè',
-    ev3_tag: 'Gala',
-    ev3_month: 'AOU',
-    ev3_title: 'Gala Solidarité',
-    buy_ticket_3: 'Achte Tikè',
-    ev4_tag: 'Maryaj',
-    ev4_title: 'Maryaj Jean &amp; Marie',
-    ev4_price: '✓ RSVP Gratis',
-    ev5_tag: 'Legliz',
-    ev5_month: 'MAI',
-    ev5_title: 'Louanj ak Adorasyon',
-    ev5_price: '✓ Gratis',
-    ev6_tag: 'Konferans',
-    ev6_title: 'Konferans Immobilye Pwofesyonèl Lakay',
-    buy_ticket_6: 'Achte Tikè',
-    tag_how: '⚡ Kòman sa Mache',
-    how_title: '4 Etap pou <em>Kreye Evènman</em>',
-    how_desc: 'Kreye, envite, vann — tout nan kèk minit.',
-    step1_title: 'Kreye Evènman',
-    step1_desc: 'Non, dat, lè, kote — mete tout detay yo.',
-    step2_title: 'Desine Envitasyon',
-    step2_desc: 'Chwazi template, mete logo ou, personalize tout.',
-    step3_title: 'Ajoute Tikè',
-    step3_desc: 'General, VIP, Early Bird — mete pri ak kantite.',
-    step4_title: 'Pataje &amp; Vann',
-    step4_desc: 'Pataje sou WhatsApp, Facebook. Lajan rive nan MonCash ou.',
-    tag_benefits: '✨ Avantaj',
-    benefits_title: 'Poukisa Chwazi <em>Tikè Lakay?</em>',
-    benefits_desc: 'Tout sa ou bezwen pou fè evènman ou yon siksè.',
-    benefit1_title: 'Envitasyon Pwofesyonèl',
-    benefit1_desc: 'Bèl template pou tout okazyon. Personalize koulè, logo, tèks — fè l parèt tankou pa ou.',
-    benefit2_title: 'Tikè ak QR Code',
-    benefit2_desc: 'Chak tikè gen yon QR code inik. Skan lè envite rive — pa gen fwòd, pa gen dezòd.',
-    benefit3_title: 'Peman Fasil',
-    benefit3_desc: 'MonCash, NatCash, kat kredi — aksepte tout kalite peman. Lajan rive dirèkteman.',
-    benefit4_title: 'Parenaj Biznis',
-    benefit4_desc: 'Pataje evènman ak lyen referral ou. Chak tikè ki vann = komisyon pou ou.',
-    koutye_title: 'Fè Lajan ak <em>Evènman</em>',
-    koutye_desc: 'Pataje evènman, touche komisyon sou chak tikè vann. Lyen referral yo swiv otomatikman. Plis ou pataje, plis ou touche.',
-    koutye_cta: 'Vin yon Parenaj Biznis',
-    koutye_commission: 'Gade Komisyon yo',
-    cta_title: 'Prè pou Kreye <em>Evènman Ou?</em>',
-    cta_desc: 'Gratis pou kòmanse. San frè jiskaske ou vann tikè.',
-    cta_button: 'Kreye Evènman Gratis',
-    trust1: 'San Frè Kache',
-    trust2: 'Sipò 24/7',
-    trust3: 'Peman Sekirize',
-    footer_text: 'Premye platfòm evènman an Ayiti — kreye, envite, vann tikè ak konfyans.',
-    footer_eco: 'Yon Platfòm HaitiBiznis',
-    footer_copy: '&copy; 2026 Tikè Lakay by HaitiBiznis. Tout dwa rezève.',
-    nav_home: 'Akèy',
-    nav_events: 'Evènman',
-    nav_create: 'Kreye',
-    nav_broker: 'Parenaj Biznis',
-    nav_account: 'Kont'
-  },
-  fr: {
-    header_logo: 'Tikè <em>Lakay</em>',
-    hero_heading: 'Créez des Événements<span class="dot">.</span> Invitez du Monde<span class="dot">.</span> <em>Vendez des Billets</em><span class="dot">.</span>',
-    hero_sub: 'Concevez de belles invitations, vendez des billets et gérez vos invités en un seul endroit. La première plateforme événementielle d\'Haïti.',
-    hero_cta_create: 'Créer un Événement',
-    hero_cta_browse: 'Voir les Événements',
-    stat_events: 'Événements Créés',
-    stat_tickets: 'Billets Vendus',
-    stat_organizers: 'Organisateurs',
-    tag_categories: '📂 Catégories',
-    cat_title: 'Tous les Types d\'<em>Événements</em>',
-    cat_desc: 'Conférences, fêtes, mariages, baptêmes, remises de diplômes, Noël — tout a sa place sur la plateforme.',
-    cat_conference: 'Conférence',
-    cat_conference_count: '45 événements',
-    cat_party: 'Fête / Soirée',
-    cat_party_count: '128 événements',
-    cat_fundraiser: 'Gala / Collecte',
-    cat_fundraiser_count: '32 événements',
-    cat_seminar: 'Séminaire',
-    cat_seminar_count: '67 événements',
-    cat_wedding: 'Mariage',
-    cat_wedding_count: '89 événements',
-    cat_church: 'Église',
-    cat_church_count: '156 événements',
-    cat_business: 'Affaires',
-    cat_business_count: '78 événements',
-    cat_concert: 'Concert',
-    cat_concert_count: '94 événements',
-    cat_workshop: 'Formation',
-    cat_workshop_count: '53 événements',
-    cat_communion: 'Première Communion',
-    cat_communion_count: '41 événements',
-    cat_baptism: 'Baptême',
-    cat_baptism_count: '38 événements',
-    cat_graduation: 'Remise de Diplômes',
-    cat_graduation_count: '62 événements',
-    cat_bal: 'Bal',
-    cat_bal_count: '47 événements',
-    cat_mothers_day: 'Fête des Mères',
-    cat_mothers_day_count: '35 événements',
-    cat_fathers_day: 'Fête des Pères',
-    cat_fathers_day_count: '28 événements',
-    cat_jmj: 'JMJ',
-    cat_jmj_count: '22 événements',
-    cat_valentines: 'Saint Valentin',
-    cat_valentines_count: '56 événements',
-    cat_christmas: 'Noël',
-    cat_christmas_count: '73 événements',
-    cat_new_year: 'Nouvel An',
-    cat_new_year_count: '81 événements',
-    cat_football: 'Football',
-    cat_football_count: '112 événements',
-    cat_basketball: 'Basketball',
-    cat_basketball_count: '45 événements',
-    cat_volleyball: 'Volleyball',
-    cat_volleyball_count: '33 événements',
-    cat_tennis: 'Tennis',
-    cat_tennis_count: '18 événements',
-    cat_badminton: 'Badminton',
-    cat_badminton_count: '12 événements',
-    cat_boxing: 'Boxe',
-    cat_boxing_count: '67 événements',
-    cat_martial_arts: 'Karaté / Judo',
-    cat_martial_arts_count: '24 événements',
-    cat_other_sports: 'Autres Sports',
-    cat_other_sports_count: '39 événements',
-    tag_your_events: '✨ Vos Événements',
-    your_events_title: 'Événements <em>que Vous Avez Créés</em>',
-    your_events_desc: 'Événements que vous avez publiés sur Tikè Lakay.',
-    tag_popular: '🔥 Populaires',
-    popular_title: 'Événements <em>Populaires</em>',
-    popular_desc: 'Les événements les plus en vogue dans le pays en ce moment.',
-    ev1_tag: 'Conférence',
-    ev1_title: 'Conférence Business Haïti 2026',
-    buy_ticket: 'Acheter Billet',
-    ev2_tag: 'Soirée',
-    ev2_title: 'Soirée Tropicale',
-    buy_ticket_2: 'Acheter Billet',
-    ev3_tag: 'Gala',
-    ev3_month: 'AOÛ',
-    ev3_title: 'Gala Solidarité',
-    buy_ticket_3: 'Acheter Billet',
-    ev4_tag: 'Mariage',
-    ev4_title: 'Mariage Jean &amp; Marie',
-    ev4_price: '✓ RSVP Gratuit',
-    ev5_tag: 'Église',
-    ev5_month: 'MAI',
-    ev5_title: 'Louange et Adoration',
-    ev5_price: '✓ Gratuit',
-    ev6_tag: 'Conférence',
-    ev6_title: 'Conférence Immobilière Pwofesyonèl Lakay',
-    buy_ticket_6: 'Acheter Billet',
-    tag_how: '⚡ Comment ça Marche',
-    how_title: '4 Étapes pour <em>Créer un Événement</em>',
-    how_desc: 'Créez, invitez, vendez — le tout en quelques minutes.',
-    step1_title: 'Créer l\'Événement',
-    step1_desc: 'Nom, date, heure, lieu — renseignez tous les détails.',
-    step2_title: 'Concevoir l\'Invitation',
-    step2_desc: 'Choisissez un modèle, ajoutez votre logo, personnalisez tout.',
-    step3_title: 'Ajouter des Billets',
-    step3_desc: 'Général, VIP, Early Bird — définissez les prix et quantités.',
-    step4_title: 'Partager &amp; Vendre',
-    step4_desc: 'Partagez sur WhatsApp, Facebook. L\'argent arrive sur votre MonCash.',
-    tag_benefits: '✨ Avantages',
-    benefits_title: 'Pourquoi Choisir <em>Tikè Lakay ?</em>',
-    benefits_desc: 'Tout ce dont vous avez besoin pour faire de votre événement un succès.',
-    benefit1_title: 'Invitations Professionnelles',
-    benefit1_desc: 'De beaux modèles pour toute occasion. Personnalisez couleurs, logo, texte — faites-le vôtre.',
-    benefit2_title: 'Billets avec QR Code',
-    benefit2_desc: 'Chaque billet a un QR code unique. Scannez à l\'arrivée — pas de fraude, pas de désordre.',
-    benefit3_title: 'Paiement Facile',
-    benefit3_desc: 'MonCash, NatCash, carte de crédit — acceptez tous les modes de paiement. L\'argent arrive directement.',
-    benefit4_title: 'Parenaj Biznis',
-    benefit4_desc: 'Partagez des événements avec votre lien de parrainage. Chaque billet vendu = commission pour vous.',
-    koutye_title: 'Gagnez de l\'Argent avec les <em>Événements</em>',
-    koutye_desc: 'Partagez des événements, touchez une commission sur chaque billet vendu. Les liens de parrainage sont suivis automatiquement. Plus vous partagez, plus vous gagnez.',
-    koutye_cta: 'Devenir Parenaj Biznis',
-    koutye_commission: 'Voir les Commissions',
-    cta_title: 'Prêt à Créer votre <em>Événement ?</em>',
-    cta_desc: 'Gratuit pour commencer. Aucun frais jusqu\'à la vente de billets.',
-    cta_button: 'Créer un Événement Gratuit',
-    trust1: 'Aucun Frais Caché',
-    trust2: 'Support 24/7',
-    trust3: 'Paiement Sécurisé',
-    footer_text: 'La première plateforme événementielle en Haïti — créez, invitez, vendez des billets en toute confiance.',
-    footer_eco: 'Une Plateforme HaitiBiznis',
-    footer_copy: '&copy; 2026 Tikè Lakay par HaitiBiznis. Tous droits réservés.',
-    nav_home: 'Accueil',
-    nav_events: 'Événements',
-    nav_create: 'Créer',
-    nav_broker: 'Parenaj Biznis',
-    nav_account: 'Compte'
-  },
-  en: {
-    header_logo: 'Tikè <em>Lakay</em>',
-    hero_heading: 'Create Events<span class="dot">.</span> Invite People<span class="dot">.</span> <em>Sell Tickets</em><span class="dot">.</span>',
-    hero_sub: 'Design beautiful invitations, sell tickets, and manage your guests all in one place. Haiti\'s first event platform.',
-    hero_cta_create: 'Create Event',
-    hero_cta_browse: 'Browse Events',
-    stat_events: 'Events Created',
-    stat_tickets: 'Tickets Sold',
-    stat_organizers: 'Organizers',
-    tag_categories: '📂 Categories',
-    cat_title: 'All Types of <em>Events</em>',
-    cat_desc: 'Conferences, parties, weddings, baptisms, graduations, Christmas — there\'s a place for everything on the platform.',
-    cat_conference: 'Conference',
-    cat_conference_count: '45 events',
-    cat_party: 'Party',
-    cat_party_count: '128 events',
-    cat_fundraiser: 'Gala / Fundraiser',
-    cat_fundraiser_count: '32 events',
-    cat_seminar: 'Seminar',
-    cat_seminar_count: '67 events',
-    cat_wedding: 'Wedding',
-    cat_wedding_count: '89 events',
-    cat_church: 'Church',
-    cat_church_count: '156 events',
-    cat_business: 'Business',
-    cat_business_count: '78 events',
-    cat_concert: 'Concert',
-    cat_concert_count: '94 events',
-    cat_workshop: 'Workshop',
-    cat_workshop_count: '53 events',
-    cat_communion: 'First Communion',
-    cat_communion_count: '41 events',
-    cat_baptism: 'Baptism',
-    cat_baptism_count: '38 events',
-    cat_graduation: 'Graduation',
-    cat_graduation_count: '62 events',
-    cat_bal: 'Ball / Prom',
-    cat_bal_count: '47 events',
-    cat_mothers_day: 'Mother\'s Day',
-    cat_mothers_day_count: '35 events',
-    cat_fathers_day: 'Father\'s Day',
-    cat_fathers_day_count: '28 events',
-    cat_jmj: 'WYD',
-    cat_jmj_count: '22 events',
-    cat_valentines: 'Valentine\'s Day',
-    cat_valentines_count: '56 events',
-    cat_christmas: 'Christmas',
-    cat_christmas_count: '73 events',
-    cat_new_year: 'New Year\'s',
-    cat_new_year_count: '81 events',
-    cat_football: 'Soccer',
-    cat_football_count: '112 events',
-    cat_basketball: 'Basketball',
-    cat_basketball_count: '45 events',
-    cat_volleyball: 'Volleyball',
-    cat_volleyball_count: '33 events',
-    cat_tennis: 'Tennis',
-    cat_tennis_count: '18 events',
-    cat_badminton: 'Badminton',
-    cat_badminton_count: '12 events',
-    cat_boxing: 'Boxing',
-    cat_boxing_count: '67 events',
-    cat_martial_arts: 'Karate / Judo',
-    cat_martial_arts_count: '24 events',
-    cat_other_sports: 'Other Sports',
-    cat_other_sports_count: '39 events',
-    tag_your_events: '✨ Your Events',
-    your_events_title: 'Events <em>You Created</em>',
-    your_events_desc: 'Events you published on Tikè Lakay.',
-    tag_popular: '🔥 Popular',
-    popular_title: 'Popular <em>Events</em>',
-    popular_desc: 'The hottest events in the country right now.',
-    ev1_tag: 'Conference',
-    ev1_title: 'Haiti Business Conference 2026',
-    buy_ticket: 'Buy Ticket',
-    ev2_tag: 'Party',
-    ev2_title: 'Tropical Soirée',
-    buy_ticket_2: 'Buy Ticket',
-    ev3_tag: 'Gala',
-    ev3_month: 'AUG',
-    ev3_title: 'Solidarity Gala',
-    buy_ticket_3: 'Buy Ticket',
-    ev4_tag: 'Wedding',
-    ev4_title: 'Wedding of Jean &amp; Marie',
-    ev4_price: '✓ Free RSVP',
-    ev5_tag: 'Church',
-    ev5_month: 'MAY',
-    ev5_title: 'Praise &amp; Worship',
-    ev5_price: '✓ Free',
-    ev6_tag: 'Conference',
-    ev6_title: 'Pwofesyonèl Lakay Real Estate Conference',
-    buy_ticket_6: 'Buy Ticket',
-    tag_how: '⚡ How It Works',
-    how_title: '4 Steps to <em>Create an Event</em>',
-    how_desc: 'Create, invite, sell — all in just a few minutes.',
-    step1_title: 'Create Event',
-    step1_desc: 'Name, date, time, location — fill in all the details.',
-    step2_title: 'Design Invitation',
-    step2_desc: 'Choose a template, add your logo, customize everything.',
-    step3_title: 'Add Tickets',
-    step3_desc: 'General, VIP, Early Bird — set prices and quantities.',
-    step4_title: 'Share &amp; Sell',
-    step4_desc: 'Share on WhatsApp, Facebook. Money goes straight to your MonCash.',
-    tag_benefits: '✨ Benefits',
-    benefits_title: 'Why Choose <em>Tikè Lakay?</em>',
-    benefits_desc: 'Everything you need to make your event a success.',
-    benefit1_title: 'Professional Invitations',
-    benefit1_desc: 'Beautiful templates for every occasion. Customize colors, logo, text — make it yours.',
-    benefit2_title: 'Tickets with QR Code',
-    benefit2_desc: 'Each ticket has a unique QR code. Scan on arrival — no fraud, no hassle.',
-    benefit3_title: 'Easy Payment',
-    benefit3_desc: 'MonCash, NatCash, credit card — accept all payment methods. Money arrives directly.',
-    benefit4_title: 'Parenaj Biznis',
-    benefit4_desc: 'Share events with your referral link. Every ticket sold = commission for you.',
-    koutye_title: 'Earn Money with <em>Events</em>',
-    koutye_desc: 'Share events, earn commission on every ticket sold. Referral links are tracked automatically. The more you share, the more you earn.',
-    koutye_cta: 'Become a Parenaj Biznis',
-    koutye_commission: 'View Commissions',
-    cta_title: 'Ready to Create Your <em>Event?</em>',
-    cta_desc: 'Free to start. No fees until you sell tickets.',
-    cta_button: 'Create Free Event',
-    trust1: 'No Hidden Fees',
-    trust2: '24/7 Support',
-    trust3: 'Secure Payment',
-    footer_text: 'Haiti\'s first event platform — create, invite, sell tickets with confidence.',
-    footer_eco: 'A HaitiBiznis Platform',
-    footer_copy: '&copy; 2026 Tikè Lakay by HaitiBiznis. All rights reserved.',
-    nav_home: 'Home',
-    nav_events: 'Events',
-    nav_create: 'Create',
-    nav_broker: 'Parenaj Biznis',
-    nav_account: 'Account'
-  },
-  pt: {
-    header_logo: 'Tikè <em>Lakay</em>',
-    hero_heading: 'Crie eventos<span class="dot">.</span> Convide pessoas<span class="dot">.</span> <em>Venda ingressos</em><span class="dot">.</span>',
-    hero_sub: 'Crie convites bonitos, venda ingressos e organize os seus convidados num lugar só. A primeira plataforma de eventos do Haiti.',
-    hero_cta_create: 'Criar evento',
-    hero_cta_browse: 'Ver eventos',
-    stat_events: 'Eventos criados',
-    stat_tickets: 'Ingressos vendidos',
-    stat_organizers: 'Organizadores',
-    tag_categories: '📂 Categorias',
-    cat_title: 'Todo tipo de <em>evento</em>',
-    cat_desc: 'Conferências, festas, casamentos, batizados, formaturas, Natal — tem lugar para tudo na plataforma.',
-    cat_conference: 'Conferência',
-    cat_conference_count: '45 eventos',
-    cat_party: 'Festa',
-    cat_party_count: '128 eventos',
-    cat_fundraiser: 'Gala / Beneficente',
-    cat_fundraiser_count: '32 eventos',
-    cat_seminar: 'Seminário',
-    cat_seminar_count: '67 eventos',
-    cat_wedding: 'Casamento',
-    cat_wedding_count: '89 eventos',
-    cat_church: 'Igreja',
-    cat_church_count: '156 eventos',
-    cat_business: 'Negócios',
-    cat_business_count: '78 eventos',
-    cat_concert: 'Show',
-    cat_concert_count: '94 eventos',
-    cat_workshop: 'Workshop',
-    cat_workshop_count: '53 eventos',
-    cat_communion: 'Primeira comunhão',
-    cat_communion_count: '41 eventos',
-    cat_baptism: 'Batizado',
-    cat_baptism_count: '38 eventos',
-    cat_graduation: 'Formatura',
-    cat_graduation_count: '62 eventos',
-    cat_bal: 'Baile / Formatura',
-    cat_bal_count: '47 eventos',
-    cat_mothers_day: 'Dia das Mães',
-    cat_mothers_day_count: '35 eventos',
-    cat_fathers_day: 'Dia dos Pais',
-    cat_fathers_day_count: '28 eventos',
-    cat_jmj: 'JMJ',
-    cat_jmj_count: '22 eventos',
-    cat_valentines: 'Dia dos Namorados',
-    cat_valentines_count: '56 eventos',
-    cat_christmas: 'Natal',
-    cat_christmas_count: '73 eventos',
-    cat_new_year: 'Ano-Novo',
-    cat_new_year_count: '81 eventos',
-    cat_football: 'Futebol',
-    cat_football_count: '112 eventos',
-    cat_basketball: 'Basquete',
-    cat_basketball_count: '45 eventos',
-    cat_volleyball: 'Vôlei',
-    cat_volleyball_count: '33 eventos',
-    cat_tennis: 'Tênis',
-    cat_tennis_count: '18 eventos',
-    cat_badminton: 'Badminton',
-    cat_badminton_count: '12 eventos',
-    cat_boxing: 'Boxe',
-    cat_boxing_count: '67 eventos',
-    cat_martial_arts: 'Karatê / Judô',
-    cat_martial_arts_count: '24 eventos',
-    cat_other_sports: 'Outros esportes',
-    cat_other_sports_count: '39 eventos',
-    tag_your_events: '✨ Seus eventos',
-    your_events_title: 'Eventos <em>que você criou</em>',
-    your_events_desc: 'Eventos que você publicou no Tikè Lakay.',
-    tag_popular: '🔥 Populares',
-    popular_title: 'Eventos <em>populares</em>',
-    popular_desc: 'Os eventos mais quentes do país agora.',
-    ev1_tag: 'Conferência',
-    ev1_title: 'Haiti Business Conference 2026',
-    buy_ticket: 'Comprar ingresso',
-    ev2_tag: 'Festa',
-    ev2_title: 'Tropical Soirée',
-    buy_ticket_2: 'Comprar ingresso',
-    ev3_tag: 'Gala',
-    ev3_month: 'AGO',
-    ev3_title: 'Gala da Solidariedade',
-    buy_ticket_3: 'Comprar ingresso',
-    ev4_tag: 'Casamento',
-    ev4_title: 'Casamento de Jean &amp; Marie',
-    ev4_price: '✓ RSVP grátis',
-    ev5_tag: 'Igreja',
-    ev5_month: 'MAI',
-    ev5_title: 'Louvor &amp; Adoração',
-    ev5_price: '✓ Grátis',
-    ev6_tag: 'Conferência',
-    ev6_title: 'Conferência Imobiliária Pwofesyonèl Lakay',
-    buy_ticket_6: 'Comprar ingresso',
-    tag_how: '⚡ Como funciona',
-    how_title: '4 passos para <em>criar um evento</em>',
-    how_desc: 'Crie, convide, venda — tudo em poucos minutos.',
-    step1_title: 'Crie o evento',
-    step1_desc: 'Nome, data, horário, local — preencha todos os detalhes.',
-    step2_title: 'Monte o convite',
-    step2_desc: 'Escolha um modelo, adicione o seu logo, personalize tudo.',
-    step3_title: 'Adicione os ingressos',
-    step3_desc: 'Geral, VIP, Early Bird — defina preços e quantidades.',
-    step4_title: 'Compartilhe &amp; venda',
-    step4_desc: 'Compartilhe no WhatsApp e no Facebook. O dinheiro cai direto no seu MonCash.',
-    tag_benefits: '✨ Vantagens',
-    benefits_title: 'Por que escolher o <em>Tikè Lakay?</em>',
-    benefits_desc: 'Tudo o que você precisa para o seu evento dar certo.',
-    benefit1_title: 'Convites profissionais',
-    benefit1_desc: 'Modelos bonitos para toda ocasião. Personalize cores, logo e texto — deixe do seu jeito.',
-    benefit2_title: 'Ingressos com QR Code',
-    benefit2_desc: 'Cada ingresso tem um QR Code único. Escaneie na entrada — sem fraude e sem dor de cabeça.',
-    benefit3_title: 'Pagamento fácil',
-    benefit3_desc: 'MonCash, NatCash, cartão de crédito — aceite todas as formas de pagamento. O dinheiro chega direto.',
-    benefit4_title: 'Parenaj Biznis',
-    benefit4_desc: 'Compartilhe eventos com o seu link de indicação. Cada ingresso vendido = comissão para você.',
-    koutye_title: 'Ganhe dinheiro com <em>eventos</em>',
-    koutye_desc: 'Compartilhe eventos e ganhe comissão em cada ingresso vendido. Os links de indicação são rastreados automaticamente. Quanto mais você compartilha, mais você ganha.',
-    koutye_cta: 'Seja um Parenaj Biznis',
-    koutye_commission: 'Ver comissões',
-    cta_title: 'Pronto para criar o seu <em>evento?</em>',
-    cta_desc: 'Grátis para começar. Sem taxas até você vender ingressos.',
-    cta_button: 'Criar evento grátis',
-    trust1: 'Sem taxas escondidas',
-    trust2: 'Suporte 24 horas',
-    trust3: 'Pagamento seguro',
-    footer_text: 'A primeira plataforma de eventos do Haiti — crie, convide e venda ingressos com confiança.',
-    footer_eco: 'Uma plataforma HaitiBiznis',
-    footer_copy: '&copy; 2026 Tikè Lakay by HaitiBiznis. Todos os direitos reservados.',
-    nav_home: 'Início',
-    nav_events: 'Eventos',
-    nav_create: 'Criar',
-    nav_broker: 'Parenaj Biznis',
-    nav_account: 'Conta'
-  },
-  es: {
-    header_logo: 'Tikè <em>Lakay</em>',
-    hero_heading: 'Crea Eventos<span class="dot">.</span> Invita Personas<span class="dot">.</span> <em>Vende Boletos</em><span class="dot">.</span>',
-    hero_sub: 'Diseña hermosas invitaciones, vende boletos y gestiona tus invitados en un solo lugar. La primera plataforma de eventos de Haití.',
-    hero_cta_create: 'Crear Evento',
-    hero_cta_browse: 'Ver Eventos',
-    stat_events: 'Eventos Creados',
-    stat_tickets: 'Boletos Vendidos',
-    stat_organizers: 'Organizadores',
-    tag_categories: '📂 Categorías',
-    cat_title: 'Todos los Tipos de <em>Eventos</em>',
-    cat_desc: 'Conferencias, fiestas, bodas, bautismos, graduaciones, Navidad — todo tiene su lugar en la plataforma.',
-    cat_conference: 'Conferencia',
-    cat_conference_count: '45 eventos',
-    cat_party: 'Fiesta',
-    cat_party_count: '128 eventos',
-    cat_fundraiser: 'Gala / Recaudación',
-    cat_fundraiser_count: '32 eventos',
-    cat_seminar: 'Seminario',
-    cat_seminar_count: '67 eventos',
-    cat_wedding: 'Boda',
-    cat_wedding_count: '89 eventos',
-    cat_church: 'Iglesia',
-    cat_church_count: '156 eventos',
-    cat_business: 'Negocio',
-    cat_business_count: '78 eventos',
-    cat_concert: 'Concierto',
-    cat_concert_count: '94 eventos',
-    cat_workshop: 'Taller',
-    cat_workshop_count: '53 eventos',
-    cat_communion: 'Primera Comunión',
-    cat_communion_count: '41 eventos',
-    cat_baptism: 'Bautismo',
-    cat_baptism_count: '38 eventos',
-    cat_graduation: 'Graduación',
-    cat_graduation_count: '62 eventos',
-    cat_bal: 'Baile',
-    cat_bal_count: '47 eventos',
-    cat_mothers_day: 'Día de las Madres',
-    cat_mothers_day_count: '35 eventos',
-    cat_fathers_day: 'Día de los Padres',
-    cat_fathers_day_count: '28 eventos',
-    cat_jmj: 'JMJ',
-    cat_jmj_count: '22 eventos',
-    cat_valentines: 'San Valentín',
-    cat_valentines_count: '56 eventos',
-    cat_christmas: 'Navidad',
-    cat_christmas_count: '73 eventos',
-    cat_new_year: 'Año Nuevo',
-    cat_new_year_count: '81 eventos',
-    cat_football: 'Fútbol',
-    cat_football_count: '112 eventos',
-    cat_basketball: 'Baloncesto',
-    cat_basketball_count: '45 eventos',
-    cat_volleyball: 'Voleibol',
-    cat_volleyball_count: '33 eventos',
-    cat_tennis: 'Tenis',
-    cat_tennis_count: '18 eventos',
-    cat_badminton: 'Bádminton',
-    cat_badminton_count: '12 eventos',
-    cat_boxing: 'Boxeo',
-    cat_boxing_count: '67 eventos',
-    cat_martial_arts: 'Karate / Judo',
-    cat_martial_arts_count: '24 eventos',
-    cat_other_sports: 'Otros Deportes',
-    cat_other_sports_count: '39 eventos',
-    tag_your_events: '✨ Tus Eventos',
-    your_events_title: 'Eventos <em>que Creaste</em>',
-    your_events_desc: 'Eventos que publicaste en Tikè Lakay.',
-    tag_popular: '🔥 Populares',
-    popular_title: 'Eventos <em>Populares</em>',
-    popular_desc: 'Los eventos más populares del país en este momento.',
-    ev1_tag: 'Conferencia',
-    ev1_title: 'Conferencia de Negocios Haití 2026',
-    buy_ticket: 'Comprar Boleto',
-    ev2_tag: 'Fiesta',
-    ev2_title: 'Soirée Tropical',
-    buy_ticket_2: 'Comprar Boleto',
-    ev3_tag: 'Gala',
-    ev3_month: 'AGO',
-    ev3_title: 'Gala Solidaridad',
-    buy_ticket_3: 'Comprar Boleto',
-    ev4_tag: 'Boda',
-    ev4_title: 'Boda de Jean y Marie',
-    ev4_price: '✓ RSVP Gratis',
-    ev5_tag: 'Iglesia',
-    ev5_month: 'MAY',
-    ev5_title: 'Alabanza y Adoración',
-    ev5_price: '✓ Gratis',
-    ev6_tag: 'Conferencia',
-    ev6_title: 'Conferencia Inmobiliaria Pwofesyonèl Lakay',
-    buy_ticket_6: 'Comprar Boleto',
-    tag_how: '⚡ Cómo Funciona',
-    how_title: '4 Pasos para <em>Crear un Evento</em>',
-    how_desc: 'Crea, invita, vende — todo en pocos minutos.',
-    step1_title: 'Crear Evento',
-    step1_desc: 'Nombre, fecha, hora, lugar — completa todos los detalles.',
-    step2_title: 'Diseñar Invitación',
-    step2_desc: 'Elige una plantilla, agrega tu logo, personaliza todo.',
-    step3_title: 'Agregar Boletos',
-    step3_desc: 'General, VIP, Early Bird — establece precios y cantidades.',
-    step4_title: 'Compartir y Vender',
-    step4_desc: 'Comparte en WhatsApp, Facebook. El dinero llega a tu MonCash.',
-    tag_benefits: '✨ Beneficios',
-    benefits_title: '¿Por Qué Elegir <em>Tikè Lakay?</em>',
-    benefits_desc: 'Todo lo que necesitas para hacer de tu evento un éxito.',
-    benefit1_title: 'Invitaciones Profesionales',
-    benefit1_desc: 'Hermosas plantillas para toda ocasión. Personaliza colores, logo, texto — hazlo tuyo.',
-    benefit2_title: 'Boletos con Código QR',
-    benefit2_desc: 'Cada boleto tiene un código QR único. Escanea al llegar — sin fraude, sin desorden.',
-    benefit3_title: 'Pago Fácil',
-    benefit3_desc: 'MonCash, NatCash, tarjeta de crédito — acepta todos los métodos de pago. El dinero llega directamente.',
-    benefit4_title: 'Parenaj Biznis',
-    benefit4_desc: 'Comparte eventos con tu enlace de referencia. Cada boleto vendido = comisión para ti.',
-    koutye_title: 'Gana Dinero con <em>Eventos</em>',
-    koutye_desc: 'Comparte eventos, gana comisión por cada boleto vendido. Los enlaces de referencia se rastrean automáticamente. Cuanto más compartas, más ganas.',
-    koutye_cta: 'Ser Parenaj Biznis',
-    koutye_commission: 'Ver Comisiones',
-    cta_title: '¿Listo para Crear tu <em>Evento?</em>',
-    cta_desc: 'Gratis para empezar. Sin cargos hasta que vendas boletos.',
-    cta_button: 'Crear Evento Gratis',
-    trust1: 'Sin Cargos Ocultos',
-    trust2: 'Soporte 24/7',
-    trust3: 'Pago Seguro',
-    footer_text: 'La primera plataforma de eventos en Haití — crea, invita, vende boletos con confianza.',
-    footer_eco: 'Una Plataforma HaitiBiznis',
-    footer_copy: '&copy; 2026 Tikè Lakay por HaitiBiznis. Todos los derechos reservados.',
-    nav_home: 'Inicio',
-    nav_events: 'Eventos',
-    nav_create: 'Crear',
-    nav_broker: 'Parenaj Biznis',
-    nav_account: 'Cuenta'
-  }
-};
-
-/* ═══ LANG SWITCHER ═══ */
-function setLang(lang) {
-  localStorage.setItem('tl_lang', lang);
-  document.documentElement.lang = lang === 'ht' ? 'ht' : lang;
-  document.querySelectorAll('.lang-bar a').forEach(function(a) {
-    a.classList.toggle('active', a.getAttribute('data-lang') === lang);
-  });
-  var t = translations[lang] || translations.ht;
-  document.querySelectorAll('[data-i18n]').forEach(function(el) {
-    var key = el.getAttribute('data-i18n');
-    if (t[key]) el.innerHTML = t[key];
-  });
-}
-document.querySelectorAll('.lang-bar a').forEach(function(a) {
-  a.addEventListener('click', function() {
-    setLang(a.getAttribute('data-lang'));
-  });
-});
-var savedLang = localStorage.getItem('tl_lang');
-setLang(savedLang || 'ht');
-
-/* ═══ CATEGORY CLICK ═══ */
-document.querySelectorAll('.cat-card').forEach(function(card){
-  card.addEventListener('click', function(){
-    document.getElementById('events').scrollIntoView({behavior:'smooth'});
-  });
-});
-
-
-/* ═══ MANAGING YOUR OWN EVENT ═══════════════════════════════════════════════
- *
- * The Academy director: "Epi lè m fin kreye yon evènman m publier l, si l ale 2 fwa fok m
- * gen posibilite pou m efase youn." - once I have created and published an
- * event, if it goes up twice I must be able to delete one.
- *
- * She could not, and the reason was not a missing button. Editing or deleting
- * an event takes the console code, because an event carries the organiser's
- * MonCash number and anyone who could edit one could point somebody else's
- * takings at themselves. Correct, but it meant only the owner could ever remove
- * anything.
- *
- * Now every event issues a manage code when it is created, and the phone that
- * created it keeps that code. So the organiser can remove their own duplicate,
- * nobody can touch anybody else's, and the console code still opens everything
- * exactly as before.
- *
- * An event that has already sold tickets is NOT deleted on a tap. The server
- * refuses and says how many, and the choice offered is to cancel it instead -
- * which keeps every ticket somebody paid for valid, and still takes the event
- * off the public list.
- */
+var EVENTS_API_URL = 'https://haitibiznis-api.onrender.com';
+/* ⬇ Moved unchanged from the old events.html (manage codes, 25 Sep / 9 Oct). */
 function manageCodeFor(id) {
   if (!id) return null;
   var m = {};
@@ -1768,136 +395,138 @@ function deleteMyEvent(id, btn) {
   });
 }
 
-/* ═══ RENDER USER-CREATED EVENTS ═══ */
-var EVENTS_API_URL = 'https://haitibiznis-api.onrender.com';
 
-function renderEventCards(events) {
+/* ⬆ */
 
-  var section = document.getElementById('yourEventsSection');
-  var scroll = document.getElementById('yourEventsScroll');
-  if (!section || !scroll) return;
-  section.style.display = '';
-
-  var monthNames = {ht:['JAN','FEV','MAS','AVR','MAI','JEN','JIY','AOU','SEP','OKT','NOV','DES'],en:['JAN','FEB','MAR','APR','MAY','JUN','JUL','AUG','SEP','OCT','NOV','DEC'],fr:['JAN','FÉV','MAR','AVR','MAI','JUN','JUL','AOÛ','SEP','OCT','NOV','DÉC'],es:['ENE','FEB','MAR','ABR','MAY','JUN','JUL','AGO','SEP','OCT','NOV','DIC'],pt:['JAN','FEV','MAR','ABR','MAI','JUN','JUL','AGO','SET','OUT','NOV','DEZ']};
-  var lang = localStorage.getItem('tl_lang') || 'ht';
-  var months = monthNames[lang] || monthNames.ht;
-
-  var html = '';
-  events.forEach(function(ev, idx) {
-    var d = ev.date ? new Date(ev.date + 'T00:00:00') : null;
-    var monthStr = d ? months[d.getMonth()] : '—';
-    var dayStr = d ? d.getDate() : '—';
-    var emoji = window.EventTypes ? EventTypes.emoji(ev) : (ev.typeEmoji || '📌');
-    var gradient = ev.gradient || 'linear-gradient(135deg,#2a2a4a,#4a4a8a,#6a6abd)';
-    var tagBg = ev.tagBg || 'rgba(74,74,138,.85)';
-    /* Translated at display time from the type key - see event-types.js. The
-       label used to be whatever language the event was created in, shown to
-       everybody. A type the organiser typed themselves comes back untouched. */
-    var typeLabel = window.EventTypes ? EventTypes.label(ev, lang)
-                                      : (ev.typeCustom || ev.typeLabel || ev.type || 'Evènman');
-    var minPrice = null;
-    var isFree = true;
-    if (ev.tickets && ev.tickets.length) {
-      ev.tickets.forEach(function(t) {
-        if (t.price > 0) {
-          isFree = false;
-          if (minPrice === null || t.price < minPrice) minPrice = t.price;
-        }
-      });
-    }
-    var priceHtml = isFree ? '<span class="ev-price free">✓ GRATIS</span>' : '<span class="ev-price">HTG ' + (minPrice || 0).toLocaleString() + '</span>';
-    var btnHtml = isFree ? '<button class="ev-buy rsvp">RSVP</button>' : '<button class="ev-buy ticket">Achte Tikè</button>';
-    var timeStr = (ev.startTime || '') + (ev.endTime ? ' — ' + ev.endTime : '');
-    var delayClass = idx > 0 ? ' reveal-d' + Math.min(idx, 3) : '';
-
-    var evLinkId = ev._id || ev.id;
-    /* 🚨 25 Sep, Jennifer: "Pa gen anyen ki parèt la. M bezwen efase li" -
-       nothing shows on that card and she needs to delete it.
-       She was right and it is not an event. When publishing fails - the phone
-       loses the network mid-press - the form keeps a copy on the phone so her
-       typing is not lost. That copy has a local id and NO server id, and it was
-       then drawn in "Evenman Ou Kreye" looking exactly like a published event:
-       an RSVP button that cannot work, no manage buttons because there is no
-       manage code, and a tap that leads to "event not found".
-       It is a leftover on her phone, so say so, and let her sweep it away. */
-    var onlyOnThisPhone = !ev._id;
-    /* A manage button appears only on events THIS phone created - the ones we
-       hold a code for. The Academy director's second point was that after publishing an
-       event there is no way to remove it; this is where that lives, because
-       "Evenman Ou Kreye" is the only list that is hers. */
-    var mine = manageCodeFor(evLinkId);
-    html += '<div class="ev-card reveal' + delayClass + '" onclick="window.location.href=\'event.html?id=' + evLinkId + '\'">' +
-      '<div class="ev-img">' +
-      '<div class="ev-img-bg" style="background:' + gradient + '">' + emoji + '</div>' +
-      '<span class="ev-type-tag" style="background:' + tagBg + '">' + typeLabel + '</span>' +
-      '<div class="ev-date-badge"><div class="month">' + monthStr + '</div><div class="day">' + dayStr + '</div></div>' +
-      '</div>' +
-      '<div class="ev-body">' +
-      '<div class="ev-title">' + (ev.title || 'Evènman') + '</div>' +
-      '<div class="ev-meta">' +
-      '<div class="ev-meta-row"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>' + (ev.location || '—') + '</div>' +
-      (timeStr ? '<div class="ev-meta-row"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>' + timeStr + '</div>' : '') +
-      '</div>' +
-      '<div class="ev-footer">' + priceHtml +
-        (onlyOnThisPhone
-          ? '<span class="ev-price" style="background:#FFF3CD;color:#8A6D00;border:1px solid #F0D98C">'
-            + TL_TXT('unpub') + '</span>'
-          : btnHtml) + '</div>' +
-      (onlyOnThisPhone ? '<div class="ev-manage" onclick="event.stopPropagation()">' +
-        '<button class="ev-mini" onclick="dropLocalEvent(\'' + evLinkId + '\')">' +
-        TL_TXT('drop') + '</button></div>' :
-       mine ? '<div class="ev-manage" onclick="event.stopPropagation()">' +
-        /* "Who is coming" sits next to Delete because they are the two things
-           an organiser wants after publishing: check the turnout, or remove a
-           duplicate. The attendee list was being recorded and had nowhere to
-           be read - his question was "how can we see everybody that say yes or
-           no". This is the way in. */
-        '<a class="ev-mini" href="attendees.html?id=' + evLinkId + '">' +
-        TL_TXT('who') + '</a>' +
-        /* 🚨 Asked for twice by Jennifer and twice by Jeffery. Until now the
-           only way to correct a typo in a published event was to delete it and
-           rebuild it - which throws away every RSVP and every ticket sold.
-           It opens the SAME form she filled in, loaded with what is already
-           there, and it only appears on events this phone holds a code for. */
-        '<a class="ev-mini" href="create-event.html?edit=' + evLinkId + '">' +
-        TL_TXT('edit') + '</a>' +
-        '<button class="ev-mini" onclick="deleteMyEvent(\'' + evLinkId + '\',this)">' +
-        TL_TXT('del') + '</button></div>' : '') +
+/* Kont: the events this phone created (tl_events + its manage codes). */
+function renderMine(){
+  var box=document.getElementById('mineList'); if(!box) return;
+  var evs=[]; try{evs=JSON.parse(localStorage.getItem('tl_events')||'[]');}catch(e){}
+  evs=evs.filter(function(e){var id=e._id||e.id;return !e._id||manageCodeFor(id);});
+  if(!evs.length) return;
+  var esc=function(v){return String(v==null?'':v).replace(/[&<>"']/g,function(c){return{'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c];});};
+  box.innerHTML=evs.map(function(ev){
+    var id=ev._id||ev.id, local=!ev._id;
+    return '<div class="mine"><b>'+esc(ev.title||'Evènman')+'</b><small>'+esc(ev.date||'')+(ev.location?' · '+esc(ev.location):'')+'</small><div class="acts">'+
+      (local
+        ? '<span style="font-size:.75rem;font-weight:800;color:#8A6D00">'+TL_TXT('unpub')+'</span><button onclick="dropLocalEvent(\''+esc(id)+'\')">'+TL_TXT('drop')+'</button>'
+        : '<a href="event.html?id='+encodeURIComponent(id)+'">👁️</a><a href="attendees.html?id='+encodeURIComponent(id)+'">'+TL_TXT('who')+'</a><a href="create-event.html?edit='+encodeURIComponent(id)+'">'+TL_TXT('edit')+'</a><button onclick="deleteMyEvent(\''+esc(id)+'\',this)">'+TL_TXT('del')+'</button>')+
       '</div></div>';
-  });
-  scroll.innerHTML = html;
-
-  scroll.querySelectorAll('.reveal').forEach(function(el) { observer.observe(el); });
+  }).join('');
 }
+function showKont(){var k=document.getElementById('kont');k.classList.add('show');renderMine();k.scrollIntoView();}
+document.getElementById('kontLink').addEventListener('click',function(e){e.preventDefault();showKont();});
+if(location.hash==='#kont') setTimeout(showKont,50);
 
-(function loadAndRenderEvents() {
-  // Load from localStorage first
-  var localEvents = [];
-  try { localEvents = JSON.parse(localStorage.getItem('tl_events') || '[]'); } catch(e) {}
-  if (localEvents.length) renderEventCards(localEvents);
+(function(){
+var API='https://haitibiznis-api.onrender.com';
+var EV='event.html?id=';
+var CREATE='create-event.html';
+/* Six groups on the homepage; each is a set of the type keys events are saved
+   with (create-event.html typeConfig, plus older spellings already in the DB). */
+var GROUPS=[
+ {k:'mizik',e:'🎵',n:'Mizik',t:['konsè','bal','concert']},
+ {k:'fet',e:'🎉',n:'Fèt',t:['party','gala','nwèl','kanaval','jounen_nasyonal']},
+ {k:'fomasyon',e:'🎓',n:'Fòmasyon',t:['fòmasyon','seminè','gradyasyon']},
+ {k:'biznis',e:'💼',n:'Biznis',t:['biznis','konferans']},
+ {k:'legliz',e:'⛪',n:'Legliz',t:['legliz','batèm','kominyon','maryaj']},
+ {k:'espo',e:'⚽',n:'Espò',t:['futbol','foutbòl','baskètbòl','volibòl','tenis','badminton','bòks','karate']}
+];
+var ALL=[['konferans','🎤','Konferans'],['party','🎉','Fèt/Party'],['gala','💝','Gala/Kolèk'],['seminè','📚','Seminè'],['maryaj','💍','Maryaj'],['legliz','⛪','Legliz'],['biznis','💼','Biznis'],['konsè','🎵','Konsè'],['fòmasyon','🎓','Fòmasyon'],['kominyon','🕊️','Premye Kominyon'],['batèm','💧','Batèm'],['gradyasyon','🎓','Gradyasyon'],['bal','💃','Bal/Dans'],['nwèl','🎄','Nwèl'],['kanaval','🎭','Kanaval'],['jounen_nasyonal','🇭🇹','Jounen Nasyonal'],['futbol','⚽','Futbòl'],['baskètbòl','🏀','Baskètbòl'],['volibòl','🏐','Volibòl'],['tenis','🎾','Tenis'],['badminton','🏸','Badminton'],['bòks','🥊','Bòks'],['karate','🥋','Karate/Judo'],['lòt','📌','Lòt']];
+var MON=['Jan','Fev','Mas','Avr','Me','Jen','Jiy','Out','Sep','Okt','Nov','Des'];
+var DAY=['Dim','Len','Mad','Mèk','Jed','Van','Sam'];
 
-  // Also fetch from API and merge
-  fetch(EVENTS_API_URL + '/api/events?limit=20')
-    .then(function(r) { return r.json(); })
-    .then(function(data) {
-      if (!data.events || !data.events.length) return;
-      var localIds = {};
-      localEvents.forEach(function(e) { if (e.id) localIds[e.id] = true; if (e._id) localIds[e._id] = true; });
-      var newEvents = data.events.filter(function(e) { return !localIds[e._id]; });
-      if (newEvents.length) {
-        var merged = localEvents.concat(newEvents);
-        renderEventCards(merged);
-      }
-    })
-    .catch(function() {});
-})();
-
-/* Also make static event cards link to demo event page */
-document.querySelectorAll('#events .ev-card').forEach(function(card) {
-  card.onclick = function() { window.location.href = 'event.html'; };
+function haitiToday(){try{return new Date().toLocaleDateString('en-CA',{timeZone:'America/Port-au-Prince'});}catch(e){return new Date().toISOString().slice(0,10);}}
+function esc(s){return String(s==null?'':s).replace(/[&<>"']/g,function(c){return{'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c];});}
+function fmtDate(d,t){var m=/^(\d{4})-(\d{2})-(\d{2})$/.exec(d||'');if(!m)return '';var dt=new Date(+m[1],+m[2]-1,+m[3]);return DAY[dt.getDay()]+' '+(+m[3])+' '+MON[+m[2]-1]+' '+m[1]+(t?' · '+t:'');}
+function priceInfo(e){
+  var tk=(e.tickets||[]).filter(function(t){return t&&t.name!=null;});
+  var paid=tk.map(function(t){return +t.price||0;}).filter(function(p){return p>0;});
+  /* Sold out only when EVERY ticket type has a real limit and has reached it. A type with no qty never sells out. */
+  var limited=tk.length&&tk.every(function(t){return (+t.qty||+t.quantity||0)>0;});
+  var out=limited&&tk.every(function(t){return (+t.sold||0)>=(+t.qty||+t.quantity);});
+  return {free:!paid.length,min:paid.length?Math.min.apply(null,paid):0,out:out};
+}
+function groupOf(type){for(var i=0;i<GROUPS.length;i++)if(GROUPS[i].t.indexOf(type)>=0)return GROUPS[i];return null;}
+function card(e){
+  var p=priceInfo(e), id=e._id||e.id;
+  var label=e.typeCustom||e.typeLabel||'';
+  return '<article class="ev"><div class="fl" style="background:'+esc(e.gradient||'linear-gradient(135deg,#00209F,#D21034)')+'" data-flyer="'+esc(id)+'">'
+   +(label?'<span class="badge">'+esc((e.typeEmoji||'')+' '+label)+'</span>':'')
+   +'<span class="st '+(p.out?'out':'ok')+'">'+(p.out?'SOLD OUT':'✓ Disponib')+'</span>'
+   +'<span>'+esc(e.typeEmoji||'🎟️')+'</span></div>'
+   +'<div class="bd"><h3>'+esc(e.title)+'</h3>'
+   +'<div class="m">📅 <span>'+esc(fmtDate(e.date,e.startTime))+'</span></div>'
+   +(e.location?'<div class="m">📍 <span>'+esc(e.location)+'</span></div>':'')
+   +'<div class="row"><span class="pr'+(p.free?' free':'')+'">'+(p.free?'GRATIS':'HTG '+p.min.toLocaleString('en-US'))+'</span>'
+   +'<a class="buy'+(p.out?' off':'')+'" href="'+EV+encodeURIComponent(id)+'">'+(p.out?'Fini':(p.free?'🎟️ PRAN PLAS':'🎟️ ACHTE TIKÈ'))+'</a></div></div></article>';
+}
+/* The list endpoint leaves the flyer out (it is a big image). Fetch it per card, only for the few that are shown. */
+function loadFlyers(root){
+  root.querySelectorAll('[data-flyer]').forEach(function(box){
+    var id=box.getAttribute('data-flyer');
+    fetch(API+'/api/events/'+encodeURIComponent(id)).then(function(r){return r.json();}).then(function(d){
+      var e=d.event||d, img=e.inviteImage||e.flyer||'';
+      if(img&&/^(data:image\/|https:)/.test(img)){var i=new Image();i.alt='';i.src=img;box.appendChild(i);}
+    }).catch(function(){});
+  });
+}
+var upcoming=[], all=[], activeTypes=null, activeName='';
+function render(){
+  var area=document.getElementById('evArea');
+  var q=(document.getElementById('q').value||'').trim().toLowerCase();
+  var list=upcoming.filter(function(e){
+    if(activeTypes&&activeTypes.indexOf(e.type)<0)return false;
+    if(q&&((e.title||'')+' '+(e.location||'')+' '+(e.organizer||'')).toLowerCase().indexOf(q)<0)return false;
+    return true;
+  });
+  var note=document.getElementById('resNote');
+  note.textContent=(q||activeTypes)?(list.length?list.length+' evènman k ap vini'+(activeName?' · '+activeName:''):'Pa gen evènman k ap vini pou sa kounye a.'):'';
+  if(!upcoming.length){
+    area.innerHTML='<div class="empty"><b>🎉 BYENTO SOU TIKÈ LAKAY!</b><p style="margin-bottom:0">Nouvo konsè, fòmasyon ak lòt evènman ap vini. Ou gen yon evènman? <a class="lnk" href="'+CREATE+'">Pibliye l gratis!</a></p></div>';
+    return;
+  }
+  area.innerHTML='<div class="grid">'+(list.length?list.map(card).join(''):'')+'</div>'+(list.length?'':'<p class="results-note">Pa gen evènman k ap vini pou rechèch sa a.</p>');
+  loadFlyers(area);
+}
+function load(){
+  var area=document.getElementById('evArea');
+  fetch(API+'/api/events?limit=100').then(function(r){if(!r.ok)throw 0;return r.json();}).then(function(d){
+    all=(d.events||[]).filter(function(e){return !e.status||e.status==='published';});
+    var today=haitiToday();
+    /* Upcoming = today or later, in Haiti's date. Nothing past is ever shown as upcoming. */
+    upcoming=all.filter(function(e){return /^\d{4}-\d{2}-\d{2}$/.test(e.date||'')&&e.date>=today;})
+      .sort(function(a,b){return (a.date+(a.startTime||'')).localeCompare(b.date+(b.startTime||''));});
+    render();
+  }).catch(function(){
+    area.innerHTML='<div class="empty"><b>Nou pa ka chaje evènman yo kounye a.</b><p>Koneksyon an ka fèb. Eseye ankò.</p><button class="cta r" id="retry" style="display:inline-flex">Eseye ankò</button></div>';
+    document.getElementById('retry').onclick=function(){area.innerHTML='<div class="loading"><span class="spin"></span>Ap chaje…</div>';load();};
+  });
+}
+/* categories */
+var cats=document.getElementById('cats');
+cats.innerHTML=GROUPS.map(function(g){return '<button class="cat" data-g="'+g.k+'"><i>'+g.e+'</i>'+g.n+'</button>';}).join('');
+cats.addEventListener('click',function(ev){
+  var b=ev.target.closest('.cat');if(!b)return;
+  var g=GROUPS.filter(function(x){return x.k===b.dataset.g;})[0];
+  var on=!b.classList.contains('on');
+  document.querySelectorAll('.cat.on,.allcats button.on').forEach(function(x){x.classList.remove('on');});
+  if(on){b.classList.add('on');activeTypes=g.t;activeName=g.n;}else{activeTypes=null;activeName='';}
+  render(); document.getElementById('evenman').scrollIntoView();
 });
+var allc=document.getElementById('allcats');
+allc.innerHTML=ALL.map(function(a){return '<button data-t="'+a[0]+'">'+a[1]+' '+a[2]+'</button>';}).join('');
+document.getElementById('allBtn').onclick=function(){allc.classList.toggle('show');};
+allc.addEventListener('click',function(ev){
+  var b=ev.target.closest('button');if(!b)return;
+  var on=!b.classList.contains('on');
+  document.querySelectorAll('.cat.on,.allcats button.on').forEach(function(x){x.classList.remove('on');});
+  if(on){b.classList.add('on');activeTypes=[b.dataset.t];activeName=b.textContent;}else{activeTypes=null;activeName='';}
+  render(); document.getElementById('evenman').scrollIntoView();
+});
+document.getElementById('q').addEventListener('input',render);
+load();
+})();
 </script>
-  <script src="js/social.js" defer></script>
 <script src="js/msw-return.js?v=1" defer></script>
-</body>
-</html>
+</body></html>
