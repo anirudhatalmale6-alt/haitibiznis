@@ -154,6 +154,10 @@ function draw(){
         '<div><label>Òganizasyon / sponsò</label><input data-f="sponsor" value="'+esc(a.sponsor)+'"></div>' +
         '<div><label>Kòd referans pèsonèl (pa nimewo LMA a)</label><input data-f="referralCode" class="mono" value="'+esc(a.referralCode)+'" placeholder="KB-…">' +
           '<div class="acts" style="margin-top:6px"><button class="btn o" data-act="findcode">🔎 Chèche kòd li</button><button class="btn o" data-act="makecode">➕ Kreye kòd pou li</button></div></div>' +
+        /* 28 Oct 2026 (Jennifer): the date saved with a printed badge was the
+           day the badge was made, not the training. Correctable here; the
+           LMA number on the badge does not change. */
+        '<div><label>Dat li sètifye (dat fòmasyon an)</label><input data-f="certifiedAt" type="date" max="'+new Date().toISOString().slice(0,10)+'" value="'+day(a.certifiedAt)+'"><div style="font-size:.75rem;color:var(--muted);margin-top:3px">Nimewo LMA a pa chanje.</div></div>' +
         '<div><label>Valab jiska</label><input data-f="expiresAt" type="date" value="'+day(a.expiresAt)+'"></div>' +
       '</div><label>Sèvis li ka reprezante</label><div class="svcs">'+svc+'</div>' +
       '<label>Foto</label><input type="file" accept="image/*" data-photo>' +
@@ -216,7 +220,9 @@ var CODE_ERR = {
   code_taken: 'Kòd sa a deja pou yon lòt moun. Kite kare a vid pou sistèm nan fè youn.',
   bad_code: 'Kòd la dwe gen 3 a 20 lèt/chif.',
   phone_required: 'Mete telefòn Ajan an an premye (menm nimewo li tape nan app LajanMaker la).',
-  name_required: 'Mete non Ajan an.'
+  name_required: 'Mete non Ajan an.',
+  bad_cert_date: 'Dat sètifikasyon an pa bon.',
+  cert_date_future: 'Dat sètifikasyon an pa ka nan lavni.'
 };
 
 /* A code that does not exist would send every sign-up to nobody, and a code
