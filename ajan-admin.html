@@ -105,7 +105,7 @@ function req(method, path, body){
   if (body !== undefined) { o.headers['Content-Type'] = 'application/json'; o.body = JSON.stringify(body); }
   return fetch(API + path, o).then(function(r){
     if (r.status === 403) { var e = new Error('Kòd konsòl la pa bon.'); e.pin = true; throw e; }
-    return r.json().then(function(d){ if (!r.ok) throw new Error(d.error || ('Erè ' + r.status)); return d; });
+    return r.json().then(function(d){ if (!r.ok) { var er = new Error(d.error || ('Erè ' + r.status)); er.data = d; throw er; } return d; });
   });
 }
 
@@ -176,7 +176,7 @@ function draw(){
   });
 }
 
-function say(i, text, ok){ var m = $('m'+i); m.className = 'msg ' + (ok ? 'ok' : 'err'); m.textContent = text; }
+function say(i, text, ok){ var m = $('m'+i); m.className = 'msg ' + (ok ? 'ok' : 'err'); m.style.whiteSpace = 'pre-line'; m.textContent = text; }
 
 function fields(i){
   var ed = $('ed'+i), body = {};
@@ -213,6 +213,15 @@ function codeApi(method, qs, body){
     if (e.message !== 'link_unavailable') throw e;
     return mp(method, '/api/admin-pin/ajan-code' + (qs || ''), body);
   });
+}
+/* 29 Oct 2026, Jennifer: "Kod referans lan deja sou yon lot badge yo dim" - the
+   server already says WHICH badge holds the code; say it, and say what to do. */
+function errText(e){
+  if (e && e.message === 'code_on_other_badge' && e.data && e.data.name)
+    return 'Kòd referans sa a deja sou badj ' + e.data.name + ' (' + (e.data.agentId || '') + '). Yon kòd = yon sèl Ajan.\n' +
+      '• Si se kòd moun ki rekrite l la (sponsò a): efase kòd la nan kare a, epi peze "🔎 Chèche kòd li" (oswa "➕ Kreye kòd pou li").\n' +
+      '• Si ' + e.data.name + ' se MENM moun lan (2 badj pou 1 moun): anile badj ki an doub la.';
+  return CODE_ERR[e.code] || CODE_ERR[e.message] || e.message;
 }
 var CODE_ERR = {
   code_on_other_badge: 'Kòd referans sa a deja sou yon lòt badj. Yon kòd = yon sèl Ajan.',
@@ -279,7 +288,7 @@ function codeTool(i, what, btn){
       });
     });
   }
-  p.catch(function(e){ say(i, CODE_ERR[e.code] || CODE_ERR[e.message] || e.message, false); }).then(function(){ btn.disabled = false; });
+  p.catch(function(e){ say(i, errText(e), false); }).then(function(){ btn.disabled = false; });
 }
 
 function photoData(file){
@@ -317,7 +326,7 @@ function act(i, what, btn){
   }).then(function(){
     if (file) return photoData(file).then(function(p){ return req('POST', '/api/agents/admin/' + encodeURIComponent(a.agentId) + '/photo', { photo: p }); });
   }).then(function(){ return load(); })
-    .catch(function(e){ say(i, CODE_ERR[e.message] || e.message, false); btn.disabled = false; });
+    .catch(function(e){ say(i, errText(e), false); btn.disabled = false; });
 }
 
 $('nAdd').onclick = function(){
