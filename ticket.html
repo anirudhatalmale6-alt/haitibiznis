@@ -276,6 +276,12 @@ img{max-width:100%;display:block}
 .bottom-nav .create-tab:hover .create-dot{transform:scale(1.08)}
 
 /* WATERMARK */
+/* 29 Oct 2026: the event's sponsors, inside the card so the downloaded ticket carries them */
+.tk-sponsors{display:none;padding:12px 18px 16px;border-top:1px dashed #E2E8F0;text-align:center}
+.tk-sponsors.show{display:block}
+.tk-sponsors .lbl{font-size:.66rem;font-weight:800;letter-spacing:.12em;text-transform:uppercase;color:#8A95AA;margin-bottom:8px}
+.tk-sponsors .row{display:flex;flex-wrap:wrap;justify-content:center;align-items:center;gap:10px 14px}
+.tk-sponsors img{height:34px;max-width:96px;object-fit:contain}
 .ticket-watermark{
   position:absolute;bottom:8px;right:14px;
   font-family:var(--display);font-size:.55rem;
@@ -391,6 +397,7 @@ img{max-width:100%;display:block}
           <span data-i18n="scanHint">Montre QR code sa a nan antre a</span>
         </div>
       </div>
+      <div class="tk-sponsors" id="tkSponsors"><div class="lbl" id="tkSpLbl">Sponsò Ofisyèl</div><div class="row" id="tkSpRow"></div></div>
       <div class="ticket-watermark">Tikè Lakay</div>
     </div>
   </div>
@@ -568,6 +575,24 @@ function showError() {
   document.getElementById('errorState').style.display = 'block';
 }
 
+/* The event's sponsors (29 Oct 2026). Drawn as the organiser uploaded them,
+   only scaled to fit. A ticket without sponsors shows nothing extra. */
+function loadTicketSponsors(eventId) {
+  if (!eventId) return;
+  var L = { ht: 'Sponsò Ofisyèl', fr: 'Sponsors Officiels', en: 'Official Sponsors', es: 'Patrocinadores Oficiales', pt: 'Patrocinadores Oficiais' };
+  var lang = curLang || 'ht';
+  fetch(API_URL + '/api/events/' + encodeURIComponent(eventId) + '/sponsors')
+    .then(function (r) { return r.ok ? r.json() : { sponsors: [] }; })
+    .then(function (d) {
+      var list = (d && d.sponsors || []).filter(function (s) { return /^data:image\/(png|jpeg|webp);base64,/.test(s.logo || ''); });
+      if (!list.length) return;
+      var row = document.getElementById('tkSpRow'); row.innerHTML = '';
+      list.forEach(function (s) { var im = document.createElement('img'); im.src = s.logo; im.alt = s.name || ''; row.appendChild(im); });
+      document.getElementById('tkSpLbl').textContent = L[lang] || L.ht;
+      document.getElementById('tkSponsors').classList.add('show');
+    }).catch(function () {});
+}
+
 function renderTicket(data, qrData) {
   document.getElementById('loadingState').style.display = 'none';
   document.getElementById('ticketContent').style.display = '';
@@ -592,6 +617,7 @@ function renderTicket(data, qrData) {
   if (eventData.endTime) timeStr += ' – ' + formatTime(eventData.endTime);
   document.getElementById('tTime').textContent = timeStr;
   document.getElementById('tLocation').textContent = eventData.location || '';
+  loadTicketSponsors(eventData._id);
   document.getElementById('tRef').textContent = data.referenceId;
   document.getElementById('tTicketName').textContent = data.ticketName;
   document.getElementById('tQty').textContent = data.qty;

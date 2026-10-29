@@ -549,6 +549,12 @@ img{max-width:100%;display:block}
   </div>
 </div>
 
+<!-- SPONSORS (29 Oct 2026) - shown exactly as the organiser uploaded them -->
+<div class="card reveal reveal-d3" id="sponsorsCard" style="display:none">
+  <div class="card-title"><span class="icon">🤝</span> <span id="sponsorsTitle">Sponsò</span></div>
+  <div id="sponsorsRow" style="display:flex;flex-wrap:wrap;gap:12px;align-items:center;justify-content:center"></div>
+</div>
+
 <!-- KOUTYE REFERRAL BANNER -->
 <div class="koutye-banner reveal" id="koutyeBanner" style="display:none">
   <div class="koutye-banner-inner">
@@ -774,13 +780,7 @@ function showLoadFailure() {
     t('loadFailed') || 'Nou pa ka chaje evènman sa a kounye a. Tanpri eseye ankò.');
 }
 
-/* Similar events demo */
-var similarEvents = [
-  { title: "Soirée Tropicale", date: "2026-07-04", price: 1500, emoji: "🎉", gradient: "linear-gradient(135deg,#5a1a3a,#D21034,#FF4466)", month: "JUL", day: "04" },
-  { title: "Gala Solidarité", date: "2026-08-22", price: 5000, emoji: "💝", gradient: "linear-gradient(135deg,#1a3a1a,#D4A017,#E8B82E)", month: "AOU", day: "22" },
-  { title: "Konferans Immobilye ProLakay", date: "2026-06-28", price: 3000, emoji: "🏠", gradient: "linear-gradient(135deg,#0a2a4a,#00209F,#D4A017)", month: "JUN", day: "28" },
-  { title: "Louanj ak Adorasyon", date: "2026-05-18", price: 0, emoji: "⛪", gradient: "linear-gradient(135deg,#2a1a5a,#5a3a8a,#8a6abd)", month: "MAI", day: "18" }
-];
+
 
 /* ═══ I18N TRANSLATIONS ═══ */
 var currentLang = localStorage.getItem('tl_lang') || 'ht';
@@ -1239,6 +1239,26 @@ function showInvite() {
 }
 
 /* ═══ RENDER PAGE ═══ */
+function renderSponsorsCard(list) {
+  var sps = (list || []).filter(function (s) { return s && /^data:image\/(png|jpeg|webp);base64,/.test(s.logo || ''); });
+  var spCard = document.getElementById('sponsorsCard');
+  if (!spCard || !sps.length) return;
+  var SPL = { ht: 'Sponsò', fr: 'Sponsors', en: 'Sponsors', es: 'Patrocinadores', pt: 'Patrocinadores' };
+  document.getElementById('sponsorsTitle').textContent = SPL[currentLang] || SPL.ht;
+  var row = document.getElementById('sponsorsRow'); row.innerHTML = '';
+  sps.forEach(function (s) {
+    var im = document.createElement('img');
+    im.src = s.logo; im.alt = s.name || ''; im.title = s.name || '';
+    im.style.cssText = 'height:48px;max-width:130px;object-fit:contain;background:#fff;border-radius:10px;padding:6px;border:1px solid #E2E8F0';
+    if (/^https?:\/\//i.test(s.link || '')) {
+      var a = document.createElement('a'); a.href = s.link; a.target = '_blank'; a.rel = 'noopener nofollow sponsored';
+      a.appendChild(im); row.appendChild(a);
+    } else row.appendChild(im);
+  });
+  spCard.style.display = '';
+  spCard.classList.add('visible');
+}
+
 function renderPage() {
   /* The invitation he designs in step 2 was being saved to the database and
      then shown to nobody - this page drew a gradient and ignored it. If there
@@ -1304,6 +1324,16 @@ function renderPage() {
   var org = event.organizer || event.hostedBy || '';
   document.getElementById('orgAvatar').textContent = org.charAt(0) || '·';
   document.getElementById('orgName').textContent = org;
+
+  /* Sponsors (29 Oct 2026). Asked for fresh rather than read off `event`: the
+     organiser's own phone shows a cached copy of the event, which does not
+     know about sponsors added since. A logo links out only to http(s). */
+  if (event._id) {
+    fetch(API_URL + '/api/events/' + encodeURIComponent(event._id) + '/sponsors')
+      .then(function (r) { return r.ok ? r.json() : { sponsors: [] }; })
+      .then(function (d) { renderSponsorsCard(d.sponsors || []); })
+      .catch(function () {});
+  }
 
   /* Koutye Banner */
   if (event.koutyeEnabled) {
@@ -1895,16 +1925,42 @@ function shareKoutye() {
 }
 
 /* ═══ RENDER SIMILAR EVENTS ═══ */
+/* 29 Oct 2026: this used to draw four invented events ("Soirée Tropicale",
+   "Gala Solidarité"...) on every real event page, each linking nowhere. Now it
+   is real upcoming events only - the same type first - and the section is
+   hidden when there are none. */
 function renderSimilar() {
-  var html = '';
-  similarEvents.forEach(function(ev) {
-    var priceText = ev.price === 0 ? '<span class="sim-price free">GRATIS</span>' : '<span class="sim-price">HTG ' + formatPrice(ev.price) + '</span>';
-    html += '<a href="event.html" class="sim-card">' +
-      '<div class="sim-img" style="background:' + ev.gradient + '">' + ev.emoji +
-      '<div class="sim-date"><div class="month">' + ev.month + '</div><div class="day">' + ev.day + '</div></div></div>' +
-      '<div class="sim-body"><div class="sim-title">' + ev.title + '</div>' + priceText + '</div></a>';
-  });
-  document.getElementById('similarEvents').innerHTML = html;
+  var box = document.getElementById('similarEvents');
+  var card = box && box.closest('.card');
+  if (!box) return;
+  if (card) card.style.display = 'none';
+  var MON = ['JAN', 'FEV', 'MAS', 'AVR', 'ME', 'JEN', 'JIY', 'OUT', 'SEP', 'OKT', 'NOV', 'DES'];
+  var today = new Date().toISOString().slice(0, 10);
+  var escS = function (v) { return String(v == null ? '' : v).replace(/[&<>"']/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]; }); };
+  fetch(API_URL + '/api/events?limit=60')
+    .then(function (r) { return r.ok ? r.json() : { events: [] }; })
+    .then(function (d) {
+      var list = (d.events || []).filter(function (ev) {
+        return ev && ev._id && ev._id !== event._id && ev.status !== 'cancelled' && String(ev.date || '') >= today;
+      });
+      list.sort(function (a, b) {
+        var sa = a.type === event.type ? 0 : 1, sb = b.type === event.type ? 0 : 1;
+        return sa - sb || String(a.date).localeCompare(String(b.date));
+      });
+      list = list.slice(0, 4);
+      if (!list.length) return;
+      box.innerHTML = list.map(function (ev) {
+        var ps = (ev.tickets || []).map(function (x) { return Number(x.price) || 0; }).filter(function (p) { return p > 0; });
+        var priceText = ps.length ? '<span class="sim-price">HTG ' + formatPrice(Math.min.apply(null, ps)) + '</span>' : '<span class="sim-price free">GRATIS</span>';
+        var m = /^(\d{4})-(\d{2})-(\d{2})/.exec(ev.date || '');
+        var grad = /^linear-gradient\([#(),.%\s\w-]+\)$/.test(ev.gradient || '') ? ev.gradient : 'linear-gradient(135deg,#00209F,#D21034)';
+        return '<a href="event.html?id=' + encodeURIComponent(ev._id) + '" class="sim-card">' +
+          '<div class="sim-img" style="background:' + grad + '">' + escS(ev.typeEmoji || '🎟️') +
+          (m ? '<div class="sim-date"><div class="month">' + MON[+m[2] - 1] + '</div><div class="day">' + m[3] + '</div></div>' : '') + '</div>' +
+          '<div class="sim-body"><div class="sim-title">' + escS(ev.title) + '</div>' + priceText + '</div></a>';
+      }).join('');
+      if (card) card.style.display = '';
+    }).catch(function () {});
 }
 
 /* ═══ SCROLL REVEAL ═══ */

@@ -527,7 +527,7 @@ function renderMine(){
     return '<div class="mine"><b>'+esc(ev.title||'Evènman')+'</b><small>'+esc(ev.date||'')+(ev.location?' · '+esc(ev.location):'')+'</small><div class="acts">'+
       (local
         ? '<span style="font-size:.75rem;font-weight:800;color:#8A6D00">'+TL_TXT('unpub')+'</span><button onclick="dropLocalEvent(\''+esc(id)+'\')">'+TL_TXT('drop')+'</button>'
-        : '<a href="event.html?id='+encodeURIComponent(id)+'">👁️</a><a href="attendees.html?id='+encodeURIComponent(id)+'">'+TL_TXT('who')+'</a><a href="create-event.html?edit='+encodeURIComponent(id)+'">'+TL_TXT('edit')+'</a><button onclick="deleteMyEvent(\''+esc(id)+'\',this)">'+TL_TXT('del')+'</button>')+
+        : '<a href="event.html?id='+encodeURIComponent(id)+'">👁️</a><a href="attendees.html?id='+encodeURIComponent(id)+'">'+TL_TXT('who')+'</a><a href="create-event.html?edit='+encodeURIComponent(id)+'">'+TL_TXT('edit')+'</a><a href="flyer-ai.html?id='+encodeURIComponent(id)+'">🎨 Flyer AI</a><button onclick="deleteMyEvent(\''+esc(id)+'\',this)">'+TL_TXT('del')+'</button>')+
       '</div></div>';
   }).join('');
 }

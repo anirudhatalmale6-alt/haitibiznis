@@ -285,6 +285,16 @@ img{max-width:100%;display:block}
   display:flex;align-items:center;gap:6px;transition:all .2s;
 }
 .share-btn.wa{background:#25D366;color:#fff}
+/* 29 Oct 2026: event sponsors + AI flyer entry */
+.sp-row{display:flex;align-items:center;gap:10px;padding:10px;border:1px solid var(--border);border-radius:12px;margin-bottom:8px;background:var(--cream)}
+.sp-logo{width:72px;height:44px;flex:0 0 72px;object-fit:contain;background:#fff;border:1px solid var(--border-light);border-radius:8px}
+.sp-row input{flex:1;min-width:0;padding:9px 10px;border:1px solid var(--border);border-radius:9px;font:inherit;font-size:.88rem}
+.sp-acts{display:flex;gap:4px}
+.sp-acts button{width:32px;height:32px;border-radius:8px;border:1px solid var(--border);background:#fff;cursor:pointer;font-size:.9rem}
+.sp-note{font-size:.8rem;color:var(--text-light);margin:-6px 0 12px;line-height:1.45}
+.sp-err{font-size:.8rem;color:var(--red);font-weight:700;margin-top:6px;display:none}
+.ai-flyer-btn{display:flex;align-items:center;justify-content:center;gap:8px;width:100%;height:48px;margin:12px 0 10px;border-radius:12px;border:0;cursor:pointer;
+  background:linear-gradient(135deg,#00209F,#7B2FF7 60%,#D21034);color:#fff;font:800 .95rem var(--body,inherit);text-decoration:none}
 .share-btn.fb{background:#1877F2;color:#fff}
 .share-btn.copy{background:var(--off-white);color:var(--text);border:1px solid var(--border)}
 .share-btn:hover{transform:translateY(-1px)}
@@ -681,6 +691,18 @@ img{max-width:100%;display:block}
     </div>
   </div>
 
+  <div class="form-card" id="sponsorCard">
+    <div class="form-card-title"><span class="icon">🤝</span> <span id="spTitle">Sponsò (opsyonèl)</span></div>
+    <p class="sp-note" id="spNote">Logo sponsò ou yo parèt sou chak tikè, sou paj evènman an ak sou flyer AI yo. Nou pa janm chanje logo yo.</p>
+    <div id="sponsorList"></div>
+    <input type="file" id="sponsorFile" accept="image/png,image/jpeg,image/webp" style="display:none" onchange="addSponsorFile(this)">
+    <button class="add-ticket-btn" type="button" id="spAddBtn" onclick="document.getElementById('sponsorFile').click()">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg>
+      <span id="spAdd">Ajoute yon sponsò (logo)</span>
+    </button>
+    <div class="sp-err" id="spErr"></div>
+  </div>
+
   <div class="fee-note">
     <span class="icon">💡</span>
     <span data-i18n="platform_fee">Ou resevwa tout pri tikè ou mete a. Moun k ap achte a peye yon frè sèvis 7.5% anplis. Evènman gratis = san frè.</span>
@@ -748,6 +770,7 @@ img{max-width:100%;display:block}
       <button class="mcode-copy" id="mcodeCopy" onclick="copyManageCode()">Kopye kòd la</button>
       <div class="mcode-note" id="mcodeNote"></div>
     </div>
+    <a href="flyer-ai.html" class="ai-flyer-btn" id="aiFlyerBtn">🎨 <span id="aiFlyerTxt">Kreye 3 Flyer ak AI</span></a>
     <a href="events.html" class="btn btn-blue" style="width:100%" data-i18n="view_event">Gade Evènman Ou</a>
   </div>
 </div>
@@ -1481,6 +1504,7 @@ function setLang(lang) {
   /* The event type list is built rather than written in the HTML, so it has to
      be rebuilt here or it stays in whatever language the page loaded in. */
   fillTypeOptions();
+  if (typeof renderSponsors === 'function') renderSponsors();
 
   /* Re-translate dynamically generated ticket cards */
   document.querySelectorAll('.ticket-card').forEach(function(card) {
@@ -2329,6 +2353,9 @@ function enterEditMode(ev) {
       if (cb.value === k) cb.checked = !!ev.paymentMethods[k];
     });
   });
+  SPONSORS = (ev.sponsors || []).filter(function (sp) { return sp && sp.logo; })
+    .map(function (sp) { return { name: sp.name || '', logo: sp.logo, link: sp.link || '' }; });
+  renderSponsors();
   setVal('evMoncash', ev.moncashNumber);
   setVal('evNatcash', ev.natcashNumber);
 
@@ -2363,6 +2390,83 @@ function enterEditMode(ev) {
     })
     .catch(function () { alert(t.edit_loadfail || 'We could not load that event.'); });
 })();
+
+/* ═══ SPONSORS (29 Oct 2026) ═══════════════════════════════════════════════
+   Jeffery: "display sponsors' logos directly on the tickets issued to
+   attendees." Up to 8 per event. The logo is only SCALED DOWN to fit (max
+   400 px wide, aspect kept) so it travels with the event; nothing else is
+   done to it, and it is drawn as an image wherever it appears - never
+   re-created by the AI. */
+var SPONSORS = [];
+var SP_MAX = 8;
+var SP_TXT = {
+  ht: { title: 'Sponsò (opsyonèl)', note: 'Logo sponsò ou yo parèt sou chak tikè, sou paj evènman an ak sou flyer AI yo. Nou pa janm chanje logo yo.',
+        add: 'Ajoute yon sponsò (logo)', name: 'Non sponsò a', link: 'Lyen (opsyonèl)', max: 'Maksimòm 8 sponsò.', bad: 'Foto sa a pa ka itilize. Eseye yon PNG oswa JPG.', ai: 'Kreye 3 Flyer ak AI' },
+  fr: { title: 'Sponsors (facultatif)', note: 'Les logos de vos sponsors apparaissent sur chaque billet, sur la page de l’événement et sur les flyers IA. Nous ne modifions jamais les logos.',
+        add: 'Ajouter un sponsor (logo)', name: 'Nom du sponsor', link: 'Lien (facultatif)', max: '8 sponsors maximum.', bad: 'Image inutilisable. Essayez un PNG ou un JPG.', ai: 'Créer 3 flyers avec l’IA' },
+  en: { title: 'Sponsors (optional)', note: 'Your sponsors’ logos appear on every ticket, on the event page and on the AI flyers. We never change the logos.',
+        add: 'Add a sponsor (logo)', name: 'Sponsor name', link: 'Link (optional)', max: '8 sponsors maximum.', bad: 'That image cannot be used. Try a PNG or JPG.', ai: 'Create 3 AI flyers' },
+  es: { title: 'Patrocinadores (opcional)', note: 'Los logos de tus patrocinadores aparecen en cada boleto, en la página del evento y en los flyers IA. Nunca cambiamos los logos.',
+        add: 'Añadir patrocinador (logo)', name: 'Nombre del patrocinador', link: 'Enlace (opcional)', max: 'Máximo 8 patrocinadores.', bad: 'No se puede usar esa imagen. Prueba un PNG o JPG.', ai: 'Crear 3 flyers con IA' },
+  pt: { title: 'Patrocinadores (opcional)', note: 'Os logótipos dos patrocinadores aparecem em cada bilhete, na página do evento e nos flyers IA. Nunca alteramos os logótipos.',
+        add: 'Adicionar patrocinador (logo)', name: 'Nome do patrocinador', link: 'Link (opcional)', max: 'Máximo 8 patrocinadores.', bad: 'Essa imagem não pode ser usada. Tente um PNG ou JPG.', ai: 'Criar 3 flyers com IA' }
+};
+function spT(k) { var l = SP_TXT[curLang] || SP_TXT.ht; return l[k] || SP_TXT.ht[k]; }
+function spEsc(v) { return String(v == null ? '' : v).replace(/[&<>"']/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]; }); }
+function spErr(msg) { var e = document.getElementById('spErr'); if (!e) return; e.textContent = msg || ''; e.style.display = msg ? 'block' : 'none'; }
+
+function renderSponsors() {
+  var set = function (id, txt) { var el = document.getElementById(id); if (el) el.textContent = txt; };
+  set('spTitle', spT('title')); set('spNote', spT('note')); set('spAdd', spT('add')); set('aiFlyerTxt', spT('ai'));
+  var box = document.getElementById('sponsorList'); if (!box) return;
+  box.innerHTML = SPONSORS.map(function (sp, i) {
+    return '<div class="sp-row"><img class="sp-logo" alt="" src="' + spEsc(sp.logo) + '">' +
+      '<div style="flex:1;min-width:0;display:flex;flex-direction:column;gap:6px">' +
+      '<input type="text" maxlength="60" placeholder="' + spEsc(spT('name')) + '" value="' + spEsc(sp.name) + '" oninput="SPONSORS[' + i + '].name=this.value">' +
+      '<input type="url" maxlength="200" placeholder="' + spEsc(spT('link')) + '" value="' + spEsc(sp.link) + '" oninput="SPONSORS[' + i + '].link=this.value"></div>' +
+      '<div class="sp-acts" style="flex-direction:column">' +
+      '<button type="button" aria-label="up" onclick="moveSponsor(' + i + ',-1)"' + (i === 0 ? ' disabled' : '') + '>↑</button>' +
+      '<button type="button" aria-label="down" onclick="moveSponsor(' + i + ',1)"' + (i === SPONSORS.length - 1 ? ' disabled' : '') + '>↓</button>' +
+      '<button type="button" aria-label="remove" onclick="removeSponsor(' + i + ')">✕</button></div></div>';
+  }).join('');
+  var add = document.getElementById('spAddBtn');
+  if (add) add.style.display = SPONSORS.length >= SP_MAX ? 'none' : '';
+}
+function moveSponsor(i, d) {
+  var j = i + d; if (j < 0 || j >= SPONSORS.length) return;
+  var x = SPONSORS[i]; SPONSORS[i] = SPONSORS[j]; SPONSORS[j] = x; renderSponsors();
+}
+function removeSponsor(i) { SPONSORS.splice(i, 1); spErr(''); renderSponsors(); }
+
+/* Scale only. Transparent logos stay transparent (PNG); if that is still too
+   big for the event document, the same pixels go out as WebP, then JPEG. */
+function addSponsorFile(input) {
+  var f = input.files && input.files[0]; input.value = '';
+  if (!f) return;
+  if (SPONSORS.length >= SP_MAX) { spErr(spT('max')); return; }
+  var url = URL.createObjectURL(f), img = new Image();
+  img.onload = function () {
+    var scale = Math.min(1, 400 / img.naturalWidth, 240 / img.naturalHeight);
+    var w = Math.max(1, Math.round(img.naturalWidth * scale)), h = Math.max(1, Math.round(img.naturalHeight * scale));
+    var c = document.createElement('canvas'); c.width = w; c.height = h;
+    c.getContext('2d').drawImage(img, 0, 0, w, h);
+    URL.revokeObjectURL(url);
+    var out = c.toDataURL('image/png');
+    if (out.length > 190000) { var wb = c.toDataURL('image/webp', 0.92); if (wb.indexOf('data:image/webp') === 0) out = wb; }
+    if (out.length > 190000) {
+      var c2 = document.createElement('canvas'); c2.width = w; c2.height = h;
+      var x2 = c2.getContext('2d'); x2.fillStyle = '#fff'; x2.fillRect(0, 0, w, h); x2.drawImage(c, 0, 0);
+      out = c2.toDataURL('image/jpeg', 0.9);
+    }
+    if (out.length > 190000) { spErr(spT('bad')); return; }
+    spErr('');
+    SPONSORS.push({ name: (f.name || '').replace(/\.[a-z0-9]+$/i, '').replace(/[_-]+/g, ' ').slice(0, 60), logo: out, link: '' });
+    renderSponsors();
+  };
+  img.onerror = function () { URL.revokeObjectURL(url); spErr(spT('bad')); };
+  img.src = url;
+}
+document.addEventListener('DOMContentLoaded', renderSponsors);
 
 function publishEvent() {
   if (!checkEventReady()) return;
@@ -2432,6 +2536,7 @@ function publishEvent() {
     organizerEmail: document.getElementById('evOrgEmail').value || '',
     hostedBy: document.getElementById('hostedBy') ? document.getElementById('hostedBy').value : '',
     inviteImage: inviteImage,
+    sponsors: SPONSORS.map(function (sp) { return { name: sp.name || '', logo: sp.logo, link: sp.link || '' }; }),
     tickets: tickets,
     paymentMethods: payMethods,
     moncashNumber: document.getElementById('moncashInput') ? (document.getElementById('moncashInput').querySelector('input') || {}).value || '' : '',
@@ -2487,6 +2592,8 @@ function publishEvent() {
     var viewBtn = document.querySelector('#successOverlay .btn-blue');
     if (viewBtn) viewBtn.href = 'event.html?id=' + eventId;
     window._publishedEventId = eventId;
+    var aiBtn = document.getElementById('aiFlyerBtn');
+    if (aiBtn) aiBtn.href = 'flyer-ai.html?id=' + encodeURIComponent(eventId);
     window._publishedEventUrl = shareUrl;
 
     var overlay = document.getElementById('successOverlay');

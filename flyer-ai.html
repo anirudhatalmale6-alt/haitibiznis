@@ -1,0 +1,690 @@
+<!DOCTYPE html>
+<html lang="ht">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>Flyer AI | Tikè Lakay</title>
+<meta name="robots" content="noindex">
+<meta name="theme-color" content="#00209F">
+<link rel="icon" href="favicon.ico">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=Plus+Jakarta+Sans:wght@500;700;800&display=swap" rel="stylesheet">
+<style>
+/* 29 Oct 2026 - AI flyers for an organiser's event.
+   The AI draws ONLY the background picture (see haitibiznis-backend
+   utils/flyerAi.js). Everything that has to be exactly right - the words, the
+   organiser's logo, the sponsors' logos and the QR code - is drawn here, on
+   top, from the event's real data. The QR is the PUBLIC event page; it is not
+   a ticket and cannot let anybody in. */
+:root{--blue:#00209F;--blue-d:#001566;--red:#D21034;--gold:#D4A017;--green:#1B8C3D;--ink:#0A0E1A;--text:#1A2A4A;--muted:#5A6B8A;--line:#E2E8F0;--bg:#F4F6FB;--card:#fff}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Plus Jakarta Sans',system-ui,sans-serif;background:var(--bg);color:var(--text);padding-bottom:48px;-webkit-font-smoothing:antialiased}
+.stripe{height:4px;background:linear-gradient(90deg,var(--blue) 50%,var(--red) 50%)}
+.top{background:var(--blue);color:#fff;padding:12px 16px;display:flex;align-items:center;justify-content:space-between;gap:10px;position:sticky;top:0;z-index:20}
+.top a{color:#fff;text-decoration:none;font-weight:700;font-size:.9rem}
+.top h1{font-size:1.05rem;font-weight:800;letter-spacing:.2px}
+.langs{display:flex;gap:4px}.langs button{background:rgba(255,255,255,.14);color:#fff;border:0;border-radius:8px;padding:5px 7px;font:700 .72rem inherit;cursor:pointer}
+.langs button.on{background:#fff;color:var(--blue)}
+.wrap{max-width:560px;margin:0 auto;padding:16px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:16px;margin-bottom:14px;box-shadow:0 1px 3px rgba(16,24,40,.05)}
+.hero{background:linear-gradient(135deg,#00209F 0%,#4A2BD1 55%,#D21034 100%);color:#fff;border:0}
+.hero h2{font-family:'DM Serif Display',serif;font-weight:400;font-size:1.55rem;line-height:1.15;margin-bottom:6px}
+.hero p{opacity:.92;font-size:.9rem;line-height:1.5}
+.price-tag{display:inline-block;margin-top:10px;background:#FFD54A;color:#2B2100;font-weight:800;border-radius:999px;padding:6px 12px;font-size:.9rem}
+h3{font-size:1rem;font-weight:800;margin-bottom:10px;color:var(--ink)}
+.ev{display:flex;flex-direction:column;gap:3px}.ev b{font-size:1.05rem;color:var(--ink)}.ev small{color:var(--muted);font-size:.85rem}
+label.f{display:block;font-weight:700;font-size:.85rem;margin:12px 0 6px}
+input[type=text],input[type=tel],textarea{width:100%;padding:12px;border:1.5px solid var(--line);border-radius:12px;font:inherit;font-size:.95rem;background:#fff;color:var(--text)}
+textarea{resize:vertical;min-height:64px}
+.hint{color:var(--muted);font-size:.8rem;margin-top:5px;line-height:1.45}
+.chips{display:flex;flex-wrap:wrap;gap:8px;margin-top:8px}
+.chip{border:1.5px solid var(--line);background:#fff;border-radius:999px;padding:7px 12px;font:700 .8rem inherit;cursor:pointer;color:var(--text)}
+.chip.on{border-color:var(--blue);background:#EEF1FB;color:var(--blue)}
+.up{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.upbox{border:1.5px dashed #C9D2E3;border-radius:14px;padding:12px;text-align:center;cursor:pointer;background:#FAFBFD;min-height:108px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;font-weight:700;font-size:.82rem;color:var(--muted);position:relative}
+.upbox img{max-width:100%;max-height:70px;object-fit:contain;border-radius:8px}
+.upbox .x{position:absolute;top:6px;right:6px;width:24px;height:24px;border-radius:50%;border:0;background:#fff;box-shadow:0 1px 3px rgba(0,0,0,.2);cursor:pointer;display:none}
+.upbox.has .x{display:block}
+.pay{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+.pay button{border:2px solid var(--line);background:#fff;border-radius:12px;padding:12px 6px;font:800 .85rem inherit;cursor:pointer;color:var(--text)}
+.pay button.on{border-color:var(--blue);background:#EEF1FB;color:var(--blue)}
+.btn{display:flex;align-items:center;justify-content:center;gap:8px;width:100%;min-height:52px;border-radius:14px;border:0;font:800 1rem inherit;cursor:pointer;text-decoration:none;margin-top:12px}
+.btn-main{background:var(--red);color:#fff}.btn-main:disabled{opacity:.55;cursor:default}
+.btn-blue{background:var(--blue);color:#fff}
+.btn-line{background:#fff;color:var(--text);border:2px solid var(--line)}
+.btn-wa{background:#25D366;color:#fff}
+.err{color:var(--red);font-weight:700;font-size:.85rem;margin-top:8px;display:none}
+.prev{position:relative}.prev canvas{width:100%;height:auto;border-radius:14px;display:block;background:#ddd}
+.prev .tag{position:absolute;top:10px;left:10px;background:rgba(0,0,0,.65);color:#fff;font-weight:800;font-size:.72rem;border-radius:8px;padding:5px 8px}
+.wait{text-align:center;padding:26px 16px}
+.spin{width:46px;height:46px;border-radius:50%;border:5px solid #E3E8F5;border-top-color:var(--blue);animation:sp 1s linear infinite;margin:0 auto 14px}
+@keyframes sp{to{transform:rotate(360deg)}}
+.wait b{display:block;font-size:1.05rem;color:var(--ink);margin-bottom:6px}.wait p{color:var(--muted);font-size:.88rem;line-height:1.5}
+.designs{display:flex;flex-direction:column;gap:14px}
+.design canvas{width:100%;height:auto;border-radius:14px;display:block;box-shadow:0 6px 24px rgba(10,14,26,.18)}
+.design .acts{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:10px}
+.design .acts .btn{margin-top:0;min-height:46px;font-size:.88rem}
+.design .acts .wide{grid-column:1/-1}
+.design h4{font-size:.85rem;color:var(--muted);font-weight:800;margin-bottom:8px;text-transform:uppercase;letter-spacing:.06em}
+details.edit summary{cursor:pointer;font-weight:800;color:var(--blue);list-style:none}
+details.edit summary::-webkit-details-marker{display:none}
+.tog{display:flex;align-items:center;gap:8px;margin-top:10px;font-weight:700;font-size:.85rem}
+.tog input{width:20px;height:20px}
+.mine a{display:flex;justify-content:space-between;gap:8px;padding:12px;border:1px solid var(--line);border-radius:12px;margin-bottom:8px;text-decoration:none;color:var(--text);font-weight:700;font-size:.9rem;background:#fff}
+.ref{font-family:ui-monospace,monospace;font-size:.8rem;color:var(--muted);margin-top:8px;text-align:center}
+.ok{color:var(--green);font-weight:800}
+</style>
+</head>
+<body>
+<div class="stripe"></div>
+<div class="top">
+  <a href="events.html#kont" id="backLink">← <span id="tBack">Kont</span></a>
+  <h1>🎨 Flyer AI</h1>
+  <div class="langs" id="langs"></div>
+</div>
+<div class="wrap" id="app"><div class="card wait"><div class="spin"></div></div></div>
+
+<input type="file" id="filePhoto" accept="image/*" style="display:none">
+<input type="file" id="fileLogo" accept="image/*" style="display:none">
+<script src="event-types.js"></script>
+
+<script>
+(function () {
+  'use strict';
+  var API = 'https://haitibiznis-api.onrender.com';
+  var HELP_WA = '50946859702';
+  var LANGS = ['ht', 'fr', 'en'];
+  var lang = 'ht';
+  try { lang = localStorage.getItem('tl_lang') || 'ht'; } catch (e) {}
+  if (LANGS.indexOf(lang) < 0) lang = (lang === 'es' || lang === 'pt') ? 'en' : 'ht';
+
+  var T = {
+    ht: {
+      back: 'Kont', heroT: '3 flyer pwofesyonèl ak AI', heroP: 'AI a desine 3 imaj pou evènman ou. Nou mete tit la, dat la, kote a, logo ou, sponsò ou yo ak yon QR code ki mennen moun yo achte tikè.',
+      priceTag: '{p} HTG pou 3 desen', yourEvent: 'Evènman ou', notFound: 'Nou pa jwenn evènman sa a.', cancelled: 'Evènman sa a anile.',
+      sample: 'EGZANP', sampleNote: 'Se konsa tèks la ak QR code a ap parèt. AI a ap fè vrè imaj yo apre peman an.',
+      photos: 'Foto ak logo (opsyonèl)', photo: '📷 Foto', logo: '🏷️ Logo ou', look: 'Ki stil ou vle? (opsyonèl)', lookPh: 'Egz: ble ak lò, elegan',
+      looks: ['Koulè Ayiti (ble ak wouj)', 'Elegan nwa ak lò', 'Kolore, fèt', 'Senp e pwofesyonèl'],
+      phone: 'Telefòn ou (opsyonèl)', payWith: 'Peye ak', card: 'Kat', payBtn: 'Peye {p} HTG — Fè 3 flyer', opening: 'N ap louvri peman an…',
+      noAi: 'Flyer AI pa disponib pou kounye a. Eseye ankò pita.', err: 'Nou pa ka louvri peman an. Eseye ankò.',
+      pending: 'N ap tann konfimasyon peman an', pendingP: 'Si w fin peye, rete sou paj sa a. Si w poko peye:', continuePay: 'Kontinye peman an',
+      making: 'AI a ap desine 3 flyer ou yo…', makingP: 'Sa ka pran 1 a 2 minit. Ou ka kite paj la epi tounen pita, flyer yo ap tann ou.',
+      failed: 'AI a pa rive fè flyer yo', failedP: 'Ou deja peye, ou pa peye ankò. Eseye ankò:', retry: '🔄 Eseye ankò',
+      failedHelp: 'Ekri nou sou WhatsApp ak referans sa a, n ap regle l pou ou:', help: '💬 WhatsApp',
+      ready: '✅ 3 flyer ou yo pare!', readyP: 'Chwazi sa w renmen an. Telechaje l oswa pataje l dirèkteman.', design: 'Desen',
+      dlPortrait: '⬇️ Vètikal', dlSquare: '⬇️ Kare (IG/FB)', share: '📤 Pataje imaj la', edit: '✏️ Modifye tèks yo',
+      fTitle: 'Tit', fDate: 'Dat ak lè', fPlace: 'Kote', fPrice: 'Pri', showPhoto: 'Montre foto a', showLogo: 'Montre logo a', showSp: 'Montre sponsò yo',
+      changePhoto: 'Chanje foto', changeLogo: 'Chanje logo', qrCap: 'ESKANE POU ACHTE TIKÈ', qrCapFree: 'ESKANE POU W ENSKRI', sponsors: 'SPONSÒ',
+      free: 'ANTRE GRATIS', from: 'Tikè apati {p} HTG', single: 'Tikè: {p} HTG', mine: 'Flyer mwen yo', none: 'Ouvri paj sa a depi nan Kont ou (bouton "🎨 Flyer AI" sou evènman ou).',
+      goKont: 'Ale nan Kont mwen', shareText: '{t} — Tikè sou Tikè Lakay:', saved: 'Telechaje ✅', ref: 'Referans',
+      days: ['Dimanch', 'Lendi', 'Madi', 'Mèkredi', 'Jedi', 'Vandredi', 'Samdi'],
+      months: ['Janvye', 'Fevriye', 'Mas', 'Avril', 'Me', 'Jen', 'Jiyè', 'Out', 'Septanm', 'Oktòb', 'Novanm', 'Desanm']
+    },
+    fr: {
+      back: 'Compte', heroT: '3 flyers professionnels avec l’IA', heroP: 'L’IA dessine 3 images pour votre événement. Nous y ajoutons le titre, la date, le lieu, votre logo, vos sponsors et un QR code qui mène à l’achat des billets.',
+      priceTag: '{p} HTG pour 3 designs', yourEvent: 'Votre événement', notFound: 'Événement introuvable.', cancelled: 'Cet événement est annulé.',
+      sample: 'EXEMPLE', sampleNote: 'Voici où le texte et le QR code apparaîtront. L’IA crée les vraies images après le paiement.',
+      photos: 'Photo et logo (facultatif)', photo: '📷 Photo', logo: '🏷️ Votre logo', look: 'Quel style voulez-vous ? (facultatif)', lookPh: 'Ex : bleu et or, élégant',
+      looks: ['Couleurs d’Haïti (bleu et rouge)', 'Élégant noir et or', 'Coloré, festif', 'Simple et professionnel'],
+      phone: 'Votre téléphone (facultatif)', payWith: 'Payer avec', card: 'Carte', payBtn: 'Payer {p} HTG — Créer 3 flyers', opening: 'Ouverture du paiement…',
+      noAi: 'Flyer IA indisponible pour le moment. Réessayez plus tard.', err: 'Impossible d’ouvrir le paiement. Réessayez.',
+      pending: 'En attente de la confirmation du paiement', pendingP: 'Si vous avez payé, restez sur cette page. Sinon :', continuePay: 'Continuer le paiement',
+      making: 'L’IA dessine vos 3 flyers…', makingP: 'Cela peut prendre 1 à 2 minutes. Vous pouvez revenir plus tard, vos flyers vous attendront.',
+      failed: 'L’IA n’a pas pu créer les flyers', failedP: 'Vous avez déjà payé, vous ne payez pas à nouveau. Réessayer :', retry: '🔄 Réessayer',
+      failedHelp: 'Écrivez-nous sur WhatsApp avec cette référence, nous réglons cela pour vous :', help: '💬 WhatsApp',
+      ready: '✅ Vos 3 flyers sont prêts !', readyP: 'Choisissez celui que vous préférez. Téléchargez-le ou partagez-le directement.', design: 'Design',
+      dlPortrait: '⬇️ Vertical', dlSquare: '⬇️ Carré (IG/FB)', share: '📤 Partager l’image', edit: '✏️ Modifier les textes',
+      fTitle: 'Titre', fDate: 'Date et heure', fPlace: 'Lieu', fPrice: 'Prix', showPhoto: 'Afficher la photo', showLogo: 'Afficher le logo', showSp: 'Afficher les sponsors',
+      changePhoto: 'Changer la photo', changeLogo: 'Changer le logo', qrCap: 'SCANNEZ POUR LES BILLETS', qrCapFree: 'SCANNEZ POUR VOUS INSCRIRE', sponsors: 'SPONSORS',
+      free: 'ENTRÉE GRATUITE', from: 'Billets dès {p} HTG', single: 'Billet : {p} HTG', mine: 'Mes flyers', none: 'Ouvrez cette page depuis votre Compte (bouton « 🎨 Flyer AI » sur votre événement).',
+      goKont: 'Aller à mon compte', shareText: '{t} — Billets sur Tikè Lakay :', saved: 'Téléchargé ✅', ref: 'Référence',
+      days: ['Dimanche', 'Lundi', 'Mardi', 'Mercredi', 'Jeudi', 'Vendredi', 'Samedi'],
+      months: ['janvier', 'février', 'mars', 'avril', 'mai', 'juin', 'juillet', 'août', 'septembre', 'octobre', 'novembre', 'décembre']
+    },
+    en: {
+      back: 'Account', heroT: '3 professional AI flyers', heroP: 'The AI draws 3 pictures for your event. We add the title, date, place, your logo, your sponsors and a QR code that takes people to buy tickets.',
+      priceTag: '{p} HTG for 3 designs', yourEvent: 'Your event', notFound: 'We could not find this event.', cancelled: 'This event is cancelled.',
+      sample: 'SAMPLE', sampleNote: 'This is where the text and QR code will go. The AI makes the real pictures after payment.',
+      photos: 'Photo and logo (optional)', photo: '📷 Photo', logo: '🏷️ Your logo', look: 'What style do you want? (optional)', lookPh: 'E.g. blue and gold, elegant',
+      looks: ['Haiti colours (blue and red)', 'Elegant black and gold', 'Colourful, festive', 'Simple and professional'],
+      phone: 'Your phone (optional)', payWith: 'Pay with', card: 'Card', payBtn: 'Pay {p} HTG — Make 3 flyers', opening: 'Opening payment…',
+      noAi: 'AI flyers are not available right now. Please try later.', err: 'We could not open the payment. Try again.',
+      pending: 'Waiting for the payment to be confirmed', pendingP: 'If you have paid, stay on this page. If not yet:', continuePay: 'Continue payment',
+      making: 'The AI is drawing your 3 flyers…', makingP: 'This can take 1 to 2 minutes. You can leave and come back, your flyers will wait for you.',
+      failed: 'The AI could not make the flyers', failedP: 'You have already paid, you will not pay again. Try again:', retry: '🔄 Try again',
+      failedHelp: 'Message us on WhatsApp with this reference and we will sort it out:', help: '💬 WhatsApp',
+      ready: '✅ Your 3 flyers are ready!', readyP: 'Pick the one you like. Download it or share it directly.', design: 'Design',
+      dlPortrait: '⬇️ Portrait', dlSquare: '⬇️ Square (IG/FB)', share: '📤 Share the image', edit: '✏️ Edit the text',
+      fTitle: 'Title', fDate: 'Date and time', fPlace: 'Place', fPrice: 'Price', showPhoto: 'Show the photo', showLogo: 'Show the logo', showSp: 'Show the sponsors',
+      changePhoto: 'Change photo', changeLogo: 'Change logo', qrCap: 'SCAN FOR TICKETS', qrCapFree: 'SCAN TO REGISTER', sponsors: 'SPONSORS',
+      free: 'FREE ENTRY', from: 'Tickets from {p} HTG', single: 'Ticket: {p} HTG', mine: 'My flyers', none: 'Open this page from your Account (the "🎨 Flyer AI" button on your event).',
+      goKont: 'Go to my account', shareText: '{t} — Tickets on Tikè Lakay:', saved: 'Downloaded ✅', ref: 'Reference',
+      days: ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'],
+      months: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December']
+    }
+  };
+  function t(k, v) {
+    var s = (T[lang] && T[lang][k] != null) ? T[lang][k] : T.ht[k];
+    if (typeof s === 'string' && v) Object.keys(v).forEach(function (x) { s = s.split('{' + x + '}').join(v[x]); });
+    return s;
+  }
+  function esc(v) { return String(v == null ? '' : v).replace(/[&<>"']/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]; }); }
+  function num(n) { return String(Math.round(n)).replace(/\B(?=(\d{3})+(?!\d))/g, ','); }
+  function ls(k, v) { try { if (v === undefined) return JSON.parse(localStorage.getItem(k) || 'null'); localStorage.setItem(k, JSON.stringify(v)); } catch (e) { return null; } }
+
+  var app = document.getElementById('app');
+  var qs = new URLSearchParams(location.search);
+  var REF = qs.get('ref') || '', EID = qs.get('id') || '';
+  var CFG = { price: 500, methods: { moncash: true, natcash: true, card: false }, ai: true };
+  var EV = null, ORDER = null, pollTimer = null;
+  var ASSETS = { photo: '', logo: '' };
+  var EDIT = null;           // the editable words, per order
+  var BG = [], QR = null, PHOTO = null, LOGO = null, SPONS = [];
+  var form = { method: 'moncash', look: '', phone: '' };
+
+  function drawLangs() {
+    var box = document.getElementById('langs');
+    box.innerHTML = LANGS.map(function (l) { return '<button data-l="' + l + '" class="' + (l === lang ? 'on' : '') + '">' + l.toUpperCase() + '</button>'; }).join('');
+    box.querySelectorAll('button').forEach(function (b) { b.onclick = function () { lang = b.getAttribute('data-l'); try { localStorage.setItem('tl_lang', lang); } catch (e) {} if (EDIT && ORDER) EDIT = null; route(); }; });
+    document.getElementById('tBack').textContent = t('back');
+    document.documentElement.lang = lang;
+  }
+
+  function getJSON(path, opt) {
+    return fetch(API + path, opt).then(function (r) { return r.json().catch(function () { return {}; }).then(function (d) { d._s = r.status; return d; }); });
+  }
+  function loadImg(src) {
+    return new Promise(function (res, rej) { var im = new Image(); im.onload = function () { res(im); }; im.onerror = rej; im.src = src; });
+  }
+  function loadBlobImg(url) {
+    return fetch(url).then(function (r) { if (!r.ok) throw new Error('img ' + r.status); return r.blob(); })
+      .then(function (b) { return loadImg(URL.createObjectURL(b)); });
+  }
+  function fontsReady() {
+    if (!document.fonts || !document.fonts.load) return Promise.resolve();
+    return Promise.all(['800 60px "Plus Jakarta Sans"', '700 40px "Plus Jakarta Sans"', '400 60px "DM Serif Display"'].map(function (f) {
+      return document.fonts.load(f).catch(function () {});
+    }));
+  }
+
+  /* ── what the flyer says, from the event ─────────────────────────────── */
+  function fmtDate(d) {
+    var m = /^(\d{4})-(\d{2})-(\d{2})/.exec(d || ''); if (!m) return '';
+    var dt = new Date(Date.UTC(+m[1], +m[2] - 1, +m[3]));
+    var day = t('days')[dt.getUTCDay()], mon = t('months')[dt.getUTCMonth()];
+    if (lang === 'en') return day + ', ' + mon + ' ' + (+m[3]) + ', ' + m[1];
+    return day + ' ' + (+m[3]) + ' ' + mon + ' ' + m[1];
+  }
+  function fmtTime(s) {
+    var m = /^(\d{1,2}):(\d{2})/.exec(s || ''); if (!m) return '';
+    var h = +m[1], mi = m[2];
+    if (lang === 'fr') return h + 'h' + mi;
+    return ((h % 12) || 12) + ':' + mi + (h < 12 ? ' AM' : ' PM');
+  }
+  function priceLine(ev) {
+    var ps = (ev.tickets || []).map(function (x) { return Number(x.price) || 0; }).filter(function (p) { return p > 0; });
+    if (!ps.length) return t('free');
+    var lo = Math.min.apply(null, ps), distinct = ps.filter(function (p, i) { return ps.indexOf(p) === i; });
+    return distinct.length > 1 ? t('from', { p: num(lo) }) : t('single', { p: num(lo) });
+  }
+  function isFree(ev) { return !(ev.tickets || []).some(function (x) { return Number(x.price) > 0; }); }
+  function defaultWords(ev) {
+    var when = fmtDate(ev.date), tm = fmtTime(ev.startTime);
+    return { title: ev.title || '', date: when + (tm ? ' • ' + tm : ''), place: ev.location || '', price: priceLine(ev),
+             showPhoto: true, showLogo: true, showSp: true };
+  }
+
+  /* ── drawing ──────────────────────────────────────────────────────────── */
+  function cover(ctx, img, x, y, w, h) {
+    var iw = img.naturalWidth || img.width, ih = img.naturalHeight || img.height;
+    var s = Math.max(w / iw, h / ih), dw = iw * s, dh = ih * s;
+    ctx.drawImage(img, x + (w - dw) / 2, y + (h - dh) / 2, dw, dh);
+  }
+  /* A logo is only ever scaled, aspect kept, to fit its box - never stretched. */
+  function contain(ctx, img, x, y, w, h) {
+    var iw = img.naturalWidth || img.width, ih = img.naturalHeight || img.height;
+    var s = Math.min(w / iw, h / ih), dw = iw * s, dh = ih * s;
+    ctx.drawImage(img, x + (w - dw) / 2, y + (h - dh) / 2, dw, dh);
+  }
+  function rr(ctx, x, y, w, h, r) {
+    ctx.beginPath(); ctx.moveTo(x + r, y); ctx.arcTo(x + w, y, x + w, y + h, r); ctx.arcTo(x + w, y + h, x, y + h, r);
+    ctx.arcTo(x, y + h, x, y, r); ctx.arcTo(x, y, x + w, y, r); ctx.closePath();
+  }
+  function wrap(ctx, text, maxW) {
+    var words = String(text || '').split(/\s+/).filter(Boolean), lines = [], cur = '';
+    words.forEach(function (w) {
+      var test = cur ? cur + ' ' + w : w;
+      if (ctx.measureText(test).width <= maxW || !cur) cur = test; else { lines.push(cur); cur = w; }
+    });
+    if (cur) lines.push(cur);
+    return lines;
+  }
+  /* Biggest size at which the title fits in maxLines; long words are shrunk
+     until they fit the width rather than spilling off the picture. */
+  function fitText(ctx, text, font, maxW, maxLines, big, small) {
+    for (var size = big; size >= small; size -= 2) {
+      ctx.font = font.replace('{s}', size);
+      var lines = wrap(ctx, text, maxW);
+      var widest = Math.max.apply(null, lines.map(function (l) { return ctx.measureText(l).width; }).concat([0]));
+      if (lines.length <= maxLines && widest <= maxW) return { size: size, lines: lines };
+    }
+    ctx.font = font.replace('{s}', small);
+    return { size: small, lines: wrap(ctx, text, maxW).slice(0, maxLines) };
+  }
+  function shadowText(ctx, on) {
+    ctx.shadowColor = on ? 'rgba(0,0,0,.55)' : 'transparent'; ctx.shadowBlur = on ? 18 : 0; ctx.shadowOffsetY = on ? 3 : 0;
+  }
+
+  var VARIANTS = [
+    { accent: '#FFD54A', titleFont: '800 {s}px "Plus Jakarta Sans", sans-serif', titleCase: true, titlePos: 'top', photoPos: 'mid' },
+    { accent: '#FF4D6D', titleFont: '800 {s}px "Plus Jakarta Sans", sans-serif', titleCase: true, titlePos: 'low', photoPos: 'top' },
+    { accent: '#E8B82E', titleFont: '400 {s}px "DM Serif Display", serif', titleCase: false, titlePos: 'panel', photoPos: 'none' }
+  ];
+
+  function drawFlyer(canvas, W, H, bg, vi, words, opts) {
+    var V = VARIANTS[vi % VARIANTS.length];
+    canvas.width = W; canvas.height = H;
+    var ctx = canvas.getContext('2d');
+    var m = Math.round(W * 0.06), square = H / W < 1.2;
+    ctx.fillStyle = '#0A0E1A'; ctx.fillRect(0, 0, W, H);
+    if (bg) cover(ctx, bg, 0, 0, W, H);
+
+    var g = ctx.createLinearGradient(0, 0, 0, H * 0.42);
+    g.addColorStop(0, 'rgba(5,8,20,.78)'); g.addColorStop(1, 'rgba(5,8,20,0)');
+    ctx.fillStyle = g; ctx.fillRect(0, 0, W, H * 0.42);
+    var g2 = ctx.createLinearGradient(0, H * 0.42, 0, H);
+    g2.addColorStop(0, 'rgba(5,8,20,0)'); g2.addColorStop(0.45, 'rgba(5,8,20,.72)'); g2.addColorStop(1, 'rgba(5,8,20,.94)');
+    ctx.fillStyle = g2; ctx.fillRect(0, H * 0.42, W, H * 0.58);
+    if (V.titlePos === 'panel') { ctx.fillStyle = 'rgba(5,8,20,.22)'; ctx.fillRect(0, 0, W, H); }
+
+    /* sponsors band at the very bottom */
+    var sp = (words.showSp && opts.sponsors) ? opts.sponsors : [];
+    var bandH = sp.length ? Math.round(H * (square ? 0.1 : 0.085)) : 0;
+    var bottom = H - m * 0.7 - bandH;
+    if (sp.length) {
+      var by = H - bandH - Math.round(m * 0.5), bx = m * 0.6, bw = W - m * 1.2;
+      ctx.fillStyle = 'rgba(255,255,255,.96)'; rr(ctx, bx, by, bw, bandH, 18); ctx.fill();
+      ctx.fillStyle = '#5A6B8A'; ctx.font = '800 ' + Math.round(bandH * 0.16) + 'px "Plus Jakarta Sans", sans-serif';
+      ctx.textAlign = 'left'; ctx.textBaseline = 'middle';
+      var lbl = t('sponsors'), lw = ctx.measureText(lbl).width + bandH * 0.3;
+      ctx.fillText(lbl, bx + bandH * 0.22, by + bandH / 2);
+      var slotW = (bw - lw - bandH * 0.3) / sp.length, pad = bandH * 0.16;
+      sp.forEach(function (img, i) { contain(ctx, img, bx + lw + i * slotW + pad / 2, by + pad, slotW - pad, bandH - pad * 2); });
+      bottom = by - m * 0.45;
+    }
+
+    /* QR card bottom-right - the PUBLIC event page, not a ticket */
+    var qS = Math.round(W * (square ? 0.2 : 0.235)), capH = Math.round(qS * 0.2);
+    var qx = W - m - qS, qy = bottom - qS - capH;
+    ctx.fillStyle = '#fff'; rr(ctx, qx - 12, qy - 12, qS + 24, qS + capH + 20, 20); ctx.fill();
+    if (opts.qr) { ctx.imageSmoothingEnabled = false; ctx.drawImage(opts.qr, qx, qy, qS, qS); ctx.imageSmoothingEnabled = true; }
+    ctx.fillStyle = '#0A0E1A'; ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
+    var cap = opts.free ? t('qrCapFree') : t('qrCap');
+    var cf = fitText(ctx, cap, '800 {s}px "Plus Jakarta Sans", sans-serif', qS + 8, 1, Math.round(capH * 0.5), 10);
+    ctx.font = '800 ' + cf.size + 'px "Plus Jakarta Sans", sans-serif';
+    ctx.fillText(cf.lines[0] || cap, qx + qS / 2, qy + qS + capH * 0.5);
+
+    /* logo top-left */
+    var logoS = Math.round(W * 0.15), topY = m;
+    if (words.showLogo && opts.logo) {
+      ctx.fillStyle = 'rgba(255,255,255,.96)'; rr(ctx, m, m, logoS, logoS, 18); ctx.fill();
+      contain(ctx, opts.logo, m + 10, m + 10, logoS - 20, logoS - 20);
+    }
+    /* event type pill top-right */
+    if (opts.typeLabel) {
+      ctx.font = '800 ' + Math.round(W * 0.026) + 'px "Plus Jakarta Sans", sans-serif';
+      var pl = opts.typeLabel.toUpperCase(), pw = ctx.measureText(pl).width + W * 0.05, ph = W * 0.058;
+      ctx.fillStyle = V.accent; rr(ctx, W - m - pw, m, pw, ph, ph / 2); ctx.fill();
+      ctx.fillStyle = '#14100A'; ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
+      ctx.fillText(pl, W - m - pw / 2, m + ph / 2 + 1);
+    }
+
+    /* info block, left of the QR */
+    var infoW = qx - m - W * 0.04;
+    var lines = [];
+    if (words.date) lines.push({ t: words.date, w: 800, c: '#fff', s: W * 0.036 });
+    if (words.place) lines.push({ t: words.place, w: 700, c: 'rgba(255,255,255,.88)', s: W * 0.032 });
+    var y = bottom - capH * 0.2;
+    ctx.textAlign = 'left'; ctx.textBaseline = 'alphabetic'; shadowText(ctx, true);
+    var priceH = 0;
+    if (words.price) {
+      ctx.font = '800 ' + Math.round(W * 0.034) + 'px "Plus Jakarta Sans", sans-serif';
+      var pf = fitText(ctx, words.price, '800 {s}px "Plus Jakarta Sans", sans-serif', infoW - W * 0.05, 1, Math.round(W * 0.034), 14);
+      ctx.font = '800 ' + pf.size + 'px "Plus Jakarta Sans", sans-serif';
+      var ptw = ctx.measureText(pf.lines[0]).width + W * 0.045; priceH = pf.size * 1.9;
+      shadowText(ctx, false);
+      ctx.fillStyle = V.accent; rr(ctx, m, y - priceH, ptw, priceH, priceH / 2); ctx.fill();
+      ctx.fillStyle = '#14100A'; ctx.textBaseline = 'middle'; ctx.fillText(pf.lines[0], m + W * 0.0225, y - priceH / 2 + 1);
+      ctx.textBaseline = 'alphabetic'; shadowText(ctx, true);
+      y -= priceH + W * 0.03;
+    }
+    for (var i = lines.length - 1; i >= 0; i--) {
+      var L = lines[i];
+      var ff = fitText(ctx, L.t, L.w + ' {s}px "Plus Jakarta Sans", sans-serif', infoW, 2, Math.round(L.s), 14);
+      ctx.font = L.w + ' ' + ff.size + 'px "Plus Jakarta Sans", sans-serif'; ctx.fillStyle = L.c;
+      for (var j = ff.lines.length - 1; j >= 0; j--) { ctx.fillText(ff.lines[j], m, y); y -= ff.size * 1.25; }
+      y -= W * 0.012;
+    }
+    /* Nothing above may run into the QR card or its label. */
+    var infoTop = Math.min(y, qy - 12 - W * 0.045);
+
+    /* title */
+    var title = V.titleCase ? String(words.title || '').toUpperCase() : String(words.title || '');
+    var titleTop = m + Math.max(logoS, W * 0.058) + W * 0.05;
+    var photo = (words.showPhoto && opts.photo && !square) ? opts.photo : null;
+    var tf, ty;
+    if (V.titlePos === 'panel') {
+      tf = fitText(ctx, title, V.titleFont, W - m * 2.6, 4, Math.round(W * 0.12), Math.round(W * 0.055));
+      var lh = tf.size * 1.08, blockH = tf.lines.length * lh;
+      var py = Math.max(titleTop, (infoTop + titleTop) / 2 - blockH / 2 - W * 0.04);
+      ctx.fillStyle = V.accent; ctx.fillRect(W / 2 - W * 0.08, py - W * 0.045, W * 0.16, 5);
+      ctx.font = V.titleFont.replace('{s}', tf.size); ctx.textAlign = 'center'; ctx.fillStyle = '#fff';
+      tf.lines.forEach(function (l, k) { ctx.fillText(l, W / 2, py + tf.size + k * lh); });
+      ctx.fillStyle = V.accent; ctx.fillRect(W / 2 - W * 0.08, py + blockH + W * 0.04, W * 0.16, 5);
+    } else if (V.titlePos === 'top') {
+      tf = fitText(ctx, title, V.titleFont, W - m * 2, 3, Math.round(W * (square ? 0.085 : 0.105)), Math.round(W * 0.05));
+      ctx.font = V.titleFont.replace('{s}', tf.size); ctx.textAlign = 'left'; ctx.fillStyle = '#fff';
+      tf.lines.forEach(function (l, k) { ctx.fillText(l, m, titleTop + tf.size + k * tf.size * 1.05); });
+      ty = titleTop + tf.size * 1.05 * tf.lines.length;
+      ty += tf.size * 0.25;
+      ctx.fillStyle = V.accent; ctx.fillRect(m, ty, W * 0.14, 8);
+      if (photo) drawPhoto(ctx, photo, W / 2, (ty + infoTop) / 2 + W * 0.01, Math.min(W * 0.2, (infoTop - ty) / 2 - W * 0.04), V.accent);
+    } else {
+      tf = fitText(ctx, title, V.titleFont, W - m * 2, 3, Math.round(W * (square ? 0.08 : 0.095)), Math.round(W * 0.05));
+      var lh2 = tf.size * 1.05, tb = infoTop - W * 0.03;
+      /* this one sits on the busiest part of the picture - a soft band keeps it readable */
+      var bandTop = tb - lh2 * tf.lines.length - W * 0.02;
+      var gb = ctx.createLinearGradient(0, bandTop - W * 0.06, 0, tb + W * 0.04);
+      gb.addColorStop(0, 'rgba(5,8,20,0)'); gb.addColorStop(0.3, 'rgba(5,8,20,.55)'); gb.addColorStop(1, 'rgba(5,8,20,.55)');
+      shadowText(ctx, false); ctx.fillStyle = gb; ctx.fillRect(0, bandTop - W * 0.06, W, tb + W * 0.04 - bandTop + W * 0.06); shadowText(ctx, true);
+      ctx.font = V.titleFont.replace('{s}', tf.size); ctx.textAlign = 'left'; ctx.fillStyle = '#fff';
+      for (var k = tf.lines.length - 1; k >= 0; k--) { ctx.fillText(tf.lines[k], m, tb); tb -= lh2; }
+      ctx.fillStyle = V.accent; ctx.fillRect(m, tb + lh2 - tf.size - W * 0.03, W * 0.14, 8);
+      if (photo) drawPhoto(ctx, photo, W / 2, titleTop + (tb - titleTop) / 2, Math.min(W * 0.22, (tb - titleTop) / 2 - W * 0.02), V.accent);
+    }
+    shadowText(ctx, false);
+
+    ctx.fillStyle = 'rgba(255,255,255,.75)'; ctx.font = '700 ' + Math.round(W * 0.02) + 'px "Plus Jakarta Sans", sans-serif';
+    ctx.textAlign = 'right'; ctx.textBaseline = 'alphabetic';
+    ctx.fillText('tikelakay.com', W - m, qy - 22);
+  }
+  function drawPhoto(ctx, img, cx, cy, r, ring) {
+    if (!(r > 20)) return;
+    ctx.save(); ctx.beginPath(); ctx.arc(cx, cy, r, 0, Math.PI * 2); ctx.closePath(); ctx.clip();
+    cover(ctx, img, cx - r, cy - r, r * 2, r * 2); ctx.restore();
+    ctx.lineWidth = Math.max(6, r * 0.05); ctx.strokeStyle = ring; ctx.beginPath(); ctx.arc(cx, cy, r, 0, Math.PI * 2); ctx.stroke();
+  }
+
+  /* A stand-in background for the preview before anything is paid for. */
+  function sampleBg(ev) {
+    var c = document.createElement('canvas'); c.width = 1024; c.height = 1536;
+    var x = c.getContext('2d'), g = x.createLinearGradient(0, 0, 1024, 1536);
+    g.addColorStop(0, '#00209F'); g.addColorStop(0.55, '#4A2BD1'); g.addColorStop(1, '#D21034');
+    x.fillStyle = g; x.fillRect(0, 0, 1024, 1536);
+    for (var i = 0; i < 28; i++) { x.fillStyle = 'rgba(255,255,255,' + (0.03 + (i % 5) * 0.012) + ')'; x.beginPath(); x.arc((i * 137) % 1024, (i * 251) % 1536, 40 + (i * 23) % 160, 0, Math.PI * 2); x.fill(); }
+    return c;
+  }
+
+  function sponsorImgs(ev) {
+    var list = (ev.sponsors || []).filter(function (s) { return /^data:image\/(png|jpeg|webp);base64,/.test(s.logo || ''); });
+    return Promise.all(list.map(function (s) { return loadImg(s.logo).catch(function () { return null; }); }))
+      .then(function (a) { return a.filter(Boolean); });
+  }
+  function typeLabel(ev) {
+    if (ev.typeCustom) return ev.typeCustom;
+    try { if (window.EventTypes && ev.type) return EventTypes.labelForKey(ev.type, lang === 'ht' ? 'ht' : lang); } catch (e) {}
+    return ev.typeLabel || '';
+  }
+
+  /* ── assets the organiser adds (kept on this phone only) ─────────────── */
+  function assetsKey() { return 'tl_flyer_assets_' + (EID || (ORDER && ORDER.eventId) || ''); }
+  function loadAssets() { var a = ls(assetsKey()) || {}; ASSETS.photo = a.photo || ''; ASSETS.logo = a.logo || ''; }
+  function saveAssets() { ls(assetsKey(), { photo: ASSETS.photo, logo: ASSETS.logo }); }
+  function shrink(file, maxW, maxH, png) {
+    return new Promise(function (res, rej) {
+      var url = URL.createObjectURL(file), im = new Image();
+      im.onload = function () {
+        var s = Math.min(1, maxW / im.naturalWidth, maxH / im.naturalHeight);
+        var c = document.createElement('canvas'); c.width = Math.round(im.naturalWidth * s); c.height = Math.round(im.naturalHeight * s);
+        c.getContext('2d').drawImage(im, 0, 0, c.width, c.height); URL.revokeObjectURL(url);
+        res(png ? c.toDataURL('image/png') : c.toDataURL('image/jpeg', 0.86));
+      };
+      im.onerror = function () { URL.revokeObjectURL(url); rej(); };
+      im.src = url;
+    });
+  }
+  function pick(which, after) {
+    var inp = document.getElementById(which === 'photo' ? 'filePhoto' : 'fileLogo');
+    inp.onchange = function () {
+      var f = inp.files && inp.files[0]; inp.value = ''; if (!f) return;
+      shrink(f, which === 'photo' ? 900 : 400, which === 'photo' ? 900 : 400, which === 'logo').then(function (d) {
+        ASSETS[which] = d; saveAssets(); after();
+      }).catch(function () {});
+    };
+    inp.click();
+  }
+
+  function remember(ref, ev) {
+    var list = ls('tl_flyers') || [];
+    if (!list.some(function (x) { return x.ref === ref; })) list.unshift({ ref: ref, eventId: ev._id, title: ev.title, at: Date.now() });
+    ls('tl_flyers', list.slice(0, 30));
+  }
+
+  /* ── screens ──────────────────────────────────────────────────────────── */
+  function screenNoEvent() {
+    var list = ls('tl_flyers') || [];
+    app.innerHTML = '<div class="card hero"><h2>' + esc(t('heroT')) + '</h2><p>' + esc(t('heroP')) + '</p></div>' +
+      (list.length ? '<div class="card mine"><h3>' + esc(t('mine')) + '</h3>' + list.map(function (x) {
+        return '<a href="flyer-ai.html?ref=' + encodeURIComponent(x.ref) + '"><span>' + esc(x.title || '') + '</span><span>›</span></a>';
+      }).join('') + '</div>' : '') +
+      '<div class="card"><p class="hint" style="font-size:.9rem;margin:0">' + esc(t('none')) + '</p><a class="btn btn-blue" href="events.html#kont">' + esc(t('goKont')) + '</a></div>';
+  }
+
+  function screenOrder() {
+    var ev = EV;
+    if (ev.status === 'cancelled') { app.innerHTML = '<div class="card"><h3>' + esc(t('cancelled')) + '</h3></div>'; return; }
+    loadAssets();
+    var looks = t('looks');
+    app.innerHTML =
+      '<div class="card hero"><h2>' + esc(t('heroT')) + '</h2><p>' + esc(t('heroP')) + '</p><span class="price-tag">' + esc(t('priceTag', { p: num(CFG.price) })) + '</span></div>' +
+      '<div class="card"><h3>' + esc(t('yourEvent')) + '</h3><div class="ev"><b>' + esc(ev.title) + '</b><small>' + esc(fmtDate(ev.date)) + (ev.location ? ' · ' + esc(ev.location) : '') + '</small></div></div>' +
+      '<div class="card prev"><canvas id="sampleCv"></canvas><span class="tag">' + esc(t('sample')) + '</span><p class="hint">' + esc(t('sampleNote')) + '</p></div>' +
+      '<div class="card"><h3>' + esc(t('photos')) + '</h3><div class="up">' +
+        '<div class="upbox" id="upPhoto"><button class="x" aria-label="x">✕</button><span>' + esc(t('photo')) + '</span></div>' +
+        '<div class="upbox" id="upLogo"><button class="x" aria-label="x">✕</button><span>' + esc(t('logo')) + '</span></div></div>' +
+        '<label class="f">' + esc(t('look')) + '</label><input type="text" id="look" maxlength="160" placeholder="' + esc(t('lookPh')) + '">' +
+        '<div class="chips">' + looks.map(function (l) { return '<button class="chip" type="button">' + esc(l) + '</button>'; }).join('') + '</div></div>' +
+      '<div class="card"><h3>' + esc(t('payWith')) + '</h3><div class="pay" id="pay">' +
+        '<button data-m="moncash" type="button">MonCash</button><button data-m="natcash" type="button">NatCash</button>' +
+        (CFG.methods.card ? '<button data-m="card" type="button">💳 ' + esc(t('card')) + '</button>' : '') + '</div>' +
+        '<label class="f">' + esc(t('phone')) + '</label><input type="tel" id="phone" maxlength="20" placeholder="+509">' +
+        '<button class="btn btn-main" id="payBtn">' + esc(t('payBtn', { p: num(CFG.price) })) + '</button><div class="err" id="err"></div></div>';
+
+    var lookIn = document.getElementById('look'); lookIn.value = form.look;
+    lookIn.oninput = function () { form.look = lookIn.value; syncChips(); };
+    function syncChips() { app.querySelectorAll('.chip').forEach(function (c) { c.classList.toggle('on', c.textContent === form.look); }); }
+    app.querySelectorAll('.chip').forEach(function (c) { c.onclick = function () { form.look = form.look === c.textContent ? '' : c.textContent; lookIn.value = form.look; syncChips(); }; });
+    syncChips();
+    var ph = document.getElementById('phone'); ph.value = form.phone; ph.oninput = function () { form.phone = ph.value; };
+    function syncPay() { app.querySelectorAll('#pay button').forEach(function (b) { b.classList.toggle('on', b.getAttribute('data-m') === form.method); }); }
+    app.querySelectorAll('#pay button').forEach(function (b) { b.onclick = function () { form.method = b.getAttribute('data-m'); syncPay(); }; });
+    syncPay();
+
+    function syncUp() {
+      [['photo', 'upPhoto'], ['logo', 'upLogo']].forEach(function (p) {
+        var box = document.getElementById(p[1]), has = !!ASSETS[p[0]];
+        box.classList.toggle('has', has);
+        var img = box.querySelector('img');
+        if (has) { if (!img) { img = document.createElement('img'); box.insertBefore(img, box.querySelector('span')); } img.src = ASSETS[p[0]]; }
+        else if (img) img.remove();
+      });
+      drawSample();
+    }
+    ['photo', 'logo'].forEach(function (w) {
+      var box = document.getElementById(w === 'photo' ? 'upPhoto' : 'upLogo');
+      box.onclick = function (e) { if (e.target.classList.contains('x')) return; pick(w, syncUp); };
+      box.querySelector('.x').onclick = function (e) { e.stopPropagation(); ASSETS[w] = ''; saveAssets(); syncUp(); };
+    });
+
+    var sampleBgCv = sampleBg(ev);
+    function drawSample() {
+      Promise.all([fontsReady(), sponsorImgs(ev), ASSETS.photo ? loadImg(ASSETS.photo) : null, ASSETS.logo ? loadImg(ASSETS.logo) : null,
+                   QR ? QR : loadBlobImg(API + '/api/flyers/qr/' + encodeURIComponent(ev._id)).then(function (q) { QR = q; return q; }).catch(function () { return null; })])
+        .then(function (r) {
+          drawFlyer(document.getElementById('sampleCv'), 720, 1080, sampleBgCv, 0, defaultWords(ev),
+            { sponsors: r[1], photo: r[2], logo: r[3], qr: r[4], free: isFree(ev), typeLabel: typeLabel(ev) });
+        });
+    }
+    syncUp();
+
+    document.getElementById('payBtn').onclick = function () {
+      var btn = this, err = document.getElementById('err');
+      btn.disabled = true; btn.textContent = t('opening'); err.style.display = 'none';
+      getJSON('/api/flyers/order', { method: 'POST', headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ eventId: ev._id, paymentMethod: form.method, phone: form.phone, look: form.look }) })
+        .then(function (d) {
+          if (d && d.success && d.paymentUrl) { remember(d.referenceId, ev); location.href = d.paymentUrl; return; }
+          throw new Error((d && d.error) || t('err'));
+        }).catch(function (e) {
+          btn.disabled = false; btn.textContent = t('payBtn', { p: num(CFG.price) });
+          err.textContent = (e && e.message) || t('err'); err.style.display = 'block';
+        });
+    };
+  }
+
+  function screenWait(o) {
+    clearTimeout(pollTimer);
+    var html;
+    if (o.status === 'pending') {
+      html = '<div class="card wait"><div class="spin"></div><b>' + esc(t('pending')) + '</b><p>' + esc(t('pendingP')) + '</p>' +
+        (o.paymentUrl ? '<a class="btn btn-blue" href="' + esc(o.paymentUrl) + '">' + esc(t('continuePay')) + '</a>' : '') + '</div>';
+    } else if (o.status === 'failed') {
+      html = '<div class="card wait"><b>' + esc(t('failed')) + '</b>' +
+        (o.canRetry ? '<p>' + esc(t('failedP')) + '</p><button class="btn btn-main" id="retryBtn">' + esc(t('retry')) + '</button>'
+                    : '<p>' + esc(t('failedHelp')) + '</p><a class="btn btn-wa" target="_blank" rel="noopener" href="https://wa.me/' + HELP_WA + '?text=' +
+                      encodeURIComponent('Flyer AI ' + o.referenceId) + '">' + esc(t('help')) + '</a>') + '</div>';
+    } else {
+      html = '<div class="card wait"><div class="spin"></div><b>' + esc(t('making')) + '</b><p>' + esc(t('makingP')) + '</p></div>';
+    }
+    app.innerHTML = '<div class="card"><div class="ev"><b>' + esc(o.eventTitle) + '</b></div></div>' + html +
+      '<p class="ref">' + esc(t('ref')) + ': ' + esc(o.referenceId) + '</p>';
+    var rb = document.getElementById('retryBtn');
+    if (rb) rb.onclick = function () { rb.disabled = true; getJSON('/api/flyers/' + encodeURIComponent(o.referenceId) + '/retry', { method: 'POST' }).then(poll, poll); };
+    if (o.status !== 'failed' || !o.canRetry) pollTimer = setTimeout(poll, o.status === 'failed' ? 30000 : 3000);
+  }
+
+  function screenReady(o) {
+    var ev = EV;
+    loadAssets();
+    var key = 'tl_flyer_words_' + o.referenceId + '_' + lang;
+    EDIT = EDIT || ls(key) || defaultWords(ev);
+    app.innerHTML =
+      '<div class="card"><h3 class="ok">' + esc(t('ready')) + '</h3><p class="hint" style="margin:0">' + esc(t('readyP')) + '</p></div>' +
+      '<div class="card"><details class="edit"><summary>' + esc(t('edit')) + '</summary>' +
+        '<label class="f">' + esc(t('fTitle')) + '</label><input type="text" id="wTitle" maxlength="90">' +
+        '<label class="f">' + esc(t('fDate')) + '</label><input type="text" id="wDate" maxlength="70">' +
+        '<label class="f">' + esc(t('fPlace')) + '</label><input type="text" id="wPlace" maxlength="90">' +
+        '<label class="f">' + esc(t('fPrice')) + '</label><input type="text" id="wPrice" maxlength="40">' +
+        '<label class="tog"><input type="checkbox" id="wPhoto"> ' + esc(t('showPhoto')) + '</label>' +
+        '<label class="tog"><input type="checkbox" id="wLogo"> ' + esc(t('showLogo')) + '</label>' +
+        ((ev.sponsors || []).length ? '<label class="tog"><input type="checkbox" id="wSp"> ' + esc(t('showSp')) + '</label>' : '') +
+        '<div class="up" style="margin-top:12px"><button class="btn btn-line" id="chPhoto" type="button" style="margin:0">' + esc(t('changePhoto')) + '</button>' +
+        '<button class="btn btn-line" id="chLogo" type="button" style="margin:0">' + esc(t('changeLogo')) + '</button></div>' +
+      '</details></div>' +
+      '<div class="designs">' + o.images.map(function (im, i) {
+        return '<div class="card design"><h4>' + esc(t('design')) + ' ' + (i + 1) + '</h4><canvas data-i="' + i + '"></canvas>' +
+          '<div class="acts"><button class="btn btn-wa wide" data-act="share" data-i="' + i + '">' + esc(t('share')) + '</button>' +
+          '<button class="btn btn-blue" data-act="dlp" data-i="' + i + '">' + esc(t('dlPortrait')) + '</button>' +
+          '<button class="btn btn-line" data-act="dls" data-i="' + i + '">' + esc(t('dlSquare')) + '</button></div></div>';
+      }).join('') + '</div><p class="ref">' + esc(t('ref')) + ': ' + esc(o.referenceId) + '</p>';
+
+    var bind = [['wTitle', 'title'], ['wDate', 'date'], ['wPlace', 'place'], ['wPrice', 'price']];
+    var timer = null;
+    function changed() { ls(key, EDIT); clearTimeout(timer); timer = setTimeout(redrawAll, 250); }
+    bind.forEach(function (b) { var el = document.getElementById(b[0]); el.value = EDIT[b[1]] || ''; el.oninput = function () { EDIT[b[1]] = el.value; changed(); }; });
+    [['wPhoto', 'showPhoto'], ['wLogo', 'showLogo'], ['wSp', 'showSp']].forEach(function (b) {
+      var el = document.getElementById(b[0]); if (!el) return; el.checked = EDIT[b[1]] !== false; el.onchange = function () { EDIT[b[1]] = el.checked; changed(); };
+    });
+    document.getElementById('chPhoto').onclick = function () { pick('photo', function () { EDIT.showPhoto = true; refreshAssets().then(redrawAll); }); };
+    document.getElementById('chLogo').onclick = function () { pick('logo', function () { EDIT.showLogo = true; refreshAssets().then(redrawAll); }); };
+
+    function refreshAssets() {
+      return Promise.all([ASSETS.photo ? loadImg(ASSETS.photo) : null, ASSETS.logo ? loadImg(ASSETS.logo) : null])
+        .then(function (r) { PHOTO = r[0]; LOGO = r[1]; });
+    }
+    function opts() { return { sponsors: SPONS, photo: PHOTO, logo: LOGO, qr: QR, free: isFree(ev), typeLabel: typeLabel(ev) }; }
+    function redrawAll() {
+      app.querySelectorAll('.design canvas').forEach(function (cv) { var i = +cv.getAttribute('data-i'); drawFlyer(cv, 1080, 1620, BG[i], i, EDIT, opts()); });
+    }
+    function render(i, square) {
+      var cv = document.createElement('canvas');
+      drawFlyer(cv, 1080, square ? 1080 : 1620, BG[i], i, EDIT, opts());
+      return new Promise(function (res) { cv.toBlob(function (b) { res(b); }, 'image/png'); });
+    }
+    function fname(i, square) {
+      var slug = String(ev.title || 'evenman').normalize('NFD').replace(/[̀-ͯ]/g, '').toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '').slice(0, 40) || 'evenman';
+      return 'tikelakay-' + slug + '-' + (i + 1) + (square ? '-kare' : '') + '.png';
+    }
+    function download(blob, name, btn) {
+      var a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = name;
+      document.body.appendChild(a); a.click(); a.remove();
+      setTimeout(function () { URL.revokeObjectURL(a.href); }, 4000);
+      if (btn) { var old = btn.textContent; btn.textContent = t('saved'); setTimeout(function () { btn.textContent = old; }, 2000); }
+    }
+    app.querySelectorAll('.design .acts button').forEach(function (btn) {
+      btn.onclick = function () {
+        var i = +btn.getAttribute('data-i'), act = btn.getAttribute('data-act');
+        render(i, act === 'dls').then(function (blob) {
+          if (act !== 'share') return download(blob, fname(i, act === 'dls'), btn);
+          var file = new File([blob], fname(i, false), { type: 'image/png' });
+          var text = t('shareText', { t: ev.title || '' }) + ' ' + o.promoUrl;
+          if (navigator.canShare && navigator.canShare({ files: [file] })) {
+            navigator.share({ files: [file], text: text }).catch(function () {});
+          } else {
+            download(blob, fname(i, false), null);
+            window.open('https://wa.me/?text=' + encodeURIComponent(text), '_blank');
+          }
+        });
+      };
+    });
+
+    Promise.all([fontsReady(), refreshAssets(), sponsorImgs(ev).then(function (s) { SPONS = s; }),
+      QR ? QR : loadBlobImg(API + '/api/flyers/qr/' + encodeURIComponent(ev._id)).then(function (q) { QR = q; }).catch(function () {}),
+      Promise.all(o.images.map(function (im) { return BG[im.i] ? BG[im.i] : loadBlobImg(API + '/api/flyers/' + encodeURIComponent(o.referenceId) + '/img/' + im.i).then(function (b) { BG[im.i] = b; return b; }); }))
+    ]).then(redrawAll);
+  }
+
+  function poll() {
+    getJSON('/api/flyers/' + encodeURIComponent(REF)).then(function (o) {
+      if (o._s === 404) { app.innerHTML = '<div class="card"><h3>' + esc(t('notFound')) + '</h3></div>'; return; }
+      ORDER = o;
+      var go = function () { if (o.status === 'ready') screenReady(o); else screenWait(o); };
+      if (o.status === 'ready' && (!EV || EV._id !== o.eventId)) {
+        getJSON('/api/events/' + encodeURIComponent(o.eventId)).then(function (ev) { EV = ev && ev._id ? ev : { _id: o.eventId, title: o.eventTitle }; go(); });
+      } else go();
+    }).catch(function () { clearTimeout(pollTimer); pollTimer = setTimeout(poll, 5000); });
+  }
+
+  function route() {
+    drawLangs();
+    if (REF) {
+      if (ORDER && ORDER.status === 'ready' && EV) return screenReady(ORDER);
+      return poll();
+    }
+    if (!EID) return screenNoEvent();
+    Promise.all([getJSON('/api/events/' + encodeURIComponent(EID)), getJSON('/api/flyers/config')]).then(function (r) {
+      var ev = r[0], cfg = r[1];
+      if (cfg && cfg.price) CFG = cfg;
+      if (!ev || !ev._id) { app.innerHTML = '<div class="card"><h3>' + esc(t('notFound')) + '</h3></div>'; return; }
+      EV = ev;
+      if (CFG.ai === false) { app.innerHTML = '<div class="card"><h3>' + esc(t('noAi')) + '</h3></div>'; return; }
+      screenOrder();
+    }).catch(function () { app.innerHTML = '<div class="card"><h3>' + esc(t('err')) + '</h3></div>'; });
+  }
+  route();
+})();
+</script>
+<script src="js/msw-return.js?v=1" defer></script>
+</body>
+</html>
