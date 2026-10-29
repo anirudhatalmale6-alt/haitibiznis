@@ -1072,6 +1072,15 @@ function urlLang(){try{var q=(new URLSearchParams(location.search).get('lang')||
   return ['ht','fr','en','es','pt'].indexOf(q)>=0?q:null;}catch(e){return null;}}
 let lang=urlLang()||localStorage.getItem('hb_lang')||'ht';
 if(urlLang()){try{localStorage.setItem('hb_lang',lang);}catch(e){}}
+/* 29 Oct 2026: the Ajan phone number in Settings. */
+var T_APH={
+  ht:{aph_btn:'Nimewo telefòn Ajan mwen',aph_none:'pa gen',aph_t:'Nimewo telefòn Ajan ou',aph_s:'Mete MENM nimewo ki sou badj Ajan ou an. Se avè l HaitiBiznis konnen jou gratis ou yo (pilòt 30 jou).',aph_ok:'✅ Nimewo a anrejistre. App la gratis jiska {d}.',aph_saved:'✅ Nimewo a anrejistre.',aph_off:'Nimewo a anrejistre, men nou pa ka verifye ak sèvè a kounye a (entènèt). N ap eseye ankò pita.'},
+  fr:{aph_btn:'Mon numéro d’Ajan',aph_none:'aucun',aph_t:'Votre numéro d’Ajan',aph_s:'Entrez le MÊME numéro que sur votre badge d’Ajan. C’est avec lui que HaitiBiznis reconnaît vos jours gratuits (pilote 30 jours).',aph_ok:'✅ Numéro enregistré. L’app est gratuite jusqu’au {d}.',aph_saved:'✅ Numéro enregistré.',aph_off:'Numéro enregistré, mais le serveur ne répond pas (internet). Nouvel essai plus tard.'},
+  en:{aph_btn:'My Ajan phone number',aph_none:'none',aph_t:'Your Ajan phone number',aph_s:'Enter the SAME number as on your Ajan badge. That is how HaitiBiznis knows your free days (30-day pilot).',aph_ok:'✅ Number saved. The app is free until {d}.',aph_saved:'✅ Number saved.',aph_off:'Number saved, but the server cannot be reached (internet). It will try again later.'},
+  es:{aph_btn:'Mi número de Ajan',aph_none:'ninguno',aph_t:'Su número de Ajan',aph_s:'Ingrese el MISMO número que en su credencial de Ajan. Así HaitiBiznis reconoce sus días gratis (piloto de 30 días).',aph_ok:'✅ Número guardado. La app es gratis hasta el {d}.',aph_saved:'✅ Número guardado.',aph_off:'Número guardado, pero el servidor no responde (internet). Se intentará más tarde.'},
+  pt:{aph_btn:'Meu número de Ajan',aph_none:'nenhum',aph_t:'Seu número de Ajan',aph_s:'Digite o MESMO número do seu crachá de Ajan. É assim que a HaitiBiznis reconhece seus dias grátis (piloto de 30 dias).',aph_ok:'✅ Número salvo. O app é grátis até {d}.',aph_saved:'✅ Número salvo.',aph_off:'Número salvo, mas o servidor não responde (internet). Tentaremos mais tarde.'}
+};
+Object.keys(T_APH).forEach(function(l){if(T[l])Object.assign(T[l],T_APH[l]);});
 function t(k){return (T[lang]&&T[lang][k])||T.ht[k]||k;}
 function applyI18n(){document.documentElement.lang=lang;
   document.querySelectorAll('[data-i18n]').forEach(el=>{const k=el.getAttribute('data-i18n');if(T[lang][k]===undefined)return;if(k==='app_t')el.childNodes[0].nodeValue=T[lang].app_t;else el.textContent=T[lang][k];});
@@ -4253,6 +4262,7 @@ function renderSettings(){const cfg=getCfg();const box=document.getElementById('
     <button class="cta ghost" style="margin-bottom:6px" onclick="openAdmin(admPwForm)">🔑 ${t('adm_pw')}</button>
     <button class="cta ghost" style="margin-bottom:6px" onclick="myPinEntry()">🔢 ${t('emp_mypin')}${activeStaff()?' · '+escHtml(activeStaff().name):''}</button>
     ${team()?'':`<button class="cta ghost" style="margin-bottom:6px" onclick="tmcJoinForm()">🛡️ ${t('tmc_enter')}</button>`}
+    ${(team()||licLifetime())?'':`<button class="cta ghost" style="margin-bottom:6px" onclick="agentPhoneForm()">📱 ${t('aph_btn')} · ${escHtml(agentPhone()||t('aph_none'))}</button>`}
     ${team()?`<div style="font-size:12.5px;font-weight:700;color:#0b6b37;margin-bottom:10px">🛡️ ${t('adm_badge')} · ${escHtml(team().name)} — ${t('adm_nosub')}</div>`:'<div style="height:4px"></div>'}
     <hr style="border:none;border-top:1px solid var(--line);margin:12px 0">
     <button class="cta ghost" style="margin-bottom:10px" onclick="editBizName()">🏷️ ${t('set_bizname')}${bizName()?' · '+escHtml(bizName()):''}</button>
@@ -4943,6 +4953,34 @@ function askAgentPhoneOnce(){
       dismiss(v);
     };
   });
+}
+
+/* 29 Oct 2026, Jennifer: "Lè agent yo monte sou LajanMaker, koman pou yo retrouve
+   Kont yo?" There is no account to find - the app knows an Ajan only by the
+   phone number asked once at start-up, and somebody who pressed "Pita" or
+   mistyped it had no way to put it right, so the 30-day pilot given to the
+   number on their badge never reached their phone. This is that way. */
+function agentPhoneForm(){
+  var m=caOverlay('<div style="font-weight:900;font-size:17px;margin-bottom:2px">📱 '+t('aph_t')+'</div>'
+    +'<div class="sub" style="margin-bottom:10px">'+t('aph_s')+'</div>'
+    +'<input id="aphIn" type="tel" inputmode="tel" placeholder="+509 0000 0000" value="'+escHtml(agentPhone())+'">'
+    +'<div id="aphMsg" style="font-weight:700;font-size:13px;min-height:18px;margin-top:6px"></div>'
+    +'<button class="cta" id="aphGo" style="margin-top:4px">'+t('ph_save')+'</button>'
+    +'<button class="cta ghost" id="aphX" style="margin-top:8px">‹ '+t('back')+'</button>');
+  m.ov.style.zIndex='96';
+  m.box.querySelector('#aphX').onclick=function(){m.close();try{renderSettings();}catch(e){}};
+  m.box.querySelector('#aphGo').onclick=function(){
+    var v=m.box.querySelector('#aphIn').value,msg=m.box.querySelector('#aphMsg'),go=this;
+    if(phoneDigits(v).length<8){msg.style.color='#b91c1c';msg.textContent=t('ph_bad');return;}
+    saveAgentPhone(v);go.disabled=true;
+    trialSync().then(function(j){
+      go.disabled=false;msg.style.color='#0b6b37';
+      if(j&&j.trialEndsAt){var d=new Date(j.trialEndsAt);
+        msg.textContent=t('aph_ok').replace('{d}',d.toLocaleDateString(lang==='ht'?'fr':lang,{day:'numeric',month:'long',year:'numeric'}));}
+      else{msg.style.color='#b45309';msg.textContent=t('aph_off');}
+      try{renderSettings();}catch(e){}
+    });
+  };
 }
 
 /* Ask the server, then let the answer govern the TRIAL and nothing else. */

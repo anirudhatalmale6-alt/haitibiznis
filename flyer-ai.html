@@ -117,7 +117,7 @@ details.edit summary::-webkit-details-marker{display:none}
       fTitle: 'Tit', fDate: 'Dat ak lè', fPlace: 'Kote', fPrice: 'Pri', showPhoto: 'Montre foto a', showLogo: 'Montre logo a', showSp: 'Montre sponsò yo',
       changePhoto: 'Chanje foto', changeLogo: 'Chanje logo', qrCap: 'ESKANE POU ACHTE TIKÈ', qrCapFree: 'ESKANE POU W ENSKRI', sponsors: 'SPONSÒ',
       free: 'ANTRE GRATIS', from: 'Tikè apati {p} HTG', single: 'Tikè: {p} HTG', mine: 'Flyer mwen yo', none: 'Ouvri paj sa a depi nan Kont ou (bouton "🎨 Flyer AI" sou evènman ou).',
-      goKont: 'Ale nan Kont mwen', shareText: '{t} — Tikè sou Tikè Lakay:', saved: 'Telechaje ✅', ref: 'Referans',
+      goKont: 'Ale nan Kont mwen', pick: 'Chwazi evènman ou', noEv: 'Pa gen evènman ou kreye sou telefòn sa a. Kreye evènman ou an (gratis), pibliye l, epi tounen isit la.', create: '➕ Kreye Evènman', otherPhone: 'Si w te kreye evènman an sou yon lòt telefòn, louvri paj sa a sou telefòn sa a.', shareText: '{t} — Tikè sou Tikè Lakay:', saved: 'Telechaje ✅', ref: 'Referans',
       days: ['Dimanch', 'Lendi', 'Madi', 'Mèkredi', 'Jedi', 'Vandredi', 'Samdi'],
       months: ['Janvye', 'Fevriye', 'Mas', 'Avril', 'Me', 'Jen', 'Jiyè', 'Out', 'Septanm', 'Oktòb', 'Novanm', 'Desanm']
     },
@@ -138,7 +138,7 @@ details.edit summary::-webkit-details-marker{display:none}
       fTitle: 'Titre', fDate: 'Date et heure', fPlace: 'Lieu', fPrice: 'Prix', showPhoto: 'Afficher la photo', showLogo: 'Afficher le logo', showSp: 'Afficher les sponsors',
       changePhoto: 'Changer la photo', changeLogo: 'Changer le logo', qrCap: 'SCANNEZ POUR LES BILLETS', qrCapFree: 'SCANNEZ POUR VOUS INSCRIRE', sponsors: 'SPONSORS',
       free: 'ENTRÉE GRATUITE', from: 'Billets dès {p} HTG', single: 'Billet : {p} HTG', mine: 'Mes flyers', none: 'Ouvrez cette page depuis votre Compte (bouton « 🎨 Flyer AI » sur votre événement).',
-      goKont: 'Aller à mon compte', shareText: '{t} — Billets sur Tikè Lakay :', saved: 'Téléchargé ✅', ref: 'Référence',
+      goKont: 'Aller à mon compte', pick: 'Choisissez votre événement', noEv: 'Aucun événement créé sur ce téléphone. Créez votre événement (gratuit), publiez-le, puis revenez ici.', create: '➕ Créer un événement', otherPhone: 'Si vous avez créé l’événement sur un autre téléphone, ouvrez cette page sur ce téléphone-là.', shareText: '{t} — Billets sur Tikè Lakay :', saved: 'Téléchargé ✅', ref: 'Référence',
       days: ['Dimanche', 'Lundi', 'Mardi', 'Mercredi', 'Jeudi', 'Vendredi', 'Samedi'],
       months: ['janvier', 'février', 'mars', 'avril', 'mai', 'juin', 'juillet', 'août', 'septembre', 'octobre', 'novembre', 'décembre']
     },
@@ -159,7 +159,7 @@ details.edit summary::-webkit-details-marker{display:none}
       fTitle: 'Title', fDate: 'Date and time', fPlace: 'Place', fPrice: 'Price', showPhoto: 'Show the photo', showLogo: 'Show the logo', showSp: 'Show the sponsors',
       changePhoto: 'Change photo', changeLogo: 'Change logo', qrCap: 'SCAN FOR TICKETS', qrCapFree: 'SCAN TO REGISTER', sponsors: 'SPONSORS',
       free: 'FREE ENTRY', from: 'Tickets from {p} HTG', single: 'Ticket: {p} HTG', mine: 'My flyers', none: 'Open this page from your Account (the "🎨 Flyer AI" button on your event).',
-      goKont: 'Go to my account', shareText: '{t} — Tickets on Tikè Lakay:', saved: 'Downloaded ✅', ref: 'Reference',
+      goKont: 'Go to my account', pick: 'Choose your event', noEv: 'No event was created on this phone. Create your event (free), publish it, then come back here.', create: '➕ Create an event', otherPhone: 'If you created the event on another phone, open this page on that phone.', shareText: '{t} — Tickets on Tikè Lakay:', saved: 'Downloaded ✅', ref: 'Reference',
       days: ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'],
       months: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December']
     }
@@ -472,13 +472,22 @@ details.edit summary::-webkit-details-marker{display:none}
   }
 
   /* ── screens ──────────────────────────────────────────────────────────── */
+  /* 29 Oct 2026, Jeffery: "I didnt see Ai design maker". Opened with no event,
+     this page used to send people back to Kont; now it lists the events this
+     phone created (the ones it holds a manage code for) to pick from. */
   function screenNoEvent() {
     var list = ls('tl_flyers') || [];
-    app.innerHTML = '<div class="card hero"><h2>' + esc(t('heroT')) + '</h2><p>' + esc(t('heroP')) + '</p></div>' +
+    var manage = ls('tl_manage') || {};
+    var evs = (ls('tl_events') || []).filter(function (e) { return e && e._id && manage[e._id]; });
+    app.innerHTML = '<div class="card hero"><h2>' + esc(t('heroT')) + '</h2><p>' + esc(t('heroP')) + '</p><span class="price-tag">' + esc(t('priceTag', { p: num(CFG.price) })) + '</span></div>' +
+      (evs.length
+        ? '<div class="card mine"><h3>' + esc(t('pick')) + '</h3>' + evs.map(function (e) {
+            return '<a href="flyer-ai.html?id=' + encodeURIComponent(e._id) + '"><span>' + esc(e.title || '') + '<br><small style="color:var(--muted);font-weight:600">' + esc(fmtDate(e.date)) + '</small></span><span>🎨 ›</span></a>';
+          }).join('') + '</div>'
+        : '<div class="card"><p class="hint" style="font-size:.92rem;margin:0">' + esc(t('noEv')) + '</p><a class="btn btn-main" href="create-event.html">' + esc(t('create')) + '</a><p class="hint">' + esc(t('otherPhone')) + '</p></div>') +
       (list.length ? '<div class="card mine"><h3>' + esc(t('mine')) + '</h3>' + list.map(function (x) {
         return '<a href="flyer-ai.html?ref=' + encodeURIComponent(x.ref) + '"><span>' + esc(x.title || '') + '</span><span>›</span></a>';
-      }).join('') + '</div>' : '') +
-      '<div class="card"><p class="hint" style="font-size:.9rem;margin:0">' + esc(t('none')) + '</p><a class="btn btn-blue" href="events.html#kont">' + esc(t('goKont')) + '</a></div>';
+      }).join('') + '</div>' : '');
   }
 
   function screenOrder() {
@@ -672,7 +681,7 @@ details.edit summary::-webkit-details-marker{display:none}
       if (ORDER && ORDER.status === 'ready' && EV) return screenReady(ORDER);
       return poll();
     }
-    if (!EID) return screenNoEvent();
+    if (!EID) return getJSON('/api/flyers/config').then(function (c) { if (c && c.price) CFG = c; }).catch(function () {}).then(screenNoEvent);
     Promise.all([getJSON('/api/events/' + encodeURIComponent(EID)), getJSON('/api/flyers/config')]).then(function (r) {
       var ev = r[0], cfg = r[1];
       if (cfg && cfg.price) CFG = cfg;

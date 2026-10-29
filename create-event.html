@@ -497,6 +497,7 @@ img{max-width:100%;display:block}
 <div class="step" id="step2">
   <div class="form-card">
     <div class="form-card-title"><span class="icon">🎨</span> <span data-i18n="design_invitation">Desine Envitasyon</span></div>
+    <div id="aiFlyHint" style="background:linear-gradient(135deg,#EEF1FB,#F6EEFF);border:1px solid #D8DDF5;border-radius:12px;padding:10px 12px;margin-bottom:12px;font-size:.84rem;line-height:1.45;color:#2b1a7a;font-weight:600"></div>
     <div class="canvas-wrap">
       <canvas id="inviteCanvas" width="960" height="540"></canvas>
     </div>
@@ -2401,15 +2402,20 @@ var SPONSORS = [];
 var SP_MAX = 8;
 var SP_TXT = {
   ht: { title: 'Sponsò (opsyonèl)', note: 'Logo sponsò ou yo parèt sou chak tikè, sou paj evènman an ak sou flyer AI yo. Nou pa janm chanje logo yo.',
-        add: 'Ajoute yon sponsò (logo)', name: 'Non sponsò a', link: 'Lyen (opsyonèl)', max: 'Maksimòm 8 sponsò.', bad: 'Foto sa a pa ka itilize. Eseye yon PNG oswa JPG.', ai: 'Kreye 3 Flyer ak AI' },
+        add: 'Ajoute yon sponsò (logo)', name: 'Non sponsò a', link: 'Lyen (opsyonèl)', max: 'Maksimòm 8 sponsò.', bad: 'Foto sa a pa ka itilize. Eseye yon PNG oswa JPG.', ai: 'Kreye 3 Flyer ak AI',
+        hint: '✨ Flyer AK AI (3 desen pwofesyonèl, 500 HTG): fini evènman an epi pibliye l. Apre sa peze "🎨 Kreye 3 Flyer ak AI".' },
   fr: { title: 'Sponsors (facultatif)', note: 'Les logos de vos sponsors apparaissent sur chaque billet, sur la page de l’événement et sur les flyers IA. Nous ne modifions jamais les logos.',
-        add: 'Ajouter un sponsor (logo)', name: 'Nom du sponsor', link: 'Lien (facultatif)', max: '8 sponsors maximum.', bad: 'Image inutilisable. Essayez un PNG ou un JPG.', ai: 'Créer 3 flyers avec l’IA' },
+        add: 'Ajouter un sponsor (logo)', name: 'Nom du sponsor', link: 'Lien (facultatif)', max: '8 sponsors maximum.', bad: 'Image inutilisable. Essayez un PNG ou un JPG.', ai: 'Créer 3 flyers avec l’IA',
+        hint: '✨ Flyers avec l’IA (3 designs professionnels, 500 HTG) : terminez et publiez l’événement, puis appuyez sur « 🎨 Créer 3 flyers avec l’IA ».' },
   en: { title: 'Sponsors (optional)', note: 'Your sponsors’ logos appear on every ticket, on the event page and on the AI flyers. We never change the logos.',
-        add: 'Add a sponsor (logo)', name: 'Sponsor name', link: 'Link (optional)', max: '8 sponsors maximum.', bad: 'That image cannot be used. Try a PNG or JPG.', ai: 'Create 3 AI flyers' },
+        add: 'Add a sponsor (logo)', name: 'Sponsor name', link: 'Link (optional)', max: '8 sponsors maximum.', bad: 'That image cannot be used. Try a PNG or JPG.', ai: 'Create 3 AI flyers',
+        hint: '✨ AI flyers (3 professional designs, 500 HTG): finish and publish the event, then tap "🎨 Create 3 AI flyers".' },
   es: { title: 'Patrocinadores (opcional)', note: 'Los logos de tus patrocinadores aparecen en cada boleto, en la página del evento y en los flyers IA. Nunca cambiamos los logos.',
-        add: 'Añadir patrocinador (logo)', name: 'Nombre del patrocinador', link: 'Enlace (opcional)', max: 'Máximo 8 patrocinadores.', bad: 'No se puede usar esa imagen. Prueba un PNG o JPG.', ai: 'Crear 3 flyers con IA' },
+        add: 'Añadir patrocinador (logo)', name: 'Nombre del patrocinador', link: 'Enlace (opcional)', max: 'Máximo 8 patrocinadores.', bad: 'No se puede usar esa imagen. Prueba un PNG o JPG.', ai: 'Crear 3 flyers con IA',
+        hint: '✨ Flyers con IA (3 diseños profesionales, 500 HTG): termina y publica el evento, luego toca "🎨 Crear 3 flyers con IA".' },
   pt: { title: 'Patrocinadores (opcional)', note: 'Os logótipos dos patrocinadores aparecem em cada bilhete, na página do evento e nos flyers IA. Nunca alteramos os logótipos.',
-        add: 'Adicionar patrocinador (logo)', name: 'Nome do patrocinador', link: 'Link (opcional)', max: 'Máximo 8 patrocinadores.', bad: 'Essa imagem não pode ser usada. Tente um PNG ou JPG.', ai: 'Criar 3 flyers com IA' }
+        add: 'Adicionar patrocinador (logo)', name: 'Nome do patrocinador', link: 'Link (opcional)', max: 'Máximo 8 patrocinadores.', bad: 'Essa imagem não pode ser usada. Tente um PNG ou JPG.', ai: 'Criar 3 flyers com IA',
+        hint: '✨ Flyers com IA (3 designs profissionais, 500 HTG): termine e publique o evento, depois toque em "🎨 Criar 3 flyers com IA".' }
 };
 function spT(k) { var l = SP_TXT[curLang] || SP_TXT.ht; return l[k] || SP_TXT.ht[k]; }
 function spEsc(v) { return String(v == null ? '' : v).replace(/[&<>"']/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]; }); }
@@ -2417,6 +2423,7 @@ function spErr(msg) { var e = document.getElementById('spErr'); if (!e) return; 
 
 function renderSponsors() {
   var set = function (id, txt) { var el = document.getElementById(id); if (el) el.textContent = txt; };
+  set('aiFlyHint', spT('hint'));
   set('spTitle', spT('title')); set('spNote', spT('note')); set('spAdd', spT('add')); set('aiFlyerTxt', spT('ai'));
   var box = document.getElementById('sponsorList'); if (!box) return;
   box.innerHTML = SPONSORS.map(function (sp, i) {
