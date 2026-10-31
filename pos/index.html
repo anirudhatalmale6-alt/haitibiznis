@@ -1081,6 +1081,17 @@ var T_APH={
   pt:{aph_exp_btn:'Sou Ajan: digitar o número do meu crachá',aph_btn:'Meu número de Ajan',aph_none:'nenhum',aph_t:'Seu número de Ajan',aph_s:'Digite o MESMO número do seu crachá de Ajan. É assim que a HaitiBiznis reconhece seus dias grátis (piloto de 30 dias).',aph_ok:'✅ Número salvo. O app é grátis até {d}.',aph_saved:'✅ Número salvo.',aph_off:'Número salvo, mas o servidor não responde (internet). Tentaremos mais tarde.'}
 };
 Object.keys(T_APH).forEach(function(l){if(T[l])Object.assign(T[l],T_APH[l]);});
+/* 31 Oct 2026: driver sign-ups made here stayed on this phone only. */
+var T_MSW={
+  ht:{msw_note:'⚠️ Fòm sa a rete sou telefòn ou sèlman. Pou chofè a ka resevwa kous, li DWE enskri sou MsouWout (ak foto dokiman li yo). Mete KÒD AJAN ou (KB-…) nan fòm nan pou enskripsyon an konte pou ou.',msw_btn:'🛵 Enskri chofè a sou MsouWout',msw_after:'Dènye etap: enskri chofè a sou MsouWout kounye a. San sa, li p ap resevwa kous epi li p ap parèt sou rapò Ajan ou.',sig_total:'Total'},
+  fr:{msw_note:'⚠️ Ce formulaire reste uniquement sur votre téléphone. Pour recevoir des courses, le chauffeur DOIT s’inscrire sur MsouWout (avec les photos de ses documents). Entrez votre CODE AJAN (KB-…) dans le formulaire pour que l’inscription vous soit créditée.',msw_btn:'🛵 Inscrire le chauffeur sur MsouWout',msw_after:'Dernière étape : inscrivez le chauffeur sur MsouWout maintenant. Sinon il ne recevra pas de courses et n’apparaîtra pas dans votre rapport Ajan.',sig_total:'Total'},
+  en:{msw_note:'⚠️ This form stays on your phone only. To receive rides, the driver MUST register on MsouWout (with photos of their documents). Put your AJAN CODE (KB-…) in the form so the sign-up counts for you.',msw_btn:'🛵 Register the driver on MsouWout',msw_after:'Last step: register the driver on MsouWout now. Otherwise they will not get rides and will not show in your Ajan report.',sig_total:'Total'},
+  es:{msw_note:'⚠️ Este formulario queda solo en tu teléfono. Para recibir viajes, el conductor DEBE inscribirse en MsouWout (con fotos de sus documentos). Pon tu CÓDIGO AJAN (KB-…) en el formulario para que la inscripción cuente para ti.',msw_btn:'🛵 Inscribir al conductor en MsouWout',msw_after:'Último paso: inscribe al conductor en MsouWout ahora. Si no, no recibirá viajes ni aparecerá en tu reporte Ajan.',sig_total:'Total'},
+  pt:{msw_note:'⚠️ Este formulário fica só no seu telefone. Para receber corridas, o motorista DEVE se cadastrar na MsouWout (com fotos dos documentos). Coloque seu CÓDIGO AJAN (KB-…) no formulário para o cadastro contar para você.',msw_btn:'🛵 Cadastrar o motorista na MsouWout',msw_after:'Último passo: cadastre o motorista na MsouWout agora. Sem isso ele não recebe corridas e não aparece no seu relatório Ajan.',sig_total:'Total'}
+};
+Object.keys(T_MSW).forEach(function(l){if(T[l])Object.assign(T[l],T_MSW[l]);});
+var MSW_DRIVER_URL='https://msouwout.com/driver-register.html?from=lajanmaker';
+function mswDriverBox(txtKey){return '<div class="card" style="background:#FFF8E1;border-color:#F2D27A;margin-top:10px"><div class="sub" style="color:#5a4300;font-weight:700;line-height:1.5">'+t(txtKey)+'</div><a class="cta" style="margin-top:10px;display:flex;align-items:center;justify-content:center;text-decoration:none;background:#D21034;color:#fff" href="'+MSW_DRIVER_URL+'" target="_blank" rel="noopener">'+t('msw_btn')+'</a></div>';}
 function t(k){return (T[lang]&&T[lang][k])||T.ht[k]||k;}
 function applyI18n(){document.documentElement.lang=lang;
   document.querySelectorAll('[data-i18n]').forEach(el=>{const k=el.getAttribute('data-i18n');if(T[lang][k]===undefined)return;if(k==='app_t')el.childNodes[0].nodeValue=T[lang].app_t;else el.textContent=T[lang][k];});
@@ -2768,7 +2779,7 @@ function renderHome(){
   const revToday=today.reduce((a,b)=>a+net(b),0);
   const commToday=today.reduce((a,b)=>a+orderComm(b),0);
   const walletBal=o.filter(x=>x.amount>0).reduce((a,b)=>a+orderComm(b),0);
-  const sigToday=o.filter(x=>isToday(x.ts)&&x.type==='reg').length;
+  const sigToday=o.filter(x=>isToday(x.ts)&&x.type==='reg').length;const sigAll=o.filter(x=>x.type==='reg').length;
   const commWeek=o.filter(x=>x.amount>0&&(Date.now()-new Date(x.ts).getTime())<7*864e5).reduce((a,b)=>a+orderComm(b),0);
   const l=lic();const days=Math.max(0,licDays(l));const si=licStatusInfo(l);const exp=licExpired(l);
   const tm=team();   /* a team phone shows its badge instead of the subscription pill */
@@ -2795,7 +2806,7 @@ function renderHome(){
    <div class="dash">
      <div class="dcard c-rev"><div class="dtop"><span class="dlabel">${t('dash_rev')}</span><span class="dicon">💰</span></div><div class="dnum">${dnum(revToday)}</div></div>
      <div class="dcard c-wal"><div class="dtop"><span class="dlabel">${t('dash_wallet')}</span><span class="dicon">👛</span></div><div class="dnum">${dnum(walletBal)}</div></div>
-     <div class="dcard c-sig"><div class="dtop"><span class="dlabel">${t('dash_signups')}</span><span class="dicon">👥</span></div><div class="dnum">${sigToday}</div></div>
+     <div class="dcard c-sig"><div class="dtop"><span class="dlabel">${t('dash_signups')}</span><span class="dicon">👥</span></div><div class="dnum">${sigToday}</div><div style="font-size:11.5px;font-weight:700;color:var(--muted);margin-top:2px">${t('sig_total')}: ${sigAll}</div></div>
      <div class="dcard c-com"><div class="dtop"><span class="dlabel">${t('dash_comm')}</span><span class="dicon">💵</span></div><div class="dnum">${dnum(commToday)}</div></div>
    </div>
    <div id="homeWhy"></div>
@@ -3578,6 +3589,7 @@ function startReg(kind){
    hero.style.background='linear-gradient(135deg,rgba(0,0,0,0),rgba(0,0,0,.28)),'+hm.color;
    hero.innerHTML=`<div class="rh-ic">${hm.em}</div><div class="rh-tx"><div class="rh-t" data-i18n="${sc.titleKey}">${t(sc.titleKey)}</div><div class="rh-s" data-i18n="reg_s_${kind}">${t('reg_s_'+kind)}</div></div>`;
    body.appendChild(hero);}
+  if(kind==='driver'){const nb=document.createElement('div');nb.innerHTML=mswDriverBox('msw_note');body.appendChild(nb.firstChild);}
   if(kind==='affiliate'){const cl=document.createElement('button');cl.className='cta ghost';cl.style.marginBottom='12px';cl.textContent=t('aff_comm')+' →';cl.onclick=openCommission;body.appendChild(cl);}
   const card=document.createElement('div');card.className='card';
   sc.fields.forEach(f=>{const[key,lbl,type,opts,tpre]=f;
@@ -3678,6 +3690,7 @@ function saveReg(kind){const sc=REG_FORMS[kind];const name=document.getElementBy
   if(sc.referral){const q=affQueue();q.push({id:rec.id,name:rec.name,phone:rec.phone,tries:0});
     save('hb_aff_queue',q);affWatch=rec.id;showReferral(rec);affFlush();}else{showReceipt(rec);}
   if(kind==='merchant'){mppPanel(rec.id);mppFlush();}
+  if(kind==='driver'){const de=document.getElementById('doneExtra');if(de)de.innerHTML=mswDriverBox('msw_after');}
   refreshBadges();
 }
 
