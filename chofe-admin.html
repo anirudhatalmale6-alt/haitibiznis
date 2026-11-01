@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="ht">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="robots" content="noindex, nofollow">
+<meta name="color-scheme" content="light">
+<title>Chofè MsouWout — Konsòl</title>
+<link rel="icon" type="image/png" sizes="32x32" href="assets/favicon-32.png">
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&family=JetBrains+Mono:wght@600&display=swap" rel="stylesheet">
+<style>
+/* 1 Nov 2026 - Jennifer approves MsouWout drivers with HER console code.
+   Approval used to need Jeffery's own MsouWout login + the code on his phone.
+   Everything here goes through the HaitiBiznis server (console code checked
+   there) to MsouWout, server to server. Every decision carries a name. */
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+:root{color-scheme:light;--navy:#0B2E6F;--red:#D21034;--green:#16803A;--gold:#E0A400;--ink:#152341;--muted:#5A6B8A;--line:#E2E8F0;--off:#F3F6FB}
+body{font-family:'Plus Jakarta Sans',system-ui,sans-serif;background:var(--off);color:var(--ink);min-height:100vh}
+button,input,select,textarea{font-family:inherit}
+.flag{height:4px;background:linear-gradient(90deg,var(--navy) 50%,var(--red) 50%)}
+.top{background:#fff;border-bottom:1px solid var(--line);padding:12px 16px}
+.top b{font-size:1.05rem}.top small{color:var(--muted);display:block;font-size:.8rem}
+.w{max-width:760px;margin:0 auto;padding:16px}
+.box{background:#fff;border:1px solid var(--line);border-radius:14px;padding:16px;margin-bottom:14px}
+label{display:block;font-size:.8rem;font-weight:700;color:var(--muted);margin:10px 0 4px}
+input,select,textarea{width:100%;min-height:46px;border:1.5px solid var(--line);border-radius:10px;padding:10px 12px;font-size:.95rem;background:#fff}
+.mono{font-family:'JetBrains Mono',monospace;text-transform:uppercase}
+.btn{min-height:44px;border:0;border-radius:10px;padding:10px 14px;font-weight:800;font-size:.9rem;cursor:pointer;background:var(--navy);color:#fff}
+.btn.g{background:var(--green)}.btn.r{background:var(--red)}.btn.o{background:#fff;color:var(--navy);border:1.5px solid var(--navy)}
+.btn:disabled{opacity:.55;cursor:default}
+.full{width:100%;margin-top:12px}
+.tabs{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:12px}
+.tabs button{border:1.5px solid var(--line);background:#fff;border-radius:99px;padding:8px 14px;font-weight:700;font-size:.85rem;cursor:pointer;color:var(--muted)}
+.tabs button.on{background:var(--navy);border-color:var(--navy);color:#fff}
+.dr{background:#fff;border:1px solid var(--line);border-radius:14px;padding:14px;margin-bottom:10px}
+.dr .n{font-weight:800;font-size:1.02rem}
+.st{display:inline-block;font-size:.7rem;font-weight:800;letter-spacing:.06em;padding:3px 9px;border-radius:99px;margin-left:6px;vertical-align:middle}
+.st.pending{background:#FFF3D6;color:#8A5A00}.st.approved{background:#E2F4E8;color:#11632C}.st.rejected,.st.suspended{background:#FDE7EA;color:#A30F27}
+.meta{font-size:.86rem;color:var(--muted);margin-top:8px;line-height:1.6}
+.meta b{color:var(--ink)}
+.ajan{margin-top:8px;font-size:.86rem;font-weight:700;border-radius:10px;padding:8px 10px}
+.ajan.ok{background:#E2F4E8;color:#11632C}.ajan.no{background:#FFF3D6;color:#8A5A00}
+.acts{display:flex;gap:6px;flex-wrap:wrap;margin-top:10px}
+.acts .btn{min-height:40px;padding:8px 12px;font-size:.84rem}
+.docs{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:10px}
+.docs a{display:block;text-decoration:none;color:var(--muted);font-size:.72rem;font-weight:700;text-align:center}
+.docs img{width:100%;aspect-ratio:1;object-fit:cover;border-radius:10px;border:1px solid var(--line);display:block;margin-bottom:3px}
+.panel{display:none;border-top:1px solid var(--line);margin-top:12px;padding-top:4px}.panel.open{display:block}
+.msg{font-size:.86rem;margin-top:8px;font-weight:700}.msg.err{color:var(--red)}.msg.ok{color:var(--green)}
+.counts{font-size:.85rem;color:var(--muted);margin-bottom:8px}
+.hide{display:none}
+table{width:100%;border-collapse:collapse;font-size:.86rem}
+th,td{padding:8px 6px;border-bottom:1px solid var(--line);text-align:left;vertical-align:top}
+th{font-size:.7rem;text-transform:uppercase;letter-spacing:.06em;color:var(--muted)}
+td.num{text-align:right;font-variant-numeric:tabular-nums;white-space:nowrap}
+.note{background:#FFF8E1;border:1px solid #F2D27A;color:#5a4300;border-radius:12px;padding:10px 12px;font-size:.85rem;line-height:1.5;margin-bottom:12px}
+</style>
+</head>
+<body>
+<div class="flag"></div>
+<div class="top"><div class="w" style="padding:0"><b>Chofè MsouWout — Konsòl</b><small>Verifye dokiman chofè yo, apwouve oswa rejte, epi mete Ajan ki rekrite yo. Sa w fè isit la ale touswit sou MsouWout.</small></div></div>
+
+<div class="w">
+  <div class="box" id="gate">
+    <label for="pin">Kòd konsòl la</label>
+    <input id="pin" class="mono" autocomplete="off" autocapitalize="characters" spellcheck="false" placeholder="CONSOLE CODE">
+    <label for="who">Non ou (li parèt sou chak desizyon)</label>
+    <input id="who" autocomplete="name" placeholder="Egz: Jennifer">
+    <button class="btn full" id="open">Louvri</button>
+    <div class="msg err" id="gateMsg"></div>
+  </div>
+
+  <div id="main" class="hide">
+    <div class="tabs" id="tabs">
+      <button data-s="pending" class="on">⏳ An atant</button>
+      <button data-s="approved">✅ Apwouve</button>
+      <button data-s="rejected">⛔ Rejte</button>
+      <button data-s="all">Tout</button>
+      <button data-s="stats">🏆 Ajan / Bonis</button>
+    </div>
+    <div class="counts" id="counts"></div>
+    <div id="list"></div>
+  </div>
+</div>
+
+<script>
+(function(){
+  'use strict';
+  var API = 'https://haitibiznis-api.onrender.com';
+  var pin = '', who = '', cur = 'pending', drivers = [];
+  function $(id){ return document.getElementById(id); }
+  function esc(v){ return String(v == null ? '' : v).replace(/[&<>"']/g, function(c){ return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]; }); }
+  try { who = localStorage.getItem('hb_console_who') || ''; } catch(e){}
+  $('who').value = who;
+
+  var ERR = {
+    link_unavailable: 'Koneksyon ak MsouWout pa disponib pou kounye a. Eseye ankò nan yon minit.',
+    name_required: 'Mete non ou anvan.', name_and_reason_required: 'Mete non ou ak rezon an.',
+    name_and_code_required: 'Mete non ou ak kòd Ajan an.', code_not_found: 'Kòd Ajan sa a pa egziste nan sistèm Ajan an.',
+    badge_not_active: 'Badj sa a pa aktif (oswa li pa gen kòd referans).', already_credited: 'Chofè sa a deja konte pou yon Ajan.',
+    engine_unavailable: 'Sistèm Ajan an ap reveye. Eseye ankò nan yon minit.', not_found: 'Chofè a pa jwenn.'
+  };
+  function req(method, path, body){
+    var o = { method: method, headers: { 'x-admin-pin': pin } };
+    if (body !== undefined) { o.headers['Content-Type'] = 'application/json'; o.body = JSON.stringify(body); }
+    return fetch(API + path, o).then(function(r){
+      if (r.status === 403) { var e = new Error('Kòd konsòl la pa bon.'); e.pin = true; throw e; }
+      return r.json().catch(function(){ return {}; }).then(function(d){
+        if (!r.ok) throw new Error(ERR[d.error] || d.error || ('Erè ' + r.status)); return d;
+      });
+    });
+  }
+
+  $('open').onclick = function(){
+    pin = $('pin').value.trim(); who = $('who').value.trim();
+    if (!pin) return;
+    if (!who) { $('gateMsg').textContent = 'Mete non ou.'; return; }
+    try { localStorage.setItem('hb_console_who', who); } catch(e){}
+    $('open').disabled = true; $('gateMsg').textContent = 'Ap louvri… (premye fwa a ka pran 1 minit)';
+    load().then(function(){ $('gate').classList.add('hide'); $('main').classList.remove('hide'); })
+      .catch(function(e){ $('gateMsg').textContent = e.message; })
+      .then(function(){ $('open').disabled = false; });
+  };
+  document.querySelectorAll('#tabs button').forEach(function(b){
+    b.onclick = function(){
+      document.querySelectorAll('#tabs button').forEach(function(x){ x.classList.toggle('on', x === b); });
+      cur = b.getAttribute('data-s'); $('list').innerHTML = '<div class="box">Ap chaje…</div>';
+      (cur === 'stats' ? loadStats() : load()).catch(function(e){ $('list').innerHTML = '<div class="box msg err">' + esc(e.message) + '</div>'; });
+    };
+  });
+
+  var SVC = { ride: '🚕 Kous', delivery: '📦 Livrezon', both: '🚕 Kous + 📦 Livrezon' };
+  var VEH = { motorcycle: '🛵 Moto', moto: '🛵 Moto', car: '🚗 Machin' };
+  function fmt(d){ try { return new Date(d).toLocaleString('fr-HT', { day: 'numeric', month: 'short', hour: '2-digit', minute: '2-digit' }); } catch(e){ return ''; } }
+
+  function load(){
+    return req('GET', '/api/agents/admin/drivers?status=' + cur).then(function(d){
+      drivers = d.drivers || [];
+      var c = d.counts || {};
+      $('counts').textContent = 'An atant: ' + (c.pending || 0) + ' · Apwouve: ' + (c.approved || 0) + ' · Rejte: ' + (c.rejected || 0) + (c.suspended ? ' · Sispann: ' + c.suspended : '');
+      render();
+    });
+  }
+  function render(){
+    if (!drivers.length) { $('list').innerHTML = '<div class="box">Pa gen chofè isit la.</div>'; return; }
+    $('list').innerHTML = drivers.map(function(d, i){
+      var aj = d.referral_attached
+        ? '<div class="ajan ok">🪪 Ajan: ' + esc(d.ajan ? d.ajan.name + ' (' + d.ajan.agentId + ')' : d.referral_code) + ' · ' + esc(d.referral_code) + '</div>'
+        : '<div class="ajan no">⚠️ Pa gen Ajan' + (d.referral_typed ? ' (li te tape "' + esc(d.referral_typed) + '", pa verifye)' : '') + '</div>';
+      return '<div class="dr" id="d' + i + '"><div class="n">' + esc(d.full_name) + '<span class="st ' + esc(d.status) + '">' + esc(d.status.toUpperCase()) + '</span></div>' +
+        '<div class="meta">📞 <b>' + esc(d.phone) + '</b> · ' + esc(VEH[d.vehicle_type] || d.vehicle_type) + ' · ' + esc(SVC[d.preferred_service] || '') + '<br>' +
+        '🏙️ ' + esc(d.city || '—') + ' · 🗓️ ' + esc(fmt(d.created_at)) + '<br>' +
+        '🚘 ' + esc([d.vehicle_make, d.vehicle_model, d.vehicle_year, d.vehicle_color].filter(Boolean).join(' · ')) + ' · Plak <b>' + esc(d.license_plate || '—') + '</b><br>' +
+        '🪪 Lisans <b>' + esc(d.license_number || '—') + '</b> · OAVCT <b>' + esc(d.oavct_number || '—') + '</b>' + (d.oavct_expiry ? ' (jiska ' + esc(String(d.oavct_expiry).slice(0, 10)) + ')' : '') + '<br>' +
+        '📎 ' + d.doc_count + ' dokiman' + (d.reviewed_by ? '<br>✍️ ' + esc(String(d.reviewed_by).replace(/^console:/, '')) + ' · ' + esc(fmt(d.reviewed_at)) : '') +
+        (d.rejection_reason && d.status !== 'approved' ? '<br>📝 ' + esc(d.rejection_reason) : '') + '</div>' + aj +
+        '<div class="acts">' +
+          '<button class="btn o" data-a="docs" data-i="' + i + '">📎 Gade dokiman yo</button>' +
+          (d.status !== 'approved' ? '<button class="btn g" data-a="approve" data-i="' + i + '">✅ Apwouve</button>' : '') +
+          (d.status === 'pending' ? '<button class="btn r" data-a="reject" data-i="' + i + '">⛔ Rejte</button>' : '') +
+          (!d.referral_attached ? '<button class="btn o" data-a="agent" data-i="' + i + '">🪪 Mete Ajan an</button>' : '') +
+        '</div>' +
+        '<div class="panel" id="p' + i + '"></div><div class="msg" id="m' + i + '"></div></div>';
+    }).join('');
+    document.querySelectorAll('#list [data-a]').forEach(function(b){ b.onclick = function(){ act(+b.getAttribute('data-i'), b.getAttribute('data-a'), b); }; });
+  }
+  function say(i, t, ok){ var m = $('m' + i); m.className = 'msg ' + (ok ? 'ok' : 'err'); m.textContent = t; }
+
+  function act(i, a, btn){
+    var d = drivers[i], p = $('p' + i);
+    if (a === 'docs') {
+      if (p.classList.contains('open') && p.getAttribute('data-k') === 'docs') { p.classList.remove('open'); return; }
+      p.setAttribute('data-k', 'docs'); p.classList.add('open'); p.innerHTML = '<div class="meta">Ap chaje dokiman yo…</div>';
+      req('GET', '/api/agents/admin/drivers/' + d.id).then(function(x){
+        var L = { selfie: 'Selfie', id: 'Kat ID', license: 'Lisans', oavct: 'OAVCT', vehicle: 'Machin/Moto', insurance: 'Asirans' };
+        p.innerHTML = (x.documents || []).length ? '<div class="docs">' + x.documents.map(function(doc){
+          return '<a href="' + doc.data_url + '" target="_blank" rel="noopener"><img src="' + doc.data_url + '" alt="">' + esc(L[doc.doc_type] || doc.doc_type) + '</a>';
+        }).join('') + '</div>' : '<div class="meta">Pa gen dokiman.</div>';
+      }).catch(function(e){ p.innerHTML = '<div class="msg err">' + esc(e.message) + '</div>'; });
+      return;
+    }
+    if (a === 'approve') {
+      if (!confirm('Apwouve ' + d.full_name + '?\n\nOu verifye foto li, kat idantite li, lisans li, OAVCT ak foto ' + (/moto/.test(d.vehicle_type) ? 'moto' : 'machin') + ' li?')) return;
+      btn.disabled = true;
+      req('POST', '/api/agents/admin/drivers/' + d.id + '/approve', { by: who }).then(function(){ say(i, '✅ Apwouve. Chofè a ka konekte epi resevwa travay.', true); setTimeout(load, 900); })
+        .catch(function(e){ btn.disabled = false; say(i, e.message, false); });
+      return;
+    }
+    if (a === 'reject') {
+      p.setAttribute('data-k', 'reject'); p.classList.add('open');
+      p.innerHTML = '<label>Rezon (chofè a ka wè l)</label><textarea id="rr' + i + '" rows="2" placeholder="Egz: foto lisans lan pa klè"></textarea><button class="btn r full" id="rg' + i + '">⛔ Konfime rejè a</button>';
+      $('rg' + i).onclick = function(){
+        var reason = $('rr' + i).value.trim(); if (!reason) { say(i, 'Mete rezon an.', false); return; }
+        this.disabled = true; var b2 = this;
+        req('POST', '/api/agents/admin/drivers/' + d.id + '/reject', { by: who, reason: reason }).then(function(){ say(i, 'Rejte.', true); setTimeout(load, 900); })
+          .catch(function(e){ b2.disabled = false; say(i, e.message, false); });
+      };
+      return;
+    }
+    if (a === 'agent') {
+      p.setAttribute('data-k', 'agent'); p.classList.add('open');
+      p.innerHTML = '<label>Kòd Ajan an (KB-…) OSWA nimewo badj li (LMA-…)</label><input id="ac' + i + '" class="mono" placeholder="KB-AB12CD / LMA-2026-123456"><button class="btn full" id="ag' + i + '">🪪 Konte chofè sa a pou Ajan sa a</button>';
+      $('ag' + i).onclick = function(){
+        var code = $('ac' + i).value.trim(); if (!code) return;
+        this.disabled = true; var b2 = this;
+        req('POST', '/api/agents/admin/drivers/' + d.id + '/agent', { by: who, code: code }).then(function(r){ say(i, '✅ Chofè a konte pou ' + r.code + '.', true); setTimeout(load, 900); })
+          .catch(function(e){ b2.disabled = false; say(i, e.message, false); });
+      };
+    }
+  }
+
+  function loadStats(){
+    $('counts').textContent = '';
+    return req('GET', '/api/agents/admin/drivers/stats').then(function(s){
+      var rows = s.agents || [];
+      $('list').innerHTML = '<div class="note">Chofè ki konte pou chak Ajan. "Verifye" = chofè ki APWOUVE. Bonis: 1 000 HTG pou chak 5 chofè verifye (règ Jeffery a). Sa a se yon kalkil pou swiv sèlman: sistèm nan pa peye pèsonn otomatikman.</div>' +
+        (s.uncredited ? '<div class="note">⚠️ ' + s.uncredited + ' chofè (an atant oswa apwouve) poko konte pou okenn Ajan. Ale nan "An atant" / "Apwouve" → "🪪 Mete Ajan an".</div>' : '') +
+        '<div class="box" style="padding:8px 10px;overflow-x:auto"><table><thead><tr><th>Ajan</th><th class="num">Enskri</th><th class="num">Verifye</th><th class="num">Bonis (HTG)</th><th class="num">Pou pwochen bonis</th></tr></thead><tbody>' +
+        (rows.length ? rows.map(function(r){
+          return '<tr><td><b>' + esc(r.name || '—') + '</b><br><span class="mono" style="font-size:.78rem;color:var(--muted)">' + esc(r.agentId || '') + ' ' + esc(r.code) + '</span></td>' +
+            '<td class="num">' + r.registered + '</td><td class="num"><b>' + r.verified + '</b></td><td class="num">' + r.bonusHtg.toLocaleString('fr-FR') + '</td><td class="num">' + r.toNext + ' chofè</td></tr>';
+        }).join('') : '<tr><td colspan="5">Poko gen chofè ki konte pou yon Ajan.</td></tr>') + '</tbody></table></div>';
+    });
+  }
+})();
+</script>
+</body>
+</html>

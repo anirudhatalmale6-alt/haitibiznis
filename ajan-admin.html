@@ -53,7 +53,7 @@ input,select{width:100%;min-height:46px;border:1.5px solid var(--line);border-ra
 </head>
 <body>
 <div class="flag"></div>
-<div class="top"><div class="w" style="padding:0"><b>Ajan Sètifye LajanMaker — Konsòl</b><small>Apwouve, sispann, oswa anile badj ajan yo. Sa w fè isit la parèt touswit sou paj verifikasyon an. <a href="ajan-pilot.html" style="color:var(--navy);font-weight:700">🎁 Ajan Pilòt (jou gratis + rezilta) →</a></small></div></div>
+<div class="top"><div class="w" style="padding:0"><b>Ajan Sètifye LajanMaker — Konsòl</b><small>Apwouve, sispann, oswa anile badj ajan yo. Sa w fè isit la parèt touswit sou paj verifikasyon an. <a href="ajan-pilot.html" style="color:var(--navy);font-weight:700">🎁 Ajan Pilòt (jou gratis + rezilta) →</a> · <a href="chofe-admin.html" style="color:var(--navy);font-weight:700">🛵 Chofè MsouWout (apwouve + bonis Ajan) →</a></small></div></div>
 
 <div class="w">
   <div class="box" id="gate">
@@ -141,6 +141,8 @@ function draw(){
     if (a.status === 'suspended' || a.status === 'revoked') acts += '<button class="btn g" data-act="approve">↩︎ Reaktive</button>';
     if (a.status !== 'revoked') acts += '<button class="btn gr" data-act="revoke">⛔ Anile</button>';
     acts += '<button class="btn o" data-act="edit">✏️ Modifye</button><a class="btn o" style="text-decoration:none;display:inline-flex;align-items:center" target="_blank" rel="noopener" href="'+PUBLIC+encodeURIComponent(a.agentId)+'">👁 Paj piblik</a>';
+    /* 1 Nov 2026: the Ajan's own driver link - drivers who open it count for him. */
+    if (a.status === 'active' && a.referralCode) acts += '<a class="btn o" style="text-decoration:none;display:inline-flex;align-items:center" target="_blank" rel="noopener" href="https://msouwout.com/driver-register.html?agent='+encodeURIComponent(a.referralCode)+'">🛵 Lyen chofè li</a>';
     return '<div class="ag" data-i="'+i+'"><div class="h"><div class="ph" id="ph'+i+'">'+(a.photo?'':esc((a.name||'?').charAt(0)))+'</div>' +
       '<div><div class="n">'+esc(a.name)+'<span class="st '+a.state+'">'+STATE_LABEL[a.state]+'</span></div><div class="id">'+esc(a.agentId)+'</div></div></div>' +
       '<div class="meta">☎ '+esc(a.phone||'—')+' · Sètifye: '+day(a.certifiedAt)+(a.expiresAt?' · Valab jiska: '+day(a.expiresAt):'')+
