@@ -54,6 +54,12 @@ th,td{padding:8px 6px;border-bottom:1px solid var(--line);text-align:left;vertic
 th{font-size:.7rem;text-transform:uppercase;letter-spacing:.06em;color:var(--muted)}
 td.num{text-align:right;font-variant-numeric:tabular-nums;white-space:nowrap}
 .note{background:#FFF8E1;border:1px solid #F2D27A;color:#5a4300;border-radius:12px;padding:10px 12px;font-size:.85rem;line-height:1.5;margin-bottom:12px}
+.docs button{display:block;border:0;background:none;padding:0;color:var(--muted);font:inherit;font-size:.72rem;font-weight:700;text-align:center;cursor:pointer;width:100%}
+.docs button img{width:100%;aspect-ratio:1;object-fit:cover;border-radius:10px;border:1px solid var(--line);display:block;margin-bottom:3px}
+#viewer{position:fixed;inset:0;background:rgba(0,0,0,.94);z-index:50;display:none;flex-direction:column;align-items:center;justify-content:center;padding:12px}
+#viewer.on{display:flex}#viewer img{max-width:100%;max-height:calc(100% - 110px);object-fit:contain;border-radius:8px;background:#fff}
+#viewer .vt{color:#fff;font-weight:800;margin:10px 0}#viewer .vb{display:flex;gap:10px}
+#viewer button{border:0;border-radius:12px;padding:12px 18px;font-weight:800;font-size:1rem;background:#fff;color:#111}
 </style>
 </head>
 <body>
@@ -83,6 +89,7 @@ td.num{text-align:right;font-variant-numeric:tabular-nums;white-space:nowrap}
   </div>
 </div>
 
+<div id="viewer" role="dialog" aria-modal="true"><img id="vImg" alt=""><div class="vt" id="vName"></div><div class="vb"><button type="button" id="vP">◀</button><button type="button" id="vX">✕ Fèmen</button><button type="button" id="vN">▶</button></div></div>
 <script>
 (function(){
   'use strict';
@@ -92,6 +99,8 @@ td.num{text-align:right;font-variant-numeric:tabular-nums;white-space:nowrap}
   function esc(v){ return String(v == null ? '' : v).replace(/[&<>"']/g, function(c){ return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]; }); }
   try { who = localStorage.getItem('hb_console_who') || ''; } catch(e){}
   $('who').value = who;
+  /* signed in for as long as this tab is open, so a reload does not send her back to the code screen */
+  try { var sp = sessionStorage.getItem('hb_console_pin'); if (sp) { $('pin').value = sp; setTimeout(function(){ $('open').click(); }, 0); } } catch(e){}
 
   var ERR = {
     link_unavailable: 'Koneksyon ak MsouWout pa disponib pou kounye a. Eseye ankò nan yon minit.',
@@ -117,8 +126,8 @@ td.num{text-align:right;font-variant-numeric:tabular-nums;white-space:nowrap}
     if (!who) { $('gateMsg').textContent = 'Mete non ou.'; return; }
     try { localStorage.setItem('hb_console_who', who); } catch(e){}
     $('open').disabled = true; $('gateMsg').textContent = 'Ap louvri… (premye fwa a ka pran 1 minit)';
-    load().then(function(){ $('gate').classList.add('hide'); $('main').classList.remove('hide'); })
-      .catch(function(e){ $('gateMsg').textContent = e.message; })
+    load().then(function(){ $('gate').classList.add('hide'); $('main').classList.remove('hide'); try { sessionStorage.setItem('hb_console_pin', pin); } catch(e){} })
+      .catch(function(e){ $('gateMsg').textContent = e.message; if (e.pin) { try { sessionStorage.removeItem('hb_console_pin'); } catch(x){} } })
       .then(function(){ $('open').disabled = false; });
   };
   document.querySelectorAll('#tabs button').forEach(function(b){
@@ -174,6 +183,18 @@ td.num{text-align:right;font-variant-numeric:tabular-nums;white-space:nowrap}
     }).join('');
     document.querySelectorAll('#list [data-a]').forEach(function(b){ b.onclick = function(){ act(+b.getAttribute('data-i'), b.getAttribute('data-a'), b); }; });
   }
+  var vDocs = [], vK = 0;
+  function vShow(){ $('vImg').src = vDocs[vK].src; $('vName').textContent = vDocs[vK].name + '  (' + (vK + 1) + '/' + vDocs.length + ')'; }
+  function view(docs, k){
+    vDocs = docs; vK = k; vShow(); $('viewer').classList.add('on');
+    try { history.pushState({ viewer: 1 }, ''); } catch(e){}
+  }
+  function vClose(fromBack){ if (!$('viewer').classList.contains('on')) return; $('viewer').classList.remove('on'); $('vImg').src = '';
+    if (!fromBack) { try { history.back(); } catch(e){} } }
+  window.addEventListener('popstate', function(){ vClose(true); });
+  $('vX').onclick = function(){ vClose(false); };
+  $('vP').onclick = function(){ vK = (vK + vDocs.length - 1) % vDocs.length; vShow(); };
+  $('vN').onclick = function(){ vK = (vK + 1) % vDocs.length; vShow(); };
   function say(i, t, ok){ var m = $('m' + i); m.className = 'msg ' + (ok ? 'ok' : 'err'); m.textContent = t; }
 
   function act(i, a, btn){
@@ -183,9 +204,14 @@ td.num{text-align:right;font-variant-numeric:tabular-nums;white-space:nowrap}
       p.setAttribute('data-k', 'docs'); p.classList.add('open'); p.innerHTML = '<div class="meta">Ap chaje dokiman yo…</div>';
       req('GET', '/api/agents/admin/drivers/' + d.id).then(function(x){
         var L = { selfie: 'Selfie', id: 'Kat ID', license: 'Lisans', oavct: 'OAVCT', vehicle: 'Machin/Moto', insurance: 'Asirans' };
-        p.innerHTML = (x.documents || []).length ? '<div class="docs">' + x.documents.map(function(doc){
-          return '<a href="' + doc.data_url + '" target="_blank" rel="noopener"><img src="' + doc.data_url + '" alt="">' + esc(L[doc.doc_type] || doc.doc_type) + '</a>';
+        /* 1 Nov 2026, Jennifer: "chak fwa m verifye dokiman li voye m dèyè" - a link to
+           the raw photo LEFT this page on her phone, and coming back meant logging in
+           again. The photo now opens over the page; Back just closes it. */
+        var docs = (x.documents || []).map(function(doc){ return { src: doc.data_url, name: L[doc.doc_type] || doc.doc_type }; });
+        p.innerHTML = docs.length ? '<div class="docs">' + docs.map(function(doc, k){
+          return '<button type="button" data-k="' + k + '"><img src="' + doc.src + '" alt="">' + esc(doc.name) + '</button>';
         }).join('') + '</div>' : '<div class="meta">Pa gen dokiman.</div>';
+        p.querySelectorAll('.docs button').forEach(function(b){ b.onclick = function(){ view(docs, +b.getAttribute('data-k')); }; });
       }).catch(function(e){ p.innerHTML = '<div class="msg err">' + esc(e.message) + '</div>'; });
       return;
     }
