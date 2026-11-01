@@ -189,11 +189,24 @@ td.num{text-align:right;font-variant-numeric:tabular-nums;white-space:nowrap}
       }).catch(function(e){ p.innerHTML = '<div class="msg err">' + esc(e.message) + '</div>'; });
       return;
     }
+    /* 1 Nov 2026, Jeffery: one approval activates only the services the driver
+       is approved for - KOUS (MsouWout rides), LIVREZON (MyPlopPlop deliveries)
+       or TOUDE. Pre-selected with what the driver asked for; Jennifer confirms. */
     if (a === 'approve') {
-      if (!confirm('Apwouve ' + d.full_name + '?\n\nOu verifye foto li, kat idantite li, lisans li, OAVCT ak foto ' + (/moto/.test(d.vehicle_type) ? 'moto' : 'machin') + ' li?')) return;
-      btn.disabled = true;
-      req('POST', '/api/agents/admin/drivers/' + d.id + '/approve', { by: who }).then(function(){ say(i, '✅ Apwouve. Chofè a ka konekte epi resevwa travay.', true); setTimeout(load, 900); })
-        .catch(function(e){ btn.disabled = false; say(i, e.message, false); });
+      p.setAttribute('data-k', 'approve'); p.classList.add('open');
+      var cur = d.preferred_service || 'both';
+      p.innerHTML = '<label>Apwouve ' + esc(d.full_name) + ' POU:</label>' +
+        [['ride', '🚕 KOUS sèlman (MsouWout)'], ['delivery', '📦 LIVREZON sèlman (MyPlopPlop)'], ['both', '🚕📦 TOUDE']].map(function(o){
+          return '<label style="display:flex;gap:8px;align-items:center;font-weight:700;margin:6px 0"><input type="radio" name="sv' + i + '" value="' + o[0] + '"' + (o[0] === cur ? ' checked' : '') + ' style="width:20px;height:20px"> ' + o[1] + '</label>';
+        }).join('') +
+        '<div class="meta" style="margin:6px 0">Ou verifye foto li, kat idantite li, lisans li, OAVCT ak foto ' + (/moto/.test(d.vehicle_type) ? 'moto' : 'machin') + ' li?</div>' +
+        '<button class="btn g full" id="ap' + i + '">✅ Konfime apwobasyon an</button>';
+      $('ap' + i).onclick = function(){
+        var sv = (p.querySelector('input[name="sv' + i + '"]:checked') || {}).value || cur;
+        this.disabled = true; var b2 = this;
+        req('POST', '/api/agents/admin/drivers/' + d.id + '/approve', { by: who, service: sv }).then(function(){ say(i, '✅ Apwouve pou ' + SVC[sv] + '. Chofè a ka konekte epi resevwa travay.', true); setTimeout(load, 900); })
+          .catch(function(e){ b2.disabled = false; say(i, e.message, false); });
+      };
       return;
     }
     if (a === 'reject') {
