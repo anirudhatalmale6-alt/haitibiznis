@@ -1142,7 +1142,7 @@ var DRV_CITIES=['Port-au-Prince','Delmas','Pétion-Ville','Carrefour','Cité Sol
 window.MSW_API=window.MSW_API||'https://msouwout-backend.onrender.com';
 var DRV_LIVE=['queued','sending','needphone','noagent'];
 var T_DRV={
-  ht:{drv_city:'Vil',drv_make:'Mak (Bajaj, Honda, Toyota…)',drv_model:'Modèl',drv_year:'Ane machin/moto a',drv_licnum:'Nimewo lisans',drv_oavct:'Nimewo OAVCT',drv_service:'Ki travay li ap fè?',drv_svc_ride:'Kous sèlman',drv_svc_delivery:'Livrezon sèlman',drv_svc_both:'Toude (kous + livrezon)',up_oavct:'Dokiman OAVCT',up_vehphoto:'Foto moto/machin nan (ak plak la)',up_opt:'opsyonèl',
+  ht:{drv_city:'Vil',drv_make:'Mak (Bajaj, Honda, Toyota…)',drv_model:'Modèl',drv_year:'Ane machin/moto a',drv_licnum:'Nimewo lisans',drv_oavct:'Nimewo OAVCT',drv_oavct_exp:'Dat ekspirasyon OAVCT (sou papye a)',drv_service:'Ki travay li ap fè?',drv_svc_ride:'Kous sèlman',drv_svc_delivery:'Livrezon sèlman',drv_svc_both:'Toude (kous + livrezon)',up_oavct:'Dokiman OAVCT',up_vehphoto:'Foto moto/machin nan (ak plak la)',up_opt:'opsyonèl',
     drv_note:'✅ Enskripsyon sa a ale DIRÈKTEMAN sou MsouWout. Jennifer ap verifye dokiman yo epi apwouve chofè a. Kòd Ajan ou ale avè l otomatikman. Chofè a pa ka pran kous ni livrezon anvan li apwouve.',
     drv_consent:'Chofè a dakò ak Kondisyon ak Règleman MsouWout yo, epi li ban m pèmisyon voye enfòmasyon ak foto li yo.',drv_consent_s:'Dakò chofè a',
     drv_missing_q:'Enskripsyon an PA KONPLÈ. Sa ki manke:\n{list}\n\nAnrejistre l kòm ENKONPLÈ? Li p ap voye bay MsouWout jiskaske ou konplete l.',
@@ -1157,7 +1157,7 @@ var T_DRV={
     ms_wa_wait:'Bonjou {n}! Enskripsyon MsouWout ou a rive ✅. L ap tann verifikasyon. M ap fè w konnen lè l apwouve.',
     ms_wa_no:'Bonjou {n}. Enskripsyon MsouWout ou a pa t aksepte: {r}. Kontakte m pou nou korije l.',ms_ajan:'Kredite pou Ajan: {c}',
     dh_title:'🛵 Chofè mwen yo (MsouWout)',dh_line:'{p} an atant · {v} VERIFYE · {i} pou korije',dh_bonus:'Bonis: {b} HTG · ankò {n} chofè verifye pou pwochen 1 000 HTG (swivi sèlman)',dh_all:'Tout chofè ki enskri ak kòd ou (app + QR): {r} · VERIFYE: {v}',dh_see:'Wè yo →',dh_noph:'Mete nimewo telefòn badj Ajan ou pou wè TOUT chofè ki enskri ak kòd ou (nan app la ak pa QR).',dh_none:'Poko gen chofè ak kòd ou.',dh_nobadge:'Nou pa jwenn badj Ajan aktif ak nimewo sa a. Tcheke nimewo a.',dh_app:'Enskripsyon nan app sa a: {n}',dh_unsent:'pa voye',ms_pending_s:'An atant',ms_approved_s:'VERIFYE',ms_rejected_s:'Rejte',nb_unsent:'Pa voye',nb_sending:'Ap voye',nb_exists:'Deja enskri',drd_t:'Enskripsyon chofè a pa t fini',drd_go:'Kontinye enskripsyon an'},
-  fr:{drv_city:'Ville',drv_make:'Marque (Bajaj, Honda, Toyota…)',drv_model:'Modèle',drv_year:'Année du véhicule',drv_licnum:'Numéro de permis',drv_oavct:'Numéro OAVCT',drv_service:'Quel travail ?',drv_svc_ride:'Courses seulement',drv_svc_delivery:'Livraisons seulement',drv_svc_both:'Les deux (courses + livraisons)',up_oavct:'Document OAVCT',up_vehphoto:'Photo de la moto/voiture (avec la plaque)',up_opt:'optionnel',
+  fr:{drv_city:'Ville',drv_make:'Marque (Bajaj, Honda, Toyota…)',drv_model:'Modèle',drv_year:'Année du véhicule',drv_licnum:'Numéro de permis',drv_oavct:'Numéro OAVCT',drv_oavct_exp:'Date d’expiration OAVCT (sur le document)',drv_service:'Quel travail ?',drv_svc_ride:'Courses seulement',drv_svc_delivery:'Livraisons seulement',drv_svc_both:'Les deux (courses + livraisons)',up_oavct:'Document OAVCT',up_vehphoto:'Photo de la moto/voiture (avec la plaque)',up_opt:'optionnel',
     drv_note:'✅ Cette inscription va DIRECTEMENT sur MsouWout. Jennifer vérifie les documents et approuve le chauffeur. Votre code Ajan part avec automatiquement. Le chauffeur ne peut prendre ni course ni livraison avant l’approbation.',
     drv_consent:'Le chauffeur accepte les Conditions et le Règlement MsouWout et m’autorise à envoyer ses informations et photos.',drv_consent_s:'Accord du chauffeur',
     drv_missing_q:'Inscription INCOMPLÈTE. Il manque :\n{list}\n\nL’enregistrer comme INCOMPLÈTE ? Elle ne sera pas envoyée à MsouWout tant qu’elle n’est pas complétée.',
@@ -1172,7 +1172,7 @@ var T_DRV={
     ms_wa_wait:'Bonjour {n} ! Votre inscription MsouWout est bien reçue ✅. Elle attend la vérification. Je vous préviens dès qu’elle est approuvée.',
     ms_wa_no:'Bonjour {n}. Votre inscription MsouWout n’a pas été acceptée : {r}. Contactez-moi pour la corriger.',ms_ajan:'Crédité à l’Ajan : {c}',
     dh_title:'🛵 Mes chauffeurs (MsouWout)',dh_line:'{p} en attente · {v} VÉRIFIÉS · {i} à corriger',dh_bonus:'Bonus : {b} HTG · encore {n} chauffeurs vérifiés pour les prochains 1 000 HTG (suivi seulement)',dh_all:'Tous les chauffeurs inscrits avec votre code (app + QR) : {r} · VÉRIFIÉS : {v}',dh_see:'Voir →',dh_noph:'Entrez le numéro de votre badge Ajan pour voir TOUS les chauffeurs inscrits avec votre code (dans l’app et par QR).',dh_none:'Aucun chauffeur avec votre code pour l’instant.',dh_nobadge:'Aucun badge Ajan actif avec ce numéro. Vérifiez le numéro.',dh_app:'Inscriptions dans cette app : {n}',dh_unsent:'non envoyées',ms_pending_s:'En attente',ms_approved_s:'VÉRIFIÉ',ms_rejected_s:'Refusé',nb_unsent:'Non envoyée',nb_sending:'Envoi',nb_exists:'Déjà inscrit',drd_t:'Inscription du chauffeur non terminée',drd_go:'Continuer l’inscription'},
-  en:{drv_city:'City',drv_make:'Make (Bajaj, Honda, Toyota…)',drv_model:'Model',drv_year:'Vehicle year',drv_licnum:'License number',drv_oavct:'OAVCT number',drv_service:'What work?',drv_svc_ride:'Rides only',drv_svc_delivery:'Deliveries only',drv_svc_both:'Both (rides + deliveries)',up_oavct:'OAVCT document',up_vehphoto:'Photo of the moto/car (with the plate)',up_opt:'optional',
+  en:{drv_city:'City',drv_make:'Make (Bajaj, Honda, Toyota…)',drv_model:'Model',drv_year:'Vehicle year',drv_licnum:'License number',drv_oavct:'OAVCT number',drv_oavct_exp:'OAVCT expiry date (on the document)',drv_service:'What work?',drv_svc_ride:'Rides only',drv_svc_delivery:'Deliveries only',drv_svc_both:'Both (rides + deliveries)',up_oavct:'OAVCT document',up_vehphoto:'Photo of the moto/car (with the plate)',up_opt:'optional',
     drv_note:'✅ This registration goes DIRECTLY to MsouWout. Jennifer checks the documents and approves the driver. Your Ajan code goes with it automatically. The driver cannot take rides or deliveries before approval.',
     drv_consent:'The driver accepts the MsouWout Terms and Rules and allows me to send their information and photos.',drv_consent_s:'Driver’s consent',
     drv_missing_q:'This registration is NOT COMPLETE. Missing:\n{list}\n\nSave it as INCOMPLETE? It will not be sent to MsouWout until you complete it.',
@@ -1280,7 +1280,7 @@ function drvJpeg(blob,max){
     img.onload=function(){var w=img.naturalWidth,h=img.naturalHeight,s=Math.min(1,max/Math.max(w,h));
       var c=document.createElement('canvas');c.width=Math.round(w*s);c.height=Math.round(h*s);
       c.getContext('2d').drawImage(img,0,0,c.width,c.height);URL.revokeObjectURL(url);
-      try{res(c.toDataURL('image/jpeg',0.72));}catch(e){res(null);}};
+      try{res(c.toDataURL('image/jpeg',0.85));}catch(e){res(null);}};
     img.onerror=function(){URL.revokeObjectURL(url);res(null);};
     img.src=url;
   });
@@ -1304,7 +1304,7 @@ async function mswSendOne(id){
       full_name:String(o.name||'').trim(),phone:p,whatsapp:p,city:f.city||'',
       vehicle_type:f.vehicle==='Machin'?'car':'motorcycle',vehicle_make:f.make||'',vehicle_model:f.model||'',
       vehicle_year:f.year||'',vehicle_color:f.color||'',license_plate:String(f.plate||'').toUpperCase(),
-      license_number:f.licnum||'',oavct_number:f.oavct||'',preferred_service:f.service||'both',referral_code:code});
+      license_number:f.licnum||'',oavct_number:f.oavct||'',oavct_expiry:f.oavctExp||'',preferred_service:f.service||'both',referral_code:code});
     if(r.status===409){mswSet(id,{status:'exists'});return;}
     if(r.status===400){mswSet(id,{status:'failed',err:String(r.body.error||'400').slice(0,80)});return;}
     if(r.status!==201||!r.body.driver||!r.body.driver.id)throw new Error('signup '+r.status);
@@ -1315,13 +1315,18 @@ async function mswSendOne(id){
   for(var j=0;j<ups.length;j++){
     var u=ups[j],blob=await docGet(docs[u][0].key);
     if(!blob){lost.push(u);continue;}
-    var url=await drvJpeg(blob,1000);if(!url){lost.push(u);continue;}
+    var url=await drvJpeg(blob,1600);if(!url){lost.push(u);continue;}
     var d=await mswFetch(window.MSW_API+'/api/drivers/'+m.driverId+'/documents',{doc_type:DRV_DOC[u],image_data:url});
-    if(d.status===413){url=await drvJpeg(blob,700);d=await mswFetch(window.MSW_API+'/api/drivers/'+m.driverId+'/documents',{doc_type:DRV_DOC[u],image_data:url});}
+    if(d.status===413){url=await drvJpeg(blob,1100);d=await mswFetch(window.MSW_API+'/api/drivers/'+m.driverId+'/documents',{doc_type:DRV_DOC[u],image_data:url});}
     if(d.status!==201)throw new Error('doc '+d.status);
     done.push(DRV_DOC[u]);mswSet(id,{docsDone:done});
   }
   mswSet(id,{status:'pending',lost:lost});
+  /* the photos are on MsouWout now: free the Ajan's phone */
+  Object.keys(docs).forEach(function(k){(docs[k]||[]).forEach(function(x){if(x&&x.key)docDel(x.key);});});
+  (function(){var os=load('hb_orders',[]),me=os.find(function(x){return x.id===id;});if(!me)return;
+    Object.keys(me.regDocs||{}).forEach(function(k){(me.regDocs[k]||[]).forEach(function(x){x.key='';x.sent=true;});});
+    (me.docs||[]).forEach(function(x){x.key='';});save('hb_orders',os);})();
   mswRefresh(true);
 }
 async function mswFlush(){
@@ -1400,6 +1405,101 @@ function drvMigrateOld(){
 }
 window.addEventListener('online',function(){mswFlush();});
 setInterval(function(){if(document.visibilityState==='visible'){mswFlush();mswRefresh();}},5*60000);
+/* ═══ DOCUMENT CAMERA INSIDE THE PAGE (1 Nov 2026) ═══
+   Jennifer, on the first real registrations: a selfie in "Asirans", the same card
+   in "Kat ID" and "Lisans", OAVCT text unreadable ("li parèt efase"). Jeffery: the
+   photos must not go into the phone's gallery - Ajans have no space left.
+   So each document is photographed HERE: the camera opens with the name of the
+   document in big letters and a frame to fill, the Ajan checks the picture before
+   keeping it, and nothing is written to the phone's gallery (the frame is drawn
+   from the live video). Sharper than before: up to 1600 px, JPEG 0.85.
+   No camera (permission refused, old phone) = the usual photo picker, as before. */
+var DocCam = (function () {
+  var CSS = '.dcm{position:fixed;inset:0;z-index:2147483000;background:#000;display:flex;flex-direction:column;color:#fff;font-family:inherit}'
+    + '.dcm-top{padding:14px 56px 10px 16px;background:#D21034}.dcm-top b{display:block;font-size:20px;line-height:1.2}.dcm-top span{display:block;font-size:13.5px;font-weight:600;opacity:.95;margin-top:4px}'
+    + '.dcm-st{position:relative;flex:1;overflow:hidden;display:flex;align-items:center;justify-content:center}'
+    + '.dcm-st video,.dcm-st img{width:100%;height:100%;object-fit:contain;background:#000}'
+    + '.dcm-fr{position:absolute;left:7%;right:7%;top:50%;transform:translateY(-50%);aspect-ratio:1.586;border:3px dashed rgba(255,255,255,.9);border-radius:14px;box-shadow:0 0 0 9999px rgba(0,0,0,.35);pointer-events:none}'
+    + '.dcm-fr.face{left:22%;right:22%;aspect-ratio:.78;border-radius:50%}.dcm-fr.wide{left:4%;right:4%;aspect-ratio:1.33;border-radius:10px}'
+    + '.dcm-bar{display:flex;align-items:center;justify-content:space-around;padding:14px 10px 22px;background:#111;gap:8px}'
+    + '.dcm-bar button{border:0;border-radius:14px;padding:12px 14px;font:inherit;font-weight:800;font-size:14.5px;background:#2a2a2a;color:#fff}'
+    + '.dcm-bar .dcm-shot{width:74px;height:74px;border-radius:50%;background:#fff;border:6px solid #D21034;padding:0}'
+    + '.dcm-bar .dcm-ok{background:#16a34a}.dcm-x{position:absolute;top:10px;right:10px;width:40px;height:40px;border-radius:50%;border:0;background:rgba(0,0,0,.35);color:#fff;font-size:20px;font-weight:900}'
+    + '.dcm-msg{position:absolute;left:12px;right:12px;bottom:12px;text-align:center;font-weight:800;background:rgba(0,0,0,.6);padding:8px;border-radius:10px}';
+  var TX = {
+    ht: { shot: '📸', use: '✅ Kenbe foto sa a', redo: '🔁 Refè', gal: '🖼️ Galri', sw: '🔄', check: 'Tcheke: èske ou ka li tout ekriti yo byen?', wait: 'Ap louvri kamera a…' },
+    fr: { shot: '📸', use: '✅ Garder cette photo', redo: '🔁 Refaire', gal: '🖼️ Galerie', sw: '🔄', check: 'Vérifiez : tout le texte est-il lisible ?', wait: 'Ouverture de la caméra…' },
+    en: { shot: '📸', use: '✅ Keep this photo', redo: '🔁 Retake', gal: '🖼️ Gallery', sw: '🔄', check: 'Check: can you read all the text?', wait: 'Opening the camera…' },
+    es: { shot: '📸', use: '✅ Usar esta foto', redo: '🔁 Repetir', gal: '🖼️ Galería', sw: '🔄', check: 'Revisa: ¿se lee todo el texto?', wait: 'Abriendo la cámara…' },
+    pt: { shot: '📸', use: '✅ Usar esta foto', redo: '🔁 Refazer', gal: '🖼️ Galeria', sw: '🔄', check: 'Confira: dá para ler todo o texto?', wait: 'Abrindo a câmera…' }
+  };
+  var styled = false;
+  function open(o) {
+    return new Promise(function (resolve) {
+      if (!(navigator.mediaDevices && navigator.mediaDevices.getUserMedia)) return resolve({ fallback: true });
+      if (!styled) { var st = document.createElement('style'); st.textContent = CSS; document.head.appendChild(st); styled = true; }
+      var L = TX[o.lang] || TX.ht, facing = o.facing || 'environment', stream = null, done = false, blob = null;
+      var el = document.createElement('div'); el.className = 'dcm';
+      el.innerHTML = '<div class="dcm-top"><b></b><span></span></div>'
+        + '<div class="dcm-st"><video playsinline muted autoplay></video><img alt="" style="display:none"><div class="dcm-fr ' + (o.frame || '') + '"></div><div class="dcm-msg"></div></div>'
+        + '<div class="dcm-bar dcm-live"><button type="button" class="dcm-gal"></button><button type="button" class="dcm-shot" aria-label="photo"></button><button type="button" class="dcm-sw"></button></div>'
+        + '<div class="dcm-bar dcm-rev" style="display:none"><button type="button" class="dcm-redo"></button><button type="button" class="dcm-ok"></button></div>'
+        + '<button type="button" class="dcm-x" aria-label="close">✕</button>';
+      el.querySelector('.dcm-top b').textContent = o.title || '';
+      el.querySelector('.dcm-top span').textContent = o.hint || '';
+      el.querySelector('.dcm-gal').textContent = L.gal; el.querySelector('.dcm-sw').textContent = L.sw;
+      el.querySelector('.dcm-redo').textContent = L.redo; el.querySelector('.dcm-ok').textContent = L.use;
+      var video = el.querySelector('video'), img = el.querySelector('img'), msg = el.querySelector('.dcm-msg'), fr = el.querySelector('.dcm-fr');
+      msg.textContent = L.wait;
+      document.body.appendChild(el);
+      try { history.pushState({ dcm: 1 }, ''); } catch (e) {}
+      function stop() { if (stream) { stream.getTracks().forEach(function (t) { t.stop(); }); stream = null; } }
+      function finish(v, fromBack) {
+        if (done) return; done = true; stop(); window.removeEventListener('popstate', onBack);
+        if (img.src && img.src.indexOf('blob:') === 0) URL.revokeObjectURL(img.src);
+        el.remove(); if (!fromBack) { try { history.back(); } catch (e) {} }
+        resolve(v);
+      }
+      function onBack() { finish(null, true); }
+      window.addEventListener('popstate', onBack);
+      function start() {
+        stop(); msg.style.display = ''; msg.textContent = L.wait;
+        navigator.mediaDevices.getUserMedia({ audio: false, video: { facingMode: { ideal: facing }, width: { ideal: 2560 }, height: { ideal: 1440 } } })
+          .then(function (s) { if (done) { s.getTracks().forEach(function (t) { t.stop(); }); return; } stream = s; video.srcObject = s;
+            video.style.transform = facing === 'user' ? 'scaleX(-1)' : ''; msg.style.display = 'none'; })
+          .catch(function () { finish({ fallback: true }); });   /* refused / no camera: the usual picker */
+      }
+      function live(on) { video.style.display = on ? '' : 'none'; img.style.display = on ? 'none' : ''; fr.style.display = on ? '' : 'none';
+        el.querySelector('.dcm-live').style.display = on ? '' : 'none'; el.querySelector('.dcm-rev').style.display = on ? 'none' : ''; }
+      el.querySelector('.dcm-shot').onclick = function () {
+        var w = video.videoWidth, h = video.videoHeight; if (!w || !h) return;
+        var k = Math.min(1, 1600 / Math.max(w, h)), c = document.createElement('canvas');
+        c.width = Math.round(w * k); c.height = Math.round(h * k);
+        c.getContext('2d').drawImage(video, 0, 0, c.width, c.height);
+        c.toBlob(function (b) { if (!b) return; blob = b; img.src = URL.createObjectURL(b); live(false);
+          msg.textContent = L.check; msg.style.display = ''; }, 'image/jpeg', 0.85);
+      };
+      el.querySelector('.dcm-redo').onclick = function () { blob = null; live(true); msg.style.display = 'none'; };
+      el.querySelector('.dcm-ok').onclick = function () { if (blob) finish({ blob: blob }); };
+      el.querySelector('.dcm-gal').onclick = function () { finish({ fallback: true }); };
+      el.querySelector('.dcm-sw').onclick = function () { facing = facing === 'user' ? 'environment' : 'user'; start(); };
+      el.querySelector('.dcm-x').onclick = function () { finish(null); };
+      live(true); start();
+    });
+  }
+  /* what each document is, said the same way on every form */
+  var DOCS = {
+    selfie:    { frame: 'face', ht: ['🤳 FOTO FIGI CHOFÈ A', 'Figi chofè a sèlman, byen klè, san linèt nwa ni chapo.'], fr: ['🤳 PHOTO DU VISAGE DU CHAUFFEUR', 'Le visage seul, bien net, sans lunettes noires ni casquette.'], en: ['🤳 DRIVER’S FACE', 'The face only, sharp, no dark glasses or cap.'] },
+    id:        { frame: '', ht: ['🪪 KAT IDANTITE (CIN / NIF) oswa PASPÒ', 'Mete TOUT kat la nan kad la. Non an ak nimewo a dwe li byen.'], fr: ['🪪 CARTE D’IDENTITÉ (CIN / NIF) ou PASSEPORT', 'Toute la carte dans le cadre. Nom et numéro lisibles.'], en: ['🪪 ID CARD (CIN / NIF) or PASSPORT', 'The whole card inside the frame. Name and number readable.'] },
+    license:   { frame: '', ht: ['🚘 LISANS CHOFÈ (PÈMI)', 'Pa kat idantite a: LISANS lan. Tout kat la nan kad la, li byen.'], fr: ['🚘 PERMIS DE CONDUIRE', 'Pas la carte d’identité : le PERMIS. Toute la carte, lisible.'], en: ['🚘 DRIVER’S LICENSE', 'Not the ID card: the LICENSE. The whole card, readable.'] },
+    oavct:     { frame: 'wide', ht: ['📄 DOKIMAN OAVCT', 'Tout paj la. Non an ak DAT ekspirasyon an dwe li byen.'], fr: ['📄 DOCUMENT OAVCT', 'Toute la page. Nom et DATE d’expiration lisibles.'], en: ['📄 OAVCT DOCUMENT', 'The whole page. Name and EXPIRY DATE readable.'] },
+    vehicle:   { frame: 'wide', ht: ['🛵 MOTO / 🚗 MACHIN NAN AK PLAK LA', 'Tout moto a oswa machin nan, plak la dwe parèt.'], fr: ['🛵 MOTO / 🚗 VOITURE AVEC LA PLAQUE', 'Tout le véhicule, la plaque doit être visible.'], en: ['🛵 MOTO / 🚗 CAR WITH THE PLATE', 'The whole vehicle, the plate must be visible.'] },
+    insurance: { frame: 'wide', ht: ['📄 ASIRANS', 'Paj asirans lan (si genyen). Non an ak dat yo dwe li byen.'], fr: ['📄 ASSURANCE', 'La page d’assurance (s’il y en a une). Lisible.'], en: ['📄 INSURANCE', 'The insurance page (if any). Readable.'] }
+  };
+  function doc(type, lang) { var d = DOCS[type] || {}; var x = d[lang] || d.ht || ['', '']; return { title: x[0], hint: x[1], frame: d.frame || '' }; }
+  return { open: open, doc: doc };
+})();
+
 function t(k){return (T[lang]&&T[lang][k])||T.ht[k]||k;}
 function applyI18n(){document.documentElement.lang=lang;
   document.querySelectorAll('[data-i18n]').forEach(el=>{const k=el.getAttribute('data-i18n');if(T[lang][k]===undefined)return;if(k==='app_t')el.childNodes[0].nodeValue=T[lang].app_t;else el.textContent=T[lang][k];});
@@ -3006,7 +3106,7 @@ const REG_FORMS={
  /* 1 Nov 2026: the same questions and photos as msouwout.com/driver-register.html,
     because this form now SENDS the driver to MsouWout (see mswSendOne). */
  driver:{titleKey:'reg_t_driver',statusSet:'verify',prefix:'DRV',feeKey:'regFeeDriver',
-   fields:[['name','f_name',1],['phone','f_phone',1],['city','drv_city'],['vehicle','vehicle'],['make','drv_make'],['model','drv_model'],['year','drv_year'],['color','color'],['plate','plate'],['licnum','drv_licnum'],['oavct','drv_oavct'],['service','drv_service','sel',['both','ride','delivery'],'drv_svc_']],
+   fields:[['name','f_name',1],['phone','f_phone',1],['city','drv_city'],['service','drv_service','sel',['both','ride','delivery'],'drv_svc_'],['vehicle','vehicle'],['make','drv_make'],['model','drv_model'],['year','drv_year'],['color','color'],['plate','plate'],['licnum','drv_licnum'],['oavct','drv_oavct'],['oavctExp','drv_oavct_exp']],
    uploads:['Driver Photo','National ID','Driver License','OAVCT','Vehicle Photo','Insurance']},
  rider:{titleKey:'reg_t_rider',statusSet:'verify',prefix:'RDR',feeKey:'regFeeRider',
    fields:[['name','f_name',1],['phone','f_phone'],['wa','f_wa']],uploads:[]},
@@ -3751,17 +3851,17 @@ function docDel(key){return docDB().then(function(db){var tx=db.transaction(DOC_
    would fill the device and the browser would start refusing to save. 1600px at
    q0.72 keeps a logo brief perfectly legible at roughly a tenth of the size.
    Anything that is not an image (PDF, DOCX) is stored exactly as it came in. */
-function shrinkImage(file){
+function shrinkImage(file,mx,qq){
   return new Promise(function(res){
     if(!file.type||file.type.indexOf('image/')!==0||file.type==='image/gif')return res(file);
     var url=URL.createObjectURL(file),img=new Image();
     img.onload=function(){
-      var m=1600,w=img.naturalWidth,h=img.naturalHeight;
+      var m=mx||1600,w=img.naturalWidth,h=img.naturalHeight;
       if(!w||!h){URL.revokeObjectURL(url);return res(file);}
       if(w>m||h>m){var s=m/Math.max(w,h);w=Math.round(w*s);h=Math.round(h*s);}
       var c=document.createElement('canvas');c.width=w;c.height=h;
       c.getContext('2d').drawImage(img,0,0,w,h);
-      c.toBlob(function(b){URL.revokeObjectURL(url);res(b&&b.size<file.size?b:file);},'image/jpeg',0.72);
+      c.toBlob(function(b){URL.revokeObjectURL(url);res(b&&b.size<file.size?b:file);},'image/jpeg',qq||0.72);
     };
     img.onerror=function(){URL.revokeObjectURL(url);res(file);};
     img.src=url;
@@ -3917,7 +4017,7 @@ function startReg(kind,pre,draft){
     if(type==='sel'){card.innerHTML+=`<label class="fl">${t(lbl)}</label><select id="rf_${key}"><option value=""></option>${opts.map(o=>`<option value="${o}">${tpre?t(tpre+o):o}</option>`).join('')}</select>`;}
     else if(type==='ta'){card.innerHTML+=`<label class="fl">${t(lbl)}</label><textarea id="rf_${key}"></textarea>`;}
     else if(key==='vehicle'){card.innerHTML+=`<label class="fl">${t('vehicle')}</label><div class="row2" style="margin-bottom:14px"><button class="cta ghost" id="veh_moto" style="margin:0">🏍️ Moto</button><button class="cta ghost" id="veh_car" style="margin:0">🚗 Machin</button></div>`;}
-    else{card.innerHTML+=`<label class="fl">${t(lbl)}</label><input type="${key==='email'?'email':(key==='phone'||key==='wa'?'tel':'text')}" id="rf_${key}"${key==='year'?' inputmode="numeric" maxlength="4"':''}${key==='city'?' list="drvCities"':''}>`;}
+    else{card.innerHTML+=`<label class="fl">${t(lbl)}</label><input type="${key==='email'?'email':(key==='phone'||key==='wa'?'tel':(key==='oavctExp'?'date':'text'))}" id="rf_${key}"${key==='year'?' inputmode="numeric" maxlength="4"':''}${key==='city'?' list="drvCities"':''}>`;}
   });
   if(kind==='driver')card.innerHTML+='<datalist id="drvCities">'+DRV_CITIES.map(c=>'<option value="'+c+'">').join('')+'</datalist>';
   /* 🚨 29 Sep, Jeffery: "Can you please remove sign up fees ! People get
@@ -3939,6 +4039,21 @@ function startReg(kind,pre,draft){
     lab.innerHTML=`<div class="ut-ic">${had?'✅':'📷'}</div><div class="ut-tx"><div class="ut-t">${ul}${kind==='driver'&&DRV_OPT[u]?' <span style="font-weight:600;opacity:.7">('+t('up_opt')+')</span>':''}</div><div class="ut-s">${had?'✓ '+t('up_added')+' (1)':t('up_tap')}</div></div>`;
     if(had)lab.classList.add('done');
     const inp=document.createElement('input');inp.type='file';inp.accept=kind==='driver'?'image/*':'.pdf,.jpg,.jpeg,.png,.docx,image/*';inp.style.display='none';
+    /* driver papers: the in-page camera with the document's name (see DocCam) */
+    if(kind==='driver')lab.addEventListener('click',function(ev){
+      if(ev.target===inp)return;ev.preventDefault();
+      const dd=DocCam.doc(DRV_DOC[u],lang);
+      DocCam.open({title:dd.title,hint:dd.hint,frame:dd.frame,lang:lang,facing:'environment'}).then(function(r){
+        if(!r)return;if(r.fallback){inp.click();return;}
+        const key='d-'+Date.now().toString(36)+'-'+Math.random().toString(36).slice(2,8);
+        docPut(key,r.blob).then(function(){
+          (reg.docs[u]||[]).forEach(function(x){if(x&&x.key&&x.key!==key)docDel(x.key);});
+          reg.docs[u]=[{name:DRV_DOC[u]+'.jpg',size:r.blob.size,type:'image/jpeg',key:key}];
+          lab.classList.add('done');lab.querySelector('.ut-ic').textContent='✅';
+          lab.querySelector('.ut-s').textContent='✓ '+t('up_added')+' (1)';drvDraftSave();
+        }).catch(function(){alert(t('doc_fail'));});
+      });
+    });
     /* Registration uploads had the same hole as the order attachments: only the
        file NAME was kept, so a driver's licence photo was gone the moment the
        form was submitted. The files now go to the same store. */
@@ -3951,7 +4066,7 @@ function startReg(kind,pre,draft){
           lab.querySelector('.ut-s').textContent='✓ '+t('up_added')+' ('+reg.docs[u].length+')';if(kind==='driver')drvDraftSave();return;}
         var f=files[i];
         if(f.size>12*1024*1024){alert(t('doc_big').replace('{n}',f.name));return next(i+1);}
-        shrinkImage(f).then(function(blob){
+        (kind==='driver'?shrinkImage(f,1600,0.85):shrinkImage(f)).then(function(blob){
           var key='d-'+Date.now().toString(36)+'-'+Math.random().toString(36).slice(2,8);
           return docPut(key,blob).then(function(){
             reg.docs[u].push({name:f.name,size:blob.size,type:blob.type||f.type,key:key});});
@@ -3964,7 +4079,7 @@ function startReg(kind,pre,draft){
   const btn=document.createElement('button');btn.className='cta';btn.textContent=kind==='driver'?t('drv_send'):(sc.feeKey&&Number(getCfg()[sc.feeKey]||0)>0)?t('pay_do'):t('save');btn.onclick=()=>saveReg(kind);body.appendChild(btn);
   go('reg');
   if(kind==='driver'){const sv=document.getElementById('rf_service');if(sv)sv.value='both';
-    if(pre){const f=pre.fields||{};['name','phone','city','make','model','year','color','plate','licnum','oavct','service'].forEach(k=>{const el=document.getElementById('rf_'+k);if(el&&f[k]!=null&&f[k]!=='')el.value=f[k];});
+    if(pre){const f=pre.fields||{};['name','phone','city','make','model','year','color','plate','licnum','oavct','oavctExp','service'].forEach(k=>{const el=document.getElementById('rf_'+k);if(el&&f[k]!=null&&f[k]!=='')el.value=f[k];});
       const nm=document.getElementById('rf_name');if(nm&&!nm.value)nm.value=pre.name||'';
       const cs=document.getElementById('rf_consent');if(cs)cs.checked=!!pre.consent;}
     if(draft){const f=draft.fields||{};Object.keys(f).forEach(k=>{const el=document.getElementById('rf_'+k);if(el&&f[k]!=null)el.value=f[k];});
@@ -6307,7 +6422,7 @@ function shareApp(){
    =================================================================== */
 /* Version the seller can read out loud. When someone says "I don't see the new
    button", the first useful question is which build their phone is running. */
-const APP_VER='73';
+const APP_VER='74';
 var swReg=null;
 if('serviceWorker' in navigator){
   window.addEventListener('load',function(){

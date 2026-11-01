@@ -169,7 +169,8 @@ td.num{text-align:right;font-variant-numeric:tabular-nums;white-space:nowrap}
         '<div class="meta">📞 <b>' + esc(d.phone) + '</b> · ' + esc(VEH[d.vehicle_type] || d.vehicle_type) + ' · ' + esc(SVC[d.preferred_service] || '') + '<br>' +
         '🏙️ ' + esc(d.city || '—') + ' · 🗓️ ' + esc(fmt(d.created_at)) + '<br>' +
         '🚘 ' + esc([d.vehicle_make, d.vehicle_model, d.vehicle_year, d.vehicle_color].filter(Boolean).join(' · ')) + ' · Plak <b>' + esc(d.license_plate || '—') + '</b><br>' +
-        '🪪 Lisans <b>' + esc(d.license_number || '—') + '</b> · OAVCT <b>' + esc(d.oavct_number || '—') + '</b>' + (d.oavct_expiry ? ' (jiska ' + esc(String(d.oavct_expiry).slice(0, 10)) + ')' : '') + '<br>' +
+        '🪪 Lisans <b>' + esc(d.license_number || '—') + '</b> · OAVCT <b>' + esc(d.oavct_number || '—') + '</b>' + (d.oavct_expiry ? ' (jiska ' + esc(String(d.oavct_expiry).slice(0, 10)) + ')' : '') +
+        (d.oavct_expiry && String(d.oavct_expiry).slice(0, 10) < new Date().toISOString().slice(0, 10) ? ' <b style="color:#A30F27">⚠️ OAVCT EKSPIRE</b>' : '') + '<br>' +
         (d.doc_count < 5 ? '<b style="color:#A30F27">📎 ' + d.doc_count + ' dokiman sèlman: ENKONPLÈ (fòk gen 5: selfie, ID, lisans, OAVCT, machin)</b>' : '📎 ' + d.doc_count + ' dokiman') + (d.reviewed_by ? '<br>✍️ ' + esc(String(d.reviewed_by).replace(/^console:/, '')) + ' · ' + esc(fmt(d.reviewed_at)) : '') +
         (d.rejection_reason && d.status !== 'approved' ? '<br>📝 ' + esc(d.rejection_reason) : '') + '</div>' + aj +
         '<div class="acts">' +
@@ -207,7 +208,10 @@ td.num{text-align:right;font-variant-numeric:tabular-nums;white-space:nowrap}
         /* 1 Nov 2026, Jennifer: "chak fwa m verifye dokiman li voye m dèyè" - a link to
            the raw photo LEFT this page on her phone, and coming back meant logging in
            again. The photo now opens over the page; Back just closes it. */
-        var docs = (x.documents || []).map(function(doc){ return { src: doc.data_url, name: L[doc.doc_type] || doc.doc_type }; });
+        /* same order as the forms: selfie, ID, licence, OAVCT, vehicle, insurance */
+        var ORD = ['selfie', 'id', 'license', 'oavct', 'vehicle', 'insurance'];
+        var docs = (x.documents || []).slice().sort(function(a, b){ return ORD.indexOf(a.doc_type) - ORD.indexOf(b.doc_type); })
+          .map(function(doc){ return { src: doc.data_url, name: L[doc.doc_type] || doc.doc_type }; });
         p.innerHTML = docs.length ? '<div class="docs">' + docs.map(function(doc, k){
           return '<button type="button" data-k="' + k + '"><img src="' + doc.src + '" alt="">' + esc(doc.name) + '</button>';
         }).join('') + '</div>' : '<div class="meta">Pa gen dokiman.</div>';
