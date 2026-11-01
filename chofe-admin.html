@@ -141,6 +141,15 @@ td.num{text-align:right;font-variant-numeric:tabular-nums;white-space:nowrap}
       render();
     });
   }
+  /* the driver hears the decision: a WhatsApp message ready to send from her phone */
+  function waBtn(d){
+    var ph = String(d.phone || '').replace(/\D/g, ''); if (ph.length < 8 || (d.status !== 'approved' && d.status !== 'rejected')) return '';
+    var first = String(d.full_name || '').split(' ')[0];
+    var msg = d.status === 'approved'
+      ? 'Bonjou ' + first + '! Ou APWOUVE sou MsouWout ✅. Konekte sou https://msouwout.com/driver-login.html ak nimewo telefòn ou, kreye PIN ou, epi kòmanse resevwa kous.'
+      : 'Bonjou ' + first + '. Enskripsyon MsouWout ou a pa t aksepte: ' + (d.rejection_reason || '') + '. Kontakte Ajan ou a oswa nou menm pou korije l.';
+    return '<a class="btn o" style="text-decoration:none;background:#25D366;color:#fff;border-color:#25D366" target="_blank" rel="noopener" href="https://wa.me/' + ph + '?text=' + encodeURIComponent(msg) + '">📲 WhatsApp chofè a</a>';
+  }
   function render(){
     if (!drivers.length) { $('list').innerHTML = '<div class="box">Pa gen chofè isit la.</div>'; return; }
     $('list').innerHTML = drivers.map(function(d, i){
@@ -152,13 +161,14 @@ td.num{text-align:right;font-variant-numeric:tabular-nums;white-space:nowrap}
         '🏙️ ' + esc(d.city || '—') + ' · 🗓️ ' + esc(fmt(d.created_at)) + '<br>' +
         '🚘 ' + esc([d.vehicle_make, d.vehicle_model, d.vehicle_year, d.vehicle_color].filter(Boolean).join(' · ')) + ' · Plak <b>' + esc(d.license_plate || '—') + '</b><br>' +
         '🪪 Lisans <b>' + esc(d.license_number || '—') + '</b> · OAVCT <b>' + esc(d.oavct_number || '—') + '</b>' + (d.oavct_expiry ? ' (jiska ' + esc(String(d.oavct_expiry).slice(0, 10)) + ')' : '') + '<br>' +
-        '📎 ' + d.doc_count + ' dokiman' + (d.reviewed_by ? '<br>✍️ ' + esc(String(d.reviewed_by).replace(/^console:/, '')) + ' · ' + esc(fmt(d.reviewed_at)) : '') +
+        (d.doc_count < 5 ? '<b style="color:#A30F27">📎 ' + d.doc_count + ' dokiman sèlman: ENKONPLÈ (fòk gen 5: selfie, ID, lisans, OAVCT, machin)</b>' : '📎 ' + d.doc_count + ' dokiman') + (d.reviewed_by ? '<br>✍️ ' + esc(String(d.reviewed_by).replace(/^console:/, '')) + ' · ' + esc(fmt(d.reviewed_at)) : '') +
         (d.rejection_reason && d.status !== 'approved' ? '<br>📝 ' + esc(d.rejection_reason) : '') + '</div>' + aj +
         '<div class="acts">' +
           '<button class="btn o" data-a="docs" data-i="' + i + '">📎 Gade dokiman yo</button>' +
           (d.status !== 'approved' ? '<button class="btn g" data-a="approve" data-i="' + i + '">✅ Apwouve</button>' : '') +
           (d.status === 'pending' ? '<button class="btn r" data-a="reject" data-i="' + i + '">⛔ Rejte</button>' : '') +
           (!d.referral_attached ? '<button class="btn o" data-a="agent" data-i="' + i + '">🪪 Mete Ajan an</button>' : '') +
+          waBtn(d) +
         '</div>' +
         '<div class="panel" id="p' + i + '"></div><div class="msg" id="m' + i + '"></div></div>';
     }).join('');
