@@ -163,8 +163,18 @@ td.num{text-align:right;font-variant-numeric:tabular-nums;white-space:nowrap}
     });
   }
   /* the driver hears the decision: a WhatsApp message ready to send from her phone */
-  var MSG_OK = 'Bonjou {n}! 🎉 Enskripsyon ou sou MsouWout AKSEPTE ✅. Kounye a: telechaje aplikasyon MsouWout la (oswa louvri msouwout.com/driver-login.html), mete nimewo telefòn ou epi kreye PIN 4 chif ou. Gran lansman kous yo ap fèt byento: n ap fè w konnen depi moun kòmanse pran kous. '
-    + 'Ou pral resevwa yon envitasyon pou yon FÒMASYON GRATIS sou kondui sou wout la ak kijan pou sèvi ak aplikasyon MsouWout la. Mèsi paske w chwazi MsouWout!';
+  /* Jeffery's welcome text, 2 Nov 2026 (the same as the server sends). ⛔ Never "you can take rides now". */
+  var MSG_OK = '🎉 FELISITASYON! BYENVINI NAN MSOUWOUT!\n\nBonjou {n}! Nou kontan fè w konnen enskripsyon w kòm chofè MsouWout apwouve. ✅\n\n'
+    + '📲 Telechaje aplikasyon MsouWout la, antre nimewo telefòn ou epi kreye PIN 4 chif ou.\n\n'
+    + '🎓 MSOUWOUT AP ÒGANIZE YON FÒMASYON GRATIS POU OU!\n\n'
+    + 'Nou pral montre w kijan pou itilize aplikasyon MsouWout ak MyPlopPlop yo pi byen, kijan pou resevwa ak jere kous ak livrezon, epi kijan pou travay an sekirite ak pwofesyonalis.\n\n'
+    + '📅 N ap kontakte w pou ba w dat, lè ak kote fòmasyon an ap fèt.\n\n🚀 Gwo lansman an ap vini byento!\n\nMsouWout — Chofè Verifye. Kous An Sekirite.';
+  /* where the welcome stands, on every approved driver */
+  function welLine(d){
+    if (d.status !== 'approved') return '';
+    if (d.welcome_status === 'sent') return '<div class="ajan ok">📨 Mesaj byenveni ✅ voye ' + (d.welcome_channel === 'whatsapp_auto' ? 'otomatikman (WhatsApp)' : 'pa ' + esc(String(d.welcome_by || '').replace(/^console:/, '')) + ' (WhatsApp)') + (d.welcome_at ? ' · ' + esc(fmt(d.welcome_at)) : '') + '</div>';
+    return '<div class="ajan no">📨 Mesaj byenveni ⏳ POKO VOYE — peze "📲 Voye mesaj byenveni" anba a</div>';
+  }
   function waBtn(d){
     var ph = String(d.phone || '').replace(/\D/g, ''); if (ph.length < 8 || (d.status !== 'approved' && d.status !== 'rejected')) return '';
     var first = String(d.full_name || '').split(' ')[0];
@@ -172,7 +182,8 @@ td.num{text-align:right;font-variant-numeric:tabular-nums;white-space:nowrap}
       /* 1 Nov 2026, Jennifer + Jeffery: not "log in and get rides" - rides start at the launch */
       ? MSG_OK.replace('{n}', first)
       : 'Bonjou ' + first + '. Enskripsyon MsouWout ou a pa t aksepte: ' + (d.rejection_reason || '') + '. Kontakte Ajan ou a oswa nou menm pou korije l.';
-    return '<a class="btn o" style="text-decoration:none;background:#25D366;color:#fff;border-color:#25D366" target="_blank" rel="noopener" href="https://wa.me/' + ph + '?text=' + encodeURIComponent(msg) + '">📲 WhatsApp chofè a</a>';
+    var wel = d.status === 'approved' && d.id ? ' data-wel="' + esc(d.id) + '"' : '';
+    return '<a class="btn o" style="text-decoration:none;background:#25D366;color:#fff;border-color:#25D366"' + wel + ' target="_blank" rel="noopener" href="https://wa.me/' + ph + '?text=' + encodeURIComponent(msg) + '">📲 ' + (d.status === 'approved' ? (d.welcome_status === 'sent' ? 'Voye mesaj byenveni ankò' : 'Voye mesaj byenveni') : 'WhatsApp chofè a') + '</a>';
   }
   function render(){
     if (!drivers.length) { $('list').innerHTML = '<div class="box">Pa gen chofè isit la.</div>'; return; }
@@ -188,6 +199,7 @@ td.num{text-align:right;font-variant-numeric:tabular-nums;white-space:nowrap}
         (d.oavct_expiry && String(d.oavct_expiry).slice(0, 10) < new Date().toISOString().slice(0, 10) ? ' <b style="color:#A30F27">⚠️ OAVCT EKSPIRE</b>' : '') + '<br>' +
         (d.doc_count < 5 ? '<b style="color:#A30F27">📎 ' + d.doc_count + ' dokiman sèlman: ENKONPLÈ (fòk gen 5: selfie, ID, lisans, OAVCT, machin)</b>' : '📎 ' + d.doc_count + ' dokiman') + (d.reviewed_by ? '<br>✍️ ' + esc(String(d.reviewed_by).replace(/^console:/, '')) + ' · ' + esc(fmt(d.reviewed_at)) : '') +
         (d.rejection_reason && d.status !== 'approved' ? '<br>📝 ' + esc(d.rejection_reason) : '') + '</div>' + aj +
+        welLine(d) +
         (d.fix_docs && d.fix_docs.length ? '<div class="fixb">🔧 Ap tann korije: ' + d.fix_docs.map(function(t){ return esc(DL[t] || t); }).join(', ') + (d.fix_note ? ' — ' + esc(d.fix_note) : '') + '</div>' : '') +
         '<div class="acts">' +
           '<button class="btn o" data-a="docs" data-i="' + i + '">📎 Gade dokiman yo</button>' +
@@ -217,6 +229,12 @@ td.num{text-align:right;font-variant-numeric:tabular-nums;white-space:nowrap}
   $('vImg').onclick = function(){ $('vS').classList.toggle('z'); };
   $('vP').onclick = function(){ vK = (vK + vDocs.length - 1) % vDocs.length; vShow(); };
   $('vN').onclick = function(){ vK = (vK + 1) % vDocs.length; vShow(); };
+  document.addEventListener('click', function(ev){
+    var a = ev.target.closest && ev.target.closest('a[data-wel]'); if (!a) return;
+    req('POST', '/api/agents/admin/drivers/' + a.getAttribute('data-wel') + '/welcome', { by: who })
+      .then(function(){ a.insertAdjacentHTML('afterend', '<span class="meta" style="margin-left:6px">✅ anrejistre</span>'); })
+      .catch(function(){ /* already recorded (sent once) - the first sending stays on record */ });
+  });
   function say(i, t, ok){ var m = $('m' + i); m.className = 'msg ' + (ok ? 'ok' : 'err'); m.textContent = t; }
 
   function act(i, a, btn){
@@ -271,8 +289,12 @@ td.num{text-align:right;font-variant-numeric:tabular-nums;white-space:nowrap}
         this.disabled = true; var b2 = this;
         req('POST', '/api/agents/admin/drivers/' + d.id + '/approve', { by: who, service: sv }).then(function(){
             /* the message to the driver, ready to send, right where she approved */
-            say(i, '✅ Apwouve pou ' + SVC[sv] + '. Kounye a voye mesaj la bay chofè a:', true);
-            $('m' + i).insertAdjacentHTML('beforeend', '<div style="margin-top:8px">' + waBtn({ phone: d.phone, full_name: d.full_name, status: 'approved' }) + '</div>');
+            var w = (arguments[0] || {}).welcome || {};
+            if (w.status === 'sent') say(i, '✅ Apwouve pou ' + SVC[sv] + '. 📨 Mesaj byenveni a voye otomatikman sou WhatsApp.', true);
+            else {
+              say(i, '✅ Apwouve pou ' + SVC[sv] + '. 📨 Kounye a voye mesaj byenveni a (WhatsApp otomatik poko konekte):', true);
+              $('m' + i).insertAdjacentHTML('beforeend', '<div style="margin-top:8px">' + waBtn({ id: d.id, phone: d.phone, full_name: d.full_name, status: 'approved' }) + '</div>');
+            }
             p.classList.remove('open'); })
           .catch(function(e){ b2.disabled = false; var x = e.data || {};
             if (x.error === 'not_ready') {
