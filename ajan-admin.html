@@ -132,6 +132,14 @@ function load(){
   });
 }
 
+/* 2 Nov 2026: the 30-day pilot starts by itself when the badge is approved - its
+   activation date, end and days left, the same figures the Ajan sees in LajanMaker */
+function pilotLine(a){
+  var p = a.pilot;
+  if (!p) return a.status === 'active' ? '<div class="meta" style="color:#8A5A00;font-weight:700">🎁 Pilòt 30 jou: ap aktive otomatikman (nan kèk minit)</div>' : '';
+  var st = p.state === 'active' ? '<b style="color:#11632C">AKTIF · rete '+p.daysLeft+' jou</b>' : p.state === 'cancelled' ? '<b style="color:#A30F27">ANILE</b>' : '<b style="color:#A30F27">FINI</b>';
+  return '<div class="meta" style="font-weight:700">🎁 Pilòt 30 jou: '+st+' · aktive '+day(p.startedAt)+' · fini '+day(p.endsAt)+'</div>';
+}
 function draw(){
   $('list').innerHTML = agents.map(function(a, i){
     var svc = services.map(function(s){ return '<label><input type="checkbox" data-svc="'+esc(s)+'" '+(a.services.indexOf(s)>=0?'checked':'')+'> '+esc(s)+'</label>'; }).join('');
@@ -148,6 +156,7 @@ function draw(){
       '<div class="meta">☎ '+esc(a.phone||'—')+' · Sètifye: '+day(a.certifiedAt)+(a.expiresAt?' · Valab jiska: '+day(a.expiresAt):'')+
         '<br>Zòn: '+esc(a.city||'—')+' · Òganizasyon/Sponsò: '+esc(a.sponsor||'—')+' · Kòd referans: '+esc(a.referralCode||'—')+
         '<br>Soti nan: '+({exam:'egzamen',reissue:'re-emisyon',admin:'konsòl'}[a.source]||a.source)+(a.submissions>1?' · soumèt '+a.submissions+' fwa':'')+(a.statusNote?' · Nòt: '+esc(a.statusNote):'')+(a.idMatched===false?'<br><b style="color:#A30F27">⚠ Nimewo kenbe jan li enprime a (non + dat pa t ka repwodui l)</b>':'')+'</div>' +
+      pilotLine(a) +
       '<div class="acts">'+acts+'</div>' +
       '<div class="edit" id="ed'+i+'"><div class="grid2">' +
         '<div><label>Non</label><input data-f="name" value="'+esc(a.name)+'"></div>' +
