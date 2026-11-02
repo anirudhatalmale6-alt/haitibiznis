@@ -57,7 +57,10 @@ td.num{text-align:right;font-variant-numeric:tabular-nums;white-space:nowrap}
 .docs button{display:block;border:0;background:none;padding:0;color:var(--muted);font:inherit;font-size:.72rem;font-weight:700;text-align:center;cursor:pointer;width:100%}
 .docs button img{width:100%;aspect-ratio:1;object-fit:cover;border-radius:10px;border:1px solid var(--line);display:block;margin-bottom:3px}
 #viewer{position:fixed;inset:0;background:rgba(0,0,0,.94);z-index:50;display:none;flex-direction:column;align-items:center;justify-content:center;padding:12px}
-#viewer.on{display:flex}#viewer img{max-width:100%;max-height:calc(100% - 110px);object-fit:contain;border-radius:8px;background:#fff}
+#viewer.on{display:flex}#viewer .vs{width:100%;flex:1;overflow:auto;display:flex;align-items:center;justify-content:center;-webkit-overflow-scrolling:touch}
+#viewer img{max-width:100%;max-height:100%;object-fit:contain;border-radius:8px;background:#fff;cursor:zoom-in}
+#viewer .vs.z{display:block}#viewer .vs.z img{max-width:none;max-height:none;width:260%;cursor:zoom-out}
+.fixb{background:#FFF3D6;color:#8A5A00;border-radius:10px;padding:8px 10px;font-weight:800;font-size:.85rem;margin-top:8px}
 #viewer .vt{color:#fff;font-weight:800;margin:10px 0}#viewer .vb{display:flex;gap:10px}
 #viewer button{border:0;border-radius:12px;padding:12px 18px;font-weight:800;font-size:1rem;background:#fff;color:#111}
 </style>
@@ -89,7 +92,7 @@ td.num{text-align:right;font-variant-numeric:tabular-nums;white-space:nowrap}
   </div>
 </div>
 
-<div id="viewer" role="dialog" aria-modal="true"><img id="vImg" alt=""><div class="vt" id="vName"></div><div class="vb"><button type="button" id="vP">◀</button><button type="button" id="vX">✕ Fèmen</button><button type="button" id="vN">▶</button></div></div>
+<div id="viewer" role="dialog" aria-modal="true"><div class="vs" id="vS"><img id="vImg" alt=""></div><div class="vt" id="vName"></div><div class="vb"><button type="button" id="vP">◀</button><button type="button" id="vX">✕ Fèmen</button><button type="button" id="vN">▶</button></div></div>
 <script>
 (function(){
   'use strict';
@@ -107,7 +110,8 @@ td.num{text-align:right;font-variant-numeric:tabular-nums;white-space:nowrap}
     name_required: 'Mete non ou anvan.', name_and_reason_required: 'Mete non ou ak rezon an.',
     name_and_code_required: 'Mete non ou ak kòd Ajan an.', code_not_found: 'Kòd Ajan sa a pa egziste nan sistèm Ajan an.',
     badge_not_active: 'Badj sa a pa aktif (oswa li pa gen kòd referans).', already_credited: 'Chofè sa a deja konte pou yon Ajan.',
-    engine_unavailable: 'Sistèm Ajan an ap reveye. Eseye ankò nan yon minit.', not_found: 'Chofè a pa jwenn.'
+    engine_unavailable: 'Sistèm Ajan an ap reveye. Eseye ankò nan yon minit.', not_found: 'Chofè a pa jwenn.',
+    name_and_docs_required: 'Chwazi dokiman pou korije a.', name_and_date_required: 'Mete yon dat valab.', too_large: 'Foto a twò gwo.'
   };
   function req(method, path, body){
     var o = { method: method, headers: { 'x-admin-pin': pin } };
@@ -115,7 +119,7 @@ td.num{text-align:right;font-variant-numeric:tabular-nums;white-space:nowrap}
     return fetch(API + path, o).then(function(r){
       if (r.status === 403) { var e = new Error('Kòd konsòl la pa bon.'); e.pin = true; throw e; }
       return r.json().catch(function(){ return {}; }).then(function(d){
-        if (!r.ok) throw new Error(ERR[d.error] || d.error || ('Erè ' + r.status)); return d;
+        if (!r.ok) { var e = new Error(ERR[d.error] || d.error || ('Erè ' + r.status)); e.data = d; throw e; } return d;
       });
     });
   }
@@ -139,6 +143,14 @@ td.num{text-align:right;font-variant-numeric:tabular-nums;white-space:nowrap}
   });
 
   var SVC = { ride: '🚕 Kous', delivery: '📦 Livrezon', both: '🚕 Kous + 📦 Livrezon' };
+  var DL = { selfie: 'Foto figi', id: 'Kat ID', license: 'Lisans', oavct: 'OAVCT', vehicle: 'Machin/Moto', insurance: 'Asirans' };
+  var NEED = ['selfie', 'id', 'license', 'oavct', 'vehicle'], ORD_ALL = NEED.concat('insurance');
+  /* a photo Jennifer picks to replace one (Ajan sent it on WhatsApp): same size as the forms send */
+  function shrink(file){ return new Promise(function(res){ var u = URL.createObjectURL(file), im = new Image();
+    im.onload = function(){ var k = Math.min(1, 1600 / Math.max(im.width, im.height)), c = document.createElement('canvas');
+      c.width = Math.round(im.width * k); c.height = Math.round(im.height * k); c.getContext('2d').drawImage(im, 0, 0, c.width, c.height);
+      URL.revokeObjectURL(u); res(c.toDataURL('image/jpeg', 0.85)); };
+    im.onerror = function(){ URL.revokeObjectURL(u); res(null); }; im.src = u; }); }
   var VEH = { motorcycle: '🛵 Moto', moto: '🛵 Moto', car: '🚗 Machin' };
   function fmt(d){ try { return new Date(d).toLocaleString('fr-HT', { day: 'numeric', month: 'short', hour: '2-digit', minute: '2-digit' }); } catch(e){ return ''; } }
 
@@ -151,11 +163,14 @@ td.num{text-align:right;font-variant-numeric:tabular-nums;white-space:nowrap}
     });
   }
   /* the driver hears the decision: a WhatsApp message ready to send from her phone */
+  var MSG_OK = 'Bonjou {n}! 🎉 Enskripsyon ou sou MsouWout AKSEPTE ✅. Gran lansman kous yo ap fèt byento: n ap fè w konnen depi moun kòmanse pran kous. '
+    + 'Ou pral resevwa yon envitasyon pou yon FÒMASYON GRATIS sou kondui sou wout la ak kijan pou sèvi ak aplikasyon MsouWout la. Mèsi paske w chwazi MsouWout!';
   function waBtn(d){
     var ph = String(d.phone || '').replace(/\D/g, ''); if (ph.length < 8 || (d.status !== 'approved' && d.status !== 'rejected')) return '';
     var first = String(d.full_name || '').split(' ')[0];
     var msg = d.status === 'approved'
-      ? 'Bonjou ' + first + '! Ou APWOUVE sou MsouWout ✅. Konekte sou https://msouwout.com/driver-login.html ak nimewo telefòn ou, kreye PIN ou, epi kòmanse resevwa kous.'
+      /* 1 Nov 2026, Jennifer + Jeffery: not "log in and get rides" - rides start at the launch */
+      ? MSG_OK.replace('{n}', first)
       : 'Bonjou ' + first + '. Enskripsyon MsouWout ou a pa t aksepte: ' + (d.rejection_reason || '') + '. Kontakte Ajan ou a oswa nou menm pou korije l.';
     return '<a class="btn o" style="text-decoration:none;background:#25D366;color:#fff;border-color:#25D366" target="_blank" rel="noopener" href="https://wa.me/' + ph + '?text=' + encodeURIComponent(msg) + '">📲 WhatsApp chofè a</a>';
   }
@@ -173,10 +188,13 @@ td.num{text-align:right;font-variant-numeric:tabular-nums;white-space:nowrap}
         (d.oavct_expiry && String(d.oavct_expiry).slice(0, 10) < new Date().toISOString().slice(0, 10) ? ' <b style="color:#A30F27">⚠️ OAVCT EKSPIRE</b>' : '') + '<br>' +
         (d.doc_count < 5 ? '<b style="color:#A30F27">📎 ' + d.doc_count + ' dokiman sèlman: ENKONPLÈ (fòk gen 5: selfie, ID, lisans, OAVCT, machin)</b>' : '📎 ' + d.doc_count + ' dokiman') + (d.reviewed_by ? '<br>✍️ ' + esc(String(d.reviewed_by).replace(/^console:/, '')) + ' · ' + esc(fmt(d.reviewed_at)) : '') +
         (d.rejection_reason && d.status !== 'approved' ? '<br>📝 ' + esc(d.rejection_reason) : '') + '</div>' + aj +
+        (d.fix_docs && d.fix_docs.length ? '<div class="fixb">🔧 Ap tann korije: ' + d.fix_docs.map(function(t){ return esc(DL[t] || t); }).join(', ') + (d.fix_note ? ' — ' + esc(d.fix_note) : '') + '</div>' : '') +
         '<div class="acts">' +
           '<button class="btn o" data-a="docs" data-i="' + i + '">📎 Gade dokiman yo</button>' +
           (d.status !== 'approved' ? '<button class="btn g" data-a="approve" data-i="' + i + '">✅ Apwouve</button>' : '') +
           (d.status === 'pending' ? '<button class="btn r" data-a="reject" data-i="' + i + '">⛔ Rejte</button>' : '') +
+          (d.status === 'pending' ? '<button class="btn o" data-a="fix" data-i="' + i + '">🔧 Mande korije</button>' : '') +
+          (d.status !== 'approved' ? '<button class="btn o" data-a="oavct" data-i="' + i + '">📅 Dat OAVCT</button>' : '') +
           (!d.referral_attached ? '<button class="btn o" data-a="agent" data-i="' + i + '">🪪 Mete Ajan an</button>' : '') +
           waBtn(d) +
         '</div>' +
@@ -185,7 +203,7 @@ td.num{text-align:right;font-variant-numeric:tabular-nums;white-space:nowrap}
     document.querySelectorAll('#list [data-a]').forEach(function(b){ b.onclick = function(){ act(+b.getAttribute('data-i'), b.getAttribute('data-a'), b); }; });
   }
   var vDocs = [], vK = 0;
-  function vShow(){ $('vImg').src = vDocs[vK].src; $('vName').textContent = vDocs[vK].name + '  (' + (vK + 1) + '/' + vDocs.length + ')'; }
+  function vShow(){ $('vS').classList.remove('z'); $('vImg').src = vDocs[vK].src; $('vName').textContent = vDocs[vK].name + '  (' + (vK + 1) + '/' + vDocs.length + ')  · 🔍 peze foto a pou grandi l'; }
   function view(docs, k){
     vDocs = docs; vK = k; vShow(); $('viewer').classList.add('on');
     try { history.pushState({ viewer: 1 }, ''); } catch(e){}
@@ -194,6 +212,9 @@ td.num{text-align:right;font-variant-numeric:tabular-nums;white-space:nowrap}
     if (!fromBack) { try { history.back(); } catch(e){} } }
   window.addEventListener('popstate', function(){ vClose(true); });
   $('vX').onclick = function(){ vClose(false); };
+  /* 1 Nov 2026, Jeffery: "Jennifer must be able to enlarge every document and clearly read it" -
+     tap = full size, drag to move around, tap again = whole photo */
+  $('vImg').onclick = function(){ $('vS').classList.toggle('z'); };
   $('vP').onclick = function(){ vK = (vK + vDocs.length - 1) % vDocs.length; vShow(); };
   $('vN').onclick = function(){ vK = (vK + 1) % vDocs.length; vShow(); };
   function say(i, t, ok){ var m = $('m' + i); m.className = 'msg ' + (ok ? 'ok' : 'err'); m.textContent = t; }
@@ -209,13 +230,27 @@ td.num{text-align:right;font-variant-numeric:tabular-nums;white-space:nowrap}
            the raw photo LEFT this page on her phone, and coming back meant logging in
            again. The photo now opens over the page; Back just closes it. */
         /* same order as the forms: selfie, ID, licence, OAVCT, vehicle, insurance */
-        var ORD = ['selfie', 'id', 'license', 'oavct', 'vehicle', 'insurance'];
+        var ORD = ['selfie', 'id', 'license', 'oavct', 'vehicle', 'insurance'];   /* the order the forms ask in */
         var docs = (x.documents || []).slice().sort(function(a, b){ return ORD.indexOf(a.doc_type) - ORD.indexOf(b.doc_type); })
           .map(function(doc){ return { src: doc.data_url, name: L[doc.doc_type] || doc.doc_type }; });
-        p.innerHTML = docs.length ? '<div class="docs">' + docs.map(function(doc, k){
-          return '<button type="button" data-k="' + k + '"><img src="' + doc.src + '" alt="">' + esc(doc.name) + '</button>';
-        }).join('') + '</div>' : '<div class="meta">Pa gen dokiman.</div>';
-        p.querySelectorAll('.docs button').forEach(function(b){ b.onclick = function(){ view(docs, +b.getAttribute('data-k')); }; });
+        var have = (x.documents || []).map(function(doc){ return doc.doc_type; });
+        var sorted = (x.documents || []).slice().sort(function(a, b){ return ORD.indexOf(a.doc_type) - ORD.indexOf(b.doc_type); });
+        var miss = NEED.filter(function(t){ return have.indexOf(t) < 0; });
+        p.innerHTML = (docs.length ? '<div class="docs">' + docs.map(function(doc, k){
+          return '<div><button type="button" data-k="' + k + '"><img src="' + doc.src + '" alt="">' + esc(doc.name) + '</button>'
+            + '<button type="button" class="rp" data-t="' + sorted[k].doc_type + '" style="margin-top:4px;color:#00209F">📷 Ranplase</button></div>';
+        }).join('') + '</div>' : '<div class="meta">Pa gen dokiman.</div>')
+          + (miss.length ? '<div class="fixb" style="background:#FDE7EA;color:#A30F27">⛔ Manke: ' + miss.map(function(t){ return DL[t]; }).join(', ') + '</div>'
+            + '<div class="acts">' + miss.map(function(t){ return '<button type="button" class="btn o rp" data-t="' + t + '">📷 Ajoute ' + esc(DL[t]) + '</button>'; }).join('') + '</div>' : '');
+        p.querySelectorAll('.docs button[data-k]').forEach(function(b){ b.onclick = function(){ view(docs, +b.getAttribute('data-k')); }; });
+        p.querySelectorAll('.rp').forEach(function(b){ b.onclick = function(){
+          var t = b.getAttribute('data-t'), f = document.createElement('input'); f.type = 'file'; f.accept = 'image/*';
+          f.onchange = function(){ var file = f.files && f.files[0]; if (!file) return; say(i, 'Ap voye foto a…', true);
+            shrink(file).then(function(u){ if (!u) throw new Error('Foto a pa bon.');
+              return req('POST', '/api/agents/admin/drivers/' + d.id + '/document', { by: who, doc_type: t, image_data: u }); })
+              .then(function(){ say(i, '✅ ' + DL[t] + ' ranplase.', true); p.classList.remove('open'); setTimeout(load, 700); })
+              .catch(function(e){ say(i, e.message, false); }); };
+          f.click(); }; });
       }).catch(function(e){ p.innerHTML = '<div class="msg err">' + esc(e.message) + '</div>'; });
       return;
     }
@@ -234,7 +269,48 @@ td.num{text-align:right;font-variant-numeric:tabular-nums;white-space:nowrap}
       $('ap' + i).onclick = function(){
         var sv = (p.querySelector('input[name="sv' + i + '"]:checked') || {}).value || cur;
         this.disabled = true; var b2 = this;
-        req('POST', '/api/agents/admin/drivers/' + d.id + '/approve', { by: who, service: sv }).then(function(){ say(i, '✅ Apwouve pou ' + SVC[sv] + '. Chofè a ka konekte epi resevwa travay.', true); setTimeout(load, 900); })
+        req('POST', '/api/agents/admin/drivers/' + d.id + '/approve', { by: who, service: sv }).then(function(){
+            /* the message to the driver, ready to send, right where she approved */
+            say(i, '✅ Apwouve pou ' + SVC[sv] + '. Kounye a voye mesaj la bay chofè a:', true);
+            $('m' + i).insertAdjacentHTML('beforeend', '<div style="margin-top:8px">' + waBtn({ phone: d.phone, full_name: d.full_name, status: 'approved' }) + '</div>');
+            p.classList.remove('open'); })
+          .catch(function(e){ b2.disabled = false; var x = e.data || {};
+            if (x.error === 'not_ready') {
+              var why = [];
+              if ((x.missing || []).length) why.push('foto ki manke: ' + x.missing.map(function(t){ return DL[t]; }).join(', '));
+              if ((x.to_fix || []).length) why.push('foto ki poko korije: ' + x.to_fix.map(function(t){ return DL[t]; }).join(', '));
+              if (x.oavct === 'expired') why.push('OAVCT la EKSPIRE');
+              if (x.oavct === 'missing') why.push('pa gen dat ekspirasyon OAVCT (peze "📅 Dat OAVCT")');
+              say(i, '⛔ Pa ka apwouve kounye a: ' + why.join(' · '), false);
+            } else say(i, e.message, false); });
+      };
+      return;
+    }
+    if (a === 'fix') {
+      p.setAttribute('data-k', 'fix'); p.classList.add('open');
+      p.innerHTML = '<label>Ki foto pou refè? (rès enskripsyon an rete jan l ye a)</label>' +
+        ORD_ALL.map(function(t){ return '<label style="display:flex;gap:8px;align-items:center;font-weight:700;margin:5px 0"><input type="checkbox" value="' + t + '" style="width:20px;height:20px"> ' + esc(DL[t]) + '</label>'; }).join('') +
+        '<label>Sa pou l fè (Ajan an ap wè l)</label><textarea id="fn' + i + '" rows="2" placeholder="Egz: foto lisans lan twò flou, pran l ankò nan bon limyè"></textarea>' +
+        '<button class="btn full" id="fg' + i + '">🔧 Voye demann korije a</button>';
+      $('fg' + i).onclick = function(){
+        var ds = [].map.call(p.querySelectorAll('input[type=checkbox]:checked'), function(c){ return c.value; });
+        if (!ds.length) { say(i, 'Chwazi omwen yon foto.', false); return; }
+        this.disabled = true; var b2 = this;
+        req('POST', '/api/agents/admin/drivers/' + d.id + '/fix', { by: who, docs: ds, note: $('fn' + i).value.trim() })
+          .then(function(){ say(i, '🔧 Demann korije voye. Ajan an ap wè l nan app li.', true); setTimeout(load, 900); })
+          .catch(function(e){ b2.disabled = false; say(i, e.message, false); });
+      };
+      return;
+    }
+    if (a === 'oavct') {
+      p.setAttribute('data-k', 'oavct'); p.classList.add('open');
+      p.innerHTML = '<label>Dat ekspirasyon OAVCT la jan l ekri sou papye a</label><input id="oe' + i + '" type="date" value="' + esc(d.oavct_expiry ? String(d.oavct_expiry).slice(0, 10) : '') + '">' +
+        '<button class="btn full" id="og' + i + '">📅 Anrejistre dat la</button>';
+      $('og' + i).onclick = function(){
+        var v = $('oe' + i).value; if (!v) { say(i, 'Mete dat la.', false); return; }
+        this.disabled = true; var b2 = this;
+        req('POST', '/api/agents/admin/drivers/' + d.id + '/oavct', { by: who, expiry: v })
+          .then(function(){ say(i, v < new Date().toISOString().slice(0, 10) ? '⚠️ Dat la anrejistre: OAVCT la EKSPIRE.' : '✅ Dat OAVCT anrejistre.', true); setTimeout(load, 900); })
           .catch(function(e){ b2.disabled = false; say(i, e.message, false); });
       };
       return;

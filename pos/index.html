@@ -1137,12 +1137,12 @@ function mswDriverBox(txtKey){return '<div class="card" style="background:#FFF8E
      by those ids only. */
 var DRV_DOC={'Driver Photo':'selfie','National ID':'id','Driver License':'license','OAVCT':'oavct','Vehicle Photo':'vehicle','Insurance':'insurance'};
 var DRV_OPT={'Insurance':1};
-var DRV_REQ=[['name','f_name'],['phone','f_phone'],['city','drv_city'],['make','drv_make'],['model','drv_model'],['year','drv_year'],['color','color'],['plate','plate'],['licnum','drv_licnum'],['oavct','drv_oavct']];
+var DRV_REQ=[['name','f_name'],['phone','f_phone'],['city','drv_city'],['make','drv_make'],['model','drv_model'],['year','drv_year'],['color','color'],['plate','plate'],['licnum','drv_licnum'],['oavct','drv_oavct'],['oavctExp','drv_oavct_exp']];
 var DRV_CITIES=['Port-au-Prince','Delmas','Pétion-Ville','Carrefour','Cité Soleil','Tabarre','Croix-des-Bouquets','Cap-Haïtien','Gonaïves','Saint-Marc','Les Cayes','Jacmel','Hinche','Jérémie','Port-de-Paix','Fort-Liberté','Léogâne','Petit-Goâve','Mirebalais','Ouanaminthe'];
 window.MSW_API=window.MSW_API||'https://msouwout-backend.onrender.com';
 var DRV_LIVE=['queued','sending','needphone','noagent'];
 var T_DRV={
-  ht:{drv_city:'Vil',drv_make:'Mak (Bajaj, Honda, Toyota…)',drv_model:'Modèl',drv_year:'Ane machin/moto a',drv_licnum:'Nimewo lisans',drv_oavct:'Nimewo OAVCT',drv_oavct_exp:'Dat ekspirasyon OAVCT (sou papye a)',drv_service:'Ki travay li ap fè?',drv_svc_ride:'Kous sèlman',drv_svc_delivery:'Livrezon sèlman',drv_svc_both:'Toude (kous + livrezon)',up_oavct:'Dokiman OAVCT',up_vehphoto:'Foto moto/machin nan (ak plak la)',up_opt:'opsyonèl',
+  ht:{drv_city:'Vil',drv_make:'Mak (Bajaj, Honda, Toyota…)',drv_model:'Modèl',drv_year:'Ane machin/moto a',drv_licnum:'Nimewo lisans',drv_oavct:'Nimewo OAVCT',drv_oavct_exp:'Dat ekspirasyon OAVCT (sou papye a)',drv_oavct_expired:'OAVCT la EKSPIRE (fòk li renouvle l)',ms_fix:'🔧 Jennifer mande korije: {list}',ms_fix_btn:'📸 Refè: {d}',ms_fix_ok:'✅ Foto a voye. Jennifer ap wè l.',ms_fix_off:'Pa gen siyal. Eseye ankò lè w gen entènèt.',dh_fix:'Korije',drv_service:'Ki travay li ap fè?',drv_svc_ride:'Kous sèlman',drv_svc_delivery:'Livrezon sèlman',drv_svc_both:'Toude (kous + livrezon)',up_oavct:'Dokiman OAVCT',up_vehphoto:'Foto moto/machin nan (ak plak la)',up_opt:'opsyonèl',
     drv_note:'✅ Enskripsyon sa a ale DIRÈKTEMAN sou MsouWout. Jennifer ap verifye dokiman yo epi apwouve chofè a. Kòd Ajan ou ale avè l otomatikman. Chofè a pa ka pran kous ni livrezon anvan li apwouve.',
     drv_consent:'Chofè a dakò ak Kondisyon ak Règleman MsouWout yo, epi li ban m pèmisyon voye enfòmasyon ak foto li yo.',drv_consent_s:'Dakò chofè a',
     drv_missing_q:'Enskripsyon an PA KONPLÈ. Sa ki manke:\n{list}\n\nAnrejistre l kòm ENKONPLÈ? Li p ap voye bay MsouWout jiskaske ou konplete l.',
@@ -1150,14 +1150,14 @@ var T_DRV={
     ms_incomplete:'🔴 ENKONPLÈ, pa voye. Manke: {list}',ms_queued:'📶 Ap tann siyal pou voye bay MsouWout…',ms_sending:'⏳ Ap voye bay MsouWout… (foto {n}/{t})',
     ms_needphone:'🔴 PA VOYE: mete nimewo telefòn badj Ajan ou pou chofè a konte pou ou.',ms_noagent:'🔴 PA VOYE: nou pa jwenn badj Ajan aktif ak nimewo telefòn ou a ({p}).',
     ms_sendnoajan:'Voye san kòd Ajan',ms_sendnoajan_q:'Chofè a P AP konte pou okenn Ajan (Jennifer ka korije sa apre). Voye kanmenm?',ms_setphone:'📱 Mete nimewo Ajan mwen',
-    ms_pending:'🟡 Rive sou MsouWout ✅ AN ATANT apwobasyon Jennifer',ms_approved:'✅ VERIFYE: chofè a ka konekte epi travay',ms_rejected:'⛔ REJTE: {r}',ms_suspended:'⛔ Sispann',
+    ms_pending:'🟡 Rive sou MsouWout ✅ AN ATANT apwobasyon Jennifer',ms_approved:'✅ VERIFYE: enskripsyon aksepte (kous yo kòmanse nan lansman an)',ms_rejected:'⛔ REJTE: {r}',ms_suspended:'⛔ Sispann',
     ms_exists:'🟠 Nimewo sa a te deja enskri sou MsouWout. Si se ou ki te ede l, mande Jennifer mete kòd Ajan ou sou li.',ms_failed:'🔴 MsouWout refize enskripsyon an ({e}). Tcheke enfòmasyon yo epi konplete l ankò.',
     ms_docs_missing:'⚠️ Foto ki poko rive sou MsouWout: {list}',ms_complete:'✏️ Konplete enskripsyon an',ms_wa:'📲 Di chofè a sou WhatsApp',
-    ms_wa_ok:'Bonjou {n}! Ou APWOUVE sou MsouWout ✅. Konekte sou https://msouwout.com/driver-login.html ak nimewo telefòn ou, kreye PIN ou, epi kòmanse resevwa kous.',
+    ms_wa_ok:'Bonjou {n}! 🎉 Enskripsyon ou sou MsouWout AKSEPTE ✅. Gran lansman kous yo ap fèt byento: n ap fè w konnen depi moun kòmanse pran kous. Ou pral resevwa yon envitasyon pou yon FÒMASYON GRATIS sou kondui sou wout la ak kijan pou sèvi ak aplikasyon MsouWout la. Mèsi paske w chwazi MsouWout!',
     ms_wa_wait:'Bonjou {n}! Enskripsyon MsouWout ou a rive ✅. L ap tann verifikasyon. M ap fè w konnen lè l apwouve.',
     ms_wa_no:'Bonjou {n}. Enskripsyon MsouWout ou a pa t aksepte: {r}. Kontakte m pou nou korije l.',ms_ajan:'Kredite pou Ajan: {c}',
     dh_title:'🛵 Chofè mwen yo (MsouWout)',dh_line:'{p} an atant · {v} VERIFYE · {i} pou korije',dh_bonus:'Bonis: {b} HTG · ankò {n} chofè verifye pou pwochen 1 000 HTG (swivi sèlman)',dh_all:'Tout chofè ki enskri ak kòd ou (app + QR): {r} · VERIFYE: {v}',dh_see:'Wè yo →',dh_noph:'Mete nimewo telefòn badj Ajan ou pou wè TOUT chofè ki enskri ak kòd ou (nan app la ak pa QR).',dh_none:'Poko gen chofè ak kòd ou.',dh_nobadge:'Nou pa jwenn badj Ajan aktif ak nimewo sa a. Tcheke nimewo a.',dh_app:'Enskripsyon nan app sa a: {n}',dh_unsent:'pa voye',ms_pending_s:'An atant',ms_approved_s:'VERIFYE',ms_rejected_s:'Rejte',nb_unsent:'Pa voye',nb_sending:'Ap voye',nb_exists:'Deja enskri',drd_t:'Enskripsyon chofè a pa t fini',drd_go:'Kontinye enskripsyon an'},
-  fr:{drv_city:'Ville',drv_make:'Marque (Bajaj, Honda, Toyota…)',drv_model:'Modèle',drv_year:'Année du véhicule',drv_licnum:'Numéro de permis',drv_oavct:'Numéro OAVCT',drv_oavct_exp:'Date d’expiration OAVCT (sur le document)',drv_service:'Quel travail ?',drv_svc_ride:'Courses seulement',drv_svc_delivery:'Livraisons seulement',drv_svc_both:'Les deux (courses + livraisons)',up_oavct:'Document OAVCT',up_vehphoto:'Photo de la moto/voiture (avec la plaque)',up_opt:'optionnel',
+  fr:{drv_city:'Ville',drv_make:'Marque (Bajaj, Honda, Toyota…)',drv_model:'Modèle',drv_year:'Année du véhicule',drv_licnum:'Numéro de permis',drv_oavct:'Numéro OAVCT',drv_oavct_exp:'Date d’expiration OAVCT (sur le document)',drv_oavct_expired:'OAVCT EXPIRÉ (à renouveler)',ms_fix:'🔧 Jennifer demande de corriger : {list}',ms_fix_btn:'📸 Refaire : {d}',ms_fix_ok:'✅ Photo envoyée. Jennifer va la voir.',ms_fix_off:'Pas de réseau. Réessayez avec internet.',dh_fix:'À corriger',drv_service:'Quel travail ?',drv_svc_ride:'Courses seulement',drv_svc_delivery:'Livraisons seulement',drv_svc_both:'Les deux (courses + livraisons)',up_oavct:'Document OAVCT',up_vehphoto:'Photo de la moto/voiture (avec la plaque)',up_opt:'optionnel',
     drv_note:'✅ Cette inscription va DIRECTEMENT sur MsouWout. Jennifer vérifie les documents et approuve le chauffeur. Votre code Ajan part avec automatiquement. Le chauffeur ne peut prendre ni course ni livraison avant l’approbation.',
     drv_consent:'Le chauffeur accepte les Conditions et le Règlement MsouWout et m’autorise à envoyer ses informations et photos.',drv_consent_s:'Accord du chauffeur',
     drv_missing_q:'Inscription INCOMPLÈTE. Il manque :\n{list}\n\nL’enregistrer comme INCOMPLÈTE ? Elle ne sera pas envoyée à MsouWout tant qu’elle n’est pas complétée.',
@@ -1168,11 +1168,11 @@ var T_DRV={
     ms_pending:'🟡 Reçue par MsouWout ✅ EN ATTENTE d’approbation de Jennifer',ms_approved:'✅ VÉRIFIÉ : le chauffeur peut se connecter et travailler',ms_rejected:'⛔ REFUSÉ : {r}',ms_suspended:'⛔ Suspendu',
     ms_exists:'🟠 Ce numéro est déjà inscrit sur MsouWout. Si c’est vous qui l’avez aidé, demandez à Jennifer d’y mettre votre code Ajan.',ms_failed:'🔴 MsouWout a refusé l’inscription ({e}). Vérifiez les informations et complétez-la à nouveau.',
     ms_docs_missing:'⚠️ Photos pas encore reçues par MsouWout : {list}',ms_complete:'✏️ Compléter l’inscription',ms_wa:'📲 Prévenir le chauffeur sur WhatsApp',
-    ms_wa_ok:'Bonjour {n} ! Vous êtes APPROUVÉ sur MsouWout ✅. Connectez-vous sur https://msouwout.com/driver-login.html avec votre numéro, créez votre PIN et commencez à recevoir des courses.',
+    ms_wa_ok:'Bonjour {n} ! 🎉 Votre inscription sur MsouWout est ACCEPTÉE ✅. Le grand lancement des courses arrive bientôt : nous vous préviendrons dès que les clients commenceront à commander. Vous recevrez une invitation à une FORMATION GRATUITE sur la conduite sur la route et l’utilisation de l’application MsouWout. Merci d’avoir choisi MsouWout !',
     ms_wa_wait:'Bonjour {n} ! Votre inscription MsouWout est bien reçue ✅. Elle attend la vérification. Je vous préviens dès qu’elle est approuvée.',
     ms_wa_no:'Bonjour {n}. Votre inscription MsouWout n’a pas été acceptée : {r}. Contactez-moi pour la corriger.',ms_ajan:'Crédité à l’Ajan : {c}',
     dh_title:'🛵 Mes chauffeurs (MsouWout)',dh_line:'{p} en attente · {v} VÉRIFIÉS · {i} à corriger',dh_bonus:'Bonus : {b} HTG · encore {n} chauffeurs vérifiés pour les prochains 1 000 HTG (suivi seulement)',dh_all:'Tous les chauffeurs inscrits avec votre code (app + QR) : {r} · VÉRIFIÉS : {v}',dh_see:'Voir →',dh_noph:'Entrez le numéro de votre badge Ajan pour voir TOUS les chauffeurs inscrits avec votre code (dans l’app et par QR).',dh_none:'Aucun chauffeur avec votre code pour l’instant.',dh_nobadge:'Aucun badge Ajan actif avec ce numéro. Vérifiez le numéro.',dh_app:'Inscriptions dans cette app : {n}',dh_unsent:'non envoyées',ms_pending_s:'En attente',ms_approved_s:'VÉRIFIÉ',ms_rejected_s:'Refusé',nb_unsent:'Non envoyée',nb_sending:'Envoi',nb_exists:'Déjà inscrit',drd_t:'Inscription du chauffeur non terminée',drd_go:'Continuer l’inscription'},
-  en:{drv_city:'City',drv_make:'Make (Bajaj, Honda, Toyota…)',drv_model:'Model',drv_year:'Vehicle year',drv_licnum:'License number',drv_oavct:'OAVCT number',drv_oavct_exp:'OAVCT expiry date (on the document)',drv_service:'What work?',drv_svc_ride:'Rides only',drv_svc_delivery:'Deliveries only',drv_svc_both:'Both (rides + deliveries)',up_oavct:'OAVCT document',up_vehphoto:'Photo of the moto/car (with the plate)',up_opt:'optional',
+  en:{drv_city:'City',drv_make:'Make (Bajaj, Honda, Toyota…)',drv_model:'Model',drv_year:'Vehicle year',drv_licnum:'License number',drv_oavct:'OAVCT number',drv_oavct_exp:'OAVCT expiry date (on the document)',drv_oavct_expired:'OAVCT EXPIRED (must be renewed)',ms_fix:'🔧 Jennifer asks to fix: {list}',ms_fix_btn:'📸 Redo: {d}',ms_fix_ok:'✅ Photo sent. Jennifer will see it.',ms_fix_off:'No signal. Try again with internet.',dh_fix:'To fix',drv_service:'What work?',drv_svc_ride:'Rides only',drv_svc_delivery:'Deliveries only',drv_svc_both:'Both (rides + deliveries)',up_oavct:'OAVCT document',up_vehphoto:'Photo of the moto/car (with the plate)',up_opt:'optional',
     drv_note:'✅ This registration goes DIRECTLY to MsouWout. Jennifer checks the documents and approves the driver. Your Ajan code goes with it automatically. The driver cannot take rides or deliveries before approval.',
     drv_consent:'The driver accepts the MsouWout Terms and Rules and allows me to send their information and photos.',drv_consent_s:'Driver’s consent',
     drv_missing_q:'This registration is NOT COMPLETE. Missing:\n{list}\n\nSave it as INCOMPLETE? It will not be sent to MsouWout until you complete it.',
@@ -1183,7 +1183,7 @@ var T_DRV={
     ms_pending:'🟡 Received by MsouWout ✅ WAITING for Jennifer’s approval',ms_approved:'✅ VERIFIED: the driver can log in and work',ms_rejected:'⛔ REJECTED: {r}',ms_suspended:'⛔ Suspended',
     ms_exists:'🟠 This number is already registered on MsouWout. If you helped this driver, ask Jennifer to put your Ajan code on them.',ms_failed:'🔴 MsouWout refused the registration ({e}). Check the details and complete it again.',
     ms_docs_missing:'⚠️ Photos not yet received by MsouWout: {list}',ms_complete:'✏️ Complete the registration',ms_wa:'📲 Tell the driver on WhatsApp',
-    ms_wa_ok:'Hello {n}! You are APPROVED on MsouWout ✅. Log in at https://msouwout.com/driver-login.html with your phone number, create your PIN and start receiving rides.',
+    ms_wa_ok:'Hello {n}! 🎉 Your MsouWout registration is ACCEPTED ✅. The big launch of rides is coming soon: we will let you know as soon as customers start booking. You will receive an invitation to a FREE training on road driving and on using the MsouWout app. Thank you for choosing MsouWout!',
     ms_wa_wait:'Hello {n}! Your MsouWout registration was received ✅. It is waiting for verification. I will let you know when it is approved.',
     ms_wa_no:'Hello {n}. Your MsouWout registration was not accepted: {r}. Contact me so we can fix it.',ms_ajan:'Credited to Ajan: {c}',
     dh_title:'🛵 My drivers (MsouWout)',dh_line:'{p} waiting · {v} VERIFIED · {i} to fix',dh_bonus:'Bonus: {b} HTG · {n} more verified drivers for the next 1,000 HTG (tracking only)',dh_all:'All drivers registered with your code (app + QR): {r} · VERIFIED: {v}',dh_see:'See them →',dh_noph:'Set your Ajan badge phone number to see ALL drivers registered with your code (in the app and by QR).',dh_none:'No driver with your code yet.',dh_nobadge:'No active Ajan badge with this number. Check the number.',dh_app:'Registrations in this app: {n}',dh_unsent:'not sent',ms_pending_s:'Waiting',ms_approved_s:'VERIFIED',ms_rejected_s:'Rejected',nb_unsent:'Not sent',nb_sending:'Sending',nb_exists:'Already registered',drd_t:'Driver registration not finished',drd_go:'Continue the registration'}
@@ -1204,7 +1204,9 @@ function drvPhone(p){var d=String(p||'').replace(/\D/g,'');if(d.length===11&&d.i
 function drvMissing(f,docs,consent){
   var m=[],yMax=new Date().getFullYear()+1;
   DRV_REQ.forEach(function(r){var v=String((f||{})[r[0]]||'').trim();
-    var bad=r[0]==='phone'?!drvPhone(v):r[0]==='year'?!(+v>=1980&&+v<=yMax):!v;if(bad)m.push(t(r[1]));});
+    var bad=r[0]==='phone'?!drvPhone(v):r[0]==='year'?!(+v>=1980&&+v<=yMax):!v;if(bad)m.push(t(r[1]));
+    /* 1 Nov 2026, Jeffery: expired OAVCT = cannot be approved, so it is not sent either */
+    if(r[0]==='oavctExp'&&v&&v<new Date().toISOString().slice(0,10))m.push(t('drv_oavct_expired'));});
   Object.keys(DRV_DOC).forEach(function(u){if(!DRV_OPT[u]&&!((docs||{})[u]&&docs[u].length))m.push(upT(u));});
   if(!consent)m.push(t('drv_consent_s'));
   return m;
@@ -1240,6 +1242,12 @@ function mswLine(o,big){
   else if(st==='needphone'||st==='noagent'){txt=t('ms_'+st).replace('{p}',escHtml(ph));
     btns+='<button class="mini" onclick="agentPhoneForm(function(){localStorage.removeItem(\'hb_agent_link\');mswRetry(\''+id+'\');})">'+t('ms_setphone')+'</button>'
       +'<button class="mini" style="margin-left:6px" onclick="mswNoAjan(\''+id+'\')">'+t('ms_sendnoajan')+'</button>';}
+  else if(st==='pending'&&m.srv&&(m.srv.fix||[]).length){
+    /* Jennifer sent back one or more photos: redo ONLY those (registration, Ajan, other photos untouched) */
+    var TL={};Object.keys(DRV_DOC).forEach(function(u){TL[DRV_DOC[u]]=u;});
+    txt=t('ms_fix').replace('{list}',m.srv.fix.map(function(x){return upT(TL[x]||x);}).join(', '))+(m.srv.note?'<div style="font-weight:700;margin-top:4px">“'+escHtml(m.srv.note)+'”</div>':'');
+    col='#8a5a00';bg='#FFF3D6';
+    btns+=m.srv.fix.map(function(x){return '<button class="mini" style="margin:0 6px 6px 0" onclick="mswFixDoc(\''+id+'\',\''+x+'\')">'+t('ms_fix_btn').replace('{d}',upT(TL[x]||x))+'</button>';}).join('');}
   else if(st==='pending'){txt=t('ms_pending');col='#8a5a00';bg='#FFF8E1';btns+=mswWAbtn(o,'wait');}
   else if(st==='approved'){txt=t('ms_approved');col='#0b6b37';bg='#e6f7ee';btns+=mswWAbtn(o,'ok');}
   else if(st==='rejected'){txt=t('ms_rejected').replace('{r}',escHtml((m.srv&&m.srv.reason)||'—'));btns+=mswWAbtn(o,'no');}
@@ -1260,6 +1268,23 @@ function mswWAbtn(o,kind){
   var first=String(o.name||'').split(' ')[0];
   var msg=t('ms_wa_'+kind).replace('{n}',first).replace('{r}',((o.msw.srv||{}).reason)||'');
   return '<a class="mini" style="display:inline-block;text-decoration:none;background:#25D366;color:#fff;border-color:#25D366" target="_blank" rel="noopener" href="https://wa.me/'+ph.replace('+','')+'?text='+encodeURIComponent(msg)+'">'+t('ms_wa')+'</a>';
+}
+/* retake ONE photo Jennifer asked for and send it straight to MsouWout */
+function mswFixDoc(id,type){
+  var o=drvRec(id);if(!o||!o.msw||!o.msw.driverId)return;
+  var dd=DocCam.doc(type,lang);
+  DocCam.open({title:dd.title,hint:dd.hint,frame:dd.frame,lang:lang,facing:'environment'}).then(function(r){
+    if(!r)return;
+    if(r.fallback){var f=document.createElement('input');f.type='file';f.accept='image/*';
+      f.onchange=function(){var x=f.files&&f.files[0];if(x)send(x);};f.click();return;}
+    send(r.blob);
+  });
+  function send(blob){
+    drvJpeg(blob,1600).then(function(u){if(!u)throw new Error('img');
+      return mswFetch(window.MSW_API+'/api/drivers/'+o.msw.driverId+'/documents',{doc_type:type,image_data:u});})
+    .then(function(d){if(d.status!==201)throw new Error(d.status);toast(t('ms_fix_ok'));mswRefresh(true);})
+    .catch(function(){alert(t('ms_fix_off'));});
+  }
 }
 function mswRetry(id){mswSet(id,{status:'queued'});mswFlush();}
 function mswNoAjan(id){if(!confirm(t('ms_sendnoajan_q')))return;mswSet(id,{status:'queued',noAjanOk:true});mswFlush();}
@@ -1351,7 +1376,7 @@ async function mswRefresh(force){
       if(r.status===200){var by={};(r.body.drivers||[]).forEach(function(d){by[d.id]=d;});
         var os=load('hb_orders',[]);
         os.forEach(function(o){var d=o.regKind==='driver'&&o.msw&&o.msw.driverId&&by[o.msw.driverId];if(!d)return;
-          o.msw.srv={status:d.status,reason:d.rejection_reason||'',docs:d.docs||[],credited:!!d.referral_attached,at:nowStamp()};
+          o.msw.srv={status:d.status,reason:d.rejection_reason||'',docs:d.docs||[],credited:!!d.referral_attached,fix:d.fix_docs||[],note:d.fix_note||'',at:nowStamp()};
           if(['pending','approved','rejected'].indexOf(d.status)>=0)o.status=d.status;});
         save('hb_orders',os);mswPaint(mswWatch);}
     }
@@ -1384,7 +1409,7 @@ function drvHomeCard(){
       var dt='';try{dt=new Date(d.at).toLocaleDateString(lang==='ht'?'fr':lang,{day:'numeric',month:'short'});}catch(e){}
       return '<div style="display:flex;justify-content:space-between;gap:8px;padding:7px 0;border-bottom:1px solid var(--line);font-size:13px">'
         +'<span style="font-weight:800">'+escHtml(d.name)+' <span style="font-weight:600;color:var(--muted)">· '+escHtml(dt)+(d.photos<5?' · 📷 '+d.photos+'/5':'')+'</span></span>'
-        +'<span style="font-weight:800;color:'+x[2]+';white-space:nowrap">'+x[0]+' '+t(x[1])+'</span></div>'
+        +'<span style="font-weight:800;color:'+(d.fix&&d.fix.length?'#8a5a00':x[2])+';white-space:nowrap">'+(d.fix&&d.fix.length?'🔧 '+t('dh_fix'):x[0]+' '+t(x[1]))+'</span></div>'
         +(d.status==='rejected'&&d.reason?'<div style="font-size:12px;color:#b91c1c;padding:0 0 6px">'+escHtml(d.reason)+'</div>':'');}).join('')+'</div>';
     else h+='<div class="sub" style="margin-top:6px">'+t('dh_none')+'</div>';
   }else h+='<div class="sub" style="margin-top:6px">'+(load('hb_drv_stats_err',0)?t('dh_nobadge'):'…')+'</div>';
@@ -6422,7 +6447,7 @@ function shareApp(){
    =================================================================== */
 /* Version the seller can read out loud. When someone says "I don't see the new
    button", the first useful question is which build their phone is running. */
-const APP_VER='74';
+const APP_VER='75';
 var swReg=null;
 if('serviceWorker' in navigator){
   window.addEventListener('load',function(){
