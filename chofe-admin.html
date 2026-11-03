@@ -52,6 +52,20 @@ input,select,textarea{width:100%;min-height:46px;border:1.5px solid var(--line);
 .counts .cn b{font-size:1rem;margin-left:3px}.counts .cf{border-color:#f0b429;background:#fff8e6}
 .counts .ca{border-color:#9bd3a8}.counts .cr{border-color:#f2a7a7}
 .hide{display:none}
+/* 3 Nov 2026 (Jeffery): filters - status, missing document, vehicle, Ajan, search; counts on every chip */
+.fbar{background:#fff;border:1px solid var(--line);border-radius:14px;padding:10px 12px;margin-bottom:12px}
+.fbar .fl{font-size:.72rem;font-weight:800;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);margin:6px 0 4px}
+.chips{display:flex;gap:6px;flex-wrap:wrap}
+.chips button{border:1.5px solid var(--line);background:#fff;border-radius:99px;padding:7px 11px;font-weight:700;font-size:.82rem;cursor:pointer;color:var(--ink);min-height:38px}
+.chips button b{margin-left:4px;color:var(--muted)}
+.chips button.on{background:var(--navy);border-color:var(--navy);color:#fff}.chips button.on b{color:#fff}
+.chips button.z{opacity:.45}
+.frow{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:8px}
+.frow select,.fbar input{min-height:42px;font-size:.88rem}
+.fres{display:flex;justify-content:space-between;align-items:center;gap:8px;margin-top:8px;font-weight:800;font-size:.9rem}
+.fres button{border:0;background:none;color:var(--red);font-weight:800;cursor:pointer;font-size:.85rem}
+.iss{margin-top:8px;display:flex;gap:5px;flex-wrap:wrap}.iss span{font-size:.75rem;font-weight:800;border-radius:99px;padding:3px 9px;background:#FDE7EA;color:#A30F27}
+.iss span.w{background:#FFF3D6;color:#8A5A00}.iss span.o{background:#FFE9D6;color:#9A4A00}
 table{width:100%;border-collapse:collapse;font-size:.86rem}
 th,td{padding:8px 6px;border-bottom:1px solid var(--line);text-align:left;vertical-align:top}
 th{font-size:.7rem;text-transform:uppercase;letter-spacing:.06em;color:var(--muted)}
@@ -84,13 +98,20 @@ td.num{text-align:right;font-variant-numeric:tabular-nums;white-space:nowrap}
 
   <div id="main" class="hide">
     <div class="tabs" id="tabs">
-      <button data-s="pending" class="on">⏳ An atant</button>
-      <button data-s="approved">✅ Apwouve</button>
-      <button data-s="rejected">⛔ Rejte</button>
-      <button data-s="all">Tout</button>
+      <button data-s="list" class="on">🛵 Chofè yo</button>
       <button data-s="stats">🏆 Ajan / Bonis</button>
     </div>
     <div class="counts" id="counts"></div>
+    <div class="fbar" id="fbar">
+      <input id="fq" type="search" placeholder="🔎 Chèche: non, telefòn, plak, badj Ajan (LMA-…)" autocomplete="off">
+      <div class="fl">Estati</div><div class="chips" id="fSt"></div>
+      <div class="fl">Dokiman ki manke / pou refè</div><div class="chips" id="fDoc"></div>
+      <div class="frow"><select id="fVeh"></select><select id="fAj"></select></div>
+      <select id="fSort" style="margin-top:8px">
+        <option value="new">Lòd: pi resan an premye</option><option value="old">Lòd: pi ansyen an premye</option>
+        <option value="name">Lòd: non A → Z</option><option value="issues">Lòd: plis pwoblèm an premye</option></select>
+      <div class="fres"><span id="fN"></span><button type="button" id="fClr">✕ Retire filt yo</button></div>
+    </div>
     <div id="list"></div>
   </div>
 </div>
@@ -100,7 +121,9 @@ td.num{text-align:right;font-variant-numeric:tabular-nums;white-space:nowrap}
 (function(){
   'use strict';
   var API = 'https://haitibiznis-api.onrender.com';
-  var pin = '', who = '', cur = 'pending', drivers = [];
+  var pin = '', who = '', cur = 'list', drivers = [];
+  var F = { st: 'pending', doc: '', veh: '', aj: '', q: '', sort: 'new' };
+  try { var sf = JSON.parse(sessionStorage.getItem('hb_console_f') || 'null'); if (sf) F = Object.assign(F, sf); } catch(e){}
   function $(id){ return document.getElementById(id); }
   function esc(v){ return String(v == null ? '' : v).replace(/[&<>"']/g, function(c){ return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]; }); }
   try { who = localStorage.getItem('hb_console_who') || ''; } catch(e){}
@@ -141,6 +164,7 @@ td.num{text-align:right;font-variant-numeric:tabular-nums;white-space:nowrap}
     b.onclick = function(){
       document.querySelectorAll('#tabs button').forEach(function(x){ x.classList.toggle('on', x === b); });
       cur = b.getAttribute('data-s'); $('list').innerHTML = '<div class="box">Ap chaje…</div>';
+      $('fbar').classList.toggle('hide', cur === 'stats');
       (cur === 'stats' ? loadStats() : load()).catch(function(e){ $('list').innerHTML = '<div class="box msg err">' + esc(e.message) + '</div>'; });
     };
   });
@@ -160,16 +184,11 @@ td.num{text-align:right;font-variant-numeric:tabular-nums;white-space:nowrap}
   function fmt(d){ try { return new Date(d).toLocaleString('fr-HT', { day: 'numeric', month: 'short', hour: '2-digit', minute: '2-digit' }); } catch(e){ return ''; } }
 
   function load(){
-    return req('GET', '/api/agents/admin/drivers?status=' + cur).then(function(d){
+    /* every driver once (≤300), then filtered here - so every count is the server's list, never a guess */
+    return req('GET', '/api/agents/admin/drivers?status=all').then(function(d){
       drivers = d.drivers || [];
-      var c = d.counts || {};
-      /* Jeffery 3 Nov: pending · approved · rejected · correction requested, at a glance */
-      var fx = c.fix || 0;
-      $('counts').innerHTML = '<span class="cn">⏳ An atant <b>' + (c.pending || 0) + '</b></span>'
-        + (fx ? '<span class="cn cf">🔧 Mande korije <b>' + fx + '</b></span>' : '')
-        + '<span class="cn ca">✅ Apwouve <b>' + (c.approved || 0) + '</b></span>'
-        + '<span class="cn cr">❌ Rejte <b>' + (c.rejected || 0) + '</b></span>'
-        + (c.suspended ? '<span class="cn">⛔ Sispann <b>' + c.suspended + '</b></span>' : '');
+      /* Jeffery 3 Nov: pending · correction requested · approved · rejected → the status chips (same server list) */
+      $('counts').innerHTML = '';
       render();
     });
   }
@@ -196,9 +215,93 @@ td.num{text-align:right;font-variant-numeric:tabular-nums;white-space:nowrap}
     var wel = d.status === 'approved' && d.id ? ' data-wel="' + esc(d.id) + '"' : '';
     return '<a class="btn o" style="text-decoration:none;background:#25D366;color:#fff;border-color:#25D366"' + wel + ' target="_blank" rel="noopener" href="https://wa.me/' + ph + '?text=' + encodeURIComponent(msg) + '">📲 ' + (d.status === 'approved' ? (d.welcome_status === 'sent' ? 'Voye mesaj byenveni ankò' : 'Voye mesaj byenveni') : 'WhatsApp chofè a') + '</a>';
   }
+  /* ─── FILTERS (3 Nov 2026, Jeffery) ───────────────────────────────────────────
+     A driver with several problems appears under EACH document filter that applies, but is one driver
+     in every total. Every count = the drivers matching that chip AND the other filters chosen. */
+  var TODAY = function(){ return new Date().toISOString().slice(0, 10); };
+  var INFO = { license_plate: 'plak', license_number: 'nimewo lisans', vehicle_make: 'mak', vehicle_model: 'modèl', vehicle_year: 'ane', vehicle_color: 'koulè' };
+  function facts(d){
+    if (d._f) return d._f;
+    var h = d.doc_types || [], fx = d.fix_docs || [], exp = d.oavct_expiry ? String(d.oavct_expiry).slice(0, 10) : '';
+    var lack = function(t){ return h.indexOf(t) < 0 || fx.indexOf(t) >= 0; };
+    var info = Object.keys(INFO).filter(function(k){ return !String(d[k] || '').trim(); });
+    var f = { selfie: lack('selfie'), id: h.indexOf('id') < 0 || fx.indexOf('id') >= 0, license: lack('license'), oavct: lack('oavct'),
+              oavexp: !!exp && exp < TODAY(), vehicle: lack('vehicle'), info: info.length > 0, infoList: info,
+              noOav: h.indexOf('oavct') < 0 || !exp, fix: fx.length > 0 };
+    f.n = ['selfie', 'license', 'oavct', 'oavexp', 'vehicle', 'info'].filter(function(k){ return f[k]; }).length + (f.fix ? 1 : 0);
+    return (d._f = f);
+  }
+  var ST = [['pending', '⏳ An atant'], ['fix', '🔧 Korije'], ['oav', '🟠 Manke OAVCT'], ['approved', '✅ Apwouve'], ['rejected', '❌ Rejte'], ['all', '📋 Tout']];
+  var DOCF = [['', 'Tout'], ['selfie', 'Foto figi'], ['id', 'Kat ID'], ['license', 'Lisans'], ['oavct', 'Dokiman OAVCT'], ['oavexp', 'OAVCT ekspire'], ['vehicle', 'Foto moto/machin'], ['info', 'Lòt enfòmasyon']];
+  function mSt(d, st){
+    if (st === 'all') return true;
+    if (st === 'fix') return d.status === 'pending' && facts(d).fix;
+    if (st === 'oav') return d.status === 'pending' && facts(d).noOav;
+    return d.status === st;
+  }
+  function mDoc(d, k){ return !k || !!facts(d)[k]; }
+  function isMoto(d){ return d.vehicle_type === 'motorcycle' || d.vehicle_type === 'moto'; }
+  function mVeh(d, v){ return !v || (v === 'moto' ? isMoto(d) : !isMoto(d)); }
+  function ajKey(d){ return d.referral_attached ? (d.ajan ? d.ajan.agentId : String(d.referral_code || '').toUpperCase()) : '-'; }
+  function mAj(d, a){ return !a || ajKey(d) === a; }
+  function digits(v){ return String(v || '').replace(/\D/g, ''); }
+  function mQ(d, q){
+    if (!q) return true;
+    var t = q.toLowerCase(), qd = digits(q);
+    var hay = [d.full_name, d.license_plate, d.referral_code, d.ajan && d.ajan.agentId, d.ajan && d.ajan.name].join(' ').toLowerCase();
+    return hay.indexOf(t) >= 0 || hay.replace(/[\s-]/g, '').indexOf(t.replace(/[\s-]/g, '')) >= 0 || (qd.length >= 3 && digits(d.phone).indexOf(qd) >= 0);
+  }
+  function match(d, o){ o = Object.assign({}, F, o || {}); return mSt(d, o.st) && mDoc(d, o.doc) && mVeh(d, o.veh) && mAj(d, o.aj) && mQ(d, o.q); }
+  function cnt(o){ var n = 0; drivers.forEach(function(d){ if (match(d, o)) n++; }); return n; }
+  function saveF(){ try { sessionStorage.setItem('hb_console_f', JSON.stringify(F)); } catch(e){} }
+  function paintFilters(){
+    $('fSt').innerHTML = ST.map(function(x){ var n = cnt({ st: x[0] }); return '<button type="button" data-st="' + x[0] + '" class="' + (F.st === x[0] ? 'on' : '') + (n ? '' : ' z') + '">' + x[1] + '<b>' + n + '</b></button>'; }).join('');
+    $('fDoc').innerHTML = DOCF.map(function(x){ var n = cnt({ doc: x[0] }); return '<button type="button" data-doc="' + x[0] + '" class="' + (F.doc === x[0] ? 'on' : '') + (n ? '' : ' z') + '">' + x[1] + '<b>' + n + '</b></button>'; }).join('');
+    $('fVeh').innerHTML = [['', 'Moto + machin'], ['moto', '🛵 Moto'], ['car', '🚗 Machin']].map(function(x){ return '<option value="' + x[0] + '"' + (F.veh === x[0] ? ' selected' : '') + '>' + x[1] + ' (' + cnt({ veh: x[0] }) + ')</option>'; }).join('');
+    var aj = {}; drivers.forEach(function(d){ var k = ajKey(d); if (!aj[k]) aj[k] = k === '-' ? '⚠️ Pa gen Ajan' : (d.ajan ? d.ajan.name + ' · ' + d.ajan.agentId : k); });
+    var ks = Object.keys(aj).sort(function(a, b){ return a === '-' ? 1 : b === '-' ? -1 : aj[a].localeCompare(aj[b]); });
+    if (F.aj && !aj[F.aj]) F.aj = '';
+    $('fAj').innerHTML = '<option value="">Tout Ajan (' + cnt({ aj: '' }) + ')</option>' + ks.map(function(k){ return '<option value="' + esc(k) + '"' + (F.aj === k ? ' selected' : '') + '>' + esc(aj[k]) + ' (' + cnt({ aj: k }) + ')</option>'; }).join('');
+    $('fSort').value = F.sort; if ($('fq').value !== F.q) $('fq').value = F.q;
+    var n = cnt({}), any = F.st !== 'all' || F.doc || F.veh || F.aj || F.q;
+    $('fN').textContent = '📋 ' + n + ' chofè' + (any ? ' (sou ' + drivers.length + ')' : '');
+    $('fClr').style.visibility = (F.st !== 'pending' || F.doc || F.veh || F.aj || F.q) ? 'visible' : 'hidden';
+  }
+  /* a status tap shows at once, then re-reads the server so the numbers are today's */
+  function fresh(){ if (pin && cur !== 'stats') load().catch(function(){}); }
+  $('fSt').onclick = function(e){ var b = e.target.closest('button'); if (!b) return; F.st = b.getAttribute('data-st'); saveF(); render(); fresh(); };
+  /* and every minute while the page is open - never while she is typing in an open panel */
+  setInterval(function(){ if (!document.hidden && !document.querySelector('#list .panel.open') && !$('viewer').classList.contains('on')) fresh(); }, 60000);
+  $('fDoc').onclick = function(e){ var b = e.target.closest('button'); if (!b) return; var k = b.getAttribute('data-doc'); F.doc = F.doc === k ? '' : k; saveF(); render(); };
+  $('fVeh').onchange = function(){ F.veh = this.value; saveF(); render(); };
+  $('fAj').onchange = function(){ F.aj = this.value; saveF(); render(); };
+  $('fSort').onchange = function(){ F.sort = this.value; saveF(); render(); };
+  var qT; $('fq').oninput = function(){ var v = this.value; clearTimeout(qT); qT = setTimeout(function(){ F.q = v.trim(); saveF(); render(); }, 200); };
+  $('fClr').onclick = function(){ F = { st: 'pending', doc: '', veh: '', aj: '', q: '', sort: F.sort }; saveF(); render(); };
+  function issues(d){
+    var f = facts(d), L = DL, o = [];
+    if (d.status === 'approved') return '';
+    ['selfie', 'license', 'oavct', 'vehicle'].forEach(function(t){ if ((d.doc_types || []).indexOf(t) < 0) o.push('<span>⚠️ Manke ' + L[t] + '</span>'); });
+    (d.fix_docs || []).forEach(function(t){ o.push('<span class="w">🔧 Refè ' + esc(L[t] || t) + '</span>'); });
+    if (!d.oavct_expiry) o.push('<span class="o">🟠 Pa gen dat OAVCT</span>'); else if (f.oavexp) o.push('<span>⛔ OAVCT ekspire</span>');
+    if (f.info) o.push('<span class="w">📝 Manke: ' + esc(f.infoList.map(function(k){ return INFO[k]; }).join(', ')) + '</span>');
+    return o.length ? '<div class="iss">' + o.join('') + '</div>' : '';
+  }
   function render(){
-    if (!drivers.length) { $('list').innerHTML = '<div class="box">Pa gen chofè isit la.</div>'; return; }
-    $('list').innerHTML = drivers.map(function(d, i){
+    if (cur === 'stats') return;
+    drivers.forEach(function(d){ d._f = null; });
+    paintFilters();
+    var idx = [];
+    drivers.forEach(function(d, i){ if (match(d)) idx.push(i); });
+    var SORT = {
+      new: function(a, b){ return String(drivers[b].created_at).localeCompare(String(drivers[a].created_at)); },
+      old: function(a, b){ return String(drivers[a].created_at).localeCompare(String(drivers[b].created_at)); },
+      name: function(a, b){ return String(drivers[a].full_name || '').localeCompare(String(drivers[b].full_name || ''), 'fr'); },
+      issues: function(a, b){ return facts(drivers[b]).n - facts(drivers[a]).n || SORT.new(a, b); }
+    };
+    idx.sort(SORT[F.sort] || SORT.new);
+    if (!idx.length) { $('list').innerHTML = '<div class="box">' + (drivers.length ? 'Okenn chofè pa koresponn ak filt sa yo.' : 'Pa gen chofè isit la.') + '</div>'; return; }
+    $('list').innerHTML = idx.map(function(i){ var d = drivers[i];
       var aj = d.referral_attached
         ? '<div class="ajan ok">🪪 Ajan: ' + esc(d.ajan ? d.ajan.name + ' (' + d.ajan.agentId + ')' : d.referral_code) + ' · ' + esc(d.referral_code) + '</div>'
         : '<div class="ajan no">⚠️ Pa gen Ajan' + (d.referral_typed ? ' (li te tape "' + esc(d.referral_typed) + '", pa verifye)' : '') + '</div>';
@@ -209,11 +312,11 @@ td.num{text-align:right;font-variant-numeric:tabular-nums;white-space:nowrap}
         '🪪 Lisans <b>' + esc(d.license_number || '—') + '</b> · OAVCT <b>' + esc(d.oavct_number || '—') + '</b>' + (d.oavct_expiry ? ' (jiska ' + esc(String(d.oavct_expiry).slice(0, 10)) + ')' : '') +
         (d.oavct_expiry && String(d.oavct_expiry).slice(0, 10) < new Date().toISOString().slice(0, 10) ? ' <b style="color:#A30F27">⚠️ OAVCT EKSPIRE</b>' : '') + '<br>' +
         (reqMiss(d).length ? '<b style="color:#A30F27">📎 ' + d.doc_count + ' dokiman: ENKONPLÈ, manke ' + reqMiss(d).map(function(t){ return DL[t] || t; }).join(', ') + ' (fòk gen 4: foto figi, lisans, OAVCT, machin · ID opsyonèl)</b>' : '📎 ' + d.doc_count + ' dokiman') + (d.reviewed_by ? '<br>✍️ ' + esc(String(d.reviewed_by).replace(/^console:/, '')) + ' · ' + esc(fmt(d.reviewed_at)) : '') +
-        (d.rejection_reason && d.status !== 'approved' ? '<br>📝 ' + esc(d.rejection_reason) : '') + '</div>' + aj +
+        (d.rejection_reason && d.status !== 'approved' ? '<br>📝 ' + esc(d.rejection_reason) : '') + '</div>' + issues(d) + aj +
         welLine(d) +
         (d.fix_docs && d.fix_docs.length ? '<div class="fixb">🔧 Ap tann korije: ' + d.fix_docs.map(function(t){ return esc(DL[t] || t); }).join(', ') + (d.fix_note ? ' — ' + esc(d.fix_note) : '') + '</div>' : '') +
         '<div class="acts">' +
-          '<button class="btn o" data-a="docs" data-i="' + i + '">📎 Gade dokiman yo</button>' +
+          '<button class="btn o" data-a="docs" data-i="' + i + '">📷 Dokiman / Korije</button>' +
           (d.status !== 'approved' ? '<button class="btn g" data-a="approve" data-i="' + i + '">✅ Apwouve</button>' : '') +
           (d.status === 'pending' ? '<button class="btn r" data-a="reject" data-i="' + i + '">⛔ Rejte</button>' : '') +
           (d.status === 'pending' ? '<button class="btn o" data-a="fix" data-i="' + i + '">🔧 Mande korije</button>' : '') +
