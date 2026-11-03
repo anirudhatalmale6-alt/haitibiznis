@@ -148,7 +148,8 @@ td.num{text-align:right;font-variant-numeric:tabular-nums;white-space:nowrap}
   var SVC = { ride: '🚕 Kous', delivery: '📦 Livrezon', both: '🚕 Kous + 📦 Livrezon' };
   function whoLabel(b){ b = String(b || ''); return b.indexOf('ajan:') === 0 ? 'Ajan ' + b.slice(5) : b.indexOf('console:') === 0 ? b.slice(8) : b; }
   var DL = { selfie: 'Foto figi', id: 'Kat ID', license: 'Lisans', oavct: 'OAVCT', vehicle: 'Machin/Moto', insurance: 'Asirans' };
-  var NEED = ['selfie', 'id', 'license', 'oavct', 'vehicle'], ORD_ALL = NEED.concat('insurance');
+  function reqMiss(d){ var h = d.doc_types || []; return NEED.filter(function(t){ return h.indexOf(t) < 0; }); }
+  var NEED = ['selfie', 'license', 'oavct', 'vehicle'], ORD_ALL = ['selfie', 'id', 'license', 'oavct', 'vehicle', 'insurance'];   /* 3 Nov: ID optional */
   /* a photo Jennifer picks to replace one (Ajan sent it on WhatsApp): same size as the forms send */
   function shrink(file){ return new Promise(function(res){ var u = URL.createObjectURL(file), im = new Image();
     im.onload = function(){ var k = Math.min(1, 1600 / Math.max(im.width, im.height)), c = document.createElement('canvas');
@@ -207,7 +208,7 @@ td.num{text-align:right;font-variant-numeric:tabular-nums;white-space:nowrap}
         '🚘 ' + esc([d.vehicle_make, d.vehicle_model, d.vehicle_year, d.vehicle_color].filter(Boolean).join(' · ')) + ' · Plak <b>' + esc(d.license_plate || '—') + '</b><br>' +
         '🪪 Lisans <b>' + esc(d.license_number || '—') + '</b> · OAVCT <b>' + esc(d.oavct_number || '—') + '</b>' + (d.oavct_expiry ? ' (jiska ' + esc(String(d.oavct_expiry).slice(0, 10)) + ')' : '') +
         (d.oavct_expiry && String(d.oavct_expiry).slice(0, 10) < new Date().toISOString().slice(0, 10) ? ' <b style="color:#A30F27">⚠️ OAVCT EKSPIRE</b>' : '') + '<br>' +
-        (d.doc_count < 5 ? '<b style="color:#A30F27">📎 ' + d.doc_count + ' dokiman sèlman: ENKONPLÈ (fòk gen 5: selfie, ID, lisans, OAVCT, machin)</b>' : '📎 ' + d.doc_count + ' dokiman') + (d.reviewed_by ? '<br>✍️ ' + esc(String(d.reviewed_by).replace(/^console:/, '')) + ' · ' + esc(fmt(d.reviewed_at)) : '') +
+        (reqMiss(d).length ? '<b style="color:#A30F27">📎 ' + d.doc_count + ' dokiman: ENKONPLÈ, manke ' + reqMiss(d).map(function(t){ return DL[t] || t; }).join(', ') + ' (fòk gen 4: foto figi, lisans, OAVCT, machin · ID opsyonèl)</b>' : '📎 ' + d.doc_count + ' dokiman') + (d.reviewed_by ? '<br>✍️ ' + esc(String(d.reviewed_by).replace(/^console:/, '')) + ' · ' + esc(fmt(d.reviewed_at)) : '') +
         (d.rejection_reason && d.status !== 'approved' ? '<br>📝 ' + esc(d.rejection_reason) : '') + '</div>' + aj +
         welLine(d) +
         (d.fix_docs && d.fix_docs.length ? '<div class="fixb">🔧 Ap tann korije: ' + d.fix_docs.map(function(t){ return esc(DL[t] || t); }).join(', ') + (d.fix_note ? ' — ' + esc(d.fix_note) : '') + '</div>' : '') +

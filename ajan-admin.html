@@ -73,6 +73,7 @@ input,select{width:100%;min-height:46px;border:1.5px solid var(--line);border-ra
     </div>
     <input id="q" placeholder="Chèche: non, nimewo LMA, telefòn">
     <div class="counts" id="counts" style="margin-top:8px"></div>
+    <div id="devReq"></div>
     <div id="list"></div>
 
     <div class="box" style="margin-top:18px" id="addBox">
@@ -122,7 +123,44 @@ document.querySelectorAll('#tabs button').forEach(function(b){
 });
 var qt; $('q').oninput = function(){ clearTimeout(qt); qt = setTimeout(load, 300); };
 
+/* 3 Nov 2026 (Jeffery, OPTION C): phones asking to correct documents. Jennifer verifies the Ajan
+   (call / WhatsApp his badge number, he reads the 4-digit code on his screen) and taps ✅ once. */
+function waNum(p){ var d = String(p||'').replace(/\D/g,''); return d.length === 8 ? '509' + d : d; }
+function loadDev(){
+  return req('GET', '/api/agents/admin/ajan-devices').then(function(d){
+    var L = d.requests || [];
+    $('devReq').innerHTML = !L.length ? '' : '<div class="box" style="border:2px solid #f0b429;background:#fff8e6;margin:10px 0">'
+      + '<b>📱 ' + L.length + ' telefòn ap mande pou korije dokiman</b>'
+      + '<div class="meta" style="margin-top:4px">Anvan ou apwouve: rele oswa ekri Ajan an sou nimewo BADJ li, epi mande l li KÒD ki sou ekran li. Apwouve sèlman si kòd la menm ak sa a.</div>'
+      + L.map(function(r, k){
+        var msg = 'Bonjou ' + String(r.name||'').split(' ')[0] + ', se Jennifer (HaitiBiznis). Èske se ou ki mande pou konekte telefòn ou nan LajanMaker pou korije dokiman chofè yo? Si wi, ekri m kòd 4 chif ki parèt sou ekran ou.';
+        return '<div class="dvr" data-k="' + k + '" style="border-top:1px solid #f0d9a0;padding:8px 0;margin-top:8px">'
+          + '<div><b>' + esc(r.name) + '</b> · ' + esc(r.agentId) + ' · ☎ ' + esc(r.phone || '—') + '</div>'
+          + '<div class="meta">' + esc(r.label || 'Telefòn') + ' · mande ' + esc(String(r.requestedAt||'').slice(0,16).replace('T',' ')) + ' UTC'
+          + (r.badgeActive ? '' : ' · <b style="color:#A30F27">BADJ PA AKTIF: ou pa ka apwouve</b>') + '</div>'
+          + '<div style="margin:6px 0">Kòd sou ekran li: <b style="font-size:1.4rem;letter-spacing:4px">' + esc(r.check) + '</b></div>'
+          + '<div class="acts">'
+          + (r.badgeActive ? '<button class="btn g" data-dv="approve">✅ Apwouve telefòn nan</button>' : '')
+          + '<button class="btn gr" data-dv="refuse">❌ Refize</button>'
+          + '<a class="btn o" style="text-decoration:none;display:inline-flex;align-items:center" target="_blank" rel="noopener" href="https://wa.me/' + waNum(r.phone) + '?text=' + encodeURIComponent(msg) + '">💬 WhatsApp li</a>'
+          + '<a class="btn o" style="text-decoration:none;display:inline-flex;align-items:center" href="tel:+' + waNum(r.phone) + '">📞 Rele</a></div>'
+          + '<div class="msg" id="dvm' + k + '"></div></div>';
+      }).join('') + '</div>';
+    $('devReq').querySelectorAll('[data-dv]').forEach(function(btn){
+      btn.onclick = function(){
+        var k = +btn.closest('.dvr').getAttribute('data-k'), r = L[k], what = btn.getAttribute('data-dv');
+        if (what === 'approve' && !confirm('Ou verifye se ' + r.name + ' (kòd ' + r.check + ' menm jan ak sa ki sou ekran li)?')) return;
+        btn.disabled = true;
+        req('POST', '/api/agents/admin/' + encodeURIComponent(r.agentId) + '/device/' + encodeURIComponent(r.id) + '/' + what, { by: who() })
+          .then(function(){ $('dvm'+k).className = 'msg ok'; $('dvm'+k).textContent = what === 'approve' ? '✅ Apwouve. Telefòn li konekte.' : '❌ Refize.'; setTimeout(function(){ loadDev(); load(); }, 900); })
+          .catch(function(e){ btn.disabled = false; $('dvm'+k).className = 'msg err'; $('dvm'+k).textContent = e.message; });
+      };
+    });
+  });
+}
+function who(){ return 'console'; }
 function load(){
+  loadDev().catch(function(){});
   var qs = '?status=' + encodeURIComponent(tab) + '&q=' + encodeURIComponent($('q').value.trim());
   return req('GET', '/api/agents/admin/list' + qs).then(function(d){
     agents = d.agents || []; services = d.services || [];
@@ -140,13 +178,15 @@ function pilotLine(a){
   var st = p.state === 'active' ? '<b style="color:#11632C">AKTIF · rete '+p.daysLeft+' jou</b>' : p.state === 'cancelled' ? '<b style="color:#A30F27">ANILE</b>' : '<b style="color:#A30F27">FINI</b>';
   return '<div class="meta" style="font-weight:700">🎁 Pilòt 30 jou: '+st+' · aktive '+day(p.startedAt)+' · fini '+day(p.endsAt)+'</div>';
 }
-/* 3 Nov 2026 (Jeffery, OPTION B): the Ajan's own LajanMaker login */
+/* 3 Nov 2026 (Jeffery, OPTION C): the Ajan's phones allowed to correct documents */
 function pinLine(a){
   if (a.status !== 'active') return '';
-  var j = a.ajan || {};
-  if (j.pinSetAt) return '<div class="meta" style="font-weight:700;color:#11632C">🔐 PIN Ajan: AKTIF (kreye '+day(j.pinSetAt)+')</div>';
-  if (j.codePending) return '<div class="meta" style="font-weight:700;color:#8A5A00">🔑 Kòd aktivasyon bay, poko itilize (valab jiska '+day(j.codeExpires)+')</div>';
-  return '<div class="meta" style="font-weight:700;color:#8A5A00">🔐 PIN Ajan: poko kreye</div>';
+  var j = a.ajan || {}, ok = (j.devices || []).filter(function(d){ return d.state === 'approved'; }), wait = (j.devices || []).filter(function(d){ return d.state === 'pending'; });
+  if (!ok.length && !wait.length) return '<div class="meta" style="color:var(--muted)">📱 Okenn telefòn konekte pou korije dokiman' + (j.pinSetAt ? ' (ansyen PIN: telefòn li konekte toujou jiskaske li ouvri app la)' : '') + '</div>';
+  return ok.map(function(d){
+    return '<div class="meta" style="font-weight:700;color:#11632C">📱 ' + esc(d.label || 'Telefòn') + ' · konekte ' + day(d.decidedAt) + (d.via === 'pin' ? ' (te gen PIN)' : ' pa ' + esc(d.decidedBy)) + (d.lastSeenAt ? ' · dènye fwa ' + day(d.lastSeenAt) : '')
+      + ' <button class="btn gr" style="min-height:32px;padding:4px 10px;font-size:.8rem" data-act="devoff" data-dev="' + esc(d.id) + '">🔌 Dekonekte</button></div>';
+  }).join('') + (wait.length ? '<div class="meta" style="font-weight:700;color:#8A5A00">📱 ' + wait.length + ' telefòn ap tann apwobasyon (gade anlè a)</div>' : '');
 }
 function draw(){
   $('list').innerHTML = agents.map(function(a, i){
@@ -154,7 +194,7 @@ function draw(){
     var acts = '';
     if (a.status === 'pending') acts += '<button class="btn g" data-act="approve">✅ Apwouve</button>';
     if (a.status === 'active') acts += '<button class="btn r" data-act="suspend">⏸ Sispann</button><a class="btn g" style="text-decoration:none;display:inline-flex;align-items:center" href="ajan-pilot.html#'+encodeURIComponent(a.agentId)+'">🎁 Pilòt</a>'
-      + '<button class="btn o" data-act="ajcode">🔑 Kòd aktivasyon PIN</button>' + (a.ajan && a.ajan.pinSetAt ? '<button class="btn r" data-act="ajrevoke">🔒 Retire PIN</button>' : '');
+      + ((a.ajan && (a.ajan.pinSetAt || (a.ajan.devices || []).length)) ? '<button class="btn r" data-act="ajrevoke">🔌 Dekonekte tout telefòn li</button>' : '');
     if (a.status === 'suspended' || a.status === 'revoked') acts += '<button class="btn g" data-act="approve">↩︎ Reaktive</button>';
     if (a.status !== 'revoked') acts += '<button class="btn gr" data-act="revoke">⛔ Anile</button>';
     acts += '<button class="btn o" data-act="edit">✏️ Modifye</button><a class="btn o" style="text-decoration:none;display:inline-flex;align-items:center" target="_blank" rel="noopener" href="'+PUBLIC+encodeURIComponent(a.agentId)+'">👁 Paj piblik</a>';
@@ -324,22 +364,17 @@ function photoData(file){
 
 function act(i, what, btn){
   var a = agents[i];
-  if (what === 'ajcode') {
-    if (!confirm('Bay '+a.name+' yon kòd aktivasyon PIN? (Si li te gen yon PIN deja, li pral kreye yon nouvo PIN ak kòd sa a.)')) return;
-    btn.disabled = true;
-    req('POST', '/api/agents/admin/'+encodeURIComponent(a.agentId)+'/ajan-code', { by: 'console' }).then(function(x){
-      btn.disabled = false;
-      var txt = 'Bonjou '+a.name.split(' ')[0]+'! Men kòd aktivasyon LajanMaker ou: '+x.code+'\n\n1. Louvri LajanMaker → Paramèt → "🔐 Konekte kòm Ajan"\n2. Mete nimewo telefòn badj ou ('+a.phone+'), kòd la ('+x.code+') epi kreye PIN ou (4 a 6 chif).\n\nKòd la valab 72 èdtan, yon sèl fwa. Pa bay pèsonn PIN ou.';
-      var ph = String(a.phone||'').replace(/\D/g,''); if (ph.length === 8) ph = '509' + ph;
-      $('m'+i).className = 'msg ok'; $('m'+i).innerHTML = '🔑 Kòd la: <b style="font-size:1.3rem;letter-spacing:3px">'+x.code+'</b> (valab jiska '+esc(day(x.expiresAt))+', yon sèl fwa). Ou p ap wè l ankò.<br>'
-        + '<a class="btn g" style="text-decoration:none;display:inline-flex;margin-top:8px" target="_blank" rel="noopener" href="https://wa.me/'+ph+'?text='+encodeURIComponent(txt)+'">📲 Voye l bay Ajan an sou WhatsApp</a>';
-    }).catch(function(e){ btn.disabled = false; say(i, e.message, false); });
+  if (what === 'devoff') {
+    if (!confirm('Dekonekte telefòn sa a? ' + a.name + ' p ap ka korije dokiman sou li ankò (li ka mande ankò, epi ou deside).')) return;
+    req('POST', '/api/agents/admin/'+encodeURIComponent(a.agentId)+'/device/'+encodeURIComponent(btn.getAttribute('data-dev'))+'/revoke', { by: who() })
+      .then(function(){ say(i, '🔌 Telefòn nan dekonekte.', true); setTimeout(load, 900); })
+      .catch(function(e){ say(i, e.message, false); });
     return;
   }
   if (what === 'ajrevoke') {
-    if (!confirm('Retire PIN '+a.name+'? Li p ap ka korije dokiman ankò jiskaske ou ba l yon nouvo kòd.')) return;
-    req('POST', '/api/agents/admin/'+encodeURIComponent(a.agentId)+'/ajan-revoke', { by: 'console' })
-      .then(function(){ say(i, '🔒 PIN retire. Tout telefòn li dekonekte.', true); setTimeout(load, 900); })
+    if (!confirm('Dekonekte TOUT telefòn '+a.name+'? Li p ap ka korije dokiman ankò jiskaske ou apwouve yon telefòn ankò.')) return;
+    req('POST', '/api/agents/admin/'+encodeURIComponent(a.agentId)+'/ajan-revoke', { by: who() })
+      .then(function(){ say(i, '🔌 Tout telefòn li dekonekte.', true); setTimeout(load, 900); })
       .catch(function(e){ say(i, e.message, false); });
     return;
   }
