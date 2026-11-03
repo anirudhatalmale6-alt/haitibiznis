@@ -129,6 +129,7 @@ td.num{text-align:right;font-variant-numeric:tabular-nums;white-space:nowrap}
   var pin = '', who = '', cur = 'list', drivers = [];
   var F = { st: 'pending', doc: '', veh: '', aj: '', q: '', sort: 'prio' };
   try { var sf = JSON.parse(sessionStorage.getItem('hb_console_f') || 'null'); if (sf) F = Object.assign(F, sf); } catch(e){}
+  if (F.st === 'oav') F.st = 'assist';   /* the old "Manke OAVCT" chip became part of 🟠 Asistans OAVCT (3 Nov) */
   function $(id){ return document.getElementById(id); }
   function esc(v){ return String(v == null ? '' : v).replace(/[&<>"']/g, function(c){ return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]; }); }
   try { who = localStorage.getItem('hb_console_who') || ''; } catch(e){}
@@ -233,22 +234,24 @@ td.num{text-align:right;font-variant-numeric:tabular-nums;white-space:nowrap}
     var f = { selfie: lack('selfie'), id: h.indexOf('id') < 0 || fx.indexOf('id') >= 0, license: lack('license'), oavct: lack('oavct'),
               oavexp: !!exp && exp < TODAY(), vehicle: lack('vehicle'), info: info.length > 0, infoList: info,
               noOav: h.indexOf('oavct') < 0 || !exp, noOavDoc: h.indexOf('oavct') < 0, nodate: h.indexOf('oavct') >= 0 && !exp, fix: fx.length > 0 };
+    f.oavct = f.noOavDoc;   /* "🟠 Pa gen OAVCT" = no document (a photo to redo is under 🔧 Korije) */
     /* 3 Nov (OAVCT ASSISTANCE): registered without OAVCT, still not settled → "🟠 ENSKRI — OAVCT POKO REGLE" */
-    f.assist = !!d.oavct_assist && d.status === 'pending' && (f.noOav || f.oavexp);
+    /* Jeffery 3 Nov evening: 🟠 Asistans OAVCT = EVERY pending driver whose OAVCT is not in order (no document,
+       expired, or no date) - ticked box or not. The three stay separately filterable. */
+    f.assist = d.status === 'pending' && (f.noOavDoc || f.oavexp || f.nodate);
     /* ⭐ Jeffery: "prioritize drivers who are missing ONLY OAVCT" - everything else is in */
     f.onlyOav = d.status === 'pending' && (f.noOav || f.oavexp || fx.indexOf('oavct') >= 0) && !f.selfie && !f.license && !f.vehicle && !f.info
       && fx.every(function(t){ return t === 'oavct'; });
     f.n = ['selfie', 'license', 'oavct', 'oavexp', 'nodate', 'vehicle', 'info'].filter(function(k){ return f[k]; }).length + (f.fix ? 1 : 0);
     return (d._f = f);
   }
-  var ST = [['pending', '⏳ An atant'], ['only', '⭐ Sèlman OAVCT'], ['fix', '🔧 Korije'], ['oav', '🟠 Manke OAVCT'], ['assist', '🟠 Asistans OAVCT'], ['approved', '✅ Apwouve'], ['rejected', '❌ Rejte'], ['all', '📋 Tout']];
-  var DOCF = [['', 'Tout'], ['selfie', 'Foto figi'], ['id', 'Kat ID'], ['license', 'Lisans'], ['oavct', 'Dokiman OAVCT'], ['oavexp', 'OAVCT ekspire'], ['nodate', 'Pa gen dat OAVCT'], ['vehicle', 'Foto moto/machin'], ['info', 'Lòt enfòmasyon']];
+  var ST = [['pending', '⏳ An atant'], ['only', '⭐ Sèlman OAVCT'], ['fix', '🔧 Korije'], ['assist', '🟠 Asistans OAVCT'], ['approved', '✅ Apwouve'], ['rejected', '❌ Rejte'], ['all', '📋 Tout']];
+  var DOCF = [['', 'Tout'], ['selfie', 'Foto figi'], ['id', 'Kat ID'], ['license', 'Lisans'], ['oavct', '🟠 Pa gen OAVCT'], ['oavexp', '🔴 OAVCT ekspire'], ['nodate', '📅 Pa gen dat OAVCT'], ['vehicle', 'Foto moto/machin'], ['info', 'Lòt enfòmasyon']];
   function mSt(d, st){
     if (st === 'all') return true;
     if (st === 'fix') return d.status === 'pending' && facts(d).fix;
     /* 3 Nov (Jennifer: "li t mal klase" - drivers WITH an OAVCT were listed): only a missing OAVCT DOCUMENT
        (or the assistance) counts here; a missing date has its own document filter + 📅 Dat OAVCT */
-    if (st === 'oav') return d.status === 'pending' && (facts(d).noOavDoc || facts(d).assist);
     if (st === 'assist') return facts(d).assist;
     if (st === 'only') return facts(d).onlyOav;
     return d.status === st;
@@ -323,9 +326,12 @@ td.num{text-align:right;font-variant-numeric:tabular-nums;white-space:nowrap}
   function issues(d){
     var f = facts(d), L = DL, o = [];
     if (d.status === 'approved') return '';
-    ['selfie', 'license', 'oavct', 'vehicle'].forEach(function(t){ if ((d.doc_types || []).indexOf(t) < 0) o.push('<span>⚠️ Manke ' + L[t] + '</span>'); });
+    ['selfie', 'license', 'vehicle'].forEach(function(t){ if ((d.doc_types || []).indexOf(t) < 0) o.push('<span>⚠️ Manke ' + L[t] + '</span>'); });
+    if (f.noOavDoc) o.push('<span class="o">🟠 Pa gen OAVCT</span>');
     (d.fix_docs || []).forEach(function(t){ o.push('<span class="w">🔧 Refè ' + esc(L[t] || t) + '</span>'); });
-    if (!d.oavct_expiry) o.push('<span class="w">📅 Pa gen dat OAVCT' + ((d.doc_types || []).indexOf('oavct') >= 0 ? ' (foto a la: mete dat la ak 📅 Dat OAVCT)' : '') + '</span>'); else if (f.oavexp) o.push('<span>⛔ OAVCT ekspire</span>');
+    if (f.oavexp) o.push('<span>🔴 OAVCT ekspire (' + esc(String(d.oavct_expiry).slice(0, 10)) + ')</span>');
+    else if (f.nodate) o.push('<span class="w">📅 Pa gen dat OAVCT (foto a la: mete dat la ak 📅 Dat OAVCT)</span>');
+    else if (f.noOavDoc && !d.oavct_expiry) o.push('<span class="w">📅 Pa gen dat OAVCT</span>');
     if (f.info) o.push('<span class="w">📝 Manke: ' + esc(f.infoList.map(function(k){ return INFO[k]; }).join(', ')) + '</span>');
     if (f.onlyOav) o.unshift('<span class="s">⭐ Manke OAVCT SÈLMAN: tout lòt bagay pare</span>');
     return o.length ? '<div class="iss">' + o.join('') + '</div>' : '';
@@ -430,7 +436,20 @@ td.num{text-align:right;font-variant-numeric:tabular-nums;white-space:nowrap}
         var have = (x.documents || []).map(function(doc){ return doc.doc_type; });
         var sorted = (x.documents || []).slice().sort(function(a, b){ return ORD.indexOf(a.doc_type) - ORD.indexOf(b.doc_type); });
         var miss = NEED.filter(function(t){ return have.indexOf(t) < 0; });
-        p.innerHTML = (docs.length ? '<div class="docs">' + docs.map(function(doc, k){
+        /* Jeffery 3 Nov: "display exactly which documents are missing, expired, or awaiting upload" */
+        var dv = x.driver || d, fxd = dv.fix_docs || [], ex = dv.oavct_expiry ? String(dv.oavct_expiry).slice(0, 10) : '', today = new Date().toISOString().slice(0, 10);
+        var byT = {}; (x.documents || []).forEach(function(doc){ byT[doc.doc_type] = doc; });
+        var row = function(t){
+          var doc = byT[t], opt = t === 'id' || t === 'insurance', st;
+          if (fxd.indexOf(t) >= 0) st = '<b style="color:#8A5A00">🔧 Ou mande refè l</b>' + (doc ? ' (ansyen foto a la)' : '');
+          else if (doc) st = '<b style="color:#11632C">✅ Resevwa</b> ' + esc(fmt(doc.at)) + (doc.by && doc.by !== 'form' ? ' · ' + esc(whoLabel(doc.by)) : '');
+          else if (opt) st = '<span style="color:var(--muted)">➖ Pa genyen (opsyonèl)</span>';
+          else st = '<b style="color:#A30F27">' + (t === 'oavct' ? '🟠 PA GEN OAVCT' : '⚠️ MANKE') + '</b> — poko rive sou MsouWout <span style="color:var(--muted)">(si Ajan an te pran l: li dwe peze "🔄 Voye dokiman ki rete yo")</span>';
+          if (t === 'oavct' && doc) st += !ex ? ' · <b style="color:#8A5A00">📅 PA GEN DAT</b>' : ex < today ? ' · <b style="color:#A30F27">🔴 EKSPIRE ' + esc(ex) + '</b>' : ' · valab jiska ' + esc(ex);
+          return '<div style="display:flex;gap:8px;justify-content:space-between;border-bottom:1px solid var(--line);padding:6px 0"><b>' + esc(DL[t]) + '</b><span style="text-align:right">' + st + '</span></div>';
+        };
+        var sheet = '<div class="box" style="padding:10px 12px;margin:8px 0 10px"><b>📋 Dosye chofè a</b>' + ['selfie', 'license', 'oavct', 'vehicle', 'id', 'insurance'].map(row).join('') + '</div>';
+        p.innerHTML = sheet + (docs.length ? '<div class="docs">' + docs.map(function(doc, k){
           return '<div><button type="button" data-k="' + k + '"><img src="' + doc.src + '" alt="">' + esc(doc.name) + '</button>'
             + '<button type="button" class="rp" data-t="' + sorted[k].doc_type + '" style="margin-top:6px;color:#fff;background:#00209F;border-radius:8px;padding:7px 4px;font-size:.74rem">📷 Ranplase ' + esc(DL[sorted[k].doc_type] || '') + '</button></div>';
         }).join('') + '</div>' : '<div class="meta">Pa gen dokiman.</div>')
