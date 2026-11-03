@@ -417,6 +417,8 @@ td.num{text-align:right;font-variant-numeric:tabular-nums;white-space:nowrap}
       if (p.classList.contains('open') && p.getAttribute('data-k') === 'docs') { p.classList.remove('open'); return; }
       p.setAttribute('data-k', 'docs'); p.classList.add('open'); p.innerHTML = '<div class="meta">Ap chaje dokiman yo…</div>';
       req('GET', '/api/agents/admin/drivers/' + d.id).then(function(x){
+        /* an incomplete answer is NOT "no documents" (3 Nov, Volcy: 6 photos on MsouWout, panel said none) */
+        if (!x || !Array.isArray(x.documents)) throw new Error('Foto yo pa t ka chaje (koneksyon). Peze "📷 Dokiman / Korije" ankò.');
         var L = { selfie: 'Selfie', id: 'Kat ID', license: 'Lisans', oavct: 'OAVCT', vehicle: 'Machin/Moto', insurance: 'Asirans' };
         /* 1 Nov 2026, Jennifer: "chak fwa m verifye dokiman li voye m dèyè" - a link to
            the raw photo LEFT this page on her phone, and coming back meant logging in
@@ -438,7 +440,7 @@ td.num{text-align:right;font-variant-numeric:tabular-nums;white-space:nowrap}
         var rp = function(t){ pickPhoto(i, t); };
         p.querySelectorAll('.docs button[data-k]').forEach(function(b){ b.onclick = function(){ view(docs, +b.getAttribute('data-k'), d.status === 'approved' ? null : rp); }; });
         p.querySelectorAll('.rp').forEach(function(b){ b.onclick = function(){ rp(b.getAttribute('data-t')); }; });
-      }).catch(function(e){ p.innerHTML = '<div class="msg err">' + esc(e.message) + '</div>'; });
+      }).catch(function(e){ p.setAttribute('data-k', 'err'); p.innerHTML = '<div class="msg err">' + esc(e.message) + '</div>'; });
       return;
     }
     /* 1 Nov 2026, Jeffery: one approval activates only the services the driver
