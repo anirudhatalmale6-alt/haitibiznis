@@ -881,7 +881,7 @@ const T_HUB={
  ht:{n_earn:'Revni',n_ref:'Parenaj',
   hub_verified:'Patnè Verifye',hub_level:'Nivo',hub_refcode:'Kòd Parenaj',
   hub_title:'Sant Biznis Dijital',hub_revtoday:'Revni Jodi a',hub_sales:'Vant Jodi a',hub_custserved:'Kliyan Sèvi',hub_comm:'Komisyon',
-  greet_hi:'Bonjou',dash_rev:'Revni Jodi a',dash_wallet:'Balans Bous',dash_signups:'Nouvo Enskripsyon',dash_comm:'Komisyon',
+  greet_hi:'Bonjou',dash_rev:'Revni Jodi a',dash_wallet:'Balans Bous',dash_signups:'Enskripsyon mwen yo',dash_comm:'Komisyon',
   hub_commbanner:'Ou fè {n} komisyon semèn sa a!',hub_manage:'Jere Abònman',hub_quick:'Aksyon Rapid',
   hub_newsale:'Nouvo Vant',hub_inventory:'Envantè',hub_customers:'Kliyan',hub_earn:'Fè Kòb',
   hub_invite_t:'Envite Biznis',hub_invite_s:'Fè komisyon chak mwa ak Parenaj Biznis.',hub_invite_btn:'Envite Kounye a',
@@ -894,7 +894,7 @@ const T_HUB={
  fr:{n_earn:'Revenus',n_ref:'Parrainage',
   hub_verified:'Partenaire Vérifié',hub_level:'Niveau',hub_refcode:'Code Parrainage',
   hub_title:'Centre d’Affaires Numérique',hub_revtoday:'Revenu du jour',hub_sales:'Ventes du jour',hub_custserved:'Clients servis',hub_comm:'Commissions',
-  greet_hi:'Bonjour',dash_rev:'Revenu du jour',dash_wallet:'Solde portefeuille',dash_signups:'Nouvelles inscriptions',dash_comm:'Commissions',
+  greet_hi:'Bonjour',dash_rev:'Revenu du jour',dash_wallet:'Solde portefeuille',dash_signups:'Mes inscriptions',dash_comm:'Commissions',
   hub_commbanner:'Vous avez gagné {n} de commissions cette semaine !',hub_manage:'Gérer l’abonnement',hub_quick:'Actions rapides',
   hub_newsale:'Nouvelle vente',hub_inventory:'Inventaire',hub_customers:'Clients',hub_earn:'Gagner',
   hub_invite_t:'Inviter des entreprises',hub_invite_s:'Gagnez des commissions mensuelles avec Parenaj Biznis.',hub_invite_btn:'Inviter',
@@ -907,7 +907,7 @@ const T_HUB={
  en:{n_earn:'Earnings',n_ref:'Referral',
   hub_verified:'Verified Partner',hub_level:'Level',hub_refcode:'Referral Code',
   hub_title:'Digital Business Center',hub_revtoday:'Today’s Revenue',hub_sales:'Today’s Sales',hub_custserved:'Customers Served',hub_comm:'Commissions',
-  greet_hi:'Hello',dash_rev:'Today’s Revenue',dash_wallet:'Wallet Balance',dash_signups:'New Signups',dash_comm:'Commissions',
+  greet_hi:'Hello',dash_rev:'Today’s Revenue',dash_wallet:'Wallet Balance',dash_signups:'My Signups',dash_comm:'Commissions',
   hub_commbanner:'You earned {n} in commissions this week!',hub_manage:'Manage Subscription',hub_quick:'Quick Actions',
   hub_newsale:'New Sale',hub_inventory:'Inventory',hub_customers:'Customers',hub_earn:'Earn',
   hub_invite_t:'Invite Businesses',hub_invite_s:'Earn recurring monthly commissions through Parenaj Biznis.',hub_invite_btn:'Invite Now',
@@ -920,7 +920,7 @@ const T_HUB={
  es:{n_earn:'Ingresos',n_ref:'Referidos',
   hub_verified:'Socio verificado',hub_level:'Nivel',hub_refcode:'Código de referido',
   hub_title:'Centro de Negocios Digital',hub_revtoday:'Ingresos de hoy',hub_sales:'Ventas de hoy',hub_custserved:'Clientes atendidos',hub_comm:'Comisiones',
-  greet_hi:'Hola',dash_rev:'Ingresos de hoy',dash_wallet:'Saldo de cartera',dash_signups:'Nuevos registros',dash_comm:'Comisiones',
+  greet_hi:'Hola',dash_rev:'Ingresos de hoy',dash_wallet:'Saldo de cartera',dash_signups:'Mis registros',dash_comm:'Comisiones',
   hub_commbanner:'¡Ganaste {n} en comisiones esta semana!',hub_manage:'Gestionar suscripción',hub_quick:'Acciones rápidas',
   hub_newsale:'Nueva venta',hub_inventory:'Inventario',hub_customers:'Clientes',hub_earn:'Ganar',
   hub_invite_t:'Invitar negocios',hub_invite_s:'Gana comisiones mensuales recurrentes con Parenaj Biznis.',hub_invite_btn:'Invitar ahora',
@@ -1083,11 +1083,11 @@ var T_APH={
 Object.keys(T_APH).forEach(function(l){if(T[l])Object.assign(T[l],T_APH[l]);});
 /* 31 Oct 2026: driver sign-ups made here stayed on this phone only. */
 var T_MSW={
-  ht:{msw_qr:'🔗 QR chofè pa m (pou chofè a eskane)',msw_qr_s:'Chofè ki eskane QR sa a oswa louvri lyen sa a ap konte pou ou otomatikman.',msw_noagent:'Nou pa jwenn badj Ajan aktif ak nimewo telefòn sa a. Tcheke nimewo a nan Paramèt → "📱 Nimewo telefòn Ajan mwen", oswa mande Jennifer pou l apwouve badj ou.',msw_share:'📤 Voye lyen an sou WhatsApp',msw_note:'⚠️ Fòm sa a rete sou telefòn ou sèlman. Pou chofè a ka resevwa kous, li DWE enskri sou MsouWout (ak foto dokiman li yo). Kòd Ajan ou mete li poukont li si nimewo telefòn badj ou a anrejistre nan app la.',msw_btn:'🛵 Enskri chofè a sou MsouWout',msw_after:'Dènye etap: enskri chofè a sou MsouWout kounye a. San sa, li p ap resevwa kous epi li p ap parèt sou rapò Ajan ou.',sig_total:'Total'},
-  fr:{msw_qr:'🔗 Mon QR chauffeur (à scanner par le chauffeur)',msw_qr_s:'Un chauffeur qui scanne ce QR ou ouvre ce lien est compté pour vous automatiquement.',msw_noagent:'Aucun badge Ajan actif avec ce numéro. Vérifiez-le dans Paramètres → « 📱 Mon numéro d’Ajan », ou demandez à Jennifer d’approuver votre badge.',msw_share:'📤 Envoyer le lien sur WhatsApp',msw_note:'⚠️ Ce formulaire reste uniquement sur votre téléphone. Pour recevoir des courses, le chauffeur DOIT s’inscrire sur MsouWout (avec les photos de ses documents). Votre code Ajan est rempli automatiquement si le numéro de votre badge est enregistré dans l’app.',msw_btn:'🛵 Inscrire le chauffeur sur MsouWout',msw_after:'Dernière étape : inscrivez le chauffeur sur MsouWout maintenant. Sinon il ne recevra pas de courses et n’apparaîtra pas dans votre rapport Ajan.',sig_total:'Total'},
-  en:{msw_qr:'🔗 My driver QR (for the driver to scan)',msw_qr_s:'A driver who scans this QR or opens this link counts for you automatically.',msw_noagent:'No active Ajan badge with this phone number. Check it in Settings → “📱 My Ajan phone number”, or ask Jennifer to approve your badge.',msw_share:'📤 Send the link on WhatsApp',msw_note:'⚠️ This form stays on your phone only. To receive rides, the driver MUST register on MsouWout (with photos of their documents). Your Ajan code is filled in by itself when your badge phone number is set in the app.',msw_btn:'🛵 Register the driver on MsouWout',msw_after:'Last step: register the driver on MsouWout now. Otherwise they will not get rides and will not show in your Ajan report.',sig_total:'Total'},
-  es:{msw_qr:'🔗 Mi QR de conductor (para que el conductor lo escanee)',msw_qr_s:'Un conductor que escanee este QR o abra este enlace cuenta para ti automáticamente.',msw_noagent:'No hay credencial Ajan activa con este número. Revísalo en Ajustes → “📱 Mi número de Ajan”, o pide a Jennifer que apruebe tu credencial.',msw_share:'📤 Enviar el enlace por WhatsApp',msw_note:'⚠️ Este formulario queda solo en tu teléfono. Para recibir viajes, el conductor DEBE inscribirse en MsouWout (con fotos de sus documentos). Tu código Ajan se llena solo si el número de tu credencial está guardado en la app.',msw_btn:'🛵 Inscribir al conductor en MsouWout',msw_after:'Último paso: inscribe al conductor en MsouWout ahora. Si no, no recibirá viajes ni aparecerá en tu reporte Ajan.',sig_total:'Total'},
-  pt:{msw_qr:'🔗 Meu QR de motorista (para o motorista escanear)',msw_qr_s:'Um motorista que escanear este QR ou abrir este link conta para você automaticamente.',msw_noagent:'Nenhum crachá Ajan ativo com este número. Verifique em Configurações → “📱 Meu número de Ajan”, ou peça à Jennifer para aprovar seu crachá.',msw_share:'📤 Enviar o link no WhatsApp',msw_note:'⚠️ Este formulário fica só no seu telefone. Para receber corridas, o motorista DEVE se cadastrar na MsouWout (com fotos dos documentos). Seu código Ajan é preenchido sozinho se o número do seu crachá estiver salvo no app.',msw_btn:'🛵 Cadastrar o motorista na MsouWout',msw_after:'Último passo: cadastre o motorista na MsouWout agora. Sem isso ele não recebe corridas e não aparece no seu relatório Ajan.',sig_total:'Total'}
+  ht:{msw_qr:'🔗 QR chofè pa m (pou chofè a eskane)',msw_qr_s:'Chofè ki eskane QR sa a oswa louvri lyen sa a ap konte pou ou otomatikman.',msw_noagent:'Nou pa jwenn badj Ajan aktif ak nimewo telefòn sa a. Tcheke nimewo a nan Paramèt → "📱 Nimewo telefòn Ajan mwen", oswa mande Jennifer pou l apwouve badj ou.',msw_share:'📤 Voye lyen an sou WhatsApp',msw_note:'⚠️ Fòm sa a rete sou telefòn ou sèlman. Pou chofè a ka resevwa kous, li DWE enskri sou MsouWout (ak foto dokiman li yo). Kòd Ajan ou mete li poukont li si nimewo telefòn badj ou a anrejistre nan app la.',msw_btn:'🛵 Enskri chofè a sou MsouWout',msw_after:'Dènye etap: enskri chofè a sou MsouWout kounye a. San sa, li p ap resevwa kous epi li p ap parèt sou rapò Ajan ou.',sig_today:'Jodi a',sig_total:'Total'},
+  fr:{msw_qr:'🔗 Mon QR chauffeur (à scanner par le chauffeur)',msw_qr_s:'Un chauffeur qui scanne ce QR ou ouvre ce lien est compté pour vous automatiquement.',msw_noagent:'Aucun badge Ajan actif avec ce numéro. Vérifiez-le dans Paramètres → « 📱 Mon numéro d’Ajan », ou demandez à Jennifer d’approuver votre badge.',msw_share:'📤 Envoyer le lien sur WhatsApp',msw_note:'⚠️ Ce formulaire reste uniquement sur votre téléphone. Pour recevoir des courses, le chauffeur DOIT s’inscrire sur MsouWout (avec les photos de ses documents). Votre code Ajan est rempli automatiquement si le numéro de votre badge est enregistré dans l’app.',msw_btn:'🛵 Inscrire le chauffeur sur MsouWout',msw_after:'Dernière étape : inscrivez le chauffeur sur MsouWout maintenant. Sinon il ne recevra pas de courses et n’apparaîtra pas dans votre rapport Ajan.',sig_today:'Aujourd’hui',sig_total:'Total'},
+  en:{msw_qr:'🔗 My driver QR (for the driver to scan)',msw_qr_s:'A driver who scans this QR or opens this link counts for you automatically.',msw_noagent:'No active Ajan badge with this phone number. Check it in Settings → “📱 My Ajan phone number”, or ask Jennifer to approve your badge.',msw_share:'📤 Send the link on WhatsApp',msw_note:'⚠️ This form stays on your phone only. To receive rides, the driver MUST register on MsouWout (with photos of their documents). Your Ajan code is filled in by itself when your badge phone number is set in the app.',msw_btn:'🛵 Register the driver on MsouWout',msw_after:'Last step: register the driver on MsouWout now. Otherwise they will not get rides and will not show in your Ajan report.',sig_today:'Today',sig_total:'Total'},
+  es:{msw_qr:'🔗 Mi QR de conductor (para que el conductor lo escanee)',msw_qr_s:'Un conductor que escanee este QR o abra este enlace cuenta para ti automáticamente.',msw_noagent:'No hay credencial Ajan activa con este número. Revísalo en Ajustes → “📱 Mi número de Ajan”, o pide a Jennifer que apruebe tu credencial.',msw_share:'📤 Enviar el enlace por WhatsApp',msw_note:'⚠️ Este formulario queda solo en tu teléfono. Para recibir viajes, el conductor DEBE inscribirse en MsouWout (con fotos de sus documentos). Tu código Ajan se llena solo si el número de tu credencial está guardado en la app.',msw_btn:'🛵 Inscribir al conductor en MsouWout',msw_after:'Último paso: inscribe al conductor en MsouWout ahora. Si no, no recibirá viajes ni aparecerá en tu reporte Ajan.',sig_today:'Hoy',sig_total:'Total'},
+  pt:{msw_qr:'🔗 Meu QR de motorista (para o motorista escanear)',msw_qr_s:'Um motorista que escanear este QR ou abrir este link conta para você automaticamente.',msw_noagent:'Nenhum crachá Ajan ativo com este número. Verifique em Configurações → “📱 Meu número de Ajan”, ou peça à Jennifer para aprovar seu crachá.',msw_share:'📤 Enviar o link no WhatsApp',msw_note:'⚠️ Este formulário fica só no seu telefone. Para receber corridas, o motorista DEVE se cadastrar na MsouWout (com fotos dos documentos). Seu código Ajan é preenchido sozinho se o número do seu crachá estiver salvo no app.',msw_btn:'🛵 Cadastrar o motorista na MsouWout',msw_after:'Último passo: cadastre o motorista na MsouWout agora. Sem isso ele não recebe corridas e não aparece no seu relatório Ajan.',sig_today:'Hoje',sig_total:'Total'}
 };
 Object.keys(T_MSW).forEach(function(l){if(T[l])Object.assign(T[l],T_MSW[l]);});
 var MSW_DRIVER_URL='https://msouwout.com/driver-register.html?from=lajanmaker';
@@ -2184,7 +2184,7 @@ const T_PT={
  /* hub / earnings / referral */
  hub_verified:'Parceiro verificado',hub_level:'Nível',hub_refcode:'Código de indicação',
  hub_title:'Centro de Negócios Digital',hub_revtoday:'Faturamento de hoje',hub_sales:'Vendas de hoje',hub_custserved:'Clientes atendidos',hub_comm:'Comissões',
- greet_hi:'Olá',dash_wallet:'Saldo da carteira',dash_signups:'Novos cadastros',dash_comm:'Comissões',
+ greet_hi:'Olá',dash_wallet:'Saldo da carteira',dash_signups:'Meus cadastros',dash_comm:'Comissões',
  hub_commbanner:'Você ganhou {n} em comissões esta semana!',hub_manage:'Gerenciar assinatura',hub_quick:'Ações rápidas',
  hub_newsale:'Nova venda',hub_inventory:'Estoque',hub_customers:'Clientes',hub_earn:'Ganhar',
  hub_invite_t:'Convidar negócios',hub_invite_s:'Ganhe comissões mensais recorrentes com o programa de indicações.',hub_invite_btn:'Convidar agora',
@@ -3356,7 +3356,14 @@ function renderHome(){
   const revToday=today.reduce((a,b)=>a+net(b),0);
   const commToday=today.reduce((a,b)=>a+orderComm(b),0);
   const walletBal=o.filter(x=>x.amount>0).reduce((a,b)=>a+orderComm(b),0);
-  const sigToday=o.filter(x=>isToday(x.ts)&&x.type==='reg').length;const sigAll=o.filter(x=>x.type==='reg').length;
+  /* 3 Nov, Jeffery: "Nirdjy says her dashboard says 0" - the card counted only forms typed in THIS phone, TODAY.
+     Now: every registration that counts for the Ajan (QR + website + this app, from MsouWout), big number = total,
+     today underneath. A driver sent from this app is counted once (MsouWout), one not yet sent is counted here. */
+  const sigLoc=o.filter(x=>x.type==='reg'&&!(x.regKind==='driver'&&x.msw&&x.msw.driverId));
+  let sigSt=load('hb_drv_stats',null);if(sigSt&&sigSt.phone!==agentPhone())sigSt=null;
+  const sigSrv=(sigSt&&sigSt.drivers)||[];
+  const sigAll=sigLoc.length+(sigSt?(sigSt.registered||sigSrv.length):0);
+  const sigToday=sigLoc.filter(x=>isToday(x.ts)).length+sigSrv.filter(x=>x.at&&isToday(x.at)).length;
   const commWeek=o.filter(x=>x.amount>0&&(Date.now()-new Date(x.ts).getTime())<7*864e5).reduce((a,b)=>a+orderComm(b),0);
   const l=lic();const days=Math.max(0,licDays(l));const si=licStatusInfo(l);const exp=licExpired(l);
   const tm=team();   /* a team phone shows its badge instead of the subscription pill */
@@ -3384,7 +3391,7 @@ function renderHome(){
    <div class="dash">
      <div class="dcard c-rev"><div class="dtop"><span class="dlabel">${t('dash_rev')}</span><span class="dicon">💰</span></div><div class="dnum">${dnum(revToday)}</div></div>
      <div class="dcard c-wal"><div class="dtop"><span class="dlabel">${t('dash_wallet')}</span><span class="dicon">👛</span></div><div class="dnum">${dnum(walletBal)}</div></div>
-     <div class="dcard c-sig"><div class="dtop"><span class="dlabel">${t('dash_signups')}</span><span class="dicon">👥</span></div><div class="dnum">${sigToday}</div><div style="font-size:11.5px;font-weight:700;color:var(--muted);margin-top:2px">${t('sig_total')}: ${sigAll}</div></div>
+     <div class="dcard c-sig"><div class="dtop"><span class="dlabel">${t('dash_signups')}</span><span class="dicon">👥</span></div><div class="dnum">${sigAll}</div><div style="font-size:11.5px;font-weight:700;color:var(--muted);margin-top:2px">${t('sig_today')}: ${sigToday}${sigSt?' · ✅ '+(sigSt.verified||0):''}</div></div>
      <div class="dcard c-com"><div class="dtop"><span class="dlabel">${t('dash_comm')}</span><span class="dicon">💵</span></div><div class="dnum">${dnum(commToday)}</div></div>
    </div>
    <div id="homeWhy"></div>
@@ -6607,7 +6614,7 @@ function shareApp(){
    =================================================================== */
 /* Version the seller can read out loud. When someone says "I don't see the new
    button", the first useful question is which build their phone is running. */
-const APP_VER='81';
+const APP_VER='82';
 var swReg=null;
 if('serviceWorker' in navigator){
   window.addEventListener('load',function(){
