@@ -143,6 +143,7 @@ td.num{text-align:right;font-variant-numeric:tabular-nums;white-space:nowrap}
   });
 
   var SVC = { ride: '🚕 Kous', delivery: '📦 Livrezon', both: '🚕 Kous + 📦 Livrezon' };
+  function whoLabel(b){ b = String(b || ''); return b.indexOf('ajan:') === 0 ? 'Ajan ' + b.slice(5) : b.indexOf('console:') === 0 ? b.slice(8) : b; }
   var DL = { selfie: 'Foto figi', id: 'Kat ID', license: 'Lisans', oavct: 'OAVCT', vehicle: 'Machin/Moto', insurance: 'Asirans' };
   var NEED = ['selfie', 'id', 'license', 'oavct', 'vehicle'], ORD_ALL = NEED.concat('insurance');
   /* a photo Jennifer picks to replace one (Ajan sent it on WhatsApp): same size as the forms send */
@@ -207,6 +208,9 @@ td.num{text-align:right;font-variant-numeric:tabular-nums;white-space:nowrap}
           (d.status === 'pending' ? '<button class="btn r" data-a="reject" data-i="' + i + '">⛔ Rejte</button>' : '') +
           (d.status === 'pending' ? '<button class="btn o" data-a="fix" data-i="' + i + '">🔧 Mande korije</button>' : '') +
           (d.status !== 'approved' ? '<button class="btn o" data-a="oavct" data-i="' + i + '">📅 Dat OAVCT</button>' : '') +
+          '<button class="btn o" data-a="edit" data-i="' + i + '">✏️ Modifye</button>' +
+          (d.status === 'rejected' ? '<button class="btn o" data-a="reopen" data-i="' + i + '">↩️ Remete an atant</button>' : '') +
+          '<button class="btn o" data-a="hist" data-i="' + i + '">🕘 Istwa</button>' +
           (!d.referral_attached ? '<button class="btn o" data-a="agent" data-i="' + i + '">🪪 Mete Ajan an</button>' : '') +
           waBtn(d) +
         '</div>' +
@@ -250,7 +254,7 @@ td.num{text-align:right;font-variant-numeric:tabular-nums;white-space:nowrap}
         /* same order as the forms: selfie, ID, licence, OAVCT, vehicle, insurance */
         var ORD = ['selfie', 'id', 'license', 'oavct', 'vehicle', 'insurance'];   /* the order the forms ask in */
         var docs = (x.documents || []).slice().sort(function(a, b){ return ORD.indexOf(a.doc_type) - ORD.indexOf(b.doc_type); })
-          .map(function(doc){ return { src: doc.data_url, name: L[doc.doc_type] || doc.doc_type }; });
+          .map(function(doc){ return { src: doc.data_url, name: (L[doc.doc_type] || doc.doc_type) + (doc.by && doc.by !== 'form' ? ' · ' + whoLabel(doc.by) : '') }; });
         var have = (x.documents || []).map(function(doc){ return doc.doc_type; });
         var sorted = (x.documents || []).slice().sort(function(a, b){ return ORD.indexOf(a.doc_type) - ORD.indexOf(b.doc_type); });
         var miss = NEED.filter(function(t){ return have.indexOf(t) < 0; });
@@ -322,6 +326,46 @@ td.num{text-align:right;font-variant-numeric:tabular-nums;white-space:nowrap}
           .then(function(){ say(i, '🔧 Demann korije voye. Ajan an ap wè l nan app li.', true); setTimeout(load, 900); })
           .catch(function(e){ b2.disabled = false; say(i, e.message, false); });
       };
+      return;
+    }
+    /* 3 Nov 2026, Jennifer: "Mwen bezwen gen posibilite pou m modifye enfòmasyon chofè yo" */
+    if (a === 'edit') {
+      p.setAttribute('data-k', 'edit'); p.classList.add('open');
+      var F = [['full_name','Non konplè'],['phone','Telefòn'],['city','Vil'],['vehicle_make','Mak'],['vehicle_model','Modèl'],['vehicle_year','Ane'],['vehicle_color','Koulè'],
+               ['license_plate','Plak'],['license_number','Nimewo lisans'],['oavct_number','Nimewo OAVCT'],['oavct_expiry','Ekspirasyon OAVCT']];
+      p.innerHTML = F.map(function(x){ var v = d[x[0]] == null ? '' : String(d[x[0]]); if (x[0] === 'oavct_expiry') v = v.slice(0, 10);
+          return '<label>' + x[1] + '</label><input data-ef="' + x[0] + '"' + (x[0] === 'oavct_expiry' ? ' type="date"' : '') + ' value="' + esc(v) + '">'; }).join('') +
+        '<label>Machin</label><select data-ef="vehicle_type"><option value="motorcycle"' + (/moto/.test(d.vehicle_type) ? ' selected' : '') + '>🛵 Moto</option><option value="car"' + (d.vehicle_type === 'car' ? ' selected' : '') + '>🚗 Machin</option></select>' +
+        '<button class="btn full" id="eg' + i + '">💾 Anrejistre chanjman yo</button>';
+      $('eg' + i).onclick = function(){
+        var f = {}; p.querySelectorAll('[data-ef]').forEach(function(el){ f[el.getAttribute('data-ef')] = el.value; });
+        this.disabled = true; var b2 = this;
+        req('POST', '/api/agents/admin/drivers/' + d.id + '/edit', { by: who, fields: f })
+          .then(function(x){ var n = Object.keys(x.changed || {}).length; say(i, n ? '✅ ' + n + ' chanjman anrejistre (yo nan Istwa a).' : 'Pa gen chanjman.', true); setTimeout(load, 900); })
+          .catch(function(e){ b2.disabled = false; var x = e.data || {}; say(i, x.error === 'phone_taken' ? 'Yon lòt chofè gen nimewo sa a deja.' : x.error === 'bad_phone' ? 'Nimewo telefòn nan pa bon.' : e.message, false); });
+      };
+      return;
+    }
+    if (a === 'reopen') {
+      if (!confirm('Remete ' + d.full_name + ' AN ATANT pou w revize l ankò?')) return;
+      btn.disabled = true;
+      req('POST', '/api/agents/admin/drivers/' + d.id + '/reopen', { by: who, note: 'revizyon' })
+        .then(function(){ say(i, '↩️ ' + d.full_name + ' remete AN ATANT.', true); setTimeout(load, 900); })
+        .catch(function(e){ btn.disabled = false; say(i, e.message, false); });
+      return;
+    }
+    if (a === 'hist') {
+      p.setAttribute('data-k', 'hist'); p.classList.add('open'); p.innerHTML = '<div class="meta">…</div>';
+      var KN = { edit: '✏️ Modifye', document: '📷 Foto', fix_request: '🔧 Mande korije', oavct_date: '📅 Dat OAVCT', reopen: '↩️ Remete an atant' };
+      req('GET', '/api/agents/admin/drivers/' + d.id + '/events').then(function(x){
+        var ev = x.events || [];
+        p.innerHTML = ev.length ? ev.map(function(e){ var det = e.detail || {};
+          var txt = e.kind === 'edit' ? Object.keys(det).map(function(k){ return k + ': ' + det[k][0] + ' → ' + det[k][1]; }).join(' · ')
+                  : e.kind === 'document' ? (DL[det.doc_type] || det.doc_type) : e.kind === 'fix_request' ? (det.docs || []).map(function(t){ return DL[t] || t; }).join(', ') + (det.note ? ' — ' + det.note : '')
+                  : e.kind === 'oavct_date' ? det.expiry : '';
+          return '<div class="meta" style="border-bottom:1px solid var(--line);padding:5px 0"><b>' + esc(fmt(e.at)) + '</b> · ' + esc(KN[e.kind] || e.kind) + ' · ' + esc(whoLabel(e.by)) + '<br>' + esc(txt) + '</div>'; }).join('')
+          : '<div class="meta">Poko gen chanjman anrejistre.</div>';
+      }).catch(function(e){ p.innerHTML = '<div class="msg err">' + esc(e.message) + '</div>'; });
       return;
     }
     if (a === 'oavct') {
