@@ -1201,15 +1201,15 @@ T_DRV.pt=Object.assign({},T_DRV.en,{drv_city:'Cidade',drv_make:'Marca (Bajaj, Ho
 Object.keys(T_DRV).forEach(function(l){if(T[l])Object.assign(T[l],T_DRV[l]);});
 /* 3 Nov 2026 (Jeffery, OAVCT ASSISTANCE): register now, OAVCT later on the SAME account; no work until it is in order */
 var T_OAS={
-  ht:{up_wait:'📤 {n} enskripsyon gen {p} foto ki poko rive sou MsouWout. Kite app la louvri ak bon entènèt.',up_btn:'🔄 Voye dokiman ki rete yo',up_now:'🔄 Voye kounye a',up_busy:'⏳ N ap voye foto yo…',up_ok:'✅ Tout foto yo rive sou MsouWout.',up_still:'📶 Gen foto ki poko pase (entènèt la fèb). Rete sou bon entènèt epi peze ankò.',up_locked:'⚠️ {d}: MsouWout pa aksepte foto sa a ankò (plis pase 72 è). Konekte telefòn ou (✏️ Modifye) oswa voye l bay Jennifer.',
+  ht:{up_wait:'📤 {n} enskripsyon gen {p} foto ki poko rive sou MsouWout. Kite app la louvri ak bon entènèt.',up_btn:'🔄 Voye dokiman ki rete yo',up_retry_kept:'🔄 Eseye voye yo ankò',up_redo_kept:'📸 Refè {d}',up_now:'🔄 Voye kounye a',up_busy:'⏳ N ap voye foto yo…',up_ok:'✅ Tout foto yo rive sou MsouWout.',up_still:'📶 Gen foto ki poko pase (entènèt la fèb). Rete sou bon entènèt epi peze ankò.',up_locked:'⚠️ {d}: MsouWout pa aksepte foto sa a ankò (plis pase 72 è). Konekte telefòn ou (✏️ Modifye) oswa voye l bay Jennifer.',
       oas_box:'🟠 Chofè a poko gen OAVCT (asistans OAVCT)',oas_hint:'Li ka enskri kounye a ak lòt dokiman yo. OAVCT a ap ajoute pita sou MENM kont lan. Li p ap ka fè kous ni livrezon jiskaske OAVCT li an règ.',oas_st:'ENSKRI — OAVCT POKO REGLE'},
-  fr:{up_wait:'📤 {n} inscription(s) avec {p} photo(s) pas encore arrivées sur MsouWout. Gardez l’app ouverte avec une bonne connexion.',up_btn:'🔄 Envoyer les documents restants',up_now:'🔄 Envoyer maintenant',up_busy:'⏳ Envoi des photos…',up_ok:'✅ Toutes les photos sont arrivées sur MsouWout.',up_still:'📶 Des photos ne sont pas encore passées (connexion faible). Restez sur une bonne connexion et réessayez.',up_locked:'⚠️ {d} : MsouWout n’accepte plus cette photo (plus de 72 h). Connectez votre téléphone (✏️ Modifier) ou envoyez-la à Jennifer.',
+  fr:{up_wait:'📤 {n} inscription(s) avec {p} photo(s) pas encore arrivées sur MsouWout. Gardez l’app ouverte avec une bonne connexion.',up_btn:'🔄 Envoyer les documents restants',up_retry_kept:'🔄 Réessayer l’envoi',up_redo_kept:'📸 Refaire {d}',up_now:'🔄 Envoyer maintenant',up_busy:'⏳ Envoi des photos…',up_ok:'✅ Toutes les photos sont arrivées sur MsouWout.',up_still:'📶 Des photos ne sont pas encore passées (connexion faible). Restez sur une bonne connexion et réessayez.',up_locked:'⚠️ {d} : MsouWout n’accepte plus cette photo (plus de 72 h). Connectez votre téléphone (✏️ Modifier) ou envoyez-la à Jennifer.',
       oas_box:'🟠 Le chauffeur n’a pas encore d’OAVCT (assistance OAVCT)',oas_hint:'Il peut s’inscrire maintenant avec les autres documents. L’OAVCT sera ajouté plus tard sur le MÊME compte. Pas de courses ni de livraisons tant que son OAVCT n’est pas en règle.',oas_st:'INSCRIT — OAVCT PAS ENCORE RÉGLÉ'},
-  en:{up_wait:'📤 {n} registration(s) with {p} photo(s) not yet on MsouWout. Keep the app open with a good connection.',up_btn:'🔄 Send the remaining documents',up_now:'🔄 Send now',up_busy:'⏳ Sending photos…',up_ok:'✅ All photos reached MsouWout.',up_still:'📶 Some photos did not go through (weak connection). Stay on a good connection and tap again.',up_locked:'⚠️ {d}: MsouWout no longer accepts this photo (over 72 h). Connect your phone (✏️ Edit) or send it to Jennifer.',
+  en:{up_wait:'📤 {n} registration(s) with {p} photo(s) not yet on MsouWout. Keep the app open with a good connection.',up_btn:'🔄 Send the remaining documents',up_retry_kept:'🔄 Try sending again',up_redo_kept:'📸 Retake {d}',up_now:'🔄 Send now',up_busy:'⏳ Sending photos…',up_ok:'✅ All photos reached MsouWout.',up_still:'📶 Some photos did not go through (weak connection). Stay on a good connection and tap again.',up_locked:'⚠️ {d}: MsouWout no longer accepts this photo (over 72 h). Connect your phone (✏️ Edit) or send it to Jennifer.',
       oas_box:'🟠 The driver has no OAVCT yet (OAVCT assistance)',oas_hint:'He can register now with the other documents. The OAVCT is added later to the SAME account. No rides or deliveries until his OAVCT is in order.',oas_st:'REGISTERED — OAVCT NOT YET SETTLED'},
-  es:{up_wait:'📤 {n} inscripción(es) con {p} foto(s) que aún no llegan a MsouWout. Deje la app abierta con buena conexión.',up_btn:'🔄 Enviar los documentos que faltan',up_now:'🔄 Enviar ahora',up_busy:'⏳ Enviando fotos…',up_ok:'✅ Todas las fotos llegaron a MsouWout.',up_still:'📶 Algunas fotos no pasaron (conexión débil). Quédese con buena conexión y toque otra vez.',up_locked:'⚠️ {d}: MsouWout ya no acepta esta foto (más de 72 h). Conecte su teléfono (✏️ Editar) o envíela a Jennifer.',
+  es:{up_wait:'📤 {n} inscripción(es) con {p} foto(s) que aún no llegan a MsouWout. Deje la app abierta con buena conexión.',up_btn:'🔄 Enviar los documentos que faltan',up_retry_kept:'🔄 Reintentar el envío',up_redo_kept:'📸 Repetir {d}',up_now:'🔄 Enviar ahora',up_busy:'⏳ Enviando fotos…',up_ok:'✅ Todas las fotos llegaron a MsouWout.',up_still:'📶 Algunas fotos no pasaron (conexión débil). Quédese con buena conexión y toque otra vez.',up_locked:'⚠️ {d}: MsouWout ya no acepta esta foto (más de 72 h). Conecte su teléfono (✏️ Editar) o envíela a Jennifer.',
       oas_box:'🟠 El conductor aún no tiene OAVCT (asistencia OAVCT)',oas_hint:'Puede inscribirse ahora con los demás documentos. El OAVCT se agrega después en la MISMA cuenta. Sin viajes ni entregas hasta que su OAVCT esté en regla.',oas_st:'INSCRITO — OAVCT PENDIENTE'},
-  pt:{up_wait:'📤 {n} cadastro(s) com {p} foto(s) que ainda não chegaram à MsouWout. Deixe o app aberto com boa conexão.',up_btn:'🔄 Enviar os documentos restantes',up_now:'🔄 Enviar agora',up_busy:'⏳ Enviando fotos…',up_ok:'✅ Todas as fotos chegaram à MsouWout.',up_still:'📶 Algumas fotos não passaram (conexão fraca). Fique numa boa conexão e toque de novo.',up_locked:'⚠️ {d}: a MsouWout não aceita mais esta foto (mais de 72 h). Conecte seu telefone (✏️ Editar) ou envie para a Jennifer.',
+  pt:{up_wait:'📤 {n} cadastro(s) com {p} foto(s) que ainda não chegaram à MsouWout. Deixe o app aberto com boa conexão.',up_btn:'🔄 Enviar os documentos restantes',up_retry_kept:'🔄 Tentar enviar de novo',up_redo_kept:'📸 Refazer {d}',up_now:'🔄 Enviar agora',up_busy:'⏳ Enviando fotos…',up_ok:'✅ Todas as fotos chegaram à MsouWout.',up_still:'📶 Algumas fotos não passaram (conexão fraca). Fique numa boa conexão e toque de novo.',up_locked:'⚠️ {d}: a MsouWout não aceita mais esta foto (mais de 72 h). Conecte seu telefone (✏️ Editar) ou envie para a Jennifer.',
       oas_box:'🟠 O motorista ainda não tem OAVCT (assistência OAVCT)',oas_hint:'Ele pode se cadastrar agora com os outros documentos. O OAVCT é adicionado depois na MESMA conta. Sem corridas nem entregas até o OAVCT estar em ordem.',oas_st:'INSCRITO — OAVCT PENDENTE'}
 };
 Object.keys(T_OAS).forEach(function(l){if(T[l])Object.assign(T[l],T_OAS[l]);});
@@ -1276,7 +1276,11 @@ function mswLine(o,big){
     if(missU.length){extra+='<div style="margin-top:4px">'+t('ms_docs_missing').replace('{list}',missU.map(upT).join(', '))+'</div>';
       if(st==='pending')btns+=missU.map(function(u){return '<button class="mini" style="margin:0 6px 6px 0" onclick="mswFixDoc(\''+id+'\',\''+DRV_DOC[u]+'\')">'+t('ms_add_btn').replace('{d}',upT(u))+'</button>';}).join('');}
   }
-  if((m.kept||[]).length&&st==='pending')extra+=m.kept.map(function(u){return '<div style="margin-top:4px;color:#9a3412">'+t('up_locked').replace('{d}',upT(u))+'</div>';}).join('');
+  /* Jeffery 3 Nov: "if MsouWout refuses a photo, it must remain saved on the Ajan's phone, with a clear error
+     message and an option to retry or correct it" */
+  if((m.kept||[]).length&&st==='pending'){extra+=m.kept.map(function(u){return '<div style="margin-top:4px;color:#9a3412">'+t('up_locked').replace('{d}',upT(u))+'</div>';}).join('');
+    btns+='<button class="mini" style="margin:0 6px 6px 0" onclick="drvSendKept(\''+id+'\')">'+t('up_retry_kept')+'</button>'
+      +m.kept.map(function(u){return '<button class="mini" style="margin:0 6px 6px 0" onclick="mswFixDoc(\''+id+'\',\''+DRV_DOC[u]+'\')">'+t('up_redo_kept').replace('{d}',upT(u))+'</button>';}).join('');}
   if(m.ajanCode)extra+='<div style="margin-top:4px;font-weight:700;opacity:.85">'+t('ms_ajan').replace('{c}',escHtml(m.ajanCode))+'</div>';
   return '<div class="drvst" data-st="'+st+'" style="margin-top:'+(big?'12':'6')+'px;padding:'+(big?'12px':'8px 10px')+';border-radius:10px;background:'+bg+';color:'+col+';font-weight:800;font-size:'+(big?'14':'12.5')+'px;line-height:1.45">'
     +txt+extra+(btns?'<div style="margin-top:8px">'+btns+'</div>':'')+'</div>';
@@ -1304,13 +1308,31 @@ function mswFixDoc(id,type){
                        :mswFetch(window.MSW_API+'/api/drivers/'+o.msw.driverId+'/documents',{doc_type:type,image_data:u});})
     .then(function(d){
       if(d.status===403||d.status===401){ajanConnect();return;}
-      if(d.status!==201&&d.status!==200)throw new Error(d.status);toast(t('ms_fix_ok'));mswRefresh(true);})
+      if(d.status!==201&&d.status!==200)throw new Error(d.status);toast(t('ms_fix_ok'));
+      /* a photo kept after a refusal is replaced by this one: the old copy can go */
+      var os=load('hb_orders',[]),me=os.find(function(z){return z.id===id;}),TL={};Object.keys(DRV_DOC).forEach(function(u){TL[DRV_DOC[u]]=u;});
+      if(me&&me.msw&&(me.msw.kept||[]).indexOf(TL[type])>=0){var k=TL[type];me.msw.kept=me.msw.kept.filter(function(z){return z!==k;});
+        ((me.regDocs||{})[k]||[]).forEach(function(z){if(z.key)docDel(z.key);z.key='';z.sent=true;});save('hb_orders',os);}
+      mswRefresh(true);try{renderOrders();}catch(e){}})
     .catch(function(){alert(t('ms_fix_off'));});
   }
 }
 function mswRetry(id){mswSet(id,{status:'queued'});mswFlush();}
+/* photos MsouWout refused through the open form (>72 h): send them through the Ajan's approved phone */
+async function drvSendKept(id){
+  var o=drvRec(id);if(!o||!o.msw||!(o.msw.kept||[]).length)return;
+  if(!ajanSess()){ajanConnect(function(){drvSendKept(id);});return;}
+  toast(t('up_busy'));var left=[];
+  for(var j=0;j<o.msw.kept.length;j++){var u=o.msw.kept[j],x=((o.regDocs||{})[u]||[])[0],blob=x&&x.key?await docGet(x.key):null;
+    if(!blob){left.push(u);continue;}
+    var url=await drvJpeg(blob,1600),r=url?await ajanFetch('/drivers/'+o.msw.driverId+'/document',{doc_type:DRV_DOC[u],image_data:url}):{status:0};
+    if(r.status===200||r.status===201){docDel(x.key);}else left.push(u);}
+  var os=load('hb_orders',[]),me=os.find(function(z){return z.id===id;});
+  if(me){me.msw.kept=left;Object.keys(me.regDocs||{}).forEach(function(k){if(left.indexOf(k)<0)(me.regDocs[k]||[]).forEach(function(z){z.key='';z.sent=true;});});save('hb_orders',os);}
+  toast(left.length?t('up_still'):t('up_ok'));try{mswRefresh(true);}catch(e){}try{mswPaint(mswWatch);}catch(e){}try{renderOrders();}catch(e){}
+}
 /* 3 Nov 2026 (Jeffery, for Louis): photos still on this phone, and one button to send them NOW */
-function drvWaiting(){var n=0,p=0;load('hb_orders',[]).forEach(function(o){if(o.regKind!=='driver'||!o.msw||['queued','sending'].indexOf(o.msw.status)<0)return;
+function drvWaiting(){var n=0,p=0;load('hb_orders',[]).forEach(function(o){if(o.regKind!=='driver'||!o.msw||['queued','sending'].indexOf(o.msw.status)<0||(o.msw.srv&&o.msw.srv.status!=='pending'))return;
   var d=o.msw.docsDone||[],k=Object.keys(o.regDocs||{}).filter(function(u){return o.regDocs[u]&&o.regDocs[u].length&&d.indexOf(DRV_DOC[u])<0;}).length;n++;p+=k;});return {n:n,p:p};}
 async function drvRetryUploads(btn){
   if(btn)btn.disabled=true;toast(t('up_busy'));
@@ -1356,6 +1378,8 @@ async function mswSendOne(id){
       if(a.status!==200||!a.body.found||!a.body.code)throw new Error('ajan '+a.status);
       code=a.body.code;
     }
+    /* this registration's own key: a retry after a lost answer gets THIS driver back (never "already registered") */
+    var cref=m.cref;if(!cref){cref=ajanNewKey().slice(0,32);mswSet(id,{cref:cref});}
     mswSet(id,{status:'sending',docsDone:[]});
     var p=drvPhone(f.phone);
     var r=await mswFetch(window.MSW_API+'/api/drivers',{
@@ -1363,10 +1387,10 @@ async function mswSendOne(id){
       vehicle_type:f.vehicle==='Machin'?'car':'motorcycle',vehicle_make:f.make||'',vehicle_model:f.model||'',
       vehicle_year:f.year||'',vehicle_color:f.color||'',license_plate:String(f.plate||'').toUpperCase(),
       license_number:f.licnum||'',oavct_number:f.oavct||'',oavct_expiry:f.oavctExp||'',preferred_service:f.service||'both',referral_code:code,
-      oavct_assist:f.oavAssist==='1'});
+      oavct_assist:f.oavAssist==='1',client_ref:cref});
     if(r.status===409){mswSet(id,{status:'exists'});return;}
     if(r.status===400){mswSet(id,{status:'failed',err:String(r.body.error||'400').slice(0,80)});return;}
-    if(r.status!==201||!r.body.driver||!r.body.driver.id)throw new Error('signup '+r.status);
+    if((r.status!==201&&!(r.status===200&&r.body.resumed))||!r.body.driver||!r.body.driver.id)throw new Error('signup '+r.status);
     o=mswSet(id,{driverId:r.body.driver.id,ajanCode:r.body.ajan?r.body.ajan.code:'',sentCode:code,sentAt:nowStamp()});m=o.msw;
   }
   var docs=o.regDocs||{},done=(m.docsDone||[]).slice(),lost=[],keep=[];
@@ -1396,7 +1420,10 @@ async function mswFlush(){
   if(mswFlush._busy)return;mswFlush._busy=true;
   try{
     if(navigator.onLine===false)return;
-    var ids=load('hb_orders',[]).filter(function(o){return o.regKind==='driver'&&o.msw&&DRV_LIVE.indexOf(o.msw.status)>=0&&!(o.msw.srv);}).map(function(o){return o.id;});
+    /* 3 Nov 2026: a registration already ON MsouWout (srv known) whose photos are still on this phone was
+       skipped here for ever - the photos never left (Louis). Photos still waiting for a PENDING driver always go. */
+    var ids=load('hb_orders',[]).filter(function(o){return o.regKind==='driver'&&o.msw&&DRV_LIVE.indexOf(o.msw.status)>=0
+      &&(!o.msw.srv||(o.msw.srv.status==='pending'&&['queued','sending'].indexOf(o.msw.status)>=0));}).map(function(o){return o.id;});
     for(var i=0;i<ids.length;i++){
       try{await mswSendOne(ids[i]);}
       catch(e){var o=drvRec(ids[i]);if(o&&o.msw&&DRV_LIVE.indexOf(o.msw.status)>=0)mswSet(ids[i],{status:'queued',tries:(o.msw.tries||0)+1});}
@@ -6708,7 +6735,7 @@ function shareApp(){
    =================================================================== */
 /* Version the seller can read out loud. When someone says "I don't see the new
    button", the first useful question is which build their phone is running. */
-const APP_VER='86';
+const APP_VER='87';
 var swReg=null;
 if('serviceWorker' in navigator){
   window.addEventListener('load',function(){
