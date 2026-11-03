@@ -140,12 +140,21 @@ function pilotLine(a){
   var st = p.state === 'active' ? '<b style="color:#11632C">AKTIF · rete '+p.daysLeft+' jou</b>' : p.state === 'cancelled' ? '<b style="color:#A30F27">ANILE</b>' : '<b style="color:#A30F27">FINI</b>';
   return '<div class="meta" style="font-weight:700">🎁 Pilòt 30 jou: '+st+' · aktive '+day(p.startedAt)+' · fini '+day(p.endsAt)+'</div>';
 }
+/* 3 Nov 2026 (Jeffery, OPTION B): the Ajan's own LajanMaker login */
+function pinLine(a){
+  if (a.status !== 'active') return '';
+  var j = a.ajan || {};
+  if (j.pinSetAt) return '<div class="meta" style="font-weight:700;color:#11632C">🔐 PIN Ajan: AKTIF (kreye '+day(j.pinSetAt)+')</div>';
+  if (j.codePending) return '<div class="meta" style="font-weight:700;color:#8A5A00">🔑 Kòd aktivasyon bay, poko itilize (valab jiska '+day(j.codeExpires)+')</div>';
+  return '<div class="meta" style="font-weight:700;color:#8A5A00">🔐 PIN Ajan: poko kreye</div>';
+}
 function draw(){
   $('list').innerHTML = agents.map(function(a, i){
     var svc = services.map(function(s){ return '<label><input type="checkbox" data-svc="'+esc(s)+'" '+(a.services.indexOf(s)>=0?'checked':'')+'> '+esc(s)+'</label>'; }).join('');
     var acts = '';
     if (a.status === 'pending') acts += '<button class="btn g" data-act="approve">✅ Apwouve</button>';
-    if (a.status === 'active') acts += '<button class="btn r" data-act="suspend">⏸ Sispann</button><a class="btn g" style="text-decoration:none;display:inline-flex;align-items:center" href="ajan-pilot.html#'+encodeURIComponent(a.agentId)+'">🎁 Pilòt</a>';
+    if (a.status === 'active') acts += '<button class="btn r" data-act="suspend">⏸ Sispann</button><a class="btn g" style="text-decoration:none;display:inline-flex;align-items:center" href="ajan-pilot.html#'+encodeURIComponent(a.agentId)+'">🎁 Pilòt</a>'
+      + '<button class="btn o" data-act="ajcode">🔑 Kòd aktivasyon PIN</button>' + (a.ajan && a.ajan.pinSetAt ? '<button class="btn r" data-act="ajrevoke">🔒 Retire PIN</button>' : '');
     if (a.status === 'suspended' || a.status === 'revoked') acts += '<button class="btn g" data-act="approve">↩︎ Reaktive</button>';
     if (a.status !== 'revoked') acts += '<button class="btn gr" data-act="revoke">⛔ Anile</button>';
     acts += '<button class="btn o" data-act="edit">✏️ Modifye</button><a class="btn o" style="text-decoration:none;display:inline-flex;align-items:center" target="_blank" rel="noopener" href="'+PUBLIC+encodeURIComponent(a.agentId)+'">👁 Paj piblik</a>';
@@ -156,7 +165,7 @@ function draw(){
       '<div class="meta">☎ '+esc(a.phone||'—')+' · Sètifye: '+day(a.certifiedAt)+(a.expiresAt?' · Valab jiska: '+day(a.expiresAt):'')+
         '<br>Zòn: '+esc(a.city||'—')+' · Òganizasyon/Sponsò: '+esc(a.sponsor||'—')+' · Kòd referans: '+esc(a.referralCode||'—')+
         '<br>Soti nan: '+({exam:'egzamen',reissue:'re-emisyon',admin:'konsòl'}[a.source]||a.source)+(a.submissions>1?' · soumèt '+a.submissions+' fwa':'')+(a.statusNote?' · Nòt: '+esc(a.statusNote):'')+(a.idMatched===false?'<br><b style="color:#A30F27">⚠ Nimewo kenbe jan li enprime a (non + dat pa t ka repwodui l)</b>':'')+'</div>' +
-      pilotLine(a) +
+      pilotLine(a) + pinLine(a) +
       '<div class="acts">'+acts+'</div>' +
       '<div class="edit" id="ed'+i+'"><div class="grid2">' +
         '<div><label>Non</label><input data-f="name" value="'+esc(a.name)+'"></div>' +
@@ -315,6 +324,25 @@ function photoData(file){
 
 function act(i, what, btn){
   var a = agents[i];
+  if (what === 'ajcode') {
+    if (!confirm('Bay '+a.name+' yon kòd aktivasyon PIN? (Si li te gen yon PIN deja, li pral kreye yon nouvo PIN ak kòd sa a.)')) return;
+    btn.disabled = true;
+    req('POST', '/api/agents/admin/'+encodeURIComponent(a.agentId)+'/ajan-code', { by: 'console' }).then(function(x){
+      btn.disabled = false;
+      var txt = 'Bonjou '+a.name.split(' ')[0]+'! Men kòd aktivasyon LajanMaker ou: '+x.code+'\n\n1. Louvri LajanMaker → Paramèt → "🔐 Konekte kòm Ajan"\n2. Mete nimewo telefòn badj ou ('+a.phone+'), kòd la ('+x.code+') epi kreye PIN ou (4 a 6 chif).\n\nKòd la valab 72 èdtan, yon sèl fwa. Pa bay pèsonn PIN ou.';
+      var ph = String(a.phone||'').replace(/\D/g,''); if (ph.length === 8) ph = '509' + ph;
+      $('m'+i).className = 'msg ok'; $('m'+i).innerHTML = '🔑 Kòd la: <b style="font-size:1.3rem;letter-spacing:3px">'+x.code+'</b> (valab jiska '+esc(day(x.expiresAt))+', yon sèl fwa). Ou p ap wè l ankò.<br>'
+        + '<a class="btn g" style="text-decoration:none;display:inline-flex;margin-top:8px" target="_blank" rel="noopener" href="https://wa.me/'+ph+'?text='+encodeURIComponent(txt)+'">📲 Voye l bay Ajan an sou WhatsApp</a>';
+    }).catch(function(e){ btn.disabled = false; say(i, e.message, false); });
+    return;
+  }
+  if (what === 'ajrevoke') {
+    if (!confirm('Retire PIN '+a.name+'? Li p ap ka korije dokiman ankò jiskaske ou ba l yon nouvo kòd.')) return;
+    req('POST', '/api/agents/admin/'+encodeURIComponent(a.agentId)+'/ajan-revoke', { by: 'console' })
+      .then(function(){ say(i, '🔒 PIN retire. Tout telefòn li dekonekte.', true); setTimeout(load, 900); })
+      .catch(function(e){ say(i, e.message, false); });
+    return;
+  }
   if (what === 'edit') { $('ed'+i).classList.toggle('open'); return; }
   if (what === 'findcode' || what === 'makecode') return codeTool(i, what, btn);
   var body;

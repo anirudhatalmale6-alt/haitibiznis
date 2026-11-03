@@ -1074,9 +1074,9 @@ let lang=urlLang()||localStorage.getItem('hb_lang')||'ht';
 if(urlLang()){try{localStorage.setItem('hb_lang',lang);}catch(e){}}
 /* 29 Oct 2026: the Ajan phone number in Settings. */
 var T_APH={
-  ht:{pl_on:'🎁 Pilòt Ajan 30 jou AKTIF · aktive {s} · fini {e} · rete {n} jou',pl_over:'🎁 Pilòt Ajan 30 jou: aktive {s} · FINI {e}',aph_over:'⛔ Jou gratis telefòn sa a te fini {d}.',aph_nobadge:'Nimewo sa a pa sou okenn badj Ajan AKTIF. Jennifer dwe tcheke badj ou (menm nimewo, apwouve, ak kòd Ajan), epi aktive pilòt 30 jou ou.',aph_nopilot:'Badj ou aktif, men pilòt 30 jou a poko aktive: mande Jennifer aktive l (konsòl Pilòt → Bay 30 jou).',aph_exp_btn:'Mwen se Ajan: mete nimewo ki sou badj mwen',aph_btn:'Nimewo telefòn Ajan mwen',aph_none:'pa gen',aph_t:'Nimewo telefòn Ajan ou',aph_s:'Mete MENM nimewo ki sou badj Ajan ou an. Se avè l HaitiBiznis konnen jou gratis ou yo (pilòt 30 jou).',aph_ok:'✅ Nimewo a anrejistre. App la gratis jiska {d}.',aph_saved:'✅ Nimewo a anrejistre.',aph_off:'Nimewo a anrejistre, men nou pa ka verifye ak sèvè a kounye a (entènèt). N ap eseye ankò pita.'},
-  fr:{pl_on:'🎁 Pilote Ajan 30 jours ACTIF · activé le {s} · fin le {e} · {n} jours restants',pl_over:'🎁 Pilote Ajan 30 jours : activé le {s} · TERMINÉ le {e}',aph_over:'⛔ Les jours gratuits de ce téléphone ont pris fin le {d}.',aph_nobadge:'Ce numéro n’est sur aucun badge Ajan ACTIF. Jennifer doit vérifier votre badge (même numéro, approuvé, avec code Ajan) puis activer votre pilote de 30 jours.',aph_nopilot:'Votre badge est actif, mais le pilote de 30 jours n’est pas encore activé : demandez à Jennifer (console Pilote → 30 jours).',aph_exp_btn:'Je suis Ajan : entrer le numéro de mon badge',aph_btn:'Mon numéro d’Ajan',aph_none:'aucun',aph_t:'Votre numéro d’Ajan',aph_s:'Entrez le MÊME numéro que sur votre badge d’Ajan. C’est avec lui que HaitiBiznis reconnaît vos jours gratuits (pilote 30 jours).',aph_ok:'✅ Numéro enregistré. L’app est gratuite jusqu’au {d}.',aph_saved:'✅ Numéro enregistré.',aph_off:'Numéro enregistré, mais le serveur ne répond pas (internet). Nouvel essai plus tard.'},
-  en:{pl_on:'🎁 Ajan 30-day pilot ACTIVE · started {s} · ends {e} · {n} days left',pl_over:'🎁 Ajan 30-day pilot: started {s} · ENDED {e}',aph_over:'⛔ This phone’s free days ended on {d}.',aph_nobadge:'This number is not on any ACTIVE Ajan badge. Jennifer must check your badge (same number, approved, with an Ajan code) and activate your 30-day pilot.',aph_nopilot:'Your badge is active but the 30-day pilot is not activated yet: ask Jennifer (Pilot console → 30 days).',aph_exp_btn:'I am an Ajan: enter my badge phone number',aph_btn:'My Ajan phone number',aph_none:'none',aph_t:'Your Ajan phone number',aph_s:'Enter the SAME number as on your Ajan badge. That is how HaitiBiznis knows your free days (30-day pilot).',aph_ok:'✅ Number saved. The app is free until {d}.',aph_saved:'✅ Number saved.',aph_off:'Number saved, but the server cannot be reached (internet). It will try again later.'},
+  ht:{aj_t:'Konekte kòm Ajan',aj_s:'Premye fwa: mete kòd aktivasyon Jennifer ba ou a epi kreye PIN ou (4 a 6 chif). Apre sa, se nimewo + PIN ou sèlman.',aj_phone:'Nimewo telefòn badj ou',aj_code:'Kòd aktivasyon (6 chif)',aj_pin:'PIN ou',aj_pin2:'Ekri PIN nan ankò',aj_go:'Konekte',aj_have:'Mwen gen PIN mwen deja',aj_first:'Premye fwa (kòd aktivasyon)',aj_mismatch:'De PIN yo pa menm.',aj_weak:'PIN sa a twò fasil (pa 1234, 0000…). Chwazi 4 a 6 chif.',aj_locked:'Twòp esè. Tann 15 minit.',aj_nopin:'Ou poko kreye PIN: mande Jennifer yon kòd aktivasyon.',aj_bad:'Nimewo, kòd oswa PIN pa bon.',aj_ok:'Byenvini {n}!',aj_btn:'Konekte kòm Ajan pou korije dokiman chofè ou yo',aj_logout:'Dekonekte',aj_tap:'peze yon chofè pou wè/korije dokiman li',aj_redo:'Jennifer mande refè l',aj_have_doc:'Resevwa',aj_missing:'Manke',aj_replace:'Ranplase',aj_take:'Pran foto',aj_notpending:'Chofè sa a pa an atant: dokiman yo pa ka chanje.',aj_sent:'Foto a rive sou MsouWout. Jennifer ap wè l.',aj_relogin:'Konekte ankò kòm Ajan.',aj_need:'Pou ranplase yon foto, konekte kòm Ajan (Paramèt → Konekte kòm Ajan).',pl_on:'🎁 Pilòt Ajan 30 jou AKTIF · aktive {s} · fini {e} · rete {n} jou',pl_over:'🎁 Pilòt Ajan 30 jou: aktive {s} · FINI {e}',aph_over:'⛔ Jou gratis telefòn sa a te fini {d}.',aph_nobadge:'Nimewo sa a pa sou okenn badj Ajan AKTIF. Jennifer dwe tcheke badj ou (menm nimewo, apwouve, ak kòd Ajan), epi aktive pilòt 30 jou ou.',aph_nopilot:'Badj ou aktif, men pilòt 30 jou a poko aktive: mande Jennifer aktive l (konsòl Pilòt → Bay 30 jou).',aph_exp_btn:'Mwen se Ajan: mete nimewo ki sou badj mwen',aph_btn:'Nimewo telefòn Ajan mwen',aph_none:'pa gen',aph_t:'Nimewo telefòn Ajan ou',aph_s:'Mete MENM nimewo ki sou badj Ajan ou an. Se avè l HaitiBiznis konnen jou gratis ou yo (pilòt 30 jou).',aph_ok:'✅ Nimewo a anrejistre. App la gratis jiska {d}.',aph_saved:'✅ Nimewo a anrejistre.',aph_off:'Nimewo a anrejistre, men nou pa ka verifye ak sèvè a kounye a (entènèt). N ap eseye ankò pita.'},
+  fr:{aj_t:'Connexion Ajan',aj_s:'Première fois : entrez le code d’activation donné par Jennifer et créez votre PIN (4 à 6 chiffres). Ensuite, numéro + PIN seulement.',aj_phone:'Numéro de votre badge',aj_code:'Code d’activation (6 chiffres)',aj_pin:'Votre PIN',aj_pin2:'Retapez le PIN',aj_go:'Se connecter',aj_have:'J’ai déjà mon PIN',aj_first:'Première fois (code d’activation)',aj_mismatch:'Les deux PIN sont différents.',aj_weak:'PIN trop simple (pas 1234, 0000…). 4 à 6 chiffres.',aj_locked:'Trop d’essais. Attendez 15 minutes.',aj_nopin:'Pas encore de PIN : demandez un code d’activation à Jennifer.',aj_bad:'Numéro, code ou PIN incorrect.',aj_ok:'Bienvenue {n} !',aj_btn:'Connexion Ajan pour corriger les documents de vos chauffeurs',aj_logout:'Déconnexion',aj_tap:'touchez un chauffeur pour voir/corriger ses documents',aj_redo:'Jennifer demande de refaire',aj_have_doc:'Reçu',aj_missing:'Manquant',aj_replace:'Remplacer',aj_take:'Prendre la photo',aj_notpending:'Ce chauffeur n’est pas en attente : documents verrouillés.',aj_sent:'Photo reçue par MsouWout. Jennifer la verra.',aj_relogin:'Reconnectez-vous comme Ajan.',aj_need:'Pour remplacer une photo, connectez-vous comme Ajan (Paramètres → Connexion Ajan).',pl_on:'🎁 Pilote Ajan 30 jours ACTIF · activé le {s} · fin le {e} · {n} jours restants',pl_over:'🎁 Pilote Ajan 30 jours : activé le {s} · TERMINÉ le {e}',aph_over:'⛔ Les jours gratuits de ce téléphone ont pris fin le {d}.',aph_nobadge:'Ce numéro n’est sur aucun badge Ajan ACTIF. Jennifer doit vérifier votre badge (même numéro, approuvé, avec code Ajan) puis activer votre pilote de 30 jours.',aph_nopilot:'Votre badge est actif, mais le pilote de 30 jours n’est pas encore activé : demandez à Jennifer (console Pilote → 30 jours).',aph_exp_btn:'Je suis Ajan : entrer le numéro de mon badge',aph_btn:'Mon numéro d’Ajan',aph_none:'aucun',aph_t:'Votre numéro d’Ajan',aph_s:'Entrez le MÊME numéro que sur votre badge d’Ajan. C’est avec lui que HaitiBiznis reconnaît vos jours gratuits (pilote 30 jours).',aph_ok:'✅ Numéro enregistré. L’app est gratuite jusqu’au {d}.',aph_saved:'✅ Numéro enregistré.',aph_off:'Numéro enregistré, mais le serveur ne répond pas (internet). Nouvel essai plus tard.'},
+  en:{aj_t:'Ajan sign-in',aj_s:'First time: enter the activation code Jennifer gave you and create your PIN (4 to 6 digits). After that, number + PIN only.',aj_phone:'Your badge phone number',aj_code:'Activation code (6 digits)',aj_pin:'Your PIN',aj_pin2:'Type the PIN again',aj_go:'Sign in',aj_have:'I already have my PIN',aj_first:'First time (activation code)',aj_mismatch:'The two PINs differ.',aj_weak:'PIN too easy (not 1234, 0000…). Use 4 to 6 digits.',aj_locked:'Too many tries. Wait 15 minutes.',aj_nopin:'No PIN yet: ask Jennifer for an activation code.',aj_bad:'Wrong number, code or PIN.',aj_ok:'Welcome {n}!',aj_btn:'Ajan sign-in to correct your drivers’ documents',aj_logout:'Sign out',aj_tap:'tap a driver to see/correct their documents',aj_redo:'Jennifer asks to redo it',aj_have_doc:'Received',aj_missing:'Missing',aj_replace:'Replace',aj_take:'Take photo',aj_notpending:'This driver is not pending: documents are locked.',aj_sent:'Photo received by MsouWout. Jennifer will see it.',aj_relogin:'Sign in again as Ajan.',aj_need:'To replace a photo, sign in as Ajan (Settings → Ajan sign-in).',pl_on:'🎁 Ajan 30-day pilot ACTIVE · started {s} · ends {e} · {n} days left',pl_over:'🎁 Ajan 30-day pilot: started {s} · ENDED {e}',aph_over:'⛔ This phone’s free days ended on {d}.',aph_nobadge:'This number is not on any ACTIVE Ajan badge. Jennifer must check your badge (same number, approved, with an Ajan code) and activate your 30-day pilot.',aph_nopilot:'Your badge is active but the 30-day pilot is not activated yet: ask Jennifer (Pilot console → 30 days).',aph_exp_btn:'I am an Ajan: enter my badge phone number',aph_btn:'My Ajan phone number',aph_none:'none',aph_t:'Your Ajan phone number',aph_s:'Enter the SAME number as on your Ajan badge. That is how HaitiBiznis knows your free days (30-day pilot).',aph_ok:'✅ Number saved. The app is free until {d}.',aph_saved:'✅ Number saved.',aph_off:'Number saved, but the server cannot be reached (internet). It will try again later.'},
   es:{aph_exp_btn:'Soy Ajan: ingresar el número de mi credencial',aph_btn:'Mi número de Ajan',aph_none:'ninguno',aph_t:'Su número de Ajan',aph_s:'Ingrese el MISMO número que en su credencial de Ajan. Así HaitiBiznis reconoce sus días gratis (piloto de 30 días).',aph_ok:'✅ Número guardado. La app es gratis hasta el {d}.',aph_saved:'✅ Número guardado.',aph_off:'Número guardado, pero el servidor no responde (internet). Se intentará más tarde.'},
   pt:{aph_exp_btn:'Sou Ajan: digitar o número do meu crachá',aph_btn:'Meu número de Ajan',aph_none:'nenhum',aph_t:'Seu número de Ajan',aph_s:'Digite o MESMO número do seu crachá de Ajan. É assim que a HaitiBiznis reconhece seus dias grátis (piloto de 30 dias).',aph_ok:'✅ Número salvo. O app é grátis até {d}.',aph_saved:'✅ Número salvo.',aph_off:'Número salvo, mas o servidor não responde (internet). Tentaremos mais tarde.'}
 };
@@ -1282,8 +1282,12 @@ function mswFixDoc(id,type){
   });
   function send(blob){
     drvJpeg(blob,1600).then(function(u){if(!u)throw new Error('img');
-      return mswFetch(window.MSW_API+'/api/drivers/'+o.msw.driverId+'/documents',{doc_type:type,image_data:u});})
-    .then(function(d){if(d.status!==201)throw new Error(d.status);toast(t('ms_fix_ok'));mswRefresh(true);})
+      /* 3 Nov 2026: replacing a photo needs the Ajan's login (the public door only ADDS a missing one) */
+      return ajanSess()?ajanFetch('/drivers/'+o.msw.driverId+'/document',{doc_type:type,image_data:u})
+                       :mswFetch(window.MSW_API+'/api/drivers/'+o.msw.driverId+'/documents',{doc_type:type,image_data:u});})
+    .then(function(d){
+      if(d.status===403||d.status===401){alert(t('aj_need'));ajanLoginForm();return;}
+      if(d.status!==201&&d.status!==200)throw new Error(d.status);toast(t('ms_fix_ok'));mswRefresh(true);})
     .catch(function(){alert(t('ms_fix_off'));});
   }
 }
@@ -1344,7 +1348,7 @@ async function mswSendOne(id){
     var url=await drvJpeg(blob,1600);if(!url){lost.push(u);continue;}
     var d=await mswFetch(window.MSW_API+'/api/drivers/'+m.driverId+'/documents',{doc_type:DRV_DOC[u],image_data:url});
     if(d.status===413){url=await drvJpeg(blob,1100);d=await mswFetch(window.MSW_API+'/api/drivers/'+m.driverId+'/documents',{doc_type:DRV_DOC[u],image_data:url});}
-    if(d.status!==201)throw new Error('doc '+d.status);
+    if(d.status!==201&&d.status!==403)throw new Error('doc '+d.status);
     done.push(DRV_DOC[u]);mswSet(id,{docsDone:done});
   }
   mswSet(id,{status:'pending',lost:lost});
@@ -1382,6 +1386,7 @@ async function mswRefresh(force){
         save('hb_orders',os);mswPaint(mswWatch);}
     }
     var ph=agentPhone();
+    ajanRefresh(force);
     if(ph){var s=await mswFetch(POS_API+'/api/agents/my-driver-stats?phone='+encodeURIComponent(ph));
       if(s.status===200&&s.body.found){save('hb_drv_stats',Object.assign({phone:ph,at:Date.now()},s.body));save('hb_drv_stats_err',0);
         /* a registration that never left this phone, for a driver who has since registered on MsouWout
@@ -1412,6 +1417,119 @@ function drvIssues(d){
   return bits.length?'<div style="font-size:12px;font-weight:700;color:#b91c1c;padding:0 0 7px;line-height:1.4">⚠️ '+escHtml(bits.join(' · '))+'</div>':'';
 }
 function drvShort(n){var w=String(n||'').trim().split(/\s+/).filter(Boolean);return w.length?(w[0]+(w.length>1?' '+w[w.length-1][0].toUpperCase()+'.':'')).toLowerCase():'';}
+/* ═══ THE AJAN'S LOGIN + CORRECTIONS (3 Nov 2026, Jeffery "OPTION B IS APPROVED") ═══
+   Jennifer gives a one-time activation code; the Ajan creates his PIN here. Logged
+   in, he sees EVERY driver credited to his code (registered in this app, by QR or
+   on the website) with exactly which photos are missing or to redo, and fixes them
+   with the camera. HaitiBiznis checks the driver is his (and still pending) before
+   MsouWout takes the photo, and logs it as "Ajan <badge>". No WhatsApp. */
+function ajanSess(){var a=load('hb_ajan',null);return a&&a.token&&phoneDigits(a.phone)===phoneDigits(agentPhone())?a:null;}
+async function ajanFetch(path,body){
+  var a=ajanSess();if(!a)return {status:401,body:{}};
+  var ctl=new AbortController(),tm=setTimeout(function(){ctl.abort();},90000);
+  try{
+    var r=await fetch(POS_API+'/api/agents/ajan'+path,{method:body?'POST':'GET',signal:ctl.signal,
+      headers:Object.assign({'x-ajan-token':a.token},body?{'Content-Type':'application/json'}:{}),body:body?JSON.stringify(body):undefined});
+    var j={};try{j=await r.json();}catch(e){}
+    if(r.status===401){try{localStorage.removeItem('hb_ajan');}catch(e){}}
+    return {status:r.status,body:j};
+  }finally{clearTimeout(tm);}
+}
+function ajanLoginForm(after){
+  var m=caOverlay('<div style="font-weight:900;font-size:17px">🔐 '+t('aj_t')+'</div><div class="sub" style="margin:4px 0 10px">'+t('aj_s')+'</div>'
+    +'<label class="fl">'+t('aj_phone')+'</label><input id="ajPh" type="tel" inputmode="tel" value="'+escHtml(agentPhone())+'">'
+    +'<div id="ajFirst"><label class="fl">'+t('aj_code')+'</label><input id="ajCode" inputmode="numeric" maxlength="6" placeholder="••••••"></div>'
+    +'<label class="fl">'+t('aj_pin')+'</label><input id="ajPin" type="password" inputmode="numeric" maxlength="6">'
+    +'<div id="ajPin2W"><label class="fl">'+t('aj_pin2')+'</label><input id="ajPin2" type="password" inputmode="numeric" maxlength="6"></div>'
+    +'<div id="ajMsg" style="font-weight:700;font-size:13px;min-height:18px;margin-top:6px"></div>'
+    +'<button class="cta" id="ajGo">'+t('aj_go')+'</button>'
+    +'<button class="cta ghost" id="ajMode" style="margin-top:8px"></button>'
+    +'<button class="cta ghost" id="ajX" style="margin-top:8px">‹ '+t('back')+'</button>');
+  m.ov.style.zIndex='96';
+  var first=!(load('hb_ajan_seen',0)),b=m.box;
+  function mode(){b.querySelector('#ajFirst').style.display=first?'':'none';b.querySelector('#ajPin2W').style.display=first?'':'none';
+    b.querySelector('#ajMode').textContent=first?t('aj_have'):t('aj_first');}
+  mode();
+  b.querySelector('#ajMode').onclick=function(){first=!first;mode();};
+  b.querySelector('#ajX').onclick=function(){m.close();};
+  b.querySelector('#ajGo').onclick=function(){
+    var ph=b.querySelector('#ajPh').value.trim(),pin=b.querySelector('#ajPin').value.trim(),msg=b.querySelector('#ajMsg'),go=this;
+    msg.style.color='#b91c1c';
+    if(phoneDigits(ph).length<8){msg.textContent=t('ph_bad');return;}
+    if(first&&pin!==b.querySelector('#ajPin2').value.trim()){msg.textContent=t('aj_mismatch');return;}
+    go.disabled=true;msg.style.color='var(--muted)';msg.textContent='…';
+    fetch(POS_API+'/api/agents/ajan/'+(first?'activate':'login'),{method:'POST',headers:{'Content-Type':'application/json'},
+      body:JSON.stringify(first?{phone:ph,code:b.querySelector('#ajCode').value.trim(),pin:pin}:{phone:ph,pin:pin})})
+    .then(function(r){return r.json().catch(function(){return {};}).then(function(j){return {s:r.status,j:j};});})
+    .then(function(x){go.disabled=false;
+      if(x.s===200&&x.j.token){
+        if(phoneDigits(ph)!==phoneDigits(agentPhone()))saveAgentPhone(ph);
+        save('hb_ajan',{token:x.j.token,phone:agentPhone(),agentId:x.j.agent.agentId,name:x.j.agent.name,at:Date.now()});save('hb_ajan_seen',1);
+        msg.style.color='#0b6b37';msg.textContent='✅ '+t('aj_ok').replace('{n}',x.j.agent.name);
+        setTimeout(function(){m.close();ajanRefresh(true);try{renderSettings();}catch(e){}if(typeof after==='function')after();},900);return;}
+      msg.style.color='#b91c1c';msg.textContent=t({weak_pin:'aj_weak',locked:'aj_locked',too_many:'aj_locked',no_pin:'aj_nopin'}[x.j.error]||'aj_bad');})
+    .catch(function(){go.disabled=false;msg.style.color='#b91c1c';msg.textContent=t('ms_fix_off');});
+  };
+}
+function ajanLogout(){try{localStorage.removeItem('hb_ajan');localStorage.removeItem('hb_ajan_drivers');}catch(e){}mswPaint('');try{renderSettings();}catch(e){}}
+async function ajanRefresh(force){
+  if(!ajanSess())return;
+  if(!force&&ajanRefresh._at&&Date.now()-ajanRefresh._at<60000)return;ajanRefresh._at=Date.now();
+  try{var r=await ajanFetch('/drivers');
+    if(r.status===200){save('hb_ajan_drivers',{at:Date.now(),agent:ajanSess().agentId,list:r.body.drivers||[]});}
+    mswPaint('');}catch(e){}
+}
+function ajanDrivers(){var a=ajanSess(),x=load('hb_ajan_drivers',null);return a&&x&&x.agent===a.agentId?x.list:null;}
+var AJ_ORDER=['selfie','id','license','oavct','vehicle','insurance'];
+function ajanListHtml(L){
+  if(!L.length)return '<div class="sub" style="margin-top:6px">'+t('dh_none')+'</div>';
+  return '<div style="margin-top:8px;border-top:1px solid var(--line)">'+L.map(function(d){var x=DH_ST[d.status]||['•',d.status,'inherit'];
+    var dt='';try{dt=new Date(d.at).toLocaleDateString(lang==='ht'?'fr':lang,{day:'numeric',month:'short'});}catch(e){}
+    var issues=d.status==='pending'?drvIssues(d):'';
+    return '<div onclick="ajanSheet(\''+d.id+'\')" style="cursor:pointer;border-bottom:1px solid var(--line)"><div style="display:flex;justify-content:space-between;gap:8px;padding:7px 0;font-size:13px">'
+      +'<span style="font-weight:800">'+escHtml(d.name)+' <span style="font-weight:600;color:var(--muted)">· '+escHtml(dt)+'</span></span>'
+      +'<span style="font-weight:800;color:'+(d.fix&&d.fix.length?'#8a5a00':x[2])+';white-space:nowrap">'+(d.fix&&d.fix.length?'🔧 '+t('dh_fix'):x[0]+' '+t(x[1]))+' ›</span></div>'
+      +(d.status==='rejected'&&d.reason?'<div style="font-size:12px;color:#b91c1c;padding:0 0 6px">'+escHtml(d.reason)+'</div>':'')+issues+'</div>';}).join('')+'</div>';
+}
+function ajanSheet(id){
+  var d=(ajanDrivers()||[]).find(function(x){return x.id===id;});if(!d)return;
+  if(ajanSheet._m){try{ajanSheet._m.close();}catch(e){}}
+  var rows=AJ_ORDER.map(function(tp){
+    var has=d.docs.indexOf(tp)>=0,fix=d.fix.indexOf(tp)>=0,opt=tp==='insurance';
+    var st=fix?'<b style="color:#8a5a00">🔧 '+t('aj_redo')+'</b>':has?'<b style="color:#0b6b37">✅ '+t('aj_have_doc')+'</b>':opt?'<span class="sub">'+t('up_opt')+'</span>':'<b style="color:#b91c1c">⚠️ '+t('aj_missing')+'</b>';
+    var btn=d.status==='pending'?'<button class="mini" data-shoot="'+tp+'">📸 '+(has?t('aj_replace'):t('aj_take'))+'</button>':'';
+    return '<div style="display:flex;justify-content:space-between;align-items:center;gap:8px;padding:9px 0;border-bottom:1px solid var(--line)"><div><div style="font-weight:800">'
+      +escHtml(t(DOC_NAME[tp]))+'</div><div style="font-size:12.5px">'+st+'</div></div>'+btn+'</div>';}).join('');
+  var oav=d.oavct==='expired'?'<div style="color:#b91c1c;font-weight:800;margin-top:8px">⛔ '+t('di_exp')+' ('+escHtml(d.oavctExpiry)+')</div>'
+         :d.oavct==='missing'?'<div style="color:#8a5a00;font-weight:700;margin-top:8px">'+t('di_nodate')+'</div>':'';
+  var x=DH_ST[d.status]||['•',d.status,'inherit'];
+  var m=caOverlay('<div style="font-weight:900;font-size:17px">'+escHtml(d.name)+'</div><div class="sub">'+escHtml(d.phone||'')+' · <b style="color:'+x[2]+'">'+x[0]+' '+t(x[1])+'</b></div>'
+    +(d.fixNote?'<div style="background:#FFF3D6;color:#8a5a00;border-radius:10px;padding:8px 10px;font-weight:800;margin-top:8px">🔧 Jennifer: “'+escHtml(d.fixNote)+'”</div>':'')
+    +(d.status!=='pending'?'<div class="sub" style="margin-top:8px">'+t('aj_notpending')+'</div>':'')
+    +'<div style="margin-top:8px">'+rows+'</div>'+oav
+    +'<div id="ajSheetMsg" style="font-weight:800;margin-top:8px;min-height:18px"></div>'
+    +'<button class="cta ghost" style="margin-top:10px" id="ajSx">‹ '+t('back')+'</button>');
+  m.box.querySelector('#ajSx').onclick=function(){m.close();ajanSheet._m=null;};
+  m.box.querySelectorAll('[data-shoot]').forEach(function(bt){bt.onclick=function(){ajanShoot(id,bt.getAttribute('data-shoot'));};});
+  ajanSheet._m=m;
+}
+function ajanShoot(id,tp){
+  var dd=DocCam.doc(tp,lang);
+  DocCam.open({title:dd.title,hint:dd.hint,frame:dd.frame,lang:lang,facing:'environment'}).then(function(r){
+    if(!r)return;
+    if(r.fallback){var f=document.createElement('input');f.type='file';f.accept='image/*';f.onchange=function(){var x=f.files&&f.files[0];if(x)send(x);};f.click();return;}
+    send(r.blob);});
+  function say(c,txt){var mm=document.getElementById('ajSheetMsg');if(mm){mm.style.color=c;mm.textContent=txt;}}
+  function send(blob){
+    say('var(--muted)','⏳ …');
+    drvJpeg(blob,1600).then(function(u){if(!u)throw new Error('img');return ajanFetch('/drivers/'+id+'/document',{doc_type:tp,image_data:u});})
+    .then(function(x){
+      if(x.status===401){ajanSheet._m&&ajanSheet._m.close();alert(t('aj_relogin'));ajanLoginForm();return;}
+      if(x.status!==200&&x.status!==201)throw new Error(x.body.error||String(x.status));
+      return ajanRefresh(true).then(function(){ajanSheet(id);say('#0b6b37','✅ '+t('aj_sent'));});})
+    .catch(function(){say('#b91c1c',t('ms_fix_off'));});
+  }
+}
 function drvHomeCard(){
   var ds=load('hb_orders',[]).filter(function(o){return o.regKind==='driver'&&o.msw;});
   var st=load('hb_drv_stats',null);if(st&&st.phone!==agentPhone())st=null;
@@ -1424,8 +1542,11 @@ function drvHomeCard(){
   if(st){
     h+='<div style="font-weight:800;font-size:13.5px;margin-top:6px">'+t('dh_all').replace('{r}',st.registered).replace('{v}',st.verified)+'</div>'
       +'<div class="sub" style="margin-top:2px;color:#0b6b37;font-weight:800">'+t('dh_bonus').replace('{b}',(st.bonusHtg||0).toLocaleString('fr-FR')).replace('{n}',st.toNext)+'</div>';
-    var L=st.drivers||[];
-    if(L.length)h+='<div style="margin-top:8px;border-top:1px solid var(--line)">'+L.map(function(d){var x=DH_ST[d.status]||['•',d.status,'inherit'];
+    var full=ajanDrivers();
+    if(full)h+='<div class="sub" style="margin-top:6px;font-weight:800;color:#0b6b37">🔐 '+escHtml((ajanSess()||{}).name||'')+' · '+t('aj_tap')+'</div>'+ajanListHtml(full);
+    else h+='<button class="mini" style="margin-top:8px" onclick="ajanLoginForm()">🔐 '+t('aj_btn')+'</button>';
+    var L=full?[]:(st.drivers||[]);
+    if(full){}else if(L.length)h+='<div style="margin-top:8px;border-top:1px solid var(--line)">'+L.map(function(d){var x=DH_ST[d.status]||['•',d.status,'inherit'];
       var dt='';try{dt=new Date(d.at).toLocaleDateString(lang==='ht'?'fr':lang,{day:'numeric',month:'short'});}catch(e){}
       return '<div style="display:flex;justify-content:space-between;gap:8px;padding:7px 0;border-bottom:1px solid var(--line);font-size:13px">'
         +'<span style="font-weight:800">'+escHtml(d.name)+' <span style="font-weight:600;color:var(--muted)">· '+escHtml(dt)+(d.photos<5?' · 📷 '+d.photos+'/5':'')+'</span></span>'
@@ -4834,7 +4955,8 @@ function renderSettings(){const cfg=getCfg();const box=document.getElementById('
     <button class="cta ghost" style="margin-bottom:6px" onclick="openAdmin(admPwForm)">🔑 ${t('adm_pw')}</button>
     <button class="cta ghost" style="margin-bottom:6px" onclick="myPinEntry()">🔢 ${t('emp_mypin')}${activeStaff()?' · '+escHtml(activeStaff().name):''}</button>
     ${team()?'':`<button class="cta ghost" style="margin-bottom:6px" onclick="tmcJoinForm()">🛡️ ${t('tmc_enter')}</button>`}
-    ${(team()||licLifetime())?'':`<button class="cta ghost" style="margin-bottom:6px" onclick="agentPhoneForm()">📱 ${t('aph_btn')} · ${escHtml(agentPhone()||t('aph_none'))}</button>`+pilotLineHtml()}
+    ${(team()||licLifetime())?'':`<button class="cta ghost" style="margin-bottom:6px" onclick="agentPhoneForm()">📱 ${t('aph_btn')} · ${escHtml(agentPhone()||t('aph_none'))}</button>`+pilotLineHtml()
+      +(ajanSess()?`<button class="cta ghost" style="margin-bottom:6px" onclick="ajanLogout()">🔐 ${escHtml(ajanSess().name)} · ${t('aj_logout')}</button>`:`<button class="cta ghost" style="margin-bottom:6px" onclick="ajanLoginForm()">🔐 ${t('aj_btn')}</button>`)}
     ${team()?`<div style="font-size:12.5px;font-weight:700;color:#0b6b37;margin-bottom:10px">🛡️ ${t('adm_badge')} · ${escHtml(team().name)} — ${t('adm_nosub')}</div>`:'<div style="height:4px"></div>'}
     <hr style="border:none;border-top:1px solid var(--line);margin:12px 0">
     <button class="cta ghost" style="margin-bottom:10px" onclick="editBizName()">🏷️ ${t('set_bizname')}${bizName()?' · '+escHtml(bizName()):''}</button>
@@ -6485,7 +6607,7 @@ function shareApp(){
    =================================================================== */
 /* Version the seller can read out loud. When someone says "I don't see the new
    button", the first useful question is which build their phone is running. */
-const APP_VER='80';
+const APP_VER='81';
 var swReg=null;
 if('serviceWorker' in navigator){
   window.addEventListener('load',function(){
