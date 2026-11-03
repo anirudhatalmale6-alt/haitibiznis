@@ -65,7 +65,10 @@ input,select,textarea{width:100%;min-height:46px;border:1.5px solid var(--line);
 .fres{display:flex;justify-content:space-between;align-items:center;gap:8px;margin-top:8px;font-weight:800;font-size:.9rem}
 .fres button{border:0;background:none;color:var(--red);font-weight:800;cursor:pointer;font-size:.85rem}
 .iss{margin-top:8px;display:flex;gap:5px;flex-wrap:wrap}.iss span{font-size:.75rem;font-weight:800;border-radius:99px;padding:3px 9px;background:#FDE7EA;color:#A30F27}
-.iss span.w{background:#FFF3D6;color:#8A5A00}.iss span.o{background:#FFE9D6;color:#9A4A00}
+.iss span.w{background:#FFF3D6;color:#8A5A00}.iss span.o{background:#FFE9D6;color:#9A4A00}.iss span.s{background:#E2F4E8;color:#11632C}
+.st.oas{background:#FFE9D6;color:#9A4A00}
+.fres .xp{display:flex;gap:6px;align-items:center}.fres .xp button{color:var(--navy)}
+.xlog{font-size:.8rem;color:var(--muted);margin-top:6px;line-height:1.6}
 table{width:100%;border-collapse:collapse;font-size:.86rem}
 th,td{padding:8px 6px;border-bottom:1px solid var(--line);text-align:left;vertical-align:top}
 th{font-size:.7rem;text-transform:uppercase;letter-spacing:.06em;color:var(--muted)}
@@ -108,9 +111,11 @@ td.num{text-align:right;font-variant-numeric:tabular-nums;white-space:nowrap}
       <div class="fl">Dokiman ki manke / pou refè</div><div class="chips" id="fDoc"></div>
       <div class="frow"><select id="fVeh"></select><select id="fAj"></select></div>
       <select id="fSort" style="margin-top:8px">
+        <option value="prio">Lòd: ⭐ manke OAVCT SÈLMAN an premye</option>
         <option value="new">Lòd: pi resan an premye</option><option value="old">Lòd: pi ansyen an premye</option>
         <option value="name">Lòd: non A → Z</option><option value="issues">Lòd: plis pwoblèm an premye</option></select>
-      <div class="fres"><span id="fN"></span><button type="button" id="fClr">✕ Retire filt yo</button></div>
+      <div class="fres"><span id="fN"></span><span class="xp"><button type="button" id="fCsv">⬇️ CSV</button><button type="button" id="fXl">🕘</button><button type="button" id="fClr">✕ Retire filt yo</button></span></div>
+      <div class="xlog hide" id="xLog"></div>
     </div>
     <div id="list"></div>
   </div>
@@ -122,7 +127,7 @@ td.num{text-align:right;font-variant-numeric:tabular-nums;white-space:nowrap}
   'use strict';
   var API = 'https://haitibiznis-api.onrender.com';
   var pin = '', who = '', cur = 'list', drivers = [];
-  var F = { st: 'pending', doc: '', veh: '', aj: '', q: '', sort: 'new' };
+  var F = { st: 'pending', doc: '', veh: '', aj: '', q: '', sort: 'prio' };
   try { var sf = JSON.parse(sessionStorage.getItem('hb_console_f') || 'null'); if (sf) F = Object.assign(F, sf); } catch(e){}
   function $(id){ return document.getElementById(id); }
   function esc(v){ return String(v == null ? '' : v).replace(/[&<>"']/g, function(c){ return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]; }); }
@@ -228,15 +233,22 @@ td.num{text-align:right;font-variant-numeric:tabular-nums;white-space:nowrap}
     var f = { selfie: lack('selfie'), id: h.indexOf('id') < 0 || fx.indexOf('id') >= 0, license: lack('license'), oavct: lack('oavct'),
               oavexp: !!exp && exp < TODAY(), vehicle: lack('vehicle'), info: info.length > 0, infoList: info,
               noOav: h.indexOf('oavct') < 0 || !exp, fix: fx.length > 0 };
+    /* 3 Nov (OAVCT ASSISTANCE): registered without OAVCT, still not settled → "🟠 ENSKRI — OAVCT POKO REGLE" */
+    f.assist = !!d.oavct_assist && d.status === 'pending' && (f.noOav || f.oavexp);
+    /* ⭐ Jeffery: "prioritize drivers who are missing ONLY OAVCT" - everything else is in */
+    f.onlyOav = d.status === 'pending' && (f.noOav || f.oavexp || fx.indexOf('oavct') >= 0) && !f.selfie && !f.license && !f.vehicle && !f.info
+      && fx.every(function(t){ return t === 'oavct'; });
     f.n = ['selfie', 'license', 'oavct', 'oavexp', 'vehicle', 'info'].filter(function(k){ return f[k]; }).length + (f.fix ? 1 : 0);
     return (d._f = f);
   }
-  var ST = [['pending', '⏳ An atant'], ['fix', '🔧 Korije'], ['oav', '🟠 Manke OAVCT'], ['approved', '✅ Apwouve'], ['rejected', '❌ Rejte'], ['all', '📋 Tout']];
+  var ST = [['pending', '⏳ An atant'], ['only', '⭐ Sèlman OAVCT'], ['fix', '🔧 Korije'], ['oav', '🟠 Manke OAVCT'], ['assist', '🟠 Asistans OAVCT'], ['approved', '✅ Apwouve'], ['rejected', '❌ Rejte'], ['all', '📋 Tout']];
   var DOCF = [['', 'Tout'], ['selfie', 'Foto figi'], ['id', 'Kat ID'], ['license', 'Lisans'], ['oavct', 'Dokiman OAVCT'], ['oavexp', 'OAVCT ekspire'], ['vehicle', 'Foto moto/machin'], ['info', 'Lòt enfòmasyon']];
   function mSt(d, st){
     if (st === 'all') return true;
     if (st === 'fix') return d.status === 'pending' && facts(d).fix;
-    if (st === 'oav') return d.status === 'pending' && facts(d).noOav;
+    if (st === 'oav') return d.status === 'pending' && (facts(d).noOav || facts(d).assist);
+    if (st === 'assist') return facts(d).assist;
+    if (st === 'only') return facts(d).onlyOav;
     return d.status === st;
   }
   function mDoc(d, k){ return !k || !!facts(d)[k]; }
@@ -278,6 +290,34 @@ td.num{text-align:right;font-variant-numeric:tabular-nums;white-space:nowrap}
   $('fSort').onchange = function(){ F.sort = this.value; saveF(); render(); };
   var qT; $('fq').oninput = function(){ var v = this.value; clearTimeout(qT); qT = setTimeout(function(){ F.q = v.trim(); saveF(); render(); }, 200); };
   $('fClr').onclick = function(){ F = { st: 'pending', doc: '', veh: '', aj: '', q: '', sort: F.sort }; saveF(); render(); };
+  /* 3 Nov 2026 (Jeffery): CSV of exactly the drivers on screen. The server builds it from MsouWout (her console
+     code is checked there) and logs who exported what - 🕘 shows the last exports. */
+  function filterLabel(){
+    var b = [(ST.filter(function(x){ return x[0] === F.st; })[0] || ['', F.st])[1]];
+    if (F.doc) b.push((DOCF.filter(function(x){ return x[0] === F.doc; })[0] || ['', F.doc])[1]);
+    if (F.veh) b.push(F.veh === 'moto' ? 'Moto' : 'Machin'); if (F.aj) b.push('Ajan ' + F.aj); if (F.q) b.push('"' + F.q + '"');
+    return b.join(' + ');
+  }
+  $('fCsv').onclick = function(){
+    var ids = drivers.filter(function(d){ return match(d); }).map(function(d){ return d.id; }), btn = this;
+    if (!ids.length) return;
+    if (!confirm('Ekspòte ' + ids.length + ' chofè (' + filterLabel() + ') an CSV? Ekspò a ap anrejistre ak non ou.')) return;
+    btn.disabled = true;
+    fetch(API + '/api/agents/admin/drivers/export', { method: 'POST', headers: { 'x-admin-pin': pin, 'Content-Type': 'application/json' },
+      body: JSON.stringify({ by: who, filter: filterLabel(), ids: ids }) })
+      .then(function(r){ if (!r.ok) throw new Error(r.status === 403 ? 'Kòd konsòl la pa bon.' : 'Erè ' + r.status); return r.blob(); })
+      .then(function(b){ var u = URL.createObjectURL(b), a = document.createElement('a');
+        a.href = u; a.download = 'chofe-msouwout-' + new Date().toISOString().slice(0, 10) + '.csv'; document.body.appendChild(a); a.click();
+        setTimeout(function(){ URL.revokeObjectURL(u); a.remove(); }, 1500); btn.disabled = false; })
+      .catch(function(e){ btn.disabled = false; alert(e.message); });
+  };
+  $('fXl').onclick = function(){
+    var x = $('xLog'); if (!x.classList.contains('hide')) { x.classList.add('hide'); return; }
+    x.classList.remove('hide'); x.textContent = '…';
+    req('GET', '/api/agents/admin/drivers/exports').then(function(d){
+      x.innerHTML = '<b>🕘 Dènye ekspò CSV</b><br>' + ((d.exports || []).map(function(e){ return esc(fmt(e.at)) + ' · ' + esc(e.by) + ' · ' + e.count + ' chofè · ' + esc(e.filter); }).join('<br>') || 'Poko gen ekspò.');
+    }).catch(function(e){ x.textContent = e.message; });
+  };
   function issues(d){
     var f = facts(d), L = DL, o = [];
     if (d.status === 'approved') return '';
@@ -285,6 +325,7 @@ td.num{text-align:right;font-variant-numeric:tabular-nums;white-space:nowrap}
     (d.fix_docs || []).forEach(function(t){ o.push('<span class="w">🔧 Refè ' + esc(L[t] || t) + '</span>'); });
     if (!d.oavct_expiry) o.push('<span class="o">🟠 Pa gen dat OAVCT</span>'); else if (f.oavexp) o.push('<span>⛔ OAVCT ekspire</span>');
     if (f.info) o.push('<span class="w">📝 Manke: ' + esc(f.infoList.map(function(k){ return INFO[k]; }).join(', ')) + '</span>');
+    if (f.onlyOav) o.unshift('<span class="s">⭐ Manke OAVCT SÈLMAN: tout lòt bagay pare</span>');
     return o.length ? '<div class="iss">' + o.join('') + '</div>' : '';
   }
   function render(){
@@ -294,6 +335,7 @@ td.num{text-align:right;font-variant-numeric:tabular-nums;white-space:nowrap}
     var idx = [];
     drivers.forEach(function(d, i){ if (match(d)) idx.push(i); });
     var SORT = {
+      prio: function(a, b){ return (facts(drivers[b]).onlyOav ? 1 : 0) - (facts(drivers[a]).onlyOav ? 1 : 0) || SORT.new(a, b); },
       new: function(a, b){ return String(drivers[b].created_at).localeCompare(String(drivers[a].created_at)); },
       old: function(a, b){ return String(drivers[a].created_at).localeCompare(String(drivers[b].created_at)); },
       name: function(a, b){ return String(drivers[a].full_name || '').localeCompare(String(drivers[b].full_name || ''), 'fr'); },
@@ -305,7 +347,7 @@ td.num{text-align:right;font-variant-numeric:tabular-nums;white-space:nowrap}
       var aj = d.referral_attached
         ? '<div class="ajan ok">🪪 Ajan: ' + esc(d.ajan ? d.ajan.name + ' (' + d.ajan.agentId + ')' : d.referral_code) + ' · ' + esc(d.referral_code) + '</div>'
         : '<div class="ajan no">⚠️ Pa gen Ajan' + (d.referral_typed ? ' (li te tape "' + esc(d.referral_typed) + '", pa verifye)' : '') + '</div>';
-      return '<div class="dr" id="d' + i + '"><div class="n">' + esc(d.full_name) + '<span class="st ' + esc(d.status) + '">' + esc(d.status.toUpperCase()) + '</span></div>' +
+      return '<div class="dr" id="d' + i + '"><div class="n">' + esc(d.full_name) + (facts(d).assist ? '<span class="st oas">🟠 ENSKRI — OAVCT POKO REGLE</span>' : '<span class="st ' + esc(d.status) + '">' + esc(d.status.toUpperCase()) + '</span>') + '</div>' +
         '<div class="meta">📞 <b>' + esc(d.phone) + '</b> · ' + esc(VEH[d.vehicle_type] || d.vehicle_type) + ' · ' + esc(SVC[d.preferred_service] || '') + '<br>' +
         '🏙️ ' + esc(d.city || '—') + ' · 🗓️ ' + esc(fmt(d.created_at)) + '<br>' +
         '🚘 ' + esc([d.vehicle_make, d.vehicle_model, d.vehicle_year, d.vehicle_color].filter(Boolean).join(' · ')) + ' · Plak <b>' + esc(d.license_plate || '—') + '</b><br>' +
@@ -469,7 +511,7 @@ td.num{text-align:right;font-variant-numeric:tabular-nums;white-space:nowrap}
     }
     if (a === 'hist') {
       p.setAttribute('data-k', 'hist'); p.classList.add('open'); p.innerHTML = '<div class="meta">…</div>';
-      var KN = { edit: '✏️ Modifye', document: '📷 Foto', fix_request: '🔧 Mande korije', oavct_date: '📅 Dat OAVCT', reopen: '↩️ Remete an atant' };
+      var KN = { edit: '✏️ Modifye', document: '📷 Foto', fix_request: '🔧 Mande korije', oavct_date: '📅 Dat OAVCT', reopen: '↩️ Remete an atant', oavct_assist: '🟠 Enskri san OAVCT (asistans)' };
       req('GET', '/api/agents/admin/drivers/' + d.id + '/events').then(function(x){
         var ev = x.events || [];
         p.innerHTML = ev.length ? ev.map(function(e){ var det = e.detail || {};

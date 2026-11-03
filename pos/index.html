@@ -1199,15 +1199,25 @@ T_DRV.pt=Object.assign({},T_DRV.en,{drv_city:'Cidade',drv_make:'Marca (Bajaj, Ho
   ms_pending:'🟡 Recebido pela MsouWout ✅ AGUARDANDO aprovação da Jennifer',ms_approved:'✅ VERIFICADO: o motorista pode entrar e trabalhar',ms_rejected:'⛔ RECUSADO: {r}',
   dh_title:'🛵 Meus motoristas (MsouWout)',dh_line:'{p} aguardando · {v} VERIFICADOS · {i} para corrigir'});
 Object.keys(T_DRV).forEach(function(l){if(T[l])Object.assign(T[l],T_DRV[l]);});
+/* 3 Nov 2026 (Jeffery, OAVCT ASSISTANCE): register now, OAVCT later on the SAME account; no work until it is in order */
+var T_OAS={
+  ht:{oas_box:'🟠 Chofè a poko gen OAVCT (asistans OAVCT)',oas_hint:'Li ka enskri kounye a ak lòt dokiman yo. OAVCT a ap ajoute pita sou MENM kont lan. Li p ap ka fè kous ni livrezon jiskaske OAVCT li an règ.',oas_st:'ENSKRI — OAVCT POKO REGLE'},
+  fr:{oas_box:'🟠 Le chauffeur n’a pas encore d’OAVCT (assistance OAVCT)',oas_hint:'Il peut s’inscrire maintenant avec les autres documents. L’OAVCT sera ajouté plus tard sur le MÊME compte. Pas de courses ni de livraisons tant que son OAVCT n’est pas en règle.',oas_st:'INSCRIT — OAVCT PAS ENCORE RÉGLÉ'},
+  en:{oas_box:'🟠 The driver has no OAVCT yet (OAVCT assistance)',oas_hint:'He can register now with the other documents. The OAVCT is added later to the SAME account. No rides or deliveries until his OAVCT is in order.',oas_st:'REGISTERED — OAVCT NOT YET SETTLED'},
+  es:{oas_box:'🟠 El conductor aún no tiene OAVCT (asistencia OAVCT)',oas_hint:'Puede inscribirse ahora con los demás documentos. El OAVCT se agrega después en la MISMA cuenta. Sin viajes ni entregas hasta que su OAVCT esté en regla.',oas_st:'INSCRITO — OAVCT PENDIENTE'},
+  pt:{oas_box:'🟠 O motorista ainda não tem OAVCT (assistência OAVCT)',oas_hint:'Ele pode se cadastrar agora com os outros documentos. O OAVCT é adicionado depois na MESMA conta. Sem corridas nem entregas até o OAVCT estar em ordem.',oas_st:'INSCRITO — OAVCT PENDENTE'}
+};
+Object.keys(T_OAS).forEach(function(l){if(T[l])Object.assign(T[l],T_OAS[l]);});
 
 function drvPhone(p){var d=String(p||'').replace(/\D/g,'');if(d.length===11&&d.indexOf('509')===0)d=d.slice(3);return d.length===8?'+509'+d:'';}
 function drvMissing(f,docs,consent){
-  var m=[],yMax=new Date().getFullYear()+1;
+  var m=[],yMax=new Date().getFullYear()+1,oas=(f||{}).oavAssist==='1';   /* OAVCT assistance: OAVCT later */
   DRV_REQ.forEach(function(r){var v=String((f||{})[r[0]]||'').trim();
+    if(oas&&(r[0]==='oavct'||r[0]==='oavctExp'))return;
     var bad=r[0]==='phone'?!drvPhone(v):r[0]==='year'?!(+v>=1980&&+v<=yMax):!v;if(bad)m.push(t(r[1]));
     /* 1 Nov 2026, Jeffery: expired OAVCT = cannot be approved, so it is not sent either */
     if(r[0]==='oavctExp'&&v&&v<new Date().toISOString().slice(0,10))m.push(t('drv_oavct_expired'));});
-  Object.keys(DRV_DOC).forEach(function(u){if(!DRV_OPT[u]&&!((docs||{})[u]&&docs[u].length))m.push(upT(u));});
+  Object.keys(DRV_DOC).forEach(function(u){if(!DRV_OPT[u]&&!(oas&&u==='OAVCT')&&!((docs||{})[u]&&docs[u].length))m.push(upT(u));});
   if(!consent)m.push(t('drv_consent_s'));
   return m;
 }
@@ -1334,7 +1344,8 @@ async function mswSendOne(id){
       full_name:String(o.name||'').trim(),phone:p,whatsapp:p,city:f.city||'',
       vehicle_type:f.vehicle==='Machin'?'car':'motorcycle',vehicle_make:f.make||'',vehicle_model:f.model||'',
       vehicle_year:f.year||'',vehicle_color:f.color||'',license_plate:String(f.plate||'').toUpperCase(),
-      license_number:f.licnum||'',oavct_number:f.oavct||'',oavct_expiry:f.oavctExp||'',preferred_service:f.service||'both',referral_code:code});
+      license_number:f.licnum||'',oavct_number:f.oavct||'',oavct_expiry:f.oavctExp||'',preferred_service:f.service||'both',referral_code:code,
+      oavct_assist:f.oavAssist==='1'});
     if(r.status===409){mswSet(id,{status:'exists'});return;}
     if(r.status===400){mswSet(id,{status:'failed',err:String(r.body.error||'400').slice(0,80)});return;}
     if(r.status!==201||!r.body.driver||!r.body.driver.id)throw new Error('signup '+r.status);
@@ -1536,7 +1547,7 @@ function ajanListHtml(L){
     var issues=d.status==='pending'?drvIssues(d):'';
     return '<div onclick="ajanSheet(\''+d.id+'\')" style="cursor:pointer;border-bottom:1px solid var(--line)"><div style="display:flex;justify-content:space-between;gap:8px;padding:7px 0;font-size:13px">'
       +'<span style="font-weight:800">'+escHtml(d.name)+' <span style="font-weight:600;color:var(--muted)">· '+escHtml(dt)+'</span></span>'
-      +'<span style="font-weight:800;color:'+(d.fix&&d.fix.length?'#8a5a00':x[2])+';white-space:nowrap">'+(d.fix&&d.fix.length?'🔧 '+t('dh_fix'):x[0]+' '+t(x[1]))+' ›</span></div>'
+      +'<span style="font-weight:800;color:'+(d.oavctAssist?'#c2410c':d.fix&&d.fix.length?'#8a5a00':x[2])+';white-space:nowrap">'+(d.oavctAssist?'🟠 '+t('oas_st'):d.fix&&d.fix.length?'🔧 '+t('dh_fix'):x[0]+' '+t(x[1]))+' ›</span></div>'
       +(d.status==='rejected'&&d.reason?'<div style="font-size:12px;color:#b91c1c;padding:0 0 6px">'+escHtml(d.reason)+'</div>':'')+issues
       +(d.status==='pending'?'<div style="padding:0 0 8px"><button class="mini" data-mod="1">✏️ '+t('dh_mod')+'</button></div>':'')+'</div>';}).join('')+'</div>';
 }
@@ -1599,7 +1610,7 @@ function drvHomeCard(){
       var dt='';try{dt=new Date(d.at).toLocaleDateString(lang==='ht'?'fr':lang,{day:'numeric',month:'short'});}catch(e){}
       return '<div style="display:flex;justify-content:space-between;gap:8px;padding:7px 0;border-bottom:1px solid var(--line);font-size:13px">'
         +'<span style="font-weight:800">'+escHtml(d.name)+' <span style="font-weight:600;color:var(--muted)">· '+escHtml(dt)+((d.missing||[]).length?' · 📷 '+(4-d.missing.length)+'/4':'')+'</span></span>'
-        +'<span style="font-weight:800;color:'+(d.fix&&d.fix.length?'#8a5a00':x[2])+';white-space:nowrap">'+(d.fix&&d.fix.length?'🔧 '+t('dh_fix'):x[0]+' '+t(x[1]))+'</span></div>'
+        +'<span style="font-weight:800;color:'+(d.oavctAssist?'#c2410c':d.fix&&d.fix.length?'#8a5a00':x[2])+';white-space:nowrap">'+(d.oavctAssist?'🟠 '+t('oas_st'):d.fix&&d.fix.length?'🔧 '+t('dh_fix'):x[0]+' '+t(x[1]))+'</span></div>'
         +(d.status==='rejected'&&d.reason?'<div style="font-size:12px;color:#b91c1c;padding:0 0 6px">'+escHtml(d.reason)+'</div>':'')
         +(d.status==='pending'?drvIssues(d)+'<div style="padding:0 0 8px"><button class="mini" onclick="ajanConnect()">✏️ '+t('dh_mod')+'</button></div>':'');}).join('')+'</div>';
     else h+='<div class="sub" style="margin-top:6px">'+t('dh_none')+'</div>';
@@ -4297,6 +4308,8 @@ function startReg(kind,pre,draft){
       })(0);
     };
     body.appendChild(lab);});
+  if(kind==='driver'){const oa=document.createElement('label');oa.style.cssText='display:flex;gap:10px;align-items:flex-start;margin:14px 2px 0;padding:10px 12px;border-radius:12px;background:#FFF1E0;border:1.5px solid #F3B36B;font-weight:800;font-size:13.5px;line-height:1.4';
+    oa.innerHTML='<input type="checkbox" id="rf_oavAssist" style="width:22px;height:22px;flex-shrink:0;margin:0"><span>'+t('oas_box')+'<br><small style="font-weight:600;color:#7a4a12">'+t('oas_hint')+'</small></span>';body.appendChild(oa);}
   if(kind==='driver'){const cl=document.createElement('label');cl.style.cssText='display:flex;gap:10px;align-items:flex-start;margin:14px 2px;font-weight:700;font-size:13.5px;line-height:1.4';
     cl.innerHTML='<input type="checkbox" id="rf_consent" style="width:22px;height:22px;flex-shrink:0;margin:0">'+'<span>'+t('drv_consent')+'</span>';body.appendChild(cl);}
   const btn=document.createElement('button');btn.className='cta';btn.textContent=kind==='driver'?t('drv_send'):(sc.feeKey&&Number(getCfg()[sc.feeKey]||0)>0)?t('pay_do'):t('save');btn.onclick=()=>saveReg(kind);body.appendChild(btn);
@@ -4304,9 +4317,11 @@ function startReg(kind,pre,draft){
   if(kind==='driver'){const sv=document.getElementById('rf_service');if(sv)sv.value='both';
     if(pre){const f=pre.fields||{};['name','phone','city','make','model','year','color','plate','licnum','oavct','oavctExp','service'].forEach(k=>{const el=document.getElementById('rf_'+k);if(el&&f[k]!=null&&f[k]!=='')el.value=f[k];});
       const nm=document.getElementById('rf_name');if(nm&&!nm.value)nm.value=pre.name||'';
-      const cs=document.getElementById('rf_consent');if(cs)cs.checked=!!pre.consent;}
+      const cs=document.getElementById('rf_consent');if(cs)cs.checked=!!pre.consent;
+      const oa=document.getElementById('rf_oavAssist');if(oa)oa.checked=f.oavAssist==='1';}
     if(draft){const f=draft.fields||{};Object.keys(f).forEach(k=>{const el=document.getElementById('rf_'+k);if(el&&f[k]!=null)el.value=f[k];});
-      const cs=document.getElementById('rf_consent');if(cs)cs.checked=!!draft.consent;}
+      const cs=document.getElementById('rf_consent');if(cs)cs.checked=!!draft.consent;
+      const oa=document.getElementById('rf_oavAssist');if(oa)oa.checked=f.oavAssist==='1';}
     body.addEventListener('input',drvDraftSave);body.addEventListener('change',drvDraftSave);}
   if(sc.fields.some(f=>f[0]==='vehicle')){document.getElementById(reg.vehType==='car'?'veh_car':'veh_moto').classList.remove('ghost');
     document.getElementById('veh_moto').onclick=()=>{reg.vehType='moto';document.getElementById('veh_moto').classList.remove('ghost');document.getElementById('veh_car').classList.add('ghost');if(kind==='driver')drvDraftSave();};
@@ -4375,6 +4390,7 @@ const DRV_DRAFT='hb_drv_draft';
 function drvDraftSave(){
   if(!reg||reg.kind!=='driver')return;
   var f={};REG_FORMS.driver.fields.forEach(function(x){var el=document.getElementById('rf_'+x[0]);if(el)f[x[0]]=el.value;});
+  f.oavAssist=(document.getElementById('rf_oavAssist')||{}).checked?'1':'';
   var cs=document.getElementById('rf_consent');
   var typed=Object.keys(f).some(function(k){return k!=='service'&&String(f[k]||'').trim();});
   var shot=Object.keys(reg.docs||{}).some(function(k){return reg.docs[k]&&reg.docs[k].length;});
@@ -4402,6 +4418,7 @@ function saveDriverReg(){
   sc.fields.forEach(f=>{const key=f[0];if(key==='vehicle'){data.vehicle=reg.vehType==='car'?'Machin':'Moto';return;}
     const el=document.getElementById('rf_'+key);if(el){data[key]=el.value.trim();
       if(el.tagName==='SELECT'&&el.selectedIndex>=0&&el.value)dataLbl[key]=el.options[el.selectedIndex].textContent;}});
+  data.oavAssist=(document.getElementById('rf_oavAssist')||{}).checked?'1':'';
   const name=data.name||'';if(!name){alert(t('need_name'));return;}
   const consent=!!(document.getElementById('rf_consent')||{}).checked;
   const missing=drvMissing(data,reg.docs,consent);
@@ -6663,7 +6680,7 @@ function shareApp(){
    =================================================================== */
 /* Version the seller can read out loud. When someone says "I don't see the new
    button", the first useful question is which build their phone is running. */
-const APP_VER='83';
+const APP_VER='84';
 var swReg=null;
 if('serviceWorker' in navigator){
   window.addEventListener('load',function(){
