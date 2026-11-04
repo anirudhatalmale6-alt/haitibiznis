@@ -420,11 +420,12 @@ function act(i, what, btn){
     if (!confirm('Fè yon NOUVO PIN MyPlopPlop pou ' + a.name + '? Ansyen PIN li p ap mache ankò.')) return;
     btn.disabled = true; say(i, 'Ap fè nouvo PIN nan…', true);
     req('POST', '/api/agents/admin/' + encodeURIComponent(a.agentId) + '/new-pin', { by: who() })
-      .catch(function(e){ if (e.message !== 'link_unavailable') throw e; return mp('POST', '/api/admin-pin/ajan-code/new-pin', { phone: a.phone, code: a.referralCode, by: 'console' }); })
-      .then(function(d){ say(i, '✓ Nouvo PIN fèt. Li nan bwat anba a.', true); showPin({ name: a.name, phone: d.phone || a.phone, pin: d.tempPin, code: d.code || a.referralCode }); })
+      .catch(function(e){ if (e.message !== 'link_unavailable') throw e; return mp('POST', '/api/admin-pin/ajan-code/new-pin', { phone: a.phone, code: a.referralCode, name: a.name, by: 'console' }); })
+      .then(function(d){ say(i, '✓ Nouvo PIN fèt. Li nan bwat anba a.' + (d.phoneFixed ? ' Nimewo kont MyPlopPlop li korije pou ' + (d.phone || a.phone) + ' (menm jan ak badj la).' : ''), true); showPin({ name: a.name, phone: d.phone || a.phone, pin: d.tempPin, code: d.code || a.referralCode }); })
       .catch(function(e){ var d = e.data || {};
         say(i, ({ own_account: a.name + ' gen pwòp kont MyPlopPlop li (' + ({ merchant: 'machann', driver: 'chofè', admin: 'admin' }[d.role] || d.role) + '): se pwòp PIN pa li. Si l bliye l, li peze "Forgot PIN?" sou myplopplop.com/login.html.',
                   not_this_phone: 'Telefòn sou badj la pa menm ak telefòn kont kòd ' + a.referralCode + ' la. Tcheke telefòn nan anvan (✏️ Modifye → 🔎 Chèche kòd li).',
+                  phone_in_use: 'Nimewo sou badj la deja sou yon lòt kont MyPlopPlop. Tcheke nimewo a.',
                   no_code: 'Kòd ' + a.referralCode + ' pa jwenn nan MyPlopPlop.', not_active: 'Badj la pa aktif.' })[d.error] || errText(e), false); })
       .then(function(){ btn.disabled = false; });
     return;
