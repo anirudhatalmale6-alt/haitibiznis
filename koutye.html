@@ -751,10 +751,6 @@ function submitKoutye(){
   if(!phone){document.getElementById('kPhone').focus();return}
 
   var customCode=document.getElementById('kCustomCode').value.trim();
-  var existing=localStorage.getItem('kb_code');
-
-  // Local fallback code (used only if the server can't be reached).
-  var localCode = existing || (customCode ? customCode.replace(/\s+/g,'-').toUpperCase() : generateKoutyeCode(name));
 
   var btn=document.getElementById('kSubmitBtn');
   if(btn){btn.disabled=true;btn.dataset.txt=btn.textContent;btn.textContent='...';}
@@ -766,20 +762,18 @@ function submitKoutye(){
     headers:{'Content-Type':'application/json'},
     body:JSON.stringify({name:name,phone:phone,ref:ref,customCode:customCode})
   }).then(function(r){return r.json();}).then(function(data){
-    generatedCode=(data&&data.success&&data.koutyeCode)?data.koutyeCode:localCode;
+    if(!(data&&data.success&&data.koutyeCode))throw new Error('not saved');
+    generatedCode=data.koutyeCode;
     localStorage.setItem('kb_code',generatedCode);
     localStorage.setItem('kb_name',name);
     localStorage.setItem('kb_phone',phone);
     if(btn){btn.disabled=false;if(btn.dataset.txt)btn.textContent=btn.dataset.txt;}
     showKoutyeSuccess();
   }).catch(function(){
-    // Network failure — don't block the user; keep their code locally.
-    generatedCode=localCode;
-    localStorage.setItem('kb_code',generatedCode);
-    localStorage.setItem('kb_name',name);
-    localStorage.setItem('kb_phone',phone);
+    /* 4 Nov 2026: this used to SHOW a code made up on the phone when the server did not answer - a code that
+       existed nowhere and credited nobody (Jennifer's "JC-JENN7"). Only a code the server confirmed is shown. */
     if(btn){btn.disabled=false;if(btn.dataset.txt)btn.textContent=btn.dataset.txt;}
-    showKoutyeSuccess();
+    alert('Enskripsyon an PA anrejistre (pa gen koneksyon ak sèvè a). Tcheke entènèt ou epi eseye ankò nan yon minit.');
   });
 }
 
@@ -815,6 +809,24 @@ if(savedCode){
   document.getElementById('signupSuccess').style.display='block';
   document.getElementById('mainCta').innerHTML='&#128203; We Link Mwen';
 }
+/* 4 Nov 2026: a code saved on this phone may have been MADE UP by an older version of the sign-up page when the
+   server did not answer (it existed nowhere). Confirm it with the server: the sign-up is saved now if it never
+   was (keeping the same code when it is free), and the phone shows the code the server really holds. */
+(function(){
+  var c=localStorage.getItem('kb_code'),n=localStorage.getItem('kb_name'),ph=localStorage.getItem('kb_phone');
+  if(!c||!ph||!n)return;
+  /* an ACTIVE Ajan code is real as it is - never touched */
+  fetch('https://myplopplop-api.onrender.com/api/koutye/validate/'+encodeURIComponent(c)).then(function(r){return r.json();}).then(function(v){
+    if(v&&v.valid)return null;
+    return fetch('https://myplopplop-api.onrender.com/api/koutye/register-public',{method:'POST',headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({name:n,phone:ph,customCode:c})}).then(function(r){return r.json();});
+  }).then(function(d){
+    if(!d||!d.success||!d.koutyeCode||d.koutyeCode===c)return;
+    localStorage.setItem('kb_code',d.koutyeCode);
+    alert('Kòd ou a se: '+d.koutyeCode+' (ansyen kòd ki te sou telefòn sa a pa t anrejistre). Paj la ap rechaje.');
+    location.reload();
+  }).catch(function(){});
+})();
 
 /* STICKY BAR — hide when signup visible */
 var signupEl=document.getElementById('signupCard');

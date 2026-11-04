@@ -323,6 +323,24 @@ body{font-family:var(--body);background:var(--off-white);color:var(--text);-webk
 </div>
 
 <script>
+/* 4 Nov 2026: a code saved on this phone may have been MADE UP by an older version of the sign-up page when the
+   server did not answer (it existed nowhere). Confirm it with the server: the sign-up is saved now if it never
+   was (keeping the same code when it is free), and the phone shows the code the server really holds. */
+(function(){
+  var c=localStorage.getItem('kb_code'),n=localStorage.getItem('kb_name'),ph=localStorage.getItem('kb_phone');
+  if(!c||!ph||!n)return;
+  /* an ACTIVE Ajan code is real as it is - never touched */
+  fetch('https://myplopplop-api.onrender.com/api/koutye/validate/'+encodeURIComponent(c)).then(function(r){return r.json();}).then(function(v){
+    if(v&&v.valid)return null;
+    return fetch('https://myplopplop-api.onrender.com/api/koutye/register-public',{method:'POST',headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({name:n,phone:ph,customCode:c})}).then(function(r){return r.json();});
+  }).then(function(d){
+    if(!d||!d.success||!d.koutyeCode||d.koutyeCode===c)return;
+    localStorage.setItem('kb_code',d.koutyeCode);
+    alert('Kòd ou a se: '+d.koutyeCode+' (ansyen kòd ki te sou telefòn sa a pa t anrejistre). Paj la ap rechaje.');
+    location.reload();
+  }).catch(function(){});
+})();
 var code = localStorage.getItem('kb_code');
 var name = localStorage.getItem('kb_name');
 var phone = localStorage.getItem('kb_phone');
