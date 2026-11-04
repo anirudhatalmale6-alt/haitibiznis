@@ -1213,6 +1213,32 @@ var T_OAS={
       oas_box:'🟠 O motorista ainda não tem OAVCT (assistência OAVCT)',oas_hint:'Ele pode se cadastrar agora com os outros documentos. O OAVCT é adicionado depois na MESMA conta. Sem corridas nem entregas até o OAVCT estar em ordem.',oas_st:'INSCRITO — OAVCT PENDENTE'}
 };
 Object.keys(T_OAS).forEach(function(l){if(T[l])Object.assign(T[l],T_OAS[l]);});
+/* 4 Nov 2026 (Jeffery, PATENTE): "Èske biznis ou gen Patente?" - informal businesses are welcome, never shown as registered */
+var T_PAT={
+  ht:{pat_q:'Èske biznis ou gen Patente?',pat_yes:'✅ Wi',pat_no:'❌ Non',pat_num:'Nimewo Patente a (si l genyen)',pat_fy:'Ane fiskal ki ekri sou Patente a ("Exercice Fiscal")',pat_fy_unk:'Mwen pa konnen',pat_photo:'Pran yon foto KLÈ Patente a nan "Patente" anba a.',
+    pat_no_box:'📋 Ou poko gen Patente? HaitiBiznis ka ede w formalize biznis ou.',pat_assist:'Mwen bezwen asistans',pat_assist_on:'✓ Demann asistans lan ap rive bay Jennifer.',pat_note:'Biznis san Patente ka enskri tou. Machann nan responsab pwòp Patente li.',
+    pat_pharma:'💊 Famasi: Patente + otorizasyon MSPP obligatwa anvan Jennifer ka apwouve.',pat_need:'Reponn kesyon an: Èske biznis ou gen Patente? (Wi oswa Non)',up_patente:'Patente',up_mspp:'Otorizasyon MSPP',
+    mv_green:'🟢 Biznis Verifye — Ak Patente',mv_yellow:'🟡 Ti Biznis Verifye — San Patente'},
+  fr:{pat_q:'Votre entreprise a-t-elle une Patente ?',pat_yes:'✅ Oui',pat_no:'❌ Non',pat_num:'Numéro de Patente (si disponible)',pat_fy:'Exercice fiscal écrit sur la Patente',pat_fy_unk:'Je ne sais pas',pat_photo:'Prenez une photo CLAIRE de la Patente dans « Patente » ci-dessous.',
+    pat_no_box:'📋 Pas encore de Patente ? HaitiBiznis peut vous aider à formaliser votre entreprise.',pat_assist:'J’ai besoin d’assistance',pat_assist_on:'✓ La demande d’assistance sera envoyée à Jennifer.',pat_note:'Les entreprises sans Patente peuvent aussi s’inscrire. Le commerçant reste responsable de sa Patente.',
+    pat_pharma:'💊 Pharmacie : Patente + autorisation du MSPP obligatoires avant l’approbation.',pat_need:'Répondez : votre entreprise a-t-elle une Patente ? (Oui ou Non)',up_patente:'Patente',up_mspp:'Autorisation MSPP',
+    mv_green:'🟢 Entreprise vérifiée — avec Patente',mv_yellow:'🟡 Petite entreprise vérifiée — sans Patente'},
+  en:{pat_q:'Does your business have a Patente?',pat_yes:'✅ Yes',pat_no:'❌ No',pat_num:'Patente number (if any)',pat_fy:'Fiscal year written on the Patente ("Exercice Fiscal")',pat_fy_unk:'I don’t know',pat_photo:'Take a CLEAR photo of the Patente in "Patente" below.',
+    pat_no_box:'📋 No Patente yet? HaitiBiznis can help you formalize your business.',pat_assist:'I need assistance',pat_assist_on:'✓ The assistance request will reach Jennifer.',pat_note:'Businesses without a Patente can register too. The merchant remains responsible for their own Patente.',
+    pat_pharma:'💊 Pharmacy: Patente + MSPP authorisation required before approval.',pat_need:'Please answer: does your business have a Patente? (Yes or No)',up_patente:'Patente',up_mspp:'MSPP authorisation',
+    mv_green:'🟢 Verified Business — with Patente',mv_yellow:'🟡 Verified Small Business — no Patente'},
+  es:{pat_q:'¿Su negocio tiene Patente?',pat_yes:'✅ Sí',pat_no:'❌ No',pat_num:'Número de Patente (si lo tiene)',pat_fy:'Año fiscal escrito en la Patente ("Exercice Fiscal")',pat_fy_unk:'No sé',pat_photo:'Tome una foto CLARA de la Patente en "Patente" abajo.',
+    pat_no_box:'📋 ¿Aún sin Patente? HaitiBiznis puede ayudarle a formalizar su negocio.',pat_assist:'Necesito asistencia',pat_assist_on:'✓ La solicitud de asistencia llegará a Jennifer.',pat_note:'Los negocios sin Patente también pueden inscribirse. El comerciante es responsable de su propia Patente.',
+    pat_pharma:'💊 Farmacia: Patente + autorización del MSPP obligatorias antes de la aprobación.',pat_need:'Responda: ¿su negocio tiene Patente? (Sí o No)',up_patente:'Patente',up_mspp:'Autorización MSPP',
+    mv_green:'🟢 Negocio verificado — con Patente',mv_yellow:'🟡 Pequeño negocio verificado — sin Patente'},
+  pt:{pat_q:'Seu negócio tem Patente?',pat_yes:'✅ Sim',pat_no:'❌ Não',pat_num:'Número da Patente (se tiver)',pat_fy:'Ano fiscal escrito na Patente ("Exercice Fiscal")',pat_fy_unk:'Não sei',pat_photo:'Tire uma foto NÍTIDA da Patente em "Patente" abaixo.',
+    pat_no_box:'📋 Ainda sem Patente? A HaitiBiznis pode ajudar a formalizar seu negócio.',pat_assist:'Preciso de assistência',pat_assist_on:'✓ O pedido de assistência chegará à Jennifer.',pat_note:'Negócios sem Patente também podem se cadastrar. O comerciante é responsável pela própria Patente.',
+    pat_pharma:'💊 Farmácia: Patente + autorização do MSPP obrigatórias antes da aprovação.',pat_need:'Responda: seu negócio tem Patente? (Sim ou Não)',up_patente:'Patente',up_mspp:'Autorização MSPP',
+    mv_green:'🟢 Negócio verificado — com Patente',mv_yellow:'🟡 Pequeno negócio verificado — sem Patente'}
+};
+Object.keys(T_PAT).forEach(function(l){if(T[l])Object.assign(T[l],T_PAT[l]);});
+/* a Patente has no expiry date: it is for one fiscal year (1 Oct - 30 Sep) - the start year is what is sent */
+function patFiscalStart(){const d=new Date();return d.getMonth()>=9?d.getFullYear():d.getFullYear()-1;}
 
 function drvPhone(p){var d=String(p||'').replace(/\D/g,'');if(d.length===11&&d.indexOf('509')===0)d=d.slice(3);return d.length===8?'+509'+d:'';}
 function drvMissing(f,docs,consent){
@@ -3382,7 +3408,7 @@ const T_APP={
 Object.keys(T_APP).forEach(function(l){if(T[l])Object.assign(T[l],T_APP[l]);});
 
 /* registration form schemas (person-first) */
-const UP_KEY={'Driver License':'up_driverlic','National ID':'up_natid','Insurance':'up_insurance','Vehicle Registration':'up_vehreg','Driver Photo':'up_driverphoto','Business Documents':'up_bizdocs','Diploma / Certification':'up_diploma','Experience Documents':'up_expdocs','Store Photo':'up_storephoto','Owner ID':'up_ownerid','OAVCT':'up_oavct','Vehicle Photo':'up_vehphoto'};
+const UP_KEY={'Driver License':'up_driverlic','National ID':'up_natid','Insurance':'up_insurance','Vehicle Registration':'up_vehreg','Driver Photo':'up_driverphoto','Business Documents':'up_bizdocs','Diploma / Certification':'up_diploma','Experience Documents':'up_expdocs','Store Photo':'up_storephoto','Owner ID':'up_ownerid','Patente':'up_patente','MSPP Authorization':'up_mspp','OAVCT':'up_oavct','Vehicle Photo':'up_vehphoto'};
 function upT(u){return UP_KEY[u]?t(UP_KEY[u]):u;}
 /* branded hero per registration kind (ecosystem-consistent look) */
 const REG_HERO={driver:{em:'🛵',color:'#D21034'},rider:{em:'🙋',color:'#2563eb'},merchant:{em:'🏪',color:'#0ea5a0'},pro:{em:'👷',color:'#f59e0b'},affiliate:{em:'🤝',color:'#12a150'}};
@@ -3396,7 +3422,7 @@ const REG_FORMS={
    fields:[['name','f_name',1],['phone','f_phone'],['wa','f_wa']],uploads:[]},
  merchant:{titleKey:'reg_t_merchant',statusSet:'merch',prefix:'MRC',feeKey:'regFeeMerchant',
    fields:[['biz','store_name'],['category','category','sel',MERCH_CATS,'mcat_'],['name','owner',1],['phone','f_phone'],['wa','f_wa'],['addr','mp_location'],['desc','store_desc','ta'],['referral','referral_partner','sel',MERCH_REFERRAL,'mref_']],
-   uploads:['Store Photo','Owner ID']},
+   uploads:['Store Photo','Owner ID','Patente','MSPP Authorization']},
  pro:{titleKey:'reg_t_pro',statusSet:'pro',prefix:'PRO',feeKey:'regFeePro',
    fields:[['name','f_name',1],['profession','profession'],['phone','f_phone'],['wa','f_wa'],['addr','address']],
    uploads:['National ID','Diploma / Certification','Experience Documents']},
@@ -4323,9 +4349,21 @@ function startReg(kind,pre,draft){
   const feeKey=(sc.feeKey && Number(getCfg()[sc.feeKey]||0)>0) ? sc.feeKey : null;
   if(feeKey){card.innerHTML+=`<label class="fl">${tm('set_regfee_'+(kind==='driver'?'d':kind==='rider'?'r':kind==='merchant'?'m':'p'))||'Frè (GDES)'}</label><input type="number" id="rf_fee" inputmode="decimal" value="${fxOut(getCfg()[feeKey]||0)}">`;}
   body.appendChild(card);
+  if(kind==='merchant'){const pb=document.createElement('div');pb.className='card';pb.id='patBox';reg.pat={has:'',assist:false};
+    const c0=patFiscalStart();
+    pb.innerHTML='<label class="fl" style="font-size:15px">'+t('pat_q')+'</label>'
+      +'<div class="row2" style="margin-bottom:6px"><button type="button" class="cta ghost" id="pat_yes" style="margin:0">'+t('pat_yes')+'</button><button type="button" class="cta ghost" id="pat_no" style="margin:0">'+t('pat_no')+'</button></div>'
+      +'<div id="patYes" style="display:none"><label class="fl">'+t('pat_num')+'</label><input type="text" id="rf_patNum" maxlength="30" inputmode="numeric">'
+      +'<label class="fl">'+t('pat_fy')+'</label><select id="rf_patFy"><option value=""></option>'+[c0,c0-1,c0-2].map(y=>'<option value="'+y+'">'+y+' - '+(y+1)+'</option>').join('')+'<option value="0">'+t('pat_fy_unk')+'</option></select>'
+      +'<div class="sub" style="font-weight:700;color:#0b4d2a">📷 '+t('pat_photo')+'</div></div>'
+      +'<div id="patNo" style="display:none;margin-top:8px;padding:10px 12px;border-radius:12px;background:#EEF4FF;border:1.5px solid #9DB8F0"><div style="font-weight:800;line-height:1.45">'+t('pat_no_box')+'</div>'
+      +'<button type="button" class="cta ghost" id="pat_assist" style="margin:8px 0 0">'+t('pat_assist')+'</button><div class="sub" id="patAssistOk" style="display:none;font-weight:800;color:#0b6b37;margin-top:6px">'+t('pat_assist_on')+'</div></div>'
+      +'<div class="sub" id="patPharma" style="display:none;font-weight:800;color:#9a3412;margin-top:8px">'+t('pat_pharma')+'</div>'
+      +'<div class="sub" style="margin-top:8px;opacity:.8">'+t('pat_note')+'</div>';
+    body.appendChild(pb);}
   if(sc.uploads.length){const dh=document.createElement('div');dh.className='docs-h';dh.setAttribute('data-i18n','docs_h');dh.textContent=t('docs_h');body.appendChild(dh);}
   sc.uploads.forEach(u=>{const ul=upT(u);
-    const lab=document.createElement('label');lab.className='uptile';
+    const lab=document.createElement('label');lab.className='uptile';lab.setAttribute('data-up',u);
     const had=kind==='driver'&&reg.docs[u]&&reg.docs[u].length;
     lab.innerHTML=`<div class="ut-ic">${had?'✅':'📷'}</div><div class="ut-tx"><div class="ut-t">${ul}${kind==='driver'&&DRV_OPT[u]?' <span style="font-weight:600;opacity:.7">('+t('up_opt')+')</span>':''}</div><div class="ut-s">${had?'✓ '+t('up_added')+' (1)':t('up_tap')}</div></div>`;
     if(had)lab.classList.add('done');
@@ -4369,6 +4407,7 @@ function startReg(kind,pre,draft){
     oa.innerHTML='<input type="checkbox" id="rf_oavAssist" style="width:22px;height:22px;flex-shrink:0;margin:0"><span>'+t('oas_box')+'<br><small style="font-weight:600;color:#7a4a12">'+t('oas_hint')+'</small></span>';body.appendChild(oa);}
   if(kind==='driver'){const cl=document.createElement('label');cl.style.cssText='display:flex;gap:10px;align-items:flex-start;margin:14px 2px;font-weight:700;font-size:13.5px;line-height:1.4';
     cl.innerHTML='<input type="checkbox" id="rf_consent" style="width:22px;height:22px;flex-shrink:0;margin:0">'+'<span>'+t('drv_consent')+'</span>';body.appendChild(cl);}
+  if(kind==='merchant')patWire();
   const btn=document.createElement('button');btn.className='cta';btn.textContent=kind==='driver'?t('drv_send'):(sc.feeKey&&Number(getCfg()[sc.feeKey]||0)>0)?t('pay_do'):t('save');btn.onclick=()=>saveReg(kind);body.appendChild(btn);
   go('reg');
   if(kind==='driver'){const sv=document.getElementById('rf_service');if(sv)sv.value='both';
@@ -4384,7 +4423,25 @@ function startReg(kind,pre,draft){
     document.getElementById('veh_moto').onclick=()=>{reg.vehType='moto';document.getElementById('veh_moto').classList.remove('ghost');document.getElementById('veh_car').classList.add('ghost');if(kind==='driver')drvDraftSave();};
     document.getElementById('veh_car').onclick=()=>{reg.vehType='car';document.getElementById('veh_car').classList.remove('ghost');document.getElementById('veh_moto').classList.add('ghost');if(kind==='driver')drvDraftSave();};}
 }
+/* the Patente question: Wi shows number + fiscal year + the "Patente" photo tile; Non shows the formalization offer;
+   the MSPP tile only for a pharmacy (rule 5: licensed activities need their document before they can sell) */
+function patWire(){
+  const y=document.getElementById('pat_yes'),n=document.getElementById('pat_no'),a=document.getElementById('pat_assist'),cat=document.getElementById('rf_category');
+  function sync(){const h=reg.pat.has;y.classList.toggle('ghost',h!=='yes');n.classList.toggle('ghost',h!=='no');
+    document.getElementById('patYes').style.display=h==='yes'?'':'none';document.getElementById('patNo').style.display=h==='no'?'':'none';
+    a.classList.toggle('ghost',!reg.pat.assist);a.textContent=(reg.pat.assist?'✓ ':'')+t('pat_assist');document.getElementById('patAssistOk').style.display=reg.pat.assist?'':'none';
+    const ph=cat&&cat.value==='pharmacy';document.getElementById('patPharma').style.display=ph?'':'none';
+    document.querySelectorAll('#regBody .uptile[data-up]').forEach(function(l){const u=l.getAttribute('data-up');
+      if(u==='Patente')l.style.display=h==='yes'?'':'none';if(u==='MSPP Authorization')l.style.display=ph?'':'none';});}
+  y.onclick=function(){reg.pat.has='yes';sync();};n.onclick=function(){reg.pat.has='no';sync();};
+  a.onclick=function(){reg.pat.assist=!reg.pat.assist;sync();};if(cat)cat.addEventListener('change',sync);sync();
+}
 function saveReg(kind){if(kind==='driver')return saveDriverReg();const sc=REG_FORMS[kind];const name=document.getElementById('rf_name').value.trim();if(!name){alert(t('need_name'));return;}
+  if(kind==='merchant'&&reg.pat&&!reg.pat.has){alert(t('pat_need'));const pb=document.getElementById('patBox');if(pb)pb.scrollIntoView({block:'center'});return;}
+  if(kind==='merchant'&&reg.pat){
+    /* a "Non" never sends a Patente photo taken before changing the answer; a non-pharmacy never sends an MSPP photo */
+    if(reg.pat.has!=='yes'&&reg.docs['Patente']){(reg.docs['Patente']||[]).forEach(function(x){if(x&&x.key)docDel(x.key);});delete reg.docs['Patente'];}
+    const ce=document.getElementById('rf_category');if(!(ce&&ce.value==='pharmacy')&&reg.docs['MSPP Authorization']){(reg.docs['MSPP Authorization']||[]).forEach(function(x){if(x&&x.key)docDel(x.key);});delete reg.docs['MSPP Authorization'];}}
   /* A merchant's phone is how they log in to MyPlopPlop afterwards, so for this
      one form it is required - without it we cannot create their account. */
   /* The same for an affiliate since 15 Oct: the Ajan engine knows a person by
@@ -4401,6 +4458,9 @@ function saveReg(kind){if(kind==='driver')return saveDriverReg();const sc=REG_FO
   /* Reads the box only when the box was actually rendered; fxIn returns the
      default when the element is absent, so a hidden fee can never be charged. */
   const fee=(sc.feeKey&&document.getElementById('rf_fee'))?fxIn('rf_fee',0):0;
+  if(kind==='merchant'&&reg.pat){data.patHas=reg.pat.has;data.patAssist=reg.pat.has==='no'&&reg.pat.assist?'1':'';
+    if(reg.pat.has==='yes'){data.patNum=(document.getElementById('rf_patNum').value||'').trim();const fy=parseInt(document.getElementById('rf_patFy').value,10);if(fy)data.patFy=fy;}
+    dataLbl.patHas=reg.pat.has==='yes'?t('pat_yes'):t('pat_no');}
   const docsFlat=[];Object.keys(reg.docs).forEach(k=>reg.docs[k].forEach(function(d){
     /* older drafts stored a bare filename string; keep reading those */
     if(typeof d==='string')docsFlat.push({name:k+': '+d});
@@ -4534,7 +4594,7 @@ async function mppPost(path,body,token){
    store waits "⏳ AN ATANT" for Jennifer (not public, no orders) and its 2 photos - storefront + owner's ID -
    go to the server (privately), with the same retry discipline as the driver photos (v87). A lost answer is
    resumed with the PIN this phone generated: our own account, never a second one. */
-const MPP_VDOC={'Store Photo':'storefront','Owner ID':'owner_id'};
+const MPP_VDOC={'Store Photo':'storefront','Owner ID':'owner_id','Patente':'patente','MSPP Authorization':'mspp'};
 function mppJobSet(id,patch){const q=mppQueue(),j=q.find(x=>x.id===id);if(j){Object.assign(j,patch);save('hb_mpp_queue',q);}return j;}
 function mppRecDocs(id){const o=load('hb_orders',[]).find(x=>x.id===id);const out={};
   ((o&&o.docs)||[]).forEach(function(d){var lab=String(d.name||'').split(':')[0].trim(),t=MPP_VDOC[lab];if(t&&d.key&&!out[t])out[t]=d.key;});return out;}
@@ -4557,7 +4617,9 @@ async function mppSyncMerchant(job){
       phone:job.phone,description:f.desc||'',address:{street:f.addr||''},
       deliveryOptions:{delivery:true,selfPickup:true},
       /* the Ajan who registered this shop (credit) - and what makes it wait for Jennifer's verification */
-      agentPhone:job.agentPhone||agentPhone()},token);
+      agentPhone:job.agentPhone||agentPhone(),
+      /* 4 Nov 2026 (PATENTE): the answer, number and fiscal year; "Mwen bezwen asistans" = a lead for Jennifer */
+      patente:f.patHas?{has:f.patHas,number:f.patNum||'',fy:f.patFy||''}:undefined,patenteAssist:f.patAssist==='1'},token);
     if(st.status===401){mppJobSet(job.id,{token:''});throw new Error('session');}
     if(!st.ok)throw new Error('store '+st.status);
     const d=st.body.data||{};storeId=d._id||'';if(!storeId)throw new Error('store id');
@@ -4610,16 +4672,16 @@ async function mppRefresh(force){
   try{const r=await mppPost('/api/stores/status-batch',{ids:recs.map(o=>o.mpp.storeId)});if(!r.ok)return;
     const by={};(r.body.stores||[]).forEach(x=>{by[x.id]=x;});
     const os=load('hb_orders',[]);os.forEach(o=>{const x=o.mpp&&by[o.mpp.storeId];if(!x)return;
-      Object.assign(o.mpp,{state:x.state,fix:x.fix||[],note:x.note||'',reason:x.reason||'',srvDocs:x.docs||[]});
+      Object.assign(o.mpp,{state:x.state,fix:x.fix||[],note:x.note||'',reason:x.reason||'',srvDocs:x.docs||[],trust:x.trust||'',patente:x.patente||null});
       if(x.state==='approved'&&x.status==='active'){o.mpp.status='live';o.mpp.slug=x.slug||o.mpp.slug;}});
     save('hb_orders',os);try{if(document.getElementById('ordersList'))renderOrders();}catch(e){}}catch(e){}
 }
-const MV_DOCNAME={storefront:'Store Photo',owner_id:'Owner ID'};
+const MV_DOCNAME={storefront:'Store Photo',owner_id:'Owner ID',patente:'Patente',mspp:'MSPP Authorization'};
 function mppLine(o){
   if(!o||!o.mpp||!o.mpp.storeId)return '';
   const m=o.mpp,id=escHtml(o.id),st=m.state||'pending';let txt,col='#8a5a00',bg='#FFF8E1',btns='';
   const job=mppQueue().find(x=>x.id===o.id),left=job?Object.keys(mppRecDocs(o.id)).filter(t=>(job.docsDone||[]).indexOf(t)<0):[];
-  if(st==='approved'){txt='✅ '+t('mv_ok');col='#0b6b37';bg='#e6f7ee';}
+  if(st==='approved'){txt='✅ '+t('mv_ok')+(m.trust?'<div style="margin-top:4px">'+t(m.trust==='patente'?'mv_green':'mv_yellow')+'</div>':'');col='#0b6b37';bg='#e6f7ee';}
   else if(st==='rejected'){txt='⛔ '+t('mv_rej').replace('{r}',escHtml(m.reason||'—'));col='#b91c1c';bg='#fdeaea';}
   else if(st==='fix'){txt='🔧 '+t('mv_fix').replace('{list}',(m.fix||[]).map(x=>x==='info'?t('mv_info'):upT(MV_DOCNAME[x]||x)).join(', '))+(m.note?'<div style="font-weight:700;margin-top:4px">“'+escHtml(m.note)+'”</div>':'');
     btns+=(m.fix||[]).filter(x=>MV_DOCNAME[x]).map(x=>'<button class="mini" style="margin:0 6px 6px 0" onclick="mppFixDoc(\''+id+'\',\''+x+'\')">📸 '+t('aj_take')+': '+upT(MV_DOCNAME[x])+'</button>').join('');}
@@ -6819,7 +6881,7 @@ function shareApp(){
    =================================================================== */
 /* Version the seller can read out loud. When someone says "I don't see the new
    button", the first useful question is which build their phone is running. */
-const APP_VER='88';
+const APP_VER='89';
 var swReg=null;
 if('serviceWorker' in navigator){
   window.addEventListener('load',function(){

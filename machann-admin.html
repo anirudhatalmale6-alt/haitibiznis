@@ -81,6 +81,7 @@ input,select,textarea{width:100%;min-height:46px;border:1.5px solid var(--line);
     <div class="fbar">
       <input id="fq" type="search" placeholder="🔎 Chèche: biznis, pwopriyetè, telefòn, kòd Ajan" autocomplete="off">
       <div class="fl">Estati</div><div class="chips" id="fSt"></div>
+      <div class="fl">Patente</div><div class="chips" id="fP"></div>
       <div class="fres"><span id="fN"></span><button type="button" class="btn o" id="reload" style="min-height:32px">🔄</button></div>
     </div>
     <div id="list"></div>
@@ -91,7 +92,7 @@ input,select,textarea{width:100%;min-height:46px;border:1.5px solid var(--line);
 (function(){
   'use strict';
   var API = 'https://haitibiznis-api.onrender.com', MPP_SITE = 'https://myplopplop.com';
-  var pin = '', who = '', all = [], F = { st: 'pending', q: '' };
+  var pin = '', who = '', all = [], F = { st: 'pending', q: '', p: 'all' };
   function $(id){ return document.getElementById(id); }
   function esc(v){ return String(v == null ? '' : v).replace(/[&<>"']/g, function(c){ return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]; }); }
   function fmt(d){ try { return new Date(d).toLocaleString('fr-HT', { day: 'numeric', month: 'short', hour: '2-digit', minute: '2-digit' }); } catch(e){ return ''; } }
@@ -103,8 +104,11 @@ input,select,textarea{width:100%;min-height:46px;border:1.5px solid var(--line);
   var ERR = { link_unavailable: 'Koneksyon ak MyPlopPlop pa disponib pou kounye a. Eseye ankò nan yon minit.',
     name_required: 'Mete non ou anvan.', reason_required: 'Mete rezon an.', docs_required: 'Chwazi sa pou korije a.',
     missing_documents: 'Foto ki manke: ', corrections_pending: 'Gen korije ki poko fèt.', not_pending: 'Biznis sa a pa an atant.',
-    already_sent: 'Mesaj byenveni an deja anrejistre.', bad_image: 'Foto a pa bon.', too_large: 'Foto a twò gwo.' };
-  var DOC = { storefront: '🏪 Foto magazen', owner_id: '🪪 Pyès idantite pwopriyetè a', info: '📝 Enfòmasyon' };
+    already_sent: 'Mesaj byenveni an deja anrejistre.', bad_image: 'Foto a pa bon.', too_large: 'Foto a twò gwo.',
+    licence_required: 'Famasi: li bezwen ', fiscal_year_required: 'Mete ane fiskal Patente a anvan (✏️ Enfòmasyon Patente).', note_required: 'Ekri kisa pou korije a.',
+    not_verified: 'Patente a pa t verifye.', bad_fiscal_year: 'Ane fiskal la pa bon.', no_request: 'Machann sa a pa t mande asistans.' };
+  var DOC = { storefront: '🏪 Foto magazen', owner_id: '🪪 Pyès idantite pwopriyetè a', info: '📝 Enfòmasyon', patente: '📜 Patente', mspp: '💊 Otorizasyon MSPP' };
+  var LIC = { patente: '📜 Patente (foto)', patente_unverified: 'Patente verifye (peze "✅ Patente verifye")', patente_expired: 'Patente ane fiskal sa a (sa a pa ajou)', mspp: '💊 Otorizasyon MSPP' };
   function req(method, path, body){
     var o = { method: method, headers: { 'x-admin-pin': pin } };
     if (body !== undefined) { o.headers['Content-Type'] = 'application/json'; o.body = JSON.stringify(body); }
@@ -112,6 +116,7 @@ input,select,textarea{width:100%;min-height:46px;border:1.5px solid var(--line);
       if (r.status === 403) { var e = new Error('Kòd konsòl la pa bon.'); e.pin = true; throw e; }
       return r.json().catch(function(){ return {}; }).then(function(d){
         if (!r.ok) { var m = ERR[d.error] || d.error || ('Erè ' + r.status); if (d.error === 'missing_documents') m += (d.missing || []).map(function(t){ return DOC[t] || t; }).join(', ');
+          if (d.error === 'licence_required') m += (d.missing || []).map(function(t){ return LIC[t] || t; }).join(' + ');
           var e = new Error(m); e.data = d; throw e; } return d; });
     });
   }
@@ -133,7 +138,16 @@ input,select,textarea{width:100%;min-height:46px;border:1.5px solid var(--line);
   function mQ(m, q){ if (!q) return true; var t = q.toLowerCase(), d = q.replace(/\D/g, '');
     var hay = [m.name, m.owner && m.owner.name, m.agentCode, m.agentName, m.category, m.address].join(' ').toLowerCase();
     return hay.indexOf(t) >= 0 || (d.length >= 3 && (String(m.phone).replace(/\D/g, '').indexOf(d) >= 0 || String(m.owner && m.owner.phone).replace(/\D/g, '').indexOf(d) >= 0)); }
-  function cnt(st){ return all.filter(function(m){ return mSt(m, st) && mQ(m, F.q); }).length; }
+  /* 4 Nov 2026 (Jeffery, PATENTE): "Add filters for businesses with and without Patente" */
+  var PF = [['all', '📋 Tout'], ['yes', '📜 Gen Patente'], ['no', '🚫 San Patente'], ['unk', '❔ Pa reponn'], ['check', '📄 Pou verifye'], ['stale', '⌛ Pa ajou'], ['green', '🟢 Badj vèt'], ['yellow', '🟡 Badj jòn'], ['assist', '📋 Mande asistans']];
+  function pt(m){ return m.patente || {}; }
+  function green(m){ var p = pt(m); return m.trust === 'patente' && (p.fresh === 'current' || p.fresh === 'grace'); }
+  function mP(m, k){ var p = pt(m);
+    return k === 'all' || (k === 'yes' ? p.has === 'yes' : k === 'no' ? p.has === 'no' : k === 'unk' ? !p.has : k === 'check' ? p.state === 'pending' && m.state !== 'rejected'
+      : k === 'stale' ? p.has === 'yes' && !!p.fy && p.fresh === 'expired' : k === 'green' ? green(m) : k === 'yellow' ? !!m.trust && !green(m) : k === 'assist' ? !!m.assist : false); }
+  function cnt(st){ return all.filter(function(m){ return mSt(m, st) && mP(m, F.p) && mQ(m, F.q); }).length; }
+  function cntP(k){ return all.filter(function(m){ return mSt(m, F.st) && mP(m, k) && mQ(m, F.q); }).length; }
+  $('fP').onclick = function(e){ var b = e.target.closest('button'); if (!b) return; F.p = b.getAttribute('data-p'); save(); render(); };
   $('fSt').onclick = function(e){ var b = e.target.closest('button'); if (!b) return; F.st = b.getAttribute('data-st'); save(); render(); load().catch(function(){}); };
   var qT; $('fq').oninput = function(){ var v = this.value; clearTimeout(qT); qT = setTimeout(function(){ F.q = v.trim(); save(); render(); }, 200); };
   function save(){ try { sessionStorage.setItem('hb_machann_f', JSON.stringify(F)); } catch(e){} }
@@ -144,13 +158,21 @@ input,select,textarea{width:100%;min-height:46px;border:1.5px solid var(--line);
     var n = all.filter(function(m){ return m.state === 'pending'; }).length, f = all.filter(function(m){ return m.state === 'fix'; }).length;
     document.title = (n ? '(' + n + ') ' : '') + 'Machann MyPlopPlop — Konsòl';
     $('notif').innerHTML = n ? '<div class="box" style="border:2px solid #f0b429;background:#fff8e6;font-weight:800;padding:12px 14px;cursor:pointer" id="notifGo">🔔 ' + n + ' biznis ap tann apwobasyon ou' + (f ? ' · 🔧 ' + f + ' ap korije' : '') + ' → peze la a</div>' : '';
-    if ($('notifGo')) $('notifGo').onclick = function(){ F.st = 'pending'; save(); render(); };
+    if ($('notifGo')) $('notifGo').onclick = function(){ F.st = 'pending'; F.p = 'all'; save(); render(); };
+    /* Patente to check + new "Mwen bezwen asistans" leads */
+    var pc = all.filter(function(m){ return mP(m, 'check'); }).length, an = all.filter(function(m){ return m.assist && m.assist.state === 'new'; }).length;
+    if (pc || an) $('notif').innerHTML += '<div class="box" style="border:2px solid #9DB8F0;background:#EEF4FF;font-weight:800;padding:12px 14px">' +
+      (pc ? '<span style="cursor:pointer" id="notifPat">📄 ' + pc + ' Patente pou verifye →</span>' : '') + (pc && an ? '<br>' : '') +
+      (an ? '<span style="cursor:pointer" id="notifAs">📋 ' + an + ' machann mande asistans Patente →</span>' : '') + '</div>';
+    if ($('notifPat')) $('notifPat').onclick = function(){ F.st = 'all'; F.p = 'check'; save(); render(); };
+    if ($('notifAs')) $('notifAs').onclick = function(){ F.st = 'all'; F.p = 'assist'; save(); render(); };
   }
   function render(){
     notify();
     $('fSt').innerHTML = ST.map(function(x){ var n = cnt(x[0]); return '<button type="button" data-st="' + x[0] + '" class="' + (F.st === x[0] ? 'on' : '') + (n ? '' : ' z') + '">' + x[1] + '<b>' + n + '</b></button>'; }).join('');
+    $('fP').innerHTML = PF.map(function(x){ var n = cntP(x[0]); return '<button type="button" data-p="' + x[0] + '" class="' + (F.p === x[0] ? 'on' : '') + (n ? '' : ' z') + '">' + x[1] + '<b>' + n + '</b></button>'; }).join('');
     if ($('fq').value !== F.q) $('fq').value = F.q;
-    var L = all.filter(function(m){ return mSt(m, F.st) && mQ(m, F.q); });
+    var L = all.filter(function(m){ return mSt(m, F.st) && mP(m, F.p) && mQ(m, F.q); });
     var unrev = all.filter(function(m){ return m.state === 'legacy' && !(m.review && m.review.state); }).length;
     $('fN').textContent = '📋 ' + L.length + ' biznis' + (F.st === 'legacy' ? ' · ' + unrev + ' poko revize' : '');
     $('list').innerHTML = L.map(card).join('') || '<div class="box">Pa gen biznis isit la.</div>';
@@ -174,6 +196,8 @@ input,select,textarea{width:100%;min-height:46px;border:1.5px solid var(--line);
     if (st === 'legacy' || st === 'approved') a += '<button class="btn o" data-a="review" data-id="' + id + '">👁 Revize</button>';
     if (m.status === 'active' && m.slug) a += '<a class="btn o" style="text-decoration:none;display:inline-flex;align-items:center" target="_blank" rel="noopener" href="' + MPP_SITE + '/store.html?slug=' + encodeURIComponent(m.slug) + '">🌐 Wè magazen an</a>';
     a += '<button class="btn o" data-a="edit" data-id="' + id + '">✏️ Modifye</button><button class="btn o" data-a="hist" data-id="' + id + '">🕘 Istwa</button>';
+    a += '<button class="btn o" data-a="pat" data-id="' + id + '">📜 Patente</button>';
+    if (m.assist) a += '<a class="btn o" style="text-decoration:none;background:#25D366;color:#fff;border-color:#25D366;display:inline-flex;align-items:center" target="_blank" rel="noopener" href="' + waAssist(m) + '">📲 Asistans Patente</a>';
     var rv = m.review && m.review.state ? '<div class="meta">👁 Revize pa ' + esc(m.review.by) + ' ' + esc(fmt(m.review.at)) + ': ' + (m.review.state === 'ok' ? '✅ OK' : '<b style="color:#A30F27">⚠️ Gen pwoblèm</b>') + (m.review.note ? ' — ' + esc(m.review.note) : '') + '</div>' : '';
     return '<div class="m" id="m_' + id + '"><div class="n">' + esc(m.name) + '<span class="st ' + esc(st) + '">' + (LBL[st] || st) + '</span>' + (m.status === 'active' ? '<span class="st approved">🟢 PIBLIK</span>' : '') + '</div>' +
       '<div class="meta">👤 <b>' + esc(m.owner ? m.owner.name : '—') + '</b> · 📞 <b>' + esc((m.owner && m.owner.phone) || m.phone || '—') + '</b><br>' +
@@ -181,8 +205,30 @@ input,select,textarea{width:100%;min-height:46px;border:1.5px solid var(--line);
         (st !== 'legacy' ? '<br>' + docs : '') + (m.decidedBy ? '<br>✍️ ' + esc(m.decidedBy) + ' · ' + esc(fmt(m.decidedAt)) : '') +
         (m.welcomeAt ? '<br>📨 Byenveni voye pa ' + esc(m.welcomeBy) + ' · ' + esc(fmt(m.welcomeAt)) : (st === 'approved' ? '<br><b style="color:#8A5A00">📨 Mesaj byenveni POKO VOYE</b>' : '')) +
         (st === 'rejected' && m.reason ? '<br>📝 ' + esc(m.reason) : '') + '</div>' + aj + rv +
+      patLine(m) +
       (st === 'fix' ? '<div class="fixb">🔧 Ap tann korije: ' + (m.fixDocs || []).map(function(t){ return DOC[t] || t; }).join(', ') + (m.fixNote ? ' — ' + esc(m.fixNote) : '') + '</div>' : '') +
       '<div class="acts">' + a + '</div><div class="panel" id="p_' + id + '"></div><div class="msg" id="g_' + id + '"></div></div>';
+  }
+  /* 4 Nov 2026 (PATENTE): what the business said / sent, what Jennifer checked, and the public badge it gets */
+  var PST = { pending: '📄 POU VERIFYE', verified: '✅ VERIFYE', fix: '🔧 POU KORIJE', none: '' };
+  function patLine(m){
+    var p = pt(m), t;
+    if (!p.has) t = '❔ Patente: <b>pa reponn</b>' + (m.state === 'legacy' ? '' : ' (Ajan an te gen LajanMaker 88 oswa pi ansyen)');
+    else if (p.has === 'no') t = '🚫 Patente: <b>NON</b>';
+    else t = '📜 Patente: <b>WI</b>' + (p.number ? ' · nº <b>' + esc(p.number) + '</b>' : '') + (p.fy ? ' · ane fiskal <b>' + p.fy + '-' + (p.fy + 1) + '</b>' : ' · <b style="color:#8A5A00">ane fiskal pa konnen</b>') +
+      (p.fresh === 'expired' ? ' · <b style="color:#A30F27">⌛ PA AJOU</b>' : p.fresh === 'grace' ? ' · <b style="color:#8A5A00">⏳ pou renouvle anvan 31 jan</b>' : '') +
+      ((m.docs || []).indexOf('patente') >= 0 ? ' · ✅ foto' : ' · <b style="color:#A30F27">⚠️ foto manke</b>') + (PST[p.state] ? ' · <b>' + PST[p.state] + '</b>' : '');
+    var badge = m.trust ? '<br>' + (green(m) ? '🟢 <b>Biznis Verifye — Ak Patente</b> (sa achtè yo wè)' : '🟡 <b>Ti Biznis Verifye — San Patente</b> (sa achtè yo wè' + (m.trust === 'patente' ? ': Patente a pa ajou' : '') + ')') : '';
+    var lic = (m.licence || []).length ? '<br>💊 <b>Famasi</b>: ' + ((m.licenceMissing || []).length ? '<b style="color:#A30F27">manke ' + m.licenceMissing.map(function(x){ return LIC[x] || x; }).join(' + ') + '</b> (pa ka apwouve)' : '✅ Patente + MSPP an règ') : '';
+    var as = m.assist ? '<br>📋 <b>Mande asistans Patente</b> · ' + ({ new: '<b style="color:#A30F27">NOUVO</b>', contacted: 'kontakte', done: '✅ fini' }[m.assist.state] || m.assist.state) + (m.assist.note ? ' — ' + esc(m.assist.note) : '') : '';
+    return '<div class="meta" style="background:#F5F8FD;border-radius:10px;padding:8px 10px">' + t + badge + lic + as + '</div>';
+  }
+  function waAssist(m){
+    var ph = String((m.owner && m.owner.phone) || m.phone || '').replace(/\D/g, ''); if (ph.length === 8) ph = '509' + ph;
+    var first = String((m.owner && m.owner.name) || '').split(' ')[0];
+    var txt = 'Bonjou ' + first + ', se ' + who + ' (HaitiBiznis). Ou te mande asistans pou Patente biznis "' + m.name + '". Nou ka ede w fè demach yo pou formalize biznis ou' +
+      (m.agentName ? ', ansanm ak Ajan ou a ' + m.agentName : '') + '. Ki lè ou disponib pou nou pale?\n— HaitiBiznis / MyPlopPlop';
+    return 'https://wa.me/' + ph + '?text=' + encodeURIComponent(txt);
   }
   /* Jeffery: "a one-tap WhatsApp welcome message explaining how the merchant logs in, adds products, and manages orders" */
   function waLink(m){
@@ -240,13 +286,15 @@ input,select,textarea{width:100%;min-height:46px;border:1.5px solid var(--line);
         }
         var by = {}; x.documents.forEach(function(d){ by[d.type] = d; });
         var waiting = ['pending', 'fix'].indexOf(m.state) >= 0;
-        var rows = ['storefront', 'owner_id'].map(function(t){ var d = by[t], fx = (m.fixDocs || []).indexOf(t) >= 0;
+        var extra = ['patente', 'mspp'].filter(function(t){ return by[t] || (t === 'patente' ? pt(m).has === 'yes' : (m.licence || []).indexOf('mspp') >= 0); });
+        var canPut = function(t){ return extra.indexOf(t) >= 0 ? m.state !== 'rejected' : waiting; };
+        var rows = ['storefront', 'owner_id'].concat(extra).map(function(t){ var d = by[t], fx = (m.fixDocs || []).indexOf(t) >= 0;
           return '<div class="row"><b>' + DOC[t] + '</b><span>' + (fx ? '<b style="color:#8A5A00">🔧 Ou mande refè l</b>' : d ? '<b style="color:#11632C">✅ Resevwa</b> ' + esc(fmt(d.at)) + (d.by ? ' · ' + esc(String(d.by).replace(/^console:/, '').replace(/^ajan:/, 'Ajan ')) : '') : '<b style="color:#A30F27">⚠️ MANKE</b> — poko rive (si Ajan an te pran l: li dwe peze "🔄 Voye dokiman ki rete yo")') + '</span></div>'; }).join('');
         p.innerHTML = (m.state === 'legacy' ? '<div class="meta">Magazen sa a te kreye anvan 4 nov: li pa gen dosye verifikasyon. Ou ka "👁 Revize" l san ou pa fèmen l.</div>' : '<div class="box" style="padding:10px 12px;margin:0 0 10px"><b>📋 Dosye biznis la</b>' + rows + '</div>') +
-          '<div class="docs">' + ['storefront', 'owner_id'].map(function(t){ var d = by[t];
+          '<div class="docs">' + ['storefront', 'owner_id'].concat(extra).map(function(t){ var d = by[t];
             return '<div class="d">' + (d ? '<img data-v="' + t + '" src="' + d.data_url + '" alt="">' : '<div class="miss">⚠️ Manke</div>') + DOC[t] +
-              (waiting ? '<br><button type="button" class="btn o" style="margin-top:6px;min-height:34px" data-p="' + t + '">📷 ' + (d ? 'Ranplase' : 'Ajoute') + '</button>' : '') + '</div>'; }).join('') + '</div>' +
-          '<div class="priv">🔒 Pyès idantite a prive: li parèt sèlman isit la, janm sou magazen piblik la.</div>';
+              (canPut(t) ? '<br><button type="button" class="btn o" style="margin-top:6px;min-height:34px" data-p="' + t + '">📷 ' + (d ? 'Ranplase' : 'Ajoute') + '</button>' : '') + '</div>'; }).join('') + '</div>' +
+          '<div class="priv">🔒 Pyès idantite a, Patente a ak otorizasyon MSPP a prive: yo parèt sèlman isit la, janm sou magazen piblik la.</div>';
         p.querySelectorAll('img[data-v]').forEach(function(im){ im.onclick = function(){ $('vImg').src = im.src; $('vName').textContent = DOC[im.getAttribute('data-v')] + ' · peze pou grandi'; $('vS').classList.remove('z'); $('viewer').classList.add('on'); }; });
         p.querySelectorAll('[data-p]').forEach(function(b){ b.onclick = function(){ pick(id, b.getAttribute('data-p')); }; });
       }).catch(function(e){ p.setAttribute('data-k', 'err'); p.innerHTML = '<div class="msg err">' + esc(e.message) + '</div>'; });
@@ -261,7 +309,8 @@ input,select,textarea{width:100%;min-height:46px;border:1.5px solid var(--line);
     if (a === 'fixdone') return post(id, 'fix-done', {}, '✔️ Anrejistre.');
     if (a === 'fix') {
       p.setAttribute('data-k', 'fix'); p.classList.add('open');
-      p.innerHTML = '<label>Kisa pou korije?</label>' + ['storefront', 'owner_id', 'info'].map(function(t){ return '<label style="display:flex;gap:8px;align-items:center;font-weight:700;color:var(--ink)"><input type="checkbox" value="' + t + '" style="width:20px;height:20px;min-height:0"> ' + DOC[t] + '</label>'; }).join('') +
+      var fixT = ['storefront', 'owner_id'].concat(pt(m).has === 'yes' || (m.docs || []).indexOf('patente') >= 0 || (m.licence || []).length ? ['patente'] : []).concat((m.licence || []).indexOf('mspp') >= 0 ? ['mspp'] : []).concat(['info']);
+      p.innerHTML = '<label>Kisa pou korije?</label>' + fixT.map(function(t){ return '<label style="display:flex;gap:8px;align-items:center;font-weight:700;color:var(--ink)"><input type="checkbox" value="' + t + '" style="width:20px;height:20px;min-height:0"> ' + DOC[t] + '</label>'; }).join('') +
         '<label>Nòt pou Ajan an</label><input id="fn_' + id + '" placeholder="Egz: foto a twò flou"><button class="btn full" id="fg_' + id + '">🔧 Voye demann lan</button>';
       $('fg_' + id).onclick = function(){ var ds = [].slice.call(p.querySelectorAll('input[type=checkbox]:checked')).map(function(c){ return c.value; });
         post(id, 'fix', { docs: ds, note: $('fn_' + id).value.trim() }, '🔧 Demann korije voye. Ajan an ap wè l nan app li.'); };
@@ -277,6 +326,43 @@ input,select,textarea{width:100%;min-height:46px;border:1.5px solid var(--line);
         '<button class="btn full" id="eg_' + id + '">💾 Anrejistre chanjman yo</button>';
       $('eg_' + id).onclick = function(){ var b = {}; p.querySelectorAll('[data-ef]').forEach(function(el){ b[el.getAttribute('data-ef')] = el.value; });
         post(id, 'edit', b, '✅ Chanjman yo anrejistre (yo parèt nan 🕘 Istwa).'); };
+      return;
+    }
+    /* 4 Nov 2026 (PATENTE): check the certificate (name, NIF, commune, activity, fiscal year), ask a correction,
+       or correct the number / fiscal year herself - every change in 🕘 Istwa */
+    if (a === 'pat') {
+      if (p.classList.contains('open') && p.getAttribute('data-k') === 'pat') { p.classList.remove('open'); return; }
+      p.setAttribute('data-k', 'pat'); p.classList.add('open'); p.innerHTML = '<div class="meta">Ap chaje…</div>';
+      req('GET', '/api/agents/admin/merchants/' + id).then(function(x){
+        if (!x || !x.merchant || !Array.isArray(x.documents)) throw new Error('Dosye a pa t ka chaje (koneksyon). Eseye ankò.');
+        var pd = x.documents.filter(function(d){ return d.type === 'patente'; })[0], P = pt(x.merchant), d0 = new Date(), c0 = d0.getMonth() >= 9 ? d0.getFullYear() : d0.getFullYear() - 1;
+        var ys = []; for (var y = c0; y >= c0 - 6; y--) ys.push(y); if (P.fy && ys.indexOf(P.fy) < 0) ys.push(P.fy);
+        p.innerHTML = '<div class="docs" style="grid-template-columns:1fr"><div class="d">' + (pd ? '<img data-v="patente" src="' + pd.data_url + '" alt="" style="aspect-ratio:auto;max-height:420px;object-fit:contain;background:#fff">' : '<div class="miss">⚠️ Pa gen foto Patente</div>') + '📜 Patente' +
+            (m.state !== 'rejected' ? '<br><button type="button" class="btn o" style="margin-top:6px;min-height:34px" data-p="patente">📷 ' + (pd ? 'Ranplase' : 'Ajoute') + '</button>' : '') + '</div></div>' +
+          '<div class="meta">Tcheke sou Patente a: <b>non</b> an (biznis la oswa pwopriyetè a), <b>NIF</b>, <b>komin</b>, <b>aktivite</b> a (egz. 6210 Commerce de détail) ak <b>"Exercice Fiscal"</b> la.</div>' +
+          '<label>Èske biznis la gen Patente?</label><select id="ph_' + id + '"><option value="yes"' + (P.has === 'yes' ? ' selected' : '') + '>Wi</option><option value="no"' + (P.has === 'no' ? ' selected' : '') + '>Non</option></select>' +
+          '<label>Nimewo Patente</label><input id="pn_' + id + '" value="' + esc(P.number || '') + '">' +
+          '<label>Ane fiskal (Exercice Fiscal)</label><select id="py_' + id + '"><option value="">— pa konnen —</option>' + ys.map(function(y){ return '<option value="' + y + '"' + (P.fy === y ? ' selected' : '') + '>' + y + ' - ' + (y + 1) + '</option>'; }).join('') + '</select>' +
+          '<button class="btn o full" id="ps_' + id + '">💾 Anrejistre enfòmasyon Patente</button>' +
+          '<div class="acts">' + (pd && P.state !== 'verified' ? '<button class="btn g" id="pv_' + id + '">✅ Patente verifye</button>' : '') +
+            (P.state === 'verified' ? '<button class="btn o" id="pu_' + id + '">↩️ Retire verifikasyon</button>' : '') +
+            '<button class="btn o" id="pf_' + id + '">🔧 Mande korije Patente</button></div>' +
+          '<div class="meta">🟢 sou magazen piblik la sèlman si: biznis la apwouve + Patente verifye + ane fiskal la ajou. Sinon 🟡 "San Patente" (li pa janm di "anrejistre legalman").</div>';
+        if (m.assist) p.innerHTML += '<div class="box" style="padding:10px 12px;margin:10px 0 0"><b>📋 Asistans Patente</b><div class="acts">' +
+          '<button class="btn o" id="ac_' + id + '">📞 Mwen kontakte l</button><button class="btn g" id="ad_' + id + '">✅ Fini</button>' + (m.assist.state === 'done' ? '<button class="btn o" id="ar_' + id + '">↩️ Relouvri</button>' : '') + '</div></div>';
+        else p.innerHTML += '<div class="acts"><button class="btn o" id="an_' + id + '">📋 Ouvri yon demann asistans Patente pou li</button></div>';
+        var asg = function(op, msg){ return function(){ var n = op === 'reopen' || op === 'new' ? '' : (prompt('Nòt (opsyonèl):') || ''); post(id, 'assist', { op: op, note: n }, msg); }; };
+        if ($('ac_' + id)) $('ac_' + id).onclick = asg('contacted', '📞 Anrejistre.');
+        if ($('ad_' + id)) $('ad_' + id).onclick = asg('done', '✅ Asistans fini.');
+        if ($('ar_' + id)) $('ar_' + id).onclick = asg('reopen', '↩️ Relouvri.');
+        if ($('an_' + id)) $('an_' + id).onclick = asg('new', '📋 Demann asistans ouvri.');
+        p.querySelectorAll('img[data-v]').forEach(function(im){ im.onclick = function(){ $('vImg').src = im.src; $('vName').textContent = '📜 Patente · peze pou grandi'; $('vS').classList.remove('z'); $('viewer').classList.add('on'); }; });
+        p.querySelectorAll('[data-p]').forEach(function(b){ b.onclick = function(){ pick(id, b.getAttribute('data-p')); }; });
+        $('ps_' + id).onclick = function(){ post(id, 'patente', { op: 'edit', has: $('ph_' + id).value, number: $('pn_' + id).value.trim(), fy: $('py_' + id).value }, '✅ Enfòmasyon Patente anrejistre.'); };
+        if ($('pv_' + id)) $('pv_' + id).onclick = function(){ if (!confirm('Ou tcheke Patente a (non, NIF, ane fiskal ' + (P.fy ? P.fy + '-' + (P.fy + 1) : '?') + ')?')) return; post(id, 'patente', { op: 'verify' }, '✅ Patente verifye.'); };
+        if ($('pu_' + id)) $('pu_' + id).onclick = function(){ var n = prompt('Poukisa? (nòt)'); if (n === null) return; post(id, 'patente', { op: 'unverify', note: n }, '↩️ Verifikasyon retire.'); };
+        $('pf_' + id).onclick = function(){ var n = prompt('Kisa pou korije sou Patente a? (egz: foto a flou, ane fiskal la pase)'); if (!n) return; post(id, 'patente', { op: 'fix', note: n.trim() }, '🔧 Demann korije Patente voye.'); };
+      }).catch(function(e){ p.setAttribute('data-k', 'err'); p.innerHTML = '<div class="msg err">' + esc(e.message) + '</div>'; });
       return;
     }
     if (a === 'review') {
