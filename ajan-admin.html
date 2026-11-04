@@ -213,7 +213,7 @@ function draw(){
         '<div><label>Zòn travay / vil</label><input data-f="city" value="'+esc(a.city)+'"></div>' +
         '<div><label>Òganizasyon / sponsò</label><input data-f="sponsor" value="'+esc(a.sponsor)+'"></div>' +
         '<div><label>Kòd referans pèsonèl (pa nimewo LMA a)</label><input data-f="referralCode" class="mono" value="'+esc(a.referralCode)+'" placeholder="KB-…">' +
-          '<div class="acts" style="margin-top:6px"><button class="btn o" data-act="findcode">🔎 Chèche kòd li</button><button class="btn o" data-act="makecode">➕ Kreye kòd pou li</button></div></div>' +
+          '<div class="acts" style="margin-top:6px"><button class="btn o" data-act="findcode">🔎 Chèche kòd li</button><button class="btn o" data-act="makecode">➕ Kreye kòd pou li</button><button class="btn o" data-act="adoptcode">🔁 Itilize kòd enskripsyon li (koutye)</button></div></div>' +
         /* 28 Oct 2026 (Jennifer): the date saved with a printed badge was the
            day the badge was made, not the training. Correctable here; the
            LMA number on the badge does not change. */
@@ -386,6 +386,25 @@ function act(i, what, btn){
   }
   if (what === 'edit') { $('ed'+i).classList.toggle('open'); return; }
   if (what === 'findcode' || what === 'makecode') return codeTool(i, what, btn);
+  /* 4 Nov 2026 (Jennifer, JC-JENN7): the Ajan signed up on koutye.html with his own code - use THAT one */
+  if (what === 'adoptcode') {
+    var typed = ($('ed'+i).querySelector('[data-f="referralCode"]').value || '').trim().toUpperCase();
+    var code = prompt('Kòd li te resevwa lè l te enskri sou Koutye Biznis (egz: JC-JENN7):', typed && typed !== String(a.referralCode || '').toUpperCase() ? typed : '');
+    if (!code) return;
+    code = code.trim().toUpperCase();
+    if (!confirm('Ranplase kòd ' + (a.referralCode || '—') + ' pa ' + code + ' pou ' + a.name + '? (Menm kont Ajan an. Sèlman si pa gen chofè ni biznis sou ansyen kòd la.)')) return;
+    btn.disabled = true;
+    req('POST', '/api/agents/admin/' + encodeURIComponent(a.agentId) + '/adopt-code', { code: code, by: 'console' })
+      .then(function(){ say(i, '✅ Kòd ' + code + ' kounye a se kòd ' + a.name + '.', true); setTimeout(load, 1200); })
+      .catch(function(e){ btn.disabled = false; var d = e.data || {};
+        say(i, ({ old_code_has_drivers: 'Gen ' + (d.drivers || '') + ' chofè sou ansyen kòd la: nou pa chanje l (kredi yo t ap pèdi).',
+                  old_code_already_used: 'Ansyen kòd la deja gen referans/komisyon: nou pa chanje l.',
+                  no_signup_with_this_code: 'Pa gen okenn enskripsyon Koutye ak kòd sa a. Tcheke kòd la.',
+                  signup_not_hers: 'Enskripsyon ak kòd sa a pa pou moun sa a (ni menm telefòn ni menm non).',
+                  code_taken: 'Kòd sa a deja aktif pou yon lòt Ajan.', code_on_other_badge: 'Kòd sa a deja sou yon lòt badj.',
+                  from_not_this_phone: 'Kòd ki sou badj la pa pou telefòn sa a nan sistèm Ajan an. Tcheke telefòn nan anvan.' })[d.error] || e.message, false); });
+    return;
+  }
   var body;
   if (what === 'approve') {
     if (!$('ed'+i).classList.contains('open') && !a.referralCode) {
