@@ -296,13 +296,19 @@ var CODE_ERR = {
 
 /* A code that does not exist would send every sign-up to nobody, and a code
    that belongs to SOMEONE ELSE would pay them. */
-function checkCode(code, phone){
+/* 3 Nov 2026 (Jennifer, Louisena: badge phone typed …8403, real …8703): correcting the PHONE of a badge
+   must not lose its code. The code already on this badge (or registered under this same name) stays valid
+   with the corrected phone; a code that belongs to SOMEONE ELSE is still refused. */
+function normName(n){ return String(n || '').normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase().replace(/[^a-z]+/g, ' ').trim(); }
+function checkCode(code, phone, opts){
+  opts = opts || {};
   if (!code) return Promise.resolve(true);
   if (/^LMA-?\d{4}/i.test(code)) return Promise.reject(new Error(CODE_ERR.code_is_badge_number));
   return codeApi('GET', '?phone=' + encodeURIComponent(phone || '') + '&code=' + encodeURIComponent(code))
     .then(function(d){
       var c = d.byCode;
       if (!c || c.status !== 'active') return false;
+      if (c.phoneMatch === false && (opts.keep || (opts.name && normName(c.name) === normName(opts.name)))) return true;
       if (c.phoneMatch === false) throw new Error('Kòd "' + code + '" se pou ' + (c.name || 'yon lòt moun') + ', pa pou telefòn Ajan sa a. Peze "🔎 Chèche kòd li" pou jwenn pa l.');
       return true;
     }, function(e){
@@ -394,7 +400,8 @@ function act(i, what, btn){
   if (what === 'revoke') { if (!confirm('Anile badj ' + a.agentId + ' nèt? Paj la ap di AJAN SA A PA AKTIF.')) return; body = { status: 'revoked' }; }
   btn.disabled = true;
   var file = $('ed'+i).querySelector('[data-photo]').files[0];
-  (body.referralCode !== undefined ? checkCode(body.referralCode, body.phone !== undefined ? body.phone : a.phone) : Promise.resolve(true)).then(function(good){
+  (body.referralCode !== undefined ? checkCode(body.referralCode, body.phone !== undefined ? body.phone : a.phone,
+      { keep: String(body.referralCode || '').toUpperCase() === String(a.referralCode || '').toUpperCase(), name: body.name || a.name }) : Promise.resolve(true)).then(function(good){
     if (!good) throw new Error('Kòd referans "' + body.referralCode + '" pa egziste oswa pa aktif nan sistèm Ajan an.');
     return req('PATCH', '/api/agents/admin/' + encodeURIComponent(a.agentId), body);
   }).then(function(){
