@@ -45,6 +45,11 @@ input,select{width:100%;min-height:46px;border:1.5px solid var(--line);border-ra
 .svcs label{display:flex;gap:6px;align-items:center;margin:0;color:var(--ink);font-weight:600}
 .svcs input{width:18px;height:18px;min-height:0}
 .msg{font-size:.86rem;margin-top:8px;font-weight:700}
+/* 4 Nov 2026 (Jennifer): the PIN stays on screen until she closes it */
+#pinBox{position:fixed;left:0;right:0;bottom:0;z-index:50;background:#fff;border-top:4px solid #11632C;box-shadow:0 -6px 24px rgba(0,0,0,.25);padding:14px 16px calc(14px + env(safe-area-inset-bottom))}
+#pinBox .pv{font-size:1.15rem;font-weight:900;letter-spacing:1px;margin:4px 0}
+#pinBox .acts .btn{min-height:40px;padding:8px 12px;font-size:.85rem}
+#pinBox .acts{display:flex;flex-wrap:wrap;gap:8px;margin-top:8px}
 .msg.err{color:var(--red)} .msg.ok{color:var(--green)}
 .counts{font-size:.85rem;color:var(--muted);margin-bottom:8px}
 .hide{display:none}
@@ -194,7 +199,8 @@ function draw(){
     var acts = '';
     if (a.status === 'pending') acts += '<button class="btn g" data-act="approve">✅ Apwouve</button>';
     if (a.status === 'active') acts += '<button class="btn r" data-act="suspend">⏸ Sispann</button><a class="btn g" style="text-decoration:none;display:inline-flex;align-items:center" href="ajan-pilot.html#'+encodeURIComponent(a.agentId)+'">🎁 Pilòt</a>'
-      + ((a.ajan && (a.ajan.pinSetAt || (a.ajan.devices || []).length)) ? '<button class="btn r" data-act="ajrevoke">🔌 Dekonekte tout telefòn li</button>' : '');
+      + ((a.ajan && (a.ajan.pinSetAt || (a.ajan.devices || []).length)) ? '<button class="btn r" data-act="ajrevoke">🔌 Dekonekte tout telefòn li</button>' : '')
+      + (a.referralCode ? '<button class="btn o" data-act="newpin">🔑 Nouvo PIN</button>' : '');
     if (a.status === 'suspended' || a.status === 'revoked') acts += '<button class="btn g" data-act="approve">↩︎ Reaktive</button>';
     if (a.status !== 'revoked') acts += '<button class="btn gr" data-act="revoke">⛔ Anile</button>';
     acts += '<button class="btn o" data-act="edit">✏️ Modifye</button><a class="btn o" style="text-decoration:none;display:inline-flex;align-items:center" target="_blank" rel="noopener" href="'+PUBLIC+encodeURIComponent(a.agentId)+'">👁 Paj piblik</a>';
@@ -236,7 +242,32 @@ function draw(){
   });
 }
 
-function say(i, text, ok){ var m = $('m'+i); m.className = 'msg ' + (ok ? 'ok' : 'err'); m.style.whiteSpace = 'pre-line'; m.textContent = text; }
+function say(i, text, ok){ var m = $('m'+i); if (!m) return; m.className = 'msg ' + (ok ? 'ok' : 'err'); m.style.whiteSpace = 'pre-line'; m.textContent = text; }
+
+/* 4 Nov 2026 (Jennifer: "mesaj sa ki monte an yo pa rete poum gentan screen"): a new PIN is shown ONCE, so it
+   no longer sits inside the Ajan's card (redrawn by the next tap) - it stays in this box until she closes it. */
+function showPin(o){
+  var first = String(o.name || '').split(' ')[0];
+  var text = 'Bonjou ' + first + ', se Jennifer (HaitiBiznis). Kont MyPlopPlop ou kòm Ajan:\nTelefòn: ' + o.phone + '\nPIN: ' + o.pin
+    + (o.code ? '\nKòd referans ou: ' + o.code : '') + '\nKonekte sou myplopplop.com/biznisiq/koutye.html\nPa bay pèsonn PIN sa a.';
+  var b = $('pinBox');
+  b.innerHTML = '<b>🔑 PIN MyPlopPlop pou ' + esc(o.name) + '</b>'
+    + '<div class="pv">Telefòn ' + esc(o.phone) + ' · PIN ' + esc(o.pin) + '</div>'
+    + '<div class="meta">Bay Ajan an li kounye a. Li p ap parèt ankò lè ou fèmen bwat sa a (si l pèdi, peze "🔑 Nouvo PIN").</div>'
+    + '<div class="acts"><button class="btn o" id="pinCopy">📋 Kopye</button>'
+    + '<a class="btn g" style="text-decoration:none;display:inline-flex;align-items:center" target="_blank" rel="noopener" href="https://wa.me/' + waNum(o.phone) + '?text=' + encodeURIComponent(text) + '">📲 Voye bay Ajan an sou WhatsApp</a>'
+    + '<button class="btn gr" id="pinClose">✖ Fèmen</button></div><div class="msg" id="pinMsg"></div>';
+  b.classList.remove('hide'); document.body.style.paddingBottom = (b.offsetHeight + 16) + 'px';
+  $('pinCopy').onclick = function(){
+    var done = function(){ $('pinMsg').className = 'msg ok'; $('pinMsg').textContent = '✓ Kopye. Ou ka kole l nan WhatsApp.'; };
+    if (navigator.clipboard && navigator.clipboard.writeText) navigator.clipboard.writeText(text).then(done, function(){ prompt('Kopye mesaj la:', text); });
+    else prompt('Kopye mesaj la:', text);
+  };
+  $('pinClose').onclick = function(){
+    if (!confirm('Ou byen bay Ajan an PIN ' + o.pin + ' a? Li p ap parèt ankò.')) return;
+    b.classList.add('hide'); b.innerHTML = ''; document.body.style.paddingBottom = '';
+  };
+}
 
 function fields(i){
   var ed = $('ed'+i), body = {};
@@ -349,7 +380,7 @@ function codeTool(i, what, btn){
       return saveCode(i, c).then(function(){
         var t = d.existing ? '✓ Li te deja gen yon kòd: ' + c + '. Anrejistre sou badj la.'
           : '✓ Kòd kreye: ' + c + (d.fromSignup ? ' (kòd li te chwazi sou koutye.html)' : '') + '. Anrejistre sou badj la.';
-        if (d.tempPin) t += ' Kont MyPlopPlop li: telefòn ' + phone + ' + PIN ' + d.tempPin + ' — bay Ajan an li, li p ap parèt ankò.';
+        if (d.tempPin) { t += ' PIN MyPlopPlop li nan bwat anba a.'; showPin({ name: name, phone: phone, pin: d.tempPin, code: c }); }
         say(i, t, true);
       });
     });
@@ -382,6 +413,20 @@ function act(i, what, btn){
     req('POST', '/api/agents/admin/'+encodeURIComponent(a.agentId)+'/ajan-revoke', { by: who() })
       .then(function(){ say(i, '🔌 Tout telefòn li dekonekte.', true); setTimeout(load, 900); })
       .catch(function(e){ say(i, e.message, false); });
+    return;
+  }
+  /* 4 Nov 2026 (Jennifer): a PIN is stored hashed and cannot be read back - make a NEW one (old one stops working) */
+  if (what === 'newpin') {
+    if (!confirm('Fè yon NOUVO PIN MyPlopPlop pou ' + a.name + '? Ansyen PIN li p ap mache ankò.')) return;
+    btn.disabled = true; say(i, 'Ap fè nouvo PIN nan…', true);
+    req('POST', '/api/agents/admin/' + encodeURIComponent(a.agentId) + '/new-pin', { by: who() })
+      .catch(function(e){ if (e.message !== 'link_unavailable') throw e; return mp('POST', '/api/admin-pin/ajan-code/new-pin', { phone: a.phone, code: a.referralCode, by: 'console' }); })
+      .then(function(d){ say(i, '✓ Nouvo PIN fèt. Li nan bwat anba a.', true); showPin({ name: a.name, phone: d.phone || a.phone, pin: d.tempPin, code: d.code || a.referralCode }); })
+      .catch(function(e){ var d = e.data || {};
+        say(i, ({ own_account: a.name + ' gen pwòp kont MyPlopPlop li (' + ({ merchant: 'machann', driver: 'chofè', admin: 'admin' }[d.role] || d.role) + '): se pwòp PIN pa li. Si l bliye l, li peze "Forgot PIN?" sou myplopplop.com/login.html.',
+                  not_this_phone: 'Telefòn sou badj la pa menm ak telefòn kont kòd ' + a.referralCode + ' la. Tcheke telefòn nan anvan (✏️ Modifye → 🔎 Chèche kòd li).',
+                  no_code: 'Kòd ' + a.referralCode + ' pa jwenn nan MyPlopPlop.', not_active: 'Badj la pa aktif.' })[d.error] || errText(e), false); })
+      .then(function(){ btn.disabled = false; });
     return;
   }
   if (what === 'edit') { $('ed'+i).classList.toggle('open'); return; }
@@ -454,5 +499,6 @@ $('nAdd').onclick = function(){
   }).then(function(){ $('nAdd').disabled = false; });
 };
 </script>
+<div id="pinBox" class="hide" role="dialog" aria-live="assertive"></div>
 </body>
 </html>
