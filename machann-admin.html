@@ -77,6 +77,7 @@ input,select,textarea{width:100%;min-height:46px;border:1.5px solid var(--line);
     <div class="msg err" id="gateMsg"></div>
   </div>
   <div id="main" class="hide">
+    <div id="notif"></div>
     <div class="fbar">
       <input id="fq" type="search" placeholder="🔎 Chèche: biznis, pwopriyetè, telefòn, kòd Ajan" autocomplete="off">
       <div class="fl">Estati</div><div class="chips" id="fSt"></div>
@@ -138,7 +139,15 @@ input,select,textarea{width:100%;min-height:46px;border:1.5px solid var(--line);
   function save(){ try { sessionStorage.setItem('hb_machann_f', JSON.stringify(F)); } catch(e){} }
 
   var LBL = { pending: '⏳ AN ATANT', fix: '🔧 POU KORIJE', approved: '✅ APWOUVE', rejected: '❌ REJTE', legacy: '🗂️ ANSYEN' };
+  /* Jeffery 4 Nov: "a clear dashboard notification whenever a new merchant is waiting for approval" */
+  function notify(){
+    var n = all.filter(function(m){ return m.state === 'pending'; }).length, f = all.filter(function(m){ return m.state === 'fix'; }).length;
+    document.title = (n ? '(' + n + ') ' : '') + 'Machann MyPlopPlop — Konsòl';
+    $('notif').innerHTML = n ? '<div class="box" style="border:2px solid #f0b429;background:#fff8e6;font-weight:800;padding:12px 14px;cursor:pointer" id="notifGo">🔔 ' + n + ' biznis ap tann apwobasyon ou' + (f ? ' · 🔧 ' + f + ' ap korije' : '') + ' → peze la a</div>' : '';
+    if ($('notifGo')) $('notifGo').onclick = function(){ F.st = 'pending'; save(); render(); };
+  }
   function render(){
+    notify();
     $('fSt').innerHTML = ST.map(function(x){ var n = cnt(x[0]); return '<button type="button" data-st="' + x[0] + '" class="' + (F.st === x[0] ? 'on' : '') + (n ? '' : ' z') + '">' + x[1] + '<b>' + n + '</b></button>'; }).join('');
     if ($('fq').value !== F.q) $('fq').value = F.q;
     var L = all.filter(function(m){ return mSt(m, F.st) && mQ(m, F.q); });
@@ -150,11 +159,15 @@ input,select,textarea{width:100%;min-height:46px;border:1.5px solid var(--line);
   function card(m){
     var id = esc(m.id), st = m.state;
     var docs = ['storefront', 'owner_id'].map(function(t){ return (m.docs || []).indexOf(t) >= 0 ? '✅ ' + DOC[t] : '<b style="color:#A30F27">⚠️ ' + DOC[t] + ' manke</b>'; }).join(' · ');
-    var aj = m.agentCode ? '<div class="ajan ok">🪪 Ajan: ' + esc(m.agentName ? m.agentName + ' · ' : '') + esc(m.agentCode) + '</div>'
-           : (st === 'legacy' ? '' : '<div class="ajan no">⚠️ Pa gen kòd Ajan</div>');
+    var src = m.source === 'website' ? '🌐 Enskri dirèkteman sou myplopplop.com' : m.source === 'lajanmaker' ? '📱 Enskri pa yon Ajan (LajanMaker)' : '';
+    var aj = (src ? '<div class="meta" style="font-weight:800;color:var(--navy)">' + src + '</div>' : '') +
+      (m.agentCode ? '<div class="ajan ok">🪪 Ajan: ' + esc(m.agentName ? m.agentName + ' · ' : '') + esc(m.agentCode) + '</div>'
+       : (st === 'legacy' ? '' : '<div class="ajan no">' + (m.source === 'website' ? 'Pa gen Ajan (pa gen kòd Ajan valab)' : '⚠️ Pa gen kòd Ajan') + '</div>'));
     var a = '<button class="btn o" data-a="docs" data-id="' + id + '">📷 Dosye / foto</button>';
     if (st === 'pending') a += '<button class="btn g" data-a="approve" data-id="' + id + '">✅ Apwouve</button>';
     if (st === 'pending' || st === 'fix') a += '<button class="btn o" data-a="fix" data-id="' + id + '">🔧 Mande korije</button><button class="btn r" data-a="reject" data-id="' + id + '">⛔ Rejte</button>';
+    /* Jeffery 4 Nov: "Merchants receive clear instructions when corrections or missing documents are requested" */
+    if (st === 'fix' || st === 'rejected') a += '<a class="btn o" style="text-decoration:none;background:#25D366;color:#fff;border-color:#25D366;display:inline-flex;align-items:center" target="_blank" rel="noopener" href="' + waFix(m) + '">📲 Di machann nan sou WhatsApp</a>';
     if (st === 'fix' && (m.fixDocs || []).indexOf('info') >= 0) a += '<button class="btn o" data-a="fixdone" data-id="' + id + '">✔️ Enfòmasyon yo korije</button>';
     if (st === 'rejected') a += '<button class="btn o" data-a="reopen" data-id="' + id + '">↩️ Remete an atant</button>';
     if (st === 'approved') a += '<a class="btn o" style="text-decoration:none;background:#25D366;color:#fff;border-color:#25D366;display:inline-flex;align-items:center" data-wel="' + id + '" target="_blank" rel="noopener" href="' + waLink(m) + '">📲 ' + (m.welcomeAt ? 'Voye byenveni ankò' : 'Voye mesaj byenveni') + '</a>';
@@ -181,6 +194,16 @@ input,select,textarea{width:100%;min-height:46px;border:1.5px solid var(--line);
       '3️⃣ KÒMAND: ' + MPP_SITE + '/merchant/orders.html → aksepte kòmand yo epi make yo "PARE" lè yo pare pou kliyan an oswa chofè a.\n\n' +
       '🔗 Magazen ou: ' + MPP_SITE + '/store.html?slug=' + encodeURIComponent(m.slug || '') + '\n\n' +
       'Pa bay pèsonn PIN ou. Nenpòt kesyon: pale ak Ajan ou a.\nMyPlopPlop — Achte lokal.';
+    return 'https://wa.me/' + ph + '?text=' + encodeURIComponent(txt);
+  }
+  function waFix(m){
+    var ph = String((m.owner && m.owner.phone) || m.phone || '').replace(/\D/g, ''); if (ph.length === 8) ph = '509' + ph;
+    var first = String((m.owner && m.owner.name) || '').split(' ')[0], txt;
+    if (m.state === 'rejected') txt = 'Bonjou ' + first + '. Demann biznis "' + m.name + '" sou MyPlopPlop pa t aksepte: ' + (m.reason || '') + '. Pou plis enfòmasyon, kontakte Ajan ou a oswa HaitiBiznis.';
+    else txt = 'Bonjou ' + first + '. Pou nou ka apwouve biznis "' + m.name + '" sou MyPlopPlop, tanpri korije: ' +
+      (m.fixDocs || []).map(function(t){ return DOC[t].replace(/^\S+ /, ''); }).join(', ') + (m.fixNote ? ' (' + m.fixNote + ')' : '') + '.\n\n' +
+      (m.source === 'website' ? '👉 Konekte sou ' + MPP_SITE + '/login.html (telefòn + PIN ou) → Tablo machann → "📷 Voye foto a".' : '👉 Ajan ou a ap refè foto a nan LajanMaker, oswa voye l ba li.') +
+      '\n\nOu pa bezwen enskri ankò. Mèsi! — HaitiBiznis / MyPlopPlop';
     return 'https://wa.me/' + ph + '?text=' + encodeURIComponent(txt);
   }
   document.addEventListener('click', function(ev){

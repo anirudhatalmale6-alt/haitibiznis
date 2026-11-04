@@ -105,6 +105,7 @@ td.num{text-align:right;font-variant-numeric:tabular-nums;white-space:nowrap}
       <button data-s="stats">🏆 Ajan / Bonis</button>
     </div>
     <div class="counts" id="counts"></div>
+    <div id="mvNotif"></div>
     <div class="fbar" id="fbar">
       <input id="fq" type="search" placeholder="🔎 Chèche: non, telefòn, plak, badj Ajan (LMA-…)" autocomplete="off">
       <div class="fl">Estati</div><div class="chips" id="fSt"></div>
@@ -189,7 +190,17 @@ td.num{text-align:right;font-variant-numeric:tabular-nums;white-space:nowrap}
   var VEH = { motorcycle: '🛵 Moto', moto: '🛵 Moto', car: '🚗 Machin' };
   function fmt(d){ try { return new Date(d).toLocaleString('fr-HT', { day: 'numeric', month: 'short', hour: '2-digit', minute: '2-digit' }); } catch(e){ return ''; } }
 
+  /* 4 Nov 2026: MyPlopPlop businesses waiting for Jennifer - shown here too, so she never misses one */
+  var mvAt = 0;
+  function mvNotify(){
+    if (Date.now() - mvAt < 120000) return; mvAt = Date.now();
+    req('GET', '/api/agents/admin/merchants').then(function(d){
+      var n = ((d && d.counts) || {}).pending || 0;
+      $('mvNotif').innerHTML = n ? '<a href="machann-admin.html" style="display:block;text-decoration:none;color:#8A5A00;background:#fff8e6;border:2px solid #f0b429;border-radius:12px;padding:10px 12px;font-weight:800;margin-bottom:10px">🔔 ' + n + ' biznis MyPlopPlop ap tann apwobasyon ou → machann-admin</a>' : '';
+    }).catch(function(){});
+  }
   function load(){
+    mvNotify();
     /* every driver once (≤300), then filtered here - so every count is the server's list, never a guess */
     return req('GET', '/api/agents/admin/drivers?status=all').then(function(d){
       drivers = d.drivers || [];
