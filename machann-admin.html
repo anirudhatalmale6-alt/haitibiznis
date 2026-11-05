@@ -30,6 +30,15 @@ input,select,textarea{width:100%;min-height:46px;border:1.5px solid var(--line);
 .btn:disabled{opacity:.55;cursor:default}
 .full{width:100%;margin-top:12px;min-height:46px}
 .hide{display:none}
+.rules{padding:0;overflow:hidden;border-color:#C9D6EE}
+.rules summary{cursor:pointer;list-style:none;padding:13px 16px;font-weight:800;color:var(--navy);display:flex;justify-content:space-between;align-items:center}
+.rules summary::-webkit-details-marker{display:none}
+.rules summary:after{content:'▾';font-size:1rem}.rules[open] summary:after{content:'▴'}
+.rules .rb{padding:0 16px 14px;font-size:.88rem;line-height:1.5}
+.rules h4{margin:12px 0 4px;font-size:.88rem}
+.rules ul{margin:0;padding-left:20px}.rules li{margin:3px 0}
+.rules .key{background:#FFF4E5;border:1px solid #F5C26B;border-radius:10px;padding:8px 10px;margin-top:10px;font-weight:700}
+
 .fbar{background:#fff;border:1px solid var(--line);border-radius:14px;padding:10px 12px;margin-bottom:12px}
 .fl{font-size:.72rem;font-weight:800;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);margin:8px 0 4px}
 .chips{display:flex;gap:6px;flex-wrap:wrap}
@@ -78,6 +87,40 @@ input,select,textarea{width:100%;min-height:46px;border:1.5px solid var(--line);
   </div>
   <div id="main" class="hide">
     <div id="notif"></div>
+    <!-- 5 Nov 2026, Jeffery: "I agree with your proposed rules. Please add the 'Règ apwobasyon' section to
+         Jennifer's merchant console. AI-generated promotional images are acceptable, but not as proof of a
+         physical business. Incomplete or suspicious merchant applications must remain pending until verified." -->
+    <details class="box rules" id="rules">
+      <summary>📏 Règ apwobasyon</summary>
+      <div class="rb">
+        <h4>✅ Apwouve sèlman lè:</h4>
+        <ul>
+          <li><b>Pwopriyetè a idantifye</b>: non li, yon telefòn ki mache, ak pyès idantite li.</li>
+          <li><b>Biznis la reyèl</b>: Patente (🟢), <b>oswa</b> yon vrè foto lokal la / stand la pran ak telefòn (🟡), <b>oswa</b> yon Ajan ki te vizite l epi ki konfime.</li>
+        </ul>
+        <h4>🤖 Imaj AI</h4>
+        <ul>
+          <li>Yo bon pou <b>logo, banyè, foto pwodui</b>.</li>
+          <li><b>Janm</b> kòm prèv yon biznis fizik. Si sèl « foto magazen » an se yon imaj AI → <b>🔧 Mande korije</b>: « Voye yon vrè foto biznis la ». Pa rejte l touswit.</li>
+        </ul>
+        <h4>🔧 Mande korije lè:</h4>
+        <ul>
+          <li>Kategori a oswa deskripsyon an pa klè → ekri kesyon egzat la.</li>
+          <li>Yon foto oswa yon pyès pa li byen.</li>
+        </ul>
+        <h4>⏸️ Kite l AN ATANT (pa apwouve) lè:</h4>
+        <ul>
+          <li>Dosye a <b>pa konplè</b>.</li>
+          <li>Li <b>sispèk</b>: non ki sanble fo, telefòn ki deja sèvi pou yon lòt kont, pwodui ki pa posib.</li>
+          <li>Rejte sèlman lè w sèten, epi toujou ekri rezon an.</li>
+        </ul>
+        <h4>💊 Pwodui reglemante</h4>
+        <ul><li>Famasi, medikaman…: lisans obligatwa. Sistèm nan deja bloke yo san lisans.</li></ul>
+        <h4>📜 Machann ki te enskri anvan Patente</h4>
+        <ul><li>Menm règ yo. Sèvi ak panèl 📜 Patente a pou mande dokiman an.</li></ul>
+        <div class="key">Lè w gen dout: kite l an atant, epi mande korije. Yon magazen parèt piblik sèlman lè ou apwouve l.</div>
+      </div>
+    </details>
     <div class="fbar">
       <input id="fq" type="search" placeholder="🔎 Chèche: biznis, pwopriyetè, telefòn, kòd Ajan" autocomplete="off">
       <div class="fl">Estati</div><div class="chips" id="fSt"></div>
@@ -93,6 +136,11 @@ input,select,textarea{width:100%;min-height:46px;border:1.5px solid var(--line);
   'use strict';
   var API = 'https://haitibiznis-api.onrender.com', MPP_SITE = 'https://myplopplop.com';
   var pin = '', who = '', all = [], F = { st: 'pending', q: '', p: 'all' };
+  (function () {
+    var r = document.getElementById('rules'); if (!r) return;
+    try { r.open = localStorage.getItem('mca_rules_closed') !== '1'; } catch (e) { r.open = true; }
+    r.addEventListener('toggle', function () { try { localStorage.setItem('mca_rules_closed', r.open ? '0' : '1'); } catch (e) {} });
+  })();
   function $(id){ return document.getElementById(id); }
   function esc(v){ return String(v == null ? '' : v).replace(/[&<>"']/g, function(c){ return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]; }); }
   function fmt(d){ try { return new Date(d).toLocaleString('fr-HT', { day: 'numeric', month: 'short', hour: '2-digit', minute: '2-digit' }); } catch(e){ return ''; } }
