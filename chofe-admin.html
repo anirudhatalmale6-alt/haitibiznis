@@ -103,7 +103,7 @@ td.num{text-align:right;font-variant-numeric:tabular-nums;white-space:nowrap}
     <div class="tabs" id="tabs">
       <button data-s="list" class="on">🛵 Chofè yo</button>
       <button data-s="stats">🏆 Ajan / Bonis</button>
-      <button data-s="refunds">💸 Ranbousman koli</button>
+      <button data-s="refunds">💸 Ranbousman</button>
       <button data-s="oavct">📄 OAVCT</button>
     </div>
     <div class="counts" id="counts"></div>
@@ -140,7 +140,7 @@ td.num{text-align:right;font-variant-numeric:tabular-nums;white-space:nowrap}
   /* signed in for as long as this tab is open, so a reload does not send her back to the code screen */
   try { var sp = sessionStorage.getItem('hb_console_pin'); if (sp) { $('pin').value = sp; setTimeout(function(){ $('open').click(); }, 0); } } catch(e){}
 
-  var ERR = { new_photo_first: 'Mete foto nouvo OAVCT a anvan (bouton 📷 1), epi apre sa nouvo dat ki sou li a.',
+  var ERR = { reference_required: 'Mete referans tranzaksyon an.', already_refunded: 'Ranbousman sa a deja anrejistre.', bad_amount: 'Montan an pa bon.', nothing_owed: 'Pa gen lajan pou remèt sou kous sa a.', new_photo_first: 'Mete foto nouvo OAVCT a anvan (bouton 📷 1), epi apre sa nouvo dat ki sou li a.',
     link_unavailable: 'Koneksyon ak MsouWout pa disponib pou kounye a. Eseye ankò nan yon minit.',
     name_required: 'Mete non ou anvan.', name_and_reason_required: 'Mete non ou ak rezon an.',
     name_and_code_required: 'Mete non ou ak kòd Ajan an.', code_not_found: 'Kòd Ajan sa a pa egziste nan sistèm Ajan an.',
@@ -651,7 +651,47 @@ td.num{text-align:right;font-variant-numeric:tabular-nums;white-space:nowrap}
             .catch(function(e){ go.disabled = false; m.className = 'msg err'; m.textContent = e.message; });
         };
       });
-    });
+    }).then(loadRideRefunds);
+  }
+
+  /* 5 Nov 2026 (Jennifer: "Mpa wè kote sou plateforme lan poum wè pati ranbousman an"): MsouWout PASSENGER-ride
+     refunds owed, under the parcel ones, same rule: record it only once the money reached the customer, with the
+     transfer reference. */
+  function loadRideRefunds(){
+    var box = document.createElement('div'); box.id = 'rideRefunds'; $('list').appendChild(box);
+    box.innerHTML = '<div class="box">Ap chaje ranbousman kous yo…</div>';
+    return req('GET', '/api/agents/admin/ride-refunds?status=' + RF).then(function(d){
+      var rows = d.refunds || [], owed = d.owed || { count: 0, total: 0 };
+      box.innerHTML = '<h3 style="margin:20px 0 6px">🚕 Kous MsouWout (pasaje)</h3>' +
+        '<div class="note">Kous pasaje ki te peye men ki dwe remèt lajan (anile, pa gen chofè…). Voye lajan an, epi mete referans tranzaksyon an. ' +
+          '<b>' + owed.count + ' pou ranbouse · ' + Number(owed.total || 0).toLocaleString('fr-FR') + ' HTG</b></div>' +
+        (rows.length ? rows.map(function(r, i){
+          var ph = String(r.customer_phone || ''), wa = ph.replace(/\D/g, '');
+          var pays = (r.payments || []).map(function(p){ return esc(String(p.method || p.provider || '').toUpperCase()) + ' ' + esc(p.amount) + ' HTG · ref <span class="mono">' + esc(p.reference || '—') + '</span>'; }).join('<br>');
+          var done = r.refund_status !== 'owed';
+          return '<div class="box" style="margin-bottom:10px"><div style="display:flex;justify-content:space-between;gap:8px"><b class="mono">' + esc(r.tracking_code) + '</b>' +
+              '<b style="color:' + (done ? '#12A150' : '#B45309') + '">' + Number(r.refund_due || 0).toLocaleString('fr-FR') + ' HTG</b></div>' +
+            '<div style="font-size:.86rem;margin-top:6px;line-height:1.5">👤 ' + esc(r.customer_name || '') + (ph ? ' · <a href="tel:' + esc(ph) + '">' + esc(ph) + '</a> · <a target="_blank" rel="noopener" href="https://wa.me/' + esc(wa) + '">WhatsApp</a>' : '') + '<br>' +
+              '💳 Te peye: ' + (pays || esc(r.payment_method || '')) + '<br>📍 ' + esc(r.pickup_address || '') + ' → ' + esc(r.dropoff_address || '') + '<br>' +
+              '🕘 ' + esc(r.created_at ? new Date(r.created_at).toLocaleString('fr-FR') : '') + (r.refund_note ? '<br>📝 ' + esc(r.refund_note) : '') + '</div>' +
+            (done ? '<div class="msg ok" style="margin-top:6px">✅ Ranbouse' + (r.refunded_at ? ' · ' + esc(new Date(r.refunded_at).toLocaleString('fr-FR')) : '') + '</div>'
+              : '<input id="rrRef' + i + '" class="mono" placeholder="Referans tranzaksyon ranbousman an" style="margin-top:8px"><input id="rrNote' + i + '" placeholder="Nòt (opsyonèl)" style="margin-top:6px">' +
+                '<button class="btn full" id="rrGo' + i + '" style="margin-top:8px">✅ Mwen ranbouse l</button><div class="msg" id="rrMsg' + i + '"></div>') +
+          '</div>';
+        }).join('') : '<div class="box">Pa gen anyen isit la.</div>');
+      rows.forEach(function(r, i){
+        var go = $('rrGo' + i); if (!go) return;
+        go.onclick = function(){
+          var ref = $('rrRef' + i).value.trim(), m = $('rrMsg' + i);
+          if (!ref) { m.className = 'msg err'; m.textContent = 'Mete referans tranzaksyon an.'; return; }
+          if (!confirm('Konfime: kliyan an RESEVWA ' + r.refund_due + ' HTG (' + r.tracking_code + ', ref ' + ref + ')?')) return;
+          go.disabled = true;
+          req('POST', '/api/agents/admin/ride-refunds/' + r.id + '/refunded', { by: who, reference: ref, note: $('rrNote' + i).value.trim() })
+            .then(function(){ m.className = 'msg ok'; m.textContent = '✅ Anrejistre.'; setTimeout(function(){ loadRefunds().catch(function(){}); }, 800); })
+            .catch(function(e){ go.disabled = false; m.className = 'msg err'; m.textContent = e.message; });
+        };
+      });
+    }).catch(function(e){ box.innerHTML = '<div class="box msg err">Kous MsouWout: ' + esc(e.message) + '</div>'; });
   }
 
   /* ═══ 5 Nov 2026, Jeffery: "Any approved driver whose OAVCT expires must automatically become unavailable for
