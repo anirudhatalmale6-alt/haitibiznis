@@ -103,6 +103,8 @@ td.num{text-align:right;font-variant-numeric:tabular-nums;white-space:nowrap}
     <div class="tabs" id="tabs">
       <button data-s="list" class="on">🛵 Chofè yo</button>
       <button data-s="stats">🏆 Ajan / Bonis</button>
+      <button data-s="refunds">💸 Ranbousman koli</button>
+      <button data-s="oavct">📄 OAVCT</button>
     </div>
     <div class="counts" id="counts"></div>
     <div id="mvNotif"></div>
@@ -138,7 +140,7 @@ td.num{text-align:right;font-variant-numeric:tabular-nums;white-space:nowrap}
   /* signed in for as long as this tab is open, so a reload does not send her back to the code screen */
   try { var sp = sessionStorage.getItem('hb_console_pin'); if (sp) { $('pin').value = sp; setTimeout(function(){ $('open').click(); }, 0); } } catch(e){}
 
-  var ERR = {
+  var ERR = { new_photo_first: 'Mete foto nouvo OAVCT a anvan (bouton 📷 1), epi apre sa nouvo dat ki sou li a.',
     link_unavailable: 'Koneksyon ak MsouWout pa disponib pou kounye a. Eseye ankò nan yon minit.',
     name_required: 'Mete non ou anvan.', name_and_reason_required: 'Mete non ou ak rezon an.',
     name_and_code_required: 'Mete non ou ak kòd Ajan an.', code_not_found: 'Kòd Ajan sa a pa egziste nan sistèm Ajan an.',
@@ -171,8 +173,8 @@ td.num{text-align:right;font-variant-numeric:tabular-nums;white-space:nowrap}
     b.onclick = function(){
       document.querySelectorAll('#tabs button').forEach(function(x){ x.classList.toggle('on', x === b); });
       cur = b.getAttribute('data-s'); $('list').innerHTML = '<div class="box">Ap chaje…</div>';
-      $('fbar').classList.toggle('hide', cur === 'stats');
-      (cur === 'stats' ? loadStats() : load()).catch(function(e){ $('list').innerHTML = '<div class="box msg err">' + esc(e.message) + '</div>'; });
+      $('fbar').classList.toggle('hide', cur !== 'list');
+      (cur === 'stats' ? loadStats() : cur === 'refunds' ? loadRefunds() : cur === 'oavct' ? loadOavct() : load()).catch(function(e){ $('list').innerHTML = '<div class="box msg err">' + esc(e.message) + '</div>'; });
     };
   });
 
@@ -296,7 +298,7 @@ td.num{text-align:right;font-variant-numeric:tabular-nums;white-space:nowrap}
     $('fClr').style.visibility = (F.st !== 'pending' || F.doc || F.veh || F.aj || F.q) ? 'visible' : 'hidden';
   }
   /* a status tap shows at once, then re-reads the server so the numbers are today's */
-  function fresh(){ if (pin && cur !== 'stats') load().catch(function(){}); }
+  function fresh(){ if (pin && cur === 'list') load().catch(function(){}); }
   $('fSt').onclick = function(e){ var b = e.target.closest('button'); if (!b) return; F.st = b.getAttribute('data-st'); saveF(); render(); fresh(); };
   /* and every minute while the page is open - never while she is typing in an open panel */
   setInterval(function(){ if (!document.hidden && !document.querySelector('#list .panel.open') && !$('viewer').classList.contains('on')) fresh(); }, 60000);
@@ -348,7 +350,7 @@ td.num{text-align:right;font-variant-numeric:tabular-nums;white-space:nowrap}
     return o.length ? '<div class="iss">' + o.join('') + '</div>' : '';
   }
   function render(){
-    if (cur === 'stats') return;
+    if (cur !== 'list') return;
     drivers.forEach(function(d){ d._f = null; });
     paintFilters();
     var idx = [];
@@ -605,6 +607,104 @@ td.num{text-align:right;font-variant-numeric:tabular-nums;white-space:nowrap}
           .catch(function(e){ b2.disabled = false; say(i, e.message, false); });
       };
     }
+  }
+
+  /* ═══ 5 Nov 2026: KOLI REFUNDS. A paid parcel nobody took within 30 minutes, or that the sender cancelled
+     before pickup, is a refund OWED. Pay it back (MonCash/NatCash/card), then record who + the reference. */
+  var RF = 'owed';
+  var RWHY = { no_driver: 'Pa gen chofè ki te pran l (30 min)', sender_cancelled: 'Moun nan anile l anvan yo pran l', paid_after_cancel: 'Peye APRE li te anile' };
+  function loadRefunds(){
+    $('counts').textContent = '';
+    return req('GET', '/api/agents/admin/parcel-refunds?status=' + RF).then(function(d){
+      var rows = d.refunds || [], owed = d.owed || { count: 0, total: 0 };
+      var chips = ['owed', 'refunded', 'all'].map(function(k){ return '<button type="button" class="' + (k === RF ? 'on' : '') + '" data-rf="' + k + '">' +
+        ({ owed: '⏳ Pou ranbouse', refunded: '✅ Ranbouse', all: '📋 Tout' })[k] + '</button>'; }).join('');
+      $('list').innerHTML = '<div class="note">Koli ki te peye men ki p ap livre: lajan an dwe remèt moun ki te voye l la. Voye l ak MonCash/NatCash (oswa kat), epi mete referans tranzaksyon an isit la. ' +
+          '<b>' + owed.count + ' pou ranbouse · ' + Number(owed.total || 0).toLocaleString('fr-FR') + ' HTG</b></div>' +
+        '<div class="chips" id="rfChips" style="margin:8px 0">' + chips + '</div>' +
+        (rows.length ? rows.map(function(r, i){
+          var ph = String(r.sender && r.sender.phone || ''), wa = ph.replace(/\D/g, '');
+          var pays = (r.payments || []).map(function(p){ return esc(String(p.method || '').toUpperCase()) + ' ' + esc(p.amount) + ' HTG · ref <span class="mono">' + esc(p.reference || '—') + '</span>'; }).join('<br>');
+          return '<div class="box" style="margin-bottom:10px"><div style="display:flex;justify-content:space-between;gap:8px"><b>Koli ' + esc(r.short) + '</b>' +
+              '<b style="color:' + (r.status === 'owed' ? '#B45309' : '#12A150') + '">' + Number(r.amount || 0).toLocaleString('fr-FR') + ' HTG</b></div>' +
+            '<div style="font-size:.86rem;margin-top:6px;line-height:1.5">' + esc(RWHY[r.reason] || r.reason || '') + '<br>' +
+              '👤 ' + esc(r.sender && r.sender.name || '') + (ph ? ' · <a href="tel:' + esc(ph) + '">' + esc(ph) + '</a> · <a target="_blank" rel="noopener" href="https://wa.me/' + esc(wa) + '">WhatsApp</a>' : '') + '<br>' +
+              '💳 Te peye: ' + (pays || esc(r.method || '')) + '<br>📍 ' + esc(r.pickup || '') + ' → ' + esc(r.dropoff || '') + '<br>' +
+              '🕘 ' + esc(r.owedAt ? new Date(r.owedAt).toLocaleString('fr-FR') : '') + '</div>' +
+            (r.status === 'owed'
+              ? '<input id="rfRef' + i + '" class="mono" placeholder="Referans tranzaksyon ranbousman an" style="margin-top:8px"><input id="rfNote' + i + '" placeholder="Nòt (opsyonèl)" style="margin-top:6px">' +
+                '<button class="btn full" id="rfGo' + i + '" style="margin-top:8px">✅ Mwen ranbouse l</button><div class="msg" id="rfMsg' + i + '"></div>'
+              : '<div class="msg ok" style="margin-top:6px">✅ Ranbouse pa ' + esc(r.by || '') + ' · ref <span class="mono">' + esc(r.reference || '') + '</span>' +
+                (r.refundedAt ? ' · ' + esc(new Date(r.refundedAt).toLocaleString('fr-FR')) : '') + (r.note ? '<br>' + esc(r.note) : '') + '</div>') +
+          '</div>';
+        }).join('') : '<div class="box">Pa gen anyen isit la.</div>');
+      document.querySelectorAll('#rfChips button').forEach(function(b){ b.onclick = function(){ RF = b.getAttribute('data-rf'); loadRefunds().catch(function(e){ $('list').innerHTML = '<div class="box msg err">' + esc(e.message) + '</div>'; }); }; });
+      rows.forEach(function(r, i){
+        var go = $('rfGo' + i); if (!go) return;
+        go.onclick = function(){
+          var ref = $('rfRef' + i).value.trim(), m = $('rfMsg' + i);
+          if (!ref) { m.className = 'msg err'; m.textContent = 'Mete referans tranzaksyon an.'; return; }
+          if (!confirm('Konfime: ou remèt ' + r.amount + ' HTG bay ' + (r.sender && r.sender.name || '') + ' (ref ' + ref + ')?')) return;
+          go.disabled = true;
+          req('POST', '/api/agents/admin/parcel-refunds/' + r.id + '/refunded', { by: who, reference: ref, note: $('rfNote' + i).value.trim() })
+            .then(function(){ m.className = 'msg ok'; m.textContent = '✅ Anrejistre.'; setTimeout(function(){ loadRefunds().catch(function(){}); }, 800); })
+            .catch(function(e){ go.disabled = false; m.className = 'msg err'; m.textContent = e.message; });
+        };
+      });
+    });
+  }
+
+  /* ═══ 5 Nov 2026, Jeffery: "Any approved driver whose OAVCT expires must automatically become unavailable for
+     new rides and deliveries until a valid document is uploaded and verified. Notify the driver and Jennifer."
+     The server holds him by itself (no button needed); this tab is where Jennifer sees who, and lifts it:
+     new OAVCT photo first, then the new date read on it. */
+  var OV = [];
+  function ddmmyy(s){ if (!s) return '—'; var p = String(s).slice(0, 10).split('-'); return p[2] + '/' + p[1] + '/' + p[0]; }
+  function loadOavct(){
+    $('counts').textContent = '';
+    return req('GET', '/api/agents/admin/drivers/oavct').then(function(d){
+      OV = [].concat(d.held || [], d.soon || [], d.missing || []);
+      var sec = function(title, note, rows, color){
+        return '<h3 style="margin:16px 0 6px;color:' + color + '">' + title + ' (' + rows.length + ')</h3>' + (note ? '<div class="note">' + note + '</div>' : '') +
+          (rows.length ? rows.map(function(r){ var i = OV.indexOf(r);
+            var wa = String(r.whatsapp || r.phone || '').replace(/\D/g, ''), first = String(r.name || '').split(/\s+/)[0] || '';
+            var txt = r.state === 'expired'
+              ? 'Bonjou ' + first + ', se Jennifer MsouWout. OAVCT ou ekspire depi ' + ddmmyy(r.expiry) + ', kidonk ou p ap resevwa nouvo kous ni livrezon pou kounye a. Voye m yon foto nouvo OAVCT ou a isit la, m ap verifye l epi w ap ka travay ankò touswit.'
+              : (r.state === 'soon'
+                ? 'Bonjou ' + first + ', se Jennifer MsouWout. OAVCT ou ap ekspire ' + ddmmyy(r.expiry) + '. Renouvle l bonè epi voye m yon foto nouvo a, pou w pa sispann resevwa kous.'
+                : 'Bonjou ' + first + ', se Jennifer MsouWout. Nou pa gen dat OAVCT ou nan sistèm nan. Voye m yon foto OAVCT ou, tanpri.');
+            return '<div class="box" style="margin-bottom:10px"><div style="display:flex;justify-content:space-between;gap:8px;flex-wrap:wrap"><b>' + esc(r.name || '') + '</b>' +
+                '<b style="color:' + color + '">' + (r.state === 'missing' ? 'Pa gen dat' : (r.days < 0 ? 'Ekspire depi ' + (-r.days) + ' jou' : (r.days === 0 ? 'Ekspire jodi a' : 'Rete ' + r.days + ' jou'))) + '</b></div>' +
+              '<div style="font-size:.86rem;margin-top:6px;line-height:1.5">📅 OAVCT: <b>' + ddmmyy(r.expiry) + '</b>' + (r.held_since ? ' · ⛔ bloke depi ' + esc(fmt(r.held_since)) : '') +
+                '<br>📞 <a href="tel:' + esc(r.phone || '') + '">' + esc(r.phone || '') + '</a>' + (wa ? ' · <a target="_blank" rel="noopener" href="https://wa.me/' + esc(wa) + '?text=' + encodeURIComponent(txt) + '">💬 WhatsApp (mesaj pare)</a>' : '') +
+                (r.ajan ? '<br>🪪 Ajan: <span class="mono">' + esc(r.ajan) + '</span>' : '') +
+                (r.new_photo ? '<br><b style="color:#0B6B37">📷 Nouvo foto OAVCT resevwa ' + esc(fmt(r.photo_at)) + (r.photo_by ? ' (' + esc(whoLabel(r.photo_by)) + ')' : '') + ': verifye l, epi mete nouvo dat la.</b>' : '') + '</div>' +
+              '<div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:8px"><button class="btn o" data-ovp="' + i + '">📷 1. Nouvo foto OAVCT</button></div>' +
+              '<div style="display:flex;gap:8px;margin-top:8px"><input type="date" id="ovd' + i + '" style="flex:1"><button class="btn" data-ovs="' + i + '">📅 2. Sere nouvo dat la</button></div>' +
+              '<div class="msg" id="ovm' + i + '"></div></div>';
+          }).join('') : '<div class="box">Pa gen pèsonn.</div>');
+      };
+      $('list').innerHTML = '<div class="note">Sistèm nan <b>bloke otomatikman</b> nouvo kous ak livrezon pou yon chofè apwouve lè OAVCT li ekspire (kous li deja genyen an kontinye). Li resevwa yon notifikasyon 30, 7 ak 1 jou anvan, epi lè l bloke. ' +
+          'Pou debloke l: <b>1)</b> mete foto nouvo OAVCT la, <b>2)</b> mete nouvo dat ki ekri sou li a. Li ka travay ankò touswit.</div>' +
+        sec('⛔ Bloke: OAVCT ekspire', '', d.held || [], '#B91C1C') +
+        sec('⚠️ Ap ekspire nan 30 jou', 'Voye yon ti mesaj bay yo kounye a pou yo renouvle bonè.', d.soon || [], '#B45309') +
+        sec('❔ Pa gen dat OAVCT', 'Chofè apwouve sa yo pa gen dat OAVCT nan sistèm nan, kidonk sistèm nan pa ka bloke yo lè l ekspire. Mete dat ki sou foto a.', d.missing || [], '#475569');
+      document.querySelectorAll('[data-ovp]').forEach(function(b){ b.onclick = function(){
+        var i = +b.getAttribute('data-ovp'), r = OV[i], m = $('ovm' + i), f = document.createElement('input'); f.type = 'file'; f.accept = 'image/*';
+        f.onchange = function(){ var file = f.files && f.files[0]; if (!file) return; m.className = 'msg ok'; m.textContent = 'Ap voye foto a…';
+          shrink(file).then(function(u){ if (!u) throw new Error('Foto a pa bon.');
+            return req('POST', '/api/agents/admin/drivers/' + r.id + '/document', { by: who, doc_type: 'oavct', image_data: u }); })
+            .then(function(){ m.className = 'msg ok'; m.textContent = '✅ Foto OAVCT la anrejistre. Kounye a mete nouvo dat la.'; })
+            .catch(function(e){ m.className = 'msg err'; m.textContent = e.message; }); };
+        f.click(); }; });
+      document.querySelectorAll('[data-ovs]').forEach(function(b){ b.onclick = function(){
+        var i = +b.getAttribute('data-ovs'), r = OV[i], m = $('ovm' + i), v = $('ovd' + i).value;
+        if (!v) { m.className = 'msg err'; m.textContent = 'Chwazi dat ki ekri sou OAVCT la.'; return; }
+        b.disabled = true;
+        req('POST', '/api/agents/admin/drivers/' + r.id + '/oavct', { by: who, expiry: v })
+          .then(function(){ m.className = 'msg ok'; m.textContent = '✅ Nouvo dat la anrejistre.'; setTimeout(function(){ loadOavct().catch(function(){}); }, 900); })
+          .catch(function(e){ b.disabled = false; m.className = 'msg err'; m.textContent = e.message; }); }; });
+    });
   }
 
   function loadStats(){
