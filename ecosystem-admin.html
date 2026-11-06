@@ -356,10 +356,11 @@ var sections = [
   ]},
   { id: 'mp-koutye', label: '&#129309; Parenaj Biznis', src: 'mp', sub: [] },
   { id: 'hb-rides', label: '&#128663; Kous HB', src: 'hb', sub: [] },
-  { id: 'hb-drivers', label: '&#128100; Chofè HB', src: 'hb', sub: [
+  { id: 'hb-drivers', label: '&#128100; Chofè MsouWout', src: 'hb', sub: [
     { id: 'all', label: 'Tout' },
-    { id: 'verified', label: 'Verifye' },
-    { id: 'pending', label: 'An Atant' }
+    { id: 'verified', label: 'Apwouve' },
+    { id: 'pending', label: 'An Atant' },
+    { id: 'legacy', label: 'Ansyen enskripsyon HB' }
   ]},
   { id: 'hb-tickets', label: '&#127915; Tikè', src: 'hb', sub: [] },
   { id: 'hb-refunds', label: '&#128176; Ranbousman', src: 'hb', sub: [] },
@@ -666,7 +667,17 @@ function loadAll() {
   if (currentSection !== 'overview') loadCurrentTab();
 }
 
+/* 6 Nov 2026 (Jeffery: "didn't get any updates because we have more than 40 drivers"): drivers register on MsouWout
+   itself since September; this section read HaitiBiznis's OLD driver table (frozen at 20). It now reads the real
+   MsouWout list - the same one as Jennifer's console (chofe-admin.html) - through /api/agents/admin/drivers. */
+var MSW_DRIVERS = null;
+function loadMswDrivers() {
+  return fetch(HB_API.replace('/admin', '/agents/admin/drivers') + '?status=all', { headers: { 'x-admin-pin': pin } })
+    .then(function (r) { if (r.status === 403) { logout(); throw new Error('Session expired'); } return r.json(); })
+    .then(function (d) { MSW_DRIVERS = (d && d.drivers) || []; return MSW_DRIVERS; });
+}
 function loadDashboardStats() {
+  loadMswDrivers().then(function () { try { updateDashboard(); } catch (e) {} }).catch(function () {});
   mpOk = false; hbOk = false;
   mpStats = null; hbStats = null;
   mpRecent = []; hbRecent = [];
@@ -722,7 +733,7 @@ function updateDashboard() {
     { val: (mp.totalOrders || 0), label: 'Komand MP', color: 'blue', src: 'MyPlopPlop' },
     { val: (mp.totalRides || 0) + (hb.totalRides || 0), label: 'Kous Total', color: 'blue', src: 'Tout' },
     { val: (mp.drivers || 0), label: 'Chofe MP', color: 'green', src: 'MyPlopPlop' },
-    { val: (hb.totalDrivers || 0), label: 'Chofe MsouWout', color: 'green', src: 'MsouWout' },
+    { val: (MSW_DRIVERS ? MSW_DRIVERS.length : (hb.totalDrivers || 0)), label: 'Chofe MsouWout', color: 'green', src: 'MsouWout' },
     { val: (hb.totalTickets || 0), label: 'Tike Total', color: 'blue', src: 'HaitiBiznis' },
     { val: (hb.todayTickets || 0), label: 'Tike Jodi a', color: 'gold', src: 'HaitiBiznis' },
     { val: (hb.totalEvents || 0), label: 'Evenman', color: 'green', src: 'HaitiBiznis' },
@@ -875,7 +886,7 @@ function updateStatusOptions() {
   } else if (currentSection === 'hb-rides') {
     opts = [{ v: 'pending', l: 'An Atant' }, { v: 'accepted', l: 'Aksepte' }, { v: 'in_progress', l: 'Nan Wout' }, { v: 'completed', l: 'Fini' }, { v: 'cancelled', l: 'Anile' }];
   } else if (currentSection === 'hb-drivers') {
-    opts = [{ v: 'verified', l: 'Verifye' }, { v: 'pending', l: 'An Atant' }];
+    opts = [{ v: 'verified', l: 'Apwouve' }, { v: 'pending', l: 'An Atant' }];
   } else if (currentSection === 'hb-tickets') {
     opts = [{ v: 'pending', l: 'An Atant' }, { v: 'completed', l: 'Konplete' }, { v: 'failed', l: 'Echwe' }];
   } else if (currentSection === 'hb-refunds') {
@@ -1122,7 +1133,42 @@ function loadHBRides(status, search) {
 }
 
 function loadHBDrivers(status, search) {
-  var st = (currentSubTab && currentSubTab !== 'all') ? currentSubTab : status;
+  var sub = (currentSubTab && currentSubTab !== 'all') ? currentSubTab : status;
+  if (sub !== 'legacy') return loadMswDriverTable(sub, search);
+  return loadLegacyHBDrivers('', search);
+}
+function loadMswDriverTable(sub, search) {
+  loadMswDrivers().then(function (all) {
+    var want = sub === 'verified' ? 'approved' : sub;
+    var q = String(search || '').toLowerCase().trim(), qd = q.replace(/\D/g, '');
+    var rows = all.filter(function (d) {
+      if (want && d.status !== want) return false;
+      if (!q) return true;
+      return String(d.full_name || '').toLowerCase().indexOf(q) >= 0 || String(d.license_plate || '').toLowerCase().indexOf(q) >= 0 ||
+        (qd && String(d.phone || '').replace(/\D/g, '').indexOf(qd) >= 0);
+    }).sort(function (a, b) { return String(b.created_at || '').localeCompare(String(a.created_at || '')); });
+    setHead(['Dat', 'Non', 'Telefon', 'Machin', 'Vil', 'Plak', 'Estati']);
+    if (!rows.length) { emptyTable('&#128100;', 'Pa gen chofe'); renderPagination(1, 1, 0); return; }
+    var per = 20, pages = Math.max(1, Math.ceil(rows.length / per)), page = Math.min(currentPage || 1, pages);
+    var KR = { approved: 'Apwouve', pending: 'An atant', suspended: 'Sispann', rejected: 'Rejte' };
+    var html = '', LBL = { approved: 'verified', pending: 'pending', suspended: 'suspended', rejected: 'rejected' };
+    rows.slice((page - 1) * per, page * per).forEach(function (d) {
+      html += '<tr>';
+      html += '<td style="white-space:nowrap">' + fmtDate(d.created_at) + '</td>';
+      html += '<td style="font-weight:700">' + esc(d.full_name || '') + '</td>';
+      html += '<td>' + waLink(d.phone) + '</td>';
+      html += '<td>' + vIcon(d.vehicle_type === 'motorcycle' ? 'moto' : d.vehicle_type) + ' ' + esc((d.vehicle_make || '') + ' ' + (d.vehicle_model || '')) + '</td>';
+      html += '<td>' + esc(d.city || '-') + '</td>';
+      html += '<td style="font-family:monospace;font-weight:700">' + esc(d.license_plate || '') + '</td>';
+      html += '<td><span class="badge badge-' + (LBL[d.status] || 'pending') + '">' + esc(KR[d.status] || d.status || '') + '</span></td>';
+      html += '</tr>';
+    });
+    document.getElementById('tableBody').innerHTML = html;
+    renderPagination(page, pages, rows.length);
+  }).catch(apiErr);
+}
+function loadLegacyHBDrivers(status, search) {
+  var st = status;
   var q = buildQuery(st, search);
   apiFetch(HB_API, '/drivers' + q).then(function(data) {
     setHead(['Dat', 'Non', 'Telefon', 'Machin', 'Zon', 'Plak', 'Estati']);
