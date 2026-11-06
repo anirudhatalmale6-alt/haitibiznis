@@ -108,6 +108,7 @@ td.num{text-align:right;font-variant-numeric:tabular-nums;white-space:nowrap}
       <button data-s="train">🎓 Fòmasyon 30%</button>
     </div>
     <div class="counts" id="counts"></div>
+    <div id="kolAlert"></div>
     <div id="mvNotif"></div>
     <div class="fbar" id="fbar">
       <input id="fq" type="search" placeholder="🔎 Chèche: non, telefòn, plak, badj Ajan (LMA-…)" autocomplete="off">
@@ -204,8 +205,32 @@ td.num{text-align:right;font-variant-numeric:tabular-nums;white-space:nowrap}
       $('mvNotif').innerHTML = n ? '<a href="machann-admin.html" style="display:block;text-decoration:none;color:#8A5A00;background:#fff8e6;border:2px solid #f0b429;border-radius:12px;padding:10px 12px;font-weight:800;margin-bottom:10px">🔔 ' + n + ' biznis MyPlopPlop ap tann apwobasyon ou → machann-admin</a>' : '';
     }).catch(function(){});
   }
+  /* ═══ 6 Nov 2026, Jeffery (Koli option A): "Add the 15-minute alert for Jennifer". A PAID package with no driver for
+     15 minutes shows here in red, on every tab, refreshed every minute: how long it has waited, how long before the
+     automatic refund (30 min), the sender, and the nearest drivers to call. The server has already widened the search. */
+  var kolTimer = null;
+  function kolNotify(){
+    if (!pin) return;
+    req('GET', '/api/agents/admin/parcels-waiting').then(function(d){
+      var red = (d.waiting || []).filter(function(x){ return x.alert; });
+      if (!red.length) { $('kolAlert').innerHTML = ''; return; }
+      $('kolAlert').innerHTML = '<div style="background:#FDECEC;border:2px solid #D21034;border-radius:12px;padding:10px 12px;margin-bottom:10px;color:#7A0A1E">' +
+        '<div style="font-weight:900;font-size:1rem">🚨 ' + red.length + ' KOLI SAN CHOFÈ DEPI ' + d.alertAfter + ' MINIT</div>' +
+        '<div style="font-size:.82rem;margin:2px 0 6px">Sistèm nan voye l ankò bay tout chofè ki kalifye, epi li chèche pi lwen SÈLMAN nan zòn operasyon apwouve yo (zòn vèt MsouWout, nan lè yo louvri). Rele yon chofè: si pèsonn pa pran l nan ' + d.refundAfter + ' minit, koli a anile e moun nan dwe ranbouse.</div>' +
+        red.map(function(k){
+          var ph = String(k.sender.phone || ''), wa = ph.replace(/\D/g, '');
+          return '<div style="background:#fff;border-radius:10px;padding:8px 10px;margin-top:6px;font-size:.84rem;line-height:1.5;color:#1B2340">' +
+            '<div style="display:flex;justify-content:space-between;gap:6px"><b>📦 Koli ' + esc(k.short) + ' · ' + Number(k.amount || 0).toLocaleString('fr-FR') + ' HTG</b><b style="color:#D21034">⏱ ' + esc(k.minutes) + ' min · ranbou nan ' + esc(k.refundIn) + ' min</b></div>' +
+            '📍 ' + esc(k.pickup || '') + ' → ' + esc(k.dropoff || '') + '<br>' + (k.pickupArea ? '🟢 Zòn: ' + esc(k.pickupArea) : '⚪ Pa nan yon zòn apwouve (oswa zòn nan fèmen kounye a): chofè nan ' + esc(d.normalKm) + ' km sèlman') + '<br>👤 ' + esc(k.sender.name || '') + (ph ? ' · <a href="tel:' + esc(ph) + '">' + esc(ph) + '</a> · <a target="_blank" rel="noopener" href="https://wa.me/' + esc(wa) + '">WhatsApp</a>' : '') +
+            '<div style="margin-top:4px"><b>Chofè ki pi pre yo:</b>' + (k.drivers.length ? k.drivers.map(function(v){
+              return '<br>' + (v.online ? (v.busy ? '🟠' : '🟢') : '⚪') + ' ' + esc(v.name) + ' · ' + esc(v.km) + ' km · <a href="tel:' + esc(v.phone) + '">' + esc(v.phone) + '</a>' +
+                (v.online ? (v.busy ? ' · okipe' : ' · an liy') : ' · pa an liy');
+            }).join('') : '<br>Pa gen chofè ki kalifye pou koli sa a kounye a.') + '</div></div>';
+        }).join('') + '</div>';
+    }).catch(function(){});
+  }
   function load(){
-    mvNotify();
+    mvNotify(); kolNotify(); if (!kolTimer) kolTimer = setInterval(kolNotify, 60000);
     /* every driver once (≤300), then filtered here - so every count is the server's list, never a guess */
     return req('GET', '/api/agents/admin/drivers?status=all').then(function(d){
       drivers = d.drivers || [];
@@ -669,7 +694,8 @@ td.num{text-align:right;font-variant-numeric:tabular-nums;white-space:nowrap}
     function money(v, c){ return Number(v || 0).toLocaleString('fr-FR') + ' ' + (c || 'HTG'); }
     function show(t){
       var c = t.commission || {}, rf = t.refund, cur2 = t.currency;
-      var com = c.amount ? ('🤝 Ajan <span class="mono">' + esc(c.agent) + '</span>: ' + money(c.amount) + ' · ' + esc(PLAN[c.plan] || c.plan || '')) : '🤝 Pa gen komisyon Ajan sou tikè sa a';
+      var com = (c.amount ? ('🤝 Ajan <span class="mono">' + esc(c.agent) + '</span>: ' + money(c.amount) + ' · ' + esc(PLAN[c.plan] || c.plan || '')) : '🤝 Pa gen komisyon Ajan sou tikè sa a') +
+        (/^not_certified/.test(c.note || '') ? '<br>⚠️ 30% refize: Ajan ' + esc(c.note.split(' ')[1] || '') + ' pa gen badj LajanMaker aktif' : '');
       var st = { completed: '✅ Peye', refunded: '↩️ Ranbouse', pending: '⏳ Poko peye', failed: '❌ Echwe' }[t.status] || t.status;
       $('tkOut').innerHTML = '<div class="box"><div style="display:flex;justify-content:space-between;gap:8px"><b class="mono">' + esc(t.ref) + '</b><b>' + esc(st) + '</b></div>' +
         '<div style="font-size:.86rem;margin-top:6px;line-height:1.55">🎉 ' + esc(t.event && t.event.title || '') + (t.event && t.event.date ? ' · ' + esc(t.event.date) : '') + '<br>' +
@@ -721,6 +747,7 @@ td.num{text-align:right;font-variant-numeric:tabular-nums;white-space:nowrap}
             '<div style="display:flex;justify-content:space-between;gap:6px"><b class="mono">' + esc(r.ref) + '</b><b>' + (r.status === 'refunded' ? '↩️ Ranbouse' : '✅ Peman konfime') + '</b></div>' +
             '👤 ' + esc(r.buyer) + ' · ' + esc(r.phone) + '<br>🎟️ ' + esc(r.qty) + ' × ' + esc(r.ticket) + ' · ' + n(r.amount) + ' · ' + esc(String(r.method || '').toUpperCase()) + (r.paidAt ? ' · ' + esc(fmt(r.paidAt)) : '') + '<br>' +
             (r.agent ? '🤝 Ajan <b class="mono">' + esc(r.agent) + '</b> · <b>' + n(r.commission) + '</b> (' + (r.plan === 'training30' ? '30%' : '1.5%') + ') · ' + esc(PAYOUT[r.payout] || r.payout) : '🤝 San Ajan') +
+            (/^not_certified/.test(r.note || '') ? '<br>⚠️ Ajan <b class="mono">' + esc(r.note.split(' ')[1] || '') + '</b> pa gen badj LajanMaker aktif: 30% refize, règ nòmal 1.5% aplike.' : '') +
             (r.status === 'refunded' ? '<br>↩️ ref ' + esc(r.refundRef) + (r.refundedAt ? ' · ' + esc(fmt(r.refundedAt)) : '') : '') + '</div>';
         }).join('') : '<div class="box">Pa gen plas peye ankò.</div>');
     }).catch(function(e){ box.innerHTML = '<div class="box msg err">' + esc(e.message) + '</div>'; });
