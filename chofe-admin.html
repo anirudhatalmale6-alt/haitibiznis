@@ -105,6 +105,7 @@ td.num{text-align:right;font-variant-numeric:tabular-nums;white-space:nowrap}
       <button data-s="stats">🏆 Ajan / Bonis</button>
       <button data-s="refunds">💸 Ranbousman</button>
       <button data-s="oavct">📄 OAVCT</button>
+      <button data-s="train">🎓 Fòmasyon 30%</button>
     </div>
     <div class="counts" id="counts"></div>
     <div id="mvNotif"></div>
@@ -146,6 +147,8 @@ td.num{text-align:right;font-variant-numeric:tabular-nums;white-space:nowrap}
     name_and_code_required: 'Mete non ou ak kòd Ajan an.', code_not_found: 'Kòd Ajan sa a pa egziste nan sistèm Ajan an.',
     badge_not_active: 'Badj sa a pa aktif (oswa li pa gen kòd referans).', already_credited: 'Chofè sa a deja konte pou yon Ajan.',
     engine_unavailable: 'Sistèm Ajan an ap reveye. Eseye ankò nan yon minit.', not_found: 'Chofè a pa jwenn.',
+    not_training: 'Se sèlman yon evènman Fòmasyon ki ka gen 30%.', htg_only: 'Fòmasyon an dwe vann an HTG.', nothing_to_change: 'Pa gen anyen pou chanje.',
+    ticket_not_found: 'Tikè sa a pa egziste. Tcheke nimewo a (TL-…).', not_paid: 'Tikè sa a pa t peye: pa gen anyen pou ranbouse.',
     name_and_docs_required: 'Chwazi dokiman pou korije a.', name_and_date_required: 'Mete yon dat valab.', too_large: 'Foto a twò gwo.'
   };
   function req(method, path, body){
@@ -174,7 +177,7 @@ td.num{text-align:right;font-variant-numeric:tabular-nums;white-space:nowrap}
       document.querySelectorAll('#tabs button').forEach(function(x){ x.classList.toggle('on', x === b); });
       cur = b.getAttribute('data-s'); $('list').innerHTML = '<div class="box">Ap chaje…</div>';
       $('fbar').classList.toggle('hide', cur !== 'list');
-      (cur === 'stats' ? loadStats() : cur === 'refunds' ? loadRefunds() : cur === 'oavct' ? loadOavct() : load()).catch(function(e){ $('list').innerHTML = '<div class="box msg err">' + esc(e.message) + '</div>'; });
+      (cur === 'stats' ? loadStats() : cur === 'refunds' ? loadRefunds() : cur === 'oavct' ? loadOavct() : cur === 'train' ? loadTrain() : load()).catch(function(e){ $('list').innerHTML = '<div class="box msg err">' + esc(e.message) + '</div>'; });
     };
   });
 
@@ -651,7 +654,106 @@ td.num{text-align:right;font-variant-numeric:tabular-nums;white-space:nowrap}
             .catch(function(e){ go.disabled = false; m.className = 'msg err'; m.textContent = e.message; });
         };
       });
-    }).then(loadRideRefunds);
+    }).then(loadRideRefunds).then(loadTicketRefund);
+  }
+
+  /* ═══ 6 Nov 2026, Jeffery: "Handle refunds by reversing unpaid or pending commissions." A Tikè Lakay ticket:
+     send the money back first, then record it here with the reference. The ticket stops opening the door, its
+     place goes back on sale, and the Ajan commission not yet paid on it is cancelled automatically. */
+  function loadTicketRefund(){
+    var box = document.createElement('div'); box.id = 'ticketRefund'; $('list').appendChild(box);
+    box.innerHTML = '<h3 style="margin:20px 0 6px">🎟️ Tikè Lakay</h3>' +
+      '<div class="note">Pou ranbouse yon tikè: voye lajan an bay moun nan DABÒ, epi chèche tikè a ak nimewo li (TL-…). Lè w anrejistre l: tikè a p ap louvri pòt la ankò, plas la retounen an vant, epi komisyon Ajan ki poko peye sou li a anile otomatikman.</div>' +
+      '<input id="tkQ" class="mono" placeholder="Nimewo tikè a: TL-…" autocomplete="off"><button class="btn full" id="tkFind" style="margin-top:8px">🔎 Chèche tikè a</button><div id="tkOut" style="margin-top:8px"></div>';
+    var PLAN = { training30: '30% fòmasyon LajanMaker (soti nan revni òganizatè a)', ticket: '1.5% (soti nan frè 7.5% la)' };
+    function money(v, c){ return Number(v || 0).toLocaleString('fr-FR') + ' ' + (c || 'HTG'); }
+    function show(t){
+      var c = t.commission || {}, rf = t.refund, cur2 = t.currency;
+      var com = c.amount ? ('🤝 Ajan <span class="mono">' + esc(c.agent) + '</span>: ' + money(c.amount) + ' · ' + esc(PLAN[c.plan] || c.plan || '')) : '🤝 Pa gen komisyon Ajan sou tikè sa a';
+      var st = { completed: '✅ Peye', refunded: '↩️ Ranbouse', pending: '⏳ Poko peye', failed: '❌ Echwe' }[t.status] || t.status;
+      $('tkOut').innerHTML = '<div class="box"><div style="display:flex;justify-content:space-between;gap:8px"><b class="mono">' + esc(t.ref) + '</b><b>' + esc(st) + '</b></div>' +
+        '<div style="font-size:.86rem;margin-top:6px;line-height:1.55">🎉 ' + esc(t.event && t.event.title || '') + (t.event && t.event.date ? ' · ' + esc(t.event.date) : '') + '<br>' +
+        '🎟️ ' + esc(t.ticket) + ' × ' + esc(t.qty) + ' · pri ' + money(t.price * t.qty, cur2) + ' + frè ' + money(t.fee, cur2) + '<br>' +
+        '💳 Te peye: <b>' + money(t.total, cur2) + '</b> · ' + esc(String(t.method || '').toUpperCase()) + (t.paidAt ? ' · ' + esc(fmt(t.paidAt)) : '') + '<br>' +
+        '👤 ' + esc(t.buyer && t.buyer.name || '') + (t.buyer && t.buyer.phone ? ' · <a href="tel:' + esc(t.buyer.phone) + '">' + esc(t.buyer.phone) + '</a>' : '') + '<br>' + com +
+        (t.usedAt ? '<br>⚠️ Tikè sa a te deja itilize nan pòt la ' + esc(fmt(t.usedAt)) : '') + '</div>' +
+        (t.status === 'completed'
+          ? '<input id="tkRef" class="mono" placeholder="Referans tranzaksyon ranbousman an" style="margin-top:8px"><input id="tkNote" placeholder="Nòt (opsyonèl)" style="margin-top:6px">' +
+            '<button class="btn full" id="tkGo" style="margin-top:8px">↩️ Mwen ranbouse tikè sa a</button><div class="msg" id="tkMsg"></div>'
+          : rf ? '<div class="msg ok">↩️ Ranbouse pa ' + esc(whoLabel(rf.by)) + ' · ref <span class="mono">' + esc(rf.ref) + '</span> · ' + esc(fmt(rf.at)) +
+              (rf.reversal ? '<br>🤝 Komisyon Ajan anile: ' + money(rf.reversal.amount || 0) + (rf.reversal.alreadyPaid && rf.reversal.alreadyPaid.length ? ' · ⚠️ ' + rf.reversal.alreadyPaid.length + ' te deja peye Ajan an: fòk yo rekipere l' : '') + (rf.reversal.reason && !rf.reversal.reversed ? ' (' + esc(rf.reversal.reason) + ')' : '') : '') + '</div>' : '') +
+        '</div>';
+      var go = $('tkGo'); if (!go) return;
+      go.onclick = function(){
+        var ref = $('tkRef').value.trim(), m = $('tkMsg');
+        if (!ref) { m.className = 'msg err'; m.textContent = 'Mete referans tranzaksyon an.'; return; }
+        if (!confirm('Konfime: ' + (t.buyer && t.buyer.name || 'moun nan') + ' RESEVWA lajan tikè ' + t.ref + ' la (ref ' + ref + ')?')) return;
+        go.disabled = true;
+        req('POST', '/api/payments/admin/ticket/' + encodeURIComponent(t.ref) + '/refund', { by: who, reference: ref, note: $('tkNote').value.trim() })
+          .then(function(d){ show(d.ticket); })
+          .catch(function(e){ go.disabled = false; m.className = 'msg err'; m.textContent = e.message; });
+      };
+    }
+    $('tkFind').onclick = function(){
+      var q = $('tkQ').value.trim().toUpperCase(); if (!q) return;
+      $('tkOut').innerHTML = '<div class="box">Ap chèche…</div>';
+      req('GET', '/api/payments/admin/ticket/' + encodeURIComponent(q)).then(function(d){ show(d.ticket); })
+        .catch(function(e){ $('tkOut').innerHTML = '<div class="box msg err">' + esc(e.message) + '</div>'; });
+    };
+  }
+
+  /* ═══ 6 Nov 2026, Jeffery: LajanMaker Academy's OWN paid training events - the Ajan earns 30% of the training
+     price (1,000 HTG → 300 HTG), from LajanMaker's revenue, NOT the 7.5% Tikè Lakay fee. Switched here, per event,
+     by an administrator only. Other events keep the standard 1.5%. Each ticket keeps the rule it was paid under. */
+  /* 6 Nov 2026, Jeffery: "Make sure Jennifer can see the referring Ajan, confirmed payment, commission amount, and
+     payout status." Every paid place of one training: buyer, payment confirmed (when), Ajan, commission, payout. */
+  var PAYOUT = { pending: '⏳ Pou peye Ajan an', validated: '⏳ Pou peye Ajan an', approved: '⏳ Pou peye Ajan an', paid: '✅ Peye Ajan an',
+    reversed: '↩️ Anile (ranbousman)', rejected: '⛔ Refize', expired: '⌛ Ekspire', none: '—', unknown: '? (sistèm Ajan an ap reveye)' };
+  function trainSales(id, box){
+    box.innerHTML = '<div class="box">Ap chaje…</div>';
+    req('GET', '/api/payments/admin/event/' + id + '/ajan-sales').then(function(d){
+      var T = d.totals || {}, n = function(v){ return Number(v || 0).toLocaleString('fr-FR') + ' HTG'; };
+      box.innerHTML = '<div class="note" style="margin-top:10px">🎟️ ' + (T.tickets || 0) + ' plas peye · ' + n(T.revenue) + '<br>🤝 Komisyon Ajan: <b>' + n(T.ajanOwed) + ' pou peye</b> · ' + n(T.ajanPaid) + ' peye' +
+          (T.ajanReversed ? ' · ' + n(T.ajanReversed) + ' anile' : '') + '<br>🏢 Pou LajanMaker apre 30% Ajan yo: <b>' + n(d.organizerPayout) + '</b>' +
+          (d.engine ? '' : '<br>⚠️ Sistèm Ajan an ap reveye: estati peman Ajan yo pa disponib pou kounye a. Eseye ankò nan yon minit.') + '</div>' +
+        ((d.sales || []).length ? d.sales.map(function(r){
+          return '<div style="border-top:1px solid #E2E8F0;padding:8px 0;font-size:.84rem;line-height:1.5">' +
+            '<div style="display:flex;justify-content:space-between;gap:6px"><b class="mono">' + esc(r.ref) + '</b><b>' + (r.status === 'refunded' ? '↩️ Ranbouse' : '✅ Peman konfime') + '</b></div>' +
+            '👤 ' + esc(r.buyer) + ' · ' + esc(r.phone) + '<br>🎟️ ' + esc(r.qty) + ' × ' + esc(r.ticket) + ' · ' + n(r.amount) + ' · ' + esc(String(r.method || '').toUpperCase()) + (r.paidAt ? ' · ' + esc(fmt(r.paidAt)) : '') + '<br>' +
+            (r.agent ? '🤝 Ajan <b class="mono">' + esc(r.agent) + '</b> · <b>' + n(r.commission) + '</b> (' + (r.plan === 'training30' ? '30%' : '1.5%') + ') · ' + esc(PAYOUT[r.payout] || r.payout) : '🤝 San Ajan') +
+            (r.status === 'refunded' ? '<br>↩️ ref ' + esc(r.refundRef) + (r.refundedAt ? ' · ' + esc(fmt(r.refundedAt)) : '') : '') + '</div>';
+        }).join('') : '<div class="box">Pa gen plas peye ankò.</div>');
+    }).catch(function(e){ box.innerHTML = '<div class="box msg err">' + esc(e.message) + '</div>'; });
+  }
+  function loadTrain(){
+    $('counts').textContent = '';
+    return req('GET', '/api/events/admin/trainings').then(function(d){
+      var rows = d.events || [];
+      $('list').innerHTML = '<div class="note">Sèlman fòmasyon pa <b>LajanMaker li menm</b>. 🎓 30% LIMEN: Ajan ki vann plas la touche <b>30% pri a</b> (1,000 HTG → 300 HTG), lajan sa a soti nan revni LajanMaker, PA nan frè 7.5% Tikè Lakay la. ETENN: 1.5% nòmal. Chak tikè kenbe règ ki te la lè l te peye.</div>' +
+        (rows.length ? rows.map(function(e, i){
+          var tk = (e.tickets || []).map(function(t){ return esc(t.name) + ' · ' + Number(t.price || 0).toLocaleString('fr-FR') + ' HTG · ' + (t.sold || 0) + ' vann'; }).join('<br>');
+          return '<div class="box" style="margin-bottom:10px"><b>' + esc(e.title) + '</b>' +
+            '<div style="font-size:.86rem;margin-top:4px;line-height:1.5">📅 ' + esc(e.date) + ' ' + esc(e.startTime || '') + ' · ' + esc(e.organizer || '') + '<br>' + tk + '</div>' +
+            '<div style="margin-top:8px;line-height:1.7;font-size:.9rem">🤝 Pataj Ajan: <b>' + (e.koutyeEnabled ? '✅ LIMEN' : '⛔ ETENN') + '</b><br>🎓 Komisyon Ajan: <b>' + (e.training30 ? '30% (fòmasyon LajanMaker)' : '1.5% (nòmal)') + '</b>' +
+              (e.setBy ? ' <span style="color:#64748B">· ' + esc(whoLabel(e.setBy)) + ' ' + esc(fmt(e.setAt)) + '</span>' : '') + '</div>' +
+            '<div class="frow"><button class="btn" id="tr30' + i + '">' + (e.training30 ? '↩️ Retounen 1.5%' : '🎓 Mete 30%') + '</button>' +
+              '<button class="btn" id="trSh' + i + '" style="background:' + (e.koutyeEnabled ? '#64748B' : '#12A150') + '">' + (e.koutyeEnabled ? '⛔ Etenn pataj' : '🤝 Limen pataj') + '</button></div>' +
+            '<button class="btn full" id="trLs' + i + '" style="margin-top:8px;background:#fff;color:var(--navy);border:2px solid var(--navy)">📋 Lavant + komisyon Ajan</button>' +
+            '<div id="trL' + i + '"></div><div class="msg" id="trMsg' + i + '"></div></div>';
+        }).join('') : '<div class="box">Pa gen fòmasyon ki vini.</div>');
+      rows.forEach(function(e, i){
+        function set(body, q, btn){
+          var m = $('trMsg' + i); if (!confirm(q)) return; body.by = who; btn.disabled = true;
+          req('POST', '/api/events/' + e._id + '/training-commission', body)
+            .then(function(){ m.className = 'msg ok'; m.textContent = '✅ Anrejistre.'; setTimeout(function(){ loadTrain().catch(function(){}); }, 700); })
+            .catch(function(x){ btn.disabled = false; m.className = 'msg err'; m.textContent = x.message; });
+        }
+        $('tr30' + i).onclick = function(){ set({ enabled: !e.training30 }, e.training30 ? 'Retounen "' + e.title + '" sou 1.5% nòmal?' :
+          'Mete 30% pou Ajan sou "' + e.title + '"?\nSe LajanMaker k ap peye 30% la, sou revni fòmasyon an.', this); };
+        $('trSh' + i).onclick = function(){ set({ sharing: !e.koutyeEnabled }, (e.koutyeEnabled ? 'Etenn' : 'Limen') + ' pataj Ajan pou "' + e.title + '"?', this); };
+        $('trLs' + i).onclick = function(){ var box = $('trL' + i); if (box.innerHTML) { box.innerHTML = ''; return; } trainSales(e._id, box); };
+      });
+    });
   }
 
   /* 5 Nov 2026 (Jennifer: "Mpa wè kote sou plateforme lan poum wè pati ranbousman an"): MsouWout PASSENGER-ride
