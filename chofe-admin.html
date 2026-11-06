@@ -752,6 +752,34 @@ td.num{text-align:right;font-variant-numeric:tabular-nums;white-space:nowrap}
         }).join('') : '<div class="box">Pa gen plas peye ankò.</div>');
     }).catch(function(e){ box.innerHTML = '<div class="box msg err">' + esc(e.message) + '</div>'; });
   }
+  /* 6 Nov 2026, Jeffery: "Jennifer should notify all eligible certified Ajan about the November 8 training and explain how
+     to share their personal referral links to earn 300 HTG per confirmed 1,000 HTG registration." The SAME rule as the
+     server: badge active + not expired + an Ajan code. One tap per Ajan = WhatsApp with HIS own link (his code inside). */
+  function notifyAjan(e, box){
+    box.innerHTML = '<div class="box">Ap chaje Ajan sètifye yo…</div>';
+    Promise.all([req('GET', '/api/agents/admin/list'), fetch(API + '/api/events/' + e._id).then(function(r){ return r.json(); }).catch(function(){ return {}; })]).then(function(x){
+      var now = Date.now(), ev = x[1] || {};
+      var list = ((x[0] && x[0].agents) || []).filter(function(a){ return a.status === 'active' && String(a.referralCode || '').trim() && (!a.expiresAt || new Date(a.expiresAt).getTime() > now); });
+      var price = ((e.tickets || [])[0] || {}).price || 0, share = Math.round(price * 0.3);
+      var key = 'hb_tr_notified_' + e._id, done = {}; try { done = JSON.parse(localStorage.getItem(key) || '{}'); } catch(z){}
+      function msg(a){
+        var link = 'https://e.tikelakay.com/e/' + e._id + '?ref=' + encodeURIComponent(String(a.referralCode).trim().toUpperCase());
+        return 'Bonjou ' + String(a.name || '').split(' ')[0] + '! 🎓\n\n' + (ev.title || e.title).trim() + '\n📅 ' + e.date + ' · ' + (e.startTime || '') + (ev.location ? '\n📍 ' + ev.location : '') + '\n\n' +
+          'Kòm Ajan LajanMaker sètifye, ou touche ' + share + ' HTG (30%) sou chak plas ' + Number(price).toLocaleString('fr-FR') + ' HTG ki PEYE atravè lyen pa w la.\n\n' +
+          '👉 Lyen pèsonèl ou (kòd ' + String(a.referralCode).trim().toUpperCase() + ' ladan l):\n' + link + '\n\n' +
+          'Pataje l sou WhatsApp, Facebook ak nan gwoup ou yo. Moun nan achte plas li sou lyen sa a, epi komisyon an anrejistre sou non w lè peman an konfime.\n\n— Jennifer, LajanMaker';
+      }
+      box.innerHTML = '<div class="note" style="margin-top:10px"><b>' + list.length + ' Ajan sètifye</b> (badj aktif) ki ka touche 30% sou fòmasyon sa a. Chak bouton voye mesaj la ak <b>pwòp lyen Ajan an</b>.</div>' +
+        list.map(function(a, k){
+          var wa = String(a.phone || '').replace(/\D/g, ''); if (wa.length === 8) wa = '509' + wa;
+          return '<div style="border-top:1px solid #E2E8F0;padding:8px 0;font-size:.86rem;display:flex;justify-content:space-between;align-items:center;gap:8px">' +
+            '<span>' + (done[a.agentId] ? '✅ ' : '') + '<b>' + esc(a.name) + '</b><br><span class="mono" style="color:#64748B">' + esc(a.agentId) + ' · ' + esc(String(a.referralCode).toUpperCase()) + '</span></span>' +
+            (wa ? '<a class="btn" data-k="' + k + '" target="_blank" rel="noopener" style="text-decoration:none;white-space:nowrap" href="https://wa.me/' + esc(wa) + '?text=' + encodeURIComponent(msg(a)) + '">📲 Voye</a>' : '<span style="color:#B45309">pa gen telefòn</span>') + '</div>';
+        }).join('');
+      box.querySelectorAll('a[data-k]').forEach(function(l){ l.addEventListener('click', function(){ var a = list[+l.getAttribute('data-k')]; done[a.agentId] = Date.now();
+        try { localStorage.setItem(key, JSON.stringify(done)); } catch(z){} var sp = l.previousElementSibling; if (sp && sp.textContent.indexOf('✅') !== 0) sp.insertAdjacentHTML('afterbegin', '✅ '); }); });
+    }).catch(function(err){ box.innerHTML = '<div class="box msg err">' + esc(err.message) + '</div>'; });
+  }
   function loadTrain(){
     $('counts').textContent = '';
     return req('GET', '/api/events/admin/trainings').then(function(d){
@@ -766,7 +794,9 @@ td.num{text-align:right;font-variant-numeric:tabular-nums;white-space:nowrap}
             '<div class="frow"><button class="btn" id="tr30' + i + '">' + (e.training30 ? '↩️ Retounen 1.5%' : '🎓 Mete 30%') + '</button>' +
               '<button class="btn" id="trSh' + i + '" style="background:' + (e.koutyeEnabled ? '#64748B' : '#12A150') + '">' + (e.koutyeEnabled ? '⛔ Etenn pataj' : '🤝 Limen pataj') + '</button></div>' +
             '<button class="btn full" id="trLs' + i + '" style="margin-top:8px;background:#fff;color:var(--navy);border:2px solid var(--navy)">📋 Lavant + komisyon Ajan</button>' +
-            '<div id="trL' + i + '"></div><div class="msg" id="trMsg' + i + '"></div></div>';
+            '<div id="trL' + i + '"></div>' +
+            (e.training30 && e.koutyeEnabled ? '<button class="btn full" id="trAj' + i + '" style="margin-top:8px;background:#12A150">📣 Avèti Ajan sètifye yo (WhatsApp)</button><div id="trAjL' + i + '"></div>' : '') +
+            '<div class="msg" id="trMsg' + i + '"></div></div>';
         }).join('') : '<div class="box">Pa gen fòmasyon ki vini.</div>');
       rows.forEach(function(e, i){
         function set(body, q, btn){
@@ -779,6 +809,7 @@ td.num{text-align:right;font-variant-numeric:tabular-nums;white-space:nowrap}
           'Mete 30% pou Ajan sou "' + e.title + '"?\nSe LajanMaker k ap peye 30% la, sou revni fòmasyon an.', this); };
         $('trSh' + i).onclick = function(){ set({ sharing: !e.koutyeEnabled }, (e.koutyeEnabled ? 'Etenn' : 'Limen') + ' pataj Ajan pou "' + e.title + '"?', this); };
         $('trLs' + i).onclick = function(){ var box = $('trL' + i); if (box.innerHTML) { box.innerHTML = ''; return; } trainSales(e._id, box); };
+        if ($('trAj' + i)) $('trAj' + i).onclick = function(){ var box = $('trAjL' + i); if (box.innerHTML) { box.innerHTML = ''; return; } notifyAjan(e, box); };
       });
     });
   }
