@@ -1982,6 +1982,20 @@ const CARD_META={
 const BADGE_META={reco:{k:'bg_reco',c:'#E31B23'},earn:{k:'bg_earn',c:'#12a150'},'new':{k:'bg_new',c:'#f97316'},popular:{k:'bg_pop',c:'#2563eb'},protect:{k:'bg_protect',c:'#D21034'},official:{k:'bg_official',c:'#4f46e5'},soon:{k:'bg_soon',c:'#94a3b8'}};
 /* ===== Commission engine — two revenue-sharing models (client spec, final) ===== */
 /* digital_70_30 : 70% HaitiBiznis / 30% POS-Agent.  admin_legal_10 : 10% POS-Agent / 90% Provider. */
+/* 6 Nov 2026, Jeffery: "temporarily hide any percentages that are not backed by a verified commission and payout
+   process. Keep all services and existing transaction records intact." The per-service rates below (and every amount
+   computed from them: wallet, commission, earnings, "your commission" on a sale) are NOT paid by any system yet, so they
+   are not SHOWN. They are still computed and recorded on each sale exactly as before (posShare/posPct sent to the
+   server), so nothing is lost when a verified payout process switches them back on (POS_COMM_VISIBLE = true).
+   The approved Ajan commissions (Tikè Lakay 1.5%, LajanMaker trainings 30%) are paid by the Ajan engine, not here. */
+const POS_COMM_VISIBLE=false;
+const T_COMMH={
+ ht:{h:'Komisyon sèvis yo kache pou kounye a',d:'N ap verifye règ kalkil ak peman komisyon sèvis yo. Tout lavant ou yo rete anrejistre. Komisyon Ajan ki aktif: Tikè Lakay 1.5% ak fòmasyon LajanMaker 30% (Ajan sètifye).',r:'an verifikasyon',g:'Lavant (total)'},
+ fr:{h:'Commissions des services masquées pour le moment',d:'Nous vérifions les règles de calcul et de paiement des commissions de services. Toutes vos ventes restent enregistrées. Commissions Ajan actives : Tikè Lakay 1,5 % et formations LajanMaker 30 % (Ajan certifié).',r:'en vérification',g:'Ventes (total)'},
+ en:{h:'Service commissions hidden for now',d:'We are verifying how service commissions are calculated and paid. All your sales stay recorded. Active Ajan commissions: Tikè Lakay 1.5% and LajanMaker trainings 30% (certified Ajan).',r:'under review',g:'Sales (total)'},
+ es:{h:'Comisiones de servicios ocultas por ahora',d:'Estamos verificando cómo se calculan y pagan las comisiones de servicios. Todas tus ventas quedan registradas. Comisiones Ajan activas: Tikè Lakay 1,5% y formaciones LajanMaker 30% (Ajan certificado).',r:'en revisión',g:'Ventas (total)'},
+ pt:{h:'Comissões de serviços ocultas por enquanto',d:'Estamos verificando como as comissões de serviços são calculadas e pagas. Todas as suas vendas continuam registradas. Comissões Ajan ativas: Tikè Lakay 1,5% e formações LajanMaker 30% (Ajan certificado).',r:'em verificação',g:'Vendas (total)'}};
+function tch(k){return ((T_COMMH[lang]||T_COMMH.ht)[k])||T_COMMH.ht[k];}
 const COMM_MODELS={
   digital_70_30:{posPct:30, restKey:'split_hb'},
   admin_legal_10:{posPct:10, restKey:'split_provider'}
@@ -3562,9 +3576,9 @@ function renderHome(){
    ${drvHomeCard()}
    <div class="dash">
      <div class="dcard c-rev"><div class="dtop"><span class="dlabel">${t('dash_rev')}</span><span class="dicon">💰</span></div><div class="dnum">${dnum(revToday)}</div></div>
-     <div class="dcard c-wal"><div class="dtop"><span class="dlabel">${t('dash_wallet')}</span><span class="dicon">👛</span></div><div class="dnum">${dnum(walletBal)}</div></div>
+     <div class="dcard c-wal"><div class="dtop"><span class="dlabel">${t('dash_wallet')}</span><span class="dicon">👛</span></div><div class="dnum">${POS_COMM_VISIBLE?dnum(walletBal):'—'}</div>${POS_COMM_VISIBLE?'':'<div style="font-size:11px;font-weight:700;color:var(--muted);margin-top:2px">'+tch('r')+'</div>'}</div>
      <div class="dcard c-sig"><div class="dtop"><span class="dlabel">${t('dash_signups')}</span><span class="dicon">👥</span></div><div class="dnum">${sigAll}</div><div style="font-size:11.5px;font-weight:700;color:var(--muted);margin-top:2px">${t('sig_today')}: ${sigToday}${sigSt?' · ✅ '+(sigSt.verified||0):''}</div></div>
-     <div class="dcard c-com"><div class="dtop"><span class="dlabel">${t('dash_comm')}</span><span class="dicon">💵</span></div><div class="dnum">${dnum(commToday)}</div></div>
+     <div class="dcard c-com"><div class="dtop"><span class="dlabel">${t('dash_comm')}</span><span class="dicon">💵</span></div><div class="dnum">${POS_COMM_VISIBLE?dnum(commToday):'—'}</div>${POS_COMM_VISIBLE?'':'<div style="font-size:11px;font-weight:700;color:var(--muted);margin-top:2px">'+tch('r')+'</div>'}</div>
    </div>
    <div id="homeWhy"></div>
    ${(function(){var a=activeStaff();var has=staffList().length;
@@ -3580,7 +3594,7 @@ function renderHome(){
         by tapping outside it, and there was then no way back to it. */
      return '<button onclick="openSignIn()" style="width:100%;border:1px solid var(--line);background:#fff;border-radius:12px;padding:9px 12px;margin:12px 0;display:flex;justify-content:space-between;align-items:center;box-shadow:var(--shadow)"><span style="font-weight:800;font-size:12.5px">👤 '+t('emp_signin_open')+'</span><span style="color:var(--blue);font-weight:800;font-size:12px;flex:0 0 auto">→</span></button>';})()}
    ${(exp&&!tm&&!granted)?`<button onclick="openLicense()" style="width:100%;border:0;border-radius:14px;padding:12px 14px;font-weight:800;text-align:left;color:#fff;font-size:13px;margin-bottom:12px;background:#b91c1c">⚠️ ${t('lic_expired_msg')} — ${t('lic_renew')} →</button>`:
-     `<button onclick="go('earn')" style="width:100%;border:0;border-radius:14px;padding:14px;font-weight:800;text-align:left;color:#fff;font-size:13px;margin-bottom:12px;background:linear-gradient(120deg,var(--good),#0f9d55);display:flex;justify-content:space-between;align-items:center;gap:8px"><span>🎉 ${t('hub_commbanner').replace('{n}',gdes(commWeek))}</span><span style="opacity:.9">→</span></button>`}
+     (POS_COMM_VISIBLE?`<button onclick="go('earn')" style="width:100%;border:0;border-radius:14px;padding:14px;font-weight:800;text-align:left;color:#fff;font-size:13px;margin-bottom:12px;background:linear-gradient(120deg,var(--good),#0f9d55);display:flex;justify-content:space-between;align-items:center;gap:8px"><span>🎉 ${t('hub_commbanner').replace('{n}',gdes(commWeek))}</span><span style="opacity:.9">→</span></button>`:'')}
    ${(tm||granted)?`<button onclick="openAdmin()" style="width:100%;border:1px solid #12a150;background:#f2fbf5;border-radius:14px;padding:12px 14px;margin-bottom:4px;display:flex;justify-content:space-between;align-items:center;gap:8px">
      <span style="font-weight:800;font-size:13px;color:#0b6b37;text-align:left">🛡️ ${tm?(t('adm_badge')+' · '+escHtml(tm.name)):t('lic_granted')}<br><span style="font-weight:600;font-size:11.5px">${t('adm_nosub')}</span></span>
      <span style="color:#0b6b37;font-weight:700;font-size:12px;flex:0 0 auto">${t('adm_t')} →</span>
@@ -3621,7 +3635,7 @@ function renderHome(){
       const nm=t('cn_'+id)!=='cn_'+id?t('cn_'+id):(m.nmKey?t(m.nmKey):m.nm);
       const sub=t('cs_'+id)!=='cs_'+id?t('cs_'+id):'';
       const rate=commRate(m.id);
-      const comm=(!soon&&rate)?`<div class="comm" style="color:#0f9d55">💰 ${t('you_earn')} ${rate}% ${t('comm_word')}</div>`:'';
+      const comm=(POS_COMM_VISIBLE&&!soon&&rate)?`<div class="comm" style="color:#0f9d55">💰 ${t('you_earn')} ${rate}% ${t('comm_word')}</div>`:'';
       const card=document.createElement('div');card.className='svc'+(soon?' soon':'');
       card.innerHTML=`<div class="ill" style="background:linear-gradient(135deg,${col}26,${col}0d)">${cm.ill}${badge}</div>
         <div class="bd"><div class="nm">${nm}</div><div class="sub">${sub}</div>${comm}
@@ -3689,6 +3703,21 @@ function renderEarn(){
   const bySvc={};paid.forEach(x=>{const c=orderComm(x);if(c>0){const k=x.svcName||x.module;bySvc[k]=(bySvc[k]||0)+c;}});
   const refs=load('hb_referrals',[]);
   const gross=grossSum(paid),yours=sum(paid),platform=gross-yours;
+  if(!POS_COMM_VISIBLE){
+    const gBy={};paid.forEach(x=>{const g=net(x);if(g>0){const k=x.svcName||x.module;gBy[k]=(gBy[k]||0)+g;}});
+    const gk=Object.keys(gBy).sort((a,b)=>gBy[b]-gBy[a]);
+    document.getElementById('earnBody').innerHTML=`
+    <div class="h2">💰 ${t('earn_t')}</div>
+    <div class="card" style="border:1px solid #f0b429;background:#fff8e6"><div style="font-weight:900;font-size:14px;color:#8A5A00">⏳ ${tch('h')}</div><div style="font-size:12.5px;line-height:1.45;margin-top:4px;color:#5a4300">${tch('d')}</div></div>
+    <div class="card"><div style="display:flex;justify-content:space-between;font-size:13px;padding:4px 0"><span>${tch('g')}</span><b>${gdes(gross)}</b></div></div>
+    <div class="stats">
+      <div class="stat"><div class="n" style="font-size:22px">${gdes(grossSum(today))}</div><div class="l">📅 ${t('earn_today')}</div></div>
+      <div class="stat"><div class="n" style="font-size:22px">${gdes(grossSum(month))}</div><div class="l">🗓️ ${t('earn_month')}</div></div></div>
+    <div class="card">${gk.length?gk.map(k=>`<div style="display:flex;justify-content:space-between;font-size:13px;padding:4px 0;border-top:1px dotted var(--line)"><span>${escHtml(String(k))}</span><b>${gdes(gBy[k])}</b></div>`).join(''):`<div class="sub">—</div>`}</div>
+    <button class="cta ghost" onclick="go('ref')">🔗 ${t('earn_open_ref')}</button>
+    <button class="cta ghost" onclick="go('reports')">${t('rep_open')}</button>`;
+    return;
+  }
   document.getElementById('earnBody').innerHTML=`
     <div class="h2">💰 ${t('earn_t')}</div><p class="sub">${t('earn_sub')}</p>
     <div class="card" style="background:linear-gradient(135deg,var(--good),#0b7a44);color:#fff;border:0">
@@ -5209,7 +5238,7 @@ function renderOrders(){const fb=document.getElementById('filterBar');fb.innerHT
       <span class="badge" style="background:${st.c};color:${st.t}">${st.em} ${t(st.k)}</span></div>
       <div class="svc-t">${o.svcName} ${o.docs&&o.docs.length?('· 📎 '+o.docs.length):''}</div>${mswLine(o)}${mppLine(o)}
       <div class="top"><div class="meta">${o.payment?payLabel(o.payment):''}</div><div class="amt2">${o.amount?gdes(o.amount):''}</div></div>
-      ${o.amount>0&&orderComm(o)>0?`<div class="meta" style="font-size:11px;color:var(--good);font-weight:800">✅ ${t('your_comm')}: ${gdes(orderComm(o))}${o.posPct?' ('+o.posPct+'%)':''}</div>`:''}
+      ${POS_COMM_VISIBLE&&o.amount>0&&orderComm(o)>0?`<div class="meta" style="font-size:11px;color:var(--good);font-weight:800">✅ ${t('your_comm')}: ${gdes(orderComm(o))}${o.posPct?' ('+o.posPct+'%)':''}</div>`:''}
       ${voidLine(o)}${det}
       <div class="statusrow"></div>`;
     const sk=el.querySelector('.meta');if(sk&&o.amount>0)sk.insertAdjacentHTML('beforeend',' '+syncMark(o));
@@ -6910,7 +6939,7 @@ function shareApp(){
    =================================================================== */
 /* Version the seller can read out loud. When someone says "I don't see the new
    button", the first useful question is which build their phone is running. */
-const APP_VER='89';
+const APP_VER='90';
 var swReg=null;
 if('serviceWorker' in navigator){
   window.addEventListener('load',function(){
