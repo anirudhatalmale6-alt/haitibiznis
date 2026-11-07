@@ -415,6 +415,7 @@ td.num{text-align:right;font-variant-numeric:tabular-nums;white-space:nowrap}
           '<button class="btn o" data-a="edit" data-i="' + i + '">✏️ Modifye</button>' +
           (d.status === 'rejected' ? '<button class="btn o" data-a="reopen" data-i="' + i + '">↩️ Remete an atant</button>' : '') +
           '<button class="btn o" data-a="hist" data-i="' + i + '">🕘 Istwa</button>' +
+          '<button class="btn o" data-a="pinreset" data-i="' + i + '">🔑 Li bliye PIN li</button>' +
           (!d.referral_attached ? '<button class="btn o" data-a="agent" data-i="' + i + '">🪪 Mete Ajan an</button>' : '') +
           waBtn(d) +
         '</div>' +
@@ -460,6 +461,15 @@ td.num{text-align:right;font-variant-numeric:tabular-nums;white-space:nowrap}
   }
   function act(i, a, btn){
     var d = drivers[i], p = $('p' + i);
+    /* 7 Nov 2026: a driver who forgot his PIN (or is blocked "Twòp esè") - cleared here, he chooses a new one himself */
+    if (a === 'pinreset') {
+      if (!confirm('Efase PIN ' + d.full_name + '?\n\nLi debloke touswit. Lè l konekte ak nimewo telefòn li, l ap chwazi yon NOUVO PIN 4 chif li menm.\n\nFè sa SÈLMAN si se chofè a menm ki mande l (devan w oswa sou nimewo pa l).')) return;
+      btn.disabled = true;
+      req('POST', '/api/agents/admin/drivers/' + d.id + '/pin-reset', { by: who }).then(function(){
+        say(i, '✅ PIN efase, kont lan debloke. Di ' + d.full_name + ' konekte ak nimewo telefòn li (' + d.phone + ') epi chwazi yon nouvo PIN 4 chif.', true);
+      }).catch(function(e){ say(i, e.message || 'Pa t mache. Eseye ankò.'); }).then(function(){ btn.disabled = false; });
+      return;
+    }
     if (a === 'docs') {
       if (p.classList.contains('open') && p.getAttribute('data-k') === 'docs') { p.classList.remove('open'); return; }
       p.setAttribute('data-k', 'docs'); p.classList.add('open'); p.innerHTML = '<div class="meta">Ap chaje dokiman yo…</div>';
