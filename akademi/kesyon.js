@@ -110,9 +110,9 @@ window.KESYON = [
 
 {m:'myplopplop', c:3,
  ht:{q:"Ki enfòmasyon fòm enskripsyon magazen an mande?",
-     a:["Sèlman non magazen an","Sèlman telefòn","Non ak foto sèlman","Non magazen, kategori, non mèt la, telefòn, WhatsApp, kòd sekrè ak adrès"]},
+     a:["Sèlman non magazen an","Sèlman telefòn","Non ak foto sèlman","Non magazen, kategori, non mèt la, telefòn, WhatsApp, kòd sekrè, adrès, foto devan biznis la ak pyès idantite"]},
  fr:{q:"Quelles informations le formulaire de boutique demande-t-il ?",
-     a:["Seulement le nom","Seulement le téléphone","Le nom et une photo","Nom, catégorie, propriétaire, téléphone, WhatsApp, code secret et adresse"]}},
+     a:["Seulement le nom","Seulement le téléphone","Le nom et une photo","Nom, catégorie, propriétaire, téléphone, WhatsApp, code secret, adresse, photo de la devanture et pièce d'identité"]}},
 
 {m:'myplopplop', c:1,
  ht:{q:"Ki sa kòd sekrè 4 chif la sèvi pou yon machann?",
@@ -132,11 +132,12 @@ window.KESYON = [
  fr:{q:"Juste après la création, que peut faire le marchand ?",
      a:["Ajouter ses produits","Attendre 30 jours","Payer des frais","Envoyer un dossier à l'État"]}},
 
-{m:'myplopplop', c:1,
- ht:{q:"Èske magazen an aktif touswit apre enskripsyon an?",
-     a:["Non, fòk yon moun apwouve l anvan","Wi, li aktif touswit","Sèlman apre yon premye vant","Sèlman nan wikenn"]},
- fr:{q:"La boutique est-elle active immédiatement ?",
-     a:["Non, il faut une approbation","Oui, elle est active tout de suite","Seulement après une première vente","Seulement le week-end"]}},
+/* 8 Nov 2026: since 4 Nov a store waits for HaitiBiznis verification (storefront photo + owner's ID) before it is public */
+{m:'myplopplop', c:0,
+ ht:{q:"Èske magazen an parèt pou kliyan yo touswit apre enskripsyon an?",
+     a:["Non, HaitiBiznis verifye l anvan (foto devan biznis la ak pyès idantite mèt la)","Wi, li parèt touswit","Sèlman apre yon premye vant","Sèlman nan wikenn"]},
+ fr:{q:"La boutique est-elle visible par les clients tout de suite ?",
+     a:["Non, HaitiBiznis la vérifie d'abord (photo de la devanture et pièce d'identité du propriétaire)","Oui, tout de suite","Seulement après une première vente","Seulement le week-end"]}},
 
 {m:'myplopplop', c:3,
  ht:{q:"Ki nan lis sa a se yon kategori magazen sou MyPlopPlop?",

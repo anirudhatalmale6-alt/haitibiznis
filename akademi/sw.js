@@ -2,9 +2,9 @@
    Lesson videos/PDFs are NOT here: the page stores them in IndexedDB (other workers on this site delete
    caches they do not own when they update). Everything else under /akademi/ (the exam, the certificate)
    goes straight to the network, untouched. */
-var SHELL = 'lma-shell-v1';
+var SHELL = 'lma-shell-v2';
 var FILES = ['/akademi/offline/', '/akademi/offline/index.html', '/akademi/offline/manifest.webmanifest',
-  '/akademi/offline/icon-192.png', '/akademi/offline/icon-512.png', '/akademi/pratik/', '/akademi/pratik/index.html', '/favicon.ico'];
+  '/akademi/offline/gid.html', '/akademi/offline/icon-192.png', '/akademi/offline/icon-512.png', '/akademi/pratik/', '/akademi/pratik/index.html', '/favicon.ico'];
 self.addEventListener('install', function (e) {
   e.waitUntil(caches.open(SHELL).then(function (c) { return Promise.all(FILES.map(function (u) { return c.add(u).catch(function () {}); })); }).then(function () { return self.skipWaiting(); }));
 });
