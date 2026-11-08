@@ -1,5 +1,5 @@
 /* LajanMaker Center — service worker (offline app shell) */
-var CACHE = 'hb-pos-v101';
+var CACHE = 'hb-pos-v102';
 var SHELL = [
   './',
   './index.html',
@@ -35,7 +35,9 @@ self.addEventListener('install', function (e) {
 
 self.addEventListener('activate', function (e) {
   e.waitUntil(caches.keys().then(function (keys) {
-    return Promise.all(keys.map(function (k) { if (k !== CACHE) return caches.delete(k); }));
+    /* 8 Nov 2026: only OUR old versions. Deleting every cache on the site wiped other apps' offline data
+       (LajanMaker Academy offline keeps its page in 'lma-*'). */
+    return Promise.all(keys.map(function (k) { if (k !== CACHE && k.indexOf('hb-pos') === 0) return caches.delete(k); }));
   }).then(function () { return self.clients.claim(); })
    .then(function () {
      /* Tell any open tab a new build took over, so it can refresh itself once.
@@ -105,6 +107,6 @@ self.addEventListener('fetch', function (e) {
 self.addEventListener('message', function (e) {
   if (!e.data || e.data.type !== 'WIPE') return;
   e.waitUntil(caches.keys().then(function (keys) {
-    return Promise.all(keys.map(function (k) { return caches.delete(k); }));
+    return Promise.all(keys.map(function (k) { if (k.indexOf('hb-pos') === 0) return caches.delete(k); }));
   }));
 });

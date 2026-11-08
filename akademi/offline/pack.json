@@ -1,0 +1,136 @@
+{
+ "version": "2026-11-08a",
+ "course": "LajanMaker Academy",
+ "base": "v/",
+ "lessons": [
+  {
+   "id": "01-lajanmaker",
+   "title": {
+    "ht": "LajanMaker: senk fason pou fè lajan",
+    "fr": "LajanMaker : cinq façons de gagner"
+   },
+   "files": {
+    "ht": "01-lajanmaker-ht.mp4",
+    "fr": "01-lajanmaker-fr.mp4"
+   },
+   "bytes": {
+    "ht": 1885515,
+    "fr": 1897971
+   },
+   "min": 2.6
+  },
+  {
+   "id": "02-msouwout-kous",
+   "title": {
+    "ht": "MsouWout 1 · Kous (pasaje)",
+    "fr": "MsouWout 1 · La course (passager)"
+   },
+   "files": {
+    "ht": "02-msouwout-kous-ht.mp4",
+    "fr": "02-msouwout-kous-fr.mp4"
+   },
+   "bytes": {
+    "ht": 2050879,
+    "fr": 2028517
+   },
+   "min": 3.5
+  },
+  {
+   "id": "03-msouwout-chofe",
+   "title": {
+    "ht": "MsouWout 2 · Enskri yon chofè",
+    "fr": "MsouWout 2 · Inscrire un chauffeur"
+   },
+   "files": {
+    "ht": "03-msouwout-chofe-ht.mp4",
+    "fr": "03-msouwout-chofe-fr.mp4"
+   },
+   "bytes": {
+    "ht": 2163235,
+    "fr": 2103009
+   },
+   "min": 4.0
+  },
+  {
+   "id": "04-msouwout-sekirite",
+   "title": {
+    "ht": "MsouWout 3 · Peman ak sekirite",
+    "fr": "MsouWout 3 · Paiement et sécurité"
+   },
+   "files": {
+    "ht": "04-msouwout-sekirite-ht.mp4",
+    "fr": "04-msouwout-sekirite-fr.mp4"
+   },
+   "bytes": {
+    "ht": 1479356,
+    "fr": 1486288
+   },
+   "min": 2.6
+  },
+  {
+   "id": "05-msouwout-koli",
+   "title": {
+    "ht": "MsouWout 4 · Voye yon koli",
+    "fr": "MsouWout 4 · Envoyer un colis"
+   },
+   "files": {
+    "ht": "05-msouwout-koli-ht.mp4",
+    "fr": "05-msouwout-koli-fr.mp4"
+   },
+   "bytes": {
+    "ht": 1041910,
+    "fr": 1105031
+   },
+   "min": 1.9
+  },
+  {
+   "id": "06-msouwout-livrezon",
+   "title": {
+    "ht": "MsouWout 5 · Chofè: livrezon koli",
+    "fr": "MsouWout 5 · Chauffeur : livraison de colis"
+   },
+   "files": {
+    "ht": "06-msouwout-livrezon-ht.mp4",
+    "fr": "06-msouwout-livrezon-fr.mp4"
+   },
+   "bytes": {
+    "ht": 1143639,
+    "fr": 1135587
+   },
+   "min": 2.0
+  },
+  {
+   "id": "07-tikelakay-oganizate",
+   "title": {
+    "ht": "Tikè Lakay 1 · Òganizatè: kreye evènman",
+    "fr": "Tikè Lakay 1 · Organisateur : créer un événement"
+   },
+   "files": {
+    "ht": "07-tikelakay-oganizate-ht.mp4",
+    "fr": "07-tikelakay-oganizate-fr.mp4"
+   },
+   "bytes": {
+    "ht": 2541593,
+    "fr": 2342108
+   },
+   "min": 6.1
+  },
+  {
+   "id": "08-tikelakay-achte",
+   "title": {
+    "ht": "Tikè Lakay 2 · Achte tikè + pòt",
+    "fr": "Tikè Lakay 2 · Acheter un billet + la porte"
+   },
+   "files": {
+    "ht": "08-tikelakay-achte-ht.mp4",
+    "fr": "08-tikelakay-achte-fr.mp4"
+   },
+   "bytes": {
+    "ht": 1405658,
+    "fr": 1324832
+   },
+   "min": 3.7
+  }
+ ],
+ "docs": []
+}

@@ -9,7 +9,8 @@ self.addEventListener('activate', function (e) {
   e.waitUntil((async function () {
     try {
       const keys = await caches.keys();
-      await Promise.all(keys.map(function (k) { return caches.delete(k); }));
+      /* 8 Nov 2026: never the other apps' offline data (LajanMaker Center 'hb-pos-*', Academy offline 'lma-*') */
+      await Promise.all(keys.filter(function (k) { return k.indexOf('hb-pos') !== 0 && k.indexOf('lma-') !== 0; }).map(function (k) { return caches.delete(k); }));
       await self.registration.unregister();
       const clients = await self.clients.matchAll({ type: 'window' });
       clients.forEach(function (c) { try { c.navigate(c.url); } catch (err) {} });
