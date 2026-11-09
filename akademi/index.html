@@ -431,6 +431,50 @@ function buildPaper(){
 var paper = [], idx = 0, student = {}, tEnd = 0, tTimer = null;
 var mode = 'exam';   // 'exam' | 'practice'
 
+/* --- 9 Nov 2026: the exam is RECORDED on the server ------------------------
+   Jeffery: finish the Academy "including the exam system and Jennifer's dashboard".
+   Start = the server checks the 24 h rule for the phone NUMBER (any device) and
+   hands back an attempt; a dropped connection comes back to the SAME attempt and
+   clock (and, on this phone, the same questions). The result is queued and sent
+   (retried until the server has it). No internet at the venue at all: the exam
+   still runs, the result waits on the phone and goes up when there is a signal. */
+var ACAD_API = 'https://haitibiznis-api.onrender.com/api/academy';
+var attempt = null;                                   // { id, startedAt } | { offline:true, ref, startedAt }
+var CUR_KEY = 'lma_exam_cur', Q_KEY = 'lma_exam_queue';
+function qid(q){ return KESYON.indexOf(q); }
+function saveCur(){
+  if (mode !== 'exam' || !attempt) return;
+  try { localStorage.setItem(CUR_KEY, JSON.stringify({ attempt: attempt, student: student, tEnd: tEnd, idx: idx,
+    paper: paper.map(function(it){ return { i: qid(it.q), order: it.order, correct: it.correct, answer: it.answer }; }) })); } catch(e){}
+}
+function clearCur(){ try { localStorage.removeItem(CUR_KEY); } catch(e){} }
+function apost(path, body, ms){
+  return new Promise(function(res, rej){
+    var done = false, tm = setTimeout(function(){ if (!done){ done = true; rej(new Error('timeout')); } }, ms || 12000);
+    fetch(ACAD_API + path, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(body) })
+      .then(function(r){ return r.json().catch(function(){ return {}; }).then(function(d){ if (!done){ done = true; clearTimeout(tm); res({ status: r.status, d: d }); } }); })
+      .catch(function(e){ if (!done){ done = true; clearTimeout(tm); rej(e); } });
+  });
+}
+function queueResult(item){ try { var q = JSON.parse(localStorage.getItem(Q_KEY) || '[]'); q.push(item); localStorage.setItem(Q_KEY, JSON.stringify(q)); } catch(e){} }
+var flushing = false;
+function flushQueue(){
+  if (flushing) return;
+  var q; try { q = JSON.parse(localStorage.getItem(Q_KEY) || '[]'); } catch(e){ q = []; }
+  if (!q.length) return;
+  flushing = true;
+  var item = q[0];
+  apost(item.kind === 'finish' ? '/exam/finish' : '/exam/offline', item.body).then(function(r){
+    flushing = false;
+    if (r.status === 200 || r.status === 400 || r.status === 404){        // recorded (or can never be): next
+      q.shift(); try { localStorage.setItem(Q_KEY, JSON.stringify(q)); } catch(e){}
+      if (q.length) setTimeout(flushQueue, 300);
+    } else setTimeout(flushQueue, 30000);
+  }).catch(function(){ flushing = false; setTimeout(flushQueue, 30000); });
+}
+window.addEventListener('online', flushQueue);
+setTimeout(flushQueue, 1500);
+
 /* The 24-hour retake lock, keyed on the STUDENT, not the handset.
  *
  * It used to be one key for the whole browser - 'lma_last' - with nobody's
@@ -488,17 +532,37 @@ $('btnStart').onclick = function(){
   var h = hoursLeft(phone);
   if (h > 0){ return show(err, fill(t('e_wait'), {h:h}), 'e_wait', h); }
 
+  var btn = $('btnStart'); btn.disabled = true;
+  apost('/exam/start', { name: name, phone: phone, lang: lang }).then(function(r){
+    btn.disabled = false;
+    if (r.status === 409 && r.d && r.d.error === 'wait'){ return show(err, fill(t('e_wait'), {h: r.d.hours}), 'e_wait', r.d.hours); }
+    if (r.status !== 200 || !r.d || !r.d.attemptId) throw new Error('server ' + r.status);
+    var skew = r.d.now ? (Date.now() - new Date(r.d.now).getTime()) : 0;       // phone clock vs server clock
+    attempt = { id: r.d.attemptId, startedAt: new Date(r.d.startedAt).getTime() + skew };
+    beginExam(name, phone, attempt.startedAt + MINUTES * 60000, !!r.d.resumed);
+  }).catch(function(){
+    /* no internet (or the server is down): the exam still runs, the result waits on the phone */
+    btn.disabled = false;
+    attempt = { offline: true, ref: 'off-' + Date.now().toString(36) + Math.random().toString(36).slice(2, 7), startedAt: Date.now() };
+    beginExam(name, phone, Date.now() + MINUTES * 60000, false);
+  });
+};
+function beginExam(name, phone, endTs, resumed){
+  var saved = null; try { saved = JSON.parse(localStorage.getItem(CUR_KEY) || 'null'); } catch(e){}
   mode = 'exam';
   student = { name:name, phone:phone };
-  paper = buildPaper();
-  idx = 0;
+  if (resumed && saved && saved.attempt && attempt && saved.attempt.id === attempt.id && saved.paper && saved.paper.length){
+    paper = saved.paper.map(function(p){ return { q: KESYON[p.i], order: p.order, correct: p.correct, answer: p.answer }; });
+    idx = Math.min(saved.idx || 0, paper.length - 1);
+  } else { paper = buildPaper(); idx = 0; }
   $('scStart').classList.add('hidden');
   $('scExam').classList.remove('hidden');
   $('timer').classList.remove('hidden');
   $('pBadge').classList.add('hidden');
-  startTimer();
+  startTimer(endTs);
+  saveCur();
   showQ();
-};
+}
 function show(el, msg, key, h){
   el.textContent = msg; el.style.display = 'block';
   /* Remember WHICH message this is, so paint() can re-render it in the new
@@ -508,8 +572,8 @@ function show(el, msg, key, h){
 }
 
 /* --- timer ---------------------------------------------------------------- */
-function startTimer(){
-  tEnd = Date.now() + MINUTES * 60000;
+function startTimer(endTs){
+  tEnd = endTs || (Date.now() + MINUTES * 60000);
   clearInterval(tTimer);
   tTimer = setInterval(tick, 250);
   tick();
@@ -547,6 +611,7 @@ function showQ(){
     b.onclick = function(){
       if (mode === 'practice' && it.answer !== null) return;   // already answered
       it.answer = pos;
+      saveCur();
       box.querySelectorAll('.opt').forEach(function(o){ o.classList.remove('sel'); });
       b.classList.add('sel');
       $('btnNext').disabled = false;
@@ -591,7 +656,7 @@ function revealAnswer(it, box, q){
 }
 
 $('btnNext').onclick = function(){
-  if (idx < paper.length - 1){ idx++; showQ(); }
+  if (idx < paper.length - 1){ idx++; saveCur(); showQ(); }
   else finish(false);
 };
 
@@ -622,6 +687,15 @@ function finish(timedOut){
   var d = new Date();
   var dateStr = ('0'+d.getDate()).slice(-2) + '/' + ('0'+(d.getMonth()+1)).slice(-2) + '/' + d.getFullYear();
   var cert = passed ? certNumber(student.name, d) : null;
+
+  /* 9 Nov 2026: the result goes to the server (queued, retried until it is there) */
+  var fin = { ok: ok, n: n, pct: pct, passed: passed, timedOut: !!timedOut, cert: cert || '', lang: lang };
+  if (attempt && attempt.id){ fin.attemptId = attempt.id; queueResult({ kind: 'finish', body: fin }); }
+  else if (attempt && attempt.offline){
+    queueResult({ kind: 'offline', body: Object.assign({ clientRef: attempt.ref, name: student.name, phone: student.phone,
+      startedAt: new Date(attempt.startedAt).toISOString(), finishedAt: new Date().toISOString() }, fin) });
+  }
+  attempt = null; clearCur(); flushQueue();
 
   var msg = fill(t('wa'), {
     name:student.name, phone:student.phone, ok:ok, n:n, pct:pct,

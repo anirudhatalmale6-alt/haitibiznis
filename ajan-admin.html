@@ -75,6 +75,7 @@ input,select{width:100%;min-height:46px;border:1.5px solid var(--line);border-ra
       <button data-s="suspended">Sispann</button>
       <button data-s="revoked">Anile</button>
       <button data-s="">Tout</button>
+      <button data-s="exams">📝 Rezilta egzamen</button>
     </div>
     <input id="q" placeholder="Chèche: non, nimewo LMA, telefòn">
     <div class="counts" id="counts" style="margin-top:8px"></div>
@@ -164,7 +165,35 @@ function loadDev(){
   });
 }
 function who(){ return 'console'; }
+/* 9 Nov 2026 (Jeffery: "Jennifer's dashboard"): every certification exam, recorded on the server */
+var exFilter = '';
+function fmtDT(iso){ if (!iso) return ''; var d = new Date(iso); return ('0'+d.getDate()).slice(-2)+'/'+('0'+(d.getMonth()+1)).slice(-2)+'/'+d.getFullYear()+' '+('0'+d.getHours()).slice(-2)+':'+('0'+d.getMinutes()).slice(-2); }
+function loadExams(){
+  $('devReq').innerHTML = ''; $('addBox').style.display = 'none';
+  var qs = '?q=' + encodeURIComponent($('q').value.trim()) + '&result=' + encodeURIComponent(exFilter);
+  return req('GET', '/api/academy/admin/exams' + qs).then(function(d){
+    var st = d.stats || {}, rows = d.rows || [];
+    $('counts').innerHTML = 'Egzamen: <b>' + (st.total||0) + '</b> · ✅ Pase: <b>' + (st.passed||0) + '</b> · ❌ Pa pase: <b>' + (st.failed||0) + '</b> · ⏸ Pa fini: <b>' + (st.abandoned||0) + '</b>' + (st.offline ? ' · 📴 San entènèt: <b>' + st.offline + '</b>' : '')
+      + '<div class="acts" style="margin-top:8px">' + [['','Tout'],['pass','✅ Pase'],['fail','❌ Pa pase']].map(function(x){ return '<button class="btn ' + (exFilter === x[0] ? 'g' : 'o') + '" data-exf="' + x[0] + '">' + x[1] + '</button>'; }).join('')
+      + '<button class="btn o" id="exCsv">⬇ Telechaje lis la (Excel/CSV)</button></div>';
+    $('list').innerHTML = !rows.length ? '<div class="box meta">Pa gen egzamen pou kounye a.</div>' : rows.map(function(r){
+      var res = r.passed === true ? '<b style="color:#11632C">✅ PASE</b>' : r.passed === false ? '<b style="color:#A30F27">❌ PA PASE</b>' : '<b style="color:#8A5A00">⏸ PA FINI</b>';
+      return '<div class="box" style="margin:8px 0;padding:10px 12px"><div><b>' + esc(r.name) + '</b> · ☎ ' + esc(r.phone || '') + '</div>'
+        + '<div class="meta">' + esc(fmtDT(r.startedAt)) + ' · ' + res + (r.ok != null ? ' · ' + r.ok + '/' + r.n + ' (' + r.pct + '%)' : '')
+        + (r.seconds != null ? ' · ' + Math.round(r.seconds / 60) + ' min' : '') + (r.timedOut ? ' · ⏰ tan fini' : '')
+        + (r.cert ? ' · 🎓 ' + esc(r.cert) : '') + (r.mode === 'offline' ? ' · 📴 voye pita (san entènèt)' : '') + '</div></div>';
+    }).join('');
+    document.querySelectorAll('[data-exf]').forEach(function(b){ b.onclick = function(){ exFilter = b.getAttribute('data-exf'); loadExams(); }; });
+    $('exCsv').onclick = function(){
+      fetch(API + '/api/academy/admin/exams.csv' + qs, { headers: { 'x-admin-pin': pin } }).then(function(r){ return r.blob(); }).then(function(b){
+        var u = URL.createObjectURL(b), a = document.createElement('a'); a.href = u; a.download = 'rezilta-egzamen-lajanmaker.csv'; document.body.appendChild(a); a.click(); a.remove(); setTimeout(function(){ URL.revokeObjectURL(u); }, 30000);
+      });
+    };
+  });
+}
 function load(){
+  if (tab === 'exams') return loadExams();
+  $('addBox').style.display = '';
   loadDev().catch(function(){});
   var qs = '?status=' + encodeURIComponent(tab) + '&q=' + encodeURIComponent($('q').value.trim());
   return req('GET', '/api/agents/admin/list' + qs).then(function(d){
