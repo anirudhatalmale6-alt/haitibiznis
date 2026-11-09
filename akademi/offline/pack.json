@@ -1,5 +1,5 @@
 {
- "version": "2026-11-08a",
+ "version": "2026-11-09a",
  "course": "LajanMaker Academy",
  "base": "v/",
  "lessons": [
@@ -132,5 +132,23 @@
    "min": 3.7
   }
  ],
- "docs": []
+ "docs": [
+  {
+   "id": "gid",
+   "title": {
+    "ht": "📘 Gid etid LajanMaker (paj)",
+    "fr": "📘 Guide d’étude LajanMaker (page, en kreyòl)"
+   },
+   "page": "gid.html"
+  },
+  {
+   "id": "gidpdf",
+   "title": {
+    "ht": "📄 Gid etid LajanMaker (PDF)",
+    "fr": "📄 Guide d’étude (PDF, en kreyòl)"
+   },
+   "file": "gid-etid-lajanmaker-ht.pdf",
+   "bytes": 115606
+  }
+ ]
 }

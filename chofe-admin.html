@@ -463,7 +463,7 @@ td.num{text-align:right;font-variant-numeric:tabular-nums;white-space:nowrap}
     var d = drivers[i], p = $('p' + i);
     /* 7 Nov 2026: a driver who forgot his PIN (or is blocked "Twòp esè") - cleared here, he chooses a new one himself */
     if (a === 'pinreset') {
-      if (!confirm('Efase PIN ' + d.full_name + '?\n\nLi debloke touswit. Lè l konekte ak nimewo telefòn li, l ap chwazi yon NOUVO PIN 4 chif li menm.\n\nFè sa SÈLMAN si se chofè a menm ki mande l (devan w oswa sou nimewo pa l).')) return;
+      if (!confirm('Efase PIN ' + d.full_name + '?\n\nLi debloke touswit. Lè l konekte ak nimewo telefòn li, l ap chwazi yon NOUVO PIN 4 chif li menm.\n\n⚠️ VERIFYE IDANTITE L ANVAN: chofè a la devan w ak pyès idantite li, OSWA ou rele l sou nimewo telefòn ki nan dosye a (' + d.phone + '), pa sou yon lòt nimewo yo ba w.')) return;
       btn.disabled = true;
       req('POST', '/api/agents/admin/drivers/' + d.id + '/pin-reset', { by: who }).then(function(){
         say(i, '✅ PIN efase, kont lan debloke. Di ' + d.full_name + ' konekte ak nimewo telefòn li (' + d.phone + ') epi chwazi yon nouvo PIN 4 chif.', true);

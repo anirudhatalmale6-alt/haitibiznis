@@ -115,7 +115,7 @@ a.lnk span{display:block;font-weight:400;font-size:.8rem;color:var(--light)}
       done: '✅ Fini! Ou ka etidye san entènèt kounye a.', needNet: 'Pou telechaje, fòk ou gen entènèt (WiFi oswa done).',
       onPhone: '✅ Sou telefòn ou', notYet: '⬇ Poko telechaje', dling: '⏳ Ap telechaje…', watch: '▶ Gade', min: 'min',
       prog: '{d}/{n} leson fini', space: 'Telefòn ou prèske plen: {free} MB rete. Libere plas (foto, videyo WhatsApp) epi eseye ankò.',
-      noNet: 'Leson sa a poko sou telefòn ou, e pa gen entènèt. Telechaje l lè ou gen siyal.', rmq: 'Retire tout leson yo sou telefòn sa a? Ou ka telechaje yo ankò pita.', open: '📖 Li', dlDoc: '⬇ Telechaje' },
+      noNet: 'Leson sa a poko sou telefòn ou, e pa gen entènèt. Telechaje l lè ou gen siyal.', rmq: 'Retire tout leson yo sou telefòn sa a? Ou ka telechaje yo ankò pita.', open: '📖 Li', dlDoc: '📄 Louvri', withDoc: '+ gid etid (PDF)' },
     fr: { h1: 'LajanMaker Academy · Cours hors ligne', sub: 'Téléchargez une fois, étudiez partout, même sans réseau.',
       dl_h: '📥 Mettre les leçons sur votre téléphone', les_h: '🎬 Les leçons', docs_h: '📄 Documents à étudier', more_h: 'Aller plus loin',
       prat: '✍️ Mode Pratique : s’exercer aux inscriptions', prat_s: 'Fonctionne SANS internet', exam: '🎓 Examen de certification + certificat', exam_s: 'Internet nécessaire',
@@ -126,7 +126,7 @@ a.lnk span{display:block;font-weight:400;font-size:.8rem;color:var(--light)}
       done: '✅ Terminé ! Vous pouvez étudier sans internet.', needNet: 'Pour télécharger, il faut internet (WiFi ou données).',
       onPhone: '✅ Sur votre téléphone', notYet: '⬇ Pas encore téléchargée', dling: '⏳ Téléchargement…', watch: '▶ Voir', min: 'min',
       prog: '{d}/{n} leçons terminées', space: 'Votre téléphone est presque plein : {free} Mo restants. Libérez de la place et réessayez.',
-      noNet: 'Cette leçon n’est pas encore sur votre téléphone et il n’y a pas d’internet.', rmq: 'Retirer toutes les leçons de ce téléphone ?', open: '📖 Lire', dlDoc: '⬇ Télécharger' }
+      noNet: 'Cette leçon n’est pas encore sur votre téléphone et il n’y a pas d’internet.', rmq: 'Retirer toutes les leçons de ce téléphone ?', open: '📖 Lire', dlDoc: '📄 Ouvrir', withDoc: '+ guide d’étude (PDF)' }
   };
   var L = 'ht';
   try { L = localStorage.getItem('lma_off_lang') || ((navigator.language || '').slice(0, 2) === 'fr' ? 'fr' : 'ht'); } catch (e) {}
@@ -156,6 +156,9 @@ a.lnk span{display:block;font-weight:400;font-size:.8rem;color:var(--light)}
   function saveDone() { try { localStorage.setItem('lma_off_done', JSON.stringify(DONE)); } catch (e) {} }
 
   function lessons() { return (PACK && PACK.lessons) || []; }
+  function fileDocs() { return ((PACK && PACK.docs) || []).filter(function (d) { return d.file || d.files; }); }
+  function items() { return lessons().concat(fileDocs()); }   /* what "download all" puts on the phone */
+  function bytesOf(x) { return typeof x.bytes === 'number' ? x.bytes : (x.bytes[L] || x.bytes.ht); }
   function title(x) { return (x.title && (x.title[L] || x.title.ht)) || x.file; }
   function fileOf(x) { return (x.files && (x.files[L] || x.files.ht)) || x.file; }
 
@@ -166,12 +169,13 @@ a.lnk span{display:block;font-weight:400;font-size:.8rem;color:var(--light)}
     document.querySelectorAll('.lang button').forEach(function (b) { b.classList.toggle('on', b.getAttribute('data-l') === L); });
     document.documentElement.lang = L;
     net();
-    var ls = lessons(), tot = 0, mins = 0, missing = 0, missB = 0, d = 0;
-    ls.forEach(function (x) { var f = fileOf(x); tot += x.bytes[L] || x.bytes.ht; mins += x.min || 0; if (!HAVE[f]) { missing++; missB += x.bytes[L] || x.bytes.ht; } if (DONE[x.id]) d++; });
-    $('dlInfo').textContent = t('info', { n: ls.length, mb: mb(tot), min: Math.round(mins) });
+    var ls = lessons(), all = items(), tot = 0, mins = 0, missing = 0, missB = 0, d = 0;
+    ls.forEach(function (x) { mins += x.min || 0; if (DONE[x.id]) d++; });
+    all.forEach(function (x) { var f = fileOf(x); tot += bytesOf(x); if (!HAVE[f]) { missing++; missB += bytesOf(x); } });
+    $('dlInfo').textContent = t('info', { n: ls.length, mb: mb(tot), min: Math.round(mins) }) + (fileDocs().length ? ' · ' + t('withDoc') : '');
     var btn = $('dlAll');
-    if (!BUSY) { btn.disabled = !missing; btn.textContent = !missing ? t('full') : (missing === ls.length ? t('all', { mb: mb(tot) }) : t('rest', { k: missing, mb: mb(missB) })); }
-    $('bar').style.width = ls.length ? Math.round(100 * (ls.length - missing) / ls.length) + '%' : '0';
+    if (!BUSY) { btn.disabled = !missing; btn.textContent = !missing ? t('full') : (missing === all.length ? t('all', { mb: mb(tot) }) : t('rest', { k: missing, mb: mb(missB) })); }
+    $('bar').style.width = all.length ? Math.round(100 * (all.length - missing) / all.length) + '%' : '0';
     $('prog').textContent = t('prog', { d: d, n: ls.length });
     $('list').innerHTML = ls.map(function (x, i) {
       var f = fileOf(x), have = !!HAVE[f];
@@ -183,7 +187,8 @@ a.lnk span{display:block;font-weight:400;font-size:.8rem;color:var(--light)}
     var docs = (PACK && PACK.docs) || [];
     $('docsCard').style.display = docs.length ? '' : 'none';
     $('docs').innerHTML = docs.map(function (x, i) {
-      return '<div class="les"><div class="num">📄</div><div class="lt"><b>' + esc(title(x)) + '</b><span class="small">' + (x.page ? t('prat_s') : mb(x.bytes || 0) + ' MB') + '</span></div>' +
+      var hv = !x.page && HAVE[fileOf(x)];
+      return '<div class="les"><div class="num">📄</div><div class="lt"><b>' + esc(title(x)) + '</b><span class="small">' + (x.page ? t('prat_s') : '<span class="st ' + (hv ? 'ok' : 'no') + '">' + (hv ? t('onPhone') : t('notYet')) + '</span> · ' + mb(bytesOf(x)) + ' MB') + '</span></div>' +
         (x.page ? '<a class="play" style="text-decoration:none" href="' + esc(x.page) + '">' + t('open') + '</a>' : '<button class="play" data-d="' + i + '">' + t('dlDoc') + '</button>') + '</div>';
     }).join('');
     document.querySelectorAll('[data-d]').forEach(function (b) { b.onclick = function () { openDoc(docs[+b.getAttribute('data-d')]); }; });
@@ -210,9 +215,11 @@ a.lnk span{display:block;font-weight:400;font-size:.8rem;color:var(--light)}
     if (!navigator.onLine) { $('dlMsg').textContent = t('needNet'); return; }
     BUSY = true; var btn = $('dlAll'); btn.disabled = true;
     try { if (navigator.storage && navigator.storage.persist) navigator.storage.persist(); } catch (e) {}
-    var ls = lessons(), todo = ls.filter(function (x) { return !HAVE[fileOf(x)]; }), failed = 0, i = 0;
+    var ls = items(), todo = ls.filter(function (x) { return !HAVE[fileOf(x)]; }), failed = 0, i = 0;
+    /* the study-guide PAGE is kept by the service worker: fetching it now refreshes that copy */
+    ((PACK && PACK.docs) || []).forEach(function (d) { if (d.page) fetch(d.page, { cache: 'no-store' }).catch(function () {}); });
     (navigator.storage && navigator.storage.estimate ? navigator.storage.estimate() : Promise.resolve(null)).then(function (est) {
-      var need = todo.reduce(function (s, x) { return s + (x.bytes[L] || x.bytes.ht); }, 0);
+      var need = todo.reduce(function (s, x) { return s + bytesOf(x); }, 0);
       if (est && est.quota && est.quota - est.usage < need * 1.3) { var w = $('space'); w.style.display = 'block'; w.textContent = t('space', { free: mb(est.quota - est.usage) }); }
       return todo.reduce(function (p, x) {
         return p.then(function () {
