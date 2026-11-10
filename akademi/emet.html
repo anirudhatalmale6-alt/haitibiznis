@@ -44,13 +44,27 @@ input:focus{outline:none;border-color:var(--navy)}
   <p class="sub">Pou fòmatè a — lè yon elèv reyisi men li pa t rive anrejistre sètifika l.</p>
 
   <div class="card" id="gate">
-    <label>Kòd fòmatè a</label>
-    <input type="text" id="code" placeholder="XXXXXX" autocomplete="off">
+    <!-- 10 Nov 2026 (Jeffery, OPTION A): this page draws certificates, so it now opens with JENNIFER'S CONSOLE CODE,
+         checked by the server (the old trainer code sat in this page's source). -->
+    <label>Kòd konsòl la (Jennifer)</label>
+    <input type="password" id="code" placeholder="CONSOLE CODE" autocomplete="off">
     <button class="btn btn-main" id="go">Louvri</button>
+    <p class="hint" id="gateMsg" style="color:#D21034"></p>
   </div>
 
   <div id="body" class="hidden">
+    <!-- 10 Nov 2026: students certified from 10 Nov have a UNIQUE ID issued by the server: find it by phone -->
     <div class="card">
+      <label>1. Chèche elèv la pa telefòn (elèv ki pase depi 10 Nov 2026)</label>
+      <div style="display:flex;align-items:center;gap:8px">
+        <span style="font-weight:800;color:#5A6B8A">+509</span>
+        <input type="tel" id="lk" placeholder="3616 2367" inputmode="numeric" style="flex:1">
+      </div>
+      <button class="btn btn-ghost" type="button" id="lkb">🔎 Chèche sètifika li</button>
+      <p class="hint" id="lkm" style="text-align:left"></p>
+    </div>
+    <div class="card">
+      <p class="hint" id="legacy" style="text-align:left;margin:0 0 6px">2. Oswa, pou yon elèv ki te pase <b>anvan 10 Nov 2026</b> sèlman: tape non an ak dat egzamen an (nimewo a soti nan non + dat la, jan l te ye sou ansyen sètifika yo).</p>
       <label>Non elèv la</label>
       <input type="text" id="nm" placeholder="Roziclaire Pamphyle Junior" autocomplete="off">
       <label>Dat (jj/mm/aaaa)</label>
@@ -102,19 +116,42 @@ input:focus{outline:none;border-color:var(--navy)}
 <script src="qrcode.js"></script>
 <script src="badge.js?v=3"></script>
 <script>
-/* Same code the exam uses. A workshop handout, not a vault. */
-var KOD = 'LMA2026';
-
+/* 10 Nov 2026: the console code, checked by the SERVER - nothing secret in this page any more */
+var API = 'https://haitibiznis-api.onrender.com', PIN = '', fixedCert = null;
 document.getElementById('go').onclick = function(){
-  if (document.getElementById('code').value.trim().toUpperCase() !== KOD){
-    document.getElementById('code').style.borderColor = '#D21034';
-    return;
-  }
-  document.getElementById('gate').classList.add('hidden');
-  document.getElementById('body').classList.remove('hidden');
-  var d = new Date();
-  document.getElementById('dt').value =
-    ('0'+d.getDate()).slice(-2)+'/'+('0'+(d.getMonth()+1)).slice(-2)+'/'+d.getFullYear();
+  var c = document.getElementById('code').value.trim(), msg = document.getElementById('gateMsg');
+  if (!c) return;
+  msg.textContent = 'Ap verifye…';
+  fetch(API + '/api/academy/admin/ping', { headers: { 'x-admin-pin': c } }).then(function(r){
+    if (!r.ok) { msg.textContent = r.status === 403 ? 'Kòd konsòl la pa bon.' : 'Erè ' + r.status; document.getElementById('code').style.borderColor = '#D21034'; return; }
+    PIN = c; msg.textContent = '';
+    document.getElementById('gate').classList.add('hidden');
+    document.getElementById('body').classList.remove('hidden');
+    var d = new Date();
+    document.getElementById('dt').value =
+      ('0'+d.getDate()).slice(-2)+'/'+('0'+(d.getMonth()+1)).slice(-2)+'/'+d.getFullYear();
+  }).catch(function(){ msg.textContent = 'Pa gen koneksyon. Eseye ankò.'; });
+};
+/* a student certified from 10 Nov: his OWN unique ID, name and date, exactly as the exam issued them */
+function setFixed(c){
+  fixedCert = c;
+  ['nm','dt'].forEach(function(id){ document.getElementById(id).readOnly = !!c; document.getElementById(id).style.background = c ? '#EEF2F7' : ''; });
+  document.getElementById('legacy').style.display = c ? 'none' : '';
+}
+document.getElementById('lkb').onclick = function(){
+  var ph = document.getElementById('lk').value.trim(), m = document.getElementById('lkm');
+  if (ph.replace(/\D/g,'').length < 8) { m.textContent = 'Tape 8 chif telefòn nan.'; return; }
+  m.textContent = 'Ap chèche…';
+  fetch(API + '/api/academy/admin/certificates?phone=' + encodeURIComponent(ph), { headers: { 'x-admin-pin': PIN } }).then(function(r){ return r.json(); }).then(function(d){
+    var L = (d && d.certificates) || [];
+    if (!L.length) { setFixed(null); m.textContent = 'Pa gen okenn egzamen reyisi (ak peman konfime) pou nimewo sa a depi 10 Nov. Si elèv la te pase anvan, itilize pati 2 a.'; return; }
+    var c = L[0], x = c.ymd.split('-');
+    document.getElementById('nm').value = c.name; document.getElementById('dt').value = x[2] + '/' + x[1] + '/' + x[0];
+    document.getElementById('ph').value = ph;
+    setFixed(c.cert);
+    m.innerHTML = ''; m.appendChild(document.createTextNode('✅ ' + c.name + ' · Sètifika ofisyèl ' + c.cert + ' (' + c.pct + '%). Non, dat ak nimewo a soti nan egzamen an.'));
+    var z = document.createElement('a'); z.href = '#'; z.textContent = ' Efase'; z.onclick = function(e){ e.preventDefault(); setFixed(null); m.textContent = ''; }; m.appendChild(z);
+  }).catch(function(){ m.textContent = 'Pa gen koneksyon. Eseye ankò.'; });
 };
 document.getElementById('code').addEventListener('keydown', function(e){
   if (e.key === 'Enter') document.getElementById('go').click();
@@ -157,7 +194,7 @@ function readForm(){
   return {
     name: name, date: d,
     dateStr: ('0'+d.getDate()).slice(-2)+'/'+('0'+(d.getMonth()+1)).slice(-2)+'/'+d.getFullYear(),
-    cert: certNumber(name, d),
+    cert: fixedCert || certNumber(name, d),
     /* ⚠️ Pass through exactly what is typed, spaces and all. The exam stores
        the student's own input verbatim and the badge prints it verbatim, so
        stripping it here produced "+509 36162367" against the workshop's
@@ -252,7 +289,7 @@ document.getElementById('mk').onclick = function(){
   var d = m ? new Date(+m[3], +m[2]-1, +m[1]) : new Date();
   if (isNaN(d.getTime())) d = new Date();
   var dateStr = ('0'+d.getDate()).slice(-2)+'/'+('0'+(d.getMonth()+1)).slice(-2)+'/'+d.getFullYear();
-  var cert = certNumber(name, d);
+  var cert = fixedCert || certNumber(name, d);
 
   var cv = document.getElementById('cv'), ctx = cv.getContext('2d');
   var img = new Image();

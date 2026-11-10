@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="ht">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>LajanMaker Academy — Fòmasyon Sètifye</title>
+<meta name="description" content="Enskri pou Fòmasyon Sètifye LajanMaker — 1,000 GDES: fòmasyon, egzamen ofisyèl, sètifika ak badj Ajan.">
+<meta property="og:title" content="Enskri pou Fòmasyon Sètifye LajanMaker — 1,000 GDES">
+<meta property="og:description" content="Fòmasyon ak fòmatè a + egzamen ofisyèl + sètifika + badj Ajan LajanMaker.">
+<meta name="theme-color" content="#0B2E6F">
+<link rel="icon" href="../../favicon.ico">
+<style>
+/* 10 Nov 2026 (Jeffery, OPTION A): "Enskri pou Fòmasyon Sètifye — 1,000 GDES". The free lessons point here; this
+   page sends the student to the CURRENT training on Tikè Lakay (the one Jennifer chose in her dashboard) and
+   explains the one rule that matters: take the exam with the SAME phone number used to buy the ticket. */
+:root{--navy:#0B2E6F;--red:#D21034;--green:#1B8C3D;--gold:#E0A400;--off:#F3F6FB;--text:#152341;--light:#5A6B8A;--border:#DDE4EF}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;background:var(--off);color:var(--text);line-height:1.5}
+header{background:var(--navy);color:#fff;padding:18px 16px}
+.w{max-width:620px;margin:0 auto}
+header h1{font-size:1.25rem;line-height:1.25}
+header p{opacity:.85;font-size:.9rem;margin-top:4px}
+.lang{display:flex;gap:6px;justify-content:flex-end;margin-bottom:8px}
+.lang button{background:rgba(255,255,255,.12);color:#fff;border:0;border-radius:999px;padding:4px 10px;font-size:.78rem;font-weight:700}
+.lang button.on{background:#fff;color:var(--navy)}
+main{padding:14px 16px 40px}
+.card{background:#fff;border:1px solid var(--border);border-radius:16px;padding:16px;margin:12px 0}
+.ev b{display:block;font-size:1.05rem}
+.ev div{font-size:.9rem;color:var(--light);margin-top:2px}
+.price{font-size:1.6rem;font-weight:900;color:var(--navy);margin-top:6px}
+.go{display:block;text-align:center;text-decoration:none;background:var(--gold);color:#152341;font-weight:900;font-size:1.05rem;border-radius:14px;padding:15px;margin-top:12px}
+ol{padding-left:20px}
+ol li{margin:8px 0}
+.key{background:#FFF6E0;border:1px solid rgba(224,164,0,.45);border-radius:12px;padding:10px 12px;font-weight:700;font-size:.9rem;margin-top:10px}
+.inc li{list-style:none;margin:6px 0}
+a.back{display:block;text-align:center;margin-top:14px;color:var(--navy);font-weight:800;text-decoration:none}
+</style>
+</head>
+<body>
+<header><div class="w">
+  <div class="lang"><button data-l="ht">Kreyòl</button><button data-l="fr">Français</button></div>
+  <h1 data-t="h1">🎓 Fòmasyon Sètifye LajanMaker</h1>
+  <p data-t="sub">Vin yon Ajan Sètifye LajanMaker epi touche komisyon.</p>
+</div></header>
+<main class="w">
+  <div class="card ev">
+    <b id="evT">Formation Lajanmaker</b>
+    <div id="evD"></div>
+    <div id="evL"></div>
+    <div class="price" id="evP">1,000 GDES</div>
+    <a class="go" id="go" href="https://tikelakay.com/event.html?id=6ae9db044ca71ee242c136d4" data-t="go">🎟️ Rezève plas mwen sou Tikè Lakay</a>
+  </div>
+  <div class="card">
+    <b data-t="inc_h">Sa ki ladan l</b>
+    <ul class="inc" style="margin-top:6px">
+      <li data-t="i1">✅ Fòmasyon ak fòmatè a</li>
+      <li data-t="i2">✅ Egzamen sètifikasyon ofisyèl la</li>
+      <li data-t="i3">✅ Sètifika LajanMaker Academy</li>
+      <li data-t="i4">✅ Badj Ajan LajanMaker (aprè apwobasyon HaitiBiznis) pou touche komisyon</li>
+    </ul>
+  </div>
+  <div class="card">
+    <b data-t="how_h">Kijan sa mache</b>
+    <ol style="margin-top:6px">
+      <li data-t="s1">Rezève plas ou sou Tikè Lakay (MonCash, NatCash oswa kat).</li>
+      <li data-t="s2">Vin nan fòmasyon an. Fòmatè a ap ba ou kòd egzamen an.</li>
+      <li data-t="s3">Pase egzamen an sou haitibiznis.com/akademi.</li>
+      <li data-t="s4">HaitiBiznis verifye epi aktive badj Ajan ou.</li>
+    </ol>
+    <div class="key" data-t="key">📱 Enpòtan: pase egzamen an ak MENM nimewo telefòn ou te itilize pou achte tikè a. Si ou achte pou yon lòt moun, oswa pou plizyè moun, kontakte Jennifer (HaitiBiznis) pou li anrejistre chak moun.</div>
+  </div>
+  <a class="back" href="../offline/" data-t="back">📥 Leson gratis yo (san entènèt) →</a>
+</main>
+<script>
+(function(){
+  var T = {
+    ht:{ h1:'🎓 Fòmasyon Sètifye LajanMaker', sub:'Vin yon Ajan Sètifye LajanMaker epi touche komisyon.', go:'🎟️ Rezève plas mwen sou Tikè Lakay',
+      inc_h:'Sa ki ladan l', i1:'✅ Fòmasyon ak fòmatè a', i2:'✅ Egzamen sètifikasyon ofisyèl la', i3:'✅ Sètifika LajanMaker Academy',
+      i4:'✅ Badj Ajan LajanMaker (aprè apwobasyon HaitiBiznis) pou touche komisyon', how_h:'Kijan sa mache',
+      s1:'Rezève plas ou sou Tikè Lakay (MonCash, NatCash oswa kat).', s2:'Vin nan fòmasyon an. Fòmatè a ap ba ou kòd egzamen an.',
+      s3:'Pase egzamen an sou haitibiznis.com/akademi.', s4:'HaitiBiznis verifye epi aktive badj Ajan ou.',
+      key:'📱 Enpòtan: pase egzamen an ak MENM nimewo telefòn ou te itilize pou achte tikè a. Si ou achte pou yon lòt moun, oswa pou plizyè moun, kontakte Jennifer (HaitiBiznis) pou li anrejistre chak moun.',
+      back:'📥 Leson gratis yo (san entènèt) →', at:'a' },
+    fr:{ h1:'🎓 Formation Certifiée LajanMaker', sub:'Devenez Ajan Certifié LajanMaker et touchez des commissions.', go:'🎟️ Réserver ma place sur Tikè Lakay',
+      inc_h:'Ce qui est inclus', i1:'✅ La formation avec le formateur', i2:'✅ L’examen de certification officiel', i3:'✅ Le certificat LajanMaker Academy',
+      i4:'✅ Le badge Ajan LajanMaker (après approbation de HaitiBiznis) pour toucher des commissions', how_h:'Comment ça marche',
+      s1:'Réservez votre place sur Tikè Lakay (MonCash, NatCash ou carte).', s2:'Venez à la formation. Le formateur vous donnera le code de l’examen.',
+      s3:'Passez l’examen sur haitibiznis.com/akademi.', s4:'HaitiBiznis vérifie et active votre badge Ajan.',
+      key:'📱 Important : passez l’examen avec le MÊME numéro de téléphone que celui utilisé pour acheter le billet. Si vous achetez pour une autre personne ou pour plusieurs personnes, contactez Jennifer (HaitiBiznis) pour qu’elle enregistre chaque personne.',
+      back:'📥 Les leçons gratuites (hors ligne) →', at:'à' }
+  };
+  var lang = /^fr/i.test(navigator.language || '') ? 'fr' : 'ht';
+  try { var sv = localStorage.getItem('lma_off_lang'); if (sv === 'ht' || sv === 'fr') lang = sv; } catch (e) {}
+  var ev = null;
+  function t(k){ return (T[lang] || T.ht)[k] || T.ht[k] || k; }
+  function money(n){ return String(n).replace(/\B(?=(\d{3})+(?!\d))/g, lang === 'fr' ? ' ' : ','); }
+  function paint(){
+    document.documentElement.lang = lang;
+    document.querySelectorAll('[data-t]').forEach(function(e){ e.textContent = t(e.getAttribute('data-t')); });
+    document.querySelectorAll('.lang button').forEach(function(b){ b.classList.toggle('on', b.getAttribute('data-l') === lang); });
+    if (ev) {
+      document.getElementById('evT').textContent = ev.title || 'Formation LajanMaker';
+      var d = String(ev.date || ''), m = d.match(/^(\d{4})-(\d{2})-(\d{2})$/);
+      document.getElementById('evD').textContent = m ? '📅 ' + m[3] + '/' + m[2] + '/' + m[1] + (ev.startTime ? ' ' + t('at') + ' ' + ev.startTime : '') : '';
+      document.getElementById('evL').textContent = ev.location ? '📍 ' + ev.location : '';
+      if (ev.price) document.getElementById('evP').textContent = money(ev.price) + ' ' + (ev.currency === 'HTG' || !ev.currency ? 'GDES' : ev.currency);
+    }
+  }
+  document.querySelectorAll('.lang button').forEach(function(b){ b.onclick = function(){ lang = b.getAttribute('data-l'); try { localStorage.setItem('lma_off_lang', lang); } catch (e) {} paint(); }; });
+  paint();
+  fetch('https://haitibiznis-api.onrender.com/api/academy/enroll').then(function(r){ return r.json(); }).then(function(d){
+    if (d && /^https:\/\/tikelakay\.com\//.test(d.url || '')) { ev = d; document.getElementById('go').href = d.url; paint(); }
+  }).catch(function(){});
+})();
+</script>
+</body>
+</html>

@@ -76,6 +76,7 @@ input,select{width:100%;min-height:46px;border:1.5px solid var(--line);border-ra
       <button data-s="revoked">Anile</button>
       <button data-s="">Tout</button>
       <button data-s="exams">📝 Rezilta egzamen</button>
+      <button data-s="seats">🎟️ Peman fòmasyon</button>
     </div>
     <input id="q" placeholder="Chèche: non, nimewo LMA, telefòn">
     <div class="counts" id="counts" style="margin-top:8px"></div>
@@ -181,7 +182,10 @@ function loadExams(){
       return '<div class="box" style="margin:8px 0;padding:10px 12px"><div><b>' + esc(r.name) + '</b> · ☎ ' + esc(r.phone || '') + '</div>'
         + '<div class="meta">' + esc(fmtDT(r.startedAt)) + ' · ' + res + (r.ok != null ? ' · ' + r.ok + '/' + r.n + ' (' + r.pct + '%)' : '')
         + (r.seconds != null ? ' · ' + Math.round(r.seconds / 60) + ' min' : '') + (r.timedOut ? ' · ⏰ tan fini' : '')
-        + (r.cert ? ' · 🎓 ' + esc(r.cert) : '') + (r.mode === 'offline' ? ' · 📴 voye pita (san entènèt)' : '') + '</div></div>';
+        + (r.cert ? ' · 🎓 ' + esc(r.cert) : '') + (r.mode === 'offline' ? ' · 📴 voye pita (san entènèt), san sètifika' : '') + '</div>'
+        /* 10 Nov 2026 (OPTION A): payment and certification status */
+        + '<div class="meta" style="margin-top:2px">' + (r.paidNow ? '<b style="color:#11632C">💳 PEYE</b>' + (r.seat ? ' (' + (r.seat.source === 'manual' ? 'manyèl: ' + esc(r.seat.note) : 'tikè ' + esc(r.seat.ticketRef)) + ')' : '') : '<b style="color:#A30F27">💳 PA PEYE</b>')
+        + (r.badge ? ' · Badj: <b>' + ({ pending: 'AN ATANT', active: 'AKTIF', suspended: 'SISPANN', revoked: 'ANILE', expired: 'EKSPIRE', none: 'PA ANREJISTRE' }[r.badge] || esc(r.badge)) + '</b>' : '') + '</div></div>';
     }).join('');
     document.querySelectorAll('[data-exf]').forEach(function(b){ b.onclick = function(){ exFilter = b.getAttribute('data-exf'); loadExams(); }; });
     $('exCsv').onclick = function(){
@@ -191,8 +195,102 @@ function loadExams(){
     };
   });
 }
+/* ═══ 10 Nov 2026 (Jeffery, OPTION A): PAID TRAINING SEATS ════════════════════
+   - the trainer's exam code (only the server knows it now)
+   - which Tikè Lakay trainings are the paid Academy training
+   - every paid ticket and the student(s) bound to it; Jennifer binds the other seats of a group ticket, a ticket
+     bought with another phone, or a payment made another way, and corrects a name / phone (all logged with her name) */
+var SEAT_ERR = { already_enrolled: 'Telefòn sa a deja gen yon plas.', ticket_not_found: 'Nou pa jwenn tikè sa a.', ticket_not_paid: 'Tikè sa a poko peye (oswa li ranbouse).',
+  ticket_not_training: 'Tikè sa a pa pou yon fòmasyon ki konte (gade lis fòmasyon yo).', no_seat_left: 'Tout plas tikè sa a deja itilize.', note_required: 'Ekri kijan ak kilè moun nan peye.',
+  phone_required: 'Ekri yon nimewo telefòn (8 chif).', student_name_required: 'Ekri non konplè elèv la.', name_required: 'Ekri non OU anlè a (pou istwa a).',
+  phone_has_seat: 'Nouvo telefòn sa a deja gen yon plas.', bad_code_format: 'Kòd la: 4 a 20 lèt/chif.', code_was_public: 'Kòd sa a te parèt piblikman: chwazi yon lòt.', one_event_required: 'Chwazi omwen yon fòmasyon.' };
+function seatErr(e){ return SEAT_ERR[e.message] || e.message; }
+function byName(){ var v = ($('seatBy') && $('seatBy').value.trim()) || ''; try { if (v) localStorage.setItem('aa_by', v); } catch(e){} return v; }
+function savedBy(){ try { return localStorage.getItem('aa_by') || ''; } catch(e){ return ''; } }
+var seatData = null;
+function loadSeats(){
+  $('devReq').innerHTML = ''; $('addBox').style.display = 'none'; $('counts').innerHTML = '';
+  return req('GET', '/api/academy/admin/academy').then(function(d){ seatData = d; drawSeats(); });
+}
+function drawSeats(){
+  var d = seatData, st = d.settings || {}, q = $('q').value.trim().toLowerCase();
+  var EV = {}; (d.events || []).forEach(function(e){ EV[e.id] = e; });
+  var act = (d.enrollments || []).filter(function(e){ return e.status === 'active'; });
+  var byRef = {}; act.forEach(function(e){ if (e.ticketRef) (byRef[e.ticketRef] = byRef[e.ticketRef] || []).push(e); });
+  var hit = function(){ var x = Array.prototype.join.call(arguments, ' ').toLowerCase(); return !q || x.indexOf(q) >= 0 || x.replace(/\D/g,'').indexOf(q.replace(/\D/g,'') || '§') >= 0; };
+  var h = '';
+  h += '<div class="box"><label>Non ou (li ekri nan istwa chak chanjman)</label><input id="seatBy" value="' + esc(savedBy()) + '" placeholder="Jennifer"></div>';
+  /* the code */
+  h += '<div class="box"><b>🔑 Kòd egzamen fòmatè a</b><div class="meta">' + (st.codeSet ? '✅ Gen yon kòd' + (st.codeSetBy ? ' (mete pa ' + esc(st.codeSetBy) + ' ' + esc(fmtDT(st.codeSetAt)) + ')' : '') + '. Sèvè a sèlman konnen l: li pa nan paj la ankò.'
+      : '<b style="color:#A30F27">⚠ Pa gen kòd: egzamen ofisyèl la FÈMEN jiskaske ou mete youn.</b>') + ' Chanje l pou chak fòmasyon; di elèv yo l nan sal la sèlman.</div>'
+    + '<div class="grid2"><div><label>Nouvo kòd</label><input id="newCode" class="mono" placeholder="EX: LMA-NOV14"></div><div style="align-self:end"><button class="btn full" id="saveCode">Anrejistre kòd la</button></div></div><div class="msg" id="codeMsg"></div></div>';
+  /* the trainings that count */
+  h += '<div class="box"><b>🎓 Fòmasyon ki konte (Tikè Lakay)</b><div class="meta">Se sèlman tikè PEYE pou fòmasyon ou tcheke yo ki bay aksè a egzamen ofisyèl la. Bouton "Enskri" a voye moun nan pwochen fòmasyon ki tcheke a.</div>'
+    + (d.events || []).map(function(e){ var t0 = (e.tickets || []).map(function(t){ return esc(t.name) + ' ' + t.price + ' HTG (' + t.sold + ' vann)'; }).join(' · ');
+        return '<label style="display:flex;gap:8px;align-items:flex-start;color:var(--ink);font-weight:600;margin:8px 0"><input type="checkbox" data-ev="' + e.id + '" ' + (e.selected ? 'checked' : '') + ' style="width:20px;height:20px;min-height:0;margin-top:2px"><span>' + esc(e.title) + ' · ' + esc(e.date || '') + (e.organizer ? ' · ' + esc(e.organizer) : '') + (e.training ? '' : ' · ⚠ pa tip fòmasyon') + '<br><small style="color:var(--muted)">' + t0 + '</small></span></label>'; }).join('')
+    + '<button class="btn o" id="saveEv">Anrejistre lis fòmasyon yo</button><div class="msg" id="evMsg"></div></div>';
+  /* paid tickets */
+  var tk = (d.tickets || []).filter(function(t){ return hit(t.ref, t.buyerName, t.buyerPhone, (byRef[t.ref] || []).map(function(e){ return e.name + ' ' + e.phone; }).join(' ')); });
+  h += '<div class="box"><b>🎟️ Tikè peye (' + (d.tickets || []).length + ')</b><div class="meta">Yon tikè = kantite plas li. Premye plas la mare otomatikman ak moun ki pase egzamen an ak telefòn achtè a. Pou lòt plas yo (gwoup, oswa achte ak telefòn yon lòt moun): "➕ Bay yon elèv plas".</div>'
+    + (tk.length ? tk.map(function(t, k){
+        var who = (byRef[t.ref] || []).map(function(e){ return '👤 ' + esc(e.name || '(poko pase egzamen)') + ' ☎ ' + esc(e.phone); }).join('<br>');
+        var free = t.status === 'completed' && t.seatsUsed < t.qty;
+        return '<div style="border-top:1px solid var(--line);padding:8px 0"><div><b>' + esc(t.buyerName || '—') + '</b> · ☎ ' + esc(t.buyerPhone) + ' · <span class="mono" style="font-size:.85rem">' + esc(t.ref) + '</span></div>'
+          + '<div class="meta">' + (t.status === 'refunded' ? '<b style="color:#A30F27">RANBOUSE</b> · ' : '') + esc(EV[t.event] ? EV[t.event].title : '') + ' · ' + esc(fmtDT(t.paidAt)) + ' · ' + (t.amount || '') + ' HTG · plas: <b>' + t.seatsUsed + '/' + t.qty + '</b>' + (who ? '<br>' + who : '') + '</div>'
+          + (free ? '<div class="acts"><button class="btn g" data-tk="' + k + '">➕ Bay yon elèv plas</button></div><div class="edit" id="tkf' + k + '"><div class="grid2"><div><label>Telefòn elèv la</label><input data-f="phone" inputmode="tel" placeholder="+509 ..." value="' + (t.seatsUsed ? '' : esc(t.buyerPhone)) + '"></div><div><label>Non konplè elèv la</label><input data-f="name" value="' + (t.seatsUsed ? '' : esc(t.buyerName)) + '"></div></div><button class="btn full" data-tksave="' + k + '">Bay plas la</button></div>' : '')
+          + '<div class="msg" id="tkm' + k + '"></div></div>';
+      }).join('') : '<div class="meta">Pa gen tikè peye' + (q ? ' pou rechèch sa a' : ' pou kounye a') + '.</div>') + '</div>';
+  /* students */
+  var en = (d.enrollments || []).filter(function(e){ return hit(e.name, e.phone, e.ticketRef, e.buyerName, e.note); });
+  h += '<div class="box"><b>👥 Elèv ki gen plas (' + act.length + ')</b>'
+    + (en.length ? en.map(function(e, k){
+        return '<div style="border-top:1px solid var(--line);padding:8px 0;' + (e.status === 'released' ? 'opacity:.55' : '') + '"><div><b>' + esc(e.name || '(poko pase egzamen)') + '</b> · ☎ ' + esc(e.phone || e.phoneKey) + (e.status === 'released' ? ' · <b>LIBERE</b>' : e.refunded ? ' · <b style="color:#A30F27">💳 TIKÈ A RANBOUSE: pa peye ankò</b>' : ' · <b style="color:#11632C">💳 PEYE</b>') + '</div>'
+          + '<div class="meta">' + (e.source === 'manual' ? 'Peman manyèl: ' + esc(e.note) : 'Tikè ' + esc(e.ticketRef) + ' · achtè: ' + esc(e.buyerName) + ' ☎ ' + esc(e.buyerPhone)) + ' · pa ' + esc(e.by) + ' ' + esc(fmtDT(e.createdAt))
+          + (e.nameDiffers ? '<br><b style="color:#8A5A00">⚠ Non elèv la diferan de non achtè a: verifye si se yon kado oswa peman yon lòt moun.</b>' : '')
+          + (e.history && e.history.length > 1 ? '<br><small>' + e.history.map(function(x){ return esc(fmtDT(x.at)) + ' ' + esc(x.action) + (x.note ? ': ' + esc(x.note) : '') + (x.by ? ' (' + esc(x.by) + ')' : ''); }).join('<br>') + '</small>' : '') + '</div>'
+          + (e.status === 'active' ? '<div class="acts"><button class="btn o" data-en="' + k + '" data-ea="edit">✏️ Korije non / telefòn</button><button class="btn gr" data-en="' + k + '" data-ea="release">🔓 Libere plas la</button></div>'
+            + '<div class="edit" id="enf' + k + '"><div class="grid2"><div><label>Non elèv la</label><input data-f="name" value="' + esc(e.name) + '"></div><div><label>Telefòn</label><input data-f="phone" value="' + esc(e.phone) + '"></div></div><button class="btn full" data-ensave="' + k + '">Anrejistre</button></div>' : '')
+          + '<div class="msg" id="enm' + k + '"></div></div>';
+      }).join('') : '<div class="meta">Pa gen elèv' + (q ? ' pou rechèch sa a' : ' pou kounye a') + '.</div>') + '</div>';
+  /* manual */
+  h += '<div class="box"><b>➕ Peman ki fèt yon lòt jan</b><div class="meta">Kach, MonCash dirèk, elatriye. Sèlman si ou VERIFYE lajan an rive. Ekri kijan ak kilè (referans).</div><div class="grid2">'
+    + '<div><label>Telefòn elèv la</label><input id="mPhone" inputmode="tel" placeholder="+509 ..."></div><div><label>Non konplè elèv la</label><input id="mName"></div></div>'
+    + '<label>Kijan li peye (referans)</label><input id="mNote" placeholder="Kach 1,000 HTG resi #123, 14/11"><button class="btn full" id="mAdd">Anrejistre peman an</button><div class="msg" id="mMsg"></div></div>';
+  $('list').innerHTML = h;
+  function by(msgEl){ var b = byName(); if (!b){ msgEl.className = 'msg err'; msgEl.textContent = SEAT_ERR.name_required; } return b; }
+  $('saveCode').onclick = function(){ var m = $('codeMsg'), b = by(m); if (!b) return; var c = $('newCode').value.trim().toUpperCase(); if (!c) return;
+    if (!confirm('Nouvo kòd egzamen: ' + c + '\nAnsyen kòd la p ap mache ankò. Kontinye?')) return;
+    req('POST', '/api/academy/admin/academy/settings', { code: c, by: b }).then(function(){ m.className = 'msg ok'; m.textContent = '✅ Kòd ' + c + ' anrejistre. Di elèv yo l nan sal la sèlman.'; setTimeout(loadSeats, 1500); })
+      .catch(function(e){ m.className = 'msg err'; m.textContent = seatErr(e); }); };
+  $('saveEv').onclick = function(){ var m = $('evMsg'), b = by(m); if (!b) return;
+    var ids = Array.prototype.map.call(document.querySelectorAll('[data-ev]:checked'), function(x){ return x.getAttribute('data-ev'); });
+    req('POST', '/api/academy/admin/academy/settings', { eventIds: ids, by: b }).then(function(){ m.className = 'msg ok'; m.textContent = '✅ Anrejistre.'; setTimeout(loadSeats, 900); })
+      .catch(function(e){ m.className = 'msg err'; m.textContent = seatErr(e); }); };
+  document.querySelectorAll('[data-tk]').forEach(function(b){ b.onclick = function(){ $('tkf' + b.getAttribute('data-tk')).classList.toggle('open'); }; });
+  document.querySelectorAll('[data-tksave]').forEach(function(b){ b.onclick = function(){
+    var k = b.getAttribute('data-tksave'), t = tk[+k], f = $('tkf' + k), m = $('tkm' + k), who = by(m); if (!who) return;
+    req('POST', '/api/academy/admin/enrollments', { ticketRef: t.ref, phone: f.querySelector('[data-f=phone]').value, name: f.querySelector('[data-f=name]').value, by: who })
+      .then(function(){ m.className = 'msg ok'; m.textContent = '✅ Plas la bay.'; setTimeout(loadSeats, 900); }).catch(function(e){ m.className = 'msg err'; m.textContent = seatErr(e); }); }; });
+  document.querySelectorAll('[data-ea]').forEach(function(b){ b.onclick = function(){
+    var k = b.getAttribute('data-en'), e = en[+k], m = $('enm' + k);
+    if (b.getAttribute('data-ea') === 'edit') return $('enf' + k).classList.toggle('open');
+    var who = by(m); if (!who) return;
+    var why = prompt('Poukisa ou libere plas ' + (e.name || e.phone) + '? (egz: move moun te itilize telefòn nan)'); if (why === null) return;
+    req('POST', '/api/academy/admin/enrollments/' + e.id + '/release', { by: who, note: why }).then(function(){ m.className = 'msg ok'; m.textContent = '🔓 Plas la libere.'; setTimeout(loadSeats, 900); })
+      .catch(function(x){ m.className = 'msg err'; m.textContent = SEAT_ERR[x.message] || (x.message === 'note_required' ? 'Ekri rezon an.' : x.message); }); }; });
+  document.querySelectorAll('[data-ensave]').forEach(function(b){ b.onclick = function(){
+    var k = b.getAttribute('data-ensave'), e = en[+k], f = $('enf' + k), m = $('enm' + k), who = by(m); if (!who) return;
+    req('PATCH', '/api/academy/admin/enrollments/' + e.id, { name: f.querySelector('[data-f=name]').value, phone: f.querySelector('[data-f=phone]').value, by: who })
+      .then(function(){ m.className = 'msg ok'; m.textContent = '✅ Korije.'; setTimeout(loadSeats, 900); }).catch(function(x){ m.className = 'msg err'; m.textContent = seatErr(x); }); }; });
+  $('mAdd').onclick = function(){ var m = $('mMsg'), who = by(m); if (!who) return;
+    var body = { phone: $('mPhone').value, name: $('mName').value, note: $('mNote').value, by: who };
+    if (!confirm('Ou VERIFYE ' + (body.name || '') + ' peye fòmasyon an?\n' + body.note)) return;
+    req('POST', '/api/academy/admin/enrollments', body).then(function(){ m.className = 'msg ok'; m.textContent = '✅ Peman an anrejistre: ' + body.name + ' ka pase egzamen ofisyèl la.'; setTimeout(loadSeats, 1200); })
+      .catch(function(e){ m.className = 'msg err'; m.textContent = seatErr(e); }); };
+}
 function load(){
   if (tab === 'exams') return loadExams();
+  if (tab === 'seats') return loadSeats();
   $('addBox').style.display = '';
   loadDev().catch(function(){});
   var qs = '?status=' + encodeURIComponent(tab) + '&q=' + encodeURIComponent($('q').value.trim());
@@ -204,6 +302,12 @@ function load(){
   });
 }
 
+/* 10 Nov 2026 (OPTION A): a badge registered from 10 Nov is approved only with a paid Academy seat for its phone */
+function payLine(a){
+  if (a.paid) return '<div class="meta" style="font-weight:700;color:#11632C">💳 PEYE: plas fòmasyon konfime pou telefòn sa a</div>';
+  if (!a.paidRequired) return '';
+  return '<div class="meta" style="font-weight:700;color:#A30F27">💳 PA PEYE: badj la pa ka aktive. Tcheke peman an nan "🎟️ Peman fòmasyon" (telefòn ' + esc(a.phone || '—') + ').</div>';
+}
 /* 2 Nov 2026: the 30-day pilot starts by itself when the badge is approved - its
    activation date, end and days left, the same figures the Ajan sees in LajanMaker */
 function pilotLine(a){
@@ -240,7 +344,7 @@ function draw(){
       '<div class="meta">☎ '+esc(a.phone||'—')+' · Sètifye: '+day(a.certifiedAt)+(a.expiresAt?' · Valab jiska: '+day(a.expiresAt):'')+
         '<br>Zòn: '+esc(a.city||'—')+' · Òganizasyon/Sponsò: '+esc(a.sponsor||'—')+' · Kòd referans: '+esc(a.referralCode||'—')+
         '<br>Soti nan: '+({exam:'egzamen',reissue:'re-emisyon',admin:'konsòl'}[a.source]||a.source)+(a.submissions>1?' · soumèt '+a.submissions+' fwa':'')+(a.statusNote?' · Nòt: '+esc(a.statusNote):'')+(a.idMatched===false?'<br><b style="color:#A30F27">⚠ Nimewo kenbe jan li enprime a (non + dat pa t ka repwodui l)</b>':'')+'</div>' +
-      pilotLine(a) + pinLine(a) +
+      payLine(a) + pilotLine(a) + pinLine(a) +
       '<div class="acts">'+acts+'</div>' +
       '<div class="edit" id="ed'+i+'"><div class="grid2">' +
         '<div><label>Non</label><input data-f="name" value="'+esc(a.name)+'"></div>' +
@@ -344,6 +448,7 @@ function errText(e){
   return CODE_ERR[e.code] || CODE_ERR[e.message] || e.message;
 }
 var CODE_ERR = {
+  not_paid: 'Pa gen peman fòmasyon konfime pou telefòn ajan sa a: badj la pa ka aktive. Ale nan "🎟️ Peman fòmasyon" pou mete plas li (tikè oswa peman manyèl), oswa korije telefòn li.',
   code_on_other_badge: 'Kòd referans sa a deja sou yon lòt badj. Yon kòd = yon sèl Ajan.',
   code_is_badge_number: 'Sa se nimewo badj la (LMA). Kòd referans lan se yon lòt bagay (egzanp KB-ALI7X2Q).',
   code_taken: 'Kòd sa a deja pou yon lòt moun. Kite kare a vid pou sistèm nan fè youn.',

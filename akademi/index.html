@@ -53,6 +53,11 @@ input:focus{outline:none;border-color:var(--navy)}
 .btn-main:disabled{background:#B9C4D6;box-shadow:none;cursor:not-allowed}
 .btn-ghost{background:var(--white);color:var(--navy);border:2px solid var(--navy)}
 .btn-green{background:var(--green);color:#fff}
+/* 10 Nov 2026: paid training */
+.paystat{font-size:.88rem;font-weight:700;border-radius:10px;padding:10px 12px;margin-top:8px;display:none}
+.paystat.ok{display:block;background:#E8F6EC;color:#11632C;border:1px solid rgba(27,140,61,.3)}
+.paystat.no{display:block;background:#FFF6E0;color:#7A4E00;border:1px solid rgba(224,164,0,.45)}
+.btn-enroll{background:var(--gold);color:#152341;text-decoration:none;display:block;text-align:center}
 
 .err{background:#FFF4F4;border:1px solid rgba(210,16,52,.3);color:var(--red);
   border-radius:12px;padding:12px 14px;font-size:.9rem;font-weight:700;
@@ -150,12 +155,17 @@ footer{text-align:center;color:var(--muted);font-size:.8rem;padding-top:18px}
 
       <label data-t="t_phone">Nimewo telefòn ou</label>
       <input type="tel" id="fPhone" autocomplete="tel" placeholder="37 12 3456">
+      <!-- 10 Nov 2026 (Jeffery, OPTION A): the official exam is for students with a confirmed paid Formation ticket -->
+      <div class="paystat" id="payStat"></div>
 
       <div class="err" id="startErr"></div>
+      <a class="btn btn-enroll hidden" id="btnEnroll" href="enskri/">🎓 <span data-t="t_enroll">Enskri pou Fòmasyon Sètifye — 1,000 GDES</span></a>
       <button class="btn btn-main" id="btnStart" data-t="t_start">Kòmanse egzamen an</button>
       <button class="btn btn-ghost" id="btnPractice" data-t="t_practice">Pratike anvan</button>
+      <button class="btn btn-ghost" id="btnGetCert" data-t="t_getcert">📜 Mwen te deja pase: jwenn sètifika mwen</button>
       <!-- 10 Nov 2026: the offline course (lessons + study guide + practice without signal) -->
       <a href="offline/" style="display:block;text-align:center;margin-top:10px;font-weight:800;color:#0B2E6F;text-decoration:none">📥 Leson yo + gid etid, san entènèt →</a>
+      <a href="enskri/" style="display:block;text-align:center;margin-top:8px;font-weight:800;color:#8A5A00;text-decoration:none" data-t="t_enroll_link">🎓 Enskri pou Fòmasyon Sètifye — 1,000 GDES →</a>
 
       <div class="note">
         <b data-t="t_rules_h">Règ yo</b>
@@ -272,7 +282,8 @@ footer{text-align:center;color:var(--muted);font-size:.8rem;padding-top:18px}
  * ═══════════════════════════════════════════════════════════════════════════ */
 
 /* --- things Jeffery may want changed ------------------------------------- */
-var KOD_FOMATE = 'LMA2026';      // the code the instructor reads out to the room
+/* 10 Nov 2026 (Jeffery, OPTION A): the trainer's code is NO LONGER here - it sat in this page's source where anyone
+   could read it. The server checks it (Jennifer sets it in her dashboard), together with the student's paid seat. */
 var WA_NUMBER  = '50946859702';  // HaitiBiznis WhatsApp - same number the rest of the site uses
 var N_QUESTIONS = 15;
 var PASS_PCT    = 80;            // 12 of 15
@@ -315,6 +326,20 @@ ht:{
 t_save_hint:"Peze sou sètifika a epi kenbe l pou anrejistre l nan telefòn ou. Si ou louvri paj sa a andedan WhatsApp epi telechajman an pa mache, peze meni an (3 pwen) epi chwazi \u00ab Louvri nan navigatè \u00bb.",
  t_open:"Louvri sètifika a nan yon lòt paj",
  e_code:"Kòd fòmatè a pa bon. Mande fòmatè a kòd la.",
+ t_enroll:"Enskri pou Fòmasyon Sètifye — 1,000 GDES", t_enroll_link:"🎓 Enskri pou Fòmasyon Sètifye — 1,000 GDES →",
+ t_getcert:"📜 Mwen te deja pase: jwenn sètifika mwen",
+ pay_ok:"✅ Peman Fòmasyon an konfime pou nimewo sa a.",
+ pay_none:"Nou pa jwenn peman Fòmasyon LajanMaker (1,000 GDES) pou nimewo sa a. Leson yo ak Pratik la gratis; egzamen ofisyèl la, sètifika a ak badj Ajan an se pou elèv ki peye fòmasyon an. Tape nimewo ou te itilize pou achte tikè a.",
+ pay_pending:"⏳ Peman ou an kous. Tann kèk minit epi eseye ankò.",
+ e_closed:"Egzamen ofisyèl la poko louvri. Fòmatè a ap ba ou kòd la nan fòmasyon an.",
+ e_notpaid:"Egzamen ofisyèl la se pou elèv ki peye Fòmasyon LajanMaker (1,000 GDES). Tape nimewo ou te itilize pou achte tikè a, oswa enskri anba a.",
+ e_pending:"⏳ Peman ou an kous. Tann kèk minit epi eseye ankò.",
+ e_mismatch:"Nimewo sa a deja anrejistre pou yon lòt non. Ekri non ou egzakteman jan ou te ekri l premye fwa a, oswa kontakte Jennifer (HaitiBiznis) pou korije l.",
+ e_net:"Egzamen ofisyèl la bezwen entènèt pou kòmanse (pou verifye kòd la ak peman an). Pratik la mache san entènèt.",
+ cert_wait:"⏳ N ap konfime rezilta a ak sètifika ou sou sèvè a…",
+ cert_net:"Rezilta ou anrejistre sou telefòn nan. Sètifika a ap parèt lè telefòn nan jwenn entènèt (kite paj la louvri), oswa pita ak « Jwenn sètifika mwen ».",
+ cert_none:"Rezilta a anrejistre, men nou pa ka bay sètifika a: pa gen peman konfime pou nimewo sa a. Kontakte Jennifer (HaitiBiznis).",
+ e_nocert:"Nou pa jwenn okenn egzamen reyisi (ak peman konfime) pou nimewo ak non sa a.",
  e_name:"Ekri non konplè ou.", e_phone:"Ekri nimewo telefòn ou.",
  e_wait:"Ou deja pase egzamen an. Ou ka eseye ankò nan {h} èdtan.",
  pass:"Ou reyisi !", fail:"Ou pa reyisi fwa sa a",
@@ -359,6 +384,20 @@ fr:{
 t_save_hint:"Appuyez longuement sur le certificat pour l'enregistrer. Si vous avez ouvert cette page dans WhatsApp et que le téléchargement ne marche pas, ouvrez le menu (3 points) et choisissez \u00ab Ouvrir dans le navigateur \u00bb.",
  t_open:"Ouvrir le certificat sur une autre page",
  e_code:"Code du formateur incorrect. Demandez-le au formateur.",
+ t_enroll:"Inscrivez-vous à la Formation Certifiée — 1 000 GDES", t_enroll_link:"🎓 Inscrivez-vous à la Formation Certifiée — 1 000 GDES →",
+ t_getcert:"📜 J'ai déjà réussi : récupérer mon certificat",
+ pay_ok:"✅ Paiement de la Formation confirmé pour ce numéro.",
+ pay_none:"Aucun paiement de la Formation LajanMaker (1 000 GDES) trouvé pour ce numéro. Les leçons et l'entraînement sont gratuits ; l'examen officiel, le certificat et le badge Ajan sont réservés aux élèves qui ont payé la formation. Utilisez le numéro avec lequel vous avez acheté le billet.",
+ pay_pending:"⏳ Votre paiement est en cours. Attendez quelques minutes et réessayez.",
+ e_closed:"L'examen officiel n'est pas encore ouvert. Le formateur vous donnera le code pendant la formation.",
+ e_notpaid:"L'examen officiel est réservé aux élèves qui ont payé la Formation LajanMaker (1 000 GDES). Utilisez le numéro avec lequel vous avez acheté le billet, ou inscrivez-vous ci-dessous.",
+ e_pending:"⏳ Votre paiement est en cours. Attendez quelques minutes et réessayez.",
+ e_mismatch:"Ce numéro est déjà enregistré sous un autre nom. Écrivez votre nom exactement comme la première fois, ou contactez Jennifer (HaitiBiznis) pour le corriger.",
+ e_net:"L'examen officiel a besoin d'internet pour commencer (vérification du code et du paiement). L'entraînement marche sans internet.",
+ cert_wait:"⏳ Confirmation du résultat et de votre certificat sur le serveur…",
+ cert_net:"Votre résultat est enregistré sur le téléphone. Le certificat apparaîtra quand le téléphone aura internet (laissez la page ouverte), ou plus tard avec « Récupérer mon certificat ».",
+ cert_none:"Résultat enregistré, mais le certificat ne peut pas être délivré : aucun paiement confirmé pour ce numéro. Contactez Jennifer (HaitiBiznis).",
+ e_nocert:"Aucun examen réussi (avec paiement confirmé) trouvé pour ce numéro et ce nom.",
  e_name:"Écrivez votre nom complet.", e_phone:"Écrivez votre numéro de téléphone.",
  e_wait:"Vous avez déjà passé l'examen. Vous pourrez réessayer dans {h} heures.",
  pass:"Réussi !", fail:"Non réussi cette fois",
@@ -528,25 +567,33 @@ $('btnStart').onclick = function(){
   var name = $('fName').value.trim().replace(/\s+/g, ' ');
   var phone = $('fPhone').value.trim();
 
-  if (code !== KOD_FOMATE.toUpperCase()){ return show(err, t('e_code'), 'e_code'); }
+  if (!code){ return show(err, t('e_code'), 'e_code'); }
   if (name.length < 3){ return show(err, t('e_name'), 'e_name'); }
   if (phone.replace(/\D/g,'').length < 8){ return show(err, t('e_phone'), 'e_phone'); }
   var h = hoursLeft(phone);
   if (h > 0){ return show(err, fill(t('e_wait'), {h:h}), 'e_wait', h); }
 
   var btn = $('btnStart'); btn.disabled = true;
-  apost('/exam/start', { name: name, phone: phone, lang: lang }).then(function(r){
+  $('btnEnroll').classList.add('hidden');
+  apost('/exam/start', { name: name, phone: phone, code: code, lang: lang }, 25000).then(function(r){
     btn.disabled = false;
-    if (r.status === 409 && r.d && r.d.error === 'wait'){ return show(err, fill(t('e_wait'), {h: r.d.hours}), 'e_wait', r.d.hours); }
+    var e = r.d && r.d.error;
+    if (r.status === 409 && e === 'wait'){ return show(err, fill(t('e_wait'), {h: r.d.hours}), 'e_wait', r.d.hours); }
+    /* 10 Nov 2026: what the SERVER decided about the code and the payment */
+    if (e === 'bad_code') return show(err, t('e_code'), 'e_code');
+    if (e === 'exam_closed') return show(err, t('e_closed'), 'e_closed');
+    if (e === 'name_mismatch') return show(err, t('e_mismatch'), 'e_mismatch');
+    if (e === 'payment_pending') return show(err, t('e_pending'), 'e_pending');
+    if (e === 'not_paid'){ $('btnEnroll').classList.remove('hidden'); return show(err, t('e_notpaid'), 'e_notpaid'); }
     if (r.status !== 200 || !r.d || !r.d.attemptId) throw new Error('server ' + r.status);
     var skew = r.d.now ? (Date.now() - new Date(r.d.now).getTime()) : 0;       // phone clock vs server clock
     attempt = { id: r.d.attemptId, startedAt: new Date(r.d.startedAt).getTime() + skew };
     beginExam(name, phone, attempt.startedAt + MINUTES * 60000, !!r.d.resumed);
   }).catch(function(){
-    /* no internet (or the server is down): the exam still runs, the result waits on the phone */
+    /* 10 Nov 2026: no internet = no OFFICIAL exam (the code and the payment are checked by the server).
+       Once started, a dropped connection does not stop it: the answers stay on the phone. */
     btn.disabled = false;
-    attempt = { offline: true, ref: 'off-' + Date.now().toString(36) + Math.random().toString(36).slice(2, 7), startedAt: Date.now() };
-    beginExam(name, phone, Date.now() + MINUTES * 60000, false);
+    show(err, t('e_net'), 'e_net');
   });
 };
 function beginExam(name, phone, endTs, resumed){
@@ -688,43 +735,105 @@ function finish(timedOut){
 
   var d = new Date();
   var dateStr = ('0'+d.getDate()).slice(-2) + '/' + ('0'+(d.getMonth()+1)).slice(-2) + '/' + d.getFullYear();
-  var cert = passed ? certNumber(student.name, d) : null;
 
-  /* 9 Nov 2026: the result goes to the server (queued, retried until it is there) */
-  var fin = { ok: ok, n: n, pct: pct, passed: passed, timedOut: !!timedOut, cert: cert || '', lang: lang };
+  /* 9 Nov 2026: the result goes to the server (queued, retried until it is there).
+     10 Nov 2026: the certificate number comes BACK from the server, and only for a paid student. */
+  var fin = { ok: ok, n: n, pct: pct, passed: passed, timedOut: !!timedOut, lang: lang };
+  var st = { name: student.name, phone: student.phone, ok: ok, n: n, pct: pct, passed: passed, date: dateStr };
   if (attempt && attempt.id){ fin.attemptId = attempt.id; queueResult({ kind: 'finish', body: fin }); }
-  else if (attempt && attempt.offline){
-    queueResult({ kind: 'offline', body: Object.assign({ clientRef: attempt.ref, name: student.name, phone: student.phone,
-      startedAt: new Date(attempt.startedAt).toISOString(), finishedAt: new Date().toISOString() }, fin) });
-  }
-  attempt = null; clearCur(); flushQueue();
+  attempt = null; clearCur();
+  setWa(st, null);
 
+  if (passed){
+    $('verdictSub').textContent = t('cert_wait');
+    if (fin.attemptId) confirmCert(fin, st, 0);
+    else $('verdictSub').textContent = t('cert_none');
+  } else {
+    $('failWrap').classList.remove('hidden');
+    flushQueue();
+  }
+  window.scrollTo({ top:0, behavior:'smooth' });
+}
+function setWa(st, cert){
   var msg = fill(t('wa'), {
-    name:student.name, phone:student.phone, ok:ok, n:n, pct:pct,
-    verdict:t(passed ? 'v_pass' : 'v_fail'),
-    cert:cert || t('v_none'), date:dateStr
+    name:st.name, phone:st.phone, ok:st.ok, n:st.n, pct:st.pct,
+    verdict:t(st.passed ? 'v_pass' : 'v_fail'),
+    cert:cert || t('v_none'), date:st.date
   });
   var waHref = 'https://wa.me/' + WA_NUMBER + '?text=' + encodeURIComponent(msg);
   $('btnWa').href = waHref;
   $('btnWaFail').href = waHref;
-
-  if (passed){
-    $('certWrap').classList.remove('hidden');
-    drawCert(student.name, dateStr, cert);
-    credState.name = student.name; credState.id = cert; credState.date = dateStr;
-    credState.phone = student.phone || '';
-    /* photoKey() reads credState.phone, so the phone must be set FIRST - load
-       the saved photo only after it, or an agent gets the anonymous slot. */
-    setPhoto(savedPhoto(), renderCred);
-    /* 21 Oct 2026: record the certification on the server (PENDING until
-       HaitiBiznis approves it), so the badge QR has something to verify. */
-    regInfo = { name: student.name, d: d, id: cert, phone: student.phone || '', source: 'exam' };
-    registerCred();
-  } else {
-    $('failWrap').classList.remove('hidden');
-  }
-  window.scrollTo({ top:0, behavior:'smooth' });
 }
+/* send the result until the server answers; the certificate is drawn only from ITS answer */
+function confirmCert(fin, st, tries){
+  apost('/exam/finish', fin, 20000).then(function(r){
+    if (r.status !== 200) throw new Error('server ' + r.status);
+    dropQueued(fin.attemptId);
+    if (r.d && r.d.certified && r.d.cert) return showCert({ name: r.d.name, ymd: r.d.ymd, cert: r.d.cert, phone: st.phone }, st);
+    $('verdictSub').textContent = r.d && r.d.passed === false ? t('fail') : t('cert_none');
+  }).catch(function(){
+    $('verdictSub').textContent = t('cert_net');
+    setTimeout(function(){ confirmCert(fin, st, tries + 1); }, Math.min(30000, 5000 + tries * 5000));
+  });
+}
+function dropQueued(id){
+  try { var q = JSON.parse(localStorage.getItem(Q_KEY) || '[]').filter(function(x){ return !(x.body && x.body.attemptId === id); }); localStorage.setItem(Q_KEY, JSON.stringify(q)); } catch(e){}
+}
+function showCert(c, st){
+  var m = String(c.ymd || '').match(/^(\d{4})-(\d{2})-(\d{2})$/);
+  if (!m) return;
+  var d = new Date(+m[1], +m[2] - 1, +m[3]);
+  var dateStr = m[3] + '/' + m[2] + '/' + m[1];
+  $('scStart').classList.add('hidden'); $('scExam').classList.add('hidden'); $('scResult').classList.remove('hidden');
+  $('verdictSub').textContent = t('pass_sub');
+  if (st) { st.date = dateStr; setWa(st, c.cert); }
+  $('certWrap').classList.remove('hidden');
+  drawCert(c.name, dateStr, c.cert);
+  credState.name = c.name; credState.id = c.cert; credState.date = dateStr;
+  credState.phone = c.phone || '';
+  /* photoKey() reads credState.phone, so the phone must be set FIRST - load
+     the saved photo only after it, or an agent gets the anonymous slot. */
+  setPhoto(savedPhoto(), renderCred);
+  /* 21 Oct 2026: record the certification on the server (PENDING until
+     HaitiBiznis approves it), so the badge QR has something to verify. */
+  regInfo = { name: c.name, d: d, id: c.cert, phone: c.phone || '', source: 'exam' };
+  registerCred();
+}
+/* 10 Nov 2026: a paid student who passed gets the certificate back (page closed, phone lost signal...) */
+$('btnGetCert').onclick = function(){
+  var err = $('startErr'); err.style.display = 'none';
+  var name = $('fName').value.trim().replace(/\s+/g, ' '), phone = $('fPhone').value.trim();
+  if (name.length < 3) return show(err, t('e_name'), 'e_name');
+  if (phone.replace(/\D/g,'').length < 8) return show(err, t('e_phone'), 'e_phone');
+  var btn = $('btnGetCert'); btn.disabled = true;
+  apost('/exam/certificate', { name: name, phone: phone }, 25000).then(function(r){
+    btn.disabled = false;
+    if (r.status !== 200 || !r.d || !r.d.certified) return show(err, t('e_nocert'), 'e_nocert');
+    $('scorePct').textContent = '✓'; $('scoreBox').className = 'score pass'; $('scoreLbl').textContent = '';
+    $('verdict').textContent = t('pass'); $('verdict').className = 'verdict pass';
+    showCert({ name: r.d.name, ymd: r.d.ymd, cert: r.d.cert, phone: phone }, { name: r.d.name, phone: phone, ok: '', n: '', pct: '', passed: true, date: '' });
+    window.scrollTo({ top:0, behavior:'smooth' });
+  }).catch(function(){ btn.disabled = false; show(err, t('e_net'), 'e_net'); });
+};
+/* 10 Nov 2026: paid or not, as soon as the number is typed */
+var payT = null, payLast = '';
+function checkPay(){
+  var phone = $('fPhone').value.trim(), dg = phone.replace(/\D/g, '');
+  var box = $('payStat');
+  if (dg.length < 8){ box.className = 'paystat'; $('btnEnroll').classList.add('hidden'); payLast = ''; return; }
+  var k = dg + '|' + $('fName').value.trim(); if (k === payLast) return; payLast = k;
+  apost('/eligibility', { phone: phone, name: $('fName').value.trim() }, 15000).then(function(r){
+    var s = r.d && r.d.state;
+    if (s === 'paid' || s === 'payable'){ box.className = 'paystat ok'; box.textContent = t('pay_ok'); $('btnEnroll').classList.add('hidden'); }
+    else if (s === 'name_mismatch'){ box.className = 'paystat no'; box.textContent = t('e_mismatch'); $('btnEnroll').classList.add('hidden'); }
+    else if (s === 'pending'){ box.className = 'paystat no'; box.textContent = t('pay_pending'); $('btnEnroll').classList.add('hidden'); }
+    else if (s === 'none'){ box.className = 'paystat no'; box.textContent = t('pay_none'); $('btnEnroll').classList.remove('hidden'); }
+    else { box.className = 'paystat'; }
+  }).catch(function(){ payLast = ''; box.className = 'paystat'; });
+}
+$('fPhone').addEventListener('input', function(){ $('startErr').style.display = 'none'; clearTimeout(payT); payT = setTimeout(checkPay, 700); });
+$('fPhone').addEventListener('blur', checkPay);
+$('fName').addEventListener('blur', function(){ payLast = ''; checkPay(); });
 
 var regInfo = null;
 function registerCred(){
@@ -758,19 +867,8 @@ function finishPractice(ok, n, pct){
 
 $('btnRetry').onclick = function(){ location.reload(); };
 
-/* A stable reference drawn from the name and the day, so the same person who
-   reprints gets the same number. It is NOT proof of anything on its own - there
-   is no central register yet, and nobody was told otherwise. */
-function certNumber(name, d){
-  var seed = name.toLowerCase().replace(/\s+/g,' ') + '|' + d.toDateString();
-  var h = 2166136261;
-  for (var i = 0; i < seed.length; i++){
-    h ^= seed.charCodeAt(i);
-    h = (h * 16777619) >>> 0;
-  }
-  var n = ('00000' + (h % 1000000)).slice(-6);
-  return 'LMA-' + d.getFullYear() + '-' + n;
-}
+/* 10 Nov 2026: the certificate number is computed by the SERVER (CertifiedAgent.certNumber, same formula) and
+   only for a paid student who passed - the page no longer makes one up. */
 
 /* --- the certificate ------------------------------------------------------ */
 /* Positions measured off the artwork itself, not guessed: the name sits on the

@@ -68,11 +68,9 @@ button{width:100%;padding:15px;margin-top:12px;border:0;border-radius:12px;
 
 <script src="kesyon.js"></script>
 <script>
-/* The same code the instructor reads out for the exam. This is a workshop
-   handout, not a vault: anyone who reads the page source can find the code, and
-   Jeffery was told that plainly. It keeps a student who guesses the URL out,
-   nothing more. */
-var KOD = 'LMA2026';
+/* 10 Nov 2026 (Jeffery, OPTION A): the code is no longer in this page - the server checks it (the same exam code
+   Jennifer sets in her dashboard). */
+var API = 'https://haitibiznis-api.onrender.com';
 var lang = 'ht';
 var MODS = {
   msouwout:'MsouWout', myplopplop:'MyPlopPlop', ekosistem:'Ekosistèm HaitiBiznis'
@@ -104,13 +102,15 @@ function esc(s){ return String(s).replace(/[&<>]/g, function(c){
   return {'&':'&amp;','<':'&lt;','>':'&gt;'}[c]; }); }
 
 document.getElementById('go').onclick = function(){
-  if (document.getElementById('code').value.trim().toUpperCase() !== KOD){
-    document.getElementById('code').style.borderColor = '#D21034';
-    return;
-  }
-  document.getElementById('gate').classList.add('hidden');
-  document.getElementById('body').classList.remove('hidden');
-  render();
+  var c = document.getElementById('code').value.trim();
+  if (!c) return;
+  fetch(API + '/api/academy/trainer-check', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ code: c }) })
+    .then(function(r){
+      if (!r.ok) { document.getElementById('code').style.borderColor = '#D21034'; return; }
+      document.getElementById('gate').classList.add('hidden');
+      document.getElementById('body').classList.remove('hidden');
+      render();
+    }).catch(function(){ document.getElementById('code').style.borderColor = '#D21034'; });
 };
 document.getElementById('code').addEventListener('keydown', function(e){
   if (e.key === 'Enter') document.getElementById('go').click();

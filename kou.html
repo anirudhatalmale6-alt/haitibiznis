@@ -137,11 +137,18 @@ input:focus{outline:none;border-color:var(--blue)}
   </div>
 
   <!-- 10 Nov 2026 (Jennifer: "how will students reach this page?"): the offline Academy entry point -->
-  <a href="akademi/offline/" id="offCard" style="display:block;text-decoration:none;color:#fff;background:linear-gradient(135deg,#0B2E6F,#1B4FB8);border-radius:16px;padding:16px;margin:14px 0">
-    <div style="font-size:1.05rem;font-weight:800" id="offT"></div>
-    <div style="font-size:.88rem;opacity:.9;margin-top:4px;line-height:1.45" id="offS"></div>
-    <div style="display:inline-block;margin-top:10px;background:#fff;color:#0B2E6F;font-weight:800;border-radius:10px;padding:9px 14px;font-size:.9rem" id="offB"></div>
-  </a>
+  <div id="offCard" style="background:linear-gradient(135deg,#0B2E6F,#1B4FB8);color:#fff;border-radius:16px;padding:16px;margin:14px 0">
+    <a href="akademi/offline/" style="display:block;text-decoration:none;color:#fff">
+      <div style="font-size:1.05rem;font-weight:800" id="offT"></div>
+      <div style="font-size:.88rem;opacity:.9;margin-top:4px;line-height:1.45" id="offS"></div>
+    </a>
+    <!-- 10 Nov 2026 (Jeffery): beside the free lessons, the paid certified training -->
+    <div style="display:flex;flex-wrap:wrap;gap:8px;margin-top:10px">
+      <a href="akademi/offline/" style="text-decoration:none;background:#fff;color:#0B2E6F;font-weight:800;border-radius:10px;padding:9px 14px;font-size:.9rem" id="offB"></a>
+      <a href="akademi/enskri/" style="text-decoration:none;background:#E0A400;color:#152341;font-weight:800;border-radius:10px;padding:9px 14px;font-size:.9rem" id="enrB"></a>
+    </div>
+    <div style="font-size:.8rem;opacity:.9;margin-top:8px;line-height:1.4" id="enrS"></div>
+  </div>
 
   <div class="msg err" id="errBox"></div>
   <div class="msg none" id="noneBox"></div>
@@ -185,7 +192,7 @@ var API_URL = 'https://haitibiznis-api.onrender.com';
 var I18N = {
   ht: {
     back:'Retounen', h1:'Kou anliy', mine:'Kou mwen yo &#8594;',
-    offT:'📥 LajanMaker Academy · Kou san entènèt', offS:'Telechaje leson yo (videyo + gid etid) yon sèl fwa lè ou gen entènèt, epi etidye menm san siyal. Gratis.', offB:'Ale nan kou a →',
+    offT:'📥 LajanMaker Academy · Kou san entènèt', offS:'Telechaje leson yo (videyo + gid etid) yon sèl fwa lè ou gen entènèt, epi etidye menm san siyal. Gratis.', offB:'Ale nan kou a →', enrB:'🎓 Enskri pou Fòmasyon Sètifye — 1,000 GDES', enrS:'Fòmasyon ak fòmatè a + egzamen ofisyèl + sètifika + badj Ajan LajanMaker.',
     sub:'Enskri, peye, epi antre nan klas la sou Google Classroom. Pwofesè a ap mete tout leson yo la.',
     none:'Pa gen kou ki louvri pou enskripsyon kounye a. Tounen pi devan.',
     err:'Nou pa ka chaje kou yo kounye a. Tanpri eseye ankò nan yon ti moman.',
@@ -206,7 +213,7 @@ var I18N = {
   },
   fr: {
     back:'Retour', h1:'Cours en ligne', mine:'Mes cours &#8594;',
-    offT:'📥 LajanMaker Academy · Cours hors ligne', offS:'Téléchargez les leçons (vidéos + guide d’étude) une seule fois quand vous avez internet, puis étudiez même sans réseau. Gratuit.', offB:'Ouvrir le cours →',
+    offT:'📥 LajanMaker Academy · Cours hors ligne', offS:'Téléchargez les leçons (vidéos + guide d’étude) une seule fois quand vous avez internet, puis étudiez même sans réseau. Gratuit.', offB:'Ouvrir le cours →', enrB:'🎓 Inscrivez-vous à la Formation Certifiée — 1 000 GDES', enrS:'Formation avec le formateur + examen officiel + certificat + badge Ajan LajanMaker.',
     sub:'Inscrivez-vous, payez, puis entrez dans la classe sur Google Classroom. Le professeur y met toutes les leçons.',
     none:'Aucun cours n’est ouvert aux inscriptions pour le moment. Revenez plus tard.',
     err:'Impossible de charger les cours. Réessayez dans un instant.',
@@ -227,7 +234,7 @@ var I18N = {
   },
   en: {
     back:'Back', h1:'Online classes', mine:'My courses &#8594;',
-    offT:'📥 LajanMaker Academy · Offline course', offS:'Download the lessons (videos + study guide) once while you have internet, then study even with no signal. Free.', offB:'Open the course →',
+    offT:'📥 LajanMaker Academy · Offline course', offS:'Download the lessons (videos + study guide) once while you have internet, then study even with no signal. Free.', offB:'Open the course →', enrB:'🎓 Sign up for the Certified Training — 1,000 HTG', enrS:'Training with the trainer + official exam + certificate + LajanMaker Ajan badge.',
     sub:'Register, pay, then join the class in Google Classroom. The instructor posts every lesson there.',
     none:'No courses are open for registration right now. Please come back later.',
     err:'We cannot load the courses right now. Please try again in a moment.',
@@ -263,7 +270,7 @@ function setLang(l) {
   document.getElementById('sub').textContent = t('sub');
   document.getElementById('mineTxt').innerHTML = t('mine');
   document.getElementById('footTxt').textContent = t('footer');
-  ['offT', 'offS', 'offB'].forEach(function (k) { var e = document.getElementById(k); if (e) e.textContent = t(k); });
+  ['offT', 'offS', 'offB', 'enrB', 'enrS'].forEach(function (k) { var e = document.getElementById(k); if (e) e.textContent = t(k); });
   if (window._courses) render(window._courses);
   if (window._open) openCourse(window._open._id);
 }
