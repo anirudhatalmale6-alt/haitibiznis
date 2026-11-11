@@ -69,6 +69,8 @@ input,select{width:100%;min-height:46px;border:1.5px solid var(--line);border-ra
   </div>
 
   <div id="main" class="hide">
+    <!-- 11 Nov 2026 (Jeffery): every newly confirmed training payment, on top of every tab -->
+    <div id="newPay"></div>
     <div class="tabs" id="tabs">
       <button data-s="pending" class="on">An atant</button>
       <button data-s="active">Aktif</button>
@@ -76,7 +78,7 @@ input,select{width:100%;min-height:46px;border:1.5px solid var(--line);border-ra
       <button data-s="revoked">Anile</button>
       <button data-s="">Tout</button>
       <button data-s="exams">📝 Rezilta egzamen</button>
-      <button data-s="seats">🎟️ Peman fòmasyon</button>
+      <button data-s="seats">🎟️ Peman fòmasyon<span id="npCount"></span></button>
     </div>
     <input id="q" placeholder="Chèche: non, nimewo LMA, telefòn">
     <div class="counts" id="counts" style="margin-top:8px"></div>
@@ -120,7 +122,7 @@ function req(method, path, body){
 $('open').onclick = function(){
   pin = $('pin').value.trim(); if (!pin) return;
   $('open').disabled = true; $('gateMsg').textContent = 'Ap louvri… (premye fwa a ka pran 20 segonn)';
-  load().then(function(){ $('gate').classList.add('hide'); $('main').classList.remove('hide'); })
+  load().then(function(){ $('gate').classList.add('hide'); $('main').classList.remove('hide'); loadNewPay(); setInterval(loadNewPay, 60000); })
     .catch(function(e){ $('gateMsg').textContent = e.message; })
     .then(function(){ $('open').disabled = false; });
 };
@@ -287,6 +289,51 @@ function drawSeats(){
     if (!confirm('Ou VERIFYE ' + (body.name || '') + ' peye fòmasyon an?\n' + body.note)) return;
     req('POST', '/api/academy/admin/enrollments', body).then(function(){ m.className = 'msg ok'; m.textContent = '✅ Peman an anrejistre: ' + body.name + ' ka pase egzamen ofisyèl la.'; setTimeout(loadSeats, 1200); })
       .catch(function(e){ m.className = 'msg err'; m.textContent = seatErr(e); }); };
+}
+/* ═══ 11 Nov 2026 (Jeffery, approved): 🔔 NEW PAYMENTS ════════════════════════
+   Each training payment CONFIRMED since the last "✓ Mwen wè yo": student, WhatsApp number, paid, can take the exam,
+   and a WhatsApp button with a ready-made welcome message. Refreshed every minute while the console is open. */
+var NP_ELIG = {
+  eligible: '<b style="color:#11632C">✅ Ka pase egzamen ofisyèl la</b> (ak MENM nimewo telefòn sa a)',
+  started: '<b style="color:#11632C">✅ Li deja kòmanse egzamen an</b> (plas li mare ak nimewo sa a)',
+  other_seat: '<b style="color:#8A5A00">⚠ Nimewo sa a deja gen yon lòt plas</b>: bay plas sa a yon lòt elèv nan "🎟️ Peman fòmasyon"',
+  seats_used: '<b style="color:#11632C">✅ Tout plas tikè a deja bay</b>'
+};
+function npDate(e){ var m = String(e.date || '').match(/^(\d{4})-(\d{2})-(\d{2})$/); return m ? m[3] + '/' + m[2] + '/' + m[1] + (e.startTime ? ' a ' + e.startTime : '') : ''; }
+function loadNewPay(){
+  return req('GET', '/api/academy/admin/new-payments').then(function(d){
+    var L = d.payments || [];
+    $('npCount').textContent = L.length ? ' (' + L.length + ' 🔔)' : '';
+    if (!L.length) { $('newPay').innerHTML = ''; return; }
+    $('newPay').innerHTML = '<div class="box" style="border:2px solid #16803A;background:#F0FAF3">'
+      + '<b style="font-size:1.05rem">🔔 ' + L.length + ' nouvo peman fòmasyon konfime</b>'
+      + '<div class="meta" style="margin-top:2px">Peman sa yo konfime otomatikman pa Tikè Lakay. Ou pa bezwen fè anyen pou elèv la ka pase egzamen an: voye yon ti mesaj byenveni ba li si ou vle.</div>'
+      + L.map(function(p, k){
+          var first = String(p.name || '').trim().split(/\s+/)[0] || '';
+          var msg = 'Bonjou ' + first + ', se Jennifer (LajanMaker Academy). Nou resevwa peman ou pou Fòmasyon Sètifye LajanMaker a ✅.'
+            + (p.event.title ? '\nFòmasyon: ' + p.event.title + (npDate(p.event) ? ', ' + npDate(p.event) : '') + (p.event.location ? '\nKote: ' + p.event.location : '') : '')
+            + '\nEnpòtan: pase egzamen an ak MENM nimewo telefòn sa a. Fòmatè a ap ba ou kòd egzamen an nan fòmasyon an.'
+            + (p.qty > 1 ? '\nTikè ou a pou ' + p.qty + ' moun: voye m non ak nimewo telefòn lòt moun yo.' : '')
+            + '\nLeson gratis yo (san entènèt): haitibiznis.com/akademi/offline';
+          return '<div style="border-top:1px solid #CFE8D6;padding:9px 0;margin-top:8px">'
+            + '<div><b>' + esc(p.name || '—') + '</b> · ☎ ' + esc(p.phone || '—') + ' · <b style="color:#11632C">💳 PEYE ' + esc(p.amount) + ' HTG</b></div>'
+            + '<div class="meta" style="margin-top:2px">' + esc(fmtDT(p.paidAt)) + (p.method ? ' · ' + esc(p.method) : '') + ' · ' + esc(p.event.title) + (npDate(p.event) ? ' (' + npDate(p.event) + ')' : '')
+            + ' · tikè <span class="mono" style="font-size:.8rem">' + esc(p.ref) + '</span>' + (p.qty > 1 ? ' · <b>' + p.qty + ' plas</b> (' + p.seatsUsed + ' deja bay)' : '') + '</div>'
+            + '<div class="meta" style="margin-top:2px">' + (NP_ELIG[p.eligibility] || '') + '</div>'
+            + '<div class="acts"><a class="btn g" style="text-decoration:none;display:inline-flex;align-items:center" target="_blank" rel="noopener" href="https://wa.me/' + waNum(p.phone) + '?text=' + encodeURIComponent(msg) + '">💬 WhatsApp ' + esc(first || 'elèv la') + '</a>'
+            + (p.qty > 1 ? '<button class="btn o" data-npseats="1">🎟️ Bay lòt plas yo</button>' : '') + '</div></div>';
+        }).join('')
+      + '<div class="acts" style="margin-top:6px"><button class="btn" id="npSeen">✓ Mwen wè yo (retire yo nan bwat la)</button></div><div class="msg" id="npMsg"></div></div>';
+    $('newPay').querySelectorAll('[data-npseats]').forEach(function(b){ b.onclick = function(){ document.querySelector('#tabs button[data-s=seats]').click(); }; });
+    $('npSeen').onclick = function(){
+      var who = savedBy() || (prompt('Non ou (pou istwa a):') || '').trim();
+      if (!who) return;
+      try { localStorage.setItem('aa_by', who); } catch(e){}
+      $('npSeen').disabled = true;
+      req('POST', '/api/academy/admin/new-payments/seen', { by: who, upTo: L[0].paidAt }).then(loadNewPay)
+        .catch(function(e){ $('npSeen').disabled = false; $('npMsg').className = 'msg err'; $('npMsg').textContent = e.message; });
+    };
+  }).catch(function(){});
 }
 function load(){
   if (tab === 'exams') return loadExams();
