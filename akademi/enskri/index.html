@@ -80,14 +80,14 @@ a.back{display:block;text-align:center;margin-top:14px;color:var(--navy);font-we
       s1:'Rezève plas ou sou Tikè Lakay (MonCash, NatCash oswa kat).', s2:'Vin nan fòmasyon an. Fòmatè a ap ba ou kòd egzamen an.',
       s3:'Pase egzamen an sou haitibiznis.com/akademi.', s4:'HaitiBiznis verifye epi aktive badj Ajan ou.',
       key:'📱 Enpòtan: pase egzamen an ak MENM nimewo telefòn ou te itilize pou achte tikè a. Si ou achte pou yon lòt moun, oswa pou plizyè moun, kontakte Jennifer (HaitiBiznis) pou li anrejistre chak moun.',
-      back:'📥 Leson gratis yo (san entènèt) →', at:'a' },
+      back:'📥 Leson gratis yo (san entènèt) →', at:'a', soon:'📅 Pwochen sesyon an ap anonse byento. Ekri nou sou WhatsApp pou nou kenbe yon plas pou ou.', wa:'💬 WhatsApp +509 4685 9702' },
     fr:{ h1:'🎓 Formation Certifiée LajanMaker', sub:'Devenez Ajan Certifié LajanMaker et touchez des commissions.', go:'🎟️ Réserver ma place sur Tikè Lakay',
       inc_h:'Ce qui est inclus', i1:'✅ La formation avec le formateur', i2:'✅ L’examen de certification officiel', i3:'✅ Le certificat LajanMaker Academy',
       i4:'✅ Le badge Ajan LajanMaker (après approbation de HaitiBiznis) pour toucher des commissions', how_h:'Comment ça marche',
       s1:'Réservez votre place sur Tikè Lakay (MonCash, NatCash ou carte).', s2:'Venez à la formation. Le formateur vous donnera le code de l’examen.',
       s3:'Passez l’examen sur haitibiznis.com/akademi.', s4:'HaitiBiznis vérifie et active votre badge Ajan.',
       key:'📱 Important : passez l’examen avec le MÊME numéro de téléphone que celui utilisé pour acheter le billet. Si vous achetez pour une autre personne ou pour plusieurs personnes, contactez Jennifer (HaitiBiznis) pour qu’elle enregistre chaque personne.',
-      back:'📥 Les leçons gratuites (hors ligne) →', at:'à' }
+      back:'📥 Les leçons gratuites (hors ligne) →', at:'à', soon:'📅 La prochaine session sera annoncée bientôt. Écrivez-nous sur WhatsApp pour réserver votre place.', wa:'💬 WhatsApp +509 4685 9702' }
   };
   var lang = /^fr/i.test(navigator.language || '') ? 'fr' : 'ht';
   try { var sv = localStorage.getItem('lma_off_lang'); if (sv === 'ht' || sv === 'fr') lang = sv; } catch (e) {}
@@ -101,7 +101,11 @@ a.back{display:block;text-align:center;margin-top:14px;color:var(--navy);font-we
     if (ev) {
       document.getElementById('evT').textContent = ev.title || 'Formation LajanMaker';
       var d = String(ev.date || ''), m = d.match(/^(\d{4})-(\d{2})-(\d{2})$/);
-      document.getElementById('evD').textContent = m ? '📅 ' + m[3] + '/' + m[2] + '/' + m[1] + (ev.startTime ? ' ' + t('at') + ' ' + ev.startTime : '') : '';
+      /* 12 Nov 2026: the QR in the promo video lands here forever - a session already past is never shown as "next" */
+      var past = !!m && d < new Date().toISOString().slice(0, 10);
+      document.getElementById('evD').textContent = m && !past ? '📅 ' + m[3] + '/' + m[2] + '/' + m[1] + (ev.startTime ? ' ' + t('at') + ' ' + ev.startTime : '') : (past ? t('soon') : '');
+      var go = document.getElementById('go');
+      if (past) { go.href = 'https://wa.me/50946859702?text=' + encodeURIComponent('Bonjou, mwen vle enskri pou pwochen Fòmasyon Sètifye LajanMaker (1,000 GDES).'); go.textContent = t('wa'); go.style.background = '#25D366'; go.style.color = '#fff'; }
       document.getElementById('evL').textContent = ev.location ? '📍 ' + ev.location : '';
       if (ev.price) document.getElementById('evP').textContent = money(ev.price) + ' ' + (ev.currency === 'HTG' || !ev.currency ? 'GDES' : ev.currency);
     }
