@@ -252,9 +252,31 @@ td.num{text-align:right;font-variant-numeric:tabular-nums;white-space:nowrap}
     if (d.welcome_status === 'sent') return '<div class="ajan ok">📨 Mesaj byenveni ✅ voye ' + (d.welcome_channel === 'whatsapp_auto' ? 'otomatikman (WhatsApp)' : 'pa ' + esc(String(d.welcome_by || '').replace(/^console:/, '')) + ' (WhatsApp)') + (d.welcome_at ? ' · ' + esc(fmt(d.welcome_at)) : '') + '</div>';
     return '<div class="ajan no">📨 Mesaj byenveni ⏳ POKO VOYE — peze "📲 Voye mesaj byenveni" anba a</div>';
   }
+  /* 12 Nov 2026 (Jennifer: "the message must tell the driver exactly what he hasn't done yet to get approved"):
+     a PENDING driver gets a ready WhatsApp message listing what is missing, from the same facts as the red tags */
+  function ddmm(s){ var p = String(s || '').slice(0, 10).split('-'); return p.length === 3 ? p[2] + '/' + p[1] + '/' + p[0] : ''; }
+  function pendingMsg(d){
+    var f = facts(d), h = d.doc_types || [], fx = d.fix_docs || [], L = [];
+    var first = String(d.full_name || '').trim().split(/\s+/)[0] || '';
+    if (h.indexOf('selfie') < 0) L.push('📸 Yon foto figi ou (selfie), byen klè');
+    if (h.indexOf('license') < 0) L.push('🪪 Yon foto lisans ou (pèmi kondwi)');
+    if (h.indexOf('vehicle') < 0) L.push('🏍️ Yon foto moto oswa machin ou, ak plak la byen vizib');
+    if (f.noOavDoc) L.push('📄 Yon foto OAVCT ou');
+    else if (f.oavexp) L.push('📄 OAVCT ou ekspire depi ' + ddmm(d.oavct_expiry) + ': voye foto NOUVO OAVCT la');
+    fx.forEach(function(t){ if (h.indexOf(t) >= 0 && !(t === 'oavct' && f.oavexp)) L.push('🔧 Refè foto ' + (DL[t] || t) + ' a (li pa t bon)'); });
+    if (d.fix_note) L.push('📝 ' + d.fix_note);
+    if (f.info) L.push('✍️ Enfòmasyon ki manke: ' + f.infoList.map(function(k){ return INFO[k]; }).join(', '));
+    var aj = d.ajan && d.ajan.name ? ', oswa bay Ajan ou a (' + d.ajan.name + ') yo' : '';
+    if (!L.length) return 'Bonjou ' + first + ', se Jennifer, MsouWout. Nou resevwa enskripsyon chofè ou a, n ap fin verifye l. N ap kontakte w byento.';
+    return 'Bonjou ' + first + ', se Jennifer, MsouWout. Enskripsyon chofè ou a poko ka apwouve. Men sa ki manke:\n\n• ' + L.join('\n• ')
+      + '\n\nVoye foto yo isit la sou WhatsApp' + aj + '. Lè nou resevwa yo, n ap verifye yo epi apwouve ou touswit. Mèsi!';
+  }
   function waBtn(d){
-    var ph = String(d.phone || '').replace(/\D/g, ''); if (ph.length < 8 || (d.status !== 'approved' && d.status !== 'rejected')) return '';
+    var ph = String(d.phone || '').replace(/\D/g, ''); if (ph.length < 8 || (d.status !== 'approved' && d.status !== 'rejected' && d.status !== 'pending')) return '';
+    if (ph.length === 8) ph = '509' + ph;
     var first = String(d.full_name || '').split(' ')[0];
+    if (d.status === 'pending')
+      return '<a class="btn o" style="text-decoration:none;background:#25D366;color:#fff;border-color:#25D366" target="_blank" rel="noopener" href="https://wa.me/' + ph + '?text=' + encodeURIComponent(pendingMsg(d)) + '">📲 WhatsApp: sa ki manke</a>';
     var msg = d.status === 'approved'
       /* 1 Nov 2026, Jennifer + Jeffery: not "log in and get rides" - rides start at the launch */
       ? MSG_OK.replace('{n}', first)
@@ -881,7 +903,7 @@ td.num{text-align:right;font-variant-numeric:tabular-nums;white-space:nowrap}
             var txt = r.state === 'expired'
               ? 'Bonjou ' + first + ', se Jennifer MsouWout. OAVCT ou ekspire depi ' + ddmmyy(r.expiry) + ', kidonk ou p ap resevwa nouvo kous ni livrezon pou kounye a. Voye m yon foto nouvo OAVCT ou a isit la, m ap verifye l epi w ap ka travay ankò touswit.'
               : (r.state === 'soon'
-                ? 'Bonjou ' + first + ', se Jennifer MsouWout. OAVCT ou ap ekspire ' + ddmmyy(r.expiry) + '. Renouvle l bonè epi voye m yon foto nouvo a, pou w pa sispann resevwa kous.'
+                ? 'Bonjou ' + first + ', se Jennifer MsouWout. OAVCT ou ap ekspire ' + ddmmyy(r.expiry) + '. Pa bliye renouvle l anvan dat sa a epi voye m yon foto nouvo a isit la. Si OAVCT la ekspire, sistèm nan ap sispann voye kous ak livrezon ba ou jiskaske nou resevwa nouvo a.'
                 : 'Bonjou ' + first + ', se Jennifer MsouWout. Nou pa gen dat OAVCT ou nan sistèm nan. Voye m yon foto OAVCT ou, tanpri.');
             return '<div class="box" style="margin-bottom:10px"><div style="display:flex;justify-content:space-between;gap:8px;flex-wrap:wrap"><b>' + esc(r.name || '') + '</b>' +
                 '<b style="color:' + color + '">' + (r.state === 'missing' ? 'Pa gen dat' : (r.days < 0 ? 'Ekspire depi ' + (-r.days) + ' jou' : (r.days === 0 ? 'Ekspire jodi a' : 'Rete ' + r.days + ' jou'))) + '</b></div>' +
@@ -889,7 +911,8 @@ td.num{text-align:right;font-variant-numeric:tabular-nums;white-space:nowrap}
                 '<br>📞 <a href="tel:' + esc(r.phone || '') + '">' + esc(r.phone || '') + '</a>' + (wa ? ' · <a target="_blank" rel="noopener" href="https://wa.me/' + esc(wa) + '?text=' + encodeURIComponent(txt) + '">💬 WhatsApp (mesaj pare)</a>' : '') +
                 (r.ajan ? '<br>🪪 Ajan: <span class="mono">' + esc(r.ajan) + '</span>' : '') +
                 (r.new_photo ? '<br><b style="color:#0B6B37">📷 Nouvo foto OAVCT resevwa ' + esc(fmt(r.photo_at)) + (r.photo_by ? ' (' + esc(whoLabel(r.photo_by)) + ')' : '') + ': verifye l, epi mete nouvo dat la.</b>' : '') + '</div>' +
-              '<div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:8px"><button class="btn o" data-ovp="' + i + '">📷 1. Nouvo foto OAVCT</button></div>' +
+              /* 12 Nov 2026 (Jennifer): the ready message as a BIG button, not a small link */
+              '<div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:8px">' + (wa ? '<a class="btn" style="text-decoration:none;background:#25D366;color:#fff" target="_blank" rel="noopener" href="https://wa.me/' + esc(wa.length === 8 ? '509' + wa : wa) + '?text=' + encodeURIComponent(txt) + '">📲 WhatsApp: ' + (r.state === 'soon' ? 'OAVCT ap ekspire ' + ddmmyy(r.expiry) : r.state === 'expired' ? 'OAVCT ekspire' : 'voye OAVCT') + '</a>' : '') + '<button class="btn o" data-ovp="' + i + '">📷 1. Nouvo foto OAVCT</button></div>' +
               '<div style="display:flex;gap:8px;margin-top:8px"><input type="date" id="ovd' + i + '" style="flex:1"><button class="btn" data-ovs="' + i + '">📅 2. Sere nouvo dat la</button></div>' +
               '<div class="msg" id="ovm' + i + '"></div></div>';
           }).join('') : '<div class="box">Pa gen pèsonn.</div>');

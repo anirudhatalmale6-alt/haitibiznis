@@ -70,6 +70,7 @@ input,select{width:100%;min-height:46px;border:1.5px solid var(--line);border-ra
 
   <div id="main" class="hide">
     <!-- 11 Nov 2026 (Jeffery): every newly confirmed training payment, on top of every tab -->
+    <div id="codeWarn"></div>
     <div id="newPay"></div>
     <div class="tabs" id="tabs">
       <button data-s="pending" class="on">An atant</button>
@@ -122,7 +123,7 @@ function req(method, path, body){
 $('open').onclick = function(){
   pin = $('pin').value.trim(); if (!pin) return;
   $('open').disabled = true; $('gateMsg').textContent = 'Ap louvri… (premye fwa a ka pran 20 segonn)';
-  load().then(function(){ $('gate').classList.add('hide'); $('main').classList.remove('hide'); loadNewPay(); setInterval(loadNewPay, 60000); })
+  load().then(function(){ $('gate').classList.add('hide'); $('main').classList.remove('hide'); loadNewPay(); loadCodeWarn(); setInterval(loadNewPay, 60000); })
     .catch(function(e){ $('gateMsg').textContent = e.message; })
     .then(function(){ $('open').disabled = false; });
 };
@@ -262,7 +263,7 @@ function drawSeats(){
   function by(msgEl){ var b = byName(); if (!b){ msgEl.className = 'msg err'; msgEl.textContent = SEAT_ERR.name_required; } return b; }
   $('saveCode').onclick = function(){ var m = $('codeMsg'), b = by(m); if (!b) return; var c = $('newCode').value.trim().toUpperCase(); if (!c) return;
     if (!confirm('Nouvo kòd egzamen: ' + c + '\nAnsyen kòd la p ap mache ankò. Kontinye?')) return;
-    req('POST', '/api/academy/admin/academy/settings', { code: c, by: b }).then(function(){ m.className = 'msg ok'; m.textContent = '✅ Kòd ' + c + ' anrejistre. Di elèv yo l nan sal la sèlman.'; setTimeout(loadSeats, 1500); })
+    req('POST', '/api/academy/admin/academy/settings', { code: c, by: b }).then(function(){ m.className = 'msg ok'; m.textContent = '✅ Kòd ' + c + ' anrejistre. Di elèv yo l nan sal la sèlman.'; loadCodeWarn(); setTimeout(loadSeats, 1500); })
       .catch(function(e){ m.className = 'msg err'; m.textContent = seatErr(e); }); };
   $('saveEv').onclick = function(){ var m = $('evMsg'), b = by(m); if (!b) return;
     var ids = Array.prototype.map.call(document.querySelectorAll('[data-ev]:checked'), function(x){ return x.getAttribute('data-ev'); });
@@ -300,6 +301,21 @@ var NP_ELIG = {
   seats_used: '<b style="color:#11632C">✅ Tout plas tikè a deja bay</b>'
 };
 function npDate(e){ var m = String(e.date || '').match(/^(\d{4})-(\d{2})-(\d{2})$/); return m ? m[3] + '/' + m[2] + '/' + m[1] + (e.startTime ? ' a ' + e.startTime : '') : ''; }
+/* 12 Nov 2026 (Jennifer: "I don't see the option to change the code"): while no exam code is set, a red box on
+   top of EVERY tab, with one button straight to the field */
+function loadCodeWarn(){
+  return req('GET', '/api/academy/admin/academy').then(function(d){
+    var st = d.settings || {};
+    if (st.codeSet) { $('codeWarn').innerHTML = ''; return; }
+    $('codeWarn').innerHTML = '<div class="box" style="border:2px solid #D21034;background:#FFF1F3"><b style="color:#A30F27;font-size:1.02rem">🔑 Pa gen kòd egzamen: egzamen ofisyèl la FÈMEN</b>'
+      + '<div class="meta" style="margin-top:4px">Ansyen kòd LMA2026 a pa mache ankò (li te piblik). Mete yon nouvo kòd (6 lèt/chif oswa plis, egz: LMA-NOV14). Elèv yo pa ka kòmanse egzamen ofisyèl la san li.</div>'
+      + '<button class="btn r full" id="goCode">🔑 Mete kòd egzamen an kounye a</button></div>';
+    $('goCode').onclick = function(){
+      tab = 'seats'; document.querySelectorAll('#tabs button').forEach(function(x){ x.classList.toggle('on', x.getAttribute('data-s') === 'seats'); });
+      load().then(function(){ var f = $('newCode'); if (f) { f.scrollIntoView({ behavior: 'smooth', block: 'center' }); f.focus(); } });
+    };
+  }).catch(function(){});
+}
 function loadNewPay(){
   return req('GET', '/api/academy/admin/new-payments').then(function(d){
     var L = d.payments || [];
