@@ -3748,29 +3748,69 @@ function renderEarn(){
   if(!keys.length)bs.innerHTML=`<div class="empty" style="padding:20px"><div class="ee">💸</div>${t('earn_none')}</div>`;
   else bs.innerHTML=keys.map(k=>`<div style="display:flex;justify-content:space-between;font-size:13px;padding:6px 0;border-bottom:1px dotted var(--line)"><span>${k}</span><b style="color:var(--good)">${gdes(bySvc[k])}</b></div>`).join('');
 }
-function refLink(){return 'https://haitibiznis.com/?ref='+profile().code;}
+/* 16 Nov 2026 (Jeffery: "why isn't MY referral code showing?"): this screen used to show profile().code, a random
+   "HB-xxxxx" made up on the phone and registered nowhere, with a haitibiznis.com/?ref= link that nothing reads - so it
+   credited nobody. It now shows the Ajan's REAL code (KB-…), found from the badge phone in Settings (same lookup as his
+   driver link), and the link opens the MyPlopPlop business sign-up with that code (js/referral.js keeps it). */
+var T_REF={
+ ht:{rf_code:'Kòd Ajan ou',rf_note:'Chak biznis ki kreye boutik li sou MyPlopPlop ak lyen ou a (oswa QR ou a) konte pou ou, sou kòd Ajan ou.',
+   rf_msg:'Kreye boutik ou GRATIS sou MyPlopPlop, mache an liy Ayiti a. Enskri la a: {link}',rf_nophone:'Mete nimewo telefòn ki sou badj Ajan ou, pou n jwenn kòd Ajan ou.',
+   rf_notfound:'Nimewo {p} pa gen yon badj Ajan AKTIF ak yon kòd. Tcheke nimewo a, oswa mande HaitiBiznis aktive badj ou.',rf_setph:'📱 Mete / chanje nimewo badj mwen',
+   rf_wait:'Ap chèche kòd Ajan ou…',rf_off:'Pa gen entènèt: konekte pou n jwenn kòd Ajan ou.'},
+ fr:{rf_code:'Votre code Ajan',rf_note:'Chaque entreprise qui crée sa boutique sur MyPlopPlop avec votre lien (ou votre QR) est comptée pour vous, sur votre code Ajan.',
+   rf_msg:'Créez votre boutique GRATUITEMENT sur MyPlopPlop, la place de marché d’Haïti. Inscrivez-vous ici : {link}',rf_nophone:'Entrez le numéro de téléphone de votre badge Ajan pour retrouver votre code.',
+   rf_notfound:'Le numéro {p} n’a pas de badge Ajan ACTIF avec un code. Vérifiez le numéro ou demandez à HaitiBiznis d’activer votre badge.',rf_setph:'📱 Entrer / changer le numéro de mon badge',
+   rf_wait:'Recherche de votre code Ajan…',rf_off:'Pas d’internet : connectez-vous pour retrouver votre code Ajan.'},
+ en:{rf_code:'Your Ajan code',rf_note:'Every business that creates its shop on MyPlopPlop with your link (or QR) is counted for you, on your Ajan code.',
+   rf_msg:'Create your shop for FREE on MyPlopPlop, Haiti’s online marketplace. Sign up here: {link}',rf_nophone:'Enter the phone number on your Ajan badge so we can find your code.',
+   rf_notfound:'The number {p} has no ACTIVE Ajan badge with a code. Check the number, or ask HaitiBiznis to activate your badge.',rf_setph:'📱 Set / change my badge number',
+   rf_wait:'Looking up your Ajan code…',rf_off:'No internet: connect to look up your Ajan code.'},
+ es:{rf_code:'Tu código Ajan',rf_note:'Cada negocio que crea su tienda en MyPlopPlop con tu enlace (o tu QR) cuenta para ti, con tu código Ajan.',
+   rf_msg:'Crea tu tienda GRATIS en MyPlopPlop, el mercado en línea de Haití. Regístrate aquí: {link}',rf_nophone:'Ingresa el número de teléfono de tu credencial Ajan para encontrar tu código.',
+   rf_notfound:'El número {p} no tiene una credencial Ajan ACTIVA con código. Verifica el número o pide a HaitiBiznis activar tu credencial.',rf_setph:'📱 Poner / cambiar el número de mi credencial',
+   rf_wait:'Buscando tu código Ajan…',rf_off:'Sin internet: conéctate para buscar tu código Ajan.'},
+ pt:{rf_code:'Seu código Ajan',rf_note:'Cada negócio que cria sua loja no MyPlopPlop com seu link (ou QR) conta para você, no seu código Ajan.',
+   rf_msg:'Crie sua loja GRÁTIS no MyPlopPlop, o mercado online do Haiti. Cadastre-se aqui: {link}',rf_nophone:'Informe o número de telefone do seu crachá Ajan para encontrarmos seu código.',
+   rf_notfound:'O número {p} não tem um crachá Ajan ATIVO com código. Verifique o número ou peça à HaitiBiznis para ativar seu crachá.',rf_setph:'📱 Informar / trocar o número do meu crachá',
+   rf_wait:'Buscando seu código Ajan…',rf_off:'Sem internet: conecte-se para buscar seu código Ajan.'}};
+Object.keys(T_REF).forEach(function(l){if(T[l])Object.assign(T[l],T_REF[l]);});
+var REF_CODE=null;
+function refLinkFor(code){return 'https://myplopplop.com/merchant/register.html?ref='+encodeURIComponent(code);}
+function refLink(){if(REF_CODE)return refLinkFor(REF_CODE);
+  var c=load('hb_agent_link',null);if(c&&c.code&&c.phone===agentPhone())return refLinkFor(String(c.code).toUpperCase());
+  return 'https://myplopplop.com/merchant/register.html';}   /* never a made-up code */
 function renderRef(){
-  const p=profile();const link=refLink();const qr=qrDataURL(link);const refs=load('hb_referrals',[]);
-  document.getElementById('refBody').innerHTML=`
-    <div class="h2">🤝 ${t('ref_t')}</div><p class="sub">${t('ref_sub')}</p>
+  const el=document.getElementById('refBody');const refs=load('hb_referrals',[]);
+  const head=`<div class="h2">🤝 ${t('ref_t')}</div><p class="sub">${t('ref_sub')}</p>`;
+  const setBtn=`<button class="cta" style="margin-top:10px" onclick="agentPhoneForm(function(){localStorage.removeItem('hb_agent_link');renderRef();})">${t('rf_setph')}</button>`;
+  const ph=agentPhone();
+  if(!ph){REF_CODE=null;el.innerHTML=head+`<div class="card">${t('rf_nophone')}</div>`+setBtn;return;}
+  el.innerHTML=head+`<div class="card" id="rfWait">${t('rf_wait')}</div>`;
+  agentDriverLink().then(function(v){
+    if(!document.getElementById('refBody'))return;
+    if(!v||!v.code){REF_CODE=null;
+      el.innerHTML=head+`<div class="card">${navigator.onLine===false?t('rf_off'):t('rf_notfound').replace('{p}',escHtml(ph))}</div>`+setBtn;return;}
+    REF_CODE=String(v.code).toUpperCase();const link=refLinkFor(REF_CODE);const qr=qrDataURL(link);
+    el.innerHTML=head+`
     <div class="card" style="background:linear-gradient(135deg,var(--good),#0b7a44);color:#fff;border:0;text-align:center">
-      <div style="font-size:12px;opacity:.85;font-weight:700">${t('hub_refcode')}</div>
-      <div style="font-size:28px;font-weight:900;letter-spacing:2px">${p.code}</div>
+      <div style="font-size:12px;opacity:.85;font-weight:700">${t('rf_code')}</div>
+      <div style="font-size:28px;font-weight:900;letter-spacing:2px" id="rfCode">${escHtml(REF_CODE)}</div>
+      ${v.name?`<div style="font-size:12px;opacity:.9;font-weight:700">${escHtml(v.name)}</div>`:''}
       ${qr?`<img src="${qr}" alt="QR" style="width:170px;height:170px;margin:12px auto 6px;background:#fff;border-radius:12px;padding:8px">`:''}
-      <div style="font-size:11px;opacity:.85;word-break:break-all">${link}</div></div>
+      <div style="font-size:11px;opacity:.85;word-break:break-all" id="rfLink">${escHtml(link)}</div></div>
     <button class="cta green" onclick="refShare()">📲 ${t('ref_invite')}</button>
     <button class="cta ghost" onclick="refCopy()">📋 ${t('ref_copy')}</button>
     <button class="cta" style="background:var(--blue)" onclick="go('promo')">📣 ${t('promo_open')}</button>
     <div class="card" style="margin-top:14px">
       <div style="font-weight:800;margin-bottom:8px">${t('ref_yours')}</div>
-      <div style="display:flex;justify-content:space-between;font-size:13px;padding:4px 0"><span>${t('earn_referred')}</span><b>${refs.length}</b></div>
-      <div style="display:flex;justify-content:space-between;font-size:13px;padding:4px 0"><span>${t('earn_ref_income')}</span><b>${gdes(0)}</b></div></div>
-    <div class="partner">${t('ref_note')}</div>`;
+      <div style="display:flex;justify-content:space-between;font-size:13px;padding:4px 0"><span>${t('earn_referred')}</span><b>${refs.length}</b></div></div>
+    <div class="partner">${t('rf_note')}</div>`;
+  });
 }
-function refShare(){const link=refLink();const msg=t('ref_msg').replace('{link}',link);
-  if(navigator.share){navigator.share({title:'HaitiBiznis',text:msg,url:link}).catch(()=>{});}
+function refShare(){if(!REF_CODE)return;const link=refLink();const msg=t('rf_msg').replace('{link}',link);
+  if(navigator.share){navigator.share({title:'MyPlopPlop',text:msg,url:link}).catch(()=>{});}
   else window.open('https://wa.me/?text='+encodeURIComponent(msg),'_blank');}
-function refCopy(){const link=refLink();if(navigator.clipboard){navigator.clipboard.writeText(link).then(()=>alert(t('ref_copied'))).catch(()=>alert(link));}else alert(link);}
+function refCopy(){if(!REF_CODE)return;const link=refLink();if(navigator.clipboard){navigator.clipboard.writeText(link).then(()=>alert(t('ref_copied'))).catch(()=>alert(link));}else alert(link);}
 /* ── PROMOTIONAL MATERIAL ──────────────────────────────────────────────────
    Jeffery, 26 Sep: "add an upload button for promotional materials to add
    flyers and videos".
