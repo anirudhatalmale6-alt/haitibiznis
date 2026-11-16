@@ -226,14 +226,24 @@ input,select,textarea{width:100%;min-height:46px;border:1.5px solid var(--line);
     $('list').innerHTML = L.map(card).join('') || '<div class="box">Pa gen biznis isit la.</div>';
     $('list').querySelectorAll('[data-a]').forEach(function(b){ b.onclick = function(){ act(b.getAttribute('data-id'), b.getAttribute('data-a'), b); }; });
   }
+  /* 16 Nov 2026 (Jeffery): when the Ajan got this business, until when he earns on its sales, what he earned so far */
+  function dmy(d){ if (!d) return '—'; var x = new Date(d); return ('0' + x.getDate()).slice(-2) + '/' + ('0' + (x.getMonth() + 1)).slice(-2) + '/' + x.getFullYear(); }
+  function refLine(m){
+    var r = m.referral; if (!r) return '';
+    return '<br><span style="font-weight:600">📅 Depi ' + dmy(r.since) + ' · komisyon jiska ' + dmy(r.until) + ' · ' +
+      (r.earning ? '<b style="color:#11632C">✅ AP TOUCHE</b>' : '<b style="color:#A30F27">⛔ FINI (' + esc(r.status) + ')</b>') +
+      ' · ' + (r.commissions || 0) + ' komisyon (' + Number(r.earned || 0).toLocaleString('fr-FR') + ' HTG)</span>';
+  }
   function card(m){
     var id = esc(m.id), st = m.state;
     var docs = ['storefront', 'owner_id'].map(function(t){ return (m.docs || []).indexOf(t) >= 0 ? '✅ ' + DOC[t] : '<b style="color:#A30F27">⚠️ ' + DOC[t] + ' manke</b>'; }).join(' · ');
     var src = m.source === 'website' ? '🌐 Enskri dirèkteman sou myplopplop.com' : m.source === 'lajanmaker' ? '📱 Enskri pa yon Ajan (LajanMaker)' : '';
     var aj = (src ? '<div class="meta" style="font-weight:800;color:var(--navy)">' + src + '</div>' : '') +
-      (m.agentCode ? '<div class="ajan ok">🪪 Ajan: ' + esc(m.agentName ? m.agentName + ' · ' : '') + esc(m.agentCode) + '</div>'
+      (m.agentCode ? '<div class="ajan ok">🪪 Ajan: ' + esc(m.agentName ? m.agentName + ' · ' : '') + esc(m.agentCode) + refLine(m) + '</div>'
        : (st === 'legacy' ? '' : '<div class="ajan no">' + (m.source === 'website' ? 'Pa gen Ajan (pa gen kòd Ajan valab)' : '⚠️ Pa gen kòd Ajan') + '</div>'));
     var a = '<button class="btn o" data-a="docs" data-id="' + id + '">📷 Dosye / foto</button>';
+    /* 16 Nov 2026: a business with no Ajan (registered before the link fix, or without a link) */
+    if (!m.agentCode && st !== 'rejected') a += '<button class="btn o" data-a="agent" data-id="' + id + '">🪪 Mete Ajan an</button>';
     if (st === 'pending') a += '<button class="btn g" data-a="approve" data-id="' + id + '">✅ Apwouve</button>';
     if (st === 'pending' || st === 'fix') a += '<button class="btn o" data-a="fix" data-id="' + id + '">🔧 Mande korije</button><button class="btn r" data-a="reject" data-id="' + id + '">⛔ Rejte</button>';
     /* Jeffery 4 Nov: "Merchants receive clear instructions when corrections or missing documents are requested" */
@@ -347,6 +357,18 @@ input,select,textarea{width:100%;min-height:46px;border:1.5px solid var(--line);
         p.querySelectorAll('[data-p]').forEach(function(b){ b.onclick = function(){ pick(id, b.getAttribute('data-p')); }; });
       }).catch(function(e){ p.setAttribute('data-k', 'err'); p.innerHTML = '<div class="msg err">' + esc(e.message) + '</div>'; });
       return;
+    }
+    if (a === 'agent') {
+      var code = prompt('Kòd Ajan an (KB-…) OSWA nimewo badj li (LMA-…) pou "' + m.name + '":');
+      if (code === null) return; code = String(code).trim().toUpperCase().replace(/\s+/g, '');
+      if (!code) return;
+      if (!confirm('Mete "' + m.name + '" anba Ajan ' + code + '?\n\nKomisyon 12 mwa a kòmanse JODI A. Si yon lòt Ajan te deja gen biznis sa a, sistèm nan ap refize (premye Ajan an genyen).')) return;
+      return req('POST', '/api/agents/admin/merchants/' + id + '/agent', { by: who, code: code })
+        .then(function(r){ say(id, (r.already ? '✓ Biznis sa a deja anba ' : '✅ Biznis la konte pou ') + r.agentCode + '. Komisyon jiska ' + dmy(r.referral && r.referral.until) + '.', true); setTimeout(load, 900); })
+        .catch(function(e){ var d = e.data || {};
+          say(id, ({ already_referred: 'Biznis sa a deja anba yon lòt Ajan: ' + (d.code || '') + '. Premye Ajan an genyen: nou pa chanje l.',
+                     unknown_code: 'Kòd sa a pa egziste. Tcheke l.', inactive_agent: 'Ajan sa a pa AKTIF.', self_referral: 'Ajan an pa ka mete pwòp biznis li anba li menm.',
+                     badge_not_active: 'Badj sa a pa aktif oswa li pa gen kòd referans.', code_required: 'Tape yon kòd valab (KB-… oswa LMA-…).', no_owner: 'Biznis sa a pa gen pwopriyetè nan sistèm nan.' })[d.error] || e.message, false); });
     }
     if (a === 'approve') {
       if (!confirm('Apwouve "' + m.name + '"? Magazen an ap parèt PIBLIK sou MyPlopPlop epi l ap ka resevwa kòmand.')) return;
