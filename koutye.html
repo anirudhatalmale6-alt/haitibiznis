@@ -353,6 +353,7 @@ input{font-family:var(--body)}
     <div class="check-circle">&#10003;</div>
     <h3 data-i18n="success_title">Ou enskri!</h3>
     <p data-i18n="success_msg">Men link referral ou. Pataje li pou touche komisyon!</p>
+<p class="ref-note" id="kPendNote" style="text-align:center;margin:-4px 0 12px" data-i18n="pending_note">&#9203; Kòd la kòmanse konte lè HaitiBiznis apwouve l.</p>
     <div class="ref-box">
       <div class="rb-label" data-i18n="success_code_label">Kod Parenaj Biznis ou</div>
       <code id="myKoutyeCode"></code>
@@ -364,6 +365,7 @@ input{font-family:var(--body)}
     <button class="share-btn share-wa" onclick="shareWhatsApp()">&#128172; Pataje sou WhatsApp</button>
     <button class="share-btn share-copy" onclick="copyRefLink()" id="copyBtn">&#128203; Kopye Link</button>
     <a href="koutye-dashboard.html" class="share-btn share-dash" data-i18n="success_dash">Ale nan Tablo A Bò ou</a>
+<button class="share-btn share-copy" id="kAnother" onclick="registerAnother()" data-i18n="another_btn">&#10133; Enskri yon lòt moun</button>
   </div>
 </div>
 
@@ -518,7 +520,7 @@ var T = {
     signup_ref_label:"KI MOUN KI REFERE OU? (OPSYONEL)",signup_ref_note:"Si yon moun refere ou, mete kod PA YO la",
     signup_btn:"Enskri Kounye A",
     success_title:"Ou enskri!",success_msg:"Men link referral ou. Pataje li pou touche komisyon!",
-    success_code_label:"Kod Parenaj Biznis ou",success_link_label:"Link referral ou",success_dash:"Ale nan Tablo A Bò ou",
+    success_code_label:"Kod Parenaj Biznis ou",success_link_label:"Link referral ou",success_dash:"Ale nan Tablo A Bò ou",another_btn:"&#10133; Enskri yon lòt moun",other_title:"Enskri yon lòt moun",pending_note:"&#9203; Kòd la kòmanse konte lè HaitiBiznis apwouve l.",
     how_title:"Kijan Sa Mache",
     how1_t:"Enskri Gratis",how1_d:"Kreye kont ou an 10 segonn. Jwenn kod referral pa ou.",
     how2_t:"Pataje Link Ou",how2_d:"Voye link ou sou WhatsApp, Facebook, oswa an peson.",
@@ -551,7 +553,7 @@ var T = {
     signup_ref_label:"QUI VOUS A REFERE? (OPTIONNEL)",signup_ref_note:"Si quelqu'un vous a refere, entrez SON code ici",
     signup_btn:"S'inscrire Maintenant",
     success_title:"Vous etes inscrit!",success_msg:"Voici votre lien de referral. Partagez-le pour gagner!",
-    success_code_label:"Votre code Parenaj Biznis",success_link_label:"Votre lien de referral",success_dash:"Aller au Tablo A Bò",
+    success_code_label:"Votre code Parenaj Biznis",success_link_label:"Votre lien de referral",success_dash:"Aller au Tablo A Bò",another_btn:"&#10133; Inscrire une autre personne",other_title:"Inscrire une autre personne",pending_note:"&#9203; Le code commence à compter dès que HaitiBiznis l'approuve.",
     how_title:"Comment Ca Marche",
     how1_t:"Inscription Gratuite",how1_d:"Creez votre compte en 10 secondes. Obtenez votre code.",
     how2_t:"Partagez Votre Lien",how2_d:"Envoyez-le sur WhatsApp, Facebook, ou en personne.",
@@ -584,7 +586,7 @@ var T = {
     signup_ref_label:"WHO REFERRED YOU? (OPTIONAL)",signup_ref_note:"If someone referred you, enter THEIR code here",
     signup_btn:"Sign Up Now",
     success_title:"You're signed up!",success_msg:"Here's your referral link. Share it to earn commissions!",
-    success_code_label:"Your Parenaj Biznis code",success_link_label:"Your referral link",success_dash:"Go to Tablo A Bò",
+    success_code_label:"Your Parenaj Biznis code",success_link_label:"Your referral link",success_dash:"Go to Tablo A Bò",another_btn:"&#10133; Register another person",other_title:"Register another person",pending_note:"&#9203; The code starts counting once HaitiBiznis approves it.",
     how_title:"How It Works",
     how1_t:"Sign Up Free",how1_d:"Create your account in 10 seconds. Get your unique code.",
     how2_t:"Share Your Link",how2_d:"Send it on WhatsApp, Facebook, or in person.",
@@ -617,7 +619,7 @@ var T = {
     signup_ref_label:"QUEM INDICOU VOCÊ? (OPCIONAL)",signup_ref_note:"Se alguém te indicou, digite o código DELA aqui",
     signup_btn:"Cadastrar agora",
     success_title:"Cadastro feito!",success_msg:"Aqui está o seu link de indicação. Compartilhe e comece a ganhar comissões!",
-    success_code_label:"Seu código Parenaj Biznis",success_link_label:"Seu link de indicação",success_dash:"Ir para o Tablo A Bò",
+    success_code_label:"Seu código Parenaj Biznis",success_link_label:"Seu link de indicação",success_dash:"Ir para o Tablo A Bò",another_btn:"&#10133; Cadastrar outra pessoa",other_title:"Cadastrar outra pessoa",pending_note:"&#9203; O código começa a contar quando a HaitiBiznis o aprovar.",
     how_title:"Como funciona",
     how1_t:"Cadastre-se grátis",how1_d:"Crie a sua conta em 10 segundos e receba o seu código único.",
     how2_t:"Compartilhe o seu link",how2_d:"Envie no WhatsApp, no Facebook ou pessoalmente.",
@@ -650,7 +652,7 @@ var T = {
     signup_ref_label:"QUIEN TE REFIRIO? (OPCIONAL)",signup_ref_note:"Si alguien te refirio, ingresa SU codigo aqui",
     signup_btn:"Registrarse Ahora",
     success_title:"Estas registrado!",success_msg:"Aqui esta tu enlace de referencia. Compartelo para ganar!",
-    success_code_label:"Tu codigo de Parenaj Biznis",success_link_label:"Tu enlace de referencia",success_dash:"Ir al Tablo A Bò",
+    success_code_label:"Tu codigo de Parenaj Biznis",success_link_label:"Tu enlace de referencia",success_dash:"Ir al Tablo A Bò",another_btn:"&#10133; Registrar a otra persona",other_title:"Registrar a otra persona",pending_note:"&#9203; El código empieza a contar cuando HaitiBiznis lo apruebe.",
     how_title:"Como Funciona",
     how1_t:"Registro Gratis",how1_d:"Crea tu cuenta en 10 segundos. Obtiene tu codigo.",
     how2_t:"Comparte Tu Enlace",how2_d:"Envialo por WhatsApp, Facebook, o en persona.",
@@ -734,6 +736,21 @@ function showKoutyeSuccess(){
   document.getElementById('signupSuccess').style.display='block';
 }
 
+/* 23 Nov 2026 (StarFlex, via Jeffery): "depi w fini enskri ou paka re enskri anko". A phone that had signed someone up
+   showed that code for ever, so a coordinator could not register a second agent. "Enskri yon lòt moun" opens a blank
+   form; that sign-up is NOT saved as this phone's own code (the owner's code and Tablo A Bò stay theirs). */
+var forOther=false;
+function registerAnother(){
+  forOther=true;
+  ['kName','kPhone','kCustomCode'].forEach(function(id){document.getElementById(id).value='';});
+  var r=document.getElementById('kRef'); if(r&&!r.readOnly) r.value='';
+  var t=(T[currentLang]||T.ht), h=document.querySelector('#signupForm [data-i18n="signup_title"]');
+  if(h&&t.other_title) h.innerHTML=t.other_title;
+  document.getElementById('signupSuccess').style.display='none';
+  document.getElementById('signupForm').style.display='block';
+  document.getElementById('signupCard').scrollIntoView({behavior:'smooth',block:'center'});
+  document.getElementById('kName').focus();
+}
 function submitKoutye(){
   var name=document.getElementById('kName').value.trim();
   var phone=document.getElementById('kPhone').value.trim();
@@ -755,9 +772,11 @@ function submitKoutye(){
   }).then(function(r){return r.json();}).then(function(data){
     if(!(data&&data.success&&data.koutyeCode))throw new Error('not saved');
     generatedCode=data.koutyeCode;
-    localStorage.setItem('kb_code',generatedCode);
-    localStorage.setItem('kb_name',name);
-    localStorage.setItem('kb_phone',phone);
+    if(!forOther){
+      localStorage.setItem('kb_code',generatedCode);
+      localStorage.setItem('kb_name',name);
+      localStorage.setItem('kb_phone',phone);
+    }
     if(btn){btn.disabled=false;if(btn.dataset.txt)btn.textContent=btn.dataset.txt;}
     showKoutyeSuccess();
   }).catch(function(){

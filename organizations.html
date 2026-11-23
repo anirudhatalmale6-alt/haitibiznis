@@ -303,6 +303,8 @@ function showCode(name,code){
   var m=$('addMsg');
   m.innerHTML='<div class="code"><div class="l">Access code for '+esc(name)+
     ' — write it down, it is not shown again</div><div class="n">'+esc(code)+'</div></div>';
+  /* 23 Nov 2026: pressed on a card lower down, the code appeared up in the "Add" box, off screen - bring it into view */
+  m.scrollIntoView({behavior:'smooth',block:'center'});
 }
 $('add').onclick=function(){
   var name=($('nName').value||'').trim();
