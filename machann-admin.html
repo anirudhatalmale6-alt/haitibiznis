@@ -241,9 +241,12 @@ input,select,textarea{width:100%;min-height:46px;border:1.5px solid var(--line);
     var aj = (src ? '<div class="meta" style="font-weight:800;color:var(--navy)">' + src + '</div>' : '') +
       (m.agentCode ? '<div class="ajan ok">🪪 Ajan: ' + esc(m.agentName ? m.agentName + ' · ' : '') + esc(m.agentCode) + refLine(m) + '</div>'
        : (st === 'legacy' ? '' : '<div class="ajan no">' + (m.source === 'website' ? 'Pa gen Ajan (pa gen kòd Ajan valab)' : '⚠️ Pa gen kòd Ajan') + '</div>'));
+    if (m.service) aj += '<div class="meta" style="font-weight:800;color:#0B3D91">📅 Biznis sèvis (randevou) · ' + (m.bookingSet ? 'kòd randevou fèt ' + esc(dmy(m.bookingSetAt)) : '⚠️ poko gen kòd randevou') + '</div>';
     var a = '<button class="btn o" data-a="docs" data-id="' + id + '">📷 Dosye / foto</button>';
     /* 16 Nov 2026: a business with no Ajan (registered before the link fix, or without a link) */
     if (!m.agentCode && st !== 'rejected') a += '<button class="btn o" data-a="agent" data-id="' + id + '">🪪 Mete Ajan an</button>';
+    /* 24 Nov 2026: service shop (barber, salon, spa, clinic, consultant) - "Pran Randevou" through Tikè Lakay */
+    if (m.service) a += '<button class="btn o" data-a="bkcode" data-id="' + id + '" style="border-color:#0EA5E9;color:#0B3D91">📅 Kòd randevou</button>';
     if (st === 'pending') a += '<button class="btn g" data-a="approve" data-id="' + id + '">✅ Apwouve</button>';
     if (st === 'pending' || st === 'fix') a += '<button class="btn o" data-a="fix" data-id="' + id + '">🔧 Mande korije</button><button class="btn r" data-a="reject" data-id="' + id + '">⛔ Rejte</button>';
     /* Jeffery 4 Nov: "Merchants receive clear instructions when corrections or missing documents are requested" */
@@ -358,6 +361,22 @@ input,select,textarea{width:100%;min-height:46px;border:1.5px solid var(--line);
       }).catch(function(e){ p.setAttribute('data-k', 'err'); p.innerHTML = '<div class="msg err">' + esc(e.message) + '</div>'; });
       return;
     }
+    if (a === 'bkcode') {
+      if (!confirm('Fè yon NOUVO kòd randevou pou "' + m.name + '"?\n\nAvèk kòd sa a, paj randevou Tikè Lakay yo ap parèt sou magazen li ("Pran Randevou"). Si te gen yon ansyen kòd, li p ap mache ankò pou NOUVO paj yo.')) return;
+      btn.disabled = true;
+      return req('POST', '/api/agents/admin/merchants/' + id + '/booking-code', { by: who }).then(function(r){
+        btn.disabled = false;
+        var link = 'https://tikelakay.com/create-event.html?store=' + encodeURIComponent(r.slug || m.slug || '');
+        p.setAttribute('data-k', 'bkcode'); p.classList.add('open');
+        p.innerHTML = '<div class="box" style="border-color:#9CC3F5;background:#EEF6FF"><b>📅 Kòd randevou ' + esc(m.name) + '</b>' +
+          '<div style="font:900 1.6rem/1.3 monospace;letter-spacing:4px;margin:8px 0;color:#0B3D91">' + esc(r.code) + '</div>' +
+          '<div class="meta">Li parèt YON SÈL FWA. Ekri l, epi bay biznis la l an prive.</div>' +
+          '<label style="margin-top:10px">Lyen pou kreye jou randevou yo</label><input readonly value="' + esc(link) + '" onclick="this.select()">' +
+          '<div class="meta">Louvri lyen sa a sou Tikè Lakay, mete kòd la, epi kreye jou a (chak LÈ = yon tikè ak 1 plas). Pou lòt jou yo: KONT → paj la → 📋 Kopye pou yon lòt jou.</div></div>';
+        say(id, '✅ Nouvo kòd randevou fèt.', true);
+      }).catch(function(e){ btn.disabled = false; var d = e.data || {};
+        say(id, d.error === 'not_service' ? 'Biznis sa a pa yon biznis sèvis. Chanje kategori a (✏️ Modifye → beauty / health / services) anvan.' : (e.message || 'Erè'), false); });
+    }
     if (a === 'agent') {
       var code = prompt('Kòd Ajan an (KB-…) OSWA nimewo badj li (LMA-…) pou "' + m.name + '":');
       if (code === null) return; code = String(code).trim().toUpperCase().replace(/\s+/g, '');
@@ -389,7 +408,7 @@ input,select,textarea{width:100%;min-height:46px;border:1.5px solid var(--line);
     /* Jeffery 4 Nov: "Jennifer must be able to correct basic merchant information" - logged old → new */
     if (a === 'edit') {
       p.setAttribute('data-k', 'edit'); p.classList.add('open');
-      var CAT = ['restaurant', 'supermarket', 'hardware', 'pharmacy', 'wholesale', 'retail', 'bakery', 'other'];
+      var CAT = ['restaurant', 'supermarket', 'hardware', 'pharmacy', 'wholesale', 'retail', 'bakery', 'other', 'beauty', 'health', 'services'];
       var FD = [['name', 'Non biznis la', m.name], ['ownerName', 'Non pwopriyetè a', m.owner ? m.owner.name : ''], ['phone', 'Telefòn biznis la', m.phone], ['address', 'Adrès', m.address], ['description', 'Deskripsyon', m.description]];
       p.innerHTML = FD.map(function(f){ return '<label>' + f[1] + '</label>' + (f[0] === 'description' ? '<textarea data-ef="description" rows="3">' + esc(f[2]) + '</textarea>' : '<input data-ef="' + f[0] + '" value="' + esc(f[2]) + '">'); }).join('') +
         '<label>Kategori</label><select data-ef="category">' + CAT.map(function(c){ return '<option' + (c === m.category ? ' selected' : '') + '>' + c + '</option>'; }).join('') + '</select>' +
